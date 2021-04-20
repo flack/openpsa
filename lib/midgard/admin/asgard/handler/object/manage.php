@@ -222,13 +222,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $parent_property = midgard_object_class::get_property_parent($this->_request_data['current_type']);
             $new_type_reflector = midcom_helper_reflector::get($new_type);
             $link_properties = $new_type_reflector->get_link_properties();
-            foreach ($link_properties as $child_property => $link) {
-                if (   ($link['type'] == MGD_TYPE_GUID && $link['class'] === null)
-                    || midcom_helper_reflector::is_same_class($link['class'], $this->_object->__mgdschema_class_name__)) {
-                    $defaults[$child_property] = $this->_object->{$link['target']};
-                } elseif (   $child_property == $parent_property
+            foreach ($link_properties as $property => $link) {
+                if (   ($link['class'] && midcom_helper_reflector::is_same_class($link['class'], $this->_object->__mgdschema_class_name__))
+                    || $link['type'] == MGD_TYPE_GUID) {
+                    $defaults[$property] = $this->_object->{$link['target']};
+                } elseif (   $property == $parent_property
                           && midcom_helper_reflector::is_same_class($new_type, $this->_object->__mgdschema_class_name__)) {
-                    $defaults[$child_property] = $this->_object->$parent_property;
+                    $defaults[$property] = $this->_object->$parent_property;
                 }
             }
             if (empty($defaults)) {

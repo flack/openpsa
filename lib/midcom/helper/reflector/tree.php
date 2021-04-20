@@ -158,7 +158,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Figure out constraint(s) to use to get child objects
      */
-    private function _get_link_fields(string $schema_type, $classname) : array
+    private function _get_link_fields(string $schema_type, string $classname) : array
     {
         static $cache = [];
         $cache_key = $schema_type . '-' . $classname;
@@ -176,6 +176,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     'type' => $ref->get_midgard_type($field),
                     'target' => $ref->get_link_target($field)
                 ];
+
                 if ($linked_class = $ref->get_link_name($field)) {
                     if (!self::is_same_class($linked_class, $classname)) {
                         // This link points elsewhere
@@ -320,19 +321,17 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_classes;
     }
 
-    private function is_link_to_current_class($property, string $prospect_type) : bool
+    private function is_link_to_current_class(?string $property, string $prospect_type) : bool
     {
         if (empty($property)) {
             return false;
         }
 
         $ref = new midgard_reflection_property($prospect_type);
-        $link_class = $ref->get_link_name($property);
-        if (   empty($link_class)
-            && $ref->get_midgard_type($property) === MGD_TYPE_GUID) {
-            return true;
+        if ($link_class = $ref->get_link_name($property)) {
+            return self::is_same_class($link_class, $this->mgdschema_class);
         }
-        return self::is_same_class($link_class, $this->mgdschema_class);
+        return $ref->get_midgard_type($property) === MGD_TYPE_GUID;
     }
 
     /**

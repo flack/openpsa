@@ -437,11 +437,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * See if two MgdSchema classes are the same
      *
      * NOTE: also takes into account the various extended class scenarios
-     *
-     * @param string $class_one first class to compare
-     * @param string $class_two second class to compare
      */
-    public static function is_same_class($class_one, $class_two) : bool
+    public static function is_same_class(string $class_one, string $class_two) : bool
     {
         $one = self::resolve_baseclass($class_one);
         $two = self::resolve_baseclass($class_two);
