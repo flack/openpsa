@@ -73,7 +73,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
         $this->page_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
-    protected function _draw_element($object, string $label, int $level, bool $autoexpand = false)
+    protected function _draw_element(object $object, string $label, int $level, bool $autoexpand = false)
     {
         $ref = midcom_helper_reflector_tree::get($object);
         $span_class = '';

@@ -75,7 +75,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 && empty($_GET['show_all_' . $type]));
     }
 
-    protected function _list_child_elements($object, int $level = 0)
+    protected function _list_child_elements(object $object, int $level = 0)
     {
         if ($level > 25) {
             debug_add('Recursion level 25 exceeded, aborting', MIDCOM_LOG_ERROR);
@@ -188,7 +188,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo '<li><a class="expand-type-children" href="?show_all_' . $type . '=1">' . $icon . ' ' . sprintf($this->_l10n->get('show all %s %s entries'), $total, $ref->get_class_label()) . '</a></li>';
     }
 
-    protected function _draw_element($object, string $label, int $level, bool $autoexpand = false)
+    protected function _draw_element(object $object, string $label, int $level, bool $autoexpand = false)
     {
         $ref = midcom_helper_reflector_tree::get($object);
 
@@ -245,7 +245,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    private function _is_selected($object) : bool
+    private function _is_selected(object $object) : bool
     {
         foreach ($this->_object_path as $path_object) {
             if ($object->guid == $path_object->guid) {
@@ -255,7 +255,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return false;
     }
 
-    protected function get_css_classes($object, string $mgdschema_class) : string
+    protected function get_css_classes(object $object, string $mgdschema_class) : string
     {
         $css_class = get_class($object) . " {$mgdschema_class}";
 
