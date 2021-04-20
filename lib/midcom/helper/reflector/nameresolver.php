@@ -110,7 +110,7 @@ class midcom_helper_reflector_nameresolver
         $root_classes = midcom_helper_reflector_tree::get_root_classes();
         foreach ($root_classes as $classname) {
             if (midcom::get()->dbfactory->is_a($this->_object, $classname)) {
-                return $root_classes;
+                return [$classname];
             }
         }
         debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes", MIDCOM_LOG_ERROR);
