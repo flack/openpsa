@@ -12,10 +12,6 @@ use midcom;
 use midcom_db_topic;
 use midcom_core_context;
 use midcom_connection;
-use midgard_style;
-use midgard_element;
-use midcom_db_style;
-use midcom_error_forbidden;
 
 /**
  * templating loader class
@@ -43,7 +39,7 @@ class loader
      *
      * @var string[]
      */
-    private $cache = [];
+    protected $cache = [];
 
     /**
      * The stack of directories to check for styles.
@@ -51,8 +47,6 @@ class loader
      * @var string[]
      */
     private $directories = [];
-
-    private $dbstyle;
 
     public function set_directories(?midcom_db_topic $topic, array $prepend, array $append)
     {
@@ -76,91 +70,23 @@ class loader
         return midcom::get()->componentloader->path_to_snippetpath($topic->component) . "/style";
     }
 
-    public function get_element(string $name, bool $scope_from_path) : ?string
-    {
-        $scope = 0;
-        if ($scope_from_path) {
-            // we have full qualified path to element
-            $matches = [];
-            if (preg_match("|(.*)/(.*)|", $name, $matches)) {
-                $styleid = midcom_db_style::id_from_path($matches[1]);
-                $name = $matches[2];
-            }
-            $scope = $styleid ?? $this->dbstyle;
-        } else {
-            try {
-                $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-                if ($root_topic->style) {
-                    $scope = midcom_db_style::id_from_path($root_topic->style);
-                }
-            } catch (midcom_error_forbidden $e) {
-                $e->log();
-            }
-        }
-
-        if ($scope && $content = $this->get_element_in_styletree($scope, $name)) {
-            return $content;
-        }
-        return $this->get_element_from_snippet($name);
-    }
-
-    /**
-     * Returns a style element that matches $name and is in style $id.
-     * It also returns an element if it is not in the given style,
-     * but in one of its parent styles.
-     */
-    private function get_element_in_styletree(int $id, string $name) : ?string
-    {
-        $cache_key = $id . '::' . $name;
-        if (array_key_exists($cache_key, $this->cache)) {
-            return $this->cache[$cache_key];
-        }
-
-        $element_mc = midgard_element::new_collector('style', $id);
-        $element_mc->set_key_property('guid');
-        $element_mc->add_value_property('value');
-        $element_mc->add_constraint('name', '=', $name);
-        $element_mc->execute();
-
-        if ($element_guid = key($element_mc->list_keys())) {
-            midcom::get()->cache->content->register($element_guid);
-            return $this->add_to_cache($cache_key, $element_mc->get_subkey($element_guid, 'value'));
-        }
-
-        // No such element on this level, check parents
-        $style_mc = midgard_style::new_collector('id', $id);
-        $style_mc->set_key_property('guid');
-        $style_mc->add_value_property('up');
-        $style_mc->add_constraint('up', '>', 0);
-        $style_mc->execute();
-
-        if ($style_guid = key($style_mc->list_keys())) {
-            midcom::get()->cache->content->register($style_guid);
-            $up = $style_mc->get_subkey($style_guid, 'up');
-            return $this->get_element_in_styletree($up, $name);
-        }
-
-        $this->cache[$cache_key] = null;
-        return $this->cache[$cache_key];
-    }
-
     /**
      * Try to get element from default style snippet
      */
-    private function get_element_from_snippet(string $_element) : ?string
+    public function get_element(string $name, bool $scope_from_path) : ?string
     {
         if (midcom::get()->config->get('theme')) {
-            $src = "theme:{$_element}";
+            $src = "theme:{$name}";
             if (array_key_exists($src, $this->cache)) {
                 return $this->cache[$src];
             }
-            if ($content = $this->get_element_from_theme($_element)) {
+            if ($content = $this->get_element_from_theme($name)) {
                 return $this->add_to_cache($src, $content);
             }
         }
 
         foreach ($this->directories as $path) {
-            $filename = $path . "/{$_element}.php";
+            $filename = $path . "/{$name}.php";
             if (file_exists($filename)) {
                 if (array_key_exists($filename, $this->cache)) {
                     return $this->cache[$filename];
@@ -209,7 +135,7 @@ class loader
         return null;
     }
 
-    private function add_to_cache(string $cache_key, string $content) : string
+    protected function add_to_cache(string $cache_key, string $content) : string
     {
         $this->cache[$cache_key] = $this->resolve_includes($content);
         return $this->cache[$cache_key];
@@ -239,32 +165,16 @@ class loader
      */
     public function initialize(midcom_core_context $context, ?string $style)
     {
-        $this->dbstyle = 0;
-        // get user defined style for component
-        // style inheritance
-        // should this be cached somehow?
+        if ($style && str_starts_with($style, 'theme:')) {
+            $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
+            $parts = explode('/', str_replace('theme:/', '', $style));
 
-        if ($style) {
-            if (str_starts_with($style, 'theme:')) {
-                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
-                $parts = explode('/', str_replace('theme:/', '', $style));
-
-                foreach ($parts as &$part) {
-                    $theme_dir .= '/' . $part;
-                    $part = $theme_dir;
-                }
-                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
-                    midcom::get()->style->prepend_styledir($dirname);
-                }
-            } elseif ($this->dbstyle = midcom_db_style::id_from_path($style)) {
-                if ($substyle = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE)) {
-                    $chain = explode('/', $substyle);
-                    foreach ($chain as $stylename) {
-                        if ($_subst_id = midcom_db_style::id_from_path($stylename, $this->dbstyle)) {
-                            $this->dbstyle = $_subst_id;
-                        }
-                    }
-                }
+            foreach ($parts as &$part) {
+                $theme_dir .= '/' . $part;
+                $part = $theme_dir;
+            }
+            foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
+                midcom::get()->style->prepend_styledir($dirname);
             }
         }
     }
