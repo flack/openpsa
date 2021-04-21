@@ -142,23 +142,14 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         // Add the newly copied object to the exclusion list to prevent infinite loops
         $this->exclude[] = $source->guid;
 
-        // Get the children
-        $children = midcom_helper_reflector_tree::get_child_objects($source);
-
-        if (empty($children)) {
-            return $root;
-        }
-
         // Loop through the children and copy them to their corresponding parents
-        foreach ($children as $subchildren) {
+        foreach (midcom_helper_reflector_tree::get_child_objects($source) as $children) {
             // Get the children of each type
-            foreach ($subchildren as $child) {
+            foreach ($children as $child) {
                 // Skip the excluded child
-                if (in_array($child->guid, $this->exclude)) {
-                    continue;
+                if (!in_array($child->guid, $this->exclude)) {
+                    $this->copy_tree($child, $root);
                 }
-
-                $this->copy_tree($child, $root);
             }
         }
 
@@ -175,16 +166,12 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $class_name = get_class($source);
         $target = new $class_name();
 
-        $properties = midcom_helper_reflector::get_object_fieldnames($source);
-
         // Copy the object properties
-        foreach ($properties as $property) {
+        foreach (midcom_helper_reflector::get_object_fieldnames($source) as $property) {
             // Skip certain fields
-            if (preg_match('/^(_|metadata|guid|id)/', $property)) {
-                continue;
+            if (!preg_match('/^(_|metadata|guid|id)/', $property)) {
+                $target->$property = $source->$property;
             }
-
-            $target->$property = $source->$property;
         }
 
         // Override requested root object properties
