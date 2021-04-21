@@ -15,6 +15,7 @@ use midcom_connection;
 use midgard_style;
 use midgard_element;
 use midcom_db_style;
+use midcom_error_forbidden;
 
 /**
  * templating loader class
@@ -51,6 +52,8 @@ class loader
      */
     private $directories = [];
 
+    private $dbstyle;
+
     public function set_directories(?midcom_db_topic $topic, array $prepend, array $append)
     {
         $this->directories = $prepend;
@@ -73,8 +76,28 @@ class loader
         return midcom::get()->componentloader->path_to_snippetpath($topic->component) . "/style";
     }
 
-    public function get_element(string $name, ?int $scope = null) : ?string
+    public function get_element(string $name, bool $scope_from_path) : ?string
     {
+        $scope = 0;
+        if ($scope_from_path) {
+            // we have full qualified path to element
+            $matches = [];
+            if (preg_match("|(.*)/(.*)|", $name, $matches)) {
+                $styleid = midcom_db_style::id_from_path($matches[1]);
+                $name = $matches[2];
+            }
+            $scope = $styleid ?? $this->dbstyle;
+        } else {
+            try {
+                $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+                if ($root_topic->style) {
+                    $scope = midcom_db_style::id_from_path($root_topic->style);
+                }
+            } catch (midcom_error_forbidden $e) {
+                $e->log();
+            }
+        }
+
         if ($scope && $content = $this->get_element_in_styletree($scope, $name)) {
             return $content;
         }
@@ -216,7 +239,7 @@ class loader
      */
     public function initialize(midcom_core_context $context, ?string $style)
     {
-        $_st = 0;
+        $this->dbstyle = 0;
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?
@@ -233,18 +256,16 @@ class loader
                 foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
                     midcom::get()->style->prepend_styledir($dirname);
                 }
-            } elseif ($_st = midcom_db_style::id_from_path($style)) {
+            } elseif ($this->dbstyle = midcom_db_style::id_from_path($style)) {
                 if ($substyle = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE)) {
                     $chain = explode('/', $substyle);
                     foreach ($chain as $stylename) {
-                        if ($_subst_id = midcom_db_style::id_from_path($stylename, $_st)) {
-                            $_st = $_subst_id;
+                        if ($_subst_id = midcom_db_style::id_from_path($stylename, $this->dbstyle)) {
+                            $this->dbstyle = $_subst_id;
                         }
                     }
                 }
             }
         }
-
-        $context->set_custom_key(midcom_db_style::class, $_st);
     }
 }

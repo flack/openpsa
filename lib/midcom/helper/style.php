@@ -97,7 +97,7 @@ class midcom_helper_style
             return false;
         }
 
-        $style = $this->load($path);
+        $style = $this->loader->get_element($path, true);
 
         if ($style === null) {
             if ($path == 'ROOT') {
@@ -111,22 +111,6 @@ class midcom_helper_style
         $this->render($style, $path);
 
         return true;
-    }
-
-    /**
-     * Load style element content
-     */
-    private function load(string $path) : ?string
-    {
-        $element = $path;
-        // we have full qualified path to element
-        if (preg_match("|(.*)/(.*)|", $path, $matches)) {
-            $styleid = midcom_db_style::id_from_path($matches[1]);
-            $element = $matches[2];
-        }
-        $scope = $styleid ?? $this->_context[0]->get_custom_key(midcom_db_style::class);
-
-        return $this->loader->get_element($element, $scope);
     }
 
     /**
@@ -165,19 +149,10 @@ class midcom_helper_style
      */
     public function show_midcom(string $path) : bool
     {
-        try {
-            $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-            if ($root_topic->style) {
-                $db_style = midcom_db_style::id_from_path($root_topic->style);
-            }
-        } catch (midcom_error_forbidden $e) {
-            $e->log();
-        }
-
         $loader = clone $this->loader;
         $loader->set_directories(null, [MIDCOM_ROOT . '/midcom/style'], []);
 
-        $_style = $loader->get_element($path, $db_style ?? null);
+        $_style = $loader->get_element($path, false);
 
         if ($_style !== null) {
             $this->render($_style, $path);
