@@ -6,14 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_reflector_reflectorTest extends TestCase
+class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 {
     /**
      * @dataProvider provider_property_exists
@@ -222,6 +220,16 @@ class midcom_helper_reflector_reflectorTest extends TestCase
             6 => ['org_openpsa_contacts_person_dba', 'user'],
             7 => ['midcom_db_element', 'file-code-o'],
         ];
+    }
+
+    public function testGet_object_icon_from_proxy()
+    {
+        $reflector = new midcom_helper_reflector(midcom_db_topic::class);
+        $topic = $this->create_object(midcom_db_topic::class);
+        $proxy = new midcom_core_dbaproxy($topic->guid, midcom_db_topic::class);
+
+        $icon = '<i class="fa fa-folder-o"></i>';
+        $this->assertEquals($icon, $reflector->get_object_icon($proxy));
     }
 
     /**

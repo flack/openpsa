@@ -221,16 +221,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // class has static method to tell us the answer ? great !
             return $type::get_create_icon();
         }
-        return self::get_icon($type, 'create_type');
+        return self::get_icon($type, self::resolve_baseclass($type), 'create_type');
     }
 
     /**
      * heuristics magic (instead of adding something here, take a look at
      * config keys "create_type_magic" and "object_icon_magic")
      */
-    private static function get_icon(string $object_class, string $mode) : string
+    private static function get_icon(string $object_class, string $object_baseclass, string $mode) : string
     {
-        $object_baseclass = self::resolve_baseclass($object_class);
         if (null === self::$_cache[$mode . '_map']) {
             self::$_cache[$mode . '_map'] = self::_get_icon_map($mode . '_magic', $mode === 'create_type' ? 'file-o' : 'file');
         }
@@ -271,7 +270,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // object knows it's icon, how handy!
             $icon = $obj->get_icon();
         } else {
-            $icon = self::get_icon(get_class($obj), 'object_icon');
+            $icon = self::get_icon(get_class($obj), self::resolve_baseclass($obj), 'object_icon');
         }
 
         return '<i class="fa fa-' . $icon . '"></i>';
