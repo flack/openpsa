@@ -149,8 +149,12 @@ services:
         arguments: ['@request_stack', '%midcom.auth_backend_simple_cookie_secure%']
         public: true
 
+    style.loader:
+        class: midcom\templating\loader
+
     style:
         class: midcom_helper_style
+        arguments: ['@style.loader']
         public: true
 
     toolbars:

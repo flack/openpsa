@@ -81,9 +81,9 @@ class midcom_helper_style
      */
     public $data;
 
-    public function __construct()
+    public function __construct(loader $loader)
     {
-        $this->loader = new loader;
+        $this->loader = $loader;
     }
 
     /**
