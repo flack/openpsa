@@ -27,11 +27,11 @@ class dbloader extends loader
     /**
      * @var midcom_services_cache_module_content
      */
-    private $cache;
+    private $content_cache;
 
-    public function __construct(midcom_services_cache_module_content $cache)
+    public function __construct(midcom_services_cache_module_content $content_cache)
     {
-        $this->cache = $cache;
+        $this->content_cache = $content_cache;
     }
 
     public function get_element(string $name, bool $scope_from_path) : ?string
@@ -82,7 +82,7 @@ class dbloader extends loader
         $element_mc->execute();
 
         if ($element_guid = key($element_mc->list_keys())) {
-            $this->cache->register($element_guid);
+            $this->content_cache->register($element_guid);
             return $this->add_to_cache($cache_key, $element_mc->get_subkey($element_guid, 'value'));
         }
 
@@ -94,7 +94,7 @@ class dbloader extends loader
         $style_mc->execute();
 
         if ($style_guid = key($style_mc->list_keys())) {
-            $this->cache->register($style_guid);
+            $this->content_cache->register($style_guid);
             $up = $style_mc->get_subkey($style_guid, 'up');
             return $this->get_element_in_styletree($up, $name);
         }
