@@ -317,13 +317,11 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * before processing, throwing 404 in case of incorrectly formatted dates.
      *
      * This is used by the archive-year handler, which expects the year to be in $args[0].
-     *
-     * @param int $year The year to query.
      */
-    private function _set_startend_from_year($year)
+    private function _set_startend_from_year(int $year)
     {
         if (strlen($year) != 4) {
-            throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
+            throw new midcom_error_notfound("The year '{$year}' is not valid.");
         }
 
         $now = new DateTime();
@@ -346,15 +344,15 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param int $year The year to query.
      * @param int $month The month to query.
      */
-    private function _set_startend_from_month($year, $month)
+    private function _set_startend_from_month(int $year, int $month)
     {
         if (strlen($year) != 4) {
-            throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
+            throw new midcom_error_notfound("The year '{$year}' is not valid.");
         }
 
         if (   $month < 1
             || $month > 12) {
-            throw new midcom_error_notfound("The year {$month} is not a valid year identifier.");
+            throw new midcom_error_notfound("The month {$month} is not valid.");
         }
 
         $now = new DateTime();
@@ -381,9 +379,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     public function _show_list(string $handler_id, array &$data)
     {
-        // FIXME: For some reason the config topic is lost between _handle and _show phases
-        $this->_config->store_from_object($this->_topic, $this->_component);
-
         midcom_show_style('archive-list-start');
         if ($this->_articles) {
             $data['index_fulltext'] = $this->_config->get('index_fulltext');
