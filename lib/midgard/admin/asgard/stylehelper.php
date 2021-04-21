@@ -28,31 +28,29 @@ class midgard_admin_asgard_stylehelper
 
     public function render_help()
     {
-        $help_element = null;
-        if (empty($this->_data['object']->id)) {
+        if (empty($this->_data['object'])) {
             return;
         }
 
         if (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_style')
             && (   $this->_data['handler_id'] !== 'object_create'
                 || $this->_data['current_type'] == 'midgard_element')) {
-            $help_element = $this->_get_help_style_elementnames($this->_data['object']);
-        } elseif (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
-                  && $this->_data['handler_id'] !== 'object_create') {
-            $help_element = $this->_get_help_element();
-        }
+            // Suggest element names to create under a style
+            $this->_data['help_style_elementnames'] = $this->_get_style_elements_and_nodes($this->_data['object']->id);
+            midcom_show_style('midgard_admin_asgard_stylehelper_elementnames');
 
-        if ($help_element) {
-            midcom_show_style('midgard_admin_asgard_stylehelper_' . $help_element);
+        } elseif (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
+                  && $this->_get_help_element()) {
+            midcom_show_style('midgard_admin_asgard_stylehelper_element');
         }
     }
 
-    private function _get_help_element()
+    private function _get_help_element() : bool
     {
         if (   empty($this->_data['object']->name)
             || empty($this->_data['object']->style)) {
             // We cannot help with empty elements
-            return;
+            return false;
         }
 
         if ($this->_data['object']->name == 'ROOT') {
@@ -60,7 +58,7 @@ class midgard_admin_asgard_stylehelper
                 'component' => 'midcom',
                 'default'   => file_get_contents(MIDCOM_ROOT . '/midcom/style/ROOT.php'),
             ];
-            return 'element';
+            return true;
         }
 
         // Find the element we're looking for
@@ -72,18 +70,10 @@ class midgard_admin_asgard_stylehelper
                     'component' => $component,
                     'default'   => file_get_contents($element_path),
                 ];
-                return 'element';
+                return true;
             }
         }
-    }
-
-    /**
-     * Suggest element names to create under a style
-     */
-    private function _get_help_style_elementnames(midcom_db_style $style) : string
-    {
-        $this->_data['help_style_elementnames'] = $this->_get_style_elements_and_nodes($style->id);
-        return 'elementnames';
+        return false;
     }
 
     private function _get_style_elements_and_nodes(int $style_id) : array
@@ -176,8 +166,7 @@ class midgard_admin_asgard_stylehelper
         }
 
         foreach (glob($path . '/*.php') as $filepath) {
-            $file = basename($filepath);
-            $elements[str_replace('.php', '', $file)] = $filepath;
+            $elements[basename($filepath, '.php')] = $filepath;
         }
 
         return $elements;
