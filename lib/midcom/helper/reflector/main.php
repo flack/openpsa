@@ -46,12 +46,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Resolve root class name
         $this->mgdschema_class = self::resolve_baseclass($src);
-        // Could not resolve root class name
-        if (empty($this->mgdschema_class)) {
-            // Handle object vs string
-            $original_class = (is_object($src)) ? get_class($src) : $src;
-            throw new midcom_error("Could not determine MgdSchema baseclass for '{$original_class}'");
-        }
 
         // Instantiate midgard reflector
         $this->_mgd_reflector = new midgard_reflection_property($this->mgdschema_class);
@@ -426,20 +420,18 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * NOTE: also takes into account the various extended class scenarios
      */
-    public static function is_same_class(string $class_one, string $class_two) : bool
+    public static function is_same_class(string $class1, string $class2) : bool
     {
-        $one = self::resolve_baseclass($class_one);
-        $two = self::resolve_baseclass($class_two);
-        return $one == $two;
+        return self::resolve_baseclass($class1) == self::resolve_baseclass($class2);
     }
 
     /**
      * Get the MgdSchema classname for given class
      *
-     * @param mixed $classname either string (class name) or object
+     * @param string|object $classname either string (class name) or object
      * @return string the base class name
      */
-    public static function resolve_baseclass($classname) : ?string
+    public static function resolve_baseclass($classname) : string
     {
         static $cached = [];
 
@@ -448,8 +440,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $classname = get_class($classname);
         }
 
-        if (empty($classname)) {
-            return null;
+        if (!$classname) {
+            throw new midcom_error('Class name must not be empty');
         }
 
         if (isset($cached[$classname])) {
