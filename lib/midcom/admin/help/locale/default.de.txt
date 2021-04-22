@@ -31,15 +31,15 @@ Handler-ID
 ---STRINGEND
 
 ---STRING help
-Online-Hilfe
+Hilfe
 ---STRINGEND
 
 ---STRING help for %s
-Online-Hilfe für "%s"
+Hilfe für "%s"
 ---STRINGEND
 
 ---STRING help for %s in %s
-Online-Hilfe für %s in %s
+Hilfe für %s in %s
 ---STRINGEND
 
 ---STRING help_index

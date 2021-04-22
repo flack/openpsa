@@ -35,15 +35,15 @@ URL handlers
 ---STRINGEND
 
 ---STRING help
-Online help
+Help
 ---STRINGEND
 
 ---STRING help for %s
-Online help for %s
+Help for %s
 ---STRINGEND
 
 ---STRING help for %s in %s
-Online help for %s in %s
+Help for %s in %s
 ---STRINGEND
 
 ---STRING help_handlers

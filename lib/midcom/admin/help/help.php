@@ -299,12 +299,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _prepare_breadcrumb(string $handler_id)
     {
-        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midcom.admin.help'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('help'));
 
         if (in_array($handler_id, ['help', 'component'])) {
             $this->add_breadcrumb(
                 $this->router->generate('component', ['component' => $this->_request_data['component']]),
-                sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
+                $this->_i18n->get_string($this->_request_data['component'], $this->_request_data['component'])
             );
         }
     }

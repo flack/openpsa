@@ -240,7 +240,6 @@ class midcom_helper_toolbar
             MIDCOM_TOOLBAR_URL => $uri,
             MIDCOM_TOOLBAR_LABEL => $label,
             MIDCOM_TOOLBAR_GLYPHICON => 'question',
-            MIDCOM_TOOLBAR_ACCESSKEY => 'h',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'target' => '_blank',
             ]],
