@@ -130,10 +130,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $title = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
             midcom::get()->head->set_pagetitle($title);
 
-            // Set the help object in the toolbar
-            $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
-            $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
-
             // jQuery sorting
             midcom::get()->head->enable_jquery_ui(['mouse', 'sortable']);
 
