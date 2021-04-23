@@ -15,7 +15,7 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
 {
     protected $show_customer = false;
 
-    public function _handler_list(array $args, array &$data)
+    public function _handler_list(array $args)
     {
         $this->prepare_request_data('agreement');
 

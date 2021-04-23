@@ -86,7 +86,7 @@ implements client
         }
     }
 
-    public function _handler_list(array $args, array &$data)
+    public function _handler_list(array $args)
     {
         $this->prepare_request_data($args[0]);
         $this->prepare_toolbar();

@@ -24,7 +24,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.user/jquery.midgard_admin_user.js');
     }
 
-    private function _prepare_toolbar(array &$data)
+    private function _prepare_toolbar(array $data)
     {
         $buttons = [
             [
@@ -134,7 +134,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         midcom_show_style('midgard-admin-user-personlist-footer');
     }
 
-    public function _handler_batch(Request $request, string $action, array &$data)
+    public function _handler_batch(Request $request, string $action)
     {
         $relocate_url = $this->router->generate('user_list');
         if ($request->query->count() > 0) {

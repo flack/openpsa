@@ -79,7 +79,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param array $data Request data
      * @throws midcom_error
      */
-    private function _get_sender(array &$data) : org_openpsa_directmarketing_sender
+    private function _get_sender(array $data) : org_openpsa_directmarketing_sender
     {
         $message_array = $this->_datamanager->get_content_raw();
         $message_array['dm_storage'] = $this->_datamanager->get_storage();
@@ -110,7 +110,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         return $sender;
     }
 
-    private function compose(array &$data) : string
+    private function compose(array $data) : string
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());

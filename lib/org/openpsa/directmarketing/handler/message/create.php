@@ -28,7 +28,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
     /**
      * Displays an message create view.
      */
-    public function _handler_create(Request $request, string $campaign, string $schema, array &$data)
+    public function _handler_create(Request $request, string $campaign, string $schema)
     {
         $campaign = $this->load_campaign($campaign);
         $campaign->require_do('midgard:create');

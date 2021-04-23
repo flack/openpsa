@@ -48,7 +48,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      *
      * HTTP-Basic authenticated, requires valid user, normal ACL restrictions apply
      */
-    public function _handler_user_events(Request $request, string $username, array &$data)
+    public function _handler_user_events(Request $request, string $username)
     {
         midcom::get()->auth->require_valid_user('basic');
 
@@ -130,7 +130,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      *
      * Most values are stripped before display
      */
-    public function _handler_user_busy(string $username, array &$data)
+    public function _handler_user_busy(string $username)
     {
         $this->find_person_by_name($username);
 

@@ -51,7 +51,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      * Display possible available resources
      */
-    public function _handler_resourcing(Request $request, string $handler_id, string $guid, array &$data)
+    public function _handler_resourcing(Request $request, string $handler_id, string $guid)
     {
         $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
@@ -103,7 +103,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         midcom::get()->head->set_pagetitle($this->_task->title);
         $this->bind_view_to_object($this->_task);
 
-        org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
+        org_openpsa_projects_viewer::add_breadcrumb_path($this->_task, $this);
         $this->add_breadcrumb($this->router->generate('task_resourcing', ['guid' => $guid]), $this->_l10n->get('resourcing'));
 
         return $this->show('show-task-resourcing');

@@ -63,7 +63,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         }
     }
 
-    public function _handler_navigation(array &$data)
+    public function _handler_navigation()
     {
         $this->root_topic = $this->_topic;
         while ($this->root_topic->up && $this->root_topic->get_parent()->component == $this->_component) {

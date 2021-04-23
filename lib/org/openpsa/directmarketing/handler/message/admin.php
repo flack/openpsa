@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Displays a message edit view.
      */
-    public function _handler_edit(Request $request, string $guid, array &$data)
+    public function _handler_edit(Request $request, string $guid)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_message->require_do('midgard:update');

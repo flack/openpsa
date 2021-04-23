@@ -173,7 +173,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Handle the request for unsubscribing all subscribers from a campaign
      */
-    public function _handler_unsubscribe_all(string $handler_id, array $args, array &$data)
+    public function _handler_unsubscribe_all(string $handler_id, array $args)
     {
         midcom::get()->auth->request_sudo($this->_component);
         $this->person = new org_openpsa_contacts_person_dba($args[0]);

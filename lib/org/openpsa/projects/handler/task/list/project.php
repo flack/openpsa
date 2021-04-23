@@ -21,7 +21,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
     protected $show_customer = false;
 
-    public function _handler_list(array $args, array &$data)
+    public function _handler_list(array $args)
     {
         $this->prepare_request_data('project_tasks');
         $this->prepare_toolbar();

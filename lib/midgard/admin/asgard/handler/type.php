@@ -136,7 +136,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $this->get_response();
     }
 
-    private function _prepare_toolbar(array &$data)
+    private function _prepare_toolbar(array $data)
     {
         $buttons = [];
         if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type)) {

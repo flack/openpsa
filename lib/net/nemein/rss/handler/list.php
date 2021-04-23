@@ -41,7 +41,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         ]);
     }
 
-    public function _handler_list(array &$data)
+    public function _handler_list(array $data)
     {
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_order('title');

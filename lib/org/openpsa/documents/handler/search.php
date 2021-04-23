@@ -31,7 +31,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
     }
 
-    public function _handler_search(Request $request, array &$data)
+    public function _handler_search(Request $request)
     {
         if ($request->query->has('query')) {
             // Figure out where we are

@@ -97,7 +97,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $this->show("{$this->module}_query_form");
     }
 
-    protected function _generator_load_redirect(&$args)
+    protected function _generator_load_redirect(array $args)
     {
         $this->_request_data['query'] = new org_openpsa_reports_query_dba($args[0]);
 

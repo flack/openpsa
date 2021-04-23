@@ -66,7 +66,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      * Looks up a contact to display.
      */
-    public function _handler_view(string $handler_id, string $guid, array &$data)
+    public function _handler_view(string $handler_id, string $guid)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_load_datamanager();

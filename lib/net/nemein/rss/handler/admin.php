@@ -55,7 +55,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         return $feed->update();
     }
 
-    public function _handler_subscribe(Request $request, string $handler_id, array &$data)
+    public function _handler_subscribe(Request $request, string $handler_id)
     {
         $this->_topic->require_do('midgard:create');
 
