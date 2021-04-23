@@ -31,7 +31,7 @@ if ($data['max_pages'] > 1) {
             echo "$i ";
         } else {
             $url = "{$prefix}{$querystring}&page={$i}";
-            echo "<a href='{$url}'>${i}</a> ";
+            echo "<a href='{$url}'>{$i}</a> ";
         }
     }
 
