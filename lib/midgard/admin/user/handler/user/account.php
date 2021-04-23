@@ -152,7 +152,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
         if ($n <= 0 || $length <= 0) {
             return $this->_l10n->get('use positive numeric values');
         }
-        if ($n > $max_amount || $length > $length) {
+        if ($n > $max_amount || $length > $max_length) {
             return sprintf($this->_l10n->get('only up to %s passwords with maximum length of %s characters'), $max_amount, $max_length);
         }
 
