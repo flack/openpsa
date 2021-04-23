@@ -601,7 +601,6 @@ class midcom_helper_toolbar
      */
     private function _render_link_item(array $item) : string
     {
-        $output = '';
         $attributes = $this->get_item_attributes($item);
 
         if ($item[MIDCOM_TOOLBAR_ENABLED]) {
@@ -611,7 +610,7 @@ class midcom_helper_toolbar
             $tagname = !empty($attributes['title']) ? 'abbr' : 'span';
         }
 
-        $output .= '<' . $tagname;
+        $output = '<' . $tagname;
         foreach ($attributes as $key => $val) {
             $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
         }

@@ -170,7 +170,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
     private function process_assignees(array $assignees, schemadb $schemadb)
     {
-        $header = '';
         $header_items = [];
         $fields = $schemadb->get('privileges')->get('fields');
 
@@ -209,7 +208,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         $schemadb->get('privileges')->set('fields', $fields);
 
-        $header .= "        <th scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
+        $header = "        <th scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
         $header .= implode('', $header_items);
         $header .= "        <th scope=\"col\" class=\"row_actions\"><span>&nbsp;</span></th>\n";
 
