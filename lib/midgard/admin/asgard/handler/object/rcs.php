@@ -10,7 +10,6 @@
  * Simple styling class to make html out of diffs and get a simple way
  * to provide rcs functionality
  *
- * @todo add support for schemas.
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handler

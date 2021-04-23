@@ -287,9 +287,6 @@ class midcom_baseclasses_core_dbobject
      */
     public static function create_post_ops(midcom_core_dbaobject $object)
     {
-        // Now assign all midgard privileges to the creator, this is necessary to get
-        // an owner like scheme to work by default.
-        // TODO: Check if there is a better solution like this.
         self::_set_owner_privileges($object);
 
         $object->_on_created();

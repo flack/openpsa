@@ -40,7 +40,6 @@
  *
  * @package midcom.services
  * @see midcom_services_indexer
- * @todo The Type field is not yet handled properly.
  */
 class midcom_services_indexer_document
 {

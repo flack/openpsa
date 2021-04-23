@@ -283,8 +283,6 @@ class midcom_helper_style
     /**
      * Switches the context (see dynamic load). Private variables $_context, $_topic
      * and $loader are adjusted.
-     *
-     * @todo check documentation
      */
     public function leave_context()
     {
