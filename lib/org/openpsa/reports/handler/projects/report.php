@@ -170,17 +170,17 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //Mangling if report wants to do it (done here to have style context, otherwise MidCOM will not like us.
         midcom_show_style('projects_report-basic-mangle-query');
         //Handle grouping
-        if (!empty($this->_request_data['query_data']['grouping'])) {
-            if (array_key_exists($this->_request_data['query_data']['grouping'], $this->_valid_groupings)) {
-                debug_add('Setting grouping to: ' . $this->_request_data['query_data']['grouping']);
-                $this->_grouping = $this->_request_data['query_data']['grouping'];
+        if (!empty($data['query_data']['grouping'])) {
+            if (array_key_exists($data['query_data']['grouping'], $this->_valid_groupings)) {
+                debug_add('Setting grouping to: ' . $data['query_data']['grouping']);
+                $this->_grouping = $data['query_data']['grouping'];
             } else {
-                debug_add(sprintf("\"%s\" is not a valid grouping, keeping default", $this->_request_data['query_data']['grouping']), MIDCOM_LOG_WARN);
+                debug_add(sprintf("\"%s\" is not a valid grouping, keeping default", $data['query_data']['grouping']), MIDCOM_LOG_WARN);
             }
         }
 
         // Put grouping to request data
-        $this->_request_data['grouping'] = $this->_grouping;
+        $data['grouping'] = $this->_grouping;
 
         //Get our results
         $results_hr = $this->_get_hour_reports();
@@ -189,7 +189,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $this->raw_results = ['hr' => $results_hr];
         //TODO: Mileages, expenses
 
-        $this->_request_data['report'] = ['rows' => [], 'total_hours' => 0];
+        $data['report'] = ['rows' => [], 'total_hours' => 0];
 
         $this->_analyze_raw_hours();
         $this->_sort_rows();
@@ -205,7 +205,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //Indented to make style flow clearer
         midcom_show_style('projects_report-basic-start');
         midcom_show_style('projects_report-basic-header');
-        $this->_show_generator_group($this->_request_data['report']['rows']);
+        $this->_show_generator_group($data['report']['rows']);
         midcom_show_style('projects_report-basic-totals');
         midcom_show_style('projects_report-basic-footer');
         midcom_show_style('projects_report-basic-end');

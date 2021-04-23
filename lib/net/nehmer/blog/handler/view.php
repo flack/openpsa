@@ -82,7 +82,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
         if ($this->_config->get('comments_enable')) {
             if ($node = net_nehmer_comments_interface::get_node($this->_topic, $this->_config->get('comments_topic'))) {
-                $this->_request_data['comments_url'] = $node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
+                $data['comments_url'] = $node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
                 if (   $this->_topic->can_do('midgard:update')
                     && $this->_topic->can_do('net.nehmer.comments:moderation')) {
                     net_nehmer_comments_viewer::add_head_elements();

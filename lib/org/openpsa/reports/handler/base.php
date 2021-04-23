@@ -25,7 +25,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if ($response = $this->_generator_load_redirect($args)) {
             return $response;
         }
-        $this->_handler_generator_style();
+        $this->_handler_generator_style($data);
         if ($data['query']->title) {
             $data['title'] = $data['query']->title;
         }
@@ -45,7 +45,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
         $data['filename'] = 'get';
 
-        $this->_handler_generator_style();
+        $this->_handler_generator_style($data);
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         switch ($data['controller']->handle($request)) {
             case 'save':
                 // Relocate to report view
-                return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . "/");
+                return new midcom_response_relocate($this->module . '/' . $data['query']->guid . "/");
 
             case 'cancel':
                 return new midcom_response_relocate('');
@@ -122,24 +122,24 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_request_data['query_data'] = $dm->get_content_raw();
     }
 
-    public function _handler_generator_style()
+    public function _handler_generator_style(array &$data)
     {
         //Handle style
-        if (empty($this->_request_data['query_data']['style'])) {
+        if (empty($data['query_data']['style'])) {
             debug_add('Empty style definition encountered, forcing builtin:basic');
-            $this->_request_data['query_data']['style'] = 'builtin:basic';
+            $data['query_data']['style'] = 'builtin:basic';
         }
-        if (!preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'])) {
-            debug_add("appending '{$this->_request_data['query_data']['style']}' to substyle path");
-            midcom::get()->style->append_substyle($this->_request_data['query_data']['style']);
+        if (!preg_match('/^builtin:(.+)/', $data['query_data']['style'])) {
+            debug_add("appending '{$data['query_data']['style']}' to substyle path");
+            midcom::get()->style->append_substyle($data['query_data']['style']);
         }
 
         //TODO: Check if we're inside DL if so do not force mimetype
-        if (empty($this->_request_data['query_data']['skip_html_headings'])) {
+        if (empty($data['query_data']['skip_html_headings'])) {
             //Skip normal style, and force content type based on query data.
             midcom::get()->skip_page_style = true;
-            debug_add('Forcing content type: ' . $this->_request_data['query_data']['mimetype']);
-            midcom::get()->header('Content-Type: ' . $this->_request_data['query_data']['mimetype']);
+            debug_add('Forcing content type: ' . $data['query_data']['mimetype']);
+            midcom::get()->header('Content-Type: ' . $data['query_data']['mimetype']);
         }
     }
 

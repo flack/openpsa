@@ -24,7 +24,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')));
 
         $controller = datamanager::from_schemadb($this->_config->get('schemadb_directory'))
-            ->set_storage($this->_request_data['directory'], 'default')
+            ->set_storage($data['directory'], 'default')
             ->get_controller();
 
         $workflow = $this->get_workflow('datamanager', [

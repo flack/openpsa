@@ -86,7 +86,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_datamanager = new datamanager($this->_request_data['schemadb']);
+        $this->_datamanager = new datamanager($data['schemadb']);
         $this->_datamanager->set_storage($this->_article);
 
         $arg = $this->_article->name ?: $this->_article->guid;
