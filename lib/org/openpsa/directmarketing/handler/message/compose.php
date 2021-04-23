@@ -108,16 +108,16 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         if ($handler_id === 'compose4person') {
             ob_start();
-            $this->_real_show_compose($handler_id, $data);
+            $this->_real_show_compose($data);
             $composed = ob_get_clean();
             $personalized = $this->member->personalize_message($composed, $this->_message->orgOpenpsaObtype, $this->person);
             echo $personalized;
             return;
         }
-        $this->_real_show_compose($handler_id, $data);
+        $this->_real_show_compose($data);
     }
 
-    private function _real_show_compose(string $handler_id, array &$data)
+    private function _real_show_compose(array $data)
     {
         $prefix = '';
         if (   !empty($data['message_array']['substyle'])
