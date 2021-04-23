@@ -152,9 +152,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         $rows = $mc->get_rows(['id', 'name', 'guid'], 'id');
 
         foreach ($images as $image) {
-            if (   !isset($rows[$image->attachment])
-                || !isset($rows[$image->image])
-                || !isset($rows[$image->thumbnail])) {
+            if (!isset($rows[$image->attachment], $rows[$image->image], $rows[$image->thumbnail])) {
                 continue;
             }
 

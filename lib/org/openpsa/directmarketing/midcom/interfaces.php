@@ -42,8 +42,7 @@ implements midcom_services_permalinks_resolver
      */
     public function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        if (   !isset($args['url_base'])
-            || !isset($args['batch'])) {
+        if (!isset($args['url_base'], $args['batch'])) {
             $handler->print_error('url_base or batch number not set, aborting');
             return false;
         }

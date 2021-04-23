@@ -124,8 +124,7 @@ implements midcom_services_permalinks_resolver
      */
     public function new_subscription_cycle(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        if (   !isset($args['deliverable'])
-            || !isset($args['cycle'])) {
+        if (!isset($args['deliverable'], $args['cycle'])) {
             $handler->print_error('deliverable GUID or cycle number not set, aborting');
             return false;
         }
