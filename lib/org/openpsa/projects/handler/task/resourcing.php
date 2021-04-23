@@ -26,7 +26,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data(string $handler_id)
+    private function _prepare_request_data()
     {
         $this->_request_data['task'] = $this->_task;
 
@@ -51,7 +51,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      * Display possible available resources
      */
-    public function _handler_resourcing(Request $request, string $handler_id, string $guid)
+    public function _handler_resourcing(Request $request, string $guid)
     {
         $this->_task = new org_openpsa_projects_task_dba($guid);
         $this->_task->require_do('midgard:create');
@@ -99,7 +99,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
             return new midcom_response_relocate($this->router->generate('task_view', ['guid' => $guid]));
         }
 
-        $this->_prepare_request_data($handler_id);
+        $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_task->title);
         $this->bind_view_to_object($this->_task);
 

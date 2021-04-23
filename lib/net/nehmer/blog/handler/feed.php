@@ -72,7 +72,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_articles = $qb->execute();
 
         // Prepare the feed (this will also validate the handler_id)
-        $this->_create_feed($handler_id);
+        $this->_create_feed();
 
         midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
     }
@@ -80,7 +80,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     /**
      * Creates the Feedcreator instance.
      */
-    private function _create_feed(string $handler_id)
+    private function _create_feed()
     {
         $this->_feed = new UniversalFeedCreator();
         if ($this->_config->get('rss_title')) {

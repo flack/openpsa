@@ -330,7 +330,7 @@ implements client
         }
     }
 
-    protected function prepare_request_data(string $identifier, string $datatype = 'local')
+    protected function prepare_request_data(string $identifier)
     {
         $this->_request_data['view_identifier'] = $identifier;
         $this->_request_data['show_status_controls'] = $this->show_status_controls;

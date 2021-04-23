@@ -26,7 +26,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
     /**
      * Generates an object view.
      */
-    public function _handler_read(string $handler_id, string $guid, array &$data)
+    public function _handler_read(string $guid, array &$data)
     {
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $dm = $this->load_datamanager();
@@ -35,8 +35,8 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $data['object_view'] = $dm->get_content_html();
         $data['invoice_items'] = $this->invoice->get_invoice_items();
 
-        $this->populate_toolbar($handler_id);
-        $this->update_breadcrumb($handler_id);
+        $this->populate_toolbar();
+        $this->update_breadcrumb();
 
         midcom::get()->metadata->set_request_metadata($this->invoice->metadata->revised, $guid);
         $this->bind_view_to_object($this->invoice, $dm->get_schema()->get_name());
@@ -64,7 +64,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         return $dm->set_storage($this->invoice);
     }
 
-    private function populate_toolbar(string $handler_id)
+    private function populate_toolbar()
     {
         $buttons = [];
         if ($this->invoice->can_do('midgard:update')) {
@@ -127,7 +127,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
     /**
      * Update the context so that we get a complete breadcrumb line towards the current location.
      */
-    private function update_breadcrumb(string $handler_id)
+    private function update_breadcrumb()
     {
         if ($customer = $this->invoice->get_customer()) {
             $this->add_breadcrumb($this->router->generate('list_customer_all', ['guid' => $customer->guid]), $customer->get_label());

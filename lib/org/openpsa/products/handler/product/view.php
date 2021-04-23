@@ -54,7 +54,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             midcom::get()->skip_page_style = true;
         }
 
-        $this->_load_product($handler_id, $guid);
+        $this->_load_product($guid);
 
         $data['datamanager'] = new datamanager($data['schemadb_product']);
         $data['datamanager']->set_storage($this->_product);
@@ -92,7 +92,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         return $this->show('product_view');
     }
 
-    private function _load_product(string $handler_id, string $guid)
+    private function _load_product(string $guid)
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_constraint('guid', '=', $guid);
@@ -103,8 +103,8 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
              */
             $qb->add_constraint('start', '<=', time());
             $qb->begin_group('OR');
-            $qb->add_constraint('end', '=', 0);
-            $qb->add_constraint('end', '>=', time());
+                $qb->add_constraint('end', '=', 0);
+                $qb->add_constraint('end', '>=', time());
             $qb->end_group();
         }
 
