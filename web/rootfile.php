@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 $GLOBALS['midcom_config_local'] = [];
 
 // Check that the environment is a working one

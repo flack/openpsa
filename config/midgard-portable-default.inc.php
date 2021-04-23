@@ -4,7 +4,7 @@ use midgard\portable\storage\connection;
 
 $basedir = dirname(__DIR__);
 
-require_once $basedir . "/vendor/autoload.php";
+require $basedir . "/vendor/autoload.php";
 
 $schema_dirs = [$basedir . '/schemas/'];
 

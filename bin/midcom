@@ -10,7 +10,7 @@ if (!file_exists($basedir . 'vendor/autoload.php')) {
 if (!file_exists($basedir . 'vendor/autoload.php')) {
     throw new \Exception('Composer autoloader could not be found');
 }
-require_once $basedir . 'vendor/autoload.php';
+require $basedir . 'vendor/autoload.php';
 
 use midcom\console\application;
 

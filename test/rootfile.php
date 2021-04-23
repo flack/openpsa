@@ -2,7 +2,7 @@
 /**
  * Setup file for running unit tests
  */
-require_once __DIR__ . '/utilities/autoload.php';
+require __DIR__ . '/utilities/autoload.php';
 
 openpsa_test_setup(__DIR__);
 
@@ -25,4 +25,4 @@ if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php')) {
 }
 
 //Get required helpers
-require_once OPENPSA_TEST_ROOT . '/utilities/bootstrap.php';
+require OPENPSA_TEST_ROOT . '/utilities/bootstrap.php';
