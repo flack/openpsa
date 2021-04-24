@@ -85,19 +85,12 @@ abstract class midcom_baseclasses_components_base
 
     /**
      * Convenience shortcut for adding CSS files
-     *
-     * @param string $url The stylesheet URL
-     * @param string $media The media type(s) for the stylesheet, if any
      */
     public function add_stylesheet(string $url, string $media = null)
     {
         midcom::get()->head->add_stylesheet($url, $media);
     }
 
-    /**
-     * @param string $identifier
-     * @param array $options
-     */
     public function get_workflow(string $identifier, array $options = []) : dialog
     {
         $classname = '\\midcom\\workflow\\' . $identifier;

@@ -59,8 +59,6 @@ class midcom_baseclasses_components_configuration
 
     /**
      * Initialize the global data storage
-     *
-     * @param string $component
      */
     private static function _initialize(string $component)
     {
@@ -109,8 +107,6 @@ class midcom_baseclasses_components_configuration
     /**
      * Read a file from disk and evaluate its content as array.
      * This is essentially a simple [$data\n] eval construct.
-     *
-     * @param string $filename The name of the file that should be parsed.
      */
     public static function read_array_from_file(string $filename) : array
     {
@@ -126,8 +122,6 @@ class midcom_baseclasses_components_configuration
      * This is essentially a simple [$data\n] eval construct.
      *
      * If the snippet does not exist, false is returned.
-     *
-     * @param string $snippetpath The full path to the snippet that should be returned.
      * @see read_array_from_file()
      */
     public static function read_array_from_snippet(string $snippetpath) : array

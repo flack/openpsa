@@ -203,8 +203,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     /**
      * Shows the loaded object in editor.
-     *
-     * @param array $data The local request data.
      */
     public function _show_welcome(string $handler_id, array &$data)
     {

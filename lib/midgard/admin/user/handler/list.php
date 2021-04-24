@@ -118,9 +118,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         }
     }
 
-    /**
-     * @param array $data Data passed to the show method
-     */
     public function _show_list(string $handler_id, array &$data)
     {
         $data['persons'] = $this->_persons;
@@ -182,8 +179,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * Internal helper for processing the batch change of passwords
-     *
-     * @param Request $request The request object
      */
     private function _batch_passwords(Request $request, midcom_db_person $person)
     {
@@ -279,8 +274,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
     /**
      * Show the batch password change form
-     *
-     * @param array $data The local request data.
      */
     public function _show_password_email(string $handler_id, array &$data)
     {

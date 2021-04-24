@@ -15,8 +15,6 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
 {
     /**
      * Make JSON out of an array.
-     *
-     * @param array $array
      */
     public function array2data(array $array) : string
     {
@@ -31,7 +29,6 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
     /**
      * Make an array out of some JSON
      *
-     * @param string $data
      * @return array with attribute => key values
      */
     public function data2array(string $data) : array

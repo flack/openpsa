@@ -76,9 +76,6 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
         return $toolbar;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_shell(string $handler_id, array &$data)
     {
         if (!isset($_GET['ajax'])) {

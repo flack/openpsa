@@ -22,9 +22,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private $_search_results = [];
 
-    /**
-     * @param string $guid The object GUID
-     */
     public function _handler_list(Request $request, string $handler_id, string $filetype, array &$data, string $guid = null)
     {
         midcom::get()->cache->content->no_cache();
@@ -104,9 +101,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $this->_search_results = $qb->execute();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_list(string $handler_id, array &$data)
     {
         $data['navlinks'] = midcom_helper_imagepopup_viewer::get_navigation($data);

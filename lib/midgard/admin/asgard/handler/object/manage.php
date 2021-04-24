@@ -57,8 +57,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Retrieve the object from the db
-     *
-     * @param string $guid GUID
      */
     private function _load_object(string $guid)
     {
@@ -420,8 +418,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     /**
      * Show copy style
-     *
-     * @param array $data The local request data.
      */
     public function _show_copy(string $handler_id, array &$data)
     {

@@ -121,7 +121,6 @@ class midcom_helper_nav
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
      * an empty array
      *
-     * @param int $parent_node    The id of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @see midcom_helper_nav_backend::list_nodes()
@@ -135,7 +134,6 @@ class midcom_helper_nav
      * Lists all leaves of $parent_node. If there are no leaves you will get an
      * empty array.
      *
-     * @param int $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @see midcom_helper_nav_backend::list_leaves()
@@ -150,7 +148,6 @@ class midcom_helper_nav
      * $node_id. The defined keys are described above in Node data interchange
      * format. You will get false if the node ID is invalid.
      *
-     * @param int $node_id    The node ID to be retrieved.
      * @see midcom_helper_nav_backend::get_node()
      */
     public function get_node($node_id) : ?array
@@ -225,9 +222,6 @@ class midcom_helper_nav
      * If there are no child elements at all the method will return an empty array,
      * in case of an error false.  NOTE: This method should be quite slow, there's
      * room for improvement... :-)
-     *
-     * @param int $parent_node_id    The ID of the parent node.
-     * @return Array                A list of found elements, or null on failure.
      */
     public function list_child_elements(int $parent_node_id) : ?array
     {
@@ -251,7 +245,6 @@ class midcom_helper_nav
      * Note: If you want to resolve a GUID you got from a Permalink, use the Permalinks
      * service within MidCOM, as it covers more objects than the NAP listings.
      *
-     * @param string $guid The GUID of the object to be looked up.
      * @param boolean $node_is_sufficient if we could return a good guess of correct parent node but said node does not list the $guid in leaves return the node or try to do a full (and very expensive) NAP scan ?
      * @return ?array Either a node or leaf structure, distinguishable by MIDCOM_NAV_TYPE, or null on failure.
      * @see midcom_services_permalinks
@@ -378,7 +371,6 @@ class midcom_helper_nav
      * @param string    $class            If not-null, it will be assigned to all A tags.
      * @param int       $skip_levels      The number of topic levels to skip before starting to work (use this to skip 'Home' links etc.).
      * @param string    $current_class    The class that should be assigned to the currently active element.
-     * @param array     $skip_guids       Array of guids that are skipped.
      */
     public function get_breadcrumb_line(string $separator = ' &gt; ', string $class = null, int $skip_levels = 0, string $current_class = null, array $skip_guids = []) : string
     {

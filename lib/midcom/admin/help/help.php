@@ -341,8 +341,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * Shows the help system main screen
-     *
-     * @param array $data The local request data.
      */
     public function _show_welcome(string $handler_id, array &$data)
     {
@@ -376,8 +374,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * Shows the component help ToC.
-     *
-     * @param array $data The local request data.
      */
     public function _show_component(string $handler_id, array &$data)
     {
@@ -417,8 +413,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     /**
      * Shows the help page.
-     *
-     * @param array $data The local request data.
      */
     public function _show_help(string $handler_id, array &$data)
     {

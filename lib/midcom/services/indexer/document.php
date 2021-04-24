@@ -339,7 +339,6 @@ class midcom_services_indexer_document
      * timestamp.
      *
      * @param string $name The field's name, "_TS" is appended for the plain-timestamp field.
-     * @param int $timestamp The timestamp to store.
      */
     public function add_date_pair(string $name, int $timestamp)
     {
@@ -372,7 +371,6 @@ class midcom_services_indexer_document
      * manually, the indexer will call this function when creating a
      * document out of a search result.
      *
-     * @param string $name The field's name.
      * @param string $content The field's content, which is <b>assumed to be UTF-8 already</b>
      */
     public function add_result(string $name, $content)

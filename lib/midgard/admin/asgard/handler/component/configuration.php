@@ -89,9 +89,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $this->get_response();
     }
 
-    /**
-     * @param array $data Data passed to the show method
-     */
     public function _show_view(string $handler_id, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_component_configuration_header');

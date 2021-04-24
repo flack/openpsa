@@ -75,10 +75,6 @@ class midcom_core_context
         $this->id = self::$counter++;
     }
 
-    /**
-     * @param string $url
-     * @param midcom_db_topic $topic
-     */
     public static function enter(string $url = null, midcom_db_topic $topic = null) : self
     {
         $context = new static($topic);

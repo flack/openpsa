@@ -31,8 +31,6 @@ interface midcom_services_permalinks_resolver
      * sophisticated alternative is therefore to selectively invalidate all GUIDs that have
      * their Permalink lookup affected.
      *
-     * @param midcom_db_topic $topic The topic to probe
-     * @param midcom_core_dbaobject $object The object to resolve
      * @return string|null A string (even an empty one) is considered success, null a failure
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string;

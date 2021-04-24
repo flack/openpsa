@@ -325,7 +325,6 @@ class midcom_services_auth_acl
     /**
      * Load and prepare the list of class magic privileges for usage.
      *
-     * @param string $class The class name for which defaults should be loaded.
      * @param mixed $user The user to check
      */
     private function _get_class_magic_privileges(string $class, $user) : array
@@ -601,7 +600,6 @@ class midcom_services_auth_acl
      * This internal helper checks if a privilege is available during internal
      * sudo mode, as outlined in the corresponding variable.
      *
-     * @param string $privilege The privilege to check for
      * @see $_internal_sudo
      */
     private function _can_do_internal_sudo(string $privilege) : bool

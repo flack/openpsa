@@ -96,8 +96,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
     /**
      * Displays the feed
-     *
-     * @param array $data The local request data.
      */
     public function _show_feed(string $handler_id, array &$data)
     {

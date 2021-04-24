@@ -22,8 +22,6 @@ class midcom_db_style extends midcom_core_dbaobject
 
     /**
      * Returns the path of the style described by $id.
-     *
-     * @param int $id    Style id to look up path for
      */
     public static function path_from_id(int $id) : string
     {
@@ -62,7 +60,6 @@ class midcom_db_style extends midcom_core_dbaobject
      * "/rootstyle/style/style/element".
      *
      * @todo complete documentation
-     * @param string $path      The path to retrieve
      * @param int $rootstyle    ???
      * @return    int ID of the matching style or 0
      */

@@ -232,8 +232,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
     /**
      * Displays the resultset.
-     *
-     * @param array $data The local request data.
      */
     public function _show_result(string $handler_id, array &$data)
     {

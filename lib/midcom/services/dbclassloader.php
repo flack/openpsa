@@ -173,7 +173,6 @@ class midcom_services_dbclassloader
     /**
      * Get an MgdSchema class name for a MidCOM DBA class name
      *
-     * @param string $classname The MidCOM DBA classname to check
      * @return string The corresponding MidCOM DBA class name, false otherwise.
      */
     public function get_mgdschema_class_name_for_midcom_class(string $classname)

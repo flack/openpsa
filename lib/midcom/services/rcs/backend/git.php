@@ -29,10 +29,7 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
     }
 
     /**
-     * Get the object of a revision
-     *
-     * @param string $revision identifier of revision wanted
-     * @return array array representation of the object
+     * Get a revision
      */
     public function get_revision(string $revision) : array
     {

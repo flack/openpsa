@@ -37,8 +37,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
     /**
      * Create a new attachment document
-     *
-     * @param midcom_db_attachment $attachment The Attachment to index.
      */
     public function __construct(midcom_db_attachment $attachment)
     {

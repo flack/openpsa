@@ -152,8 +152,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Show the list of TinyURLs
-     *
-     * @param array $data The local request data.
      */
     public function _show_list(string $handler_id, array &$data)
     {

@@ -19,8 +19,6 @@ abstract class midcom_helper_exporter
 
     /**
      * Take an object and return an array of useful fields (removing private properties)
-     *
-     * @param object $object
      */
     public function object2array(object $object) : array
     {
@@ -44,9 +42,7 @@ abstract class midcom_helper_exporter
     /**
      * Take data from array and move it into an object
      *
-     * @param array $data
-     * @param midcom_core_dbaobject $object The object in question
-     * @return object the updated object (not saved)
+     * @return midcom_core_dbaobject the updated object (not saved)
      */
     public function array2object(array $data, midcom_core_dbaobject $object) : midcom_core_dbaobject
     {
@@ -86,8 +82,6 @@ abstract class midcom_helper_exporter
 
     /**
      * Get the correct classname
-     *
-     * @param object $object the object
      */
     protected function _get_classname(object $object) : string
     {

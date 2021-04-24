@@ -101,7 +101,6 @@ abstract class midcom_core_query
      * when dealing with the query, so we internally note the corresponding class
      * information to be able to do correct typecasting later.
      *
-     * @param string $classname The classname which should be converted.
      * @return string MgdSchema class name
      */
     protected function _convert_class(string $classname) : string
@@ -190,13 +189,11 @@ abstract class midcom_core_query
     /**
      * Add a constraint to the query.
      *
-     * @param string $field The name of the MgdSchema property to query against.
      * @param string $operator The operator to use for the constraint, currently supported are
      *     <, <=, =, <>, >=, >, LIKE. LIKE uses the percent sign ('%') as a
      *     wildcard character.
      * @param mixed $value The value to compare against. It should be of the same type as the
      *     queried property.
-     * @return boolean Indicating success.
      */
     public function add_constraint(string $field, string $operator, $value) : bool
     {
@@ -232,12 +229,10 @@ abstract class midcom_core_query
     /**
      * Add a constraint against another DB column to the query.
      *
-     * @param string $field The name of the MgdSchema property to query against.
      * @param string $operator The operator to use for the constraint, currently supported are
      *     <, <=, =, <>, >=, >, LIKE. LIKE uses the percent sign ('%') as a
      *     wildcard character.
      * @param string $compare_field The field to compare against.
-     * @return boolean Indicating success.
      */
     public function add_constraint_with_property(string $field, string $operator, string $compare_field) : bool
     {
@@ -283,8 +278,6 @@ abstract class midcom_core_query
     /**
      * Limits the resultset to contain at most the specified number of records.
      * Set the limit to zero to retrieve all available records.
-     *
-     * @param int $limit The maximum number of records in the resultset.
      */
     public function set_limit(int $limit)
     {
@@ -296,8 +289,6 @@ abstract class midcom_core_query
      * Sets the offset of the first record to retrieve. This is a zero based index,
      * so if you want to retrieve from the very first record, the correct offset would
      * be zero, not one.
-     *
-     * @param int $offset The record number to start with.
      */
     public function set_offset(int $offset)
     {
@@ -309,10 +300,8 @@ abstract class midcom_core_query
     /**
      * Add an ordering constraint to the query builder.
      *
-     * @param string $field The name of the MgdSchema property to query against.
      * @param string $direction One of 'ASC' or 'DESC' indicating ascending or descending
      *     ordering. The default is 'ASC'.
-     * @return boolean Indicating success.
      */
     public function add_order(string $field, string $direction = 'ASC') : bool
     {

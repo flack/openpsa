@@ -100,8 +100,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * component data storage, configuration and l10n instances. Configuration is merged
      * during runtime based on the system defaults and all parameters attached to the
      * topic <i>we're currently operating on.</i>
-     *
-     * @param midcom_baseclasses_components_viewer $master The request class
      */
     public function initialize(midcom_baseclasses_components_viewer $master, Router $router)
     {
@@ -133,9 +131,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
 
     /**
      * Generates a response with a given style element
-     *
-     * @param string $element
-     * @param string $root
      */
     public function show(string $element, string $root = 'ROOT') : midcom_response_styled
     {
@@ -149,9 +144,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
 
     /**
      * Registers a new breadcrumb entry
-     *
-     * @param string $url The URL
-     * @param string $title The text to display
      */
     public function add_breadcrumb(string $url, string $title)
     {

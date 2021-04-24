@@ -32,9 +32,6 @@ abstract class midcom_helper_nav_itemlist
 
     /**
      * Initialize the object, used by the factory function.
-     *
-     * @param midcom_helper_nav $nap NAP object to use.
-     * @param integer $parent_topic_id An ID of the topic in which we operate.
      */
     public function __construct(midcom_helper_nav $nap, int $parent_topic_id)
     {
@@ -64,7 +61,6 @@ abstract class midcom_helper_nav_itemlist
     /**
      * Generate the object you want to use for getting a list of items for a certain topic.
      *
-     * @param midcom_helper_nav $nap pointer to the NAP object.
      * @param array $parent_node NAP node to base the list on.
      */
     public static function factory(midcom_helper_nav $nap, array $parent_node) : midcom_helper_nav_itemlist

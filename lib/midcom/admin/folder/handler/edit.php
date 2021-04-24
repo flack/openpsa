@@ -158,7 +158,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * Create a new style for the topic
      *
-     * @param string $style_name Name of the style
      * @return string Style path
      */
     private function _create_style(string $style_name) : string

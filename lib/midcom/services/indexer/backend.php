@@ -17,7 +17,7 @@ interface midcom_services_indexer_backend
     /**
      * Adds a document to the index.
      *
-     * @param array $documents A list of midcom_services_indexer_document objects.
+     * @param midcom_services_indexer_document[] $documents
      */
     public function index(array $documents);
 
@@ -41,7 +41,6 @@ interface midcom_services_indexer_backend
      * Query the index and, if set, restrict the query by a given filter.
      *
      * @param string $query The query, which must suite the backends query syntax.
-     * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @param array $options Options to modify the backend behavior
      * @return midcom_services_indexer_document[] An array of documents matching the query
      */

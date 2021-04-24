@@ -58,8 +58,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     /**
      * Displays the autoindex of the n.n.static. This is a list of all articles and attachments on
      * the current topic.
-     *
-     * @param array $data The local request data.
      */
     public function _show_autoindex(string $handler_id, array &$data)
     {

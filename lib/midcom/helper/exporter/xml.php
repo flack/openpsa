@@ -20,7 +20,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      * <objecttype><attribute>attribute_value</attribute></objecttype>
      * But it will not return the objecttype.
      *
-     * @param string $data xml
      * @return array with attribute => key values
      */
     public function data2array(string $data) : array
@@ -49,8 +48,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
 
     /**
      * Make XML out of an array.
-     *
-     * @param array $array
      */
     public function array2data(array $array, string $root_node = 'array', string $prefix = '') : string
     {

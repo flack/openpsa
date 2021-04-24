@@ -159,8 +159,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
 
     /**
      * Get the component's viewer
-     *
-     * @param midcom_db_topic $current_object The topic in question.
      */
     public function get_viewer(midcom_db_topic $current_object) : midcom_baseclasses_components_viewer
     {
@@ -216,10 +214,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * the general _on_watched_operation handler is called, to allow for handling
      * generic operations. After that, the individual watches are called, to allow
      * for more specific processing.
-     *
-     * @param int $operation The operation that has occurred.
-     * @param midcom_core_dbaobject $object The object on which the operation occurred. The system will
-     *     do is_a checks against any registered class restriction on the watch.
      */
     public function trigger_watch(int $operation, midcom_core_dbaobject $object)
     {
@@ -258,7 +252,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      *
      * @param int $operation The operation identifier (one of the MIDCOM_OPERATION constants)
      *     which applies.
-     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_operation($operation, midcom_core_dbaobject $object)
     {
@@ -273,8 +266,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * refreshed before being passed to this event handler.
      *
      * It is called after the generic _on_watched_operation event handler.
-     *
-     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_dba_create(midcom_core_dbaobject $object)
     {
@@ -289,8 +280,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * refreshed before being passed to this event handler.
      *
      * It is called after the generic _on_watched_operation event handler.
-     *
-     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_dba_update(midcom_core_dbaobject $object)
     {
@@ -301,8 +290,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * that has been done during the request.
      *
      * It is called after the generic _on_watched_operation event handler.
-     *
-     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
@@ -313,8 +300,6 @@ class midcom_baseclasses_components_interface extends midcom_baseclasses_compone
      * that has been done during the request.
      *
      * It is called after the generic _on_watched_operation event handler.
-     *
-     * @param midcom_core_dbaobject $object The object on which the operation has occurred.
      */
     public function _on_watched_dba_import(midcom_core_dbaobject $object)
     {

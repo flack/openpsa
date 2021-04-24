@@ -150,7 +150,6 @@ class midgard_admin_asgard_stylehelper
     /**
      * List the default template elements shipped with a component
      *
-     * @param string $component Component to look elements for
      * @return array List of elements found indexed by the element name
      */
     private function _get_component_default_elements(string $component) : array

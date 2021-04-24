@@ -152,7 +152,6 @@ class midcom_services_toolbars
      * Add a toolbar
      *
      * @param string $identifier
-     * @param midcom_helper_toolbar $toolbar
      */
     function add_toolbar($identifier, midcom_helper_toolbar $toolbar)
     {
@@ -174,7 +173,6 @@ class midcom_services_toolbars
      *
      * @see midcom_helper_toolbar::bind_to()
      * @see create_object_toolbar()
-     * @param midcom_helper_toolbar $toolbar
      */
     public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, midcom_core_dbaobject $object)
     {

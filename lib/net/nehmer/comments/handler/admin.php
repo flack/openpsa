@@ -53,9 +53,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $data['topic'] = $this->_topic;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_welcome(string $handler_id, array &$data)
     {
         midcom_show_style('admin-start');
@@ -139,9 +136,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         midcom::get()->skip_page_style = true;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_moderate_ajax(string $handler_id, array &$data)
     {
         if (!empty($data['comment'])) {
@@ -166,9 +160,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $this->add_breadcrumb('', $this->_l10n->get($data['status_to_show']));
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_moderate(string $handler_id, array &$data)
     {
         midcom_show_style('admin-start');

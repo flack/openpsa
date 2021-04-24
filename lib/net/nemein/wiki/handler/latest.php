@@ -91,9 +91,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $this->add_breadcrumb('latest/', $data['view_title']);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_latest(string $handler_id, array &$data)
     {
         if (!empty($this->latest_pages)) {

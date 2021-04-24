@@ -72,8 +72,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get object's (mgdschema) fieldnames.
-     *
-     * @param object $object Object The object to query
      */
     public static function get_object_fieldnames(object $object) : array
     {
@@ -402,7 +400,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * For example org.openpsa.* components often expand core objects,
      * in config we specify which classes we wish to substitute with which
      *
-     * @param string $schema_type classname to check rewriting for
      * @return string new classname (or original in case no rewriting is to be done)
      */
     protected static function class_rewrite(string $schema_type) : string
@@ -494,8 +491,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Resolve the "name" property of given object
-     *
-     * @param object $object the object to get the name property for
      */
     public static function get_name_property(object $object) : ?string
     {
@@ -508,8 +503,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * NOTE: This is distinctly different from get_object_label, which will always return something
      * even if it's just the class name and GUID, also it will for some classes include extra info (like datetimes)
      * which we do not want here.
-     *
-     * @param object $object the object to get the name property for
      */
     public static function get_object_title(object $object) : ?string
     {
@@ -525,8 +518,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * NOTE: This is distinctly different from get_label_property, which will always return something
      * even if it's just the guid
-     *
-     * @param object $object The object to get the title property for
      */
     public static function get_title_property(object $object) : ?string
     {

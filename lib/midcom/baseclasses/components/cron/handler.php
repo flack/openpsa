@@ -80,9 +80,6 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     /**
      * Echo the error message to the client, automatically appending
      * the classname to the prefix. Passed messages are also written to the error log.
-     *
-     * @param string $message The error message to print.
-     * @param mixed $var A variable you want to print, if any.
      */
     public function print_error(string $message, $var = null)
     {

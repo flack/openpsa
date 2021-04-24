@@ -20,8 +20,6 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
     /**
      * Populate the object toolbar
-     *
-     * @param array $data          Local request data
      */
     public function bind_to_object(midcom_core_dbaobject $object, string $handler_id, array $data)
     {

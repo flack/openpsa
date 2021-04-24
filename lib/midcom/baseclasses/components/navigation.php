@@ -29,8 +29,6 @@ class midcom_baseclasses_components_navigation extends midcom_baseclasses_compon
 
     /**
      * Initialize the NAP class
-     *
-     * @param string $component The name of the component.
      */
     public function __construct(string $component)
     {

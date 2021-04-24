@@ -63,8 +63,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
     /**
      * Show the moving of a group phase
-     *
-     * @param array $data The local request data.
      */
     public function _show_move(string $handler_id, array &$data)
     {
@@ -118,7 +116,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      * Internal helper for showing the groups recursively
      *
      * @param int $id
-     * @param array $data
      */
     public static function list_groups($id, array &$data, bool $move = false)
     {

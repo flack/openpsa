@@ -125,8 +125,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**
      * This is a little helper that saves a parent GUID and class in the memory
      * cache's PARENT data group.
-     *
-     * @param array $parent_data The guid and classname of the parent which is saved.
      */
     public function update_parent_data(string $object_guid, array $parent_data)
     {

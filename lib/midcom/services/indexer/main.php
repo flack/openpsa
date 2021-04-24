@@ -45,8 +45,6 @@ class midcom_services_indexer implements EventSubscriberInterface
 
     /**
      * Initialization
-     *
-     * @param midcom_services_indexer_backend $backend An indexer to initialize with.
      */
     public function __construct(midcom_services_indexer_backend $backend = null)
     {
@@ -174,7 +172,6 @@ class midcom_services_indexer implements EventSubscriberInterface
      * how queries should be built.
      *
      * @param string $query The query, which must suit the backends query syntax. It is assumed to be in the site charset.
-     * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query.
      * @param array $options Options that are passed straight to the backend
      * @return midcom_services_indexer_document[] An array of documents matching the query
      * @todo Refactor into multiple methods

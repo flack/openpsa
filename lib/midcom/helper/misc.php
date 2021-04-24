@@ -15,11 +15,6 @@ use Cocur\Slugify\Slugify;
  */
 class midcom_helper_misc
 {
-    /**
-     * @param integer $length
-     * @param string $characters
-     * @throws InvalidArgumentException
-     */
     public static function random_string(int $length, string $characters) : string
     {
         if ($length < 1) {
@@ -36,9 +31,6 @@ class midcom_helper_misc
         return $return;
     }
 
-    /**
-     * @param string $input
-     */
     public static function urlize(string $input) : string
     {
         $slugify = new Slugify;

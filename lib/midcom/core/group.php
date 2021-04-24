@@ -146,7 +146,6 @@ class midcom_core_group
     /**
      * Return a list of all groups in which the MidCOM user passed is a member.
      *
-     * @param midcom_core_user $user The user that should be looked up.
      * @return midcom_core_group[] Member groups, indexed by their ID.
      */
     public static function list_memberships(midcom_core_user $user) : array

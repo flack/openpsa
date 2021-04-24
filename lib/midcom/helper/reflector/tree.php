@@ -353,7 +353,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * Add default ("title" and "name") sorts to a QB instance
      *
      * @param midgard_query_builder $qb QB instance
-     * @param string $schema_type valid mgdschema class name
      */
     public static function add_schema_sorts_to_qb($qb, string $schema_type)
     {
@@ -370,8 +369,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * List object children
-     *
-     * @param midcom_core_dbaobject $parent
      */
     public static function get_tree(midcom_core_dbaobject $parent) : array
     {

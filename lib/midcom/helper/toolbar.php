@@ -208,10 +208,6 @@ class midcom_helper_toolbar
         return $this->label;
     }
 
-    /**
-     *
-     * @param string $label
-     */
     public function set_label(string $label)
     {
         $this->label = $label;
@@ -288,7 +284,6 @@ class midcom_helper_toolbar
     /**
      * Convenience shortcut to add multiple buttons at the same item
      *
-     * @param array $items The items to add.
      * @param mixed $before The index before which the item should be inserted.
      *     Use -1 for appending at the end, use a string to insert
      *     it before a URL, an integer will insert it before a

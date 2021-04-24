@@ -46,9 +46,6 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_links(string $handler_id, array &$data)
     {
         $data['navlinks'] = midcom_helper_imagepopup_viewer::get_navigation($data);

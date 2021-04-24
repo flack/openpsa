@@ -25,9 +25,6 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
     {
     }
 
-    /**
-     * @param midcom_services_indexer_filter $filter
-     */
     public function add_filter(midcom_services_indexer_filter $filter)
     {
         $this->filters[] = $filter;

@@ -43,7 +43,6 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
      * @param string $component The name of the component which should run the job
      * @param string $method The method in interface class to call to run the job
      * @param array $args Arguments array for the method
-     * @return boolean Indicating success/failure in registering the job
      */
     public static function register(int $start, string $component, string $method, array $args) : bool
     {

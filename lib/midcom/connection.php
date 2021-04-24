@@ -27,9 +27,7 @@ class midcom_connection
     /**
      * DB connection setup routine
      *
-     * @param string $basedir The directory to look for config files if necessary
      * @throws Exception We use regular exceptions here, because this might run before things are properly set up
-     * @return boolean Indicating success
      */
     public static function setup(string $basedir) : bool
     {

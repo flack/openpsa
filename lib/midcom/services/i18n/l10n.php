@@ -116,9 +116,6 @@ class midcom_services_i18n_l10n
      * The constructor loads the translation library indicated by the snippetdir
      * path $library and initializes the system completely. The output character
      * set will be initialized to the language's default.
-     *
-     * @param string $library    Name of the locale library to use.
-     * @param string $database    Name of the database in the library to load.
      */
     public function __construct(string $library, string $database)
     {
@@ -302,7 +299,6 @@ class midcom_services_i18n_l10n
      * Checks if a localized string for $string exists. If $language is unset,
      * the current language is used.
      *
-     * @param string $string The string-ID to search for.
      * @param string $language The language to search in.
      */
     function string_exists(string $string, $language = null) : bool
@@ -321,8 +317,6 @@ class midcom_services_i18n_l10n
      * or the fallback language. Use this to determine if an actually processed
      * result is returned by get. This is helpful especially if you want to
      * "catch" cases where a string might translate to itself in some languages.
-     *
-     * @param string $string The string-ID to search for
      */
     function string_available(string $string)
     {
@@ -342,7 +336,6 @@ class midcom_services_i18n_l10n
      *
      * L10n DB loads are done through string_exists.
      *
-     * @param string $string The string-ID to search for.
      * @param string $language The language to search in, uses the current language as default.
      */
     public function get(string $string, $language = null) : string
@@ -370,7 +363,6 @@ class midcom_services_i18n_l10n
      * Note, that due to the stupidity of the Zend engine, it is not possible to call
      * this function echo, like it should have been called.
      *
-     * @param string $string The string-ID to search for.
      * @param string $language The language to search in, uses the current language as default.
      * @see get()
      */
@@ -381,8 +373,6 @@ class midcom_services_i18n_l10n
 
     /**
      * Returns the entire translation table for the given language
-     *
-     * @param string $language The language to query
      */
     public function get_stringdb(string $language) : array
     {

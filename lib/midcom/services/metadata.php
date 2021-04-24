@@ -89,9 +89,6 @@ class midcom_services_metadata
      *
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
-     *
-     * @param midcom_core_dbaobject $object The DBA class instance to get CSS classes for
-     * @param string $existing_classes Existing CSS classes to append to
      */
     public function get_object_classes(midcom_core_dbaobject $object, string $existing_classes = null) : string
     {

@@ -145,9 +145,6 @@ class midcom_core_privilege
      * user in content mode. This means, that all SELF privileges are skipped at this point,
      * EVERYONE privileges apply always, and all other privileges are checked against the
      * user.
-     *
-     * @param string $user_id The user id in question.
-     * @return boolean Indicating whether the privilege record applies for the user, or not.
      */
     public function does_privilege_apply(string $user_id) : bool
     {
@@ -228,7 +225,6 @@ class midcom_core_privilege
      * - Any string identifier which can be resolved using midcom_services_auth::get_assignee().
      *
      * @param mixed $assignee An assignee representation as outlined above.
-     * @return boolean indicating success.
      */
     public function set_assignee($assignee) : bool
     {
@@ -324,7 +320,6 @@ class midcom_core_privilege
      *
      * This function is for use in the authentication framework only.
      *
-     * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
     public static function get_content_privileges(string $guid) : array
@@ -338,7 +333,6 @@ class midcom_core_privilege
      *
      * This function is for use in the authentication framework only.
      *
-     * @param string $guid A GUID to query.
      * @return midcom_core_privilege[]
      */
     public static function get_self_privileges(string $guid) : array
@@ -351,7 +345,6 @@ class midcom_core_privilege
      *
      * This function is for use in the authentication framework only
      *
-     * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
     public static function get_all_privileges(string $guid) : array
@@ -362,7 +355,6 @@ class midcom_core_privilege
     /**
      * List all privileges assigned an object unfiltered.
      *
-     * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
      */
     private static function _get_privileges(string $guid, string $type) : array
@@ -389,7 +381,6 @@ class midcom_core_privilege
     /**
      * Query the database for privileges and construct all necessary objects out of it.
      *
-     * @param string $guid The GUID of the object for which to query ACL data.
      * @param string $type SELF or CONTENT
      * @return midcom_core_privilege[]
      */
@@ -440,9 +431,6 @@ class midcom_core_privilege
      *
      * This function is for use in the authentication framework only.
      *
-     * @param midcom_core_dbaobject $object The object to query.
-     * @param string $name The name of the privilege to query
-     * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      */
     public static function get_privilege(midcom_core_dbaobject $object, string $name, $assignee, string $classname = '') : midcom_core_privilege

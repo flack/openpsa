@@ -117,8 +117,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
     /**
      * Initializes a DM for posting.
-     *
-     * @param Request $request The request object
      */
     private function _init_post_controller(Request $request)
     {
@@ -207,8 +205,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
     /**
      * Checks if a new post has been submitted.
-     *
-     * @param Request $request The request object
      */
     private function _process_post(Request $request)
     {
@@ -266,8 +262,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
     /**
      * Display the comment list and the submit-comment form.
-     *
-     * @param array $data The local request data.
      */
     public function _show_comments(string $handler_id, array &$data)
     {

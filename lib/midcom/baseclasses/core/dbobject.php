@@ -24,8 +24,6 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for update method
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function update_pre_checks(midcom_core_dbaobject $object) : bool
     {
@@ -52,9 +50,6 @@ class midcom_baseclasses_core_dbobject
      * 3. bool $object->__object->update() is executed to do the actual DB update. This has to execute parent::update()
      *    and return its value, nothing else.
      * 4. void $object->_on_updated() is executed to notify the class from a successful DB update.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating success.
      */
     public static function update(midcom_core_dbaobject $object) : bool
     {
@@ -77,8 +72,6 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function update_post_ops(midcom_core_dbaobject $object)
     {
@@ -94,8 +87,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Add full privileges to the owner of the object.
      * This is essentially sets the midgard:owner privilege for the current user.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
@@ -123,8 +114,6 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for create method
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function create_pre_checks(midcom_core_dbaobject $object) : bool
     {
@@ -175,9 +164,6 @@ class midcom_baseclasses_core_dbobject
      *      3. if name is empty unique name is generated from title property (unless title is empty too)
      *      4. if name is not URL-safe false is returned
      * </pre>
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return boolean indicating whether from our point of view everything is ok
      *
      * @see midcom_helper_reflector_nameresolver::name_is_safe()
      * @see midcom_helper_reflector_nameresolver::name_is_unique()
@@ -240,9 +226,6 @@ class midcom_baseclasses_core_dbobject
      * 3. bool $object->__object->create() is executed to do the actual DB create. This has to execute parent::create()
      *    and return its value, nothing else.
      * 4. void $object->_on_created() is executed to notify the class from a successful DB creation.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating success.
      */
     public static function create(midcom_core_dbaobject $object) : bool
     {
@@ -282,8 +265,6 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for create
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function create_post_ops(midcom_core_dbaobject $object)
     {
@@ -307,9 +288,6 @@ class midcom_baseclasses_core_dbobject
      * 4. bool $object->__object->delete() is executed to do the actual DB delete. This has to execute parent::delete()
      *    and return its value, nothing else.
      * 5. void $object->_on_deleted() is executed to notify the class from a successful DB deletion.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating success.
      */
     public static function delete(midcom_core_dbaobject $object) : bool
     {
@@ -358,8 +336,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Unconditionally drop all privileges assigned to the given object.
      * Called upon successful delete
-     *
-     * @return bool Indicating Success.
      */
     private static function _delete_privileges(midcom_core_dbaobject $object) : bool
     {
@@ -381,9 +357,6 @@ class midcom_baseclasses_core_dbobject
      * 1. Get all of the child objects
      * 2. Delete them recursively starting from the top, working towards the root
      * 3. Finally delete the root object
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return boolean Indicating success.
      */
     public static function delete_tree(midcom_core_dbaobject $object) : bool
     {
@@ -417,8 +390,6 @@ class midcom_baseclasses_core_dbobject
      * Post object creation operations for delete
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
@@ -474,7 +445,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Recover the parameters related to a deleted object
      *
-     * @param string $guid
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
@@ -498,7 +468,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Recover the attachments related to a deleted object
      *
-     * @param string $guid
      * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
@@ -561,7 +530,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Purge the parameters related to a deleted object
      *
-     * @param string $guid
      * @return integer Size of purged objects
      */
     public static function purge_parameters(string $guid) : int
@@ -589,7 +557,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * Purge the attachments related to a deleted object
      *
-     * @param string $guid
      * @return integer Size of purged objects
      */
     public static function purge_attachments(string $guid) : int
@@ -614,7 +581,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * After we instantiated the midgard object do some post processing and ACL checks
      *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @see load()
      */
     public static function post_db_load_checks(midcom_core_dbaobject $object)
@@ -638,9 +604,6 @@ class midcom_baseclasses_core_dbobject
      * access control.
      *
      * On any failure, the object is cleared.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating Success
      */
     public static function refresh(midcom_core_dbaobject $object) : bool
     {
@@ -658,10 +621,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * This call wraps the original get_by_id call to provide access control.
      * The calling sequence is as with the corresponding constructor.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @param int $id The id of the object to load from the database.
-     * @return bool Indicating Success
      */
     public static function get_by_id(midcom_core_dbaobject $object, int $id) : bool
     {
@@ -690,10 +649,6 @@ class midcom_baseclasses_core_dbobject
     /**
      * This call wraps the original get_by_guid call to provide access control.
      * The calling sequence is as with the corresponding constructor.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @param string $guid The guid of the object to load from the database.
-     * @return bool Indicating Success
      */
     public static function get_by_guid(midcom_core_dbaobject $object, string $guid) : bool
     {
@@ -736,8 +691,6 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
      */
     public static function delete_pre_checks(midcom_core_dbaobject $object) : bool
     {

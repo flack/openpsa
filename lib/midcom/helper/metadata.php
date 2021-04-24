@@ -95,8 +95,6 @@ class midcom_helper_metadata
 
     /**
      * This will construct a new metadata object for an existing content object.
-     *
-     * @param midcom_core_dbaobject $object The object to attach to.
      */
     public function __construct(midcom_core_dbaobject $object)
     {
@@ -114,7 +112,6 @@ class midcom_helper_metadata
      * slightly post-processed metadata values. See _retrieve_value for post processing.
      *
      * @see midcom_helper_metadata::_retrieve_value()
-     * @param string $key The key to retrieve
      * @return mixed The key's value.
      */
     public function get(string $key)
@@ -209,9 +206,6 @@ class midcom_helper_metadata
      * - creator, editor and edited cannot be set.
      *
      * Any error will trigger midcom_error.
-     *
-     * @param string $key The key to set.
-     * @param mixed $value The value to set.
      */
     private function _set_property(string $key, $value) : bool
     {
@@ -282,8 +276,6 @@ class midcom_helper_metadata
      * as a few of the MidCOM objects do not support all of the predefined meta
      * data fields, PHP will default to "0" in these cases. For Person IDs, this
      * "0" is rewritten to "1" to use the MidgardAdministrator account instead.
-     *
-     * @param string $key The key to retrieve.
      */
     private function _retrieve_value(string $key)
     {

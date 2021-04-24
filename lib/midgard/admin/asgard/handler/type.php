@@ -189,8 +189,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     /**
      * Shows the loaded object in editor.
-     *
-     * @param array $data The local request data.
      */
     public function _show_type(string $handler_id, array &$data)
     {

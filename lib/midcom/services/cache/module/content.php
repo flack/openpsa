@@ -183,9 +183,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    /**
-     * @param RequestEvent $event
-     */
     public function on_request(RequestEvent $event)
     {
         if ($event->isMasterRequest()) {
@@ -212,7 +209,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
      * safely distinguished by their URL.
      *
-     * @param Request $request The request object
      * @return void|Response
      */
     private function _check_hit(Request $request)
@@ -688,9 +684,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->cache_control_headers($response);
     }
 
-    /**
-     * @param Response $response
-     */
     public function cache_control_headers(Response $response)
     {
         // Just to be sure not to mess the headers sent by no_cache in case it was called

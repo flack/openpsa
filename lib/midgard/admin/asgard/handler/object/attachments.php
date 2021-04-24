@@ -118,11 +118,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return $local_file->name;
     }
 
-    /**
-     *
-     * @param string $filename
-     * @param boolean $autocreate
-     */
     private function _get_file(string $filename, bool $autocreate = false) : midcom_db_attachment
     {
         $qb = midcom_db_attachment::new_query_builder();
@@ -209,9 +204,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return new midcom_response_relocate($url);
     }
 
-    /**
-     * @param array $data Data passed to the show method
-     */
     public function _show_create(string $handler_id, array &$data)
     {
         $data['files'] = $this->_files;
@@ -269,8 +261,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * Show the editing view for the requested style
-     *
-     * @param array $data Data passed to the show method
      */
     public function _show_edit(string $handler_id, array &$data)
     {

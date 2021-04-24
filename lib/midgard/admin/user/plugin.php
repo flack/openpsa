@@ -23,8 +23,6 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
 
     /**
      * Generate one password
-     *
-     * @param int $length
      */
     public static function generate_password(int $length = 8, bool $no_similars = true) : string
     {

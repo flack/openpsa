@@ -70,8 +70,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
     /**
      * Shows the loaded components
-     *
-     * @param array $data The local request data.
      */
     public function _show_list(string $handler_id, array &$data)
     {

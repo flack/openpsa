@@ -81,17 +81,11 @@ abstract class midcom_services_rcs_backend
 
     /**
      * Save a revision of an object, or create a revision if none exists
-     *
-     * @param midcom_core_dbaobject $object the object to save.
-     * @param string $updatemessage the message to be saved with the object.
-     * @throws midcom_error on serious errors.
      */
     abstract public function update(string $updatemessage = null);
 
     /**
-     * Get the object of a revision
-     *
-     * @return array array representation of the object
+     * Get a revision
      */
     abstract public function get_revision(string $revision) : array;
 

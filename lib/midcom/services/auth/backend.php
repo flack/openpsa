@@ -34,7 +34,6 @@ abstract class midcom_services_auth_backend
      * system to load a login session. At the end of the successful execution of this
      * function, you have to populate the $session and $user members accordingly.
      *
-     * @param Request $request The request object
      * @return ?array clientip, userid and timeout if the login session was successfully loaded
      */
     abstract public function read_session(Request $request) : ?array;
@@ -43,10 +42,6 @@ abstract class midcom_services_auth_backend
      * This is called immediately after a new login
      * The authentication driver has to ensure that the login identifier stays
      * available during subsequent requests.
-     *
-     * @param string $clientip
-     * @param midcom_core_user $user
-     * @return boolean Indicating success
      */
     abstract public function create_session(?string $clientip, midcom_core_user $user) : bool;
 

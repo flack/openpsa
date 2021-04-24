@@ -28,10 +28,6 @@ class midcom_db_parameter extends midcom_core_dbaobject
      * Read a parameter without loading the corresponding object.
      * This is primarily for improving performance, so the function does not check
      * for privileges.
-     *
-     * @param string $objectguid The object's GUID
-     * @param string $domain The parameter's domain
-     * @param string $name The parameter to look for
      */
     public static function get_by_objectguid(string $objectguid, string $domain, string $name)
     {

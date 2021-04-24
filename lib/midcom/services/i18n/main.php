@@ -140,8 +140,6 @@ class midcom_services_i18n
 
     /**
      * Set output character set.
-     *
-     * @param string $charset    Charset name.
      */
     public function set_charset(string $charset)
     {
@@ -183,8 +181,6 @@ class midcom_services_i18n
 
     /**
      * Set the fallback language.
-     *
-     * @param string $lang    Language name.
      */
     public function set_fallback_language(string $lang)
     {
@@ -226,8 +222,6 @@ class midcom_services_i18n
      * db cache is populated accordingly.
      *
      * @see midcom_services_i18n_l10n
-     * @param string $component    The component for which to retrieve a string database.
-     * @param string $database    The string table to retrieve from the component's locale directory.
      */
     public function get_l10n(string $component = 'midcom', string $database = 'default') : midcom_services_i18n_l10n
     {
@@ -247,10 +241,6 @@ class midcom_services_i18n
      * Returns a translated string using the l10n database specified in the function
      * arguments.
      *
-     * @param string $stringid The string to translate.
-     * @param string $component    The component for which to retrieve a string database.
-     * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
-     *     database is used.
      * @see midcom_services_i18n_l10n::get()
      */
     public function get_string(string $stringid, string $component, string $database = 'default') : string
@@ -264,10 +254,6 @@ class midcom_services_i18n
      * To keep the naming stable with the actual l10n class, this is not called
      * echo_string (Zend won't allow $l10n->echo().)
      *
-     * @param string $stringid The string to translate.
-     * @param string $component    The component for which to retrieve a string database.
-     * @param string $database    The string table to retrieve from the component's locale directory. If omitted, the 'default'
-     *     database is used.
      * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
@@ -281,9 +267,6 @@ class midcom_services_i18n
      *
      * See the PHP iconv() function for the exact parameter definitions.
      *
-     * @param string $source_charset The charset to convert from.
-     * @param string $destination_charset The charset to convert to.
-     * @param string $string The string to convert.
      * @return mixed The converted string or false on any error.
      */
     private function iconv(string $source_charset, string $destination_charset, string $string)
@@ -301,7 +284,6 @@ class midcom_services_i18n
     /**
      * Convert a string assumed to be in the currently active charset to UTF8.
      *
-     * @param string $string The string to convert
      * @return string The string converted to UTF-8
      */
     public function convert_to_utf8(string $string)
@@ -315,7 +297,6 @@ class midcom_services_i18n
     /**
      * Convert a string assumed to be in UTF-8 to the currently active charset.
      *
-     * @param string $string The string to convert
      * @return string The string converted to the current charset
      */
     public function convert_from_utf8(string $string)
@@ -329,7 +310,6 @@ class midcom_services_i18n
     /**
      * Converts the given string to the current site charset.
      *
-     * @param string $string The string to convert.
      * @return string The converted string.
      */
     public function convert_to_current_charset(string $string)
@@ -341,8 +321,6 @@ class midcom_services_i18n
 
     /**
      * Wrapped html_entity_decode call
-     *
-     * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
      */
     public function html_entity_decode(string $text) : string
     {

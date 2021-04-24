@@ -115,8 +115,6 @@ class midcom_helper_head
      *
      * The sequence of the add_jsfile and add_jscript commands is kept stable.
      *
-     * @param string $url    The URL to the file to-be referenced.
-     * @param boolean $prepend Whether to add the JS include to beginning of includes
      * @see add_jscript()
      * @see add_jsonload()
      * @see print_head_elements()
@@ -150,7 +148,6 @@ class midcom_helper_head
      *
      * The sequence of the add_jsfile and add_jscript commands is kept stable.
      *
-     * @param string $script    The code to be included directly in the page.
      * @see add_jsfile()
      * @see add_jsonload()
      * @see print_head_elements()
@@ -172,8 +169,6 @@ class midcom_helper_head
      * This allows components to register JavaScript code to the jQuery states.
      * Possible ready states: document.ready
      *
-     * @param string $script    The code to be included in the state.
-     * @param string $state    The state where to include the code to. Defaults to document.ready
      * @see print_jquery_statuses()
      */
     public function add_jquery_state_script(string $script, string $state = 'document.ready')
@@ -264,7 +259,6 @@ class midcom_helper_head
     /**
      * Convenience shortcut for appending CSS files
      *
-     * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
     public function add_stylesheet(string $url, string $media = null)
@@ -275,7 +269,6 @@ class midcom_helper_head
     /**
      * Convenience shortcut for prepending CSS files
      *
-     * @param string $url The stylesheet URL
      * @param string $media The media type(s) for the stylesheet, if any
      */
     public function prepend_stylesheet(string $url, string $media = null)
@@ -383,8 +376,6 @@ class midcom_helper_head
     /**
      * This function renders the elements added by the various add methods
      * and injects them into the response
-     *
-     * @param ResponseEvent $event
      */
     public function inject_head_elements(ResponseEvent $event)
     {
@@ -520,8 +511,6 @@ class midcom_helper_head
      *
      * core and widget are loaded automatically. Also loads jquery.ui theme,
      * either the configured theme one or a hardcoded default (base theme)
-     *
-     * @param array $components The components that should be loaded
      */
     public function enable_jquery_ui(array $components = [])
     {

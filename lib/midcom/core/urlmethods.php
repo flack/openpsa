@@ -66,7 +66,6 @@ class midcom_core_urlmethods
      * key MIDCOM_NAV_PERMALINK of any NAP data array. Upon resolving it, MidCOM will
      * relocate to the automatically computed MIDCOM_NAV_FULLURL.
      *
-     * @param string $guid
      * @throws midcom_error_notfound
      */
     public function process_permalink(string $guid) : Response

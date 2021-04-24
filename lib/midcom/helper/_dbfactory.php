@@ -36,8 +36,6 @@ class midcom_helper__dbfactory
     /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
-     *
-     * @param string $guid The object GUID.
      */
     public function get_object_by_guid(string $guid) : midcom_core_dbaobject
     {
@@ -118,7 +116,6 @@ class midcom_helper__dbfactory
      * This method can be used to check whether an object is of a MidCOM DBA or MgdSchema type
      *
      * @param mixed $object MgdSchema or MidCOM DBA object
-     * @param string $class Class to check the instance against
      */
     public function is_a($object, string $class, bool $allow_string = false) : bool
     {
@@ -168,8 +165,6 @@ class midcom_helper__dbfactory
      * It tries to look up the GUID in the memory cache, only if this fails, the regular
      * content getters are invoked.
      *
-     * @param string $guid A GUID string.
-     * @param string $class class name of object
      * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
     public function get_parent_data(string $guid, string $class) : array

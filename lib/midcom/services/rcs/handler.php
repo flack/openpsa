@@ -191,9 +191,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         return $this->handler_callback($handler_id);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_history(string $handler_id, array &$data)
     {
         $data['history'] = $this->backend->get_history();

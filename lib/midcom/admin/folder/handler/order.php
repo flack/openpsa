@@ -144,8 +144,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
     /**
      * Show the sorting
-     *
-     * @param array $data The local request data.
      */
     public function _show_order(string $handler_id, array &$data)
     {

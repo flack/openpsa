@@ -25,7 +25,6 @@ interface midcom_services_auth_frontend
      * the username / password pair that should be tried to authentication
      * or null for anonymous access.
      *
-     * @param Request $request The request we're reading from
      * @return Array A simple associative array with the two indexes 'username' and
      *     'password' holding the information read by the driver or null if no
      *     information could be read.

@@ -137,7 +137,6 @@ class midcom_helper_nav_backend
      * It will initialize Root Topic, Current Topic and all cache arrays.
      * The constructor retrieves all initialization data from the component context.
      *
-     * @param midcom_db_topic $root
      * @param midcom_db_topic[] $urltopics
      */
     public function __construct(midcom_db_topic $root, array $urltopics)
@@ -156,7 +155,6 @@ class midcom_helper_nav_backend
      * If the current node is behind an invisible or undescendable node, the last
      * known good node will be used instead for the current node.
      *
-     * @param midcom_db_topic $root
      * @param midcom_db_topic[] $urltopics
      */
     private function init_topics(midcom_db_topic $root, array $urltopics)
@@ -247,8 +245,6 @@ class midcom_helper_nav_backend
      * Return the list of leaves for a given node. This helper will construct complete leaf
      * data structures for each leaf found. It will first check the cache for the leaf structures,
      * and query the database only if the corresponding objects have not been found there.
-     *
-     * @param midcom_helper_nav_node $node The NAP node data structure to load the nodes for.
      */
     private function load_leaves(midcom_helper_nav_node $node)
     {
@@ -383,7 +379,6 @@ class midcom_helper_nav_backend
      * memory and returns it, if available. This should speed up GUID lookup heavy
      * code.
      *
-     * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
     public function get_loaded_object_by_guid(string $guid) : ?array
@@ -497,7 +492,6 @@ class midcom_helper_nav_backend
      * Returns the ID of the node to which $leaf_id is associated to, false
      * on failure.
      *
-     * @param string $leaf_id    The Leaf-ID to search an uplink for.
      * @return mixed             The ID of the Node for which we have a match, or false on failure.
      */
     function get_leaf_uplink(string $leaf_id)
@@ -514,7 +508,6 @@ class midcom_helper_nav_backend
      * Returns the ID of the node to which $node_id is associated to, false
      * on failure. The root node's uplink is -1.
      *
-     * @param mixed $node_id    The node ID to search an uplink for.
      * @return mixed             The ID of the node for which we have a match, -1 for the root node, or false on failure.
      */
     public function get_node_uplink($node_id)

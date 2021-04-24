@@ -33,8 +33,6 @@ class midcom_core_querybuilder extends midcom_core_query
 
     /**
      * The initialization routine
-     *
-     * @param string $classname The classname which should be queried.
      */
     public function __construct(string $classname)
     {

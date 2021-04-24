@@ -53,7 +53,6 @@ abstract class midcom_services_indexer_client
      * Constructor
      *
      * @param midcom_db_topic $topic The current topic
-     * @param midcom_services_indexer $indexer The indexer service
      */
     public function __construct($topic, midcom_services_indexer $indexer = null)
     {
@@ -79,8 +78,6 @@ abstract class midcom_services_indexer_client
     }
 
     /**
-     * @param string $name
-     * @param midcom_core_querybuilder $qb
      * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
      */
     public function add_query(string $name, midcom_core_querybuilder $qb, $dm)
@@ -115,7 +112,6 @@ abstract class midcom_services_indexer_client
 
     /**
      *
-     * @param string $name
      * @param midcom_core_dbaobject[] $results
      * @param midcom\datamanager\datamanager $dm datamanager (or schemadb in dm2)
      * @return midcom_services_indexer_document[]

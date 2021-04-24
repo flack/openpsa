@@ -58,8 +58,6 @@ class midcom_services_cron
     /**
      * Load and validate all registered jobs.
      * After this call, all required handler classes will be available.
-     *
-     * @param array $data The job configurations
      */
     public function load_jobs(array $data) : array
     {
@@ -77,9 +75,6 @@ class midcom_services_cron
 
     /**
      * Check a jobs definition for validity.
-     *
-     * @param array $job The job to register.
-     * @return boolean Indicating validity.
      */
     private function _validate_job(array $job) : bool
     {

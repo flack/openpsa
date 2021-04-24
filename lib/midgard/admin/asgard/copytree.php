@@ -64,8 +64,6 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
     /**
      * Constructor, connect to the parent class constructor.
-     *
-     * @param array $request_data
      */
     public function __construct(midcom_core_dbaobject $object, array &$request_data)
     {

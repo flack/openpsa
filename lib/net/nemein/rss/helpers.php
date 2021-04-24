@@ -16,7 +16,6 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
      *
      * Used with array_merge
      *
-     * @param string $component the component to insert to
      * @return array of datamanager schema fields
      */
     public static function default_rss_config_schema_fields(string $component) : array

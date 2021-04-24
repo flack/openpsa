@@ -99,7 +99,6 @@ class midcom_core_account
     /**
      * Set the account's password
      *
-     * @param string $password The password to set
      * @param boolean $encode Should the password be encoded according to the configured auth type
      */
     public function set_password(string $password, bool $encode = true)

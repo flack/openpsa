@@ -172,7 +172,6 @@ class midcom_helper_configuration
      *
      * After import the cache array will be updated, reset is done by reset_local.
      *
-     * @param array    $params        The new local parameters
      * @param boolean    $reset        If set to true, the current local configuration will be discarded first.
      * @see midcom_helper_configuration::reset_local()
      */
@@ -229,7 +228,6 @@ class midcom_helper_configuration
      * value in the configuration data. Do error checking with the function exists (see
      * below).
      *
-     * @param string    $key    The configuration key to query.
      * @return mixed        Its value or false, if the key doesn't exist.
      * @see midcom_helper_configuration::exists()
      */

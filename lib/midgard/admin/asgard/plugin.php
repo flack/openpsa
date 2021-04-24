@@ -36,8 +36,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     /**
      * Static method other plugins may use
-     *
-     * @param array $data      Local request data
      */
     public static function prepare_plugin(string $title, array &$data)
     {
@@ -151,7 +149,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * Populate the object breadcrumb
      *
      * @param mixed $object        MgdSchema object for which the toolbar will be created
-     * @param array $data          Local request data
      */
     private static function _set_object_breadcrumb($object, string $handler_id, array $data)
     {

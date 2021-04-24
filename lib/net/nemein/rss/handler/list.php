@@ -52,9 +52,6 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $this->add_breadcrumb($this->router->generate('feeds_list'), $this->_l10n->get('manage feeds'));
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('net-nemein-rss-feeds-list-header');

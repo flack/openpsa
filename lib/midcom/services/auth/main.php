@@ -116,8 +116,6 @@ class midcom_services_auth
     /**
      * Checks if the current authentication fronted has new credentials
      * ready. If yes, it processes the login accordingly. Otherwise look for existing session
-     *
-     * @param Request $request The request object
      */
     public function check_for_login_session(Request $request)
     {
@@ -149,9 +147,6 @@ class midcom_services_auth
         }
     }
 
-    /**
-     * @param midcom_core_user $user
-     */
     private function set_user(midcom_core_user $user)
     {
         $this->user = $user;
@@ -163,7 +158,6 @@ class midcom_services_auth
      * Works on the currently authenticated user by default, but can take another
      * user as an optional argument.
      *
-     * @param string $privilege The privilege to check for
      * @param MidgardObject $content_object A Midgard Content Object
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.

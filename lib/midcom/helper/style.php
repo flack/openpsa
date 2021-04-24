@@ -254,8 +254,6 @@ class midcom_helper_style
      *
      * Private variables are adjusted, and the prepend and append styles are merged with the componentstyle.
      * You cannot change the style stack after that (unless you call enter_context again of course).
-     *
-     * @param midcom_core_context $context The context to enter
      */
     public function enter_context(midcom_core_context $context)
     {

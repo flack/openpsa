@@ -120,8 +120,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Rewrite a filename to URL safe form
      *
-     * @param string $filename file name to rewrite
-     * @param boolean $force_single_extension force file to single extension (defaults to true)
      * @todo add possibility to use the file utility to determine extension if missing.
      */
     public static function safe_filename(string $filename, bool $force_single_extension = true) : string
@@ -337,7 +335,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * Updates the contents of the attachments with the contents given.
      *
      * @param mixed $source File contents.
-     * @return boolean Indicating success.
      */
     public function copy_from_memory($source) : bool
     {
@@ -358,7 +355,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * by the filehandle passed.
      *
      * @param resource $source The handle to read from.
-     * @return boolean Indicating success.
      */
     public function copy_from_handle($source) : bool
     {
@@ -379,7 +375,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * This is a wrapper for copy_from_handle.
      *
      * @param string $filename The file to read.
-     * @return boolean Indicating success.
      */
     public function copy_from_file($filename) : bool
     {
