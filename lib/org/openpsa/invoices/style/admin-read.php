@@ -99,7 +99,6 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         </tfoot>
         <tbody>
         <?php
-        $invoice_sum = 0;
         foreach ($data['invoice_items'] as $item) {
             echo "<tr class='invoice_item_row'>";
             echo "<td>";
@@ -109,7 +108,6 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             echo "<td class='numeric'>" . $formatter->number($item->units) . "</td>";
             echo "<td class='numeric'>" . $formatter->number($item->units * $item->pricePerUnit) . "</td>";
             echo "</tr>\n";
-            $invoice_sum += $item->units * $item->pricePerUnit;
         } ?>
         </tbody>
 
