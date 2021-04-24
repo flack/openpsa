@@ -10,13 +10,13 @@ if ($data['config']->get('archive_years_enable')) {
 <p>
 <?php
 $first = true;
-foreach ($data['month_data'] as $month => $month_data) {
+foreach ($data['month_data'] as $month_data) {
     if ($first) {
         $first = false;
     } else {
         echo " - ";
     } ?>
     <a href="&(month_data['url']);">&(month_data['name']); (&(month_data['count']);)</a>
-<?php 
+<?php
 } ?>
 </p>

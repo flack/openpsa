@@ -102,12 +102,12 @@ JSINIT;
      *
      * @param int $id The parent object ID
      */
-    private function _list_items($id) : array
+    private function _list_items(int $id) : array
     {
         $data = [];
 
         $value_properties = ['id'];
-        $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
+        $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, $id);
         foreach ($this->constraints as [$field, $operator, $value]) {
             $mc->add_constraint($field, $operator, $value);
         }

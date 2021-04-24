@@ -39,7 +39,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
             $rcs_handler = $rcs->load_backend($page);
 
             // Get object history
-            foreach ($rcs_handler->get_history()->all() as $version => $history) {
+            foreach ($rcs_handler->get_history()->all() as $history) {
                 if ($this->_updated_pages >= $this->_max_pages) {
                     // End here
                     return;
