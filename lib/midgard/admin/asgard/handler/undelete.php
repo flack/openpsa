@@ -70,12 +70,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['type'] = $type;
 
         if ($guids = $request->request->get('undelete')) {
-            if ($request->request->has('purge')) {
-                $this->_purge($guids);
-            } else {
-                $this->_undelete($guids);
-            }
-            return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $type]));
+            return $this->process_request($guids, $request->request->has('purge'));
         }
 
         $qb = new org_openpsa_qbpager_direct($data['type'], "{$data['type']}_trash");
@@ -96,33 +91,17 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         return $this->get_response('midgard_admin_asgard_trash_type');
     }
 
-    private function _purge(array $guids)
+    private function process_request(array $guids, bool $purge) : midcom_response_relocate
     {
-        $purged_size = 0;
-
-        if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)) {
-            // No DBA class for the type, use plain Midgard undelete API
-            $qb = new midgard_query_builder($this->type);
-            $qb->add_constraint('guid', 'IN', $guids);
-            $qb->include_deleted();
-            foreach ($qb->execute() as $object) {
-                if ($object->purge()) {
-                    $purged_size += $object->metadata->size;
-                }
-            }
+        if ($purge) {
+            $size = midcom_baseclasses_core_dbobject::purge($guids, $this->type);
+            $message = 'in total %s purged';
         } else {
-            // Delegate purging to DBA
-            $purged_size = midcom_baseclasses_core_dbobject::purge($guids, $this->type);
+            $size = midcom_baseclasses_core_dbobject::undelete($guids);
+            $message = 'in total %s undeleted';
         }
-
-        midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
-    }
-
-    private function _undelete(array $guids)
-    {
-        // Delegate undeletion to DBA
-        $undeleted_size = midcom_baseclasses_core_dbobject::undelete($guids);
-        midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get($message), midcom_helper_misc::filesize_to_string($size)), 'info');
+        return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $this->_request_data['type']]));
     }
 
     public function show_type(mgdobject $object, int $indent = 0, string $prefix = '', bool $enable_undelete = true)
