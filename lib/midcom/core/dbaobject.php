@@ -454,10 +454,10 @@ abstract class midcom_core_dbaobject
     {
         return true;
     }
-    public static function _on_process_query_result(&$result)
+    public static function _on_process_query_result(array &$result)
     {
     }
-    public static function _on_process_collector_result(&$result)
+    public static function _on_process_collector_result(array &$result)
     {
     }
     public function _on_updated()

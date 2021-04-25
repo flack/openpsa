@@ -7,7 +7,7 @@ ini_set('max_execution_time', 0);
 
 // Now just Q'n'D topic/article support
 
-function render_breadcrumb(&$crumbs)
+function render_breadcrumb(array &$crumbs)
 {
     while (current($crumbs) !== false) {
         $crumb = current($crumbs);

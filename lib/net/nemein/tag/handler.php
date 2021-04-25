@@ -323,10 +323,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     /**
      * Reads machine tag string from content and returns it, the string is removed from content on the fly
      *
-     * @param string $content reference to content
      * @return string string of tags, empty for no tags
      */
-    public static function separate_machine_tags_in_content(&$content) : string
+    public static function separate_machine_tags_in_content(string &$content) : string
     {
         $regex = '/^(.*)(tags:)\s+?(.*?)(\.?\s*)?$/si';
         if (!preg_match($regex, $content, $tag_matches)) {
