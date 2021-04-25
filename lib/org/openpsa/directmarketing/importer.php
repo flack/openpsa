@@ -51,10 +51,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      */
     protected $_settings = [];
 
-    /**
-     * @param array $schemadbs The datamanager schemadbs to work on
-     * @param array $settings Importer configuration, if any
-     */
     public function __construct(array $schemadbs, array $settings = [])
     {
         parent::__construct();
@@ -74,13 +70,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      */
     abstract public function parse($input);
 
-    /**
-     * Process the datamanager
-     *
-     * @param string $type        Subscription type
-     * @param array $subscriber
-     * @param midcom_core_dbaobject $object
-     */
     private function _datamanager_process(string $type, array $subscriber, midcom_core_dbaobject $object)
     {
         if (empty($subscriber[$type])) {
@@ -96,9 +85,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         $this->_datamanagers[$type]->get_storage()->save();
     }
 
-    /**
-     * Clean the new objects
-     */
     private function _clean_new_objects()
     {
         foreach ($this->_new_objects as $object) {
@@ -268,8 +254,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
     /**
      * Takes an array of new subscribers and processes each of them using datamanager.
      *
-     * @param array $subscribers The subscribers to import
-     * @param org_openpsa_directmarketing_campaign_dba $campaign The campaign to import into
      * @return array Import status
      */
     public function import_subscribers(array $subscribers, org_openpsa_directmarketing_campaign_dba $campaign) : array

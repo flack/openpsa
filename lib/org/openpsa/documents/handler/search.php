@@ -76,9 +76,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         }
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_search(string $handler_id, array &$data)
     {
         $displayed = 0;

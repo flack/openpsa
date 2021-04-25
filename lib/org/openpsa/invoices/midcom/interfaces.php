@@ -26,8 +26,6 @@ implements midcom_services_permalinks_resolver
 
     /**
      * Handle deletes of "parent" objects
-     *
-     * @param midcom_core_dbaobject $object The object triggering the watch
      */
     public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {

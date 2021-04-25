@@ -20,6 +20,7 @@ interface org_openpsa_invoices_interfaces_pdfbuilder
 
     /**
      * Perform the pdf rendering
+     *
      * @param string $output_filename the location the pdf gets rendered to
      */
     public function render(string $output_filename);

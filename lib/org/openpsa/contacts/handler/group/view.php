@@ -77,9 +77,6 @@ implements client
         $this->_view_toolbar->add_items($buttons);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_view(string $handler_id, array &$data)
     {
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {

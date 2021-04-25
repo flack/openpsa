@@ -35,10 +35,6 @@ implements midcom_services_permalinks_resolver
 
     /**
      * Background message sending AT batch handler
-     *
-     * @param array $args handler arguments
-     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
-     * @return boolean indicating success/failure
      */
     public function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
@@ -66,10 +62,6 @@ implements midcom_services_permalinks_resolver
 
     /**
      * For updating smart campaigns members in background
-     *
-     * @param array $args handler arguments
-     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
-     * @return boolean indicating success/failure
      */
     public function background_update_campaign_members(array $args, midcom_baseclasses_components_cron_handler $handler) : bool
     {

@@ -116,9 +116,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $this->prepare_toolbar();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_uninvoiced(string $handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

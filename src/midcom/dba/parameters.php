@@ -28,8 +28,6 @@ trait parameters
      *
      * No event handlers are called here yet.
      *
-     * @param string $domain The parameter domain.
-     * @param string $name The parameter name.
      * @return ?string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
      */
     public function get_parameter(string $domain, string $name)
@@ -190,10 +188,7 @@ trait parameters
      *
      * The user needs both update and parameter manipulation permission on the parent object for updates.
      *
-     * @param string $domain The Parameter Domain.
-     * @param string $name The Parameter name.
      * @param string $value The Parameter value. If this is empty, the corresponding parameter is deleted.
-     * @return bool Indicating success.
      */
     public function set_parameter(string $domain, string $name, $value) : bool
     {
@@ -238,10 +233,6 @@ trait parameters
      * this matter is resolved.
      *
      * The user needs both update and parameter manipulation permission on the parent object for updates.
-     *
-     * @param string $domain The Parameter Domain.
-     * @param string $name The Parameter name.
-     * @return bool Indicating success.
      */
     public function delete_parameter(string $domain, string $name) : bool
     {

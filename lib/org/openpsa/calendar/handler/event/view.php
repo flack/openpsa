@@ -89,8 +89,6 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
 
     /**
      * Show a single event
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_event(string $handler_id, array &$data)
     {

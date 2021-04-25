@@ -18,7 +18,6 @@ trait org_openpsa_sales_handler
      * creates/edits/deletes the corresponding at_entry if needed
      *
      * @param integer $notify The notify date
-     * @param org_openpsa_sales_salesproject_deliverable_dba $deliverable The current deliverable
      */
     public function process_notify_date(int $notify, org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {

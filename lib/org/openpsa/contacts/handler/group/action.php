@@ -51,9 +51,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $data['members_qb'] = $qb;
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_members(string $handler_id, array &$data)
     {
         $results = $data['members_qb']->execute();
@@ -79,9 +76,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $this->results = $qb->execute();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_subgroups(string $handler_id, array &$data)
     {
         if (!empty($this->results)) {

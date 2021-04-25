@@ -88,7 +88,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * Function for listing groups salesproject contacts are members of
      *
-     * @param org_openpsa_sales_salesproject_dba $salesproject The salesproject we're working with
      * @param array $contacts Default contacts for nonpersistent objects
      */
     private function list_groups(org_openpsa_sales_salesproject_dba $salesproject, array $contacts = []) : array

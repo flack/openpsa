@@ -48,9 +48,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_handler_generator_style($data);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_generator_get(string $handler_id, array &$data)
     {
         $this->_show_generator($handler_id, $data);

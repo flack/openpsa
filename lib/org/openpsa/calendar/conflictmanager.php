@@ -48,7 +48,6 @@ class org_openpsa_calendar_conflictmanager
     /**
      * Validate create/edit forms
      *
-     * @param array $input Form submit values
      * @return mixed Array with error message or true on success
      */
     public function validate_form(array $input)

@@ -52,9 +52,6 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
     /**
      * Displays an product create view.
      *
-     * @param Request $request The request object
-     * @param array $data The local request data.
-     * @param string $schema DM schema
      * @param string $group The product group GUID (or ID apparently)
      */
     public function _handler_create(Request $request, array &$data, string $schema, $group = null)

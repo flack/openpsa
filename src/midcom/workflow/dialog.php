@@ -39,10 +39,6 @@ abstract class dialog
         }
     }
 
-    /**
-     *
-     * @param OptionsResolver $resolver
-     */
     public function configure(OptionsResolver $resolver)
     {
     }

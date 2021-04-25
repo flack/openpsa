@@ -108,8 +108,6 @@ class multipleTransformer implements DataTransformerInterface
     /**
      * Prepares the imploded storage string. All entries containing the pipe char (used as glue)
      * will be logged and skipped silently.
-     *
-     * @param array $array
      */
     private function get_imploded_options(array $array) : string
     {

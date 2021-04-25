@@ -36,9 +36,6 @@ class resolver
      */
     private $context;
 
-    /**
-     * @param Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;

@@ -23,9 +23,6 @@ class loader implements ChoiceLoaderInterface
      */
     private $choice_list;
 
-    /**
-     * @param array $config The config to read from
-     */
     public function __construct(array $config)
     {
         $this->config = $config;

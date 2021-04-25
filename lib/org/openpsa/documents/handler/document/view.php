@@ -123,9 +123,6 @@ implements client
         $this->_provider->add_order('created', 'DESC');
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_versions(string $handler_id, array &$data)
     {
         if ($this->_provider->count_rows() == 0) {

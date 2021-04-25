@@ -117,10 +117,6 @@ implements midcom_services_permalinks_resolver
 
     /**
      * AT handler for handling subscription cycles.
-     *
-     * @param array $args handler arguments
-     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
-     * @return boolean indicating success/failure
      */
     public function new_subscription_cycle(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
@@ -142,10 +138,6 @@ implements midcom_services_permalinks_resolver
 
     /**
      * Function to send a notification to owner of the deliverable - guid of deliverable is passed
-     *
-     * @param array $args handler arguments
-     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
-     * @return boolean indicating success/failure
      */
     public function new_notification_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {

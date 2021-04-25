@@ -39,7 +39,6 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      *
      * @param string $name The filter's name
      * @param string $operator The constraint operator
-     * @param array $options The filter's options, if any
      */
     public function __construct($name, $operator = '=', array $options = [])
     {
@@ -50,9 +49,6 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
 
     /**
      * Apply filter to given query
-     *
-     * @param array $selection The filter selection
-     * @param midcom_core_query $query The query object
      */
     public function apply(array $selection, midcom_core_query $query)
     {

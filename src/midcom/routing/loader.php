@@ -75,8 +75,6 @@ class loader extends base
 
     /**
      * Small transitory helper for old-style route validation configs
-     *
-     * @param array $input
      */
     private function translate_validation(array $input) : string
     {
@@ -105,9 +103,6 @@ class loader extends base
         return is_array($resource) && (!$type || 'array' === $type);
     }
 
-    /**
-     * @param string $component
-     */
     private function is_legacy(string $component) : bool
     {
         return !file_exists($this->get_path($component, 'yml'));

@@ -30,7 +30,6 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
     /**
      * Get value(s) of a link tag(s) in HTML page.
      *
-     * @param string $html HTML to parse
      * @param string $relation Relation (rel) or reverse relation (rev) of the link tag to fetch
      * @return array Links matching given criteria as arrays containing keys title, href and optionally hreflang
      */

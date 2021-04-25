@@ -47,9 +47,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
     /**
      * Validate results before send
-     *
-     * @param array $results Array of member objects
-     * @return boolean Indicating success
      */
     public function check_results(array &$results) : bool
     {
@@ -157,9 +154,6 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     * encoded form of the original link. It is expected that the link detector
     * address points to a script that records the passed link and
     * forwards the client to the real link target.
-    *
-    * @param string $html the HTML source
-    * @param string $address the link detector address
     */
     private function _insert_link_detector(string $html, string $address) : string
     {

@@ -200,7 +200,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * @param string $component A component name to further narrow down the results
      * @return midcom_core_dbaobject[] DBA objects
      */
     public function get_related_objects() : array
@@ -226,7 +225,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * @param string $component A component name to further narrow down the results
      * @return array Array of GUIDs
      */
     public function get_related_guids() : array

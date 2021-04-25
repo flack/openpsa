@@ -21,13 +21,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * For example, if a task is created under a sales project, that task is
      * the from object, and the sales project the to object.
      *
-     * @param object $from_obj The from object
-     * @param string $from_component The from component name
-     * @param object $to_obj The to object
-     * @param string $to_component The to component name
-     * @param int $status The status of the relation
      * @param array $extra Array with the possible extra-properties
-     * @return mixed The newly-created relatedto object or false on failure
      */
     public static function create(object $from_obj, string $from_component, object $to_obj, string $to_component, int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
     {

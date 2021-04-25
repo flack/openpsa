@@ -90,8 +90,6 @@ class schemaType extends AbstractType
 
     /**
      * Provide fully qualified type names
-     *
-     * @param string $shortname
      */
     private function get_type_name(string $shortname) : string
     {
@@ -106,8 +104,6 @@ class schemaType extends AbstractType
 
     /**
      * Convert schema config to type settings
-     *
-     * @param array $config
      */
     private function get_settings(array $config) : array
     {

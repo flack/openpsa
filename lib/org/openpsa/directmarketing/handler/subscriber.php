@@ -72,8 +72,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the list of existing campaigns
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_list(string $handler_id, array &$data)
     {
@@ -138,8 +136,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the unsubscribe action
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_unsubscribe(string $handler_id, array &$data)
     {
@@ -202,8 +198,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the unsubscribe status for unsubscribe all
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_unsubscribe_all(string $handler_id, array &$data)
     {

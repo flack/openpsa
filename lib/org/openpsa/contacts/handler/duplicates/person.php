@@ -144,9 +144,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         }
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_sidebyside(string $handler_id, array &$data)
     {
         if (!$this->notfound) {

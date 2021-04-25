@@ -60,7 +60,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      * QB search for message receipts with given token
      *
-     * @param string $token token string
      * @return org_openpsa_directmarketing_campaign_messagereceipt_dba[]
      */
     private function _qb_token_receipts(string $token) : array

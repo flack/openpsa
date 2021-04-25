@@ -19,8 +19,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
     /**
      * Indexes a product
      *
-     * @param datamanager $dm The Datamanager encapsulating the object.
-     * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic|midcom_core_dbaproxy $topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */

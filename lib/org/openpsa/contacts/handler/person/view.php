@@ -168,9 +168,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $this->groups = $qb->execute();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_group_memberships(string $handler_id, array &$data)
     {
         if (empty($this->organizations) && empty($this->groups)) {

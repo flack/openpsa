@@ -51,7 +51,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Phase for composing a message
      *
-     * @param array $data          Public request data, passed by reference
      * @param string $guid The object's GUID
      * @param string $person The person's GUID
      */
@@ -101,8 +100,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     /**
      * Compose the message and send it for post-formatting
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_compose(string $handler_id, array &$data)
     {

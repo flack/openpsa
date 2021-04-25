@@ -40,8 +40,6 @@ class org_openpsa_core_queryfilter
 
     /**
      * Adds a filter to the queue
-     *
-     * @param org_openpsa_core_filter $filter The filter to add
      */
     public function add_filter(org_openpsa_core_filter $filter)
     {
@@ -50,8 +48,6 @@ class org_openpsa_core_queryfilter
 
     /**
      * Apply registered filters to query object
-     *
-     * @param midcom_core_query $query the query object
      */
     public function apply_filters(midcom_core_query $query)
     {
@@ -67,8 +63,6 @@ class org_openpsa_core_queryfilter
 
     /**
      * Queries multiple sources for filter selection information
-     *
-     * @param string $filtername The filter name to query
      */
     private function _get_selection(string $filtername) : ?array
     {

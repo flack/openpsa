@@ -174,9 +174,6 @@ implements client
         midcom::get()->head->set_pagetitle($this->_l10n->get('dashboard'));
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_dashboard(string $handler_id, array &$data)
     {
         $this->_show_invoice_list('unsent');
@@ -205,8 +202,6 @@ implements client
 
     /**
      * Add a customer/deliverable constraint to list QBs
-     *
-     * @param midcom_core_query $qb th QB we're working with
      */
     private function _add_filters(midcom_core_query $qb)
     {
@@ -304,9 +299,6 @@ implements client
         $this->add_breadcrumb("", $title);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_customer(string $handler_id, array &$data)
     {
         $this->_show_invoice_list('unsent');
@@ -338,9 +330,6 @@ implements client
         $this->add_breadcrumb("", $title);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_deliverable(string $handler_id, array &$data)
     {
         $this->_show_invoice_list();

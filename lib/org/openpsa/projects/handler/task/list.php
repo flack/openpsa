@@ -123,9 +123,6 @@ implements client
         $this->add_filters($args[0]);
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_list(string $handler_id, array &$data)
     {
         midcom_show_style('show-task-filter');

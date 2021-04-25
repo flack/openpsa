@@ -96,8 +96,6 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
 
     /**
      * This is a simple function which generates and sends a password reset mail.
-     *
-     * @param midcom_db_person $person The newly created person account.
      */
     private function _send_reset_mail(midcom_db_person $person, string $password)
     {
@@ -120,8 +118,6 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
 
     /**
      * Shows either the username change dialog or a success message.
-     *
-     * @param array $data The local request data.
      */
     public function _show_lostpassword(string $handler_id, array &$data)
     {

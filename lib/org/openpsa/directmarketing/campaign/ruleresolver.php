@@ -89,9 +89,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Recurses trough the rules array and creates QB instances & constraints as needed
-     *
-     * @param array $rules rules array
-     * @return boolean indicating success/failure
      */
     public function resolve(array $rules) : bool
     {
@@ -137,9 +134,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Resolves the rules in a single rule group
-     *
-     * @param array $group single group from rules array
-     * @return boolean indicating success/failure
      */
     private function resolve_rule_group(array $group) : bool
     {
@@ -161,9 +155,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     /**
      * Iterates over passed rules for given class and calls functions
      * to add rules to the querybuilder/collector
-     *
-     * @param array $rules array containing rules
-     * @param string $class containing name of class for the rules
      */
     private function add_rules(array $rules, string $class) : bool
     {
@@ -202,8 +193,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds rule directly to the querybuilder
-     *
-     * @param array $rule contains the rule
      */
     private function add_person_rule(array $rule) : bool
     {
@@ -216,8 +205,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds parameter rule to the querybuilder
-     *
-     * @param array $rules array containing rules for the parameter
      */
     private function add_parameter_rule(array $rules) : bool
     {
@@ -272,8 +259,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     /**
      * Adds a group-rule to the querybuilder
-     *
-     * @param array $rule contains the group-rule
      */
     private function add_group_rule(array $rule) : bool
     {
@@ -284,7 +269,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     /**
      * Adds a passed rule for the passed class to the querybuilder
      *
-     * @param array $rule contains the rule
      * @param string $class name of the class the rule will be added to
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
@@ -346,9 +330,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * List object's properties for JS rule builder
      *
      * PONDER: Should we support schema somehow (only for non-parameter keys), this would practically require manual parsing...
-     *
-     * @param midcom_core_dbaobject $object
-     * @param midcom_services_i18n_l10n $l10n
      */
     public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n) : array
     {

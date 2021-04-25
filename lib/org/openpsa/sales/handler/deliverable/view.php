@@ -123,8 +123,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
     /**
      * Shows the loaded deliverable.
-     *
-     * @param array $data The local request data.
      */
     public function _show_view(string $handler_id, array &$data)
     {

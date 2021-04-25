@@ -68,10 +68,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     private $subject;
 
-    /**
-     * @param org_openpsa_directmarketing_campaign_message_dba $message The message we're working on
-     * @param array $config Configuration that gets handed to the backend
-     */
     public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', string $subject = '')
     {
         parent::__construct();
@@ -232,9 +228,6 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     /**
      * Check is given member has denied contacts of given type
-     *
-     * @param org_openpsa_directmarketing_campaign_member_dba $member campaign_member object related to the person
-     * @return mixed org_openpsa_contacts_person_dba person on success, null if denied
      */
     private function _get_person(org_openpsa_directmarketing_campaign_member_dba $member) : ?org_openpsa_contacts_person_dba
     {

@@ -148,8 +148,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders the selected view
-     *
-     * @param array $data The local request data.
      */
     public function _show_render(string $handler_id, array &$data)
     {
@@ -245,8 +243,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders a document line
-     *
-     * @param org_openpsa_documents_document_dba $other_obj The link target
      */
     private function _render_line_document(org_openpsa_documents_document_dba $other_obj)
     {
@@ -257,8 +253,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders a wikipage line
-     *
-     * @param net_nemein_wiki_wikipage $other_obj The link target
      */
     private function _render_line_wikipage(net_nemein_wiki_wikipage $other_obj)
     {
@@ -323,8 +317,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders a sales project line
-     *
-     * @param org_openpsa_sales_salesproject_dba $other_obj The link target
      */
     private function _render_line_salesproject(org_openpsa_sales_salesproject_dba $other_obj)
     {
@@ -341,8 +333,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders an invoice line
-     *
-     * @param org_openpsa_invoices_invoice_dba $other_obj The link target
      */
     private function _render_line_invoice(org_openpsa_invoices_invoice_dba $other_obj)
     {

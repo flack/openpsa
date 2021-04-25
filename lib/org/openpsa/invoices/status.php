@@ -26,10 +26,6 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
      */
     private $l10n_midcom;
 
-    /**
-     *
-     * @param org_openpsa_invoices_invoice_dba $invoice
-     */
     public function __construct(org_openpsa_invoices_invoice_dba $invoice)
     {
         $this->l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');

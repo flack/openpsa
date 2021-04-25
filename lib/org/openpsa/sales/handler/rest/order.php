@@ -21,8 +21,6 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
     /**
      * searches for an salesproject the deliverable for the given person can be created for
      * will autogenerate one if none is found
-     *
-     * @param string $person_guid
      */
     private function get_salesproject(string $person_guid) : org_openpsa_sales_salesproject_dba
     {

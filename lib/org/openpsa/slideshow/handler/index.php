@@ -54,8 +54,6 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
 
     /**
      * Show list of the users
-     *
-     * @param array $data Data passed to the show method
      */
     public function _show_index(string $handler_id, array &$data)
     {
@@ -66,9 +64,6 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         }
     }
 
-    /**
-     * Handler for listing users
-     */
     public function _handler_subfolders(array &$data)
     {
         $qb = midcom_db_topic::new_query_builder();
@@ -89,11 +84,6 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         return $thumbnails;
     }
 
-    /**
-     * Show list of the users
-     *
-     * @param array $data Data passed to the show method
-     */
     public function _show_subfolders(string $handler_id, array &$data)
     {
         if (!empty($data['subfolders'])) {

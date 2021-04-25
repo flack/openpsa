@@ -102,9 +102,6 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 JSINIT;
     }
 
-    /**
-     * @param array $items
-     */
     public static function add_navigation_toolbar(array $items)
     {
         $toolbar = new midcom_helper_toolbar('midcom_toolbar navigation_toolbar');

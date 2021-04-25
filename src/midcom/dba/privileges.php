@@ -122,11 +122,9 @@ trait privileges
     /**
      * Looks up a privilege by its parameters.
      *
-     * @param string $privilege The name of the privilege.
      * @param mixed $assignee Either a valid magic assignee (SELF, EVERYONE, USERS, ANONYMOUS), a midcom_core_user or a
      *     midcom_core_group object or subtype thereof.
      * @param string $classname An optional class name to which a SELF privilege is restricted to.
-     * @return midcom_core_privilege The privilege record from the database.
      */
     public function get_privilege(string $privilege, $assignee, string $classname = '')
     {
@@ -169,7 +167,6 @@ trait privileges
      *
      * This call requires the <i>midgard:privileges</i> privilege.
      *
-     * @param string $name The name of the privilege to add.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
      *     active user if authenticated or to 'EVERYONE' otherwise.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.

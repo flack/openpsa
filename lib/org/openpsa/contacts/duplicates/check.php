@@ -33,7 +33,6 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Find duplicates for given org_openpsa_contacts_person_dba object
      *
-     * @param org_openpsa_contacts_person_dba $person object (does not need id)
      * @return org_openpsa_contacts_person_dba[] array of possible duplicates
      */
     function find_duplicates_person(org_openpsa_contacts_person_dba $person, $threshold = 1) : array
@@ -104,8 +103,6 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Calculates P for the given two persons being duplicates
      *
-     * @param array $person1
-     * @param array $person2
      * @return array with overall P and matched checks
      */
     function p_duplicate_person(array $person1, array $person2) : array
@@ -198,7 +195,6 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Find duplicates for given org_openpsa_contacts_group_dba object
      *
-     * @param org_openpsa_contacts_group_dba $group Group object (does not need id)
      * @return org_openpsa_contacts_group_dba[] List of possible duplicates
      */
     function find_duplicates_group(org_openpsa_contacts_group_dba $group, $threshold = 1) : array
@@ -256,8 +252,6 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Calculates P for the given two persons being duplicates
      *
-     * @param array $group1
-     * @param array $group2
      * @return array with overall P and matched checks
      */
     function p_duplicate_group(array $group1, array $group2) : array

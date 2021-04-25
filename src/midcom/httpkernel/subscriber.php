@@ -63,9 +63,6 @@ class subscriber implements EventSubscriberInterface
         $midcom->dispatcher->addListener(KernelEvents::RESPONSE, [$midcom->cache->content, 'on_response'], -10);
     }
 
-    /**
-     * @param RequestEvent $event
-     */
     public function on_request(RequestEvent $event)
     {
         $request = $event->getRequest();

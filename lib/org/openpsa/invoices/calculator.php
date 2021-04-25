@@ -80,8 +80,6 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
 
     /**
      * Invoice setter
-     *
-     * @param org_openpsa_invoices_invoice_dba $invoice
      */
     public function set_invoice(org_openpsa_invoices_invoice_dba $invoice)
     {

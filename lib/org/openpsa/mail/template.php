@@ -150,8 +150,6 @@ class org_openpsa_mail_template
      * Convert an array into a string representation
      *
      * Uses word wrapping and skips recursive Arrays or objects.
-     *
-     * @param array $array    The array to be dumped.
      */
     private function _format_array(array $array) : string
     {

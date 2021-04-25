@@ -36,9 +36,6 @@ abstract class org_openpsa_core_filter
 
     /**
      * Apply filter to given query
-     *
-     * @param array $selection The filter selection
-     * @param midcom_core_query $query The query object
      */
     abstract public function apply(array $selection, midcom_core_query $query);
 

@@ -133,8 +133,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * The essential data (recipient, username, password) is already filled in
      * at this point. You can override this function in subclasses if you want
      * to customize the mail further
-     *
-     * @param org_openpsa_mail $mail
      */
     protected function prepare_mail(org_openpsa_mail $mail)
     {
@@ -440,7 +438,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * Record failed login attempts and disable account is necessary
      *
      * @param string $component the component we take the config values from
-     * @return boolean True if further login attempts are allowed, false otherwise
      */
     public function check_login_attempts(string $component = null) : bool
     {

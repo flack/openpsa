@@ -152,8 +152,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the import phase of email addresses
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_simpleemails(string $handler_id, array &$data)
     {
@@ -183,8 +181,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the vcard import interface
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_vcards(string $handler_id, array &$data)
     {
@@ -244,8 +240,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
-     *
-     * @param array $data          Public request data, passed by reference
      */
     public function _show_csv_select(string $handler_id, array &$data)
     {

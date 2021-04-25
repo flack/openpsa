@@ -109,9 +109,6 @@ implements client
         $data['grid'] = $provider->get_grid('deliverable_report_grid');
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_generator(string $handler_id, array &$data)
     {
         midcom_show_style('sales_report-deliverable-start');

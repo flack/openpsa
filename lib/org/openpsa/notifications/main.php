@@ -91,9 +91,6 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     /**
      * Find out how a person prefers to get the event notification
      *
-     * @param string $component Component name
-     * @param string $action Event name
-     * @param midcom_db_person $recipient The receiving person
      * @return string option supported by user
      */
     private static function _merge_notification_preferences(string $component, string $action, midcom_db_person $recipient)

@@ -32,12 +32,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             ->set_storage($message);
     }
 
-    /**
-     * @param string $guid The object's GUID
-     * @param integer $batch_number the batch number
-     * @param string $job The AT entry's GUID
-     * @param array $data The local request data.
-     */
     public function _handler_send_bg(string $guid, int $batch_number, string $job, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
@@ -56,9 +50,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_send_bg(string $handler_id, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
@@ -75,10 +66,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @param array $data Request data
-     * @throws midcom_error
-     */
     private function _get_sender(array $data) : org_openpsa_directmarketing_sender
     {
         $message_array = $this->_datamanager->get_content_raw();
@@ -146,9 +133,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         ignore_user_abort();
     }
 
-    /**
-     * @param array $data The local request data.
-     */
     public function _show_send(string $handler_id, array &$data)
     {
         $sender = $this->_get_sender($data);

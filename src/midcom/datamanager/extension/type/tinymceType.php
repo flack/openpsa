@@ -84,10 +84,6 @@ class tinymceType extends AbstractType
         return TextareaType::class;
     }
 
-    /**
-     *
-     * @param array $options
-     */
     private function get_configuration(array $options)
     {
         if (!empty($options['widget_config']['mce_config_snippet'])) {
@@ -126,8 +122,6 @@ EOT;
 
     /**
      * Build image popup with schema name & object
-     *
-     * @param FormInterface $form
      */
     private function get_image_popup(FormInterface $form) : string
     {

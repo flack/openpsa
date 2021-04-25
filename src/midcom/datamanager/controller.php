@@ -53,7 +53,6 @@ class controller
     /**
      * Process the form
      *
-     * @param Request $request
      * @return string The processing result
      */
     public function handle(Request $request) : string
