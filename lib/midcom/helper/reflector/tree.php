@@ -374,13 +374,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         static $shown_guids = [];
         $tree = [];
-        try {
-            $children = self::get_child_objects($parent);
-        } catch (midcom_error $e) {
-            return $tree;
-        }
 
-        foreach ($children as $class => $objects) {
+        foreach (self::get_child_objects($parent) as $class => $objects) {
             $reflector = parent::get($class);
 
             foreach ($objects as $object) {
