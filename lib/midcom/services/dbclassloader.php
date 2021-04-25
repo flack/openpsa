@@ -57,7 +57,7 @@ class midcom_services_dbclassloader
      * Simple helper to check whether we are dealing with a MgdSchema or MidCOM DBA
      * object or a subclass thereof.
      *
-     * @param object $object The object to check
+     * @param string|object $object The object to check
      */
     public function is_mgdschema_object($object) : bool
     {
@@ -184,10 +184,9 @@ class midcom_services_dbclassloader
 
             if (class_exists($classname)) {
                 $dummy_object = new $classname();
-                if (!$this->is_midcom_db_object($dummy_object)) {
-                    return false;
+                if ($this->is_midcom_db_object($dummy_object)) {
+                    $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
                 }
-                $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
             }
         }
 

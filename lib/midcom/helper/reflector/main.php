@@ -426,7 +426,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get the MgdSchema classname for given class
      *
      * @param string|object $classname either string (class name) or object
-     * @return string the base class name
      */
     public static function resolve_baseclass($classname) : string
     {
