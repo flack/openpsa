@@ -60,7 +60,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param mixed $src Object or classname
      * @return static
      */
-    public static function &get($src)
+    public static function get($src)
     {
         $identifier = get_called_class() . (is_object($src) ? get_class($src) : $src);
 

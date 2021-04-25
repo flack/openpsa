@@ -193,7 +193,7 @@ abstract class midcom_core_dbaobject
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return static Reference to the object
      */
-    public static function &get_cached($src) : self
+    public static function get_cached($src) : self
     {
         return midcom::get()->dbfactory->get_cached(get_called_class(), $src);
     }
