@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use midgard\portable\api\mgdobject;
+use midcom\dba\softdelete;
 
 /**
  * Undelete/purge interface
@@ -94,10 +95,10 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     private function process_request(array $guids, bool $purge) : midcom_response_relocate
     {
         if ($purge) {
-            $size = midcom_baseclasses_core_dbobject::purge($guids, $this->type);
+            $size = softdelete::purge($guids, $this->type);
             $message = 'in total %s purged';
         } else {
-            $size = midcom_baseclasses_core_dbobject::undelete($guids);
+            $size = softdelete::undelete($guids);
             $message = 'in total %s undeleted';
         }
         midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get($message), midcom_helper_misc::filesize_to_string($size)), 'info');

@@ -12,6 +12,7 @@ use midcom\dba\parameters;
 use midcom\dba\attachments;
 use midcom\dba\privileges;
 use midgard\portable\api\mgdobject;
+use midcom\dba\softdelete;
 
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
@@ -240,7 +241,7 @@ abstract class midcom_core_dbaobject
      */
     public static function undelete(string $guid) : int
     {
-        return midcom_baseclasses_core_dbobject::undelete([$guid]);
+        return softdelete::undelete([$guid]);
     }
 
     /**

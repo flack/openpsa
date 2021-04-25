@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\DomCrawler\Crawler;
+use midcom\dba\softdelete;
 
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles
@@ -349,7 +350,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $item->delete();
         }
 
-        midcom_baseclasses_core_dbobject::purge($purge_guids, 'midgard_article');
+        softdelete::purge($purge_guids, 'midgard_article');
     }
 
     /**
