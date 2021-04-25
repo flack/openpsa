@@ -360,24 +360,17 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_tree(midcom_core_dbaobject $object) : bool
     {
-        $reflector = midcom_helper_reflector_tree::get($object);
-        $child_classes = $reflector->get_child_classes();
-
-        foreach ($child_classes as $class) {
-            if ($qb = $reflector->_child_objects_type_qb($class, $object, false)) {
-                $children = $qb->execute();
-                // Delete first the descendants
-                while ($child = array_pop($children)) {
-                    //Inherit RCS status (so that f.x. large tree deletions can run faster)
-                    $child->_use_rcs = $object->_use_rcs;
-                    if (!self::delete_tree($child)) {
-                        debug_print_r('Failed to delete the children of this object:', $object, MIDCOM_LOG_INFO);
-                        return false;
-                    }
+        foreach (midcom_helper_reflector_tree::get_child_objects($object) as $children) {
+            // Delete first the descendants
+            foreach ($children as $child) {
+                //Inherit RCS status (so that f.x. large tree deletions can run faster)
+                $child->_use_rcs = $object->_use_rcs;
+                if (!self::delete_tree($child)) {
+                    debug_print_r('Failed to delete the children of this object:', $object, MIDCOM_LOG_INFO);
+                    return false;
                 }
             }
         }
-
         if (!self::delete($object)) {
             debug_print_r('Failed to delete the object', $object, MIDCOM_LOG_ERROR);
             return false;
