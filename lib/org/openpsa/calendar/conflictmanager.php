@@ -85,11 +85,11 @@ class org_openpsa_calendar_conflictmanager
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->_event->id) {
-            $qb->add_constraint($fieldname . '.id', '<>', (int) $this->_event->id);
+            $qb->add_constraint($fieldname . '.id', '<>', $this->_event->id);
         }
         //Target event starts or ends inside this event's window or starts before and ends after
-        $qb->add_constraint($fieldname . '.start', '<=', (int) $this->_event->end);
-        $qb->add_constraint($fieldname . '.end', '>=', (int) $this->_event->start);
+        $qb->add_constraint($fieldname . '.start', '<=', $this->_event->end);
+        $qb->add_constraint($fieldname . '.end', '>=', $this->_event->start);
     }
 
     /**

@@ -27,12 +27,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     private function find_duplicates() : bool
     {
         $qb = self::new_query_builder();
-        $qb->add_constraint('person', '=', (int)$this->person);
-        $qb->add_constraint('task', '=', (int)$this->task);
-        $qb->add_constraint('orgOpenpsaObtype', '=', (int)$this->orgOpenpsaObtype);
+        $qb->add_constraint('person', '=', $this->person);
+        $qb->add_constraint('task', '=', $this->task);
+        $qb->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
 
         if ($this->id) {
-            $qb->add_constraint('id', '<>', (int)$this->id);
+            $qb->add_constraint('id', '<>', $this->id);
         }
 
         return $qb->count() > 0;

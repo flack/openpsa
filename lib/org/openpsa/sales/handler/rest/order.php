@@ -83,8 +83,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         // is a subscription?
         if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
-            $continuous = isset($this->_request['params']['continuous']) ? (bool) $this->_request['params']['continuous'] : false;
-            $deliverable->continuous = $continuous;
+            $deliverable->continuous = !empty($this->_request['params']['continuous']);
             // setting schema parameter to subscription
             $deliverable->set_parameter('midcom.helper.datamanager2', 'schema_name', 'subscription');
         }

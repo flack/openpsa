@@ -42,7 +42,7 @@ trait org_openpsa_invoices_handler
             // sending per mail enabled in billing data?
             $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice);
             // only show if mail was chosen as option
-            if ((int) $billing_data->sendingoption === 2) {
+            if ($billing_data->sendingoption === 2) {
                 $action = 'send_by_mail';
                 $icon = '<i class="fa fa-paper-plane"></i>';
             } else {

@@ -444,7 +444,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        $object->__object->get_by_id((int) $id);
+        $object->__object->get_by_id($id);
 
         if ($object->id != 0) {
             if (!$object->can_do('midgard:read')) {

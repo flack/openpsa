@@ -53,7 +53,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      */
     public function _handler_create(Request $request, int $group, string $schema, array &$data)
     {
-        $up = (int) $group;
+        $up = $group;
 
         if ($up == 0) {
             midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_products_product_group_dba::class);

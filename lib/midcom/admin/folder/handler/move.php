@@ -44,7 +44,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         if ($request->request->has('move_to')) {
             try {
-                $target = new midcom_db_topic((int) $request->request->get('move_to'));
+                $target = new midcom_db_topic($request->request->getInt('move_to'));
                 $this->_move_object($target);
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('moved %s to %s'), $this->_topic->get_label(), $target->get_label()));
             } catch (midcom_error $e) {

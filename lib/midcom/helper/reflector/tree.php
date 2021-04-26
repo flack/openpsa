@@ -229,21 +229,21 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             switch ($field_type) {
                 case MGD_TYPE_STRING:
                 case MGD_TYPE_GUID:
-                    $qb->add_constraint($field, '=', (string) $for_object->$field_target);
+                    $qb->add_constraint($field, '=', $for_object->$field_target);
                     break;
                 case MGD_TYPE_INT:
                 case MGD_TYPE_UINT:
                     if ($link_type == 'up') {
-                        $qb->add_constraint($field, '=', (int) $for_object->$field_target);
+                        $qb->add_constraint($field, '=', $for_object->$field_target);
                     } else {
                         if (!empty($linkfields['up']['name'])) {
                             //we only return direct children (otherwise they would turn up twice in recursive queries)
                             $qb->begin_group('AND');
-                            $qb->add_constraint($field, '=', (int) $for_object->$field_target);
+                            $qb->add_constraint($field, '=', $for_object->$field_target);
                             $qb->add_constraint($linkfields['up']['name'], '=', 0);
                             $qb->end_group();
                         } else {
-                            $qb->add_constraint($field, '=', (int) $for_object->$field_target);
+                            $qb->add_constraint($field, '=', $for_object->$field_target);
                         }
                     }
                     break;

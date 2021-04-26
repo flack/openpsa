@@ -94,7 +94,7 @@ class blobs extends delayed
                 }
                 $this->map[$identifier] = $db_att;
                 if (!empty($this->config['widget_config']['sortable'])) {
-                    $db_att->metadata->score = (int) $att->metadata->score;
+                    $db_att->metadata->score = $att->metadata->score;
                     $db_att->update();
                 }
                 if (!empty($this->config['widget_config']['show_description'])) {

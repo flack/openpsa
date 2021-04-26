@@ -263,7 +263,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $category = trim(strip_tags($args[1]));
                 if (   $data['datamanager']->get_schema('default')->has_field('categories')
                     && !$data['datamanager']->get_schema('default')->get_field('categories')['type_config']['allow_multiple']) {
-                    $qb->add_constraint('extra1', '=', (string) $category);
+                    $qb->add_constraint('extra1', '=', $category);
                 } else {
                     $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
                 }
