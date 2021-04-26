@@ -12,7 +12,6 @@
  * @property integer $task
  * @property integer $targetPerson
  * @property integer $type
- * @property integer $timestamp
  * @property string $comment
  * @package org.openpsa.projects
  */
@@ -42,15 +41,10 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        //Make sure we have timestamp
-        if ($this->timestamp == 0) {
-            $this->timestamp = time();
-        }
-
         //Check for duplicate(s) (for some reason at times the automagic actions in task object try to create duplicate statuses)
         $mc = self::new_collector('task', $this->task);
         $mc->add_constraint('type', '=', $this->type);
-        $mc->add_constraint('timestamp', '=', $this->timestamp);
+        $mc->add_constraint('metadata.created', '=', time());
         $mc->add_constraint('comment', '=', $this->comment);
         if ($this->targetPerson) {
             $mc->add_constraint('targetPerson', '=', $this->targetPerson);

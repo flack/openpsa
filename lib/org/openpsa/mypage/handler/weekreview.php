@@ -79,15 +79,15 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb->add_constraint('timestamp', '>=', $from);
-        $qb->add_constraint('timestamp', '<=', $to);
+        $qb->add_constraint('metadata.created', '>=', $from);
+        $qb->add_constraint('metadata.created', '<=', $to);
         $qb->begin_group('OR');
-        $qb->add_constraint('targetPerson', '=', $person->id);
-        $qb->add_constraint('metadata.creator', '=', $person->guid);
+            $qb->add_constraint('targetPerson', '=', $person->id);
+            $qb->add_constraint('metadata.creator', '=', $person->guid);
         $qb->end_group();
 
         foreach ($qb->execute() as $task_status) {
-            $this->add($task_status, $task_status->timestamp);
+            $this->add($task_status, $task_status->metadata->created);
         }
     }
 

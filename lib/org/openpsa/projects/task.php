@@ -345,8 +345,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
         $mc->add_order('id', 'DESC');
         $mc->set_limit(1);
-
-        return $mc->get_rows(['type', 'comment', 'timestamp']);
+        return $mc->get_rows(['type', 'comment', 'metadata_created']);
     }
 
     public function refresh_status()
@@ -372,6 +371,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         //TODO: Check various combinations of accept/decline etc etc
         $this->_status['status_comment'] = $status['comment'];
-        $this->_status['status_time'] = $status['timestamp'];
+        $this->_status['status_time'] = (int) $status['created']->format('U');
     }
 }

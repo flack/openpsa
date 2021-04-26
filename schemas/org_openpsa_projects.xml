@@ -111,7 +111,6 @@
         <property name="task" link="org_openpsa_task:id" type="unsigned integer" parentfield="task"/>
         <property name="targetPerson" link="midgard_person:id" type="unsigned integer"/>
         <property name="type" type="integer" index="yes"/>
-        <property name="timestamp" type="integer" index="yes"/>
         <property name="comment" type="text" />
     </type>
 
