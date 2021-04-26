@@ -77,7 +77,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $this->_hour_report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, ['task' => $this->_task->id]);
     }
 
-    private function _apply_input($input)
+    private function _apply_input(array $input)
     {
         foreach ($input as $object => $values) {
             foreach ($values as $field => $value) {

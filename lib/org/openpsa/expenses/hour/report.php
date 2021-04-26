@@ -77,17 +77,16 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     public function _on_deleted()
     {
-        $this->_update_parent();
+        $this->_update_parent(true);
     }
 
-    private function _update_parent()
+    private function _update_parent(bool $delete = false)
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         try {
             $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
-
-            if ($parent->status < org_openpsa_projects_task_status_dba::STARTED) {
+            if (!$delete && $parent->status < org_openpsa_projects_task_status_dba::STARTED) {
                 //Add person to resources if necessary
                 $parent->get_members();
                 if (!array_key_exists($this->person, $parent->resources)) {
