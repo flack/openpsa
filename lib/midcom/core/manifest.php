@@ -275,9 +275,7 @@ class midcom_core_manifest
         }
         $this->purecode = (bool) $this->purecode;
 
-        if (!empty($this->privileges)) {
-            $this->_process_privileges();
-        }
+        $this->_process_privileges();
     }
 
     /**

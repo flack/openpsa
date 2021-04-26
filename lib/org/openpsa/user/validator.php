@@ -110,10 +110,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
             $result["email"] = midcom::get()->i18n->get_string("multiple entries found, cannot continue", "org.openpsa.user");
         }
 
-        if (!empty($result)) {
-            return $result;
-        }
-        return true;
+        return $result ?: true;
     }
 
     /**
@@ -136,10 +133,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
                 $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
             }
         }
-        if (!empty($result)) {
-            return $result;
-        }
-        return true;
+        return $result ?: true;
     }
 
     /**
@@ -161,9 +155,6 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         if (!$accounthelper->check_password_strength($fields['new_password'])){
             $result['password'] = midcom::get()->i18n->get_string('password weak', 'org.openpsa.user');
         }
-        if (!empty($result)) {
-            return $result;
-        }
-        return true;
+        return $result ?: true;
     }
 }

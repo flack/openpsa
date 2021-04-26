@@ -168,13 +168,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $guids = [];
 
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $relations = $this->get_rows([$key]);
 
-        if (empty($relations)) {
-            return $entries;
-        }
-
-        foreach ($relations as $relation) {
+        foreach ($this->get_rows([$key]) as $relation) {
             $group_value = $relation[$key];
             if (!array_key_exists($group_value, $guids)) {
                 $guids[$group_value] = [];

@@ -515,11 +515,10 @@ class midcom_services_auth
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
 
-        $result = $qb->execute();
-        if (empty($result)) {
-            return null;
+        if ($result = $qb->execute()) {
+            return $this->get_group($result[0]);
         }
-        return $this->get_group($result[0]);
+        return null;
     }
 
     /**

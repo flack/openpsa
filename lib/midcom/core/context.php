@@ -156,7 +156,7 @@ class midcom_core_context
 
     private static function initialize_root_topic() : midcom_db_topic
     {
-        if (empty(self::$root_topic)) {
+        if (!self::$root_topic) {
             if ($guid = midcom::get()->config->get('midcom_root_topic_guid')) {
                 try {
                     self::$root_topic = midcom_db_topic::get_cached($guid);

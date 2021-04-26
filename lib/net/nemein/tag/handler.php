@@ -253,12 +253,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $mc->add_constraint('metadata.creator', '=', $user->guid);
         }
 
-        $links = $mc->get_values('tag');
-        if (empty($links)) {
-            return $tags;
-        }
-
-        foreach ($links as $tag_id) {
+        foreach ($mc->get_values('tag') as $tag_id) {
             if (!isset($tags_by_id[$tag_id])) {
                 $tag_mc = net_nemein_tag_tag_dba::new_collector('id', $tag_id);
                 $tag_mc->add_constraint('metadata.navnoentry', '=', 0);

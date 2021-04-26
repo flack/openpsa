@@ -62,13 +62,9 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     /**
      * Make an array usable with datamanager select type for selecting product groups
      *
-     * @param mixed $up            Either the ID or GUID of the product group
-     * @param string $prefix       Prefix for the code
-     * @param string $keyproperty  Property to use as the key of the resulting array
-     * @param boolean $order_by_score Set to true to sort by metadata score
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      */
-    public static function list_groups($up, string $prefix, string $keyproperty, bool $order_by_score = false, array $label_fields = ['code', 'title']) : array
+    public static function list_groups(int $up, string $prefix, string $keyproperty, bool $order_by_score = false, array $label_fields = ['code', 'title']) : array
     {
         static $result_cache = [];
 
@@ -88,14 +84,10 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
                 $ret[''] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
         }
-        if (mgd_is_guid($up)) {
-            $group = new self($up);
-            $up = $group->id;
-        }
 
         $value_properties = array_unique(array_merge($label_fields, [$keyproperty, 'id']));
 
-        $mc = self::new_collector('up', (int)$up);
+        $mc = self::new_collector('up', $up);
         if ($order_by_score) {
             $mc->add_order('metadata.score', 'DESC');
         }

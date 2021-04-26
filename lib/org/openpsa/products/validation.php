@@ -36,9 +36,6 @@ class org_openpsa_products_validation
             $result["code"] = sprintf(midcom::get()->i18n->get_string("product code %s already exists in database", "org.openpsa.products"), $fields['code']);
         }
 
-        if (!empty($result)) {
-            return $result;
-        }
-        return true;
+        return $result ?: true;
     }
 }

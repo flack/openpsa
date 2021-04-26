@@ -132,28 +132,26 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $data['entries'] = $this->qb->execute();
 
         //get the corresponding objects
-        if (!empty($data['entries'])) {
-            $data['linked_objects'] = [];
-            $data['linked_raw_objects'] = [];
+        $data['linked_objects'] = [];
+        $data['linked_raw_objects'] = [];
 
-            foreach ($data['entries'] as $i => $entry) {
-                if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
-                    continue;
-                }
-                //create reflector with linked object to get the right label
-                try {
-                    $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
-                } catch (midcom_error $e) {
-                    unset($data['entries'][$i]);
-                    $e->log();
-                    continue;
-                }
-
-                $reflector = midcom_helper_reflector::get($linked_object);
-                $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
-                $data['linked_objects'][$entry->linkGuid] = $link_html;
-                $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
+        foreach ($data['entries'] as $i => $entry) {
+            if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
+                continue;
             }
+            //create reflector with linked object to get the right label
+            try {
+                $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
+            } catch (midcom_error $e) {
+                unset($data['entries'][$i]);
+                $e->log();
+                continue;
+            }
+
+            $reflector = midcom_helper_reflector::get($linked_object);
+            $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
+            $data['linked_objects'][$entry->linkGuid] = $link_html;
+            $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
         }
         midcom::get()->skip_page_style = true;
         $response = $this->show('show_entries_xml');

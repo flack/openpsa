@@ -208,8 +208,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
                 }
             }
 
-            $organizations = $qb->execute_unchecked();
-            if (!empty($organizations)) {
+            if ($organizations = $qb->execute_unchecked()) {
                 // Match found, use it
                 $organization = array_shift($organizations);
             }

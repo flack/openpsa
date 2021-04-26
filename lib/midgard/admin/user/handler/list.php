@@ -104,11 +104,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         // Get the results
         $groupdata = $mc->get_rows(['name', 'official', 'id', 'guid']);
 
-        // Hide empty groups
-        if (empty($groupdata)) {
-            return;
-        }
-
         foreach ($groupdata as $group) {
             $group['title'] = ($group['official'] ?: $group['name']) ?: "#{$group['id']}";
             $group['level'] = $level;

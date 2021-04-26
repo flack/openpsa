@@ -138,9 +138,6 @@ class midgard_admin_asgard_schemadb_config
                 }
             }
         }
-        if (empty($result)) {
-            return true;
-        }
-        return $result;
+        return $result ?: true;
     }
 }

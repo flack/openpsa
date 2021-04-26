@@ -150,8 +150,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //List current non-tester members (including unsubscribed etc), and filter those out of rule_persons
         $mc_current = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
         $mc_current->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $current = $mc_current->get_values('person');
-        if (!empty($current)) {
+        if ($current = $mc_current->get_values('person')) {
             $rule_persons = array_diff_key($rule_persons, array_flip($current));
         }
 

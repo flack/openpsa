@@ -361,10 +361,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     {
         $author_info = [];
 
-        $author = $item->get_author();
-
         // First try dig up any information about the author possible
-        if (!empty($author)) {
+        if ($author = $item->get_author()) {
             $name = $author->get_name();
             $email = $author->get_email();
             if (!empty($name)) {

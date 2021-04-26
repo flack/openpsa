@@ -48,7 +48,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
         $result = $qb->execute();
-        $article_time = (!empty($result)) ? $result[0]->metadata->revised : 0;
+        $article_time = $result[0]->metadata->revised ?? 0;
         $topic_time = $this->_topic->metadata->revised;
         midcom::get()->metadata->set_request_metadata(max($article_time, $topic_time), null);
 

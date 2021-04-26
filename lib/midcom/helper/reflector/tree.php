@@ -389,8 +389,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     'icon' => $reflector->get_object_icon($object),
                     'class' => $class
                 ];
-                $grandchildren = self::get_tree($object);
-                if (!empty($grandchildren)) {
+                if ($grandchildren = self::get_tree($object)) {
                     $leaf['children'] = $grandchildren;
                 }
                 $tree[] = $leaf;

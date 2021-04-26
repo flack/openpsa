@@ -25,7 +25,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
         $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
         $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
 
-        if (preg_match('/group_move$/', $handler_id)) {
+        if ($handler_id == 'group_move') {
             $this->add_breadcrumb($this->router->generate('group_edit', ['guid' => $this->_request_data['group']->guid]), $this->_request_data['group']->official);
             $this->add_breadcrumb($this->router->generate('group_move', ['guid' => $this->_request_data['group']->guid]), $this->_l10n_midcom->get('move'));
         }
@@ -99,8 +99,6 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
     /**
      * Show the group listing
-     *
-     * @param array $data The local request data.
      */
     public function _show_list(string $handler_id, array &$data)
     {
@@ -114,12 +112,10 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
 
     /**
      * Internal helper for showing the groups recursively
-     *
-     * @param int $id
      */
-    public static function list_groups($id, array &$data, bool $move = false)
+    public static function list_groups(int $id, array &$data, bool $move = false)
     {
-        $mc = midcom_db_group::new_collector('owner', (int) $id);
+        $mc = midcom_db_group::new_collector('owner', $id);
 
         // Set the order
         $mc->add_order('metadata.score', 'DESC');
