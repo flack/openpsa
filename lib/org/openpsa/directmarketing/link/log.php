@@ -14,7 +14,6 @@
  * @property string $target
  * @property string $referrer
  * @property string $token
- * @property integer $timestamp
  * @property integer $orgOpenpsaObtype
  * @package org.openpsa.directmarketing
  */
@@ -27,9 +26,6 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->timestamp) {
-            $this->timestamp = time();
-        }
         if (   !$this->referrer
             && !empty($_SERVER['HTTP_REFERER'])) {
             $this->referrer = $_SERVER['HTTP_REFERER'];

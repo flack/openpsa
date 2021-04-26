@@ -50,7 +50,6 @@ class openpsa_test_campaign_helper
         $parameters = [
             'message' => $message->id,
             'person' => $person->id,
-            'timestamp' => time(),
             'token' => __CLASS__ . __FUNCTION__,
             'target' => 'http://openpsa2.org'
         ];
@@ -62,7 +61,6 @@ class openpsa_test_campaign_helper
         $parameters = [
             'message' => $message->id,
             'person' => $person->id,
-            'timestamp' => time(),
             'token' => __CLASS__ . __FUNCTION__,
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
         ];

@@ -13,7 +13,6 @@
  * @property integer $person
  * @property string $token
  * @property integer $bounced
- * @property integer $timestamp
  * @property integer $orgOpenpsaObtype
  * @package org.openpsa.directmarketing
  */
@@ -27,14 +26,6 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
     const DELIVERED = 8501;
     const RECEIVED = 8502;
     const FAILURE = 8503;
-
-    public function _on_creating()
-    {
-        if (!$this->timestamp) {
-            $this->timestamp = time();
-        }
-        return true;
-    }
 
     /**
      * Check whether given token has already been used in the database

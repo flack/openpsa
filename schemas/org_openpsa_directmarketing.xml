@@ -60,7 +60,6 @@
         <property name="person" link="org_openpsa_person:id" reverse="no" type="unsigned integer" />
         <property name="token" type="string" />
         <property name="bounced" type="integer" />
-        <property name="timestamp" type="integer" />
         <property name="orgOpenpsaObtype" type="integer" />
     </type>
 
@@ -71,7 +70,6 @@
         <property name="target" type="string" />
         <property name="referrer" type="string" />
         <property name="token" type="string" />
-        <property name="timestamp" type="integer" />
         <property name="orgOpenpsaObtype" type="integer" />
     </type>
 </Schema>
