@@ -57,7 +57,7 @@ if (isset($data['search_results'])) {
         echo "    <tbody>\n";
         foreach ($data['search_results'] as $result) {
             $icon = midcom_helper_reflector::get_object_icon($result);
-            $label = midcom_helper_reflector::resolve_path($result, '/');
+            $label = midcom_helper_reflector_tree::resolve_path($result, '/');
             $creator = midcom::get()->auth->get_user($result->metadata->creator);
             $link = $data['router']->generate('object_' . $data['default_mode'], ['guid' => $result->guid]);
 
