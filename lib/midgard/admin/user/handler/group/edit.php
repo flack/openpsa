@@ -69,8 +69,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
                 return new midcom_response_relocate($this->router->generate('user_list'));
         }
 
-        $ref = new midcom_helper_reflector($this->_group);
-        $data['view_title'] = sprintf($this->_l10n_midcom->get('edit %s'), $ref->get_object_title($this->_group));
+        $data['view_title'] = sprintf($this->_l10n_midcom->get('edit %s'), midcom_helper_reflector::get_object_title($this->_group));
 
         $this->_update_breadcrumb();
 

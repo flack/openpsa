@@ -92,8 +92,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                         <h1>
                         <?php
                         if (!empty($data['object']->__mgdschema_class_name__)) {
-                            $ref = midcom_helper_reflector::get($data['object']);
-                            $type_icon = $ref->get_object_icon($data['object']);
+                            $type_icon = midcom_helper_reflector::get_object_icon($data['object']);
                             echo "<span class=\"object_type_link\"><a href=\"{$prefix}__mfa/asgard/{$data['object']->__mgdschema_class_name__}/\">{$type_icon}</a></span> ";
                         }
                         ?>

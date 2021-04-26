@@ -121,8 +121,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
         foreach ($data as $field => $value) {
             $object->$field = $value;
         }
-        $reflector = new midcom_helper_reflector($object);
-        $this->assertEquals($label, $reflector->get_object_title($object));
+        $this->assertEquals($label, midcom_helper_reflector::get_object_title($object));
     }
 
     public function providerGet_object_title()
@@ -203,10 +202,9 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
      */
     public function testGet_object_icon($classname, $icon)
     {
-        $reflector = new midcom_helper_reflector($classname);
         $object = new $classname;
         $icon = '<i class="fa fa-' . $icon . '"></i>';
-        $this->assertEquals($icon, $reflector->get_object_icon($object));
+        $this->assertEquals($icon, midcom_helper_reflector::get_object_icon($object));
     }
 
     public function providerGet_object_icon()
@@ -224,12 +222,11 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function testGet_object_icon_from_proxy()
     {
-        $reflector = new midcom_helper_reflector(midcom_db_topic::class);
         $topic = $this->create_object(midcom_db_topic::class);
         $proxy = new midcom_core_dbaproxy($topic->guid, midcom_db_topic::class);
 
         $icon = '<i class="fa fa-folder-o"></i>';
-        $this->assertEquals($icon, $reflector->get_object_icon($proxy));
+        $this->assertEquals($icon, midcom_helper_reflector::get_object_icon($proxy));
     }
 
     /**

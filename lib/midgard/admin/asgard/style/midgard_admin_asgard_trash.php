@@ -11,8 +11,7 @@
         <?php
         foreach (array_filter($data['types']) as $type => $items) {
             $link = $data['router']->generate('trash_type', ['type' => $type]);
-            $ref = midcom_helper_reflector::get($type);
-            $icon = $ref->get_object_icon(new $type);
+            $icon = midcom_helper_reflector::get_object_icon(new $type);
             ?>
             <tr>
                 <td><a href="&(link);">&(icon:h); <?php echo midgard_admin_asgard_plugin::get_type_label($type); ?></a></td>

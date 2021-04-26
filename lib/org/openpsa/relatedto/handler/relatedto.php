@@ -200,10 +200,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $this->_request_data['link'] = $link;
         $this->_request_data['other_obj'] =& $other_obj;
-
-        $ref = midcom_helper_reflector::get($link['class']);
-
-        $this->_request_data['icon'] = $ref->get_object_icon($other_obj);
+        $this->_request_data['icon'] = midcom_helper_reflector::get_object_icon($other_obj);
 
         if (get_class($other_obj) != $link['class']) {
             $other_obj = new $link['class']($other_obj);
