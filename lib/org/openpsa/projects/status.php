@@ -47,8 +47,7 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
         $entries = [];
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
         $qb->add_constraint('task', '=', $this->task->id);
-        $qb->add_order('timestamp', 'DESC');
-        $qb->add_order('type', 'DESC');
+        $qb->add_order('id', 'DESC');
 
         $fallback_creator = midcom_db_person::get_cached(1);
         foreach ($qb->execute() as $status_change) {

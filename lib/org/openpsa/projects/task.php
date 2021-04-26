@@ -343,8 +343,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             //Do not ever set status to declined if we still have resources left
             $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         }
-        $mc->add_order('timestamp', 'DESC');
-        $mc->add_order('type', 'DESC'); //Our timestamps are not accurate enough so if we have multiple with same timestamp suppose highest type is latest
+        $mc->add_order('id', 'DESC');
         $mc->set_limit(1);
 
         return $mc->get_rows(['type', 'comment', 'timestamp']);
