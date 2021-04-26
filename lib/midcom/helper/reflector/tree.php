@@ -357,12 +357,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     public static function add_schema_sorts_to_qb($qb, string $schema_type)
     {
         // Sort by "title" and "name" if available
-        $ref = self::get($schema_type);
         $dummy = new $schema_type();
-        if ($title_property = $ref->get_title_property($dummy)) {
+        if ($title_property = self::get_title_property($dummy)) {
             $qb->add_order($title_property);
         }
-        if ($name_property = $ref->get_name_property($dummy)) {
+        if ($name_property = self::get_name_property($dummy)) {
             $qb->add_order($name_property);
         }
     }

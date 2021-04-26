@@ -159,10 +159,9 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         }
         $this->schema['fields'][$key]['title'] = $field_label;
 
-        $reflector = midcom_helper_reflector::get($linked_type);
         $this->schema['fields'][$key]['widget_config']['creation_mode_enabled'] = true;
         $this->schema['fields'][$key]['widget_config']['creation_handler'] = midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/";
-        $this->schema['fields'][$key]['widget_config']['creation_default_key'] = $reflector->get_title_property(new $linked_type);
+        $this->schema['fields'][$key]['widget_config']['creation_default_key'] = midcom_helper_reflector::get_title_property(new $linked_type);
     }
 
     private function _add_rcs_field()

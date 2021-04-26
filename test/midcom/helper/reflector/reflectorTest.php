@@ -140,8 +140,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function testGet_title_property($classname, $property)
     {
         $object = new $classname;
-        $reflector = new midcom_helper_reflector($classname);
-        $this->assertEquals($property, $reflector->get_title_property($object));
+        $this->assertEquals($property, midcom_helper_reflector::get_title_property($object));
     }
 
     public function providerGet_title_property()
@@ -161,8 +160,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function testGet_name_property($classname, $property)
     {
         $object = new $classname;
-        $reflector = new midcom_helper_reflector($classname);
-        $this->assertEquals($property, $reflector->get_name_property($object));
+        $this->assertEquals($property, midcom_helper_reflector::get_name_property($object));
     }
 
     public function providerGet_name_property()
