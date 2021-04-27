@@ -47,58 +47,38 @@ class midcom_helper_imagefilter
      */
     private $_tmpfiles = [];
 
-    public function __construct(midcom_db_attachment $input = null)
+    public function __construct(midcom_db_attachment $input)
     {
-        if (null !== $input) {
-            $tmpfile = $this->create_tmp_copy($input);
-            if ($tmpfile === false) {
-                throw new midcom_error("Could not create a working copy, aborting");
-            }
-
-            if (!$this->set_file($tmpfile)) {
-                // Clean up
-                unlink($tmpfile);
-                throw new midcom_error("set_file() failed, aborting");
-            }
+        if (!self::imagemagick_available()) {
+            throw new midcom_error("ImageMagick is not available, can't process commands");
         }
+
+        $this->_filename = $this->create_tmp_copy($input);
     }
 
     public function __destruct()
     {
-        foreach (array_filter($this->_tmpfiles, 'file_exists') as $filename) {
-            unlink($filename);
+        if (file_exists($this->_filename)) {
+            unlink($this->_filename);
         }
     }
 
     /**
      * Creates a working copy to filesystem from given attachment object
      *
-     * @param mixed $input The attachment object or filename to copy
-     * @return string tmp file name (or false on failure)
+     * @return string tmp file name
      */
-    public function create_tmp_copy($input)
+    private function create_tmp_copy(midcom_db_attachment $input) : string
     {
-        $tmpname = $this->_get_tempfile();
-
-        if (is_string($input)) {
-            // TODO: error handling
-            copy($input, $tmpname);
-            // With the following line, filesize() will return zero, see https://bugs.php.net/bug.php?id=65701
-            clearstatcache(false, $tmpname);
-            return $tmpname;
-        }
-
         $src = $input->open('r');
         if (!$src) {
-            debug_add("Could not open attachment #{$input->id} for reading", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Could not open attachment #{$input->id} for reading");
         }
 
+        $tmpname = $this->_get_tempfile();
         $dst = fopen($tmpname, 'w+');
         if (!$dst) {
-            debug_add("Could not open file '{$tmpname}' for writing", MIDCOM_LOG_ERROR);
-            unlink($tmpname);
-            return false;
+            throw new midcom_error("Could not open file '{$tmpname}' for writing");
         }
         stream_copy_to_stream($src, $dst);
         $input->close();
@@ -162,37 +142,6 @@ class midcom_helper_imagefilter
         }
 
         return $return;
-    }
-
-    /**
-     * Sets the filename of the image currently being edited.
-     *
-     * This must be the full path to the file, it will be
-     * replaced with the modified image.
-     *
-     * The process will check for write permissions at this point,
-     * A return value of false will indicate some problem, see the
-     * debug log for details.
-     *
-     * @todo Use ImageMagick Identify to check for a valid image.
-     */
-    public function set_file(string $filename) : bool
-    {
-        if (!self::imagemagick_available()) {
-            debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
-            midcom::get()->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
-            return false;
-        }
-        if (!is_writable($filename)) {
-            debug_add("The File {$filename} is not writable.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        if (   !empty($this->_filename)
-            && $this->_filename !== $filename) {
-            $this->_tmpfiles[] = $this->_filename;
-        }
-        $this->_filename = $filename;
-        return true;
     }
 
     /**

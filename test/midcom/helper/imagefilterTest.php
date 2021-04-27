@@ -39,30 +39,23 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     /**
      * construct a filter initialized with an attachment containing the test file
      */
-    private function _get_prepared_filter()
+    private function _get_prepared_filter() : midcom_helper_imagefilter
     {
-        $filter = new midcom_helper_imagefilter(null);
-        $tmpname = $filter->create_tmp_copy(self::$_filename);
-        $filter->set_file($tmpname);
-
-        return $filter;
+        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid, 'title'=> 'someImg']);
+        $attachment->copy_from_file(self::$_filename);
+        return new midcom_helper_imagefilter($attachment);
     }
 
     public function testCreate_tmp_copy()
     {
-        $filter = new midcom_helper_imagefilter(null);
+        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid, 'title'=> 'someImg']);
+        $attachment->copy_from_file(self::$_filename);
+        $filter = new midcom_helper_imagefilter($attachment);
         $stat = stat(self::$_filename);
-        $tmpname = $filter->create_tmp_copy(self::$_filename);
-        $dest_stat = stat($tmpname);
+        $dest_stat = $attachment->stat();
 
         // the files should have the same size
         $this->assertEquals($stat["size"], $dest_stat["size"], "Original image and tmp copy filesize mismatch!");
-        $this->assertEquals(filesize(self::$_filename), filesize($tmpname));
-
-        // now write the file into an attachment
-        $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid, 'title'=>'someImg']);
-        $filter->set_file($tmpname);
-        $filter->write($attachment);
 
         // check if files are equal
         $this->assertFileEquals(self::$_filename, $attachment->get_path());
