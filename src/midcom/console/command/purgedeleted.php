@@ -50,19 +50,14 @@ class purgedeleted extends Command
         $start = microtime(true);
         foreach ($handler->get_classes() as $mgdschema) {
             $output->writeln("\n\nProcessing class <info>{$mgdschema}</info>");
-            $purged = 0;
             $errors = 0;
             $stats = $handler->process_class($mgdschema);
             foreach ($stats['errors'] as $error) {
                 $output->writeln('  <error>' . $error . '</error>');
+                $errors++;
             }
-            if ($purged > 0) {
-                $output->write("\x0D");
-            }
-            $purged += $stats['purged'];
-            $errors += count($stats['errors']);
-            $output->write("  Purged <info>{$purged}</info> deleted objects, <comment>" . $errors . " failures</comment>");
-            $total_purged += $purged;
+            $output->write("  Purged <info>{$stats['purged']}</info> deleted objects, <comment>" . $errors . " failures</comment>");
+            $total_purged += $stats['purged'];
             $total_errors += $errors;
         }
         $elapsed = round(microtime(true) - $start, 2);
