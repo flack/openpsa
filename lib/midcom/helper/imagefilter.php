@@ -316,14 +316,9 @@ class midcom_helper_imagefilter
             throw new midcom_error("exif_read_data required for exifrotate.");
         }
         // Silence this, gives warnings on images that do not contain EXIF data
-        try {
-            $exif = @exif_read_data($this->_filename);
-            if (empty($exif['Orientation'])) {
-                debug_add("EXIF information missing or without orientation tag. Skipping.", MIDCOM_LOG_INFO);
-                return;
-            }
-        } catch (Exception $e) {
-            debug_add("Could not read EXIF data: " . $e->getMessage() . ", skipping.", MIDCOM_LOG_WARN);
+        $exif = @exif_read_data($this->_filename);
+        if (empty($exif['Orientation'])) {
+            debug_add("EXIF information missing or without orientation tag. Skipping.", MIDCOM_LOG_INFO);
             return;
         }
         if ($exif["Orientation"] == 1) {
