@@ -21,7 +21,7 @@ use midcom\bundle\midcomBundle;
  * @property midcom_services_dbclassloader $dbclassloader
  * @property midcom_helper__dbfactory $dbfactory
  * @property midcom_helper_head $head
- * @property midcom_helper__styleloader $style
+ * @property midcom_helper_style $style
  * @property midcom_services_auth $auth
  * @property midcom_services_permalinks $permalinks
  * @property midcom_services_toolbars $toolbars
