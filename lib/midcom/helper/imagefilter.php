@@ -40,13 +40,6 @@ class midcom_helper_imagefilter
      */
     private $_quality = "-quality 90";
 
-    /**
-     * Tmpfiles used by this instance
-     *
-     * @var array
-     */
-    private $_tmpfiles = [];
-
     public function __construct(midcom_db_attachment $input)
     {
         if (!self::imagemagick_available()) {
