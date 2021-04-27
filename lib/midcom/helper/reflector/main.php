@@ -23,8 +23,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     protected $_mgd_reflector;
 
-    protected $_dummy_object;
-
     private static $_cache = [
         'l10n' => [],
         'instance' => [],
@@ -49,9 +47,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Instantiate midgard reflector
         $this->_mgd_reflector = new midgard_reflection_property($this->mgdschema_class);
-
-        // Instantiate dummy object
-        $this->_dummy_object = new $this->mgdschema_class;
     }
 
     /**
@@ -294,7 +289,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         debug_add("Starting analysis for class {$this->mgdschema_class}");
 
-        $properties = self::get_object_fieldnames($this->_dummy_object);
+        $properties = self::get_object_fieldnames(new $this->mgdschema_class);
 
         $default_properties = [
             'title' => true,
@@ -361,11 +356,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Shorthands
         $ref = $this->_mgd_reflector;
-        $obj = $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
         $links = [];
-        foreach (self::get_object_fieldnames($obj) as $property) {
+        foreach (self::get_object_fieldnames(new $this->mgdschema_class) as $property) {
             if ($property == 'guid') {
                 // GUID, even though of type MGD_TYPE_GUID, is never a link
                 continue;
