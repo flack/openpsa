@@ -58,13 +58,10 @@ abstract class midcom_services_indexer_client
     {
         $this->_topic = $topic;
         $this->_l10n = midcom::get()->i18n->get_l10n($topic->component);
-        if (null === $indexer) {
-            $indexer = midcom::get()->indexer;
-        }
-        $this->_indexer = $indexer;
+        $this->_indexer = $indexer ?? midcom::get()->indexer;
 
         $nav = new midcom_helper_nav();
-        $this->_node = $nav->get_node($this->_topic->id);
+        $this->_node = $nav->get_node($topic->id);
     }
 
     /**

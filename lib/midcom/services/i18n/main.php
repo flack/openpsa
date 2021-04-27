@@ -85,7 +85,7 @@ class midcom_services_i18n
             $found = $this->_read_cookie($request) || $this->_read_http_negotiation($request);
         }
         if (!$found) {
-            $this->set_language($this->_fallback_language);
+            $this->set_language($fallback_language);
         }
     }
 

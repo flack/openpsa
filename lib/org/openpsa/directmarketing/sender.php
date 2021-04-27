@@ -75,11 +75,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $this->from = $from;
         $this->subject = $subject;
 
-        if (   $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT
-            && $this->_message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML) {
+        if (   $message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT
+            && $message->orgOpenpsaObtype != org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML) {
             throw new midcom_error('unsupported message type');
         }
-        $this->_backend = new org_openpsa_directmarketing_sender_backend_email($config, $this->_message);
+        $this->_backend = new org_openpsa_directmarketing_sender_backend_email($config, $message);
         $this->chunk_size = $this->_config->get('chunk_size');
     }
 

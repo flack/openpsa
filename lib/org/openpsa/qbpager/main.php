@@ -31,7 +31,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         parent::__construct();
 
         $this->_pager_id = $pager_id;
-        $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
+        $this->_prefix = 'org_openpsa_qbpager_' . $pager_id . '_';
         $this->_prepare_qbs($classname);
     }
 

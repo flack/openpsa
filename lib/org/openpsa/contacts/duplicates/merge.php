@@ -28,11 +28,11 @@ class org_openpsa_contacts_duplicates_merge
      */
     public function __construct(string $mode, midcom_helper_configuration $config)
     {
-        $this->config = $config;
-        $this->_object_mode = $mode;
-        if (!in_array($this->_object_mode, ['person', 'group'])) {
+        if (!in_array($mode, ['person', 'group'])) {
             throw new midcom_error('invalid object mode');
         }
+        $this->config = $config;
+        $this->_object_mode = $mode;
     }
 
     /**

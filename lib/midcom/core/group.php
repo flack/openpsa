@@ -100,13 +100,7 @@ class midcom_core_group
             }
         }
 
-        if ($this->_storage->official != '') {
-            $this->name = $this->_storage->official;
-        } elseif ($this->_storage->name != '') {
-            $this->name = $this->_storage->name;
-        } else {
-            $this->name = "Group #{$this->_storage->id}";
-        }
+        $this->name = $this->_storage->official ?: $this->_storage->name ?: "Group #{$this->_storage->id}";
         $this->id = "group:{$this->_storage->guid}";
 
         // Determine scope

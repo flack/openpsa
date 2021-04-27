@@ -21,7 +21,7 @@ class midcom_response_login extends Response
     {
         parent::__construct();
         $this->method = $method;
-        if ($this->method === 'basic') {
+        if ($method === 'basic') {
             $this->headers->set('WWW-Authenticate', 'Basic realm="Midgard"');
             $this->setStatusCode(Response::HTTP_UNAUTHORIZED);
         } else {

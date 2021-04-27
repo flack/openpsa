@@ -56,10 +56,10 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         parent::__construct();
         $this->_settings = $settings;
         $this->_schemadbs = $schemadbs;
-        $this->_datamanagers['campaign_member'] = new datamanager($this->_schemadbs['campaign_member']);
-        $this->_datamanagers['person'] = new datamanager($this->_schemadbs['person']);
-        $this->_datamanagers['organization_member'] = new datamanager($this->_schemadbs['organization_member']);
-        $this->_datamanagers['organization'] = new datamanager($this->_schemadbs['organization']);
+        $this->_datamanagers['campaign_member'] = new datamanager($schemadbs['campaign_member']);
+        $this->_datamanagers['person'] = new datamanager($schemadbs['person']);
+        $this->_datamanagers['organization_member'] = new datamanager($schemadbs['organization_member']);
+        $this->_datamanagers['organization'] = new datamanager($schemadbs['organization']);
     }
 
     /**

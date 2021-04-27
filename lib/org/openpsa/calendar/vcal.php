@@ -28,12 +28,10 @@ class org_openpsa_calendar_vcal
      */
     public function __construct(string $method = "PUBLISH")
     {
-        $method = strtoupper($method);
-
         $this->_calendar = new VCalendar;
         $this->_calendar->VERSION = '2.0';
         $this->_calendar->PRODID = "-//OpenPSA//Calendar " . org_openpsa_core_version::get_version_number() . "//" . strtoupper(midcom::get()->i18n->get_current_language());
-        $this->_calendar->METHOD = $method;
+        $this->_calendar->METHOD = strtoupper($method);
     }
 
     /**
