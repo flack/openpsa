@@ -498,9 +498,6 @@ class midcom_core_privilege
 
     private function _sync_from_db_object()
     {
-        if (!$this->__privilege_object) {
-            return;
-        }
         $this->objectguid = $this->__privilege_object->objectguid;
         $this->privilegename = $this->__privilege_object->privilegename;
         $this->assignee = $this->__privilege_object->assignee;
