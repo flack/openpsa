@@ -14,8 +14,6 @@
 class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_purecode
 {
     /**
-     * Are we running in test mode
-     *
      * @var boolean
      */
     private $test_mode = false;
@@ -35,22 +33,16 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     public $token_size = 15;
 
     /**
-     * The message we're working on
-     *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
     private $_message;
 
     /**
-     * The backend to use
-     *
      * @var org_openpsa_directmarketing_sender_backend
      */
     private $_backend;
 
     /**
-     * Tracks total number of sent messages
-     *
      * @var integer
      */
     private static $_messages_sent = 0;

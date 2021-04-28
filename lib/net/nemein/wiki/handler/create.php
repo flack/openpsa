@@ -28,8 +28,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     private $_wikiword = '';
 
     /**
-     * The wikipage we're creating
-     *
      * @var net_nemein_wiki_wikipage
      */
     private $_page;

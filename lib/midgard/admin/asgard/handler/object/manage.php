@@ -21,36 +21,26 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     use midgard_admin_asgard_handler;
 
     /**
-     * Some object
-     *
      * @var midcom_core_dbaobject
      */
     private $_object;
 
     /**
-     * Some newly created object
-     *
      * @var midcom_core_dbaobject
      */
     private $_new_object;
 
     /**
-     * The Datamanager of the object to display.
-     *
      * @var datamanager
      */
     private $datamanager;
 
     /**
-     * The Controller of the object used for editing
-     *
      * @var controller
      */
     private $controller;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
      * @var schemadb
      */
     private $schemadb;

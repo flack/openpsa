@@ -21,8 +21,6 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     use midgard_admin_asgard_handler;
 
     /**
-     * User for the preferences page
-     *
      * @var midcom_db_person
      */
     private $_person;

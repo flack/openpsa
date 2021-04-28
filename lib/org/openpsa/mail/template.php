@@ -83,8 +83,6 @@
 class org_openpsa_mail_template
 {
     /**
-     * The parameters to use for the Mail template.
-     *
      * @var array
      */
     private $_parameters = [];

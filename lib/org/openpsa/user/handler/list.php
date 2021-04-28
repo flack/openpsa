@@ -19,15 +19,11 @@ class org_openpsa_user_handler_list extends midcom_baseclasses_components_handle
 implements client
 {
     /**
-     * The grid provider
-     *
      * @var provider
      */
     private $_provider;
 
     /**
-     * The group we're working on, if any
-     *
      * @var midcom_db_group
      */
     private $_group;

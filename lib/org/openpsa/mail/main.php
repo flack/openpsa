@@ -107,8 +107,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     private $_do_image_embedding = false;
 
     /**
-     * The backend object
-     *
      * @var org_openpsa_mail_backend
      */
     private $_backend;

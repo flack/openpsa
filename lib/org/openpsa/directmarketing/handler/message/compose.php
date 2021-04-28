@@ -16,15 +16,11 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     use org_openpsa_directmarketing_handler;
 
     /**
-     * The message which has been created
-     *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
     private $_message;
 
     /**
-     * Datamanager instance
-     *
      * @var datamanager
      */
     private $_datamanager;

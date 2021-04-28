@@ -21,15 +21,11 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
     use org_openpsa_user_handler;
 
     /**
-     * The person we're working on
-     *
      * @var midcom_db_person
      */
     private $person;
 
     /**
-     * The account we're working on
-     *
      * @var midcom_core_account
      */
     private $account;

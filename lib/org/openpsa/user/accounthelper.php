@@ -14,15 +14,11 @@
 class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purecode
 {
     /**
-     * The person we're working on
-     *
      * @var midcom_db_person
      */
     protected $person;
 
     /**
-     * The account we're working on
-     *
      * @var midcom_core_account
      */
     private $account;

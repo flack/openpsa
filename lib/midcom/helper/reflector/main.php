@@ -34,7 +34,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     ];
 
     /**
-     * Constructor, takes classname or object, resolved MgdSchema root class automagically
+     * Takes classname or object, resolves MgdSchema root class automagically
      *
      * @param string|mgdobject $src classname or object
      */

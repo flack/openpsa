@@ -16,15 +16,11 @@
 class midcom_core_dbaproxy
 {
     /**
-     * MidCOM DBA object
-     *
      * @var midcom_core_dbaobject
      */
     private $__object;
 
     /**
-     * MidCOM DBA classname
-     *
      * @var string
      */
     public $__midcom_class_name__;
@@ -37,16 +33,10 @@ class midcom_core_dbaproxy
     private $__identifier;
 
     /**
-     * Flag that indicates whether or not we already tried to load this
-     * object
-     *
      * @var boolean
      */
     private $__tried_to_load = false;
 
-    /**
-     * Constructor
-     */
     public function __construct($identifier, string $classname)
     {
         $this->__midcom_class_name__ = $classname;

@@ -28,8 +28,6 @@ class org_openpsa_calendar_conflictmanager
     public $busy_resources = [];
 
     /**
-     * The event we're working on
-     *
      * @var org_openpsa_calendar_event_dba
      */
     private $_event;

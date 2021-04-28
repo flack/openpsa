@@ -27,15 +27,11 @@ abstract class midcom_core_dbaobject
     use parameters, attachments, privileges;
 
     /**
-     * MidCOM classname
-     *
      * @var string
      */
     public $__midcom_class_name__;
 
     /**
-     * Midgard classname
-     *
      * @var string
      */
     public $__mgdschema_class_name__;
@@ -43,14 +39,12 @@ abstract class midcom_core_dbaobject
     /**
      * MgdSchema object
      *
-     * @var mgdobject MgdSchema object
+     * @var mgdobject
      */
     public $__object;
 
     /**
-     * Metadata object
-     *
-     * @var midcom_helper_metadata MidCOM metadata object
+     * @var midcom_helper_metadata
      */
     private $__metadata;
 
@@ -85,7 +79,7 @@ abstract class midcom_core_dbaobject
     public $autodelete_dependents = [];
 
     /**
-     * Constructor. Creates an abstraction layer for an MgdSchema object.
+     * Creates an abstraction layer for an MgdSchema object.
      */
     public function __construct($id = null)
     {

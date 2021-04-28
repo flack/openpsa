@@ -15,15 +15,11 @@ use midcom\datamanager\datamanager;
 abstract class midcom_services_rcs_handler extends midcom_baseclasses_components_handler
 {
     /**
-     * RCS backend
-     *
      * @var midcom_services_rcs_backend
      */
     private $backend;
 
     /**
-     * Pointer to midgard object
-     *
      * @var midcom_core_dbaobject
      */
     protected $object;

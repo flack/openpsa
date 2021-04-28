@@ -19,15 +19,11 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     use midgard_admin_asgard_handler;
 
     /**
-     * Current loaded object
-     *
      * @var midcom_core_dbaobject
      */
     private $_object;
 
     /**
-     * Files in the current object
-     *
      * @var midcom_db_attachment[]
      */
     private $_files = [];

@@ -20,8 +20,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     use org_openpsa_contacts_handler;
 
     /**
-     * The contact to operate on
-     *
      * @var org_openpsa_contacts_person_dba
      */
     private $_contact;

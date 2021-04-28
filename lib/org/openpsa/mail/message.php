@@ -23,7 +23,6 @@ class org_openpsa_mail_message
     private $_html_body;
 
     /**
-     *
      * @var Swift_Message
      */
     private $_message;

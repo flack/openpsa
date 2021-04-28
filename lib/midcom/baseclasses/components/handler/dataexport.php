@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 abstract class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasses_components_handler
 {
     /**
-     * The Datamanager of the objects to export.
-     *
-     * @var datamanager[] Array of datamanager instances
+     * @var datamanager[]
      */
     private $_datamanagers = [];
 

@@ -15,15 +15,11 @@ use midcom\datamanager\schemabuilder;
 abstract class midcom_services_rcs_backend
 {
     /**
-     * Cached revision history for the object
-     *
      * @var midcom_services_rcs_history
      */
     private $history;
 
     /**
-     * The current object
-     *
      * @var midcom_core_dbaobject
      */
     protected $object;

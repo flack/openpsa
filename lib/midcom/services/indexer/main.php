@@ -30,15 +30,11 @@ use midcom\events\dbaevent;
 class midcom_services_indexer implements EventSubscriberInterface
 {
     /**
-     * The backend indexer implementation
-     *
      * @var midcom_services_indexer_backend
      */
     private $_backend;
 
     /**
-     * Flag for disabled indexing, set by the constructor.
-     *
      * @var boolean
      */
     private $_disabled;

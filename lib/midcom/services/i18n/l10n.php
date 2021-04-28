@@ -92,14 +92,14 @@ class midcom_services_i18n_l10n
      * Global string table cache, it stores the string tables
      * loaded during runtime.
      *
-     * @var Array
+     * @var array
      */
     private static $_localedb = [];
 
     /**
      * The string database, a reference into the global cache.
      *
-     * @var Array
+     * @var array
      */
     private $_stringdb;
 

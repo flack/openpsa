@@ -19,16 +19,12 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
     use org_openpsa_invoices_handler;
 
     /**
-     * The array of tasks.
-     *
      * @var org_openpsa_projects_task_dba[]
      */
     private $_tasks = [];
 
     /**
-     * The customer cache.
-     *
-     * @var Array
+     * @var array
      */
     private $_customers = [];
 

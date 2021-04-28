@@ -16,15 +16,11 @@ use midcom\datamanager\datamanager;
 class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The deliverable to display
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;
 
     /**
-     * The salesproject of the deliverable
-     *
      * @var org_openpsa_sales_salesproject_dba
      */
     private $_salesproject;

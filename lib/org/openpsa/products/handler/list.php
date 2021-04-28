@@ -19,8 +19,6 @@ implements client
     use org_openpsa_products_handler;
 
     /**
-     * The grid provider
-     *
      * @var provider
      */
     private $provider;

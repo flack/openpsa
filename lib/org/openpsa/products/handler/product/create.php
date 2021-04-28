@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_products_handler_product_create extends midcom_baseclasses_components_handler
 {
     /**
-     * The product we're working on
-     *
      * @var org_openpsa_products_product_dba
      */
     private $_product;

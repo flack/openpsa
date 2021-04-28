@@ -27,8 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
 {
     /**
-     * The schemadb we're working with
-     *
      * @var schemadb
      */
     private $_schemadb;

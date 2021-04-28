@@ -17,15 +17,10 @@
 class midcom_services_rcs_config
 {
     /**
-     * The array of configuration options
-     *
      * @var midcom_config
      */
     private $config;
 
-    /**
-     * Constructor
-     */
     public function __construct(midcom_config $config)
     {
         $this->config = $config;

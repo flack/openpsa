@@ -36,8 +36,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     protected $_responseStatus = MIDCOM_ERRCRIT;
 
     /**
-     * the object we're working on
-     *
      * @var midcom_core_dbaobject
      */
     protected $_object;
@@ -51,6 +49,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 
     /**
      * the id or guid of the requested object
+     *
      * @var mixed
      */
     protected $_id = false;

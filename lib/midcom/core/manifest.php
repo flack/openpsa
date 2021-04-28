@@ -188,15 +188,11 @@ class midcom_core_manifest
     public $name = '';
 
     /**
-     * The description of the component.
-     *
      * @var string
      */
     public $description = '';
 
     /**
-     * The icon of the component, if any.
-     *
      * @var string
      */
     public $icon;
@@ -224,15 +220,12 @@ class midcom_core_manifest
      * prefix), values are arrays holding the global / owner privilege default.
      *
      * @todo Complete documentation
-     *
-     * @var Array
+     * @var array
      */
     public $privileges = [];
 
     /**
-     * A list of class definition filenames
-     *
-     * (all looked up in the components configuration directory).
+     * A list of class definitions
      *
      * @var array
      */

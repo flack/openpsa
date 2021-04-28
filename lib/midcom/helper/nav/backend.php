@@ -127,14 +127,12 @@ class midcom_helper_nav_backend
      * the root node ID, possible second value is the first subnode ID etc.
      * Contains only visible nodes (nodes which can be loaded).
      *
-     * @var Array
+     * @var array
      */
     private $_node_path = [];
 
     /**
-     * Constructor
-     *
-     * It will initialize Root Topic, Current Topic and all cache arrays.
+     * Will initialize Root Topic, Current Topic and all cache arrays.
      * The constructor retrieves all initialization data from the component context.
      *
      * @param midcom_db_topic[] $urltopics

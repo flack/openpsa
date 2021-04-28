@@ -111,7 +111,7 @@ class midcom_core_user
      *
      * It is loaded on demand.
      *
-     * @var Array
+     * @var array
      */
     private $_privileges;
 
@@ -124,7 +124,7 @@ class midcom_core_user
      *
      * It is loaded on demand.
      *
-     * @var Array
+     * @var array
      */
     private $_per_class_privileges;
 

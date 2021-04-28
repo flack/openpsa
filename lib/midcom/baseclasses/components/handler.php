@@ -49,7 +49,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * Request specific data storage area. Registered in the component context
      * as ''.
      *
-     * @var Array
+     * @var array
      */
     var $_request_data = [];
 

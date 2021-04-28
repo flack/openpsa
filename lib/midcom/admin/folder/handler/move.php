@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 class midcom_admin_folder_handler_move extends midcom_baseclasses_components_handler
 {
     /**
-     * Object requested for move editing
-     *
      * @var midcom_core_dbaobject
      */
     private $_object;

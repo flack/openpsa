@@ -21,8 +21,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     use org_openpsa_sales_handler;
 
     /**
-     * The deliverable to operate on
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;

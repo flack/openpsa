@@ -16,15 +16,13 @@ class org_openpsa_contacts_duplicates_merge
     private $_object_mode = false;
 
     /**
-     *
      * @var midcom_helper_configuration
      */
     private $config;
 
     /**
-     * Constructor, the parameter governs which objects the instance works on
-     *
-     * @param string $mode currently valid modes are 'person' and 'group'
+     * @param string $mode governs which objects the instance works on.
+     *                     currently valid modes are 'person' and 'group'
      */
     public function __construct(string $mode, midcom_helper_configuration $config)
     {

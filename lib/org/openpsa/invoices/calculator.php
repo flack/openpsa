@@ -14,21 +14,15 @@
 class org_openpsa_invoices_calculator extends midcom_baseclasses_components_purecode
 {
     /**
-     * The deliverable we're processing
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;
 
     /**
-     * The invoice we're working on
-     *
      * @var org_openpsa_invoices_invoice_dba
      */
     private $_invoice;
 
-    /**
-     */
     public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $cycle_number = null)
     {
         $this->_deliverable = $deliverable;

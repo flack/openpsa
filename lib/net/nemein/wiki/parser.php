@@ -16,8 +16,6 @@ use Michelf\MarkdownExtra;
 class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 {
     /**
-     * The page we're working on
-     *
      * @var net_nemein_wiki_wikipage
      */
     private $_page;

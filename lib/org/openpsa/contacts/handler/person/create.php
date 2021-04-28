@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_components_handler
 {
     /**
-     * The person we're working on
-     *
      * @var org_openpsa_contacts_person_dba
      */
     private $_person;

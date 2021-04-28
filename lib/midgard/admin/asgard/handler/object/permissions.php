@@ -21,23 +21,17 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
     use midgard_admin_asgard_handler;
 
     /**
-     * The object whose permissions we handle
-     *
      * @var midcom_core_dbaobject
      */
     private $_object;
 
     /**
-     * The Controller of the object used for editing
-     *
      * @var controller
      */
     private $_controller;
 
     /**
-     * Privileges we're managing here
-     *
-     * @var Array
+     * @var array
      */
     private $_privileges = [
         // Midgard core level privileges
@@ -46,16 +40,12 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
     ];
 
     /**
-     * Table header
-     *
-     * @var String
+     * @var string
      */
     private $_header = '';
 
     /**
-     * Available row labels
-     *
-     * @var Array
+     * @var array
      */
     private $_row_labels = [];
 

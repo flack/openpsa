@@ -64,8 +64,6 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     var $link_contacts = true;
 
     /**
-     * Default org.openpsa.contacts URL to be used for linking to groups. Will be autoprobed if not supplied.
-     *
      * @var string
      */
     private static $_contacts_url;

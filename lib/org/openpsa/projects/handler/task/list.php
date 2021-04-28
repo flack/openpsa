@@ -29,36 +29,26 @@ implements client
     ];
 
     /**
-     * Grid controller
-     *
      * @var provider
      */
     protected $provider;
 
     /**
-     * Grid QB
-     *
      * @var midcom_core_querybuilder
      */
     protected $qb;
 
     /**
-     * Whether to render the status controls
-     *
      * @var boolean
      */
     protected $show_status_controls = false;
 
     /**
-     * Whether to render the customer
-     *
      * @var boolean
      */
     protected $show_customer = true;
 
     /**
-     * Do all the tasks belong to the same project
-     *
      * @var boolean
      */
     protected $is_single_project = false;

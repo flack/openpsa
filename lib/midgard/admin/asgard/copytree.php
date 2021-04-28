@@ -30,14 +30,14 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     /**
      * Choose the target type
      *
-     * @var String
+     * @var string
      */
     public $input_type;
 
     /**
      * Choose the target name for the form
      *
-     * @var String
+     * @var string
      */
     public $input_name;
 
@@ -56,15 +56,10 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     public $edit_link = false;
 
     /**
-     * Page prefix
-     *
-     * @var String
+     * @var string
      */
     public $page_prefix = '';
 
-    /**
-     * Constructor, connect to the parent class constructor.
-     */
     public function __construct(midcom_core_dbaobject $object, array &$request_data)
     {
         parent::__construct($object, $request_data);

@@ -26,22 +26,16 @@
 class midcom_helper_nav
 {
     /**
-     * The backend instance in use.
-     *
      * @var midcom_helper_nav_backend
      */
     private $_backend;
 
     /**
-     * The cache of instantiated NAP backends
-     *
-     * @var array
+     * @var midcom_helper_nav_backend[]
      */
     private static $_backends = [];
 
     /**
-     * The context ID we're associated with.
-     *
      * @var midcom_core_context
      */
     private $context;

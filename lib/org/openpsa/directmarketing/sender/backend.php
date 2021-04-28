@@ -13,9 +13,6 @@
  */
 interface org_openpsa_directmarketing_sender_backend
 {
-    /**
-     * Constructor
-     */
     public function __construct(array $config, org_openpsa_directmarketing_campaign_message_dba $message);
 
     /**

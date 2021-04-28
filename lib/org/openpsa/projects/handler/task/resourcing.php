@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_components_handler
 {
     /**
-     * The task to operate on
-     *
      * @var org_openpsa_projects_task_dba
      */
     private $_task;

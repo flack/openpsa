@@ -42,28 +42,22 @@ class org_openpsa_widgets_tree
     public $constraints = [];
 
     /**
-     * The object's class name
-     *
      * @var string
      */
     private $_object_class;
 
     /**
-     * The object's parent field
-     *
      * @var string
      */
     private $_parent_field;
 
     /**
-     * Flag that tracks if JS/CSS files have already been added
-     *
      * @var boolean
      */
     private static $_head_elements_added = false;
 
     /**
-     * Constructor, adds head elements and initializes some variables
+     * Adds head elements and initializes some variables
      *
      * @param string $parent_field Where to look for children
      */

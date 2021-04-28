@@ -22,15 +22,10 @@
 class midcom_services_rcs
 {
     /**
-     * The configuration object for the rcs service.
-     *
      * @var midcom_services_rcs_config
      */
     private $config;
 
-    /**
-     * Constructor
-     */
     public function __construct(midcom_config $config)
     {
         $this->config = new midcom_services_rcs_config($config);

@@ -18,8 +18,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     use org_openpsa_products_handler;
 
     /**
-     * The product to display
-     *
      * @var org_openpsa_products_product_dba
      */
     private $_product;

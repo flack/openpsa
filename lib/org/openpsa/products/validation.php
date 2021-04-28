@@ -18,7 +18,7 @@ class org_openpsa_products_validation
      *
      * If the formdata contains a product ID, it is ignored during the search
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      */
     public function is_code_available(array $fields)
     {

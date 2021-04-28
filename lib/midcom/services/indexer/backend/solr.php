@@ -26,8 +26,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     private $_index_name;
 
     /**
-     * The xml factory class
-     *
      * @var midcom_services_indexer_solrDocumentFactory
      */
     private $factory;

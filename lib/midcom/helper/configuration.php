@@ -46,21 +46,21 @@ class midcom_helper_configuration
     /**
      * Globally assigned configuration data.
      *
-     * @var Array
+     * @var array
      */
     public $_global = [];
 
     /**
      * Locally overridden configuration data.
      *
-     * @var Array
+     * @var array
      */
     public $_local = [];
 
     /**
      * Merged, current configuration state.
      *
-     * @var Array
+     * @var array
      */
     private $_merged = [];
 

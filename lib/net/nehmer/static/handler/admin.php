@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class net_nehmer_static_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * The article to operate on
-     *
      * @var midcom_db_article
      */
     private $article;

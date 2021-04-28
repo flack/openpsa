@@ -19,8 +19,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 implements client
 {
     /**
-     * The document we're working with (if any).
-     *
      * @var org_openpsa_documents_document_dba
      */
     private $_document;

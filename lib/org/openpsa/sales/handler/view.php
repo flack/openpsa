@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The salesproject to display
-     *
      * @var org_openpsa_sales_salesproject_dba
      */
     private $_salesproject;

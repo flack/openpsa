@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_directmarketing_handler_campaign_create extends midcom_baseclasses_components_handler
 {
     /**
-     * The campaign which has been created
-     *
      * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign;

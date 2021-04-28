@@ -20,8 +20,6 @@ use Monolog\Handler\StreamHandler;
 class midcom_exception_handler
 {
     /**
-     * Holds the current exception
-     *
      * @var Throwable
      */
     private $error;

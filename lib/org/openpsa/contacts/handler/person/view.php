@@ -19,15 +19,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     use org_openpsa_contacts_handler;
 
     /**
-     * The contact to display
-     *
      * @var org_openpsa_contacts_person_dba
      */
     private $_contact;
 
     /**
-     * The Datamanager of the contact
-     *
      * @var datamanager
      */
     private $_datamanager;

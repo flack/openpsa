@@ -14,8 +14,6 @@
 class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purecode
 {
     /**
-     * The deliverable we're processing
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;

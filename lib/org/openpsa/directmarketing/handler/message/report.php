@@ -17,8 +17,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     use org_openpsa_directmarketing_handler;
 
     /**
-     * The message we're working on
-     *
      * @var org_openpsa_directmarketing_campaign_message_dba
      */
     private $_message;

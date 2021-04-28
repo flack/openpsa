@@ -49,7 +49,7 @@ class midcom_services_indexer_document
      * Each field is indexed by its name (a string). The value is another
      * array containing the fields "name", type" and "content".
      *
-     * @var Array
+     * @var array
      */
     private $_fields = [];
 

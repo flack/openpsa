@@ -24,7 +24,7 @@
 class midcom_helper_imagefilter
 {
     /**
-     * The file currently being processed.
+     * The temp file we're working in
      *
      * @var string
      */

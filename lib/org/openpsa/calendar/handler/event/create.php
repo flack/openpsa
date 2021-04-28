@@ -20,8 +20,6 @@ use midcom\datamanager\controller;
 class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_components_handler
 {
     /**
-     * The calendar root event
-     *
      * @var org_openpsa_calendar_event_dba
      */
     private $root_event;

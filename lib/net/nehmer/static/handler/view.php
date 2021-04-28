@@ -17,15 +17,11 @@ use midcom\workflow\dialog;
 class net_nehmer_static_handler_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The article to display
-     *
      * @var midcom_db_article
      */
     private $_article;
 
     /**
-     * The Datamanager of the article to display.
-     *
      * @var datamanager
      */
     private $_datamanager;

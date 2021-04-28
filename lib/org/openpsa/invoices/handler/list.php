@@ -21,22 +21,16 @@ implements client
     use org_openpsa_invoices_handler;
 
     /**
-     * The customer we're working with, if any
-     *
-     * @var midcom_core_dbaobject
+     * @var org_openpsa_contacts_group_dba|org_openpsa_contacts_person_dba
      */
     private $_customer;
 
     /**
-     * The deliverable we're working with, if any
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;
 
     /**
-     * The current list type
-     *
      * @var string
      */
     private $_list_type = 'all';

@@ -17,8 +17,6 @@ use Sabre\VObject\Component\VCalendar;
 class org_openpsa_calendar_vcal
 {
     /**
-     * The calendar object
-     *
      * @var Sabre\VObject\Component\VCalendar
      */
     private $_calendar;

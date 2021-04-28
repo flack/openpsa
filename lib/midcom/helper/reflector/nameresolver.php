@@ -14,8 +14,6 @@
 class midcom_helper_reflector_nameresolver
 {
     /**
-     * The object we're working with
-     *
      * @var midcom_core_dbaobject
      */
     private $_object;

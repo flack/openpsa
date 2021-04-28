@@ -20,22 +20,16 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     use net_nehmer_blog_handler;
 
     /**
-     * The articles to display
-     *
-     * @var array
+     * @var midcom_db_article[]
      */
     private $_articles;
 
     /**
-     * The start date of the Archive listing.
-     *
      * @var DateTime
      */
     private $_start;
 
     /**
-     * The end date of the Archive listing.
-     *
      * @var DateTime
      */
     private $_end;

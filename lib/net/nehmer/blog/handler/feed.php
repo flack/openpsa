@@ -20,15 +20,11 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     use net_nehmer_blog_handler;
 
     /**
-     * The articles to display
-     *
-     * @var Array
+     * @var midcom_db_article[]
      */
     private $_articles;
 
     /**
-     * The feedcreator instance used.
-     *
      * @var UniversalFeedCreator
      */
     private $_feed;

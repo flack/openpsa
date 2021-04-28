@@ -21,15 +21,11 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
     use org_openpsa_user_handler;
 
     /**
-     * The person we're working on
-     *
      * @var midcom_db_person
      */
     private $_person;
 
     /**
-     * The group for our new person, if any
-     *
      * @var midcom_db_group
      */
     private $_group;

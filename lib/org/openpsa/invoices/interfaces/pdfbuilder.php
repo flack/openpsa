@@ -13,9 +13,6 @@
  */
 interface org_openpsa_invoices_interfaces_pdfbuilder
 {
-    /**
-     * Constructor
-     */
     public function __construct(org_openpsa_invoices_invoice_dba $invoice);
 
     /**

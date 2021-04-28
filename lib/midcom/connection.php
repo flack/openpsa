@@ -18,8 +18,6 @@ use midgard\portable\api\mgdobject;
 class midcom_connection
 {
     /**
-     * Private cache for connection information
-     *
      * @var array
      */
     private static $_data = [];

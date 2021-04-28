@@ -35,8 +35,6 @@ abstract class midcom_services_indexer_client
     protected $_l10n;
 
     /**
-     * The indexer service
-     *
      * @var midcom_services_indexer
      */
     private $_indexer;
@@ -50,8 +48,6 @@ abstract class midcom_services_indexer_client
     private $_queries = [];
 
     /**
-     * Constructor
-     *
      * @param midcom_db_topic $topic The current topic
      */
     public function __construct($topic, midcom_services_indexer $indexer = null)

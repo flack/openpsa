@@ -23,7 +23,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     public $lasterror;
 
     /**
-     * The feed object we're fetching
+     * @var net_nemein_rss_feed_dba
      */
     private $_feed;
 

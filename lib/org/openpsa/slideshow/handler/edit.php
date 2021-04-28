@@ -22,8 +22,6 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     private $_operation;
 
     /**
-     * Response wrapper
-     *
      * @var midcom_response_json
      */
     private $_response;

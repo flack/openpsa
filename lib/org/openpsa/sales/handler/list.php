@@ -16,9 +16,7 @@ use midcom\grid\grid;
 class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handler
 {
     /**
-     * The list of salesprojects.
-     *
-     * @var Array
+     * @var org_openpsa_sales_salesproject_dba[]
      */
     private $_salesprojects = [];
 

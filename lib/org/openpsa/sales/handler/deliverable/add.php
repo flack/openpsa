@@ -21,22 +21,16 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     use org_openpsa_sales_handler;
 
     /**
-     * The deliverable to display
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;
 
     /**
-     * The salesproject the deliverable is connected to
-     *
      * @var org_openpsa_sales_salesproject_dba
      */
     private $_salesproject;
 
     /**
-     * The product to deliver
-     *
      * @var org_openpsa_products_product_dba
      */
     private $_product;

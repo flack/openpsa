@@ -20,14 +20,11 @@ implements client
     use org_openpsa_directmarketing_handler;
 
     /**
-     * The campaign which has been created
-     *
      * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign;
 
     /**
-     *
      * @var array
      */
     private $memberships;

@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * The group we're working on
-     *
      * @var org_openpsa_contacts_group_dba
      */
     private $_group;

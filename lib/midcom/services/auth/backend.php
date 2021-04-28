@@ -24,7 +24,7 @@ abstract class midcom_services_auth_backend
     /**
      * Internal cache of all loaded users, indexed by their identifiers.
      *
-     * @var Array
+     * @var array
      */
     private $_user_cache = [];
 

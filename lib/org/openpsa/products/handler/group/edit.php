@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_products_handler_group_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * The product to display
-     *
      * @var org_openpsa_products_product_group_dba
      */
     private $_group;

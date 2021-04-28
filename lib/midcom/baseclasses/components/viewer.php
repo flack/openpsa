@@ -141,15 +141,11 @@ use midcom\routing\plugin;
 class midcom_baseclasses_components_viewer extends midcom_baseclasses_components_base
 {
     /**
-     * The topic for which we are handling a request.
-     *
      * @var midcom_db_topic
      */
     public $_topic;
 
     /**
-     * The current configuration.
-     *
      * @var midcom_helper_configuration
      */
     public $_config;
@@ -207,7 +203,7 @@ class midcom_baseclasses_components_viewer extends midcom_baseclasses_components
      * '_route' member for backtracking purposes. The variable argument list will be
      * placed into 'args' for performance reasons.
      *
-     * @var Array
+     * @var array
      */
     private $parameters;
 

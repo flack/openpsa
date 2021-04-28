@@ -19,15 +19,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     use net_nemein_wiki_handler;
 
     /**
-     * The wikipage we're viewing
-     *
      * @var net_nemein_wiki_wikipage
      */
     private $_page;
 
     /**
-     * The Datamanager for article to display
-     *
      * @var datamanager
      */
     private $_datamanager;

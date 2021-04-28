@@ -14,15 +14,11 @@
 class org_openpsa_core_filter_select extends org_openpsa_core_filter
 {
     /**
-     * The filter's options, if any
-     *
      * @var array
      */
     protected $_options;
 
     /**
-     * Callback to load the filter's options
-     *
      * @var callable
      */
     protected $_option_callback;
@@ -35,8 +31,6 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
     protected $_operator;
 
     /**
-     * Constructor
-     *
      * @param string $name The filter's name
      * @param string $operator The constraint operator
      */

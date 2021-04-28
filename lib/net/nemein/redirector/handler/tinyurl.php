@@ -16,15 +16,11 @@ use midcom\datamanager\controller;
 class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_components_handler
 {
     /**
-     * TinyURL object
-     *
      * @var net_nemein_redirector_tinyurl_dba
      */
     private $_tinyurl;
 
     /**
-     * TinyURL object array
-     *
      * @var net_nemein_redirector_tinyurl_dba[]
      */
     private $_tinyurls = [];

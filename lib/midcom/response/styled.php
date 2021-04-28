@@ -16,13 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 class midcom_response_styled extends Response
 {
     /**
-     *
      * @var string
      */
     private $root_element;
 
     /**
-     *
      * @var midcom_core_context
      */
     private $context;

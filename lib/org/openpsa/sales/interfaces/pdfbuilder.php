@@ -13,9 +13,6 @@
  */
 interface org_openpsa_sales_interfaces_pdfbuilder
 {
-    /**
-     * Constructor
-     */
     public function __construct(org_openpsa_sales_salesproject_offer_dba $offer);
 
     /**

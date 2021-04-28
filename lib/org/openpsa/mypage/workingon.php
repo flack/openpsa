@@ -44,8 +44,6 @@ class org_openpsa_mypage_workingon
     public $invoiceable = false;
 
     /**
-     * Constructor.
-     *
      * @param midcom_db_person $person Person to handle "now working on" for. By default current user
      */
     public function __construct(midcom_db_person $person = null)

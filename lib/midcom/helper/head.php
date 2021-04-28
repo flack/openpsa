@@ -54,14 +54,14 @@ class midcom_helper_head
     /**
      * Array with all linked URLs for HEAD.
      *
-     * @var Array
+     * @var array
      */
     private $_linkhrefs = [];
 
     /**
      * Array with all methods for the BODY's onload event.
      *
-     * @var Array
+     * @var array
      */
     private $_jsonload = [];
 

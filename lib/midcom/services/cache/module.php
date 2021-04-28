@@ -22,8 +22,6 @@ use Doctrine\Common\Cache\CacheProvider;
 abstract class midcom_services_cache_module
 {
     /**
-     * Cache backend instance.
-     *
      * @var Doctrine\Common\Cache\CacheProvider
      */
     protected $backend;

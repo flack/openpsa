@@ -18,7 +18,7 @@ class midgard_admin_user_validator
      *
      * If the formdata contains a person GUID, it is ignored during the search
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function is_username_available(array $fields)

@@ -43,7 +43,7 @@ class fi_protie_navigation
     /**
      * Stores the navigation access point history or in other words path to the current point.
      *
-     * @var Array
+     * @var array
      */
     private $node_path = [];
 

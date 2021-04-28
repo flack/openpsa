@@ -28,8 +28,6 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
     private $end;
 
     /**
-     * Constructor
-     *
      * @param string $name The filter's name
      * @param string $start The field representing the timeframe's start
      * @param string $end The field representing the timeframe's end

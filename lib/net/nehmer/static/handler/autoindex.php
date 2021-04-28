@@ -17,8 +17,6 @@ use midcom\datamanager\storage;
 class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_handler
 {
     /**
-     * The list of index entries
-     *
      * @var array
      */
     protected $_index_entries = [];

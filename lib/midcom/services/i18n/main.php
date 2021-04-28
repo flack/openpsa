@@ -35,29 +35,21 @@ use Symfony\Component\Translation\Translator;
 class midcom_services_i18n
 {
     /**
-     * Fallback language, in case the selected language is not available.
-     *
      * @var string
      */
     private $_fallback_language;
 
     /**
-     * Cache of all instantiated localization classes.
-     *
      * @var midcom_services_i18n_l10n[]
      */
     private $_obj_l10n = [];
 
     /**
-     * Current language.
-     *
      * @var string
      */
     private $_current_language;
 
     /**
-     * Current character set
-     *
      * @var string
      */
     private $_current_charset = 'utf-8';

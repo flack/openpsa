@@ -14,15 +14,11 @@
 class midgard_admin_asgard_navigation extends midcom_baseclasses_components_purecode
 {
     /**
-     * Root types
-     *
      * @var array
      */
     public $root_types = [];
 
     /**
-     * Some object
-     *
      * @var midgard\portable\api\mgdobject
      */
     protected $_object;
@@ -30,7 +26,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /**
      * Object path to the current object.
      *
-     * @var Array
+     * @var array
      */
     private $_object_path = [];
 

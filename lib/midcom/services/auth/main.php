@@ -46,18 +46,13 @@ class midcom_services_auth
 
     /**
      * Admin user level state. This is true if the currently authenticated user is an
-     * Midgard Administrator, false otherwise.
-     *
-     * This effectively maps to midcom_connection::is_admin(); but it is suggested to use the auth class
-     * for consistency reasons nevertheless.
+     * Administrator, false otherwise.
      *
      * @var boolean
      */
     public $admin = false;
 
     /**
-     * The ACL management system.
-     *
      * @var midcom_services_auth_acl
      */
     public $acl;
@@ -65,7 +60,7 @@ class midcom_services_auth
     /**
      * Internal cache of all loaded groups, indexed by their identifiers.
      *
-     * @var Array
+     * @var array
      */
     private $_group_cache = [];
 
@@ -90,15 +85,11 @@ class midcom_services_auth
     private $_component_sudo = 0;
 
     /**
-     * The authentication backend we should use by default.
-     *
      * @var midcom_services_auth_backend
      */
     private $backend;
 
     /**
-     * The authentication frontend we should use by default.
-     *
      * @var midcom_services_auth_frontend
      */
     private $frontend;

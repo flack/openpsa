@@ -73,16 +73,12 @@ class midcom_helper_metadata
     private $__object;
 
     /**
-     * Metadata object of the current object
-     *
      * @var midgard\portable\api\metadata
      */
     private $__metadata;
 
     /**
-     * Holds the values already read from the database.
-     *
-     * @var Array
+     * @var array
      */
     private $_cache = [];
 

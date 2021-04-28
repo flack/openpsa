@@ -14,7 +14,7 @@
 class org_openpsa_widgets_calendar_event
 {
     /**
-     * Event CGUID
+     * Event GUID
      *
      * @var string
      */

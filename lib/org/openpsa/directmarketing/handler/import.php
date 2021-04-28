@@ -20,15 +20,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     use org_openpsa_directmarketing_handler;
 
     /**
-     * The schema databases used for importing to various objects like persons and organizations
-     *
      * @var schemadb[]
      */
     private $_schemadbs = [];
 
     /**
-     * Flag to track whether an import was successfully performed
-     *
      * @var boolean
      */
     private $_import_success = false;

@@ -28,8 +28,6 @@
 class midcom_services_indexer_document_midcom extends midcom_services_indexer_document
 {
     /**
-     * The metadata instance attached to the object to be indexed.
-     *
      * @var midcom_helper_metadata
      */
     protected $_metadata;

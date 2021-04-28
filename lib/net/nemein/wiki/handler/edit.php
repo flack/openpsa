@@ -21,15 +21,11 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     use net_nemein_wiki_handler;
 
     /**
-     * The wikipage we're editing
-     *
      * @var net_nemein_wiki_wikipage
      */
     private $page;
 
     /**
-     * The Controller of the article used for editing
-     *
      * @var controller
      */
     private $controller;

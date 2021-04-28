@@ -21,15 +21,11 @@ abstract class org_openpsa_core_filter
     public $name;
 
     /**
-     * The filter selection, if any
-     *
      * @var array
      */
     protected $_selection = [];
 
     /**
-     * The filter label
-     *
      * @var string
      */
     protected $_label;

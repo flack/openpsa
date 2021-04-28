@@ -21,22 +21,16 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     private $_invoice;
 
     /**
-     * The deliverable we're processing
-     *
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
     private $_deliverable;
 
     /**
-     * The deliverable's cost
-     *
      * @var float
      */
     private $_cost = 0;
 
     /**
-     * The deliverable's price
-     *
      * @var float
      */
     private $_price = 0;

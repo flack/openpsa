@@ -14,15 +14,11 @@
 class org_openpsa_contacts_mycontacts
 {
     /**
-     * The user whose list we're working on
-     *
      * @var midcom_core_user
      */
     private $_user;
 
     /**
-     * The list we're working on
-     *
      * @var org_openpsa_contacts_list_dba
      */
     private $_group;

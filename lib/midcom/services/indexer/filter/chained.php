@@ -14,8 +14,6 @@
 class midcom_services_indexer_filter_chained implements midcom_services_indexer_filter
 {
     /**
-     * The string we're working with
-     *
      * @var midcom_services_indexer_filter[]
      */
     private $filters = [];

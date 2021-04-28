@@ -21,8 +21,6 @@
 class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
 {
     /**
-     * The topic for which we are handling a request.
-     *
      * @var midcom_db_topic
      */
     protected $_topic;

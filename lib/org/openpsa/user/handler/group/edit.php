@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * The person we're working on
-     *
      * @var midcom_db_group
      */
     private $group;

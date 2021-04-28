@@ -16,7 +16,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Validation rules for edit forms
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function validate_edit_form(array $fields)
@@ -39,7 +39,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Validation rules for create forms
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function validate_create_form(array $fields)
@@ -60,7 +60,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Validate the existing password
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function verify_existing_password(array $fields)
@@ -81,7 +81,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Test if a username exists
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function username_exists(array $fields)
@@ -95,7 +95,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Test is email address exists
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function email_exists(array $fields)
@@ -116,7 +116,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Test that both email and username exist
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function email_and_username_exist(array $fields)
@@ -139,7 +139,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     /**
      * Test that no previous password is reused & password is strong enough
      *
-     * @var array $fields The form's data
+     * @param array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
     public function password_check(array $fields)

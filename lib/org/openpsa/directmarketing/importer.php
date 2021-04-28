@@ -17,36 +17,26 @@ use midcom\datamanager\schemadb;
 abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_components_purecode
 {
     /**
-     * Datamanagers used for saving various objects like persons and organizations
-     *
      * @var datamanager[]
      */
     private $_datamanagers = [];
 
     /**
-     * The schema databases used for importing to various objects like persons and organizations
-     *
      * @var schemadb[]
      */
     protected $_schemadbs = [];
 
     /**
-     * Object registry
-     *
      * @var array
      */
     private $_new_objects = [];
 
     /**
-     * Status table
-     *
      * @var array
      */
     private $_import_status = [];
 
     /**
-     * Importer configuration, if any
-     *
      * @var array
      */
     protected $_settings = [];

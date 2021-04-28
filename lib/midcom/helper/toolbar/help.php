@@ -14,7 +14,6 @@
 class midcom_helper_toolbar_help extends midcom_helper_toolbar
 {
     /**
-     *
      * @var string
      */
     private $component;

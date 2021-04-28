@@ -14,16 +14,14 @@
 class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecode
 {
     /**
-     * Target
-     *
      * @var midcom_core_dbaobject
      */
     public $target;
 
     /**
-     * Exclusion list
+     * List of GUIDs of objects that shall not be copied
      *
-     * @var array        List of GUIDs of objects that shall not be copied
+     * @var array
      */
     public $exclude = [];
 
@@ -87,7 +85,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Switch for halt on error. If this is set to false, errors will be
      * reported, but will not stop executing
      *
-     * @var boolean        Set to false to continue on errors
+     * @var boolean
      */
     public $halt_on_errors = true;
 

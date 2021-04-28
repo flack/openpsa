@@ -15,22 +15,16 @@
 class org_openpsa_core_queryfilter
 {
     /**
-     * Currently registered filters
-     *
      * @var org_openpsa_core_filter[]
      */
     private $_filters = [];
 
     /**
-     * The queryfilter's identifier
-     *
      * @var string
      */
     private $_identifier;
 
     /**
-     * Constructor
-     *
      * @param string $identifier The QF's identifier
      */
     public function __construct($identifier)

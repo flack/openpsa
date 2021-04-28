@@ -56,7 +56,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     private $_object_orders = [];
 
     /**
-     * Constructor, takes one or more object guids and classnames and constructs a collector accordingly.
+     * Takes one or more object guids and classnames and constructs a collector accordingly.
      *
      * Attention: At least one of these arguments has to be a string
      *

@@ -270,7 +270,7 @@ class midcom_services_auth_acl
     * class_default_privileges for child objects might be overridden by parent default
     * privileges
     *
-    * @var Array
+    * @var array
     */
     private static $_content_privileges_cache = [];
 

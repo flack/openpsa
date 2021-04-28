@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_components_handler
 {
     /**
-     * Datamanager instance
-     *
      * @var datamanager
      */
     private $datamanager;

@@ -16,8 +16,6 @@ use midcom\datamanager\schemabuilder;
 class midgard_admin_asgard_schemadb extends schemabuilder
 {
     /**
-     * Component config for Asgard
-     *
      * @var midcom_helper_configuration
      */
     private $_config;
@@ -28,8 +26,6 @@ class midgard_admin_asgard_schemadb extends schemabuilder
     private $l10n;
 
     /**
-     * Flag that controls if fields used for copying should be added
-     *
      * @var boolean
      */
     public $add_copy_fields = false;

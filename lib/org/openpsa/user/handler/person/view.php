@@ -16,8 +16,6 @@ use midcom\datamanager\datamanager;
 class org_openpsa_user_handler_person_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The person we're working on
-     *
      * @var midcom_db_person
      */
     private $_person;

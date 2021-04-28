@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_products_handler_group_create extends midcom_baseclasses_components_handler
 {
     /**
-     * The article which has been created
-     *
      * @var org_openpsa_products_product_group_dba
      */
     private $_group;

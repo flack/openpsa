@@ -166,7 +166,7 @@ class midcom_helper_toolbar
      * you change URL manually, you have to ensure a valid URL by yourself
      * or use update_item_url, which is recommended.
      *
-     * @var Array
+     * @var array
      */
     public $items = [];
 
@@ -179,7 +179,7 @@ class midcom_helper_toolbar
      * The entries should be namespaced according to the usual MidCOM
      * Namespacing rules.
      *
-     * @var Array
+     * @var array
      */
     public $customdata = [];
 

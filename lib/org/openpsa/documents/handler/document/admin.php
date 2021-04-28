@@ -20,15 +20,11 @@ use midcom\datamanager\storage\blobs;
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * The document we're working with
-     *
      * @var org_openpsa_documents_document_dba
      */
     private $_document;
 
     /**
-     * The Controller of the document used for creating or editing
-     *
      * @var controller
      */
     private $_controller;
