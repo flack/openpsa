@@ -53,13 +53,6 @@ abstract class midcom_core_query
     protected $_offset = 0;
 
     /**
-     * The ordering instructions used for this query
-     *
-     * @var array
-     */
-    protected $_orders = [];
-
-    /**
      * Type that the application expects to retrieve from this instance.
      *
      * @var string
@@ -309,10 +302,6 @@ abstract class midcom_core_query
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->_orders[] = [
-            'field' => $field,
-            'direction' => $direction
-        ];
 
         return true;
     }

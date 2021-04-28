@@ -27,6 +27,14 @@
 class midcom_core_collector extends midcom_core_query
 {
     /**
+     * The applied ordering instructions (for reuse in get_objects)
+     *
+     * @var array
+     */
+    private $orders = [];
+
+
+    /**
      * The initialization routine
      */
     public function __construct(string $classname, ?string $domain = null, $value = null)
@@ -37,6 +45,21 @@ class midcom_core_collector extends midcom_core_query
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
         $this->_query->set_key_property('guid');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function add_order(string $field, string $direction = 'ASC') : bool
+    {
+        if ($stat = parent::add_order($field, $direction)) {
+            $this->orders[] = [
+                'field' => $field,
+                'direction' => $direction
+            ];
+        }
+
+        return $stat;
     }
 
     /**
@@ -261,7 +284,7 @@ class midcom_core_collector extends midcom_core_query
         $qb = new midcom_core_querybuilder($this->_real_class);
         $qb->hide_invisible = $this->hide_invisible;
         $qb->add_constraint('guid', 'IN', array_keys($guids));
-        foreach ($this->_orders as $order) {
+        foreach ($this->orders as $order) {
             $qb->add_order($order['field'], $order['direction']);
         }
 
