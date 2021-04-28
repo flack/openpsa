@@ -7,7 +7,7 @@
  */
 
 /**
- * This class provides an abstract base class for all indexer query filters.
+ * Interface for all indexer query filters.
  *
  * A filter will restrict any query for a given field, showing only results matching
  * the filter. In essence, this is a limited version of the range query facility
@@ -16,35 +16,12 @@
  * @package midcom.services
  * @see midcom_services_indexer
  */
-abstract class midcom_services_indexer_filter
+interface midcom_services_indexer_filter
 {
-    /**
-     * The name of the field that should be restricted.
-     *
-     * @var string
-     */
-    protected $_field = '';
-
-    /**
-     * Initialize the class.
-     */
-    public function __construct(string $field)
-    {
-        $this->_field = $field;
-    }
-
-    /**
-     * Returns the name of the field.
-     */
-    public function get_field() : string
-    {
-        return $this->_field;
-    }
-
     /**
      * Returns the filter's string representation
      *
      * @return string The string to append to the query
      */
-    abstract public function get_query_string() : string;
+    public function get_query_string() : string;
 }

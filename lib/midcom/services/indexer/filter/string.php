@@ -10,9 +10,8 @@
  * This class provides a string query filter
  *
  * @package midcom.services
- * @see midcom_services_indexer
  */
-class midcom_services_indexer_filter_string extends midcom_services_indexer_filter
+class midcom_services_indexer_filter_string implements midcom_services_indexer_filter
 {
     /**
      * The string we're working with
@@ -22,17 +21,23 @@ class midcom_services_indexer_filter_string extends midcom_services_indexer_filt
     private $value;
 
     /**
+     * The name of the field that should be restricted.
+     *
+     * @var string
+     */
+    private $field = '';
+
+    /**
      * Create a new string filter.
      */
     public function __construct(string $field, string $value)
     {
-        parent::__construct($field);
-
         $this->value = $value;
+        $this->field = $field;
     }
 
     public function get_query_string() : string
     {
-        return sprintf('%s:%s', $this->get_field(), $this->value);
+        return sprintf('%s:%s', $this->field, $this->value);
     }
 }

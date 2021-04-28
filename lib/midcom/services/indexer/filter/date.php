@@ -10,23 +10,29 @@
  * This class provides a date query filter
  *
  * @package midcom.services
- * @see midcom_services_indexer
  */
-class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
+class midcom_services_indexer_filter_date implements midcom_services_indexer_filter
 {
     /**
      * Start timestamp, may be 0
      *
      * @var int
      */
-    private $_start;
+    private $start;
 
     /**
      * End timestamp, may be 0
      *
      * @var int
      */
-    private $_end;
+    private $end;
+
+    /**
+     * The name of the field that should be restricted.
+     *
+     * @var string
+     */
+    private $field = '';
 
     /**
      * Create a new date filter.
@@ -39,22 +45,21 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
      */
     public function __construct(string $field, int $start, int $end)
     {
-        parent::__construct($field);
-
         if ($start == 0 && $end == 0) {
             throw new midcom_error('Either start or end must not be 0.');
         }
 
-        $this->_start = $start;
-        $this->_end = $end;
+        $this->field = $field;
+        $this->start = $start;
+        $this->end = $end;
     }
 
     public function get_query_string() : string
     {
         $format = "Y-m-d\TH:i:s\Z";
         return sprintf("%s:[%s TO %s]",
-            $this->get_field(),
-            gmdate($format, $this->_start - 100000),
-            gmdate($format, ($this->_end == 0) ? time() : $this->_end));
+            $this->field,
+            gmdate($format, $this->start - 100000),
+            gmdate($format, ($this->end == 0) ? time() : $this->end));
     }
 }
