@@ -392,7 +392,7 @@ class midcom_core_privilege
         $mc->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);
 
         if ($type == 'CONTENT') {
-            $mc->add_constraint('assignee', '<>', 'SELF');
+            $mc->add_constraint('assignee', 'NOT IN', ['SELF', '']);
         } else {
             $mc->add_constraint('assignee', '=', 'SELF');
         }
@@ -411,10 +411,6 @@ class midcom_core_privilege
             $privilege['objectguid'] = $guid;
             $privilege['guid'] = $privilege_guid;
             $privilege_object = new static($privilege);
-            if (!isset($privilege_object->assignee)) {
-                // Invalid privilege, skip
-                continue;
-            }
             $result[] = $privilege_object;
         }
 

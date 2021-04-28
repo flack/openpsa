@@ -142,11 +142,9 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         $label_elements = [$this->title];
         $task = $this;
-        while ($task = $task->get_parent()) {
-            if (isset($task->title)) {
-                $label_elements[] = $task->title;
-            }
-        }
+        do {
+            $label_elements[] = $task->title;
+        } while ($task = $task->get_parent());
 
         $label = implode(' / ', array_reverse($label_elements));
         return trim($label);

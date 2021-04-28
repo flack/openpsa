@@ -166,8 +166,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
             // Register GUIDs for cache engine
             foreach ($this->_request_data['result'] as $doc) {
-                if (   !isset($doc->source)
-                    || !mgd_is_guid($doc->source)) {
+                if (!mgd_is_guid($doc->source)) {
                     // Non-Midgard results don't need to go through cache registration
                     continue;
                 }

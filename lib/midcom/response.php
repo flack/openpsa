@@ -39,10 +39,7 @@ class midcom_response extends Response
 
     public function __get($name)
     {
-        if (!isset($this->_data[$name])) {
-            return null;
-        }
-        return $this->_data[$name];
+        return $this->_data[$name] ?? null;
     }
 
     public function __set($name, $value)

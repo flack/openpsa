@@ -92,10 +92,7 @@ class org_openpsa_widgets_calendar_event
             $this->start = $event->start;
             $this->end = $event->end;
             $this->title = $event->title;
-
-            if (isset($event->location)) {
-                $this->location = $event->location;
-            }
+            $this->location = $event->location;
         }
     }
 
