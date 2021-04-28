@@ -38,7 +38,7 @@ $grid->set_option('caption', $data['l10n']->get($data['state']));
 $grid->set_column('created', $data['l10n']->get('created'), 'width: 80, fixed: true, align: "center", formatter: "date"');
 $grid->set_column('title', $data['l10n']->get('title'), 'width: 120, classes: "multiline"', 'string');
 $grid->set_column('price', $data['l10n']->get('price'), 'width: 80, fixed: true, formatter: "number", align: "right", title: false, classes: "sum"', 'number');
-if ($data['state'] !== 'declined' && $data['state'] !== 'invoiced') {
+if (!in_array($data['state'], ['declined', 'invoiced'], true)) {
     $grid->set_column('action', $data['l10n']->get('actions'), 'width: 150, fixed: true, sortable: false, align: "center"');
 }
 $grid->set_column('subscription', $data['l10n']->get('subscription'), 'width: 30, align: "center", fixed: true, formatter: "checkbox"');

@@ -100,9 +100,7 @@ class org_openpsa_mail_message
             if (is_string($value)) {
                 $this->_headers[$header] = trim($value);
             }
-            if (   strtolower($header) == 'from'
-                || strtolower($header) == 'reply-to'
-                || strtolower($header) == 'to') {
+            if (in_array(strtolower($header), ['from', 'reply-to', 'to'])) {
                 $this->_headers[$header] = $this->_encode_address_field($value);
             }
         }

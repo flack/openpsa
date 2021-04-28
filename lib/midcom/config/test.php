@@ -175,7 +175,7 @@ class midcom_config_test
         // ImageMagick
         $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify -version";
         exec($cmd, $output, $result);
-        if ($result !== 0 && $result !== 1) {
+        if (!in_array($result, [0, 1], true)) {
             $this->add('ImageMagick', self::ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
         } else {
             $this->add('ImageMagick', self::OK, implode("<br>", $output));

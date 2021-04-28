@@ -218,13 +218,10 @@ class midcom_application extends Kernel
         $this->skip_page_style = true;
         try {
             $response = $this->handle($request, HttpKernelInterface::SUB_REQUEST, false);
-        } catch (midcom_error $e) {
-            if ($e instanceof midcom_error_notfound || $e instanceof midcom_error_forbidden) {
-                $e->log();
-                midcom_core_context::leave();
-                return;
-            }
-            throw $e;
+        } catch (midcom_error_notfound | midcom_error_forbidden $e) {
+            $e->log();
+            midcom_core_context::leave();
+            return;
         } finally {
             $this->skip_page_style = $backup;
         }

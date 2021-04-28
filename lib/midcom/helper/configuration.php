@@ -139,8 +139,7 @@ class midcom_helper_configuration
     private function _update_cache()
     {
         $this->_merged = $this->_global;
-        if (   !empty($this->_local)
-            && is_array($this->_local)) {
+        if (!empty($this->_local)) {
             $this->_merged = array_merge($this->_merged, $this->_local);
         }
     }
