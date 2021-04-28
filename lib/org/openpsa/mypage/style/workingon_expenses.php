@@ -36,7 +36,7 @@
     echo "<form action=\"{$data['expenses_url']}\" method='post'><div>";
     $current_user = midcom::get()->auth->user->get_storage();
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
-    echo "<input type=\"submit\" value=\"".sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2))."\" />";
+    echo "<input type=\"submit\" value=\"" . sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2)) . "\" />";
     echo "</div></form>";
     ?>
 </div>

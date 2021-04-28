@@ -134,7 +134,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             $object_label = $object->guid;
         }
         echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
-        echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><a href=\"". $this->router->generate('object_deleted', ['guid' =>$object->guid]) . "\">{$icon} " . $object_label . "</a></td>\n";
+        echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><a href=\"" . $this->router->generate('object_deleted', ['guid' =>$object->guid]) . "\">{$icon} " . $object_label . "</a></td>\n";
         echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
         if (!empty($revisor->guid)) {

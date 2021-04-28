@@ -84,7 +84,7 @@ class org_openpsa_invoices_invoice_pdf
         $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '.pdf';
 
         // tmp filename
-        $tmp_file = midcom::get()->config->get('midcom_tempdir') . "/". $filename;
+        $tmp_file = midcom::get()->config->get('midcom_tempdir') . "/" . $filename;
 
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);

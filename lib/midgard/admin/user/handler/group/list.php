@@ -49,7 +49,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n_midcom->get('updated'));
                 return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $guid]));
             }
-            debug_add('Failed to update the group, last error was '. midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to update the group, last error was ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);
 
             throw new midcom_error('Failed to update the group, see error level log for details');

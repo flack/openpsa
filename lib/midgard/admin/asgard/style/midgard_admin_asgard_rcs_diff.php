@@ -28,7 +28,7 @@ foreach ($data['diff'] as $attribute => $values) {
 }
 
 if (!$data['diff']) {
-    echo "<dt>". $data['l10n']->get('no changes in content') ."</dt>\n";
+    echo "<dt>" . $data['l10n']->get('no changes in content') . "</dt>\n";
 }
 ?>
 </dl>
