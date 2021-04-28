@@ -173,7 +173,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             foreach ($linkfields as $link_type => $field) {
                 $info = [
                     'name' => $field,
-                    'type' => $ref->get_midgard_type($field),
                     'target' => $ref->get_link_target($field)
                 ];
 
@@ -182,7 +181,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                         // This link points elsewhere
                         continue;
                     }
-                } elseif ($info['type'] === MGD_TYPE_GUID && empty($info['target'])) {
+                } elseif ($ref->get_midgard_type($field) === MGD_TYPE_GUID && empty($info['target'])) {
                     // Guid link without class specification, valid for all classes
                     $info['target'] = 'guid';
                 }
@@ -198,60 +197,35 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function _child_objects_type_qb(string $schema_type, object $for_object, bool $deleted)
     {
+        $linkfields = $this->_get_link_fields($schema_type, get_class($for_object));
+        if (empty($linkfields)) {
+            debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        $multiple_links = count($linkfields) > 1;
+
         $qb = $this->_get_type_qb($schema_type, $deleted);
         if (!$qb) {
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        $linkfields = $this->_get_link_fields($schema_type, get_class($for_object));
-
-        if (empty($linkfields)) {
-            debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $multiple_links = count($linkfields) > 1;
         if ($multiple_links) {
             $qb->begin_group('OR');
         }
 
         foreach ($linkfields as $link_type => $field_data) {
             $field_target = $field_data['target'];
-            $field_type = $field_data['type'];
             $field = $field_data['name'];
 
-            if (   !$field_target
-                || !isset($for_object->$field_target)) {
-                // Why return false ???
-                return false;
-            }
-            switch ($field_type) {
-                case MGD_TYPE_STRING:
-                case MGD_TYPE_GUID:
+            if ($link_type == 'parent' && !empty($linkfields['up']['name'])) {
+                //we only return direct children (otherwise they would turn up twice in recursive queries)
+                $qb->begin_group('AND');
                     $qb->add_constraint($field, '=', $for_object->$field_target);
-                    break;
-                case MGD_TYPE_INT:
-                case MGD_TYPE_UINT:
-                    if ($link_type == 'up') {
-                        $qb->add_constraint($field, '=', $for_object->$field_target);
-                    } else {
-                        if (!empty($linkfields['up']['name'])) {
-                            //we only return direct children (otherwise they would turn up twice in recursive queries)
-                            $qb->begin_group('AND');
-                            $qb->add_constraint($field, '=', $for_object->$field_target);
-                            $qb->add_constraint($linkfields['up']['name'], '=', 0);
-                            $qb->end_group();
-                        } else {
-                            $qb->add_constraint($field, '=', $for_object->$field_target);
-                        }
-                    }
-                    break;
-                default:
-                    debug_add("Do not know how to handle linked field '{$field}', has type {$field_type}", MIDCOM_LOG_INFO);
-
-                    // Why return false ???
-                    return false;
+                    $qb->add_constraint($linkfields['up']['name'], '=', 0);
+                $qb->end_group();
+            } else {
+                $qb->add_constraint($field, '=', $for_object->$field_target);
             }
         }
 
