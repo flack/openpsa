@@ -96,9 +96,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
 
         // Preserve vCal GUIDs once set
-        if (isset($this->externalGuid)) {
-            $this->old_externalGuid = $this->externalGuid;
-        }
+        $this->old_externalGuid = $this->externalGuid;
 
         // Hide details if we're not allowed to see them
         if (!$this->can_do('org.openpsa.calendar:read')) {
@@ -157,7 +155,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //Preserve vCal GUIDs once set
-        if (isset($this->old_externalGuid)) {
+        if ($this->old_externalGuid) {
             $this->externalGuid = $this->old_externalGuid;
         }
 
