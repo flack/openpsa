@@ -26,22 +26,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        // Figure out constraint to use to get root level objects
+        // Only get get top level objects
         if ($upfield = midgard_object_class::get_property_up($schema_type)) {
-            $uptype = $this->_mgd_reflector->get_midgard_type($upfield);
-            switch ($uptype) {
-                case MGD_TYPE_STRING:
-                case MGD_TYPE_GUID:
-                    $qb->add_constraint($upfield, '=', '');
-                    break;
-                case MGD_TYPE_INT:
-                case MGD_TYPE_UINT:
-                    $qb->add_constraint($upfield, '=', 0);
-                    break;
-                default:
-                    debug_add("Do not know how to handle upfield '{$upfield}' has type {$uptype}", MIDCOM_LOG_ERROR);
-                    return false;
-            }
+            $qb->add_constraint($upfield, '=', 0);
         }
         return $qb;
     }
