@@ -207,14 +207,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         if ($info = $this->get_link_field($schema_type, get_class($for_object))) {
+            $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
+            // we only return direct children (otherwise they would turn up twice in recursive queries)
             if ($info['type'] == 'parent' && $info['upfield']) {
-                // we only return direct children (otherwise they would turn up twice in recursive queries)
-                $qb->begin_group('AND');
-                    $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
-                    $qb->add_constraint($info['upfield'], '=', 0);
-                $qb->end_group();
-            } else {
-                $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
+                $qb->add_constraint($info['upfield'], '=', 0);
             }
             return $qb;
         }
