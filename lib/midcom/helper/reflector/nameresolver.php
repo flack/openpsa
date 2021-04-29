@@ -214,10 +214,10 @@ class midcom_helper_reflector_nameresolver
             // This sibling class does not use names
             return false;
         }
+        $resolver = midcom_helper_reflector_tree::get($schema_type);
         if ($parent === null) {
-            $qb = midcom_helper_reflector_tree::get($schema_type)->_root_objects_qb();
+            $qb = $resolver->_root_objects_qb();
         } else {
-            $resolver = midcom_helper_reflector_tree::get($schema_type);
             $qb = $resolver->_child_objects_type_qb($schema_type, $parent, false);
         }
         if (!$qb) {

@@ -466,11 +466,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Configured properties
         foreach ($this->_config->get_array($type . '_exceptions') as $class => $property) {
             if (midcom::get()->dbfactory->is_a($object, $class)) {
-                if (   $property !== false
-                    && !$this->_mgd_reflector->property_exists($property)) {
-                    debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
-                } else {
-                    self::$_cache[$type][$key] = $property;
+                if ($property !== false) {
+                    if ($this->_mgd_reflector->property_exists($property)) {
+                        self::$_cache[$type][$key] = $property;
+                    } else {
+                        debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
+                    }
                 }
                 return self::$_cache[$type][$key];
             }

@@ -238,8 +238,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Get the parent class of the class this reflector was instantiated for
-     *
-     * @return string class name (or false if the type has no parent)
      */
     public function get_parent_class() : ?string
     {
@@ -289,7 +287,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Resolves the "root level" classes, used by get_root_classes()
+     * Resolves the "root level" DBA classes, used by get_root_classes()
      */
     private static function _resolve_root_classes() : array
     {
