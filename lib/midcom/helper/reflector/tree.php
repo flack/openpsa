@@ -156,21 +156,22 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Figure out constraint(s) to use to get child objects
+     * Figure out if $schema_type can be a child of $target_class
      */
-    private function _get_link_fields(string $schema_type, string $target_class) : array
+    private function get_link_field(string $schema_type, string $target_class) : ?array
     {
         static $cache = [];
         $cache_key = $schema_type . '-' . $target_class;
-        if (empty($cache[$cache_key])) {
+        if (!array_key_exists($cache_key, $cache)) {
+            $cache[$cache_key] = null;
             $ref = new midgard_reflection_property($schema_type);
 
-            $linkfields = array_filter([
-                'up' => midgard_object_class::get_property_up($schema_type),
-                'parent' => midgard_object_class::get_property_parent($schema_type)
+            $candidates = array_filter([
+                midgard_object_class::get_property_up($schema_type),
+                midgard_object_class::get_property_parent($schema_type)
             ]);
-            $data = [];
-            foreach ($linkfields as $link_type => $field) {
+
+            foreach ($candidates as $field) {
                 $info = [
                     'name' => $field,
                     'target' => $ref->get_link_target($field)
@@ -185,9 +186,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     // Guid link without class specification, valid for all classes
                     $info['target'] = 'guid';
                 }
-                $data[$link_type] = $info;
+                $cache[$cache_key] = $info;
+                break;
             }
-            $cache[$cache_key] = $data;
         }
         return $cache[$cache_key];
     }
@@ -197,43 +198,19 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function _child_objects_type_qb(string $schema_type, object $for_object, bool $deleted)
     {
-        $linkfields = $this->_get_link_fields($schema_type, get_class($for_object));
-        if (empty($linkfields)) {
-            debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $multiple_links = count($linkfields) > 1;
-
         $qb = $this->_get_type_qb($schema_type, $deleted);
         if (!$qb) {
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if ($multiple_links) {
-            $qb->begin_group('OR');
+        if ($field = $this->get_link_field($schema_type, get_class($for_object))) {
+            $qb->add_constraint($field['name'], '=', $for_object->{$field['target']});
+            return $qb;
         }
 
-        foreach ($linkfields as $link_type => $field_data) {
-            $field_target = $field_data['target'];
-            $field = $field_data['name'];
-
-            if ($link_type == 'parent' && !empty($linkfields['up']['name'])) {
-                //we only return direct children (otherwise they would turn up twice in recursive queries)
-                $qb->begin_group('AND');
-                    $qb->add_constraint($field, '=', $for_object->$field_target);
-                    $qb->add_constraint($linkfields['up']['name'], '=', 0);
-                $qb->end_group();
-            } else {
-                $qb->add_constraint($field, '=', $for_object->$field_target);
-            }
-        }
-
-        if ($multiple_links) {
-            $qb->end_group();
-        }
-
-        return $qb;
+        debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
+        return false;
     }
 
     /**
@@ -260,7 +237,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
             $types = array_diff(midcom_connection::get_schema_types(), $this->_config->get_array('child_class_exceptions_neverchild'));
             foreach ($types as $schema_type) {
-                if ($this->_get_link_fields($schema_type, $this->mgdschema_class)) {
+                if ($this->get_link_field($schema_type, $this->mgdschema_class)) {
                     $cache[$this->mgdschema_class][] = $schema_type;
                 }
             }
