@@ -102,7 +102,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Get children of given object
+     * Get direct children of given object
      *
      * @param midgard\portable\api\mgdobject $object object to get children for
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
@@ -167,14 +167,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $ref = new midgard_reflection_property($schema_type);
 
             $candidates = array_filter([
-                midgard_object_class::get_property_up($schema_type),
-                midgard_object_class::get_property_parent($schema_type)
+                'up' => midgard_object_class::get_property_up($schema_type),
+                'parent' => midgard_object_class::get_property_parent($schema_type)
             ]);
 
-            foreach ($candidates as $field) {
+            foreach ($candidates as $type => $field) {
                 $info = [
+                    'type' => $type,
                     'name' => $field,
-                    'target' => $ref->get_link_target($field)
+                    'target' => $ref->get_link_target($field),
+                    'upfield' => $candidates['up'] ?? null
                 ];
 
                 if ($linked_class = $ref->get_link_name($field)) {
@@ -194,7 +196,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Creates a QB instance for _get_child_objects_type
+     * Creates a QB instance for get_child_objects
      */
     public function _child_objects_type_qb(string $schema_type, object $for_object, bool $deleted)
     {
@@ -204,8 +206,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        if ($field = $this->get_link_field($schema_type, get_class($for_object))) {
-            $qb->add_constraint($field['name'], '=', $for_object->{$field['target']});
+        if ($info = $this->get_link_field($schema_type, get_class($for_object))) {
+            if ($info['type'] == 'parent' && $info['upfield']) {
+                // we only return direct children (otherwise they would turn up twice in recursive queries)
+                $qb->begin_group('AND');
+                    $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
+                    $qb->add_constraint($info['upfield'], '=', 0);
+                $qb->end_group();
+            } else {
+                $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
+            }
             return $qb;
         }
 
@@ -320,19 +330,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function get_tree(midcom_core_dbaobject $parent) : array
     {
-        static $shown_guids = [];
         $tree = [];
 
         foreach (self::get_child_objects($parent) as $class => $objects) {
             $reflector = parent::get($class);
 
             foreach ($objects as $object) {
-                if (array_key_exists($object->guid, $shown_guids)) {
-                    //we might see objects twice if they have both up and parent
-                    continue;
-                }
-                $shown_guids[$object->guid] = true;
-
                 $leaf = [
                     'title' => $reflector->get_object_label($object),
                     'icon' => $reflector->get_object_icon($object),
