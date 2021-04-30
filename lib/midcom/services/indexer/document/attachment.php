@@ -29,7 +29,6 @@
  *
  * @package midcom.services
  * @see midcom_services_indexer
- * @see midcom_helper_metadata
  */
 class midcom_services_indexer_document_attachment extends midcom_services_indexer_document
 {

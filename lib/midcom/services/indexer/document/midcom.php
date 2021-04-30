@@ -23,14 +23,13 @@
  *
  * @package midcom.services
  * @see midcom_services_indexer
- * @see midcom_helper_metadata
  */
 class midcom_services_indexer_document_midcom extends midcom_services_indexer_document
 {
     /**
-     * @var midcom_helper_metadata
+     * @var midcom_core_dbaobject
      */
-    protected $_metadata;
+    private $object;
 
     /**
      * The constructor initializes the content object, loads the metadata object
@@ -38,11 +37,8 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      *
      * The source member is automatically populated with the GUID of the document,
      * the RI is set to it as well. The URL is set to an on-site permalink.
-     *
-     * @param mixed $object The content object to load, passed to the metadata constructor.
-     * @see midcom_helper_metadata
      */
-    public function __construct($object)
+    public function __construct(midcom_core_dbaobject $object)
     {
         parent::__construct();
 
@@ -52,18 +48,9 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
         $this->_set_type('midcom');
 
-        if (is_a($object, midcom_helper_metadata::class)) {
-            $this->_metadata = $object;
-        } else {
-            $this->_metadata = midcom_helper_metadata::retrieve($object);
-            if (!$this->_metadata) {
-                debug_add('document_midcom: Failed to retrieve a Metadata object, aborting.');
-                return;
-            }
-        }
-
-        $this->source = $this->_metadata->object->guid;
-        $this->lang = midcom::get()->i18n->get_current_language();
+        $this->object = $object;
+        $this->source = $object->guid;
+        $this->lang = $this->_i18n->get_current_language();
         // Add language code to RI as well so that different language versions of the object have unique identifiers
         $this->RI = "{$this->source}_{$this->lang}";
         $this->document_url = midcom::get()->permalinks->create_permalink($this->source);
@@ -76,9 +63,8 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      */
     private function _process_metadata()
     {
-        $this->read_metadata_from_object($this->_metadata->object);
-        $metadata = $this->read_metadata();
-        foreach ($metadata as $key => $value) {
+        $this->read_metadata_from_object($this->object);
+        foreach ($this->read_metadata() as $key => $value) {
             /**
              * @see parent::read_metadata_from_object()
              */
@@ -99,9 +85,9 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         static $meta_dm;
         if ($meta_dm === null) {
-            $meta_dm = $this->_metadata->get_datamanager();
+            $meta_dm = $this->object->metadata->get_datamanager();
         }
-        return $meta_dm->set_storage($this->_metadata->object)->get_content_html();
+        return $meta_dm->set_storage($this->object)->get_content_html();
     }
 
     /**

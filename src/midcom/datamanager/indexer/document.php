@@ -102,10 +102,8 @@ class document extends midcom_services_indexer_document_midcom
      *
      * The document is ready for indexing after construction. On any
      * critical error, midcom_error is triggered.
-     *
-     * @param datamanager $datamanager The fully initialized datamanager instance to use
      */
-    public function __construct($datamanager)
+    public function __construct(datamanager $datamanager)
     {
         parent::__construct($datamanager->get_storage()->get_value());
 

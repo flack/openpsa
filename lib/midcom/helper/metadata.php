@@ -394,7 +394,7 @@ class midcom_helper_metadata
     /**
      * Returns a metadata object for a given content object.
      *
-     * You may bass any one of the following arguments to the function:
+     * You may pass any one of the following arguments to the function:
      *
      * - Any class derived from MidgardObject, you must only ensure, that the parameter
      *   and guid member functions stays available.
