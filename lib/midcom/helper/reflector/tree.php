@@ -26,7 +26,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        // Only get get top level objects
+        // Only get top level objects
         if ($upfield = midgard_object_class::get_property_up($schema_type)) {
             $qb->add_constraint($upfield, '=', 0);
         }

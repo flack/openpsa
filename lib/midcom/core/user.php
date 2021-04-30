@@ -298,8 +298,6 @@ class midcom_core_user
     /**
      * Get the GUID of the user's first group. This is used mainly to populate
      * the owner field during DBa object create calls
-     *
-     * @return ?string GUID of the first group found or null
      */
     public function get_first_group_guid() : ?string
     {
@@ -550,8 +548,6 @@ class midcom_core_user
 
     /**
      * Deletes the current user account and the person record.
-     *
-     * @return boolean Indicating success.
      */
     public function delete() : bool
     {

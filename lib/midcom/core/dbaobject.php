@@ -210,8 +210,6 @@ abstract class midcom_core_dbaobject
 
     /**
      * API for creating a new object
-     *
-     * @return boolean Indicating success
      */
     public function create() : bool
     {
@@ -220,8 +218,6 @@ abstract class midcom_core_dbaobject
 
     /**
      * Delete the current object
-     *
-     * @return boolean Indicating success
      */
     public function delete() : bool
     {
@@ -240,8 +236,6 @@ abstract class midcom_core_dbaobject
 
     /**
      * Purge the current object from database
-     *
-     * @return boolean Indicating success
      */
     public function purge() : bool
     {
@@ -250,33 +244,22 @@ abstract class midcom_core_dbaobject
 
     /**
      * Delete the current object tree, starting from this object
-     *
-     * @return boolean Indicating success
      */
     public function delete_tree() : bool
     {
         return midcom_baseclasses_core_dbobject::delete_tree($this);
     }
 
-    /**
-     * @return boolean Indicating success
-     */
     public function get_by_guid(string $guid) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_guid($this, $guid);
     }
 
-    /**
-     * @return boolean Indicating success
-     */
     public function get_by_id(int $id) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_id($this, $id);
     }
 
-    /**
-     * @return boolean Indicating success
-     */
     public function get_by_path(string $path) : bool
     {
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);

@@ -193,7 +193,6 @@ class midcom_helper_nav_backend
      * as this can happen if dynamic_load is called before showing the navigation.
      *
      * @param mixed $topic Topic object or ID to be processed
-     * @return bool Indicating success
      */
     private function load_node($topic) : bool
     {

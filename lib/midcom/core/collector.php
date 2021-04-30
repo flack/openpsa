@@ -238,8 +238,6 @@ class midcom_core_collector extends midcom_core_query
      * Returns the number of elements matching the current query.
      *
      * Due to ACL checking we must first execute the full query
-     *
-     * @return int The number of records found by the last query.
      */
     public function count() : int
     {
@@ -258,8 +256,6 @@ class midcom_core_collector extends midcom_core_query
      *
      * Use this function with care. The information you obtain in general is negligible, but a creative
      * mind might nevertheless be able to take advantage of it.
-     *
-     * @return int The number of records matching the constraints without taking access control or visibility into account.
      */
     public function count_unchecked() : int
     {

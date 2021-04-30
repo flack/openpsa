@@ -68,8 +68,6 @@ class midcom_core_account
      *
      * This call requires the delete privilege on the person object, this is enforced using
      * require_do.
-     *
-     * @return boolean Indicating success.
      */
     public function delete() : bool
     {

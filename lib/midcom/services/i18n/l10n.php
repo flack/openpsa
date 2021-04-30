@@ -41,7 +41,7 @@
  * TRANSLATED STRING taken literally until ---STRINGEND, which is the
  * only reserved value at the beginning of the line, everything else is
  * fine. Linebreaks within the translation are preserved.
- * \r\n sequences are translated into to \n
+ * \r\n sequences are translated into \n
  * ---STRINGEND
  * </pre>
  *

@@ -115,9 +115,7 @@ class midcom_core_privilege
     }
 
     /**
-     * A copy of the object referenced by the guid value of this privilege.
-     *
-     * @return midcom_core_dbaobject The DBA object to which this privileges is assigned or false on failure (f.x. missing access permissions).
+     * Get the object referenced by the guid value of this privilege.
      */
     private function get_object() : ?midcom_core_dbaobject
     {
@@ -506,8 +504,6 @@ class midcom_core_privilege
      * Store the privilege. This will validate it first and then either
      * update an existing privilege record, or create a new one, depending on the
      * DB state.
-     *
-     * @return boolean Indicating success.
      */
     public function store() : bool
     {
@@ -585,8 +581,6 @@ class midcom_core_privilege
     /**
      * Drop the privilege. If we are a known DB record, we delete us, otherwise
      * we return silently.
-     *
-     * @return boolean Indicating success.
      */
     public function drop() : bool
     {
