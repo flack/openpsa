@@ -232,21 +232,13 @@ class midcom_services_indexer implements EventSubscriberInterface
     /**
      * Try to instantiate the most specific document class for the object given in the parameter.
      *
-     * This class will not return empty document base class instances if nothing
-     * specific can be found. If you are in this situation, you need to instantiate
-     * an appropriate document manually and populate it.
-     *
      * This factory method will work even if the indexer is disabled. You can check this
      * with the enabled() method of this class.
      *
      * @todo Move to a full factory pattern here to save document php file parsings where possible.
      *     This means that all document creations will in the future be handled by this method.
-     *
-     * @param object $object The object for which a document instance is required
-     * @return midcom_services_indexer_document A valid document class as specific as possible. Returns
-     *     false on error or if no specific class match could be found.
      */
-    function new_document($object)
+    public function new_document(object $object) : midcom_services_indexer_document
     {
         // Scan for datamanager instances.
         if (is_a($object, 'midcom\datamanager\datamanager')) {
@@ -259,9 +251,6 @@ class midcom_services_indexer implements EventSubscriberInterface
         if ($object instanceof midcom_core_dbaobject) {
             return new midcom_services_indexer_document_midcom($object);
         }
-
-        // No specific match found.
-        debug_print_r('No match found for this type:', $object);
-        return false;
+        throw new midcom_error('Unsupported object type');
     }
 }
