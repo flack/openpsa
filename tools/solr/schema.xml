@@ -205,7 +205,6 @@
 
    <!--<field name="id" type="string" indexed="true" stored="true"/>-->
    <field name="RI" type="string" indexed="true" stored="true"/>
-   <field name="__INDEX_NAME" type="string" indexed="true" stored="true"/>
    <field name="META_keywords" type="text" indexed="true" stored="true" />
    <field name="META_tags" type="text" indexed="true" stored="true" />
    <field name="__LANG" type="string" indexed="true" stored="true"/>

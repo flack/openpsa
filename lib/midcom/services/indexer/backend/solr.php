@@ -21,11 +21,6 @@ use Psr\Http\Message\ResponseInterface;
 class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
     /**
-     * The "index" to use (Solr has single index but we add this as query constraint as necessary
-     */
-    private $_index_name;
-
-    /**
      * @var midcom_services_indexer_solrDocumentFactory
      */
     private $factory;
@@ -38,20 +33,13 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function __construct(midcom_config $config)
     {
         $this->config = $config;
-        $this->_index_name = $config->get('indexer_index_name');
-        if ($this->_index_name == 'auto') {
-            $this->_index_name = midcom_connection::get_unique_host_name();
-        }
-        $this->factory = new midcom_services_indexer_solrDocumentFactory($this->_index_name);
+        $this->factory = new midcom_services_indexer_solrDocumentFactory;
     }
 
     /**
      * Adds a document to the index.
      *
      * Any warning will be treated as error.
-     *
-     * Note, that $document may also be an array of documents without further
-     * changes to this backend.
      *
      * @param midcom_services_indexer_document[] $documents A list of objects.
      */
@@ -117,9 +105,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $query = array_merge($this->config->get_array('indexer_config_options'), $options);
         $query['q'] = $querystring;
 
-        if (!empty($this->_index_name)) {
-            $query['fq'] = '__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"';
-        }
         if ($filter !== null) {
             $query['fq'] = (isset($query['fq']) ? $query['fq'] . ' AND ' : '') . $filter->get_query_string();
         }

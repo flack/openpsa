@@ -22,7 +22,6 @@ use midcom\events\dbaevent;
  * @see midcom_services_indexer_backend
  * @see midcom_services_indexer_filter
  *
- * @todo Batch indexing support
  * @todo Write code examples
  * @todo More elaborate class introduction.
  * @package midcom.services

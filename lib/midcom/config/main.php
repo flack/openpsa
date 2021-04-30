@@ -121,9 +121,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * <b>Indexer configuration</b>
  *
- * - <b>string indexer_index_name:</b> The default Index to use when indexing the website. This defaults to
- *   a string constructed out of the host's name, port and prefix. You should only change this if you run
- *   the same MidCOM site across multiple hosts.
  * - <b>string indexer_backend:</b> The default indexer backend to use. This defaults to the false,
  *   indicating that <i>no</i> indexing should be done. Right now, the SOLR backend is recommended.
  * - <b>indexer_reindex_allowed_ips:</b> Array of IPs that don't need to basic authenticate themselves
@@ -304,7 +301,6 @@ class midcom_config implements ArrayAccess
 
         // Indexer Configuration
         'indexer_backend' => false,
-        'indexer_index_name' => 'auto',
         'indexer_reindex_allowed_ips' => ['127.0.0.1'],
 
         'indexer_config_options' => ['fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'],

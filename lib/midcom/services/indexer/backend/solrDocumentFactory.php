@@ -15,20 +15,14 @@
 class midcom_services_indexer_solrDocumentFactory
 {
     /**
-     * The "index" to use (Solr has single index but we add this as query constraint as necessary
-     */
-    private $_index_name;
-
-    /**
      * The xml document to post.
      *
      * @var DOMDocument
      */
     private $xml;
 
-    public function __construct(string $index_name)
+    public function __construct()
     {
-        $this->_index_name = $index_name;
         $this->reset();
     }
 
@@ -52,12 +46,6 @@ class midcom_services_indexer_solrDocumentFactory
         $field->setAttribute('name', 'RI');
         $field->nodeValue = $document->RI;
         $element->appendChild($field);
-        if (!empty($this->_index_name)) {
-            $field = $this->xml->createElement('field');
-            $field->setAttribute('name', '__INDEX_NAME');
-            $field->nodeValue = htmlspecialchars($this->_index_name);
-            $element->appendChild($field);
-        }
 
         foreach ($document->list_fields() as $field_name) {
             $field_record = $document->get_field_record($field_name);
@@ -80,9 +68,6 @@ class midcom_services_indexer_solrDocumentFactory
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
         $query->nodeValue = 'RI:' . $id . '*';
-        if (!empty($this->_index_name)) {
-            $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
-        }
     }
 
     /**
@@ -99,9 +84,6 @@ class midcom_services_indexer_solrDocumentFactory
         $query->nodeValue = "RI:[ * TO * ]";
         if (!empty($constraint)) {
             $query->nodeValue .= ' AND ' . $constraint;
-        }
-        if (!empty($this->_index_name)) {
-            $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
         }
     }
 
