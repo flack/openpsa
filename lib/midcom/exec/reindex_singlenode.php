@@ -16,13 +16,13 @@ if (midcom::get()->config->get('indexer_backend') === false) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
-if (empty($_REQUEST['nodeid'])) {
-    throw new midcom_error("\$_REQUEST['nodeid'] must be set to valid node ID");
+if (empty($_GET['nodeid'])) {
+    throw new midcom_error("\$_GET['nodeid'] must be set to valid node ID");
 }
 
 //check if language is passed & set language if needed
-if (isset($_REQUEST['language'])) {
-    midcom::get()->i18n->set_language($_REQUEST['language']);
+if (isset($_GET['language'])) {
+    midcom::get()->i18n->set_language($_GET['language']);
 }
 
 debug_add('Disabling script abort through client.');
@@ -33,10 +33,10 @@ $loader = midcom::get()->componentloader;
 $indexer = midcom::get()->indexer;
 
 $nap = new midcom_helper_nav();
-$nodeid = $_REQUEST['nodeid'];
+$nodeid = (int) $_GET['nodeid'];
 $node = $nap->get_node($nodeid);
 if (!$node) {
-    throw new midcom_error("Could not get node {$_REQUEST['nodeid']}");
+    throw new midcom_error("Could not get node {$_GET['nodeid']}");
 }
 
 echo "<pre>\n";
