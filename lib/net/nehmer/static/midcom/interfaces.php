@@ -19,7 +19,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Iterate over all articles and create index record using the datamanager indexer method.
      */
-    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
+    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer $indexer)
     {
         $qb = midcom::get()->dbfactory->new_query_builder(midcom_db_article::class);
         $qb->add_constraint('topic', '=', $topic->id);

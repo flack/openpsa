@@ -19,7 +19,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Iterate over all articles and create index record using the datamanager indexer method.
      */
-    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
+    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer $indexer)
     {
         if ($config->get('disable_indexing')) {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");

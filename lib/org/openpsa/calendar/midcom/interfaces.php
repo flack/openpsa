@@ -76,7 +76,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Prepare the indexer client
      */
-    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer &$indexer)
+    public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer $indexer)
     {
         $root_event = self::find_root_event();
 
