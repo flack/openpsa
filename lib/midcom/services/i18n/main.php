@@ -215,18 +215,16 @@ class midcom_services_i18n
      *
      * @see midcom_services_i18n_l10n
      */
-    public function get_l10n(string $component = 'midcom', string $database = 'default') : midcom_services_i18n_l10n
+    public function get_l10n(string $component = 'midcom') : midcom_services_i18n_l10n
     {
-        $cacheid = "{$component}/{$database}";
-
-        if (!array_key_exists($cacheid, $this->_obj_l10n)) {
-            $obj = new midcom_services_i18n_l10n($component, $database);
+        if (!array_key_exists($component, $this->_obj_l10n)) {
+            $obj = new midcom_services_i18n_l10n($component);
             $obj->set_language($this->_current_language);
             $obj->set_fallback_language($this->_fallback_language);
-            $this->_obj_l10n[$cacheid] = $obj;
+            $this->_obj_l10n[$component] = $obj;
         }
 
-        return $this->_obj_l10n[$cacheid];
+        return $this->_obj_l10n[$component];
     }
 
     /**
@@ -235,9 +233,9 @@ class midcom_services_i18n
      *
      * @see midcom_services_i18n_l10n::get()
      */
-    public function get_string(string $stringid, string $component, string $database = 'default') : string
+    public function get_string(string $stringid, string $component) : string
     {
-        return $this->get_l10n($component, $database)->get($stringid);
+        return $this->get_l10n($component)->get($stringid);
     }
 
     /**
@@ -249,9 +247,9 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
-    public function show_string(string $stringid, string $component, string $database = 'default')
+    public function show_string(string $stringid, string $component)
     {
-        echo $this->get_string($stringid, $component, $database);
+        echo $this->get_string($stringid, $component);
     }
 
     /**

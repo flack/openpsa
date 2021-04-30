@@ -45,7 +45,7 @@
  * ---STRINGEND
  * </pre>
  *
- * File naming scheme: {$component_directory}/locale/{$database_name}.{$lang}.txt
+ * File naming scheme: {$component_directory}/locale/default.{$lang}.txt
  *
  * @package midcom.services
  */
@@ -66,13 +66,6 @@ class midcom_services_i18n_l10n
      * @var string
      */
     private $_library_filename;
-
-    /**
-     * The name of the current component
-     *
-     * @var string
-     */
-    private $_component_name;
 
     /**
      * Fallback language, in case the selected language is not available.
@@ -110,20 +103,16 @@ class midcom_services_i18n_l10n
      */
     private $_version = '2.1.0';
 
-    private $database;
-
     /**
      * The constructor loads the translation library indicated by the snippetdir
-     * path $library and initializes the system completely. The output character
+     * path $component and initializes the system completely. The output character
      * set will be initialized to the language's default.
      */
-    public function __construct(string $library, string $database)
+    public function __construct(string $component)
     {
-        $path = midcom::get()->componentloader->path_to_snippetpath($library) . "/locale/" . $database;
-        $this->database = $database;
+        $path = midcom::get()->componentloader->path_to_snippetpath($component) . "/locale/default";
         $this->_library_filename = $path;
-        $this->_library = $library . $database;
-        $this->_component_name = $library;
+        $this->_library = $component;
 
         $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
@@ -161,7 +150,7 @@ class midcom_services_i18n_l10n
         $data = $this->parse_data(file($filename), $lang, $filename);
 
         // get site-specific l10n
-        $component_locale = midcom_helper_misc::get_snippet_content_graceful("conf:/" . $this->_component_name . '/l10n/' . $this->database . '.' . $lang . '.txt');
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful("conf:/" . $this->_library . '/l10n/default.' . $lang . '.txt');
         if (!empty($component_locale)) {
             $data = array_merge($data, $this->parse_data(explode("\n", $component_locale), $lang, $component_locale));
         }

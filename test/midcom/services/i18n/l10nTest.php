@@ -17,7 +17,7 @@ class midcom_services_i18n_l10nTest extends TestCase
 {
     public function test_string_exists()
     {
-        $l10n = new midcom_services_i18n_l10n('midcom', 'default');
+        $l10n = new midcom_services_i18n_l10n('midcom');
         $this->assertTrue($l10n->string_exists('topic'));
         $this->assertFalse($l10n->string_exists('xxx'));
         $this->assertFalse($l10n->string_exists('topic', 'it'));
@@ -27,7 +27,7 @@ class midcom_services_i18n_l10nTest extends TestCase
 
     public function test_string_available()
     {
-        $l10n = new midcom_services_i18n_l10n('midcom', 'default');
+        $l10n = new midcom_services_i18n_l10n('midcom');
         $this->assertTrue($l10n->string_available('topic'));
         $this->assertFalse($l10n->string_available('xxx'));
         $l10n->set_language('it');
@@ -36,7 +36,7 @@ class midcom_services_i18n_l10nTest extends TestCase
 
     public function test_get()
     {
-        $l10n = new midcom_services_i18n_l10n('midcom', 'default');
+        $l10n = new midcom_services_i18n_l10n('midcom');
         $l10n->set_language('de');
         $l10n->set_fallback_language('en');
         $this->assertEquals('Datum', $l10n->get('date'));
