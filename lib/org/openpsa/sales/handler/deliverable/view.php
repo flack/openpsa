@@ -21,11 +21,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
     private $_deliverable;
 
     /**
-     * @var org_openpsa_sales_salesproject_dba
-     */
-    private $_salesproject;
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
@@ -64,8 +59,8 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
     public function _handler_view(string $guid, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
-        $this->set_active_leaf($this->_topic->id . ':' . $this->_salesproject->get_state());
+        $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
+        $this->set_active_leaf($this->_topic->id . ':' . $salesproject->get_state());
 
         $data['view_deliverable'] = datamanager::from_schemadb($this->_config->get('schemadb_deliverable'))
             ->set_storage($this->_deliverable)
@@ -86,7 +81,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        midcom::get()->head->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
+        midcom::get()->head->set_pagetitle("{$salesproject->title}: {$this->_deliverable->title}");
     }
 
     /**

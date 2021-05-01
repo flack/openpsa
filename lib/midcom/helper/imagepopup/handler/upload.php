@@ -62,9 +62,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $split = preg_split("/-(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/", $core);
         $core = array_shift($split);
         $extension = array_pop($pieces);
-        $modifyFilename = $core . "-" . date('Y-m-d-H-i-s', time()) . "." . $extension;
-
-        return $modifyFilename;
+        return $core . "-" . date('Y-m-d-H-i-s', time()) . "." . $extension;
     }
 
     private function get_data_from_database(string $filename, string $parentguid) : midcom_db_attachment

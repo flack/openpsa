@@ -10,7 +10,7 @@ midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/sty
     <head>
         <meta charset="UTF-8">
         <title><?php echo $title; ?></title>
-        <?php echo midcom::get()->head->print_head_elements(); ?>
+        <?php midcom::get()->head->print_head_elements(); ?>
     </head>
 
     <body onload="self.focus();document.midcom_services_auth_frontend_form.username.focus();">

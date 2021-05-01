@@ -56,7 +56,7 @@ class midcom_connection
      */
     public static function set_error(int $errorcode)
     {
-        return midgard_connection::get_instance()->set_error($errorcode);
+        midgard_connection::get_instance()->set_error($errorcode);
     }
 
     /**

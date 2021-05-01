@@ -132,9 +132,7 @@ class org_openpsa_widgets_calendar_event
      */
     public function render(string $element = 'div', int $h_level = 3) : string
     {
-        $rendered_event  = '';
-        $rendered_event .= "<{$element} class=\"vevent\">\n";
-
+        $rendered_event = "<{$element} class=\"vevent\">\n";
         $rendered_event .= $this->render_timelabel();
 
         if ($this->title) {

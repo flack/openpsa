@@ -152,9 +152,7 @@ echo '</select>';
 </div>
 
 <div class="report org_openpsa_invoices full-width fill-height">
-<?php
-    echo $grid->render($entries);
-?>
+    <?php $grid->render($entries); ?>
 </div>
 
 <script type="text/javascript">

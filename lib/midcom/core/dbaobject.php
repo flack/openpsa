@@ -195,7 +195,7 @@ abstract class midcom_core_dbaobject
 
     public function set_guid(string $guid)
     {
-        return $this->__object->set_guid($guid);
+        $this->__object->set_guid($guid);
     }
 
     /**

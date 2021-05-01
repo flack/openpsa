@@ -39,51 +39,43 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     /**
      * Makes and executes querybuilder for filtering hour_reports
+     *
+     * @return org_openpsa_expenses_hour_report_dba[]
      */
-    private function _get_hour_reports() : array
+    private function _get_hour_reports(array &$query_data) : array
     {
         $qb_hr = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb_hr->add_constraint('date', '<=', (int) $this->_request_data['query_data']['end']);
-        $qb_hr->add_constraint('date', '>=', (int) $this->_request_data['query_data']['start']);
-        if (   array_key_exists('invoiceable_filter', $this->_request_data['query_data'])
-            && $this->_request_data['query_data']['invoiceable_filter'] != -1) {
-            $qb_hr->add_constraint('invoiceable', '=', (bool) $this->_request_data['query_data']['invoiceable_filter']);
+        $qb_hr->add_constraint('date', '<=', (int) $query_data['end']);
+        $qb_hr->add_constraint('date', '>=', (int) $query_data['start']);
+        if (   array_key_exists('invoiceable_filter', $query_data)
+            && $query_data['invoiceable_filter'] != -1) {
+            $qb_hr->add_constraint('invoiceable', '=', (bool) $query_data['invoiceable_filter']);
         }
 
-        $this->_apply_filter($qb_hr, 'invoiced', 'invoice', 0);
-
-        if ($this->_request_data['query_data']['resource'] != 'all') {
-            $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            $qb_hr->add_constraint('person', 'IN', $this->_request_data['query_data']['resource_expanded']);
-        }
-        if ($this->_request_data['query_data']['task'] != 'all') {
-            $tasks = $this->_expand_task($this->_request_data['query_data']['task']);
-            $qb_hr->add_constraint('task', 'IN', $tasks);
-        }
-        if (   array_key_exists('hour_type_filter', $this->_request_data['query_data'])
-            && $this->_request_data['query_data']['hour_type_filter'] != 'builtin:all') {
-            $qb_hr->add_constraint('reportType', '=', $this->_request_data['query_data']['hour_type_filter']);
-        }
-        return $qb_hr->execute();
-    }
-
-    private function _apply_filter(midcom_core_query $qb, string $name, string $field, $value)
-    {
-        $filter = $name . '_filter';
-        if (array_key_exists($filter, $this->_request_data['query_data'])) {
-            debug_add($filter . ' detected, raw value: ' . $this->_request_data['query_data'][$filter]);
-            if ($this->_request_data['query_data'][$filter] != -1) {
-                if ((int) $this->_request_data['query_data'][$filter]) {
-                    debug_add($filter . ' parsed as ONLY, adding constraint');
-                    $qb->add_constraint($field, '<>', $value);
-                } else {
-                    debug_add($filter . ' parsed as only NOT, adding constraint');
-                    $qb->add_constraint($field, '=', $value);
-                }
+        if (   array_key_exists('invoiced_filter', $query_data)
+            && $query_data['invoiced_filter'] != -1) {
+            if ((int) $query_data['invoiced_filter']) {
+                debug_add('invoiced_filter parsed as ONLY, adding constraint');
+                $qb_hr->add_constraint('invoice', '<>', 0);
             } else {
-                debug_add($filter . ' parsed as BOTH, do not add any constraints');
+                debug_add('invoiced_filter parsed as only NOT, adding constraint');
+                $qb_hr->add_constraint('invoice', '=', 0);
             }
         }
+
+        if ($query_data['resource'] != 'all') {
+            $query_data['resource_expanded'] = $this->_expand_resource($query_data['resource']);
+            $qb_hr->add_constraint('person', 'IN', $query_data['resource_expanded']);
+        }
+        if ($query_data['task'] != 'all') {
+            $tasks = $this->_expand_task($query_data['task']);
+            $qb_hr->add_constraint('task', 'IN', $tasks);
+        }
+        if (   array_key_exists('hour_type_filter', $query_data)
+            && $query_data['hour_type_filter'] != 'builtin:all') {
+            $qb_hr->add_constraint('reportType', '=', $query_data['hour_type_filter']);
+        }
+        return $qb_hr->execute();
     }
 
     private function _sort_rows()
@@ -180,7 +172,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $data['grouping'] = $this->_grouping;
 
         //Get our results
-        $results_hr = $this->_get_hour_reports();
+        $results_hr = $this->_get_hour_reports($data['query_data']);
 
         //For debugging and sensible passing of data
         $this->raw_results = ['hr' => $results_hr];

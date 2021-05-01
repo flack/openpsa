@@ -26,11 +26,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     private $_object;
 
     /**
-     * @var midcom_core_dbaobject
-     */
-    private $_new_object;
-
-    /**
      * @var datamanager
      */
     private $datamanager;
@@ -157,7 +152,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (!$create_type) {
             throw new midcom_error_notfound('Failed to find type for the new object');
         }
-        $this->_new_object = new $create_type();
+        $new_object = new $create_type();
 
         if (in_array($handler_id, ['object_create_toplevel', 'object_create_chooser'])) {
             midcom::get()->auth->require_user_do('midgard:create', null, $create_type);
@@ -169,11 +164,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         }
 
-        $this->_load_schemadb($this->_new_object);
+        $this->_load_schemadb($new_object);
 
         $this->controller = (new datamanager($this->schemadb))
             ->set_defaults($this->get_defaults($request, $create_type))
-            ->set_storage($this->_new_object, 'default')
+            ->set_storage($new_object, 'default')
             ->get_controller();
 
         if ($handler_id === 'object_create_chooser') {
@@ -189,7 +184,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                return $this->_prepare_relocate($this->_new_object);
+                return $this->_prepare_relocate($new_object);
 
             case 'cancel':
                 if ($this->_object) {

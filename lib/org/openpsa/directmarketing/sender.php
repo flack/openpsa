@@ -326,8 +326,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         //Filter results array by receipt
         $receipts = array_flip($receipts);
         $persons_to_remove = array_intersect_key($results_person_map, $receipts);
-        $results = array_diff_key($results, array_flip($persons_to_remove));
-        return $results;
+        return array_diff_key($results, array_flip($persons_to_remove));
     }
 
     /**

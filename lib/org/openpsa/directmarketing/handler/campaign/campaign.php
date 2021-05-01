@@ -29,11 +29,6 @@ implements client
      */
     private $memberships;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
-
     public function get_qb($field = null, $direction = 'ASC', array $search = []) : midcom_core_querybuilder
     {
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
@@ -94,8 +89,8 @@ implements client
     {
         $this->_campaign = $this->load_campaign($guid);
 
-        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
-        $this->_datamanager->set_storage($this->_campaign);
+        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb_campaign'));
+        $datamanager->set_storage($this->_campaign);
 
         $data['campaign'] = $this->_campaign;
 
@@ -105,10 +100,10 @@ implements client
         $data['grid'] = $provider->get_grid('list_members_' . $guid);
 
         // Populate calendar events for the campaign
-        $this->bind_view_to_object($this->_campaign, $this->_datamanager->get_schema()->get_name());
+        $this->bind_view_to_object($this->_campaign, $datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $guid);
         midcom::get()->head->set_pagetitle($this->_campaign->title);
-        $data['view_campaign'] = $this->_datamanager->get_content_html();
+        $data['view_campaign'] = $datamanager->get_content_html();
 
         return $this->show('show-campaign');
     }

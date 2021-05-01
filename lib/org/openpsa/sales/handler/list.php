@@ -15,11 +15,6 @@ use midcom\grid\grid;
  */
 class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_sales_salesproject_dba[]
-     */
-    private $_salesprojects = [];
-
     public function _handler_list(string $handler_id, array $args, array &$data)
     {
         // Locate Contacts node for linking
@@ -40,14 +35,13 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $this->set_active_leaf($this->_topic->id . ':' . $data['mode']);
         }
 
-        $this->_salesprojects = $qb->execute();
+        $data['salesprojects'] = $qb->execute();
         // TODO: Filtering
 
         $data['grid'] = new grid($data['mode'] . '_salesprojects_grid', 'local');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
 
         $this->add_toolbar_buttons();
-        $data['salesprojects'] = $this->_salesprojects;
 
         return $this->show('show-salesproject-grid');
     }

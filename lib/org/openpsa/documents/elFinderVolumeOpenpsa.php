@@ -677,7 +677,6 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      */
     protected function _checkArchivers()
     {
-        return;
     }
 
     /**

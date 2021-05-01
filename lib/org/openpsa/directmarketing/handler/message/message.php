@@ -26,11 +26,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     private $_campaign;
 
     /**
-     * @var datamanager
-     */
-    private $_datamanager;
-
-    /**
      * Looks up an message to display.
      */
     public function _handler_view(string $guid, array &$data)
@@ -39,18 +34,18 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $this->_campaign = $this->load_campaign($this->_message->campaign);
 
-        $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
-        $this->_datamanager->set_storage($this->_message);
+        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
+        $datamanager->set_storage($this->_message);
 
         $this->add_breadcrumb($this->router->generate('message_view', ['guid' => $this->_message->guid]), $this->_message->title);
 
         $data['campaign'] = $this->_campaign;
-        $data['datamanager'] = $this->_datamanager;
+        $data['datamanager'] = $datamanager;
         $data['message'] = $this->_message;
 
         $this->_populate_toolbar();
 
-        $this->bind_view_to_object($this->_message, $this->_datamanager->get_schema()->get_name());
+        $this->bind_view_to_object($this->_message, $datamanager->get_schema()->get_name());
         midcom::get()->metadata->set_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         midcom::get()->head->set_pagetitle($this->_message->title);
 

@@ -140,7 +140,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $schema->get_field('sent')['hidden'] = empty($this->invoice->sent);
         $schema->get_field('paid')['hidden'] = empty($this->invoice->paid);
 
-        $contact = $this->invoice->customerContact ? $this->invoice->customerContact : $this->contact_id;
+        $contact = $this->invoice->customerContact ?: $this->contact_id;
         $customer_field =& $schema->get_field('customer');
         $contact_field =& $schema->get_field('customerContact');
 

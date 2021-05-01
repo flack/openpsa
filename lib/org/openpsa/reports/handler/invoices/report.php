@@ -124,9 +124,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             }
         }
         $invoices = array_merge($invoices, $this->_get_deliverable_invoices());
-        $invoices = array_filter($invoices, [$this, '_filter_by_date']);
-
-        return $invoices;
+        return array_filter($invoices, [$this, '_filter_by_date']);
     }
 
     private function _get_deliverable_invoices() : array

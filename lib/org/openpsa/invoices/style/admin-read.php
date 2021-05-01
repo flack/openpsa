@@ -154,7 +154,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $billing_data->render_address();
         echo '</div>';
     }
-    echo $status_helper->render();
+    $status_helper->render();
     ?>
 </aside>
 </div>

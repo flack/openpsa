@@ -22,13 +22,6 @@ implements client
 {
     use org_openpsa_contacts_handler;
 
-    /**
-     * What type of group are we dealing with, organization or group?
-     *
-     * @var string
-     */
-    private $type;
-
     private $group;
 
     private function _populate_toolbar()
@@ -95,11 +88,11 @@ implements client
         $data['group'] = $this->group;
 
         if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
-            $this->type = 'group';
+            $type = 'group';
             $data['group_tree'] = $this->get_group_tree();
             $data['members_grid'] = new grid('members_grid', 'json');
         } else {
-            $this->type = 'organization';
+            $type = 'organization';
             $root_group = org_openpsa_contacts_interface::find_root_group();
             if ($this->group->owner != $root_group->id) {
                 $data['parent_group'] = $this->group->get_parent();
@@ -113,7 +106,7 @@ implements client
         }
 
         $data['view'] = datamanager::from_schemadb($this->_config->get('schemadb_group'))
-            ->set_storage($this->group, $this->type)
+            ->set_storage($this->group, $type)
             ->get_content_html();
 
         // Add toolbar items

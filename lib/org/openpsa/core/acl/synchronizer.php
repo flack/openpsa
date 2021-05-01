@@ -44,12 +44,12 @@ class org_openpsa_core_acl_synchronizer
                 debug_add("Public object, everybody can read");
                 $needed_privileges['midgard:read']['value'] = MIDCOM_PRIVILEGE_ALLOW;
                 $needed_privileges['midgard:owner']['assignee'] = $owner_id;
-                $this->_set_attachment_permission($object, 'midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
+                $this->_set_attachment_permission($object, 'EVERYONE');
                 break;
             case org_openpsa_core_acl::ACCESS_PRIVATE:
                 debug_add("Private object, only user can read and write");
                 $needed_privileges['midgard:owner']['assignee'] = midcom::get()->auth->user->id;
-                $this->_set_attachment_permission($object, 'midgard:read', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->_set_attachment_permission($object, midcom::get()->auth->user->id);
                 break;
             case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
                 debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
@@ -57,7 +57,7 @@ class org_openpsa_core_acl_synchronizer
             case org_openpsa_core_acl::ACCESS_WGPRIVATE:
                 debug_add("Private object, only workgroup members can read and write");
                 $needed_privileges['midgard:owner']['assignee'] = $owner_id;
-                $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->_set_attachment_permission($object, $owner_id);
                 break;
         }
 
@@ -85,11 +85,11 @@ class org_openpsa_core_acl_synchronizer
         return true;
     }
 
-    private function _set_attachment_permission(midcom_core_dbaobject $object, string $privilege, string $assignee, $value)
+    private function _set_attachment_permission(midcom_core_dbaobject $object, string $assignee)
     {
         foreach ($object->list_attachments() as $attachment) {
-            debug_add("Setting {$value} to privilege {$privilege} for {$assignee} to attachment #{$attachment->id}");
-            $attachment->set_privilege($privilege, $assignee, $value);
+            debug_add("Granting midgard:read privilege to {$assignee} for attachment #{$attachment->id}");
+            $attachment->set_privilege('midgard:read', $assignee, MIDCOM_PRIVILEGE_ALLOW);
         }
     }
 }

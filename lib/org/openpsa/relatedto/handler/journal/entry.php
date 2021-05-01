@@ -17,11 +17,6 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_components_handler
 {
-    /**
-     * Contains the object the journal_entry is bind to
-     */
-    private $_current_object;
-
     public function _on_initialize()
     {
         midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
@@ -37,9 +32,9 @@ class org_openpsa_relatedto_handler_journal_entry extends midcom_baseclasses_com
 
     public function _handler_create(Request $request, string $guid)
     {
-        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($guid);
+        $current_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $entry= new org_openpsa_relatedto_journal_entry_dba();
-        $entry->linkGuid = $this->_current_object->guid;
+        $entry->linkGuid = $current_object->guid;
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add journal entry'));
 
