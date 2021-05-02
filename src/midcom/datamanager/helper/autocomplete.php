@@ -164,8 +164,7 @@ class autocomplete
             }
         }
         $wildcard_query = str_replace("*", "%", $wildcard_query);
-        $wildcard_query = preg_replace('/%+/', '%', $wildcard_query);
-        return $wildcard_query;
+        return preg_replace('/%+/', '%', $wildcard_query);
     }
 
     public function get_objects() : array

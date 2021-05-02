@@ -467,7 +467,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $crawler = new Crawler($article->content);
         $nodes = $crawler->filter('a[rel="tag"]');
 
-        $html_tags = $nodes->each(function(Crawler $node, $i) {
+        $html_tags = $nodes->each(function(Crawler $node) {
             return [
                 'href' => $node->attr('href') ?? false,
                 'value' => $node->text() ?? false,

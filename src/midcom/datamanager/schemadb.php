@@ -78,7 +78,7 @@ class schemadb
             }
 
             // Override the extended schema with fields from the new schema
-            foreach ($data[$schema_name] as $key => $value) {
+            foreach ($schema as $key => $value) {
                 if ($key === 'extends') {
                     continue;
                 }

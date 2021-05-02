@@ -31,8 +31,6 @@ class rcsdircleanup extends Command
      */
     private $counter = 0;
 
-    private $dry = false;
-
     private $findings = [
         'orphaned' => []
     ];
@@ -93,8 +91,7 @@ class rcsdircleanup extends Command
             $output->writeln("<comment>Unable to detect RCS dir</comment> $dir");
             return 1;
         }
-        $this->dry = $input->getOption("dry");
-        if ($this->dry) {
+        if ($dry = $input->getOption("dry")) {
             $output->writeln("<comment>Running in dry mode!</comment>");
         }
 
@@ -103,7 +100,7 @@ class rcsdircleanup extends Command
         $output->writeln("\nScanned <info>" . $this->counter . "</info> files");
         $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</info> orphaned files:");
 
-        if (!$this->dry) {
+        if (!$dry) {
             $output->writeln("<comment>Deleting orphans</comment>");
             $progress = new ProgressBar($output, count($this->findings['orphaned']));
             $progress->setRedrawFrequency(100);

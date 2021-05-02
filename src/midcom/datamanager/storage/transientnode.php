@@ -10,14 +10,7 @@ namespace midcom\datamanager\storage;
  */
 class transientnode implements node
 {
-    private $config;
-
     private $value;
-
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-    }
 
     /**
      * {@inheritdoc}

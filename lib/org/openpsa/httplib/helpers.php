@@ -38,7 +38,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $crawler = new Crawler($html);
         $nodes = $crawler->filter('head link[rel="' . $relation . '"]');
 
-        return $nodes->each(function(Crawler $node, $i) {
+        return $nodes->each(function(Crawler $node) {
             $tag = ['title' => false, 'href' => false, 'hreflang' => false];
             foreach ($tag as $property => &$value) {
                 if ($node->attr($property) !== null) {

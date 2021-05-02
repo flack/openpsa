@@ -81,7 +81,7 @@
 
 #item_container .entry:hover
 {
-    box-shadow: 0 0 1em rgba(0, 0, 0, .4)
+    box-shadow: 0 0 1em rgba(0, 0, 0, .4);
     background-color: white;
 }
 

@@ -4,7 +4,6 @@ namespace midcom\bundle\dependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Doctrine\Common\Cache;
-use SQLite3;
 use midcom_services_cache_module_memcache;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 

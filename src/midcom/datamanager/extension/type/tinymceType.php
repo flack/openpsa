@@ -104,7 +104,7 @@ class tinymceType extends AbstractType
         $language = $tiny_configuration['language'];
         $img = $tiny_configuration['img'];
 
-        $script = <<<EOT
+        return <<<EOT
 tinyMCE.init({
 {$config}
 {$local_config}
@@ -117,7 +117,6 @@ language : "{$language}",
 {$img}
 });
 EOT;
-        return $script;
     }
 
     /**
@@ -137,10 +136,9 @@ EOT;
         }
 
         $title = $this->i18n->get_string('file picker', 'midcom.helper.imagepopup');
-        $img = <<<IMG
+        return <<<IMG
 file_picker_callback: tiny.filepicker('$title', '$url', '$suffix'),
 images_upload_handler: tiny.image_upload_handler('$upload_url'),
 IMG;
-        return $img;
     }
 }

@@ -154,7 +154,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         switch ($this->_controller->handle($request)) {
             case 'save':
-                if (!$this->save_configuration($data)) {
+                if (!$this->save_configuration()) {
                     midcom::get()->uimessages->add(
                         $this->_l10n_midcom->get('component configuration'),
                         sprintf($this->_l10n->get('configuration save failed: %s'), midcom_connection::get_error_string()),
@@ -195,7 +195,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $this->get_response('midgard_admin_asgard_component_configuration_edit');
     }
 
-    private function save_configuration(array $data) : bool
+    private function save_configuration() : bool
     {
         $raw = $this->_controller->get_datamanager()->get_content_raw();
         $values = [];

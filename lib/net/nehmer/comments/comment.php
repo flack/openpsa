@@ -14,7 +14,7 @@
  * @property string $author
  * @property string $objectguid
  * @property string $title
- * @property longstring $content
+ * @property string $content
  * @property integer $rating
  * @property string $remoteid Remote ID for comments fetched from external source (rss …)
  * @property string $ip

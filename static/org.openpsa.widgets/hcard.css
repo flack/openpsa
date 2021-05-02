@@ -87,7 +87,7 @@ span.vcard img.photo {
     max-width: 1em;
     border-radius: 2px;
     display: inline-block;
-    algin-self: center;
+    align-self: center;
 }
 
 span.vcard a:hover i,

@@ -52,7 +52,6 @@ p
   padding-top: 16px;
   overflow: auto;
   position: fixed !important;
-  position: absolute;
   top: 10px;
   bottom: 58px
 }
@@ -547,7 +546,6 @@ p
 
 #container #toolbar ul
 {
-  padding: 0;
   margin: 0;
   display: block;
   list-style: none;
@@ -657,7 +655,6 @@ p
   vertical-align: middle;
   overflow: hidden;
   position: fixed !important;
-  position: absolute;
   bottom: 0;
   width: 100%;
   clear: both;
@@ -771,7 +768,6 @@ p
   bottom: 0;
   left: 230px;
   width: 10px;
-  cursor: w-resize;
   cursor: col-resize;
 }
 

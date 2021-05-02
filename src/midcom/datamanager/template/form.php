@@ -499,7 +499,7 @@ class form extends base
         if (!empty($objects)) {
             $string .= '<label class="midcom_datamanager_photo_label">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
             $string .= '<ul>';
-            foreach ($objects as $identifier => $info) {
+            foreach ($objects as $info) {
                 if (   $info['size_x']
                     && $info['size_y']) {
                     $size = "{$info['size_x']}&times;{$info['size_y']}";

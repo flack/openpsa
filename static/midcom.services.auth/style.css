@@ -114,7 +114,6 @@ body
 #content #login #password,
 #content #login #username
 {
-    border: 0;
     margin: 0 0 5px 0;
     padding: 0 0 0 5px;
     overflow: hidden;
@@ -201,7 +200,6 @@ body
   background-color: #f2f2f2 !important;
   text-align: center;
   margin: 10px auto;
-  color: #d3d7cf;
   color: #a0a0a0;
   font-size: 1em;
   width: 632px;

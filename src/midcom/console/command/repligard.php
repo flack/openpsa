@@ -48,7 +48,7 @@ class repligard extends Command
         $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE object_action=2')->fetchColumn();
         if ($result > 0) {
             $output->writeln('Found <info>' . $result . '</info> entries for purged objects');
-            if ($this->_confirm($input, $output, 'Delete all rows?')) {
+            if ($this->_confirm($input, $output)) {
                 $result = $this->_run('DELETE FROM repligard WHERE object_action=2', 'exec');
                 $output->writeln('Deleted <comment>' . $result . '</comment> rows');
             }
@@ -59,7 +59,7 @@ class repligard extends Command
             if (!is_a($typename, dbobject::class, true)) {
                 $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE typename="' . $typename . '"');
                 $output->writeln('Found <info>' . $result->fetchColumn() . '</info> entries for nonexistent type <comment>' . $typename . '</comment>');
-                if ($this->_confirm($input, $output, 'Delete all rows?')) {
+                if ($this->_confirm($input, $output)) {
                     $result = $this->_run('DELETE FROM repligard WHERE typename="' . $typename . '"', 'exec');
                     $output->writeln('Deleted <comment>' . $result . '</comment> rows');
                 }
@@ -97,10 +97,10 @@ class repligard extends Command
         return new PDO($dsn, $username, $password);
     }
 
-    private function _confirm(InputInterface $input, OutputInterface $output, string $question) : bool
+    private function _confirm(InputInterface $input, OutputInterface $output) : bool
     {
         $options = [true => 'y', false => 'N'];
-        $question = '<question>' . $question . ' [' . implode('|', $options). ']</question> ';
+        $question = '<question>Delete all rows? [' . implode('|', $options). ']</question> ';
         $question = new ConfirmationQuestion($question, false);
         $dialog = $this->getHelperSet()->get('question');
         return $dialog->ask($input, $output, $question);

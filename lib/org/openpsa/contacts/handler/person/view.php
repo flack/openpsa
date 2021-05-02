@@ -62,7 +62,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      * Looks up a contact to display.
      */
-    public function _handler_view(string $handler_id, string $guid)
+    public function _handler_view(string $guid)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($guid);
         $this->_load_datamanager();
@@ -78,7 +78,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         }
         $this->_prepare_request_data();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contacts/contacts.css");
-        $this->_populate_toolbar($handler_id);
+        $this->_populate_toolbar();
 
         $this->bind_view_to_object($this->_contact, $this->_datamanager->get_schema()->get_name());
 
@@ -91,7 +91,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      * Populate the toolbar with the necessary items
      */
-    private function _populate_toolbar(string $handler_id)
+    private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];

@@ -62,7 +62,6 @@ span.ui-sortable .autocomplete-item
     transition-property: background-color, max-width;
     display: inline-block;
     vertical-align: middle;
-    display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 20em;
