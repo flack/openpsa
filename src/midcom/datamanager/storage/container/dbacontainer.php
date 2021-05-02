@@ -95,7 +95,7 @@ class dbacontainer extends container
             } elseif ($location === 'parameter') {
                 $classname = 'midcom\datamanager\storage\parameter';
             } else {
-                return new transientnode($config);
+                return new transientnode;
             }
         } elseif (in_array($location, ['metadata', 'privilege'], true)) {
             $classname = 'midcom\datamanager\storage\\' . $location;

@@ -28,7 +28,7 @@ class nullcontainer extends container
                 $config['default'] = $defaults[$name];
             }
             $config['name'] = $name;
-            $this->fields[$name] = new transientnode($config);
+            $this->fields[$name] = new transientnode;
             if (isset($config['default'])) {
                 $this->fields[$name]->set_value($config['default']);
             }
