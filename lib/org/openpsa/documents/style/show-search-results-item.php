@@ -18,7 +18,7 @@ $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
     <div class="icon"><a style="text-decoration: none;" href="&(link);"><img src="&(icon);" <?php
         if ($view['document']) {
             echo 'title="' . $document_type . '" ';
-        } ?>style="border: 0px;"/></a></div>
+        } ?>style="border: 0;"/></a></div>
     <?php
 } ?>
 

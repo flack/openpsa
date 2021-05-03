@@ -6,7 +6,7 @@ if (!empty($data['urlmethods'])) {
         $id = basename($method_info['url'], ".php");
         $title = $method_info['url']; ?>
 <fieldset id="handler_&(id);">
-    <legend onclick="javascript:toggle_twisty('&(id);_contents')">
+    <legend onclick="toggle_twisty('&(id);_contents')">
         &(title);
         <img class="twisty" src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.admin.styleeditor/twisty-<?php echo ($first) ? 'down' : 'hidden'; ?>.gif" alt="-" />
     </legend>

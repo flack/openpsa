@@ -35,8 +35,8 @@ div.net_nemein_wiki_wikipage .tags dt:after
 div.net_nemein_wiki_wikipage .tags dd
 {
     display: inline;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 div.net_nemein_wiki_wikipage .tags a
 {
@@ -54,12 +54,12 @@ div.net_nemein_wiki_wikipage .tags a:hover
 /* Not found page styling */
 div.net_nemein_wiki_notfound ul.midcom_toolbar img
 {
-    border: 0px;
+    border: 0;
 }
 div.net_nemein_wiki_notfound ul.midcom_toolbar
 {
     list-style: none;
-    padding: 0px;
+    padding: 0;
 }
 
 /* Table of contents should look quite MediaWiki-like */

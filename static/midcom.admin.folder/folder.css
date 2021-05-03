@@ -1,8 +1,8 @@
 div.midcom_admin_content_folderlist ul
 {
     list-style: none;
-    padding-left: 0px;
-    margin-left: 0px;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 div.midcom_admin_content_folderlist ul ul

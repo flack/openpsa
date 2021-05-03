@@ -161,7 +161,7 @@ window.midcom_helper_datamanager2_autocomplete = {
             },
             options =  $.extend(dm2_defaults, midcom_helper_datamanager2_autocomplete.get_default_options()),
             input = $('#' + selector),
-            readonly = (input.attr('type') === 'hidden') ? true : false,
+            readonly = input.attr('type') === 'hidden',
             selection_holder_class = 'autocomplete-selection-holder';
 
         function remove_item(item) {

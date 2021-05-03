@@ -20,8 +20,8 @@ div.org_openpsa_projects_task div.bookings p.bad
 /* Project broker styling */
 div.org_openpsa_projects_projectbroker ul.prospects
 {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok
@@ -134,8 +134,8 @@ div.org_openpsa_projects_project .filter_form
 }
 .list td
 {
-    padding-top:0px;
-    padding-bottom:0px;
+    padding-top:0;
+    padding-bottom:0;
 }
 
 .workflow-status::before {

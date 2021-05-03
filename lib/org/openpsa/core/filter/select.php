@@ -30,11 +30,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      */
     protected $_operator;
 
-    /**
-     * @param string $name The filter's name
-     * @param string $operator The constraint operator
-     */
-    public function __construct($name, $operator = '=', array $options = [])
+    public function __construct(string $name, string $operator = '=', array $options = [])
     {
         $this->name = $name;
         $this->_operator = $operator;
@@ -77,7 +73,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
         }
     }
 
-    public function set_callback($callback)
+    public function set_callback(callable $callback)
     {
         $this->_option_callback = $callback;
     }

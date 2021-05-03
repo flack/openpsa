@@ -18,9 +18,9 @@
 #content div.components ul
 {
     list-style: none;
-    margin: 0px;
+    margin: 0;
     margin-left: 8px;
-    padding: 0px;
+    padding: 0;
 }
 
 #content div.components ul li
@@ -37,7 +37,7 @@
 
 #content div.components ul li h3
 {
-    margin: 0px;
+    margin: 0;
     margin-bottom: 2px;
     white-space: nowrap;
     border-top-left-radius: 4px;
@@ -67,7 +67,7 @@
 
 #content div.components ul.midcom_toolbar
 {
-    margin-left: 0px;
+    margin-left: 0;
 }
 #content div.components ul.midcom_toolbar li
 {
@@ -104,16 +104,16 @@
 
 #content div.midgard_admin_asgard_components_component div.maintainers h3
 {
-    margin-top: 0px;
-    padding-top: 0px;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 #content div.midgard_admin_asgard_components_component div.maintainers ul,
 #content div.midgard_admin_asgard_components_component div.maintainers ul li
 {
     list-style: none;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     margin-bottom: 1em;
 }
 

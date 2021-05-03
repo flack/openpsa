@@ -3,7 +3,7 @@ div.area {
     clear: both;
 }
 div.area dl {
-    margin: 0px;
+    margin: 0;
 }
 div.area dt {
     font-weight: bold;
@@ -12,7 +12,7 @@ div.area dt a {
     text-decoration: none;
 }
 div.area dd {
-    margin-left: 0px;
+    margin-left: 0;
     margin-bottom: 5px;
 }
 div.area dl ul {
@@ -88,13 +88,13 @@ ul.area_toolbar li button.no i
 /* MidCOM toolbars in OpenPSA areas */
 div.area ul.midcom_toolbar {
     display: block;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     z-index: 256;
 }
 div.area ul.midcom_toolbar li {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     margin-left: 5px;
     list-style: none;
 }
@@ -125,12 +125,12 @@ div.buttons ul.midcom_toolbar li {
 
 /* Message lists in directmarketing and support */
 div.area ul.comments {
-   margin: 0px;
-   padding: 0px;
+   margin: 0;
+   padding: 0;
 }
 div.area ul.comments li {
    list-style: none;
-   margin-left: 0px;
+   margin-left: 0;
 }
 div.area ul.comments li div {
    background-color: #ffffff;
@@ -354,7 +354,7 @@ form.datamanager2 div.element_subform .remove-item
 {
     position: absolute;
     top: -1.5em;
-    right: 0px;
+    right: 0;
 }
 
 
@@ -457,12 +457,12 @@ input.ajax_saved, select.ajax_saved {
 
 /* Last updated listings for Mypage */
 ul.updated {
-   margin: 0px;
-   padding: 0px;
+   margin: 0;
+   padding: 0;
 }
 ul.updated li {
    list-style: none;
-   margin: 0px;
+   margin: 0;
    padding-left: 20px;
    background-position: left;
    background-repeat: no-repeat;
@@ -536,7 +536,7 @@ dl.campaigns dt.unsubscribed {
 /* Related Wiki pages */
 div.net_nemein_wiki ul
 {
-    padding-left: 0px;
+    padding-left: 0;
 }
 div.net_nemein_wiki ul.related li
 {
@@ -555,7 +555,7 @@ div.net_nemein_wiki ul.related li a
 /* Sort GET links */
 a.sort img
 {
-    border: 0px;
+    border: 0;
 }
 
 /* Message report table */

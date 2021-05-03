@@ -55,15 +55,15 @@ table.midcom_admin_libconfig tr td.local
 table.midcom_admin_libconfig tr td ul,
 table.midcom_admin_libconfig tr td ul ul
 {
-    padding: 0px;
-    margin:0px;
+    padding: 0;
+    margin:0;
 }
 
 table.midcom_admin_libconfig tr td li,
 table.midcom_admin_libconfig tr td li ul li
 {
     padding-left: 20px;
-    margin:0px;
+    margin:0;
     list-style:none;
 }
 

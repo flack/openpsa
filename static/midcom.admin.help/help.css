@@ -51,7 +51,7 @@ blockquote
 
 pre code
 {
-    padding: 0px;
+    padding: 0;
 }
 .navi
 {
@@ -96,7 +96,7 @@ dd td.property
 }
 dd td p
 {
-    margin: 0px;
+    margin: 0;
 }
 
 dd td.mgdtype
@@ -119,7 +119,7 @@ dd td.description div.proplink
 div.components h2
 {
     font-size: 1.2em;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     background-color: #eeeeef;
     padding: 0.4em 1em;
     line-height: 22px;
@@ -136,9 +136,9 @@ div.components hr
 
 div.components ul
 {
-    margin: 0px;
+    margin: 0;
     margin-left: 8px;
-    padding: 0px;
+    padding: 0;
     background-color: #EEEEEC;
 }
 

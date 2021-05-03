@@ -113,8 +113,8 @@ form.datamanager2 div.image_frame
 {
     width: 180px;
     height: 140px;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     border: none;
     overflow: scroll;
 }
@@ -127,7 +127,6 @@ form.datamanager2 div.form_toolbar
 
 form.datamanager2 div.form_toolbar .submit
 {
-    background-image: url('');
     background-repeat: no-repeat;
     background-position: 1px center;
     border-style: outset;
@@ -180,8 +179,8 @@ form.datamanager2 .element_checkbox .input
 /* Selection lists */
 div.form_multiselect ul
 {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 div.form_multiselect ul li
 {

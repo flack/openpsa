@@ -7,8 +7,8 @@ fieldset
 }
 fieldset legend
 {
-    margin-left: 0px;
-    padding-left: 0px;
+    margin-left: 0;
+    padding-left: 0;
     font-weight: bold;
     cursor: pointer;
     margin-top: -20px;

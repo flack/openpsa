@@ -7,7 +7,7 @@
  */
 
 /**
- * Wrapper for acces denied page responses
+ * Wrapper for access denied page responses
  *
  * @package midcom
  */

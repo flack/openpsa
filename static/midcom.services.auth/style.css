@@ -178,12 +178,12 @@ body
 }
 #content table td h2
 {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 #content table td dl
 {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 /* Bottom Elements */
