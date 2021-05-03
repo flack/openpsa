@@ -140,7 +140,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     public function get_label() : string
     {
-        $label_elements = [$this->title];
+        $label_elements = [];
         $task = $this;
         do {
             $label_elements[] = $task->title;
