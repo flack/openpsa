@@ -79,15 +79,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('guid', 'IN', $guids);
         $qb->end_group();
 
-        foreach ($qb->execute() as $salesproject) {
-            $to_array = ['other_obj' => false, 'link' => false];
-            $link = new org_openpsa_relatedto_dba();
-            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
-            $to_array['other_obj'] = $salesproject;
-            $to_array['link'] = $link;
-
-            $links_array[] = $to_array;
-        }
+        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
     }
 
     /**
@@ -104,15 +96,7 @@ implements midcom_services_permalinks_resolver
             $qb->add_constraint('owner', '=', $object->id);
         $qb->end_group();
 
-        foreach ($qb->execute() as $salesproject) {
-            $link = new org_openpsa_relatedto_dba();
-            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
-
-            $links_array[] = [
-                'other_obj' => $salesproject,
-                'link' => $link
-            ];
-        }
+        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
     }
 
     /**

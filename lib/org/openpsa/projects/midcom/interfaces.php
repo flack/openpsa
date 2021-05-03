@@ -76,15 +76,8 @@ implements midcom_services_permalinks_resolver
         }
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', array_unique($suspects));
-        foreach ($qb->execute() as $task) {
-            $to_array = ['other_obj' => false, 'link' => false];
-            $link = new org_openpsa_relatedto_dba();
-            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
-            $to_array['other_obj'] = $task;
-            $to_array['link'] = $link;
 
-            $links_array[] = $to_array;
-        }
+        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
     }
 
     /**
@@ -102,15 +95,8 @@ implements midcom_services_permalinks_resolver
         }
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', array_unique($suspects));
-        foreach ($qb->execute() as $task) {
-            $to_array = ['other_obj' => false, 'link' => false];
-            $link = new org_openpsa_relatedto_dba();
-            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
-            $to_array['other_obj'] = $task;
-            $to_array['link'] = $link;
 
-            $links_array[] = $to_array;
-        }
+        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
     }
 
     /**

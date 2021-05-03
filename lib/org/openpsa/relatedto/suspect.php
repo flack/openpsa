@@ -58,13 +58,25 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         return $ret;
     }
 
+    public static function add_links(midcom_core_querybuilder $qb, string $component, org_openpsa_relatedto_dba $defaults, array &$links_array)
+    {
+        foreach ($qb->execute() as $object) {
+            $links_array[] = [
+                'other_obj' => $object,
+                'link' => self::defaults_helper($defaults, $component, $object)
+            ];
+        }
+    }
+
     /**
      * Fill properties of given $link object from given link object with defaults
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */
-    public static function defaults_helper(org_openpsa_relatedto_dba $link, org_openpsa_relatedto_dba $defaults, string $component, midcom_core_dbaobject $obj)
+    private static function defaults_helper(org_openpsa_relatedto_dba $defaults, string $component, midcom_core_dbaobject $obj) : org_openpsa_relatedto_dba
     {
+        $link = new org_openpsa_relatedto_dba;
+
         $properties = ['fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra'];
         foreach ($properties as $property) {
             if (   !empty($defaults->$property)
@@ -95,5 +107,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
             debug_add("Setting property 'fromGuid' to '{$link->fromGuid}'");
             debug_add("Setting property 'fromClass' to '{$link->fromClass}'");
         }
+        return $link;
     }
 }
