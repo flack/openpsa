@@ -178,14 +178,14 @@ class schemabuilder
         switch ($key) {
             case 'content':
             case 'description':
-                $height = 30;
+                $height = 12;
                 $output_mode = 'html';
                 break;
 
             case 'value':
             case 'code':
                 // These are typical "large" fields
-                $height = 30;
+                $height = 12;
                 $dm_type = 'php';
                 $output_mode = 'code';
                 break;

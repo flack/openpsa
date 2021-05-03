@@ -40,6 +40,8 @@ class tinymceType extends AbstractType
 
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
             $widget_defaults = [
+                'height' => 25,
+                'width' => 80,
                 'mode' => 'exact',
                 'theme' => $options['config']->get('tinymce_default_theme'),
                 'local_config' => '',

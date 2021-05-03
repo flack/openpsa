@@ -28,17 +28,17 @@ class codemirrorType extends AbstractType
             if ($value === null) {
                 $value = [];
             }
-            $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
-            $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
             $value['class'] = $options['widget_config']['enabled'] ? 'codemirror ' . $options['widget_config']['language'] : 'longtext';
+
             return $value;
         };
         $resolver->setDefault('attr', $map_attr);
-
         helper::add_normalizers($resolver, [
             'widget_config' => [
                 'enabled' => true,
                 'language' => 'php',
+                'height' => 6,
+                'width' => 50
             ],
             'type_config' => [
                 'output_mode' => 'code',

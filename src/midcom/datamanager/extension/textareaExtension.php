@@ -26,14 +26,18 @@ class textareaExtension extends AbstractTypeExtension
             if ($value === null) {
                 $value = [];
             }
-            $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
-            $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
+            $value['rows'] = $options['widget_config']['height'];
+            $value['cols'] = $options['widget_config']['width'];
 
             return $value;
         };
         $resolver->setDefault('attr', $map_attr);
 
         helper::add_normalizers($resolver, [
+            'widget_config' => [
+                'height' => 6,
+                'width' => 50
+            ],
             'type_config' => [
                 'output_mode' => 'html',
                 'specialchars_quotes' => ENT_QUOTES,
