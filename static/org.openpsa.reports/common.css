@@ -13,9 +13,6 @@ div.org_openpsa_reports_report
 }
 
 /* Report overall header */
-div.org_openpsa_reports_report div.header
-{
-}
 div.org_openpsa_reports_report div.header div.logoarea
 {
     position: absolute;

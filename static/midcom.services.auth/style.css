@@ -23,14 +23,12 @@ body
   width: 662px;
   height: 502px;
   background-image: url('images/login-background.jpg');
-  margin: 0 auto;
   background-repeat: no-repeat;
   background-position: top left;
   top: 50%;
   position: absolute;
-  margin-top: -251px;
   left: 50%;
-  margin-left: -331px;
+  margin: -251px auto 0 -331px;
 }
 
 .clear

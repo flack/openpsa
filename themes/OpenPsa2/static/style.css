@@ -47,7 +47,6 @@ a:hover
 #leftframe
 {
   height: 100%;
-  background-color: #24436e;
   width: 240px;
   margin-right: 2px;
   flex-shrink: 0;
@@ -229,7 +228,6 @@ a:hover
   position: fixed;
   top: 0;
   bottom: 0;
-  cursor: w-resize;
   cursor: col-resize;
   background-color: #ce5c00;
   width: 2px;
@@ -281,7 +279,6 @@ a:hover
 
 #content-menu
 {
-  background-color: #ededeb;
   height: 39px;
 
   background: #ededeb; /* Old browsers */
@@ -545,7 +542,6 @@ input#org_openpsa_search_query
 .org_openpsa_toolbar ul.midcom_toolbar
 {
   margin: 0;
-  padding: 0;
   list-style-type: none;
   padding: 0.2em 0.4em 0.2em 0;
 }
@@ -838,14 +834,11 @@ aside .area
 aside .org_openpsa_helper_box
 {
     font-size: 90%;
-    padding: 0;
     border-style: solid;
     border-width: 1px;
     border-color: #daddd6;
     border-radius: 6px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-bottom: .3em;
+    padding: 0 4px .3em;
 }
 
 aside .org_openpsa_helper_box h3
@@ -856,13 +849,10 @@ aside .org_openpsa_helper_box h3
     background: linear-gradient(to bottom, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* W3C */
 
     padding: .2em 0.5em;
-    margin: 0;
     border: none;
     border-bottom: solid 1px #d2d6cd;
     border-radius: 6px 6px 0 0;
-    margin-left: -4px;
-    margin-right: -4px;
-    margin-bottom: .3em;
+    margin: 0 -4px .3em;
 }
 
 .org_openpsa_helper_box ul

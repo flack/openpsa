@@ -584,10 +584,8 @@ p
   display: inline-block;
   border-radius: 6px;
   padding: 4px;
-  margin: 0;
-  white-space: nowrap;
-  margin-bottom: .4em;
-  margin-right: .2em
+    white-space: nowrap;
+    margin: 0 .2em .4em 0;
 }
 
 #container #toolbar ul li abbr

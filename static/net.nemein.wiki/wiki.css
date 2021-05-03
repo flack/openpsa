@@ -94,10 +94,7 @@ div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter li ol
 /* Styles for note, tip & warning copied from M-P.org */
 div.net_nemein_wiki_wikipage div.tip, div.net_nemein_wiki_wikipage div.note, div.net_nemein_wiki_wikipage div.warning
 {
-    padding-left: 70px;
-    padding-top: 8px;
-    padding-right: 8px;
-    padding-bottom: 4px;
+    padding: 8px 8px 4px 70px;
     margin: 4px;
     min-height: 64px;
     border: 1px solid #c0c0c0;
