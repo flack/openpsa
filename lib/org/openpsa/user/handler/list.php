@@ -128,20 +128,17 @@ implements client
     public function get_row(midcom_core_dbaobject $user)
     {
         $link = $this->router->generate('user_view', ['guid' => $user->guid]);
-        $entry = [];
-        $entry['id'] = $user->id;
-        $lastname = trim($user->lastname);
-        if (empty($lastname)) {
-            $lastname = $this->_l10n->get('person') . ' #' . $user->id;
-        }
-        $entry['lastname'] = "<a href='" . $link . "'>" . $lastname . "</a>";
-        $entry['index_lastname'] = $user->lastname;
-        $entry['firstname'] = "<a href='" . $link . "'>" . $user->firstname . "</a>";
-        $entry['index_firstname'] = $user->firstname;
+        $lastname = trim($user->lastname) ?: $this->_l10n->get('person') . ' #' . $user->id;
         $account = new midcom_core_account($user);
-        $entry['username'] = $account->get_username();
-        $entry['email'] = $user->email;
 
-        return $entry;
+        return [
+            'id' => $user->id,
+            'lastname' => "<a href='" . $link . "'>" . $lastname . "</a>",
+            'index_lastname' => $user->lastname,
+            'firstname' => "<a href='" . $link . "' >" . $user->firstname . "</a>",
+            'index_firstname' => $user->firstname,
+            'username' => $account->get_username(),
+            'email' => $user->email
+        ];
     }
 }

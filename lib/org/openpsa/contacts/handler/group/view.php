@@ -179,18 +179,18 @@ implements client
     public function get_row(midcom_core_dbaobject $user)
     {
         $link = $this->router->generate('person_view', ['guid' => $user->guid]);
-        $entry = [];
-        $entry['id'] = $user->id;
-        $lastname = trim($user->lastname);
-        if (empty($lastname)) {
-            $lastname = $this->_l10n->get('person') . ' #' . $user->id;
-        }
-        $entry['lastname'] = "<a href='" . $link . "'>" . $lastname . "</a>";
-        $entry['index_lastname'] = $lastname;
-        $entry['firstname'] = "<a href='" . $link . "' >" . $user->firstname . "</a>";
-        $entry['index_firstname'] = $user->firstname;
-        $entry['homepage'] = '';
-        $entry['index_homepage'] = $user->homepage;
+        $lastname = trim($user->lastname) ?: $this->_l10n->get('person') . ' #' . $user->id;
+        $entry = [
+            'id' => $user->id,
+            'lastname' => "<a href='" . $link . "'>" . $lastname . "</a>",
+            'index_lastname' => $lastname,
+            'firstname' => "<a href='" . $link . "' >" . $user->firstname . "</a>",
+            'index_firstname' => $user->firstname,
+            'homepage' => '',
+            'index_homepage' => $user->homepage,
+            'email' => "<a href='mailto:" . $user->email . "' >" . $user->email . "</a>",
+            'index_email' => $user->email
+        ];
         if (!empty($user->homepage)) {
             $url = $user->homepage;
             if (!preg_match('/^https?:\/\//', $url)) {
@@ -198,9 +198,6 @@ implements client
             }
             $entry['homepage'] = '<a href="' . $url . '">' . $user->homepage . '</a>';
         }
-
-        $entry['email'] = "<a href='mailto:" . $user->email . "' >" . $user->email . "</a>";
-        $entry['index_email'] = $user->email;
 
         return $entry;
     }
