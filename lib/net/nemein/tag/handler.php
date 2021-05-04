@@ -198,7 +198,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $link_mc->set_key_property('tag');
         $link_mc->add_value_property('value');
         $link_mc->add_value_property('context');
-        $link_mc->add_order('tag.tag');
         $link_mc->execute();
         $links = $link_mc->list_keys();
 
@@ -208,6 +207,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
+        $mc->add_order('tag');
         $results = $mc->get_rows(['tag', 'url', 'id']);
 
         foreach ($results as $result) {
@@ -287,8 +287,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $link_mc->set_key_property('tag');
         $link_mc->add_value_property('value');
         $link_mc->add_value_property('context');
-        $link_mc->add_order('context');
-        $link_mc->add_order('tag.tag');
         $link_mc->execute();
         $links = $link_mc->list_keys();
 
@@ -298,6 +296,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
+        $mc->add_order('tag');
         $results = $mc->get_rows(['tag', 'url', 'id']);
 
         foreach ($results as $result) {

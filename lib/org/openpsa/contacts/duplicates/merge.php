@@ -210,7 +210,6 @@ class org_openpsa_contacts_duplicates_merge
     {
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
-        $qb->add_order('name', 'ASC');
         $qb->set_limit(1);
         return $qb->count() > 0;
     }

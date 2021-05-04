@@ -132,7 +132,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         // TODO: Make configurable
         $year = date('Y');
         $qb = self::new_query_builder();
-        $qb->add_order('metadata.created', 'DESC');
         $qb->add_constraint('metadata.created', '>=', $year . '-01-01 00:00:00');
         $previous = $qb->count_unchecked();
 

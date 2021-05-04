@@ -26,7 +26,6 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('component', '=', $this->_component);
         $qb->add_constraint('up', '=', $this->_topic->id);
-        $qb->add_order('metadata.score', 'ASC');
         $qb->set_limit(1);
         $data['has_subfolders'] = $qb->count() > 0;
 
