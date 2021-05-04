@@ -100,7 +100,6 @@
  *             $document = $indexer->new_document($datamanager);
  *             $document->topic_guid = $topic->guid;
  *             $document->topic_url = $node[MIDCOM_NAV_FULLURL];
- *             $document->read_metadata_from_object($datamanager->storage->object);
  *             $document->component = $topic->component;
  *             $indexer->index($document);
  *         }

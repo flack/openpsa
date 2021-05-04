@@ -48,7 +48,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($object);
         $document->content = "{$dm->get_schema()->get_name()} {$dm->get_schema()->get('description')} {$document->content}";
         $indexer->index($document);
     }

@@ -145,7 +145,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
         $document->topic_guid = $topic->guid;
         $document->component = $topic->component;
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->get_storage()->get_value());
         $indexer->index($document);
     }
 }

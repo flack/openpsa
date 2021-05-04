@@ -67,7 +67,6 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_viewer
         $document = $indexer->new_document($dm);
         $document->topic_guid = $topic->guid;
         $document->topic_url = $node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->get_storage()->get_value());
         $document->component = $topic->component;
         $indexer->index($document);
     }
