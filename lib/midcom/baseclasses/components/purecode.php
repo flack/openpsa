@@ -17,6 +17,7 @@
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_purecode extends midcom_baseclasses_components_base
+abstract class midcom_baseclasses_components_purecode
 {
+    use midcom_baseclasses_components_base;
 }

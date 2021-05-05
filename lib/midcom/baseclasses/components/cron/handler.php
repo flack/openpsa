@@ -38,8 +38,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @see midcom_services_cron
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_cron_handler extends midcom_baseclasses_components_base
+abstract class midcom_baseclasses_components_cron_handler
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var OutputInterface
      */

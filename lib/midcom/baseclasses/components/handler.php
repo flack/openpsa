@@ -36,8 +36,10 @@ use Symfony\Component\Routing\Router;
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_components_base
+abstract class midcom_baseclasses_components_handler
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * The topic for which we are handling a request.
      *

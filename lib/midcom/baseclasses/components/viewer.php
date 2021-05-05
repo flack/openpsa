@@ -138,8 +138,10 @@ use midcom\routing\plugin;
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_viewer extends midcom_baseclasses_components_base
+class midcom_baseclasses_components_viewer
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var midcom_db_topic
      */

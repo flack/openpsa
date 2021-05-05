@@ -18,8 +18,10 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
+class midcom_baseclasses_components_navigation
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var midcom_db_topic
      */

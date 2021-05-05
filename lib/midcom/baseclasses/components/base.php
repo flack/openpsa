@@ -9,7 +9,7 @@
 use midcom\workflow\dialog;
 
 /**
- * Base class for components. Provides some common functionality that should be available
+ * Base trait for components. Provides some common functionality that should be available
  * in all parts of the component's environment.
  *
  * @property midcom_services_i18n $_i18n A handle to the i18n service.
@@ -18,7 +18,7 @@ use midcom\workflow\dialog;
  * @property midcom_helper_configuration $_config The current configuration.
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_base
+trait midcom_baseclasses_components_base
 {
     /**
      * The name of the component, e.g. net.nehmer.static. Should be used whenever the

@@ -111,8 +111,10 @@
  * @see midcom_helper__componentloader
  * @see midcom_core_manifest
  */
-class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
+class midcom_baseclasses_components_interface
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * Class suffix used when constructing the NAP handler class.
      * It is appended to the component class prefix, f.x. resulting in
