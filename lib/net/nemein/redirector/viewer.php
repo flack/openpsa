@@ -51,14 +51,11 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
     /**
      * Get the URL where the topic links to
      */
-    public static function topic_links_to(array $data) : string
+    public static function topic_links_to(midcom_helper_configuration $config) : string
     {
-        switch ($data['config']->get('redirection_type')) {
+        switch ($config->get('redirection_type')) {
             case 'node':
-                $nap = new midcom_helper_nav();
-                $id = $data['config']->get('redirection_node');
-
-                if (is_string($id)) {
+                if ($id = $config->get('redirection_node')) {
                     try {
                         $topic = new midcom_db_topic($id);
                         $id = $topic->id;
@@ -66,17 +63,16 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                         $e->log();
                         break;
                     }
-                }
-
-                if ($node = $nap->get_node($id)) {
-                    return $node[MIDCOM_NAV_FULLURL];
+                    $nap = new midcom_helper_nav();
+                    if ($node = $nap->get_node($id)) {
+                        return $node[MIDCOM_NAV_FULLURL];
+                    }
                 }
                 // Node not found, fall through to configuration
                 break;
 
             case 'subnode':
                 $nap = new midcom_helper_nav();
-
                 if ($nodes = $nap->get_nodes($nap->get_current_node())) {
                     // Redirect to first node
                     return $nodes[0][MIDCOM_NAV_FULLURL];
@@ -85,13 +81,13 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
                 break;
 
             case 'permalink':
-                if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid'))) {
+                if ($url = midcom::get()->permalinks->resolve_permalink($config->get('redirection_guid'))) {
                     return $url;
                 }
+                break;
 
             case 'url':
-                if ($url = $data['config']->get('redirection_url')) {
-
+                if ($url = $config->get('redirection_url')) {
                     // Support varying host prefixes
                     if (str_contains($url, '__PREFIX__')) {
                         $url = str_replace('__PREFIX__', midcom_connection::get_url('self'), $url);

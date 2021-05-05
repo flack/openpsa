@@ -82,7 +82,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
                 break;
             case 'cancel':
                 //Clear form
-                midcom::get()->relocate($_SERVER['REQUEST_URI']);
+                midcom::get()->relocate($request->server->get('REQUEST_URI'));
             default:
                 $controller->display_form();
         }

@@ -53,7 +53,7 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
     public function _handler_index(array &$data)
     {
         // Get the topic link and relocate accordingly
-        $url = net_nemein_redirector_viewer::topic_links_to($data);
+        $url = net_nemein_redirector_viewer::topic_links_to($this->_config);
 
         if (!$this->_config->get('redirection_metatag')) {
             return new midcom_response_relocate($url, $this->_config->get('redirection_code'));

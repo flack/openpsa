@@ -134,7 +134,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     public function _handler_list(string $handler_id, array &$data)
     {
         // Get the topic link and relocate accordingly
-        $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
+        $data['url'] = net_nemein_redirector_viewer::topic_links_to($this->_config);
 
         $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->guid);
