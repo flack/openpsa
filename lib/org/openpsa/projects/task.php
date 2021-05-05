@@ -316,14 +316,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $hours;
     }
 
-    private function _update_parent() : bool
+    private function _update_parent()
     {
         if (!$this->_skip_parent_refresh) {
             $project = new org_openpsa_projects_project($this->project);
             $project->refresh_from_tasks();
         }
-
-        return true;
     }
 
     /**

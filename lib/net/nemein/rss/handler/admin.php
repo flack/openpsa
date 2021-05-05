@@ -23,7 +23,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             ->get_controller();
     }
 
-    private function _subscribe_feed(string $feed_url, string $feed_title = null) : bool
+    private function _subscribe_feed(string $feed_url, string $feed_title = null)
     {
         // Try to fetch the new feed
         $rss = net_nemein_rss_fetch::raw_fetch($feed_url);
@@ -31,10 +31,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         if (!$feed_title) {
             // If we didn't get the channel title preset
-            $feed_title = '';
-            if ($rss->get_title()) {
-                $feed_title = $rss->get_title();
-            }
+            $feed_title = $rss->get_title() ?: '';
         }
 
         // Find out if the URL is already subscribed, and update it in that case
@@ -47,12 +44,13 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
             $feed->node = $this->_topic->id;
             $feed->url = $feed_url;
             $feed->title = $feed_title;
-            return $feed->create();
+            $feed->create();
+        } else {
+            // If we're updating existing feed
+            $feed = $feeds[0];
+            $feed->title = $feed_title;
+            $feed->update();
         }
-        // If we're updating existing feed
-        $feed = $feeds[0];
-        $feed->title = $feed_title;
-        return $feed->update();
     }
 
     public function _handler_subscribe(Request $request, string $handler_id)
