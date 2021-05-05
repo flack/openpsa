@@ -316,7 +316,7 @@ class org_openpsa_contacts_duplicates_check
         $persons = $this->get_person_candidates();
 
         $params = [];
-        $params['objects'] =& $persons;
+        $params['objects'] = $persons;
         $params['mode'] = 'person';
 
         array_walk($persons, [$this, 'check_all_arraywalk'], $params);
@@ -338,14 +338,10 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Used by check_all_xxx() -method to walk the QB result and checking each against the rest
      */
-    private function check_all_arraywalk(array &$arr1, $key1, array &$params)
+    private function check_all_arraywalk(array $arr1, $key1, array $params)
     {
         $objects = $params['objects'];
         $p_method = "p_duplicate_{$params['mode']}";
-        if (!method_exists($this, $p_method)) {
-            debug_add("method {$p_method} is not valid, invalid mode string ??", MIDCOM_LOG_ERROR);
-            return false;
-        }
 
         foreach ($objects as $key2 => $arr2) {
             if ($arr1['guid'] == $arr2['guid']) {
@@ -405,7 +401,7 @@ class org_openpsa_contacts_duplicates_check
 
         $groups = $this->get_group_candidates();
         $params = [];
-        $params['objects'] =& $groups;
+        $params['objects'] = $groups;
         $params['mode'] = 'group';
         array_walk($groups, [$this, 'check_all_arraywalk'], $params);
 
