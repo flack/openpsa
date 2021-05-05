@@ -322,13 +322,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Cleans up old, removed items from feeds
      *
-     * @param array $items Feed item as provided by SimplePie
+     * @param net_nemein_rss_parser_item[] $items
      */
-    function clean($items)
+    private function clean(array $items)
     {
         if ($this->_feed->keepremoved) {
             // This feed is set up so that we retain items removed from array
-            return false;
+            return;
         }
 
         // Create array of item GUIDs
