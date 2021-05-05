@@ -118,6 +118,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         $this->process_results($result);
         $this->populate_toolbar($request);
+
+        if ($data['document_count'] > 0) {
+            return $this->show('results');
+        }
+        return $this->show('no_match');
     }
 
     private function populate_toolbar(Request $request)
@@ -227,18 +232,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $filter = null;
         }
         return $indexer->query($final_query, $filter);
-    }
-
-    /**
-     * Displays the resultset.
-     */
-    public function _show_result(string $handler_id, array &$data)
-    {
-        if ($data['document_count'] > 0) {
-            midcom_show_style('results');
-        } else {
-            midcom_show_style('no_match');
-        }
     }
 
     /**

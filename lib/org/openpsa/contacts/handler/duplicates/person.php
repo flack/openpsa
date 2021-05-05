@@ -37,6 +37,11 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
 
         $this->set_active_leaf('persons_merge');
         $this->add_breadcrumb('', $this->_l10n->get('merge persons'));
+
+        if (!$this->notfound) {
+            return $this->show('show-duplicate-persons');
+        }
+        return $this->show('show-duplicate-persons-notfound');
     }
 
     private function load_next()
@@ -141,15 +146,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             }
 
             //PONDER: redirect to avoid reloading the POST in case user presses reload ??
-        }
-    }
-
-    public function _show_sidebyside(string $handler_id, array &$data)
-    {
-        if (!$this->notfound) {
-            midcom_show_style('show-duplicate-persons');
-        } else {
-            midcom_show_style('show-duplicate-persons-notfound');
         }
     }
 }

@@ -17,14 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_components_handler
 {
-    /**
-     * This is true if we did successfully change the password. It will then display a simple
-     * password-changed-successfully response.
-     *
-     * @var boolean
-     */
-    private $_success = false;
-
     public function _handler_lostpassword(Request $request, array &$data)
     {
         $mode = $this->_config->get('lostpassword_mode');
@@ -36,18 +28,19 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
             ->set_storage(null, $mode)
             ->get_controller();
 
+        midcom::get()->head->set_pagetitle($this->_l10n->get('lost password'));
+
         switch ($data['controller']->handle($request)) {
             case 'save':
                 $this->_reset_password($data['controller']->get_form_values());
                 $data['processing_msg'] = $this->_l10n->get('password reset, mail sent.');
-                $this->_success = true;
-                break;
+                return $this->show('show-lostpassword-ok');
 
             case 'cancel':
                 return new midcom_response_relocate('');
         }
 
-        midcom::get()->head->set_pagetitle($this->_l10n->get('lost password'));
+        return $this->show('show-lostpassword');
     }
 
     /**
@@ -114,17 +107,5 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
         $mail->parameters = $parameters;
 
         $mail->send();
-    }
-
-    /**
-     * Shows either the username change dialog or a success message.
-     */
-    public function _show_lostpassword(string $handler_id, array &$data)
-    {
-        if ($this->_success) {
-            midcom_show_style('show-lostpassword-ok');
-        } else {
-            midcom_show_style('show-lostpassword');
-        }
     }
 }

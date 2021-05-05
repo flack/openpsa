@@ -128,6 +128,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 $this->_run_import($importer, $contacts_raw);
             }
         }
+
+        if (!$this->_import_success) {
+            return $this->show('show-import-simpleemails-form');
+        }
+        return $this->show('show-import-status');
     }
 
     private function _run_import(org_openpsa_directmarketing_importer $importer, $input)
@@ -147,18 +152,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     }
 
     /**
-     * Show the import phase of email addresses
-     */
-    public function _show_simpleemails(string $handler_id, array &$data)
-    {
-        if (!$this->_import_success) {
-            midcom_show_style('show-import-simpleemails-form');
-        } else {
-            midcom_show_style('show-import-status');
-        }
-    }
-
-    /**
      * Phase for importing vcards
      */
     public function _handler_vcards(Request $request, string $handler_id, string $guid)
@@ -173,18 +166,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
             $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
         }
-    }
 
-    /**
-     * Show the vcard import interface
-     */
-    public function _show_vcards(string $handler_id, array &$data)
-    {
         if (!$this->_import_success) {
-            midcom_show_style('show-import-vcard-form');
-        } else {
-            midcom_show_style('show-import-status');
+            return $this->show('show-import-vcard-form');
         }
+        return $this->show('show-import-status');
     }
 
     /**
@@ -231,22 +217,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             }
 
             $data['time_end'] = time();
-        }
-    }
 
-    /**
-     * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
-     */
-    public function _show_csv_select(string $handler_id, array &$data)
-    {
-        if (array_key_exists('rows', $data)) {
             // Present user with the field matching form
             $data['schemadbs'] = $this->_schemadbs;
-            midcom_show_style('show-import-csv-select');
-        } else {
-            // Present user with upload form
-            midcom_show_style('show-import-csv-form');
+            return $this->show('show-import-csv-select');
         }
+
+        // Present user with upload form
+        return $this->show('show-import-csv-form');
     }
 
     /**

@@ -16,8 +16,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 {
     use org_openpsa_directmarketing_handler;
 
-    private $unsubscribe_status = true;
-
     /**
      * @var org_openpsa_contacts_person_dba
      */
@@ -129,21 +127,14 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $data['campaign'] = $this->load_campaign($data['membership']->campaign);
 
         $data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
-        $this->unsubscribe_status = $data['membership']->update();
-        debug_add("Unsubscribe status: {$this->unsubscribe_status}");
+        $unsubscribe_status = $data['membership']->update();
+        debug_add("Unsubscribe status: {$unsubscribe_status}");
         midcom::get()->auth->drop_sudo();
-    }
 
-    /**
-     * Show the unsubscribe action
-     */
-    public function _show_unsubscribe(string $handler_id, array &$data)
-    {
-        if (!$this->unsubscribe_status) {
-            midcom_show_style('show-unsubscribe-failed');
-        } else {
-            midcom_show_style('show-unsubscribe-ok');
+        if (!$unsubscribe_status) {
+            return $this->show('show-unsubscribe-failed');
         }
+        return $this->show('show-unsubscribe-ok');
     }
 
     /**
@@ -178,6 +169,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $deny_type = strtolower($args[1]);
             $this->person->set_parameter('org.openpsa.directmarketing', "send_{$deny_type}_denied", '1');
         }
+        $unsubscribe_status = true;
 
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('campaign.node', '=', $this->_topic->id);
@@ -189,22 +181,15 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             if (!$member->update()) {
                 //TODO: How to report failures of single rows when other succeed sensibly ??
-                $this->unsubscribe_status = false;
+                $unsubscribe_status = false;
             }
         }
 
         midcom::get()->auth->drop_sudo();
-    }
 
-    /**
-     * Show the unsubscribe status for unsubscribe all
-     */
-    public function _show_unsubscribe_all(string $handler_id, array &$data)
-    {
-        if (!$this->unsubscribe_status) {
-            midcom_show_style('show-unsubscribe-failed');
-        } else {
-            midcom_show_style('show-unsubscribe-ok');
+        if (!$unsubscribe_status) {
+            return $this->show('show-unsubscribe-failed');
         }
+        return $this->show('show-unsubscribe-ok');
     }
 }

@@ -74,14 +74,15 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         }
 
         $this->add_breadcrumb_path();
-
         $this->_prepare_request_data();
-
         $this->bind_view_to_object($this->_deliverable);
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-
         midcom::get()->head->set_pagetitle("{$salesproject->title}: {$this->_deliverable->title}");
+
+        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
+            return $this->show('show-deliverable-subscription');
+        }
+        return $this->show('show-deliverable');
     }
 
     /**
@@ -109,18 +110,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         foreach ($tmp as $url => $title) {
             $this->add_breadcrumb($url, $title);
-        }
-    }
-
-    /**
-     * Shows the loaded deliverable.
-     */
-    public function _show_view(string $handler_id, array &$data)
-    {
-        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
-            midcom_show_style('show-deliverable-subscription');
-        } else {
-            midcom_show_style('show-deliverable');
         }
     }
 

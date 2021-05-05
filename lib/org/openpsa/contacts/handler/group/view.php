@@ -70,15 +70,6 @@ implements client
         $this->_view_toolbar->add_items($buttons);
     }
 
-    public function _show_view(string $handler_id, array &$data)
-    {
-        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
-            midcom_show_style('show-group-other');
-        } else {
-            midcom_show_style('show-group');
-        }
-    }
-
     /**
      * Handler for listing group members
      */
@@ -117,6 +108,11 @@ implements client
         midcom::get()->head->set_pagetitle($this->group->official);
 
         $this->add_breadcrumb_path_for_group();
+
+        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+            return $this->show('show-group-other');
+        }
+        return $this->show('show-group');
     }
 
     private function add_breadcrumb_path_for_group()

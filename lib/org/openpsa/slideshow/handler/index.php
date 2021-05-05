@@ -18,24 +18,12 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
      */
     public function _handler_index(array &$data)
     {
-        $qb = org_openpsa_slideshow_image_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_order('position');
-        $images = $qb->execute();
-
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('component', '=', $this->_component);
         $qb->add_constraint('up', '=', $this->_topic->id);
         $qb->set_limit(1);
         $data['has_subfolders'] = $qb->count() > 0;
 
-        $head = midcom::get()->head;
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/slideshow.css');
-        if (!empty($images)) {
-            $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($images);
-            $head->enable_jquery();
-            $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria.min.js');
-        }
         $buttons = [
             [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('edit'),
@@ -49,18 +37,22 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
             ]
         ];
         $this->_view_toolbar->add_items($buttons);
-    }
 
-    /**
-     * Show list of the users
-     */
-    public function _show_index(string $handler_id, array &$data)
-    {
-        if (!empty($data['entries'])) {
-            midcom_show_style('index');
-        } else {
-            midcom_show_style('index-empty');
+        $head = midcom::get()->head;
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/slideshow.css');
+
+        $qb = org_openpsa_slideshow_image_dba::new_query_builder();
+        $qb->add_constraint('topic', '=', $this->_topic->id);
+        $qb->add_order('position');
+
+        if ($images = $qb->execute()) {
+            $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($images);
+            $head->enable_jquery();
+            $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria.min.js');
+            return $this->show('index');
         }
+
+        return $this->show('index-empty');
     }
 
     public function _handler_subfolders(array &$data)
@@ -70,8 +62,12 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         $qb->add_constraint('up', '=', $this->_topic->id);
         $qb->add_order('metadata.score', 'ASC');
         $data['subfolders'] = $qb->execute();
-
         $data['thumbnails'] = $this->_get_folder_thumbnails($data['subfolders']);
+
+        if (!empty($data['subfolders'])) {
+            return $this->show('index-subfolders');
+        }
+        return $this->show('index-empty');
     }
 
     private function _get_folder_thumbnails(array $folders) : array
@@ -81,14 +77,5 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
             $thumbnails[$i] = org_openpsa_slideshow_image_dba::get_folder_thumbnail($folder);
         }
         return $thumbnails;
-    }
-
-    public function _show_subfolders(string $handler_id, array &$data)
-    {
-        if (!empty($data['subfolders'])) {
-            midcom_show_style('index-subfolders');
-        } else {
-            midcom_show_style('index-empty');
-        }
     }
 }

@@ -264,18 +264,12 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), $formatter->date($now)),
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), $formatter->time($now)),
         ];
-        midcom::get()->skip_page_style = true;
-    }
 
-    /**
-     * Show the batch password change form
-     */
-    public function _show_password_email(string $handler_id, array &$data)
-    {
         $data['message_subject'] = $this->_l10n->get($this->_config->get('message_subject'));
         $data['message_body'] = $this->_l10n->get($this->_config->get('message_body'));
         $data['message_footer'] = $this->_config->get('message_footer');
 
-        midcom_show_style('midgard-admin-user-password-email');
+        midcom::get()->skip_page_style = true;
+        return $this->show('midgard-admin-user-password-email');
     }
 }
