@@ -73,7 +73,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Initializes the class and stores the selected person to be shown
      */
-    public function __construct(midcom_db_person $person = null)
+    public function __construct(midcom_db_person $person)
     {
         parent::__construct();
 
@@ -84,10 +84,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // Read properties of provided person object
         // TODO: Handle groups as well
-        if ($person) {
-            $this->person = $person;
-            $this->read_object($person);
-        }
+        $this->person = $person;
+        $this->read_object($person);
     }
 
     public static function add_head_elements()
@@ -116,14 +114,10 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         try {
             $person = midcom_db_person::get_cached($src);
         } catch (midcom_error $e) {
-            $widget = new self();
-            $cache[$src] = $widget;
-            return $widget;
+            return $cache[$src] = new self(new midcom_db_person);
         }
 
-        $widget = new self($person);
-
-        $cache[$person->guid] = $widget;
+        $cache[$person->guid] = new self($person);
         $cache[$person->id] = $cache[$person->guid];
         return $cache[$person->guid];
     }
@@ -208,7 +202,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public function show_inline() : string
     {
-        if (!$this->person) {
+        if (!$this->person->id) {
             return '';
         }
         self::add_head_elements();
@@ -237,9 +231,10 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public function show()
     {
-        if (!$this->person) {
-            return false;
+        if (!$this->person->id) {
+            return;
         }
+
         self::add_head_elements();
         // Start the vCard
         echo "<div class=\"vcard\" id=\"org_openpsa_widgets_contact-{$this->contact_details['guid']}\">\n";
