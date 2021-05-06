@@ -215,8 +215,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (!$parent_property) {
             return null;
         }
-        $ref = new midgard_reflection_property($this->mgdschema_class);
-        return $ref->get_link_name($parent_property);
+
+        return $this->get_link_name($parent_property);
     }
 
     /**

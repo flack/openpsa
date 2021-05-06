@@ -12,7 +12,6 @@ use midcom_core_account;
 use midcom_db_person;
 use midcom_error;
 use midcom_helper_reflector;
-use midgard_reflection_property;
 use midcom_baseclasses_components_configuration;
 
 /**
@@ -108,7 +107,7 @@ class autocomplete
             return $constraints;
         }
 
-        $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->request['class']));
+        $reflector = new midcom_helper_reflector($this->request['class']);
 
         foreach ($this->request['searchfields'] as $field) {
             $field_type = $reflector->get_midgard_type($field);

@@ -10,7 +10,6 @@ namespace midcom\datamanager;
 
 use midcom_core_dbaobject;
 use midcom_helper_reflector;
-use midgard_reflection_property;
 use midgard_object_class;
 use midcom;
 
@@ -36,16 +35,16 @@ class schemabuilder
     protected $schema;
 
     /**
-     * Midgard reflection property instance for the current object's class.
+     * Reflector instance for the current object's class.
      *
-     * @var midgard_reflection_property
+     * @var midcom_helper_reflector
      */
     protected $reflector;
 
     public function __construct(midcom_core_dbaobject $object)
     {
         $this->object = $object;
-        $this->reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->object));
+        $this->reflector = new midcom_helper_reflector($object);
     }
 
     /**
@@ -222,7 +221,7 @@ class schemabuilder
         } elseif ($key == $type_label) {
             $field_label = $key;
         } else {
-            $l10n = midcom_helper_reflector::get($this->object)->get_component_l10n();
+            $l10n = $this->reflector->get_component_l10n();
             $field_label = $l10n->get($key);
         }
 
