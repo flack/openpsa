@@ -9,7 +9,7 @@
 /**
  * @package net.nemein.rss
  */
-class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
+class net_nemein_rss_helpers
 {
     /**
      * Add default RSS config options to component config schema.

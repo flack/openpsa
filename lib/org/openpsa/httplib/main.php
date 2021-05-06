@@ -15,7 +15,7 @@ use GuzzleHttp\RedirectMiddleware;
  *
  * @package org.openpsa.httplib
  */
-class org_openpsa_httplib extends midcom_baseclasses_components_purecode
+class org_openpsa_httplib
 {
     private $params = [
         'timeout' => 30,

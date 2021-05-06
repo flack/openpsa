@@ -14,8 +14,10 @@ use midgard\portable\api\mgdobject;
  *
  * @package midcom.helper.reflector
  */
-class midcom_helper_reflector extends midcom_baseclasses_components_purecode
+class midcom_helper_reflector
 {
+    use midcom_baseclasses_components_base;
+
     public $mgdschema_class = '';
 
     /**
@@ -40,7 +42,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function __construct($src)
     {
-        parent::__construct();
+        $this->_component = 'midcom.helper.reflector';
 
         // Resolve root class name
         $this->mgdschema_class = self::resolve_baseclass($src);

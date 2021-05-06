@@ -11,8 +11,10 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purecode
+class org_openpsa_invoices_scheduler
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
@@ -27,7 +29,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     public function __construct(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.invoices';
         $this->_deliverable = $deliverable;
         $this->subscription_day = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_invoice_day_of_month');
     }

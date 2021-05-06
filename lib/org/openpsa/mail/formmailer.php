@@ -24,8 +24,10 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package org.openpsa.mail
  */
-class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
+class org_openpsa_mail_formmailer
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var schemadb
      */
@@ -61,7 +63,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
 
     public function __construct(schemadb $schemadb = null)
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.mail';
         if (null === $schemadb) {
             $this->_schemadb = schemadb::from_path($this->_config->get('schemadb_formmailer'));
         } else {

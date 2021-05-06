@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_calculator extends midcom_baseclasses_components_purecode
+class org_openpsa_invoices_calculator
 {
     /**
      * @var org_openpsa_sales_salesproject_deliverable_dba

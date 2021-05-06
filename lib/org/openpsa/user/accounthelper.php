@@ -11,8 +11,10 @@
  *
  * @package org.openpsa.user
  */
-class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purecode
+class org_openpsa_user_accounthelper
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var midcom_db_person
      */
@@ -27,10 +29,10 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     public function __construct(midcom_db_person $person = null)
     {
+        $this->_component = 'org.openpsa.user';
         if (null !== $person) {
             $this->person = $person;
         }
-        parent::__construct();
     }
 
     protected function get_account() : midcom_core_account

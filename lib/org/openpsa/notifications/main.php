@@ -33,8 +33,10 @@ use Doctrine\ORM\Query\Expr\Join;
  *
  * @package org.openpsa.notifications
  */
-class org_openpsa_notifications extends midcom_baseclasses_components_purecode
+class org_openpsa_notifications
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * Sends a notice to a selected person
      *

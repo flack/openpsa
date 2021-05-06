@@ -15,7 +15,7 @@ use midcom\dba\softdelete;
  *
  * @package net.nemein.rss
  */
-class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
+class net_nemein_rss_fetch
 {
     /**
      * The last error reported by SimplePie, if any

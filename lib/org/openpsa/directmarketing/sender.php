@@ -11,8 +11,10 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_purecode
+class org_openpsa_directmarketing_sender
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var boolean
      */
@@ -62,7 +64,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', string $subject = '')
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.directmarketing';
         $this->_message = $message;
         $this->from = $from;
         $this->subject = $subject;

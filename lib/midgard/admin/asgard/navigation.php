@@ -11,8 +11,10 @@
  *
  * @package midgard.admin.asgard
  */
-class midgard_admin_asgard_navigation extends midcom_baseclasses_components_purecode
+class midgard_admin_asgard_navigation
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var array
      */
@@ -36,7 +38,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     public function __construct(?object $object, array &$request_data)
     {
-        parent::__construct();
+        $this->_component = 'midgard.admin.asgard';
 
         $this->_object = $object;
         $this->_request_data =& $request_data;

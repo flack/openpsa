@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.relatedto
  */
-class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_purecode
+class org_openpsa_relatedto_suspect
 {
     /**
      * Query all specific component for objects related to given object

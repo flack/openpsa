@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.widgets
  */
-class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
+class org_openpsa_widgets_ui
 {
     public static function get_config_value(string $key)
     {

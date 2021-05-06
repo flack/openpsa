@@ -8,8 +8,10 @@
  *
  * @package org.openpsa.qbpager
  */
-class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
+class org_openpsa_qbpager
 {
+    use midcom_baseclasses_components_base;
+
     public $results_per_page = 25;
     public $display_pages = 10;
     public $string_next = 'next';
@@ -25,6 +27,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function __construct(string $classname, string $pager_id)
     {
+        $this->_component = 'org.openpsa.qbpager';
         if (empty($pager_id)) {
             throw new midcom_error('pager_id is not set (needed for distinguishing different instances on same request)');
         }
@@ -61,13 +64,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $results_var = $this->_prefix . 'results';
         if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
-            $this->_current_page = (int)$_REQUEST[$page_var];
+            $this->_current_page = (int) $_REQUEST[$page_var];
         }
         if (!empty($_REQUEST[$results_var])) {
             debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
-            $this->results_per_page = (int)$_REQUEST[$results_var];
+            $this->results_per_page = (int) $_REQUEST[$results_var];
         }
-        $this->_offset = ($this->_current_page-1)*$this->results_per_page;
+        $this->_offset = ($this->_current_page - 1) * $this->results_per_page;
         if ($this->_offset < 0) {
             $this->_offset = 0;
         }

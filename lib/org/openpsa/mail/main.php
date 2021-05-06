@@ -37,8 +37,10 @@
  * @property mixed $to To address(es)
  * @package org.openpsa.mail
  */
-class org_openpsa_mail extends midcom_baseclasses_components_purecode
+class org_openpsa_mail
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * Text body
      *
@@ -113,8 +115,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     public function __construct(string $backend = 'try_default', array $backend_params = [])
     {
-        parent::__construct();
-
+        $this->_component = 'org.openpsa.mail';
         $this->encoding = $this->_i18n->get_current_charset();
 
         $backend_params['swift_plugins'] = $this->_config->get_array('swift_plugins');

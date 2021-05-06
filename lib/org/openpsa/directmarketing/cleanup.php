@@ -20,8 +20,10 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_purecode
+class org_openpsa_directmarketing_cleanup
 {
+    use midcom_baseclasses_components_base;
+
     private function get_deletion_timestamp() : string
     {
         return gmdate('Y-m-d H:i:s', time() - 3600 * 24 * $this->_config->get('delete_older_than_days'));

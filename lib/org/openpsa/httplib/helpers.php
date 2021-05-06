@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @package org.openpsa.httplib
  */
-class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
+class org_openpsa_httplib_helpers
 {
     /**
      * Get value of a meta tag in HTML page.

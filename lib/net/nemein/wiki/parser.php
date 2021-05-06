@@ -13,8 +13,10 @@ use Michelf\MarkdownExtra;
  *
  * @package net.nemein.wiki
  */
-class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
+class net_nemein_wiki_parser
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var net_nemein_wiki_wikipage
      */
@@ -22,8 +24,8 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
     public function __construct(net_nemein_wiki_wikipage $page)
     {
+        $this->_component = 'net.nemein.wiki';
         $this->_page = $page;
-        parent::__construct();
     }
 
     public function get_html() : string

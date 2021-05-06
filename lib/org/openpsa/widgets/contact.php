@@ -16,8 +16,10 @@ use midcom\datamanager\storage\blobs;
 /**
  * @package org.openpsa.widgets
  */
-class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
+class org_openpsa_widgets_contact
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * Contact information of the person being displayed
      */
@@ -75,7 +77,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      */
     public function __construct(midcom_db_person $person)
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.widgets';
 
         if (null === self::$_contacts_url) {
             $siteconfig = org_openpsa_core_siteconfig::get_instance();

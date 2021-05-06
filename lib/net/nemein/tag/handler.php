@@ -11,7 +11,7 @@
  *
  * @package net.nemein.tag
  */
-class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
+class net_nemein_tag_handler
 {
     /**
      * Tags given object with the tags in the string

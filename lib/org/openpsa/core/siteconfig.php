@@ -14,8 +14,10 @@
  *
  * @package org.openpsa.core
  */
-class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
+class org_openpsa_core_siteconfig
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * The components for which we're creating the structure information
      *
@@ -37,7 +39,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
     public function __construct()
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.core';
 
         $this->components = $this->_config->get_array('siteconfig_components');
         $this->load_snippet();

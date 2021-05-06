@@ -14,8 +14,10 @@ use midcom\datamanager\schemadb;
  *
  * @package org.openpsa.directmarketing
  */
-abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_components_purecode
+abstract class org_openpsa_directmarketing_importer
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var datamanager[]
      */
@@ -43,7 +45,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
 
     public function __construct(array $schemadbs, array $settings = [])
     {
-        parent::__construct();
+        $this->_component = 'org.openpsa.directmarketing';
         $this->_settings = $settings;
         $this->_schemadbs = $schemadbs;
         $this->_datamanagers['campaign_member'] = new datamanager($schemadbs['campaign_member']);

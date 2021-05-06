@@ -11,8 +11,10 @@
  *
  * @package midcom.helper.reflector
  */
-class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecode
+class midcom_helper_reflector_copy
 {
+    use midcom_baseclasses_components_base;
+
     /**
      * @var midcom_core_dbaobject
      */
