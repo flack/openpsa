@@ -56,23 +56,19 @@ class image extends blobs implements recreateable
             $this->save_attachment_list();
         }
 
-        $check_fields = ['description', 'title', 'score'];
-
-        if (array_intersect_key(array_keys($check_fields), $this->value)) {
+        if (array_intersect_key(array_flip(['description', 'title', 'score']), $this->value)) {
             $main = $this->get_main();
             $needs_update = false;
-            foreach ($check_fields as $field) {
-                if (array_key_exists($field, $this->value)) {
-                    if ($field === 'description') {
-                        $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
-                    } elseif ($field === 'title') {
-                        $needs_update = $needs_update || $main->title != $this->value['title'];
-                        $main->title = $this->value['title'];
-                    } elseif ($field === 'score') {
-                        $needs_update = $needs_update || $main->metadata->score != $this->value['score'];
-                        $main->metadata->score = (int) $this->value['score'];
-                    }
-                }
+            if (array_key_exists('description', $this->value)) {
+                $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
+            }
+            if (array_key_exists('title', $this->value)) {
+                $needs_update = $main->title != $this->value['title'];
+                $main->title = $this->value['title'];
+            }
+            if (array_key_exists('score', $this->value)) {
+                $needs_update = $needs_update || $main->metadata->score != $this->value['score'];
+                $main->metadata->score = (int) $this->value['score'];
             }
             if ($needs_update) {
                 $main->update();
@@ -80,18 +76,11 @@ class image extends blobs implements recreateable
         }
     }
 
-    /**
-     * @return \midcom_db_attachment
-     */
-    private function get_main()
+    private function get_main() : \midcom_db_attachment
     {
         if (!empty($this->map['main'])) {
             return $this->map['main'];
         }
-        $items = $this->load();
-        if (!empty($items['main'])) {
-            return $items['main'];
-        }
-        return false;
+        return $this->load()['main'];
     }
 }
