@@ -31,7 +31,6 @@ class org_openpsa_qbpager
         if (empty($pager_id)) {
             throw new midcom_error('pager_id is not set (needed for distinguishing different instances on same request)');
         }
-        parent::__construct();
 
         $this->_pager_id = $pager_id;
         $this->_prefix = 'org_openpsa_qbpager_' . $pager_id . '_';

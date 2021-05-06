@@ -46,8 +46,6 @@ class net_nemein_rss_fetch
     {
         $this->_feed = $feed;
         $this->_node = new midcom_db_topic($feed->node);
-
-        parent::__construct();
     }
 
     public static function get_parser() : SimplePie

@@ -39,7 +39,7 @@
  */
 class org_openpsa_mail
 {
-    use midcom_baseclasses_components_base;
+    use midcom_baseclasses_components_base {__get as base__get;}
 
     /**
      * Text body
@@ -136,7 +136,7 @@ class org_openpsa_mail
             return $this->headers[$name];
         }
 
-        return parent::__get($name);
+        return $this->base__get($name);
     }
 
     /**
