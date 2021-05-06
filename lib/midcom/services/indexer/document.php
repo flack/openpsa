@@ -281,29 +281,15 @@ class midcom_services_indexer_document
     }
 
     /**
-     * Returns the complete internal field record, including type and UTF-8 encoded
+     * Returns the complete internal field records, including type and UTF-8 encoded
      * content.
      *
      * This should normally not be used from the outside, it is geared towards the
      * indexer backends, which need the full field information on indexing.
-     *
-     * @return Array The full content record.
      */
-    public function get_field_record(string $name)
+    public function get_fields() : array
     {
-        if (!array_key_exists($name, $this->_fields)) {
-            debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
-            return false;
-        }
-        return $this->_fields[$name];
-    }
-
-    /**
-     * Returns a list of all defined fields.
-     */
-    public function list_fields() : array
-    {
-        return array_keys($this->_fields);
+        return $this->_fields;
     }
 
     /**

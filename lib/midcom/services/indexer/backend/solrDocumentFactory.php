@@ -47,8 +47,7 @@ class midcom_services_indexer_solrDocumentFactory
         $field->nodeValue = $document->RI;
         $element->appendChild($field);
 
-        foreach ($document->list_fields() as $field_name) {
-            $field_record = $document->get_field_record($field_name);
+        foreach ($document->get_fields() as $field_record) {
             $field = $this->xml->createElement('field');
             $field->setAttribute('name', $field_record['name']);
             // remove control characters (except \n)
