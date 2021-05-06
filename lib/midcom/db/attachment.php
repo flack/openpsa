@@ -51,7 +51,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @param string $mode The mode which should be used to open the attachment, same as
      *     the mode parameter of the PHP fopen call. This defaults to write access.
-     * @return resource A file handle to the attachment if successful, false on failure.
+     * @return resource|false A file handle to the attachment if successful, false on failure.
      */
     public function open(string $mode = 'w')
     {

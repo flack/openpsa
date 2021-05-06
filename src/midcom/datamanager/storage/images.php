@@ -72,9 +72,8 @@ class images extends blobs implements recreateable
                     $identifier = md5(time() . $images['file']->name . $images['file']->location);
                 }
                 $images['file']->parentguid = $this->object->guid;
-                $existing = array_key_exists($identifier, $map) ? $map[$identifier] : [];
                 $filter = new imagefilter($this->config['type_config']);
-                $map[$identifier] = $filter->process($images['file'], $existing);
+                $map[$identifier] = $filter->process($images['file'], $map[$identifier] ?? []);
             }
             foreach ($map[$identifier] as $name => $image) {
                 $this->map[$identifier . $name] = $image;

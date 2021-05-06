@@ -63,7 +63,7 @@ class blobs extends delayed
                     continue;
                 }
 
-                $db_att = (array_key_exists($identifier, $atts_in_db)) ? $atts_in_db[$identifier] : null;
+                $db_att = $atts_in_db[$identifier] ?? null;
 
                 // new upload case
                 if ($att->id === 0) {

@@ -29,10 +29,10 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
     private function prepare_formdata(string $handler_id)
     {
-        $this->_request_data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
+        $this->_request_data['query'] = $_REQUEST['query'] ?? '';
         if ($handler_id === 'advanced') {
-            $this->_request_data['request_topic'] = (array_key_exists('topic', $_REQUEST) ? $_REQUEST['topic'] : '');
-            $this->_request_data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
+            $this->_request_data['request_topic'] = $_REQUEST['topic'] ?? '';
+            $this->_request_data['component'] = $_REQUEST['component'] ?? '';
             $this->_request_data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
 
             $this->_request_data['topics'] = ['' => $this->_l10n->get('search anywhere')];
