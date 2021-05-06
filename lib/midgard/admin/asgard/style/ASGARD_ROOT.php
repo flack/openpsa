@@ -127,7 +127,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
-                            if (   $revision > 1
+                            if (   $revision > 0
                                 && $edited != $created) {
                                 try {
                                     $editor = new midcom_db_person($view_metadata->get('revisor'));
