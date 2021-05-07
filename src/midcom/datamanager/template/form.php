@@ -111,29 +111,6 @@ class form extends base
         return $string . '</div></div>';
     }
 
-    public function autocomplete_row(FormView $view, array $data)
-    {
-        $class = 'element element_' . $view->vars['block_prefixes'][count($view->vars['block_prefixes']) - 2];
-
-        if ($view->vars['required']) {
-            $class .= ' required';
-        }
-
-        if ($data['errors']->count() > 0) {
-            $class .= ' error';
-        }
-
-        $string = '<div class="' . $class . '">';
-        $string .= $this->renderer->label($view);
-        $string .= '<div class="input">';
-
-        if ($data['errors']->count() > 0) {
-            $string .= $this->renderer->errors($view) . '<br>';
-        }
-        $string .= $this->renderer->widget($view);
-        return $string . '</div></div>';
-    }
-
     public function button_row(FormView $view, array $data)
     {
         $string = '<div>';
