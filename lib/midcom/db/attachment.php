@@ -175,6 +175,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
             throw new midcom_error('Invalid attachment identifier');
         }
 
+        if (!$guid) {
+            return '';
+        }
+
         if (midcom::get()->config->get('attachment_cache_enabled')) {
             $subdir = $guid[0];
 
