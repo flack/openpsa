@@ -194,27 +194,8 @@ class net_nemein_tag_handler
     public static function get_tags_by_guid(string $guid) : array
     {
         $tags = [];
-        $link_mc = net_nemein_tag_link::new_collector('fromGuid', $guid);
-        $link_mc->set_key_property('tag');
-        $link_mc->add_value_property('value');
-        $link_mc->add_value_property('context');
-        $link_mc->execute();
-        $links = $link_mc->list_keys();
-
-        if (empty($links)) {
-            return $tags;
-        }
-
-        $mc = net_nemein_tag_tag_dba::new_collector();
-        $mc->add_constraint('id', 'IN', array_keys($links));
-        $mc->add_order('tag');
-        $results = $mc->get_rows(['tag', 'url', 'id']);
-
-        foreach ($results as $result) {
-            $context = $link_mc->get_subkey($result['id'], 'context');
-            $value = $link_mc->get_subkey($result['id'], 'value');
-
-            $tagname = self::tag_link2tagname($result['tag'], $value, $context);
+        foreach (self::get_data_for_guid($guid) as $result) {
+            $tagname = self::tag_link2tagname($result['tag'], $result['value'], $result['context']);
             $tags[$tagname] = $result['url'];
         }
         return $tags;
@@ -275,6 +256,31 @@ class net_nemein_tag_handler
         return $tags;
     }
 
+    private static function get_data_for_guid(string $guid, array $constraints = []) : array
+    {
+        $data = [];
+        $link_mc = net_nemein_tag_link::new_collector('fromGuid', $guid);
+        $link_mc->set_key_property('tag');
+        $link_mc->add_value_property('value');
+        $link_mc->add_value_property('context');
+        foreach ($constraints as $constraint) {
+            $link_mc->add_constraint(...$constraint);
+        }
+        $link_mc->execute();
+
+        $mc = net_nemein_tag_tag_dba::new_collector();
+        $mc->add_constraint('id', 'IN', array_keys($link_mc->list_keys()));
+        $mc->add_order('tag');
+        $results = $mc->get_rows(['tag', 'url', 'id']);
+
+        foreach ($results as $result) {
+            $result['context'] = $link_mc->get_subkey($result['id'], 'context');
+            $result['value'] = $link_mc->get_subkey($result['id'], 'value');
+            $data[] = $result;
+        }
+        return $data;
+    }
+
     /**
      * Gets list of tags linked to the object arranged by context
      *
@@ -283,31 +289,14 @@ class net_nemein_tag_handler
     public static function get_object_tags_by_contexts($object) : array
     {
         $tags = [];
-        $link_mc = net_nemein_tag_link::new_collector('fromGuid', $object->guid);
-        $link_mc->set_key_property('tag');
-        $link_mc->add_value_property('value');
-        $link_mc->add_value_property('context');
-        $link_mc->execute();
-        $links = $link_mc->list_keys();
-
-        if (empty($links)) {
-            return $tags;
-        }
-
-        $mc = net_nemein_tag_tag_dba::new_collector();
-        $mc->add_constraint('id', 'IN', array_keys($links));
-        $mc->add_order('tag');
-        $results = $mc->get_rows(['tag', 'url', 'id']);
-
-        foreach ($results as $result) {
-            $context = $link_mc->get_subkey($result['id'], 'context') ?: 0;
+        foreach (self::get_data_for_guid($object->guid) as $result) {
+            $context = $result['context'] ?: 0;
 
             if (!array_key_exists($context, $tags)) {
                 $tags[$context] = [];
             }
 
-            $value = $link_mc->get_subkey($result['id'], 'value');
-            $tagname = self::tag_link2tagname($result['tag'], $value, $context);
+            $tagname = self::tag_link2tagname($result['tag'], $result['value'], $context);
 
             $tags[$context][$tagname] = $result['url'];
         }
@@ -341,19 +330,10 @@ class net_nemein_tag_handler
     public static function get_object_machine_tags_in_context($object, $context) : array
     {
         $tags = [];
-        $qb = net_nemein_tag_link_dba::new_query_builder();
-        $qb->add_constraint('fromGuid', '=', $object->guid);
-        $qb->add_constraint('context', '=', $context);
-        $qb->add_constraint('value', '<>', '');
+        $constraints = [['context', '=', $context], ['value', '<>', '']];
 
-        foreach ($qb->execute() as $link) {
-            try {
-                $tag = new net_nemein_tag_tag_dba($link->tag);
-
-                $tags[$tag->tag] = $link->value;
-            } catch (midcom_error $e) {
-                $e->log();
-            }
+        foreach (self::get_data_for_guid($object->guid, $constraints) as $result) {
+            $tags[$result['id']] = $result['value'];
         }
         return $tags;
     }
