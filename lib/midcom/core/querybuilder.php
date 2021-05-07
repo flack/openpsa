@@ -271,9 +271,6 @@ class midcom_core_querybuilder extends midcom_core_query
         if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }
-        if ($this->_offset) {
-            $this->_query->set_offset($this->_offset);
-        }
-        return $this->_query->count();
+        return $this->_query->count() - $this->_offset;
     }
 }
