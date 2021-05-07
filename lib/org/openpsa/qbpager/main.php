@@ -45,34 +45,10 @@ class org_openpsa_qbpager
     }
 
     /**
-     * Makes sure we have some absolutely required things properly set
-     */
-    protected function _sanity_check()
-    {
-        if ($this->results_per_page < 1) {
-            throw new LogicException('results_per_page is set to ' . $this->results_per_page);
-        }
-    }
-
-    /**
      * Check $_REQUEST for variables and sets internal status accordingly
      */
     private function _check_page_vars()
     {
-        $page_var = $this->_prefix . 'page';
-        $results_var = $this->_prefix . 'results';
-        if (!empty($_REQUEST[$page_var])) {
-            debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
-            $this->_current_page = (int) $_REQUEST[$page_var];
-        }
-        if (!empty($_REQUEST[$results_var])) {
-            debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
-            $this->results_per_page = (int) $_REQUEST[$results_var];
-        }
-        $this->_offset = ($this->_current_page - 1) * $this->results_per_page;
-        if ($this->_offset < 0) {
-            $this->_offset = 0;
-        }
     }
 
     /**
@@ -230,13 +206,24 @@ class org_openpsa_qbpager
      */
     protected function _qb_limits($qb)
     {
-        $this->_check_page_vars();
-
+        $page_var = $this->_prefix . 'page';
+        if (!empty($_REQUEST[$page_var])) {
+            debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
+            $this->_current_page = max(1, (int) $_REQUEST[$page_var]);
+        }
         if ($this->_current_page == 'all') {
             debug_add("displaying all results");
             return;
         }
-
+        $results_var = $this->_prefix . 'results';
+        if (!empty($_REQUEST[$results_var])) {
+            debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
+            $this->results_per_page = max(1, (int) $_REQUEST[$results_var]);
+        }
+        if ($this->results_per_page < 1) {
+            throw new LogicException('results_per_page is set to ' . $this->results_per_page);
+        }
+        $this->_offset = ($this->_current_page - 1) * $this->results_per_page;
         $qb->set_limit($this->results_per_page);
         $qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
@@ -244,14 +231,12 @@ class org_openpsa_qbpager
 
     public function execute() : array
     {
-        $this->_sanity_check();
         $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute();
     }
 
     public function execute_unchecked() : array
     {
-        $this->_sanity_check();
         $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute_unchecked();
     }
@@ -263,7 +248,6 @@ class org_openpsa_qbpager
      */
     public function count_pages()
     {
-        $this->_sanity_check();
         $this->count_unchecked();
         return ceil($this->count / $this->results_per_page);
     }
@@ -300,7 +284,6 @@ class org_openpsa_qbpager
 
     public function count() : int
     {
-        $this->_sanity_check();
         if (   !$this->count
             || $this->_count_mode != 'count') {
             $this->count = $this->_midcom_qb_count->count();
@@ -311,7 +294,6 @@ class org_openpsa_qbpager
 
     public function count_unchecked() : int
     {
-        $this->_sanity_check();
         if (   !$this->count
             || $this->_count_mode != 'count_unchecked') {
             $this->count = $this->_midcom_qb_count->count_unchecked();
