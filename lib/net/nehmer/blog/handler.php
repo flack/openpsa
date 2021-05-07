@@ -81,21 +81,7 @@ trait net_nehmer_blog_handler
             $qb->end_group();
         }
 
-        // Hide the articles that have the publish time in the future and if
-        // the user is not administrator
-        if (   $this->_config->get('enable_scheduled_publishing')
-            && !midcom::get()->auth->admin) {
-            // Show the article only if the publishing time has passed or the viewer
-            // is the author
-            $qb->begin_group('OR');
-            $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
-
-            if (!empty(midcom::get()->auth->user->guid)) {
-                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-            }
-            $qb->end_group();
-        }
-
+        net_nehmer_blog_navigation::add_scheduling_constraints($qb, $this->_config);
         $qb->add_constraint('up', '=', 0);
     }
 

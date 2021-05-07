@@ -35,21 +35,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     private function _add_article_leaves(array &$leaves)
     {
         $qb = midcom_db_article::new_query_builder();
-
-        // Hide the articles that have the publish time in the future and if
-        // the user is not administrator
-        if (   $this->_config->get('enable_scheduled_publishing')
-            && !midcom::get()->auth->admin) {
-            // Show the article only if the publishing time has passed or the viewer
-            // is the author
-            $qb->begin_group('OR');
-            $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
-
-            if (!empty(midcom::get()->auth->user->guid)) {
-                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-            }
-            $qb->end_group();
-        }
+        self::add_scheduling_constraints($qb, $this->_config);
 
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('up', '=', 0);
@@ -108,27 +94,12 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             && $this->_config->get('archive_years_enable')) {
             $qb = midcom_db_article::new_query_builder();
             $qb->add_constraint('topic', '=', $this->_topic->id);
-
-            // Hide the articles that have the publish time in the future and if
-            // the user is not administrator
-            if (   $this->_config->get('enable_scheduled_publishing')
-                && !midcom::get()->auth->admin) {
-                // Show the article only if the publishing time has passed or the viewer
-                // is the author
-                $qb->begin_group('OR');
-                $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
-
-                if (!empty(midcom::get()->auth->user->guid)) {
-                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-                }
-                $qb->end_group();
-            }
+            self::add_scheduling_constraints($qb, $this->_config);
 
             $qb->add_order('metadata.published');
             $qb->set_limit(1);
-            $result = $qb->execute_unchecked();
 
-            if (!empty($result)) {
+            if ($result = $qb->execute_unchecked()) {
                 $first_year = (int) gmdate('Y', (int) $result[0]->metadata->published);
                 $year = $first_year;
                 $this_year = (int) gmdate('Y', time());
@@ -141,6 +112,28 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
                 }
                 $leaves = array_reverse($leaves);
             }
+        }
+    }
+
+    /**
+     * Hide the articles that have the publish time in the future if
+     * the user is not administrator
+     *
+     * @param midcom_core_querybuilder $qb (or qbpager)
+     */
+    public static function add_scheduling_constraints($qb, midcom_helper_configuration $config)
+    {
+        if (   $config->get('enable_scheduled_publishing')
+            && !midcom::get()->auth->admin) {
+            // Show the article only if the publishing time has passed or the viewer
+            // is the author
+            $qb->begin_group('OR');
+            $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
+
+            if (!empty(midcom::get()->auth->user->guid)) {
+                $qb->add_constraint('metadata.authors', 'LIKE', '%|' . midcom::get()->auth->user->guid . '|%');
+            }
+            $qb->end_group();
         }
     }
 }
