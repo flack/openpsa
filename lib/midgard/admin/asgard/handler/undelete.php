@@ -79,7 +79,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $qb->add_constraint('metadata.deleted', '=', true);
         $qb->add_order('metadata.revised', 'DESC');
         $data['qb'] = $qb;
-        $data['trash'] = $qb->execute_unchecked();
+        $data['trash'] = $qb->execute();
 
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));

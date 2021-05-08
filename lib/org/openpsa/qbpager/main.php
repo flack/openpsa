@@ -227,12 +227,6 @@ class org_openpsa_qbpager
         return $this->_midcom_qb->execute();
     }
 
-    public function execute_unchecked() : array
-    {
-        $this->_qb_limits($this->_midcom_qb);
-        return $this->_midcom_qb->execute_unchecked();
-    }
-
     /**
      * Returns number of total pages for query
      *
