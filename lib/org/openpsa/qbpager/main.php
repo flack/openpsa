@@ -45,13 +45,6 @@ class org_openpsa_qbpager
     }
 
     /**
-     * Check $_REQUEST for variables and sets internal status accordingly
-     */
-    private function _check_page_vars()
-    {
-    }
-
-    /**
      * Get the current page number
      */
     public function get_current_page() : int
@@ -202,7 +195,7 @@ class org_openpsa_qbpager
     }
 
     /**
-     * sets LIMIT and OFFSET for requested page
+     * Check $_REQUEST for variables and sets LIMIT and OFFSET for requested page
      */
     protected function _qb_limits($qb)
     {
