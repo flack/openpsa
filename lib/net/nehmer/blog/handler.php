@@ -51,10 +51,8 @@ trait net_nehmer_blog_handler
 
     /**
      * Sets the constraints for QB for articles
-     *
-     * @param midcom_core_querybuilder $qb The QB object
      */
-    public function article_qb_constraints($qb)
+    public function article_qb_constraints(midcom_core_querybuilder $qb)
     {
         $topic_guids = [$this->_topic->guid];
 
@@ -85,7 +83,7 @@ trait net_nehmer_blog_handler
         $qb->add_constraint('up', '=', 0);
     }
 
-    public function apply_category_constraint($qb, string $category)
+    public function apply_category_constraint(midcom_core_querybuilder $qb, string $category)
     {
         if ($category = trim($category)) {
             $qb->begin_group('OR');

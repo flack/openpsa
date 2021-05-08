@@ -118,10 +118,8 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     /**
      * Hide the articles that have the publish time in the future if
      * the user is not administrator
-     *
-     * @param midcom_core_querybuilder $qb (or qbpager)
      */
-    public static function add_scheduling_constraints($qb, midcom_helper_configuration $config)
+    public static function add_scheduling_constraints(midcom_core_querybuilder $qb, midcom_helper_configuration $config)
     {
         if (   $config->get('enable_scheduled_publishing')
             && !midcom::get()->auth->admin) {
