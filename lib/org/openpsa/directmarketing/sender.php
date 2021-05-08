@@ -368,7 +368,7 @@ class org_openpsa_directmarketing_sender
     /**
      * Sets the common constrains for campaign members queries
      */
-    protected function _qb_common_constraints($qb)
+    private function _qb_common_constraints(midcom_core_querybuilder $qb)
     {
         debug_add("Setting constraint campaign = {$this->_message->campaign}");
         $qb->add_constraint('campaign', '=', $this->_message->campaign);

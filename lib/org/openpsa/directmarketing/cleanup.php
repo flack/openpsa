@@ -52,7 +52,7 @@ class org_openpsa_directmarketing_cleanup
         return $qb;
     }
 
-    private function get_campaign_member_qb(bool $kept = false)
+    private function get_campaign_member_qb(bool $kept = false) : midcom_core_querybuilder
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         if ($kept) {
