@@ -194,18 +194,24 @@ class org_openpsa_qbpager
     }
 
     /**
+     * Returns number of total pages for query
+     *
+     * By default returns a number of pages without any ACL checks
+     */
+    public function count_pages()
+    {
+        return ceil($this->count_unchecked() / $this->results_per_page);
+    }
+
+    /**
      * Check $_REQUEST for variables and sets LIMIT and OFFSET for requested page
      */
-    protected function _qb_limits($qb)
+    public function execute() : array
     {
         $page_var = $this->_prefix . 'page';
         if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = max(1, (int) $_REQUEST[$page_var]);
-        }
-        if ($this->_current_page == 'all') {
-            debug_add("displaying all results");
-            return;
         }
         $results_var = $this->_prefix . 'results';
         if (!empty($_REQUEST[$results_var])) {
@@ -215,26 +221,13 @@ class org_openpsa_qbpager
         if ($this->results_per_page < 1) {
             throw new LogicException('results_per_page is set to ' . $this->results_per_page);
         }
+
         $this->_offset = ($this->_current_page - 1) * $this->results_per_page;
-        $qb->set_limit($this->results_per_page);
-        $qb->set_offset($this->_offset);
+        $this->_midcom_qb->set_limit($this->results_per_page);
+        $this->_midcom_qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
-    }
 
-    public function execute() : array
-    {
-        $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute();
-    }
-
-    /**
-     * Returns number of total pages for query
-     *
-     * By default returns a number of pages without any ACL checks
-     */
-    public function count_pages()
-    {
-        return ceil($this->count_unchecked() / $this->results_per_page);
     }
 
     //Rest of supported methods wrapped with extra sanity check
