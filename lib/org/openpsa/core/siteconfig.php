@@ -83,7 +83,7 @@ class org_openpsa_core_siteconfig
         $this->snippet->update();
         midcom::get()->auth->drop_sudo();
 
-        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'));
     }
 
     /**

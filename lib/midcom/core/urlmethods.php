@@ -93,7 +93,6 @@ class midcom_core_urlmethods
         midcom::get()->uimessages->add(
             midcom::get()->i18n->get_string('MidCOM', 'midcom'),
             midcom::get()->i18n->get_string('cache invalidation successful', 'midcom'),
-            'info'
         );
 
         $url = $request->server->get('HTTP_REFERER') ?: midcom_connection::get_url('self');

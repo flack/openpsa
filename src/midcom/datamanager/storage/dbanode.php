@@ -13,13 +13,11 @@ use midcom_core_dbaobject;
 abstract class dbanode implements node
 {
     /**
-     *
-     * @var \midcom_core_dbaobject
+     * @var midcom_core_dbaobject
      */
     protected $object;
 
     /**
-     *
      * @var array
      */
     protected $config;

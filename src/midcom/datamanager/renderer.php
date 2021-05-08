@@ -16,7 +16,7 @@ use midcom_services_i18n_l10n;
 class renderer extends FormRenderer
 {
     /**
-     * @var \midcom_services_i18n_l10n
+     * @var midcom_services_i18n_l10n
      */
     protected $l10n;
 

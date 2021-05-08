@@ -79,7 +79,7 @@ class schema
     public function & get_field(string $name) : array
     {
         if (!$this->has_field($name)) {
-            throw new \midcom_error('Field ' . $name . ' is not available in this schema');
+            throw new midcom_error('Field ' . $name . ' is not available in this schema');
         }
         return $this->config['fields'][$name];
     }

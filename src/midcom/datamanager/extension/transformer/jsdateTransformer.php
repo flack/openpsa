@@ -39,7 +39,7 @@ class jsdateTransformer implements DataTransformerInterface
             return $result;
         }
 
-        $date = new \DateTime;
+        $date = new DateTime;
         if ($this->config['type_config']['storage_type'] === jsdateType::UNIXTIME) {
             $date->setTimestamp((int) $input);
         } elseif ($this->config['type_config']['storage_type'] === jsdateType::ISO) {

@@ -57,8 +57,7 @@ class delete extends dialog
     protected $relocate;
 
     /**
-     *
-     * @var \midcom_core_dbaobject
+     * @var midcom_core_dbaobject
      */
     protected $object;
 

@@ -101,7 +101,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             $size = softdelete::undelete($guids);
             $message = 'in total %s undeleted';
         }
-        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get($message), midcom_helper_misc::filesize_to_string($size)), 'info');
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get($message), midcom_helper_misc::filesize_to_string($size)));
         return new midcom_response_relocate($this->router->generate('trash_type', ['type' => $this->_request_data['type']]));
     }
 

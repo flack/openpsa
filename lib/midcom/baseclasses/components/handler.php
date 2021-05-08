@@ -82,7 +82,7 @@ abstract class midcom_baseclasses_components_handler
     var $_view_toolbar;
 
     /**
-     * @var \Symfony\Component\Routing\Router
+     * @var Router
      */
     protected $router;
 

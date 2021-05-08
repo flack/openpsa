@@ -15,8 +15,7 @@ use midcom;
 abstract class base
 {
     /**
-     *
-     * @var \midcom\datamanager\renderer
+     * @var renderer
      */
     protected $renderer;
 

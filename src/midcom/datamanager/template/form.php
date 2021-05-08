@@ -258,7 +258,7 @@ class form extends base
         return $string . $this->jsinit($jsinit);
     }
 
-    protected function prepare_widget_attributes(string $type, FormView $view, array &$data)
+    protected function prepare_widget_attributes(string $type, array &$data)
     {
         $data['attr']['type'] = $type;
         if (isset($data['value'])) {
@@ -271,7 +271,7 @@ class form extends base
 
     public function radio_widget(FormView $view, array $data)
     {
-        $this->prepare_widget_attributes('radio', $view, $data);
+        $this->prepare_widget_attributes('radio', $data);
         if ($view->vars['readonly']) {
             $data['attr']['disabled'] = true;
         }
@@ -288,7 +288,7 @@ class form extends base
             }
             return $string;
         }
-        $this->prepare_widget_attributes('checkbox', $view, $data);
+        $this->prepare_widget_attributes('checkbox', $data);
 
         return '<input ' . $this->renderer->block($view, 'widget_attributes', $data) . ' />';
     }

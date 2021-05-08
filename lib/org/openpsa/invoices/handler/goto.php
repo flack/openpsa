@@ -32,7 +32,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
 
     private function fail(string $message) : midcom_response_relocate
     {
-        midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $message, 'info');
+        midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $message);
         return new midcom_response_relocate('');
     }
 }

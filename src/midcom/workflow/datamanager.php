@@ -21,13 +21,11 @@ use Symfony\Component\HttpFoundation\Response;
 class datamanager extends dialog
 {
     /**
-     *
-     * @var \midcom\datamanager\controller
+     * @var controller
      */
     protected $controller;
 
     /**
-     *
      * @var callable
      */
     protected $save_callback;

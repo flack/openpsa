@@ -122,7 +122,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
             if (!$this->edit_topic->update()) {
-                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
+                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()), 'error');
                 return null;
             }
         }
