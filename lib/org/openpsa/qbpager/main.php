@@ -49,7 +49,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
     /**
      * Fetch all $_GET variables
      */
-    private function _get_query_string(string $page_var, int $page_number) : string
+    private function get_query_string(string $page_var, int $page_number) : string
     {
         $query = [$page_var => $page_number];
 
@@ -65,7 +65,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
     /**
      * Displays previous/next selector
      */
-    function show_previousnext()
+    public function show_previousnext()
     {
         $page_count = $this->count_pages();
         //Skip the header in case we only have one page
@@ -79,12 +79,12 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
 
         if ($this->_current_page > 1) {
             $previous = $this->_current_page - 1;
-            echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
+            echo "\n<a class=\"previous_page\" href=\"" . $this->get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
         if ($this->_current_page < $page_count) {
             $next = $this->_current_page + 1;
-            echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
+            echo "\n<a class=\"next_page\" href=\"" . $this->get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
         }
 
         echo "\n</div>\n";
@@ -108,7 +108,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             if ($previous > 1) {
                 $pages[] = [
                     'class' => 'first',
-                    'href' => $this->_get_query_string($page_var, 1),
+                    'href' => $this->get_query_string($page_var, 1),
                     'rel' => 'prev',
                     'label' => $this->_l10n->get('first'),
                     'number' => 1
@@ -116,7 +116,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             }
             $pages[] = [
                 'class' => 'previous',
-                'href' => $this->_get_query_string($page_var, $previous),
+                'href' => $this->get_query_string($page_var, $previous),
                 'rel' => 'prev',
                 'label' => $this->_l10n->get($this->string_previous),
                 'number' => $previous
@@ -126,7 +126,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
         while ($page++ < $display_end) {
             $href = false;
             if ($page != $this->_current_page) {
-                $href = $this->_get_query_string($page_var, $page);
+                $href = $this->get_query_string($page_var, $page);
             }
             $pages[] = [
                 'class' => 'current',
@@ -141,7 +141,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             $next = $this->_current_page + 1;
             $pages[] = [
                 'class' => 'next',
-                'href' => $this->_get_query_string($page_var, $next),
+                'href' => $this->get_query_string($page_var, $next),
                 'rel' => 'next',
                 'label' => $this->_l10n->get($this->string_next),
                 'number' => $next
@@ -150,7 +150,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             if ($next < $page_count) {
                 $pages[] = [
                     'class' => 'last',
-                    'href' => $this->_get_query_string($page_var, $page_count),
+                    'href' => $this->get_query_string($page_var, $page_count),
                     'rel' => 'next',
                     'label' => $this->_l10n->get('last'),
                     'number' => $page_count
@@ -161,31 +161,19 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
         return $pages;
     }
 
-    private function show(string $name, array $data)
-    {
-        $context = midcom_core_context::enter();
-        $context->set_custom_key('request_data', $data);
-        midcom::get()->style->prepend_component_styledir($this->_component);
-        midcom::get()->style->enter_context($context);
-        midcom_show_style('show_' . $name);
-        midcom::get()->style->leave_context();
-        midcom_core_context::leave();
-    }
-
     /**
      * Displays page selector
      */
     public function show_pages()
     {
-        $this->show('pages', ['pages' => $this->get_pages()]);
-    }
-
-    /**
-     * Displays page selector as list
-     */
-    function show_pages_as_list()
-    {
-        $this->show('pages_as_list', ['pages' => $this->get_pages()]);
+        $data = ['pages' => $this->get_pages()];
+        $context = midcom_core_context::enter();
+        $context->set_custom_key('request_data', $data);
+        midcom::get()->style->prepend_component_styledir($this->_component);
+        midcom::get()->style->enter_context($context);
+        midcom_show_style('show_pages');
+        midcom::get()->style->leave_context();
+        midcom_core_context::leave();
     }
 
     /**
