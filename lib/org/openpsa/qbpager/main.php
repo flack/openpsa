@@ -8,7 +8,7 @@
  *
  * @package org.openpsa.qbpager
  */
-class org_openpsa_qbpager
+class org_openpsa_qbpager extends midcom_core_querybuilder
 {
     use midcom_baseclasses_components_base;
 
@@ -16,15 +16,18 @@ class org_openpsa_qbpager
     public $display_pages = 10;
     public $string_next = 'next';
     public $string_previous = 'previous';
-    protected $_midcom_qb;
-    protected $_midcom_qb_count;
     protected $_pager_id;
     protected $_prefix = '';
-    private $_offset = 0;
-    protected  $count;
     private $_current_page = 1;
+    private $total;
 
     public function __construct(string $classname, string $pager_id)
+    {
+        $this->initialize($pager_id);
+        parent::__construct($classname);
+    }
+
+    protected function initialize(string $pager_id)
     {
         $this->_component = 'org.openpsa.qbpager';
         if (empty($pager_id)) {
@@ -33,14 +36,6 @@ class org_openpsa_qbpager
 
         $this->_pager_id = $pager_id;
         $this->_prefix = 'org_openpsa_qbpager_' . $pager_id . '_';
-        $this->_prepare_qbs($classname);
-    }
-
-    protected function _prepare_qbs(string $classname)
-    {
-        $this->_midcom_qb = midcom::get()->dbfactory->new_query_builder($classname);
-        // Make another QB for counting, we need to do this to avoid trouble with core internal references system
-        $this->_midcom_qb_count = midcom::get()->dbfactory->new_query_builder($classname);
     }
 
     /**
@@ -194,19 +189,9 @@ class org_openpsa_qbpager
     }
 
     /**
-     * Returns number of total pages for query
-     *
-     * By default returns a number of pages without any ACL checks
-     */
-    public function count_pages()
-    {
-        return ceil($this->count_unchecked() / $this->results_per_page);
-    }
-
-    /**
      * Check $_REQUEST for variables and sets LIMIT and OFFSET for requested page
      */
-    public function execute() : array
+    protected function parse_variables()
     {
         $page_var = $this->_prefix . 'page';
         if (!empty($_REQUEST[$page_var])) {
@@ -221,50 +206,44 @@ class org_openpsa_qbpager
         if ($this->results_per_page < 1) {
             throw new LogicException('results_per_page is set to ' . $this->results_per_page);
         }
-
         $this->_offset = ($this->_current_page - 1) * $this->results_per_page;
-        $this->_midcom_qb->set_limit($this->results_per_page);
-        $this->_midcom_qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
-
-        return $this->_midcom_qb->execute();
     }
 
-    //Rest of supported methods wrapped with extra sanity check
-    public function add_constraint(string $param, string $op, $val) : bool
+    /**
+     * Returns number of total pages for query
+     *
+     * By default returns a number of pages without any ACL checks
+     */
+    public function count_pages()
     {
-        $this->_midcom_qb_count->add_constraint($param, $op, $val);
-        return $this->_midcom_qb->add_constraint($param, $op, $val);
+        $this->parse_variables();
+        return ceil($this->count_unchecked() / $this->results_per_page);
     }
 
-    public function add_order(string $param, string $sort = 'ASC') : bool
+    public function execute() : array
     {
-        return $this->_midcom_qb->add_order($param, $sort);
+        $this->parse_variables();
+        $this->set_limit($this->results_per_page);
+        $this->set_offset($this->_offset);
+        return parent::execute();
     }
 
-    public function begin_group(string $type)
-    {
-        $this->_midcom_qb_count->begin_group($type);
-        $this->_midcom_qb->begin_group($type);
-    }
-
-    public function end_group()
-    {
-        $this->_midcom_qb_count->end_group();
-        $this->_midcom_qb->end_group();
-    }
-
-    public function include_deleted()
-    {
-        $this->_midcom_qb_count->include_deleted();
-        $this->_midcom_qb->include_deleted();
-    }
-
+    /**
+     * Returns total count before pagination
+     */
     public function count_unchecked() : int
     {
-        if (!$this->count) {
-            $this->count = $this->_midcom_qb_count->count_unchecked();
+        if (!$this->total) {
+            $doctrine_qb = $this->_query->get_doctrine();
+            $offset = $doctrine_qb->getFirstResult();
+            $limit = $doctrine_qb->getMaxResults();
+            $doctrine_qb->setFirstResult(null);
+            $doctrine_qb->setMaxResults(null);
+            $this->total = $this->_query->count();
+            $doctrine_qb->setFirstResult($offset);
+            $doctrine_qb->setMaxResults($limit);
         }
-        return $this->count;
+        return $this->total;
     }
 }

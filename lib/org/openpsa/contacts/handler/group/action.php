@@ -47,7 +47,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $data['group'] = new org_openpsa_contacts_group_dba($guid);
         $qb = new org_openpsa_qbpager(midcom_db_member::class, 'group_members');
         $qb->add_constraint('gid', '=', $data['group']->id);
-        $qb->results_per_page = 2;
+        $qb->results_per_page = 10;
         $data['members_qb'] = $qb;
     }
 
