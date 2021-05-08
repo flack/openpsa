@@ -21,8 +21,7 @@ class org_openpsa_qbpager
     protected $_pager_id;
     protected $_prefix = '';
     private $_offset = 0;
-    private $count;
-    private $_count_mode;
+    protected  $count;
     private $_current_page = 1;
 
     public function __construct(string $classname, string $pager_id)
@@ -241,8 +240,7 @@ class org_openpsa_qbpager
      */
     public function count_pages()
     {
-        $this->count_unchecked();
-        return ceil($this->count / $this->results_per_page);
+        return ceil($this->count_unchecked() / $this->results_per_page);
     }
 
     //Rest of supported methods wrapped with extra sanity check
@@ -275,23 +273,11 @@ class org_openpsa_qbpager
         $this->_midcom_qb->include_deleted();
     }
 
-    public function count() : int
-    {
-        if (   !$this->count
-            || $this->_count_mode != 'count') {
-            $this->count = $this->_midcom_qb_count->count();
-        }
-        $this->_count_mode = 'count';
-        return $this->count;
-    }
-
     public function count_unchecked() : int
     {
-        if (   !$this->count
-            || $this->_count_mode != 'count_unchecked') {
+        if (!$this->count) {
             $this->count = $this->_midcom_qb_count->count_unchecked();
         }
-        $this->_count_mode = 'count_unchecked';
         return $this->count;
     }
 }

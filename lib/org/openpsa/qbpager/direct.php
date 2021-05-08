@@ -29,6 +29,9 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
      */
     public function count_unchecked() : int
     {
-        return $this->count();
+        if (!$this->count) {
+            $this->count = $this->_midcom_qb_count->count();
+        }
+        return $this->count;
     }
 }
