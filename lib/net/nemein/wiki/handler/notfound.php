@@ -51,7 +51,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         }
 
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => 'http://' . $this->_i18n->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($wikiword),
+            MIDCOM_TOOLBAR_URL => 'https://' . $this->_i18n->get_current_language() . '.wikipedia.org/wiki/' . rawurlencode($wikiword),
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('look for %s in wikipedia'), $wikiword),
             MIDCOM_TOOLBAR_GLYPHICON => 'search',
             MIDCOM_TOOLBAR_OPTIONS => [

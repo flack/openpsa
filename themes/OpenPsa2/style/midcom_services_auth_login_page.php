@@ -61,7 +61,7 @@ if (isset($this->data['midcom_services_auth_access_denied_message'])) {
     document.getElementById('username').focus();
   </script>
   <div class="org_openpsa_softwareinfo">
-      <a href="http://www.openpsa.org/">OpenPSA <?php
+      <a href="https://openpsa2.org/">OpenPSA <?php
       echo org_openpsa_core_version::get_version_both();
       ?></a>,
       <a href="http://www.midgard-project.org/">Midgard <?php echo mgd_version(); ?></a>

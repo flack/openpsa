@@ -162,8 +162,8 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     echo " Midgard " . mgd_version();
                 ?></strong>.
                 Copyright &copy; 1998 - <?php echo date('Y'); ?> <a href="http://www.midgard-project.org/" rel="powered">The Midgard Project</a>.
-                Midgard is a <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under
-                <a href="http://www.gnu.org/licenses/lgpl.html" rel="license" about="http://www.midgard-project.org/">GNU Lesser General Public License</a>.<br />&nbsp;
+                Midgard is a <a href="https://en.wikipedia.org/wiki/Free_software">free software</a> available under
+                <a href="https://www.gnu.org/licenses/lgpl.html" rel="license" about="http://www.midgard-project.org/">GNU Lesser General Public License</a>.<br />&nbsp;
             </span>
         </div>
         <script type="text/javascript">

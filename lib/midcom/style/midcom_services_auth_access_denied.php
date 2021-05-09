@@ -36,7 +36,7 @@ midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/sty
 
             <div id="footer">
                 <div class="midgard">
-                    Copyright &copy; 1998-2012 <a href="http://midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
+                    Copyright &copy; 1998-2012 <a href="http://midgard-project.org/">The Midgard Project</a>. Midgard is <a href="https://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="https://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
                 </div>
             </div>
         </div>

@@ -202,7 +202,7 @@ class midcom_connection
             $self = defined('OPENPSA2_PREFIX') ? OPENPSA2_PREFIX : '/';
 
             // we're only interested in the path, so use a dummy domain for simplicity's sake
-            $url_components = parse_url("http://openpsa2.org{$_SERVER['REQUEST_URI']}");
+            $url_components = parse_url("https://openpsa2.org{$_SERVER['REQUEST_URI']}");
             if ($self !== '/') {
                 $url_components['path'] = preg_replace('|^' . $self . '|', '/', $url_components['path']);
             }

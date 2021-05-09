@@ -112,7 +112,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     }
 
     /**
-     * Computes the data nececssary for the welcome screen. Automatically put into the request
+     * Computes the data necessary for the welcome screen. Automatically put into the request
      * data array.
      */
     private function _compute_welcome_data()
