@@ -38,6 +38,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.help/twisty.js');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
     }
 
     /**

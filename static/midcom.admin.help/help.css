@@ -166,3 +166,11 @@ div.components ul li i.fa
     font-weight: bold;
     color: brown;
 }
+
+fieldset.open .description {
+    display: block;
+}
+
+fieldset.closed .description {
+    display: none;
+}

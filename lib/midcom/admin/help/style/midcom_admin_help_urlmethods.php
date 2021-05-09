@@ -5,12 +5,12 @@ if (!empty($data['urlmethods'])) {
     foreach ($data['urlmethods'] as $method_info) {
         $id = basename($method_info['url'], ".php");
         $title = $method_info['url']; ?>
-<fieldset id="handler_&(id);">
+<fieldset id="handler_&(id);" class="<?php echo ($first) ? 'open' : 'closed'; ?>">
     <legend onclick="toggle_twisty('&(id);_contents')">
         &(title);
-        <img class="twisty" src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.admin.styleeditor/twisty-<?php echo ($first) ? 'down' : 'hidden'; ?>.gif" alt="-" />
+        <i class="fa fa-caret-<?php echo ($first) ? 'up' : 'down'; ?>"></i>
     </legend>
-    <div id="&(id);_contents" style="display: <?php echo ($first) ? 'block' : 'none'; ?>;" class="description">
+    <div id="&(id);_contents" class="description">
 <?php
         $first = false;
         echo "<p>\n";

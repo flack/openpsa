@@ -6,41 +6,17 @@ function toggle_twisty(id) {
     if (!element) {
         return;
     }
+    let twisty = element.previousSibling.previousSibling.firstChild.nextSibling;
+    twisty.classList.toggle('fa-caret-up');
+    twisty.classList.toggle('fa-caret-down');
 
-    var twisties = document.getElementsByClassName('twisty', element.parentNode);
-
-    for (var i = 0; i < twisties.length; i++) {
-        var source = twisties[i].src;
-
-        switch (source.match(/\/twisty-(.+)\.gif$/)[1]) {
-            case 'down':
-            case 'do-down':
-                twisties[i].src = source.replace(/twisty-(.+)\.gif$/, 'twisty-do-hidden.gif');
-
-                if (element.style.display != 'none') {
-                    self.setTimeout('document.getElementById("' + id + '").style.display = "none";', slide_speed * 1000);
-                }
-
-                // Remove the anchor
-                remove_anchor(id);
-                break;
-            case 'hidden':
-            case 'do-hidden':
-                twisties[i].src = source.replace(/twisty-(.+)\.gif$/, 'twisty-do-down.gif');
-                if (element.style.display == 'none') {
-                    self.setTimeout('document.getElementById("' + id + '").style.display = "block";', slide_speed * 1000);
-                }
-
-                // Add an anchor
-                add_anchor(id);
-                break;
-            default:
-        }
-
-        if (i > 100) {
-            return;
-        }
+    if (element.parentNode.classList.contains('open')) {
+        remove_anchor(id);
+    } else {
+        add_anchor(id);
     }
+    element.parentNode.classList.toggle('open')
+    element.parentNode.classList.toggle('closed')
 }
 
 function remove_anchor(id) {
