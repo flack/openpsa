@@ -167,10 +167,44 @@ div.components ul li i.fa
     color: brown;
 }
 
-fieldset.open .description {
+
+fieldset
+{
+    border: none;
+    margin-bottom: 20px;
+    background-color: #d3d7cf;
+    border-radius: 6px;
+}
+fieldset legend
+{
+    margin-left: 0;
+    padding-left: 0;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -20px;
+}
+
+fieldset legend:hover
+{
+    background-color: #f0f0f0;
+    border: 1px solid #e0e0e0;
+}
+
+fieldset div.description
+{
+    margin-left: 2em;
+    font-size: 0.9em;
+    background-color: #eeeeec;
+    padding: 1em;
+    border-radius: 6px;
+    max-height: 20em;
+    overflow: auto;
+}
+
+fieldset.open div.description {
     display: block;
 }
 
-fieldset.closed .description {
+fieldset.closed div.description {
     display: none;
 }
