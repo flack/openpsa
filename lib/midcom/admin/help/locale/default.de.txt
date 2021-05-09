@@ -106,10 +106,6 @@ Inhaltsverzeichnis
 URL-Methoden
 ---STRINGEND
 
----STRING user forum
-User-Forum
----STRINGEND
-
 ---STRING handlers
 URL-Handler
 ---STRINGEND

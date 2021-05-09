@@ -118,10 +118,6 @@ Spis treści
 Routing URLi
 ---STRINGEND
 
----STRING user forum
-Forum
----STRINGEND
-
 ---STRING issue tracker
 System kontroli błędów
 ---STRINGEND

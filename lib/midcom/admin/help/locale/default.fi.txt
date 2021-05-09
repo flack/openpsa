@@ -121,7 +121,3 @@ Sisällysluettelo
 ---STRING urlmethods
 URL-metodit
 ---STRINGEND
-
----STRING user forum
-Käyttäjäfoorumi
----STRINGEND

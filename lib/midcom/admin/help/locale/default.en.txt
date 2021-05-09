@@ -109,8 +109,3 @@ Table of Contents
 ---STRING urlmethods
 URL Methods
 ---STRINGEND
-
----STRING user forum
-User discussion forum
----STRINGEND
-

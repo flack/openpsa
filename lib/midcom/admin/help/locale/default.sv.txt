@@ -33,8 +33,3 @@ Hjälp online för %s
 ---STRING online documentation
 Dokumentation online
 ---STRINGEND
-
----STRING user forum
-Discussionsforum
----STRINGEND
-

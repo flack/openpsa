@@ -43,12 +43,6 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_GLYPHICON => 'globe',
             ],
             [
-                MIDCOM_TOOLBAR_URL => "http://lists.midgard-project.org/listinfo/user",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user forum', 'midcom.admin.help'),
-                MIDCOM_TOOLBAR_OPTIONS => ['target' => '_blank'],
-                MIDCOM_TOOLBAR_GLYPHICON => 'comments-o',
-            ],
-            [
                 MIDCOM_TOOLBAR_URL => "https://github.com/flack/openpsa/issues",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('issue tracker', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => ['target' => '_blank'],
