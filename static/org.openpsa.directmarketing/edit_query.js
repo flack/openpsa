@@ -28,10 +28,6 @@ function set_postdata() {
     var rules_array = $("#midcom_helper_datamanager2_dummy_field_rules").val(),
         grid = $('#preview_persons').jqGrid();
 
-    if ($('#dirmar_rules_editor_container').is(':visible')) {
-        get_rules_array(zero_group_id);
-    }
-
     grid.setGridParam({'postData': {midcom_helper_datamanager2_dummy_field_rules: rules_array}});
 }
 
