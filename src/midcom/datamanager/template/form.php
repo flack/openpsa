@@ -401,7 +401,7 @@ class form extends base
     {
         $alt = $this->renderer->humanize('captcha image alt text');
         $string = '<fieldset class="captcha">';
-        $string .= "<img src='{$view->vars['captcha_url']}' alt='{$alt}' text='{$alt}' class='captcha'><br>";
+        $string .= "<img src='{$view->vars['captcha_url']}' alt='{$alt}' title='{$alt}' class='captcha'><br>";
         $string .= $this->renderer->humanize('captcha message');
         $data['attr']['class'] = 'captcha';
         $data['value'] = '';

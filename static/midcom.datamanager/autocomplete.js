@@ -121,11 +121,9 @@ window.midcom_helper_datamanager2_autocomplete = {
                 var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
                     + ' class="chooser_widget_creation_dialog_content"'
                     + ' frameborder="0"'
-                    + ' marginwidth="0"'
-                    + ' marginheight="0"'
                     + ' width="100%"'
                     + ' height="100%"'
-                    + ' scrolling="auto" />';
+                    + ' scrolling="auto"></iframe>';
 
                 make_dialog(create_dialog.html(iframe_html), {
                     height: 350,

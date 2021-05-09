@@ -448,9 +448,8 @@ const midcom_grid_editable = {
 
 const midcom_grid_footer = {
     set_field: function(grid_id, colname, operation) {
-        var value = $('#' + grid_id).jqGrid('getCol', colname, false, operation),
-            footerdata = {};
-        footerdata[colname] = value;
+        let footerdata = {};
+        footerdata[colname] = $('#' + grid_id).jqGrid('getCol', colname, false, operation);
         $('#' + grid_id).jqGrid('footerData', 'set', footerdata);
     }
 };

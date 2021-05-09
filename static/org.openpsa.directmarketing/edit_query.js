@@ -32,7 +32,7 @@ function set_postdata() {
 }
 
 function build_select(id, name, cssclass, options, selected, add_empty) {
-    var select = $('<select class="' + cssclass + '" name="' + name + '" id="' + id + '"/>'),
+    var select = $('<select class="' + cssclass + '" name="' + name + '" id="' + id + '"></select>'),
         option;
 
     if (add_empty === true) {
@@ -60,7 +60,7 @@ function rule(parent, id) {
 
     this.render = function (selected) {
         var rule_object = rules[this.id],
-            rule = $('<div id="' + this.id + '" class="rule" />'),
+            rule = $('<div id="' + this.id + '" class="rule"></div>'),
             parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
             object_select = build_select(this.id + '_object', this.id + '[object]', 'select', org_openpsa_directmarketing_edit_query_property_map, selected, true),
             remove_button = $('<i class="button remove_row fa fa-minus"></i>');
@@ -214,7 +214,7 @@ function group(parent, number) {
 
     this.render = function (selected) {
         var group = this,
-            content_group = $('<div id="' + this.id + '" class="group"/>'),
+            content_group = $('<div id="' + this.id + '" class="group"></div>'),
             group_select = build_select(this.id + '_select', this.id + '[group]', 'groupselect', org_openpsa_directmarketing_group_select_map, selected, false),
             group_button = $('<input id="' + this.id + '_add_group" class="add_group" type="button" value="' + org_openpsa_directmarketing_edit_query_l10n_map.add_group + '">'),
             parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),

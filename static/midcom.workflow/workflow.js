@@ -230,11 +230,9 @@ function create_dialog(control, title, url) {
         spinner = $('<i class="fa fa-pulse fa-spinner"></i>');
         iframe = $('<iframe name="datamanager-dialog"'
                    + ' frameborder="0"'
-                   + ' marginwidth="0"'
-                   + ' marginheight="0"'
                    + ' width="100%"'
                    + ' height="100%"'
-                   + ' scrolling="auto" />')
+                   + ' scrolling="auto"></iframe>')
            .on('load', function() {
                // this is only here as fallback in case dialog.js doesn't run for whatever reason
                spinner.hide();

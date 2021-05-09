@@ -21,7 +21,7 @@
                 }
                 $(this).addClass('privilege_rendered');
 
-                var div = $("<div/>").insertAfter(this),
+                var div = $("<div></div>").insertAfter(this),
                     list_menu = $(this).find("select")[0],
                     selected_index = 0;
 
@@ -84,7 +84,7 @@
 
                 var row = this,
                     actions_holder = $('#privilege_row_actions_' + privilege_key, row),
-                    clear_action = $('<div class="privilege_action" />').insertAfter( actions_holder );
+                    clear_action = $('<div class="privilege_action"></div>').insertAfter( actions_holder );
 
                 $('<i class="fa fa-trash"></i>').attr({
                         title: "Clear privileges"
