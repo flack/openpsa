@@ -1,7 +1,7 @@
 function dm_attachment_init(id)
 {
     $('#' + id).on('change', function() {
-        var file = this.files[0],
+        let file = this.files[0],
             preview = $(this).closest('.attachment-input').prev().find('.icon'),
             extension = file.name.replace(/^.+?\.([^\.]+)$/, '$1'),
             extension_label = preview.find('.extension');

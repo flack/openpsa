@@ -134,7 +134,7 @@ const midcom_grid_resize = {
                 new_width = $(item).width();
             }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function() {
-                panel = $("#gbox_" + this.id).closest('.ui-tabs-panel');
+                let panel = $("#gbox_" + this.id).closest('.ui-tabs-panel');
                 if (   panel.length > 0
                     && panel.hasClass('ui-tabs-hide')) {
                     return;

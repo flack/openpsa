@@ -16,8 +16,8 @@
             {
                 midcom_helper_datamanager2_autocomplete.select(event, ui);
                 if ($('#add_contact_selection').val() !== '') {
-                    var value = $('#add_contact_selection').val()
-                    guid = value.substr(2).substr(0, value.length - 4);
+                    let value = $('#add_contact_selection').val(),
+                        guid = value.substr(2).substr(0, value.length - 4);
                     location.href += 'mycontacts/add/' + guid + '/?return_url=' + location.href;
                 }
             },

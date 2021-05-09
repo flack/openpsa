@@ -6,14 +6,15 @@ var groups = {},
     zero_group_id = "";
 
 function count(array) {
-    var c = 0,
-        i;
-    for (i in array) { // in returns key, not object
-        if (array[i] !== undefined && array[i] !== null) {
-            c++;
-        }
+    if (!Array.isArray(array)) {
+        array = Object.values(array);
     }
-    return c;
+    return array.reduce(function(accumulator, value) {
+        if (value !== undefined && value !== null) {
+            accumulator++;
+        }
+        return accumulator;
+    }, 0);
 }
 
 function set_postdata() {
@@ -88,9 +89,7 @@ function rule(parent, id) {
 
     this.object_select_onchange = function () {
         /* Render next inputs based on value */
-        var selected = $("#" + this.id + "_object").val(),
-        properties = false,
-        parameters = false;
+        var selected = $("#" + this.id + "_object").val();
         if (!selected) {
             $("#" + this.id + "_property").remove();
             $("#" + this.id + "_parameter_name").remove();

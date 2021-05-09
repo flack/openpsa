@@ -11,12 +11,11 @@ function update_sent_status()
     $.get('&(ajax_url);', function(data)
     {
         if (data.status) {
-            message = {
+            $.fn.midcom_services_uimessage({
                 title: 'Request failed',
                 message: data.status,
                 type: MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR
-            };
-            $.fn.midcom_services_uimessage(message);
+            });
             return;
         }
         $('#org_openpsa_directmarketing_send_uimessages_sent').html(data.receipts);

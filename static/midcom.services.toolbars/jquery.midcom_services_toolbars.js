@@ -160,18 +160,13 @@ $.midcom_services_toolbars = function(root_element) {
     }
 
     function get_default_position(re) {
-        var x = 20,
-            y = 20,
-            dw = $(document).width(),
+        let dw = $(document).width(),
             ew = $(re).width();
 
         if (ew == 0) {
             return {x: 0, y: 0};
         }
 
-        var left = (dw / 2) - ew / 2;
-        x = left;
-
-        return {x: x, y: y};
+        return {x: (dw / 2) - ew / 2, y: 20};
     }
 };

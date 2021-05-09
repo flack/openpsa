@@ -34,14 +34,10 @@ $grid_id = $grid->get_identifier();
         });
 
     function update_totals() {
-        var grid = jQuery("#<?= $grid_id ?>"),
-            rows = grid.jqGrid('getRowData'),
-            total = 0,
-            i = 0;
-
-        for (i = 0; i < rows.length; i++) {
-            total += parseFloat(rows[i].sum) || 0;
-        }
+        let grid = jQuery("#<?= $grid_id ?>"),
+            total = grid.jqGrid('getRowData').reduce(function(accumulator, value) {
+                return accumulator + (parseFloat(value.sum) || 0);
+            }, 0);
 
         grid.jqGrid("footerData", "set", {sum: total});
     }

@@ -59,8 +59,7 @@ const org_openpsa_widgets_tabs = {
                 if (event.which !== 1) {
                     return;
                 }
-                var url = this.href.replace(new RegExp('/' + uiprefix + '/'), '/');
-                location.href = url;
+                location.href = this.href.replace(new RegExp('/' + uiprefix + '/'), '/');
             })
             .on('click', '.ui-tabs-panel a', org_openpsa_widgets_tabs.intercept_clicks)
 

@@ -63,10 +63,9 @@
             {name:'creator', index: 'index_creator', width: 150, fixed: true},
             {name:'closed',index:'closed', width: 60, fixed: true }
         ],
-        gridComplete: function()
-        {
+        gridComplete: function() {
             if (loaded_in_tab) {
-                new_height = $(this).attr('clientHeight') + $("#gbox_journal_entry_grid").siblings('.org_openpsa_toolbar').attr('clientHeight') + 15;
+                let new_height = $(this).attr('clientHeight') + $("#gbox_journal_entry_grid").siblings('.org_openpsa_toolbar').attr('clientHeight') + 15;
                 $("#gbox_journal_entry_grid").parent().css('height', new_height);
             }
         },

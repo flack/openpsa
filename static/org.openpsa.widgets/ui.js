@@ -135,7 +135,7 @@ const org_openpsa_layout = {
                     autoFocus: true
                 });
             }
-        };
+        }
 
         providers.forEach(function(provider) {
             li_class = 'provider';
