@@ -158,37 +158,34 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     private function add_rules(array $rules, string $class) : bool
     {
-        $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
-        //special case parameters - uses 3 rules standard
+        if (!midcom::get()->dbclassloader->is_mgdschema_object($class)) {
+            $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
+        }
         if ($class == 'midgard_parameter') {
             return $this->add_parameter_rule($rules);
         }
-        // iterate over rules
-        foreach ($rules as $rule) {
-            switch ($class) {
-                case midcom::get()->config->get('person_class'):
-                case 'midgard_person':
-                case 'org_openpsa_person':
-                    return $this->add_person_rule($rule);
-
-                case 'midgard_group':
-                case 'org_openpsa_organization':
-                    return $this->add_group_rule($rule);
-
-                case 'midgard_member':
-                case 'org_openpsa_eventmember':
-                    return $this->add_misc_rule($rule, $class, 'uid');
-
-                case 'org_openpsa_campaign_member':
-                case 'org_openpsa_campaign_message_receipt':
-                case 'org_openpsa_link_log':
-                    return $this->add_misc_rule($rule, $class, 'person');
-
-                default:
-                    debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
-                    return false;
-            }
+        if (in_array($class, [midcom::get()->config->get('person_class'), 'midgard_person', 'org_openpsa_person'])) {
+            return $this->apply_rules('person', $rules);
         }
+        if (in_array($class, ['midgard_member', 'org_openpsa_eventmember'])) {
+            return $this->apply_rules('misc', $rules, $class, 'uid');
+        }
+        if (in_array($class, ['midgard_member', 'org_openpsa_campaign_member', 'org_openpsa_campaign_message_receipt', 'org_openpsa_link_log'])) {
+            return $this->apply_rules('misc', $rules, $class, 'person');
+        }
+        debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
+        return false;
+    }
+
+    private function apply_rules(string $type, array $rules, ...$args) : bool
+    {
+        $func = 'add_' . $type . '_rule';
+        $stat = true;
+        foreach ($rules as $rule) {
+            $stat = $this->$func($rule, ...$args) && $stat;
+        }
+
+        return $stat;
     }
 
     /**
