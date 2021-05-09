@@ -370,7 +370,7 @@ class net_nemein_rss_fetch
                 $name = html_entity_decode($email, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
             }
 
-            if (!preg_match('/(<|\()/', $name)) {
+            if (!preg_match('/[<\(]/', $name)) {
                 $author_info['user_or_full'] = $name;
             } else {
                 if (strstr($name, '<')) {

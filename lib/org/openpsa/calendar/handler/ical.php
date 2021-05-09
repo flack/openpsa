@@ -109,7 +109,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function find_person_by_name(string $username)
     {
-        $username = preg_replace('/\.(i|v)cs$/', '', $username);
+        $username = preg_replace('/\.[iv]cs$/', '', $username);
 
         if (empty($username)) {
             throw new midcom_error('Username missing');

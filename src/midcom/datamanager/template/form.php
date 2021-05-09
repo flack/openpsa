@@ -180,7 +180,7 @@ class form extends base
 
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['objects']['main']['filename'])) ? preg_replace('/^.+?\-/', '', $data['value']['objects']['main']['filename']) : $this->renderer->humanize('add new file');
+        $string .= (!empty($data['value']['objects']['main']['filename'])) ? preg_replace('/^.+?-/', '', $data['value']['objects']['main']['filename']) : $this->renderer->humanize('add new file');
         $string .= '</legend>';
 
         $string .= $this->renderer->widget($view);

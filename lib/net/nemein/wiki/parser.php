@@ -43,7 +43,7 @@ class net_nemein_wiki_parser
      */
     private function _run_macro_abbr(string $macro_content, string $fulltag, string $after) : string
     {
-        if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts)) {
+        if (preg_match("/^(.*?) - (.*)/", $macro_content, $parts)) {
             return "<abbr title=\"{$parts[2]}\">{$parts[1]}</abbr>{$after}";
         }
         // Could not figure it out, return the tag as is
@@ -214,7 +214,7 @@ class net_nemein_wiki_parser
                 return $match[0];
 
             // Escaped tag [!!text]
-            case (preg_match("/^\!\!(.*)/", $fulltext, $parts)):
+            case (preg_match("/^!!(.*)/", $fulltext, $parts)):
                 return "[{$parts[1]}]{$after}";
 
             // MediaWiki-style link [wikipage|label]
@@ -284,7 +284,7 @@ class net_nemein_wiki_parser
             // See what kind of tag we have hit
             // NOTE: This logic must be kept consistent with $this->replace_wikiwords()
             // Ignore markdown tags and escaped tag [!!text]
-            if (!preg_match("/[\(:\[]/", $after) && !preg_match("/^\!\!(.*)/", $fulltext)) {
+            if (!preg_match("/[\(:\[]/", $after) && !preg_match("/^!!(.*)/", $fulltext)) {
                 // MediaWiki-style link [wikipage|label]
                 if (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)) {
                     $links[$parts[1]] = $parts[2];

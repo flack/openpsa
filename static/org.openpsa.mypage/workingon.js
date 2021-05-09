@@ -6,7 +6,7 @@ function show_loading() {
 
 function send_working_on(action) {
     var description = $("#working_description").serialize(),
-        task = $("#working_task_selection").val().replace(/[\[|"|\]]/g, ''),
+        task = $("#working_task_selection").val().replace(/[\["\]]/g, ''),
         invoiceable = $('#working_invoiceable').is(':checked'),
         send_url = MIDCOM_PAGE_PREFIX + "workingon/set/";
 
