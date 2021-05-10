@@ -29,7 +29,6 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         $this->assertTrue($stat);
         $this->register_object($group);
         $this->assertEquals('TEST-NAME' . $time, $group->get_label());
-        $this->assertEquals(org_openpsa_core_acl::ACCESS_PUBLIC, $group->orgOpenpsaAccesstype);
 
         $group->official = 'TEST OFFICIAL';
         $stat = $group->update();

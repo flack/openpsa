@@ -264,10 +264,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders an event line
-     *
-     * @param object $other_obj The link target
      */
-    private function _render_line_event($other_obj)
+    private function _render_line_event(org_openpsa_calendar_event_dba $other_obj)
     {
         $this->_request_data['raw_url'] = '';
 
@@ -292,7 +290,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line_task($other_obj)
     {
-        if ($other_obj->orgOpenpsaObtype == org_openpsa_projects_task_dba::OBTYPE) {
+        if ($other_obj instanceof org_openpsa_projects_task_dba) {
             $type = 'task';
         } else {
             $type = 'project';

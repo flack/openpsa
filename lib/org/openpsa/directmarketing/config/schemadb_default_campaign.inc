@@ -76,23 +76,5 @@
                 'auto_wildcards' => 'both',
             ],
         ],
-        'orgOpenpsaAccesstype' => [
-            'title'       => 'access type',
-            'storage'     => 'orgOpenpsaAccesstype',
-            'type'        => 'select',
-            'type_config' => [
-                'options' => org_openpsa_core_acl::get_options(),
-            ],
-            'widget'      => 'select',
-        ],
-        'orgOpenpsaOwnerWg' => [
-            'title'       => 'workgroup',
-            'storage'     => 'orgOpenpsaOwnerWg',
-            'type'        => 'select',
-            'type_config' => [
-                'options' => org_openpsa_helpers_list::workgroups(),
-            ],
-            'widget'      => 'select',
-        ],
     ]
 ],

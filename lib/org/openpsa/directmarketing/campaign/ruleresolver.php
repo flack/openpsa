@@ -340,7 +340,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         // These are internal to midgard and/or not valid QB constraints
         $skip_properties = [
             // These will be deprecated soon
-            'orgOpenpsaAccesstype',
             // Skip metadata for now
             'metadata'
         ];

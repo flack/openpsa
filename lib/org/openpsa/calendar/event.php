@@ -24,7 +24,6 @@
  * @property string $externalGuid
  * @property string $vCalSerialized
  * @property integer $orgOpenpsaAccesstype
- * @property string $orgOpenpsaOwnerWg
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_dba extends midcom_core_dbaobject

@@ -36,7 +36,6 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
         $this->register_object($task);
-        $this->assertEquals(org_openpsa_projects_task_dba::OBTYPE, $task->orgOpenpsaObtype);
 
         $task->refresh();
         $this->assertEquals('Task #' . $task->id, $task->title);

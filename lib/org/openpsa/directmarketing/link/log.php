@@ -14,7 +14,6 @@
  * @property string $target
  * @property string $referrer
  * @property string $token
- * @property integer $orgOpenpsaObtype
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject

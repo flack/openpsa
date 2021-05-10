@@ -26,14 +26,11 @@
  * @property boolean $hoursInvoiceableDefault Are hours invoiceable by default ?
  * @property integer $priority
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
- * @property integer $orgOpenpsaObtype Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 {
-    const OBTYPE = 6002;
-
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
 
@@ -60,7 +57,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        $this->orgOpenpsaObtype = self::OBTYPE;
         if (!$this->manager) {
             $this->manager = midcom_connection::get_user();
         }

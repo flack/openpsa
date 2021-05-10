@@ -33,7 +33,6 @@
  * @property integer $invoiceVat
  * @property string $invoiceDistribution
  * @property string $vatNo
- * @property integer $orgOpenpsaAccesstype
  * @property integer $orgOpenpsaObtype
  * @package org.openpsa.contacts
  */
@@ -104,15 +103,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         if (empty($this->official)) {
             $this->official = $this->name ?: "Group #{$this->id}";
         }
-    }
-
-    public function _on_creating()
-    {
-        //Make sure we have accessType
-        if (!$this->orgOpenpsaAccesstype) {
-            $this->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_PUBLIC;
-        }
-        return true;
     }
 
     public function _on_updated()

@@ -10,12 +10,8 @@
 
         <!-- Common OpenPSA properties -->
 
-        <!-- Shortcut for various ACL scenarios -->
-        <property name="orgOpenpsaAccesstype" type="integer" />
         <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
         <property name="orgOpenpsaObtype" type="integer" />
-        <!-- The "owner" workgroup of this object -->
-        <property name="orgOpenpsaOwnerWg" type="string" />
 
         <!-- /Common OpenPSA properties -->
     </type>
@@ -45,12 +41,8 @@
         <property name="sendCompleted" type="integer" />
 
         <!-- Common OpenPSA properties -->
-        <!-- Shortcut for various ACL scenarios -->
-        <property name="orgOpenpsaAccesstype" type="integer" />
         <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
         <property name="orgOpenpsaObtype" type="integer" />
-        <!-- The "owner" workgroup of this object -->
-        <property name="orgOpenpsaOwnerWg" type="string" />
         <!-- /Common OpenPSA properties -->
     </type>
 
@@ -70,6 +62,5 @@
         <property name="target" type="string" />
         <property name="referrer" type="string" />
         <property name="token" type="string" />
-        <property name="orgOpenpsaObtype" type="integer" />
     </type>
 </Schema>

@@ -14,9 +14,7 @@
  * @property integer $node
  * @property integer $archived
  * @property string $rulesSerialized
- * @property integer $orgOpenpsaAccesstype
  * @property integer $orgOpenpsaObtype
- * @property string $orgOpenpsaOwnerWg
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject

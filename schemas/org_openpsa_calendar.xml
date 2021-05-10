@@ -19,14 +19,7 @@
         <!-- At least until we can store arrays with DBA -->
         <property name="vCalSerialized"  type="text" />
 
-        <!-- Common OpenPSA properties -->
-
-        <!-- Shortcut for various ACL scenarios -->
         <property name="orgOpenpsaAccesstype" type="integer"/>
-        <!-- The "owner" workgroup of this object -->
-        <property name="orgOpenpsaOwnerWg" type="string"/>
-
-        <!-- /Common OpenPSA properties -->
     </type>
 
     <type name="org_openpsa_eventmember" table="eventmember" parent="org_openpsa_event">

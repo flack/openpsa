@@ -90,11 +90,6 @@
                 Shortcut for various ACL scenarios
             </description>
         </property>
-        <property name="orgOpenpsaObtype" type="integer">
-            <description>
-                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-            </description>
-        </property>
         <property name="orgOpenpsaOwnerWg" type="string">
             <description>
                 The "owner" workgroup of this object

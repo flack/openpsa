@@ -26,7 +26,6 @@
  * @property string $pgpkey
  * @property string $country
  * @property string $fax
- * @property integer $orgOpenpsaAccesstype
  * @package midcom.db
  */
 class midcom_db_person extends midcom_core_dbaobject
