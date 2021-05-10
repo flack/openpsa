@@ -16,7 +16,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_invoices_midcom_indexer extends client
 {
-    public function prepare_document(midcom_services_indexer_document &$document, datamanager $dm)
+    public function prepare_document(midcom_services_indexer_document $document, datamanager $dm)
     {
         $document->title = $this->_l10n->get('invoice') . ' ' . $dm->get_storage()->get_value()->get_label();
     }

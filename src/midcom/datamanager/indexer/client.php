@@ -40,5 +40,5 @@ abstract class client extends midcom_services_indexer_client
         return $document;
     }
 
-    abstract public function prepare_document(midcom_services_indexer_document &$document, datamanager $dm);
+    abstract public function prepare_document(midcom_services_indexer_document $document, datamanager $dm);
 }

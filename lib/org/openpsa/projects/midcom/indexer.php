@@ -16,7 +16,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_projects_midcom_indexer extends client
 {
-    public function prepare_document(midcom_services_indexer_document &$document, datamanager $dm)
+    public function prepare_document(midcom_services_indexer_document $document, datamanager $dm)
     {
         $object = $dm->get_storage()->get_value();
         $document->title = $object->get_label();

@@ -16,7 +16,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_contacts_midcom_indexer extends client
 {
-    public function prepare_document(midcom_services_indexer_document &$document, datamanager $dm)
+    public function prepare_document(midcom_services_indexer_document $document, datamanager $dm)
     {
         if (is_a($dm->get_storage()->get_value(), org_openpsa_contacts_person_dba::class)) {
             $document->title = $dm->get_storage()->get_value()->name;
