@@ -88,6 +88,13 @@ class midcom_core_urlmethods
             midcom::get()->auth->require_valid_user('basic');
             midcom::get()->auth->require_admin_user();
         }
+
+        // The annoying thing about APCU is that it's per SAPI, so we can't clear the server
+        // cache from the CLI. So instead we do it here
+        if (function_exists('apcu_clear_cache')) {
+            apcu_clear_cache();
+        }
+
         midcom::get()->cache->content->enable_live_mode();
         midcom::get()->cache->invalidate_all();
         midcom::get()->uimessages->add(
