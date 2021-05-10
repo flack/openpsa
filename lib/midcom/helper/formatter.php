@@ -20,11 +20,9 @@ class midcom_helper_formatter
      */
     private static $_filters = [
         'h' => '',
-        'H' => '',
         'p' => '',
         'u' => 'rawurlencode',
         'f' => 'nl2br',
-        's' => '',
     ];
 
     /**
@@ -54,37 +52,22 @@ class midcom_helper_formatter
     {
         return preg_replace_callback("%&\(([^)]*)\);%i", function ($variable)
         {
-            $variable_parts = explode(':', $variable[1]);
-            $variable = '$' . $variable_parts[0];
+            $parts = explode(':', $variable[1]);
+            $variable = '$' . str_replace('.', '->', $parts[0]);
 
-            if (str_contains($variable, '.')) {
-                $parts = explode('.', $variable);
-                $variable = $parts[0] . '->' . $parts[1];
+            if (   isset($parts[1])
+                && array_key_exists($parts[1], self::$_filters)) {
+                if ($parts[1] == 'p') {
+                    $command = 'eval(\'?>\' . ' . $variable . ')';
+                } else {
+                    $function = self::$_filters[$parts[1]];
+                    $command = 'echo ' . $function . '(' . $variable . ')';
+                }
+            } else {
+                $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get()->i18n->get_current_charset())';
             }
 
-            if (    isset($variable_parts[1])
-                && array_key_exists($variable_parts[1], self::$_filters)) {
-                    switch ($variable_parts[1]) {
-                        case 's':
-                            //display as-is
-                        case 'h':
-                        case 'H':
-                            //According to documentation, these two should do something, but actually they don't...
-                            $command = 'echo ' . $variable;
-                            break;
-                        case 'p':
-                            $command = 'eval(\'?>\' . ' . $variable . ')';
-                            break;
-                        default:
-                            $function = self::$_filters[$variable_parts[1]];
-                            $command = 'echo ' . $function . '(' . $variable . ')';
-                            break;
-                    }
-                } else {
-                    $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get()->i18n->get_current_charset())';
-                }
-
-                return "<?php $command; ?>";
+            return "<?php $command; ?>";
         }, $content);
     }
 }
