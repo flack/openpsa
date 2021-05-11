@@ -14,10 +14,6 @@ foreach ($data['navigation_items'] as $i => $item) {
     $index = $count - $i;
     $style = '';
 
-    if (isset($_GET['ajax'])) {
-        $style = ' style="display: none;"';
-    }
-
     // Skip all components that return the default icon
     if (   isset($item[MIDCOM_NAV_COMPONENT])
         && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false))) {
@@ -30,13 +26,14 @@ foreach ($data['navigation_items'] as $i => $item) {
     }
 
     echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\">\n";
-    echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identifier}]\" value=\"{$index}\"{$style} />\n";
+    echo "            <input type=\"hidden\" name=\"sortable[{$item[MIDCOM_NAV_TYPE]}][{$identifier}]\" value=\"{$index}\" />\n";
     echo "            {$icon} {$item[MIDCOM_NAV_NAME]}\n";
     echo "        </li>\n";
 }
 ?>
     </ul>
 </div>
+<input type="hidden" name="f_navorder" value="&(data['navorder']);">
 <script type="text/javascript">
     // <!--
         jQuery('#midcom_admin_folder_order_type_list_&(data['navigation_type']);')
