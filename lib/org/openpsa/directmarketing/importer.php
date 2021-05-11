@@ -88,26 +88,14 @@ abstract class org_openpsa_directmarketing_importer
     {
         $person = null;
         if ($this->_config->get('csv_import_check_duplicates')) {
-            if (!empty($subscriber['person']['email'])) {
-                // Perform a simple email test. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
-                $qb = org_openpsa_contacts_person_dba::new_query_builder();
-                $qb->add_constraint('email', '=', $subscriber['person']['email']);
-                $persons = $qb->execute_unchecked();
-                if (!empty($persons)) {
-                    // Match found, use it
-                    $person = $persons[0];
-                }
-            }
+            $dummy = new org_openpsa_contacts_person_dba;
+            $dummy->email = $subscriber['person']['email'] ?? '';
+            $dummy->handphone = $subscriber['person']['handphone'] ?? '';
 
-            if (   !$person
-                && !empty($subscriber['person']['handphone'])) {
-                // Perform a simple cell phone test. More complicated duplicate checking is best left to the o.o.contacts duplicate checker
-                $qb = org_openpsa_contacts_person_dba::new_query_builder();
-                $qb->add_constraint('handphone', '=', $subscriber['person']['handphone']);
-                $persons = $qb->execute_unchecked();
-                if (!empty($persons)) {
-                    // Match found, use it
-                    $person = $persons[0];
+            if ($dummy->handphone || $dummy->email) {
+                $checker = new org_openpsa_contacts_duplicates_check;
+                if ($result = $checker->find_duplicates_person($dummy)) {
+                    $person = $result[0];
                 }
             }
         }
