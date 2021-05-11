@@ -1,8 +1,8 @@
 // note:: this is javascript!
 theme: "silver",
-plugins: ["autoresize table save hr link preview media searchreplace print fullscreen image paste code imagetools"],
+plugins: ["autoresize lists table save hr link preview media searchreplace print fullscreen image paste code imagetools"],
 toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code fullscreen",
-toolbar2: "formatselect | bold italic strikethrough sub sup | bullist numlist | link unlink image media | removeformat",
+toolbar2: "formatselect | bold italic strikethrough subscript superscript | bullist numlist | link unlink image media | removeformat",
 resize: 'both',
 max_height: window.innerHeight,
 autoresize_bottom_margin: 1,
