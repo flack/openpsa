@@ -25,7 +25,7 @@ trait org_openpsa_invoices_handler
         return $values;
     }
 
-    public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice)
+    public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice) : string
     {
         if ($invoice->paid) {
             return strftime('%Y-%m-%d', $invoice->paid);
@@ -33,9 +33,6 @@ trait org_openpsa_invoices_handler
         if (!$invoice->can_do('midgard:update')) {
             return '';
         }
-
-        $action = null;
-        $icon = null;
 
         // unsent invoices
         if ($invoice->sent == 0) {
@@ -49,17 +46,14 @@ trait org_openpsa_invoices_handler
                 $action = 'mark_sent';
                 $icon = '<i class="fa fa-paper-plane-o"></i>';
             }
-        }
-        // not paid yet
-        elseif (!$invoice->paid) {
+        } else {
+            // not paid yet (see above)
             $action = 'mark_paid';
             $icon = '<i class="fa fa-check"></i>';
         }
 
         // generate next action buttons
-        if ($action !== null) {
-            return '<button id="invoice_' . $invoice->guid . '" class="' . $action . '">' . $icon . ' ' . $this->_l10n->get($action) . '</button>';
-        }
+        return '<button id="invoice_' . $invoice->guid . '" class="' . $action . '">' . $icon . ' ' . $this->_l10n->get($action) . '</button>';
     }
 
     public function prepare_toolbar(bool $show_backlink = true)
