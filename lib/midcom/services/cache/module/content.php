@@ -340,10 +340,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         switch ($cache_strategy) {
             case 'memberships':
-                if (!midcom_connection::get_user()) {
+                if (!midcom::get()->auth->is_valid_user()) {
                     $identifier_source .= ';USER=ANONYMOUS';
                     break;
                 }
+
                 $mc = new midgard_collector('midgard_member', 'uid', midcom_connection::get_user());
                 $mc->set_key_property('gid');
                 $mc->execute();
@@ -693,8 +694,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Add Expiration and Cache Control headers
             $strategy = $this->_headers_strategy;
             $default_lifetime = $this->_default_lifetime;
-            if (   midcom::get()->auth->is_valid_user()
-                || midcom_connection::get_user()) {
+            if (midcom::get()->auth->is_valid_user()) {
                 $strategy = $this->_headers_strategy_authenticated;
                 $default_lifetime = $this->_default_lifetime_authenticated;
             }

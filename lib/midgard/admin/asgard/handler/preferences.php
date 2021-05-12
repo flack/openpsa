@@ -53,7 +53,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         if (isset($guid)) {
             $this->_person = new midcom_db_person($guid);
         } else {
-            $this->_person = new midcom_db_person(midcom_connection::get_user());
+            $this->_person = midcom::get()->auth->user->get_storage();
         }
 
         // Load the controller instance
@@ -118,7 +118,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      */
     public function _handler_ajax(Request $request)
     {
-        $this->_person = new midcom_db_person(midcom_connection::get_user());
+        $this->_person = midcom::get()->auth->user->get_storage();
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters

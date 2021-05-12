@@ -25,7 +25,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
         midcom::get()->head->set_pagetitle($this->_l10n->get('choose calendars'));
 
         // Get the current user
-        $person = new midcom_db_person(midcom_connection::get_user());
+        $person = midcom::get()->auth->user->get_storage();
         $person->require_do('midgard:update');
         // Load the controller
         $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_filters'))

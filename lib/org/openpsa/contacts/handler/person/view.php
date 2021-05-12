@@ -115,7 +115,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         }
 
         if (   $user_url
-            && (   midcom_connection::get_user() == $this->_contact->id
+            && (   midcom::get()->auth->user->guid == $this->_contact->guid
                 || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class))) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",

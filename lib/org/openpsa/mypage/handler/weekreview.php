@@ -44,13 +44,13 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     /**
      * List user's event memberships
      */
-    private function _list_events_between(int $person, int $from, int $to)
+    private function _list_events_between(midcom_db_person $person, int $from, int $to)
     {
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
             ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
             ->where('m.uid = :person')
-            ->setParameter('person', $person);
+            ->setParameter('person', $person->id);
 
         // Find all events that occur during [$from, $to]
         $qb->add_constraint('start', '<=', $to);
@@ -61,13 +61,13 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_hour_reports_between(int $person, int $from, int $to)
+    private function _list_hour_reports_between(midcom_db_person $person, int $from, int $to)
     {
         // List user's hour reports
         $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
         $qb->add_constraint('date', '>=', $from);
         $qb->add_constraint('date', '<=', $to);
-        $qb->add_constraint('person', '=', $person);
+        $qb->add_constraint('person', '=', $person->id);
 
         foreach ($qb->execute() as $hour_report) {
             $time = mktime(date('H', $hour_report->metadata->created), date('i', $hour_report->metadata->created), date('s', $hour_report->metadata->created), date('m', $hour_report->date), date('d', $hour_report->date), date('Y', $hour_report->date));
@@ -116,9 +116,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $data['prev_week'] = $date->format('Y-m-d');
 
         // Then start looking for stuff to display
-        $this->_list_events_between(midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_hour_reports_between(midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between(midcom::get()->auth->user->get_storage(), $data['week_start'], $data['week_end']);
+        $person = midcom::get()->auth->user->get_storage();
+        $this->_list_events_between($person, $data['week_start'], $data['week_end']);
+        $this->_list_hour_reports_between($person, $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between($person, $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
         ksort($this->review_data);
