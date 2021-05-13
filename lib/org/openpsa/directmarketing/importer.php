@@ -93,8 +93,8 @@ abstract class org_openpsa_directmarketing_importer
             $dummy->handphone = $subscriber['person']['handphone'] ?? '';
 
             if ($dummy->handphone || $dummy->email) {
-                $checker = new org_openpsa_contacts_duplicates_check;
-                if ($result = $checker->find_duplicates_person($dummy)) {
+                $checker = new org_openpsa_contacts_duplicates_check_person;
+                if ($result = $checker->find_duplicates($dummy)) {
                     $person = $result[0];
                 }
             }

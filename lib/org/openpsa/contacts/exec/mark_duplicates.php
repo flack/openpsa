@@ -13,11 +13,14 @@ echo "<p>\n";
 
 midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-$dfinder = new org_openpsa_contacts_duplicates_check();
+$pfinder = new org_openpsa_contacts_duplicates_check_person;
 /* TODO: Get component configuration if possible
 $dfinder->config = ;
 */
-$dfinder->mark_all(true);
+$pfinder->mark_all(true);
+
+$gfinder = new org_openpsa_contacts_duplicates_check_group;
+$gfinder->mark_all(true);
 
 midcom::get()->auth->drop_sudo();
 echo " ** ALL DONE<br/>\n";
