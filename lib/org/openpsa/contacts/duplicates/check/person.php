@@ -30,54 +30,38 @@ class org_openpsa_contacts_duplicates_check_person extends org_openpsa_contacts_
 
     /**
      * Calculates P for the given two persons being duplicates
-     *
-     * @return array with overall P and matched checks
      */
-    protected function p_duplicate(array $person1, array $person2) : array
+    protected function p_duplicate(array $person1, array $person2) : float
     {
-        $ret = [
-            'p' => 0,
-            'email_match' => false,
-            'handphone_match' => false,
-            'fname_lname_city_match' => false,
-            'fname_lname_street_match' => false,
-            'fname_hphone_match' => false,
-            'fname_lname_company_match' => false
-        ];
+        $p = 0;
 
         //TODO: read weight values from configuration
         if ($this->match('email', $person1, $person2)) {
-            $ret['email_match'] = true;
-            $ret['p'] += 1;
+            $p += 1;
         } elseif (!empty($person1['lastname'])) {
             // if user's lastname is part of the email address, check to see if the difference is only in the domain part
             $email1 = preg_replace('/@.+/', '', $person1['email']);
             $email2 = preg_replace('/@.+/', '', $person2['email']);
             if (   str_contains($email1, $person1['lastname'])
                 && $email1 == $email2) {
-                $ret['email_match'] = true;
-                $ret['p'] += 0.5;
+                $p += 0.5;
             }
         }
 
         if ($this->match('handphone', $person1, $person2)) {
-            $ret['handphone_match'] = true;
-            $ret['p'] += 1;
+            $p += 1;
         }
 
         if ($this->match('firstname', $person1, $person2)) {
             if ($this->match('homephone', $person1, $person2)) {
-                $ret['fname_hphone_match'] = true;
-                $ret['p'] += 0.7;
+                $p += 0.7;
             }
             if ($this->match('lastname', $person1, $person2)) {
                 if ($this->match('city', $person1, $person2)) {
-                    $ret['fname_lname_city_match'] = true;
-                    $ret['p'] += 0.5;
+                    $p += 0.5;
                 }
                 if ($this->match('street', $person1, $person2)) {
-                    $ret['fname_lname_street_match'] = true;
-                    $ret['p'] += 0.9;
+                    $p += 0.9;
                 }
 
                 // We cannot do this check if person1 hasn't been created yet...
@@ -86,15 +70,14 @@ class org_openpsa_contacts_duplicates_check_person extends org_openpsa_contacts_
                     $person2_memberships = $this->load_memberships($person2['id']);
                     $matches = array_intersect($person1_memberships, $person2_memberships);
                     if (!empty($matches)) {
-                        $ret['fname_lname_company_match'] = true;
-                        $ret['p'] += (count($matches) * 0.5);
+                        $p += (count($matches) * 0.5);
                     }
                 }
             }
         }
 
         // All checks done, return
-        return $ret;
+        return $p;
     }
 
     /**

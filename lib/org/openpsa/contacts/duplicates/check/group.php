@@ -25,49 +25,33 @@ class org_openpsa_contacts_duplicates_check_group extends org_openpsa_contacts_d
 
     /**
      * Calculates P for the given two persons being duplicates
-     *
-     * @return array with overall P and matched checks
      */
-    protected function p_duplicate(array $group1, array $group2) : array
+    protected function p_duplicate(array $group1, array $group2) : float
     {
-        $ret = [
-            'p' => 0,
-            'homepage_match' => false,
-            'phone_match' => false,
-            'phone_street_match' => false,
-            'official_match' => false,
-            'official_city_match' => false,
-            'official_street_match' => false
-        ];
+        $p = 0;
 
         //TODO: read weight values from configuration
         if ($this->match('homepage', $group1, $group2)) {
-            $ret['homepage_match'] = true;
-            $ret['p'] += 0.2;
+            $p += 0.2;
         }
 
         if ($this->match('phone', $group1, $group2)) {
-            $ret['phone_match'] = true;
-            $ret['p'] += 0.5;
+            $p += 0.5;
             if ($this->match('street', $group1, $group2)) {
-                $ret['phone_street_match'] = true;
-                $ret['p'] += 1;
+                $p += 1;
             }
         }
 
         if ($this->match('official', $group1, $group2)) {
-            $ret['official_match'] = true;
-            $ret['p'] += 0.2;
+            $p += 0.2;
             if ($this->match('street', $group1, $group2)) {
-                $ret['official_street_match'] = true;
-                $ret['p'] += 1;
+                $p += 1;
             }
             if ($this->match('city', $group1, $group2)) {
-                $ret['city_street_match'] = true;
-                $ret['p'] += 0.5;
+                $p += 0.5;
             }
         }
 
-        return $ret;
+        return $p;
     }
 }

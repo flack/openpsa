@@ -27,10 +27,8 @@ abstract class org_openpsa_contacts_duplicates_check
 
     /**
      * Calculates P for the given two candidates being duplicates
-     *
-     * @return array with overall P and matched checks
      */
-    abstract protected function p_duplicate(array $candidate1, array $candidate2) : array;
+    abstract protected function p_duplicate(array $candidate1, array $candidate2) : float;
 
     abstract protected function get_class() : string;
 
@@ -75,8 +73,7 @@ abstract class org_openpsa_contacts_duplicates_check
         $normalized = $this->normalize_fields($fields, $object->guid);
 
         foreach ($this->get_candidates($object) as $candidate) {
-            $p_array = $this->p_duplicate($normalized, $candidate);
-            if ($p_array['p'] >= $threshold) {
+            if ($this->p_duplicate($normalized, $candidate) >= $threshold) {
                 $ret[] = $this->load($candidate['guid']);
             }
         }
@@ -181,9 +178,9 @@ abstract class org_openpsa_contacts_duplicates_check
                 continue;
             }
 
-            $p_arr = $this->p_duplicate($arr1, $arr2);
+            $p = $this->p_duplicate($arr1, $arr2);
 
-            if ($p_arr['p'] < $this->threshold) {
+            if ($p < $this->threshold) {
                 continue;
             }
 
@@ -205,7 +202,7 @@ abstract class org_openpsa_contacts_duplicates_check
                 $this->p_map[$arr1['guid']] = [];
             }
 
-            $this->p_map[$arr1['guid']][$arr2['guid']] = $p_arr;
+            $this->p_map[$arr1['guid']][$arr2['guid']] = $p;
         }
     }
 
