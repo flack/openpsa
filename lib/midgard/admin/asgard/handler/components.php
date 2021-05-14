@@ -29,7 +29,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data = [
             'name' => $manifest->name,
             'title' => $manifest->get_name_translated(),
-            'purecode' => $manifest->purecode,
             'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
             'description' => $manifest->description,
             'toolbar' => new midcom_helper_toolbar()

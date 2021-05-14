@@ -325,7 +325,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 'name' => $manifest->name,
                 'title' => $title,
                 'icon' => midcom::get()->componentloader->get_component_icon($manifest->name),
-                'purecode' => $manifest->purecode,
                 'description' => $manifest->description,
             ];
         }
