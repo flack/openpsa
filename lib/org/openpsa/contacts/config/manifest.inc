@@ -14,9 +14,6 @@
         [
             'handler' => 'org_openpsa_contacts_cron_duplicates_mark',
             'recurrence' => MIDCOM_CRON_DAY,
-        ], [
-            'handler' => 'org_openpsa_contacts_cron_duplicates_clean',
-            'recurrence' => MIDCOM_CRON_DAY,
         ],
     ],
 ],
