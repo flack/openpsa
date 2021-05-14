@@ -66,7 +66,7 @@ class schemadb
                 // Infinite loop, set an UI message and stop executing
                 if (   !isset($schema['extends']['name'])
                     || $schema['extends']['name'] === $schema_name) {
-                    throw new midcom_error('schema ' . $path . ':' . $schema_name . ' extends itself');
+                    throw new midcom_error('schema ' . $schema_name . ' extends itself');
                 }
                 $extended_schema_name = $schema['extends']['name'];
                 $extended_schemadb = [$extended_schema_name => $data[$extended_schema_name]];

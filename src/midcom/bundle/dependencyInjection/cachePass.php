@@ -15,7 +15,7 @@ class cachePass implements CompilerPassInterface
             $container->getDefinition('cache')
                 ->addMethodCall('add_module', [$name, new Reference('cache.module.' . $name)]);
 
-            if ($name == 'nap' || $name == 'memcache') {
+            if (in_array($name, ['nap', 'memcache'])) {
                 if ($driver = $container->getParameter('midcom.cache_module_memcache_backend')) {
                     $config = $container->getParameter('midcom.cache_module_memcache_backend_config');
                     $this->configure_backend($name, $driver, $config, $container);
