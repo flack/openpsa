@@ -45,11 +45,11 @@ abstract class org_openpsa_contacts_duplicates_check
         $ret = $this->check_all();
         foreach ($ret as $guid1 => $duplicates) {
             $duplicate1 = $this->load($guid1);
-            foreach ($duplicates as $guid2 => $details) {
+            foreach ($duplicates as $guid2 => $p) {
                 $duplicate2 = $this->load($guid2);
-                $msg = "Marking {$guid1} (#{$duplicate1->id}) and {$guid2} (#{$duplicate2->id}) as duplicates with P {$details['p']}";
-                $duplicate1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $guid2, $details['p']);
-                $duplicate2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $guid1, $details['p']);
+                $msg = "Marking {$guid1} (#{$duplicate1->id}) and {$guid2} (#{$duplicate2->id}) as duplicates with P {$p}";
+                $duplicate1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $guid2, $p);
+                $duplicate2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $guid1, $p);
                 $this->output($output, $msg, '&nbsp;&nbsp;&nbsp;');
             }
         }
