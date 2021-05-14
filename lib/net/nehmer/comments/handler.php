@@ -20,7 +20,6 @@ trait net_nehmer_comments_handler
             || $comment->status >= net_nehmer_comments_comment::MODERATED) {
             return $toolbar;
         }
-        $buttons = [];
 
         if (!$comment->can_do('net.nehmer.comments:moderation')) {
             // Regular users can only report abuse
