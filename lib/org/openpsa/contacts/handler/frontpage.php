@@ -43,7 +43,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         if ($p_merger->merge_needed()) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('person_duplicates'),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('merge persons'),
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('merge %s'), $this->_l10n->get('persons')),
                 MIDCOM_TOOLBAR_GLYPHICON => 'code-fork',
                 MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, org_openpsa_contacts_person_dba::class),
             ];

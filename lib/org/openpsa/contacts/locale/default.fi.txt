@@ -18,8 +18,8 @@ Perustiedot
 Tyyppi
 ---STRINGEND
 
----STRING choose the person to keep
-Valitse kumpi henkilö säilytetään. Voit myös valita myöhemmin tai säilyttää molemmat.
+---STRING choose %s to keep
+Valitse kumpi %s säilytetään. Voit myös valita myöhemmin tai säilyttää molemmat.
 ---STRINGEND
 
 ---STRING city
@@ -130,8 +130,8 @@ Minä
 Organisaation jäsen
 ---STRINGEND
 
----STRING merge persons
-Yhdistä päällekkäiset henkilöt
+---STRING merge %s
+Yhdistä päällekkäiset %s
 ---STRINGEND
 
 ---STRING mobile phone

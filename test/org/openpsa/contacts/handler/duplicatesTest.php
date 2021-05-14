@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_handler_person_duplicatesTest extends openpsa_testcase
+class org_openpsa_contacts_handler_duplicatesTest extends openpsa_testcase
 {
     protected static $_person;
 
@@ -20,12 +20,22 @@ class org_openpsa_contacts_handler_person_duplicatesTest extends openpsa_testcas
         self::$_person = self::create_user(true);
     }
 
-    public function testHandler_duplicates()
+    public function testHandler_person()
     {
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', ['duplicates', 'person']);
         $this->assertEquals('person_duplicates', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_group()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
+
+        $data = $this->run_handler('org.openpsa.contacts', ['duplicates', 'group']);
+        $this->assertEquals('group_duplicates', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

@@ -38,8 +38,8 @@ Both
 Categories
 ---STRINGEND
 
----STRING choose the person to keep
-Choose which contact person to keep. You can also decide later or keep both.
+---STRING choose the %s to keep
+Choose which %s to keep. You can also decide later or keep both.
 ---STRINGEND
 
 ---STRING city
@@ -182,8 +182,8 @@ Organization member
 Members
 ---STRINGEND
 
----STRING merge persons
-Merge duplicate persons
+---STRING merge %s
+Merge duplicate %s
 ---STRINGEND
 
 ---STRING mobile phone

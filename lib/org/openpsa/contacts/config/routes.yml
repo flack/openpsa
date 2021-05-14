@@ -1,6 +1,10 @@
 person_duplicates:
     path: /duplicates/person/
-    defaults: { _controller: 'org_openpsa_contacts_handler_duplicates_person::sidebyside' }
+    defaults: { _controller: 'org_openpsa_contacts_handler_duplicates::person' }
+
+group_duplicates:
+    path: /duplicates/group/
+    defaults: { _controller: 'org_openpsa_contacts_handler_duplicates::group' }
 
 mycontacts:
     path: /mycontacts/

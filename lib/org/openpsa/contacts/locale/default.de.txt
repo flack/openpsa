@@ -42,8 +42,8 @@ Basisdaten
 Kategorien
 ---STRINGEND
 
----STRING choose the person to keep
-Wählen Sie, welche Person beibehalten werden soll. Sie können auch später entscheiden oder beide behalten.
+---STRING choose the %s to keep
+Wählen Sie, welche %s beibehalten werden soll. Sie können auch später entscheiden oder beide behalten.
 ---STRINGEND
 
 ---STRING city
@@ -182,8 +182,8 @@ Mitglied der Organisation
 Mitglieder
 ---STRINGEND
 
----STRING merge persons
-Doppelte Personen zusammenführen
+---STRING merge %s
+Doppelte %s zusammenführen
 ---STRINGEND
 
 ---STRING mobile phone
