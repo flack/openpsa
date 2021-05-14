@@ -7,12 +7,12 @@ class datamanager_form extends base
 {
     public function form_start(FormView $view, array $data)
     {
-        return '["' . $data['name'] . '" => [';
+        return '{"' . $data['name'] . '": {';
     }
 
     public function form_end(FormView $view, array $data)
     {
-        return ']]';
+        return '}}';
     }
 
     public function form_errors(FormView $view, array $data)
@@ -24,7 +24,7 @@ class datamanager_form extends base
         $string = $this->renderer->block($view, 'form_rows');
         $string .= $this->renderer->rest($view);
         if ($view->parent) {
-            $string = '[' . $string . ']';
+            $string = '{' . $string . '}';
         }
         return $string;
     }
@@ -45,7 +45,7 @@ class datamanager_form extends base
 
     public function form_row(FormView $view, array $data)
     {
-        return '"' . $data['name'] . '" => ' . $this->renderer->widget($view) . ',';
+        return '"' . $data['name'] . '": ' . $this->renderer->widget($view) . ',';
     }
 
     public function button_row(FormView $view, array $data)
@@ -89,28 +89,28 @@ class datamanager_form extends base
 
     public function org_openpsa_user_widget_password_widget(FormView $view, array $data)
     {
-        $string = '["password" => ' . $this->renderer->widget($view['password']) . ',';
-        return $string . '"switch" => ' . $this->renderer->widget($view['switch']) . ']';
+        $string = '{"password": ' . $this->renderer->widget($view['password']) . ',';
+        return $string . '"switch": ' . $this->renderer->widget($view['switch']) . '}';
     }
 
     public function autocomplete_widget(FormView $view, array $data)
     {
-        return '["selection" => ' . $this->renderer->widget($view['selection']) . ']';
+        return '{"selection": ' . $this->renderer->widget($view['selection']) . '}';
     }
 
     public function other_widget(FormView $view, array $data)
     {
-        $string = '["select" => ' . $this->renderer->widget($view['select']) . ', ';
-        return $string . '"other" => ' . $this->renderer->widget($view['other']) . ']';
+        $string = '{"select": ' . $this->renderer->widget($view['select']) . ', ';
+        return $string . '"other": ' . $this->renderer->widget($view['other']) . '}';
     }
 
     public function jsdate_widget(FormView $view, array $data)
     {
-        $string = '["date" => ' . $this->renderer->widget($view['date']) . ',';
+        $string = '{"date": ' . $this->renderer->widget($view['date']) . ',';
 
         if (isset($view['time'])) {
-            $string .= '"time" => ' . $this->renderer->widget($view['time']);
+            $string .= '"time": ' . $this->renderer->widget($view['time']);
         }
-        return $string . ']';
+        return $string . '}';
     }
 }

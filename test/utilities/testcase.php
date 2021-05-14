@@ -137,7 +137,8 @@ abstract class openpsa_testcase extends TestCase
         $view = $dm->get_form()->createView();
         $renderer = new renderer(new engine);
         $renderer->set_template($view, new datamanager_form($renderer));
-        $data = eval('return ' . $renderer->block($view, 'form') . ';');
+        $rendered = str_replace(',}', '}', $renderer->block($view, 'form'));
+        $data = json_decode($rendered, true, 32, JSON_THROW_ON_ERROR);
         $formname = key($data);
         $data[$formname]['form_toolbar'][$button . '0'] = '';
 
