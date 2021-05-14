@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\console\command;
+namespace midcom\console\command\cleanup;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +20,7 @@ use midcom_db_attachment;
  *
  * @package midcom.console
  */
-class blobdircleanup extends Command
+class blobdir extends Command
 {
     /**
      * @var int
@@ -41,7 +41,7 @@ class blobdircleanup extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:blobdircleanup')
+        $this->setName('midcom:cleanup:blobdir')
             ->setAliases(['blobdircleanup'])
             ->setDescription('Cleanup the blobdir')
             ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');

@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace midcom\console\command;
+namespace midcom\console\command\cleanup;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  *
  * @package midcom.console
  */
-class rcsdircleanup extends Command
+class rcsdir extends Command
 {
     /**
      * @var int
@@ -37,7 +37,7 @@ class rcsdircleanup extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:rcsdircleanup')
+        $this->setName('midcom:cleanup:rcsdir')
             ->setAliases(['rcsdircleanup'])
             ->setDescription('Cleanup the RCS dir')
             ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
