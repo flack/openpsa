@@ -19,11 +19,10 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         reset($_FILES);
         $temp = array_shift($_FILES);
 
-        if (is_uploaded_file($temp['tmp_name'])) {
-            // Verify file extension
-            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), ["gif", "jpg", "png"])) {
-                throw new midcom_error('Invalid extension.');
-            }
+        // Verify file extension
+        if (   is_uploaded_file($temp['tmp_name'])
+            && !in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), ["gif", "jpg", "png"])) {
+            throw new midcom_error('Invalid extension.');
         }
 
         // Get the data

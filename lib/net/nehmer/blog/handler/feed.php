@@ -50,11 +50,10 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $qb->add_order('metadata.published', 'DESC');
 
         if ($handler_id == 'feed-category-rss2') {
-            if (!in_array($args[0], $data['categories'])) {
-                // This is not a predefined category from configuration, check if site maintainer allows us to show it
-                if (!$this->_config->get('categories_custom_enable')) {
-                    throw new midcom_error('Custom category support is disabled');
-                }
+            // This is not a predefined category from configuration, check if site maintainer allows us to show it
+            if (   !in_array($args[0], $data['categories'])
+                && !$this->_config->get('categories_custom_enable')) {
+                throw new midcom_error('Custom category support is disabled');
             }
 
             // TODO: Check for ".xml" suffix

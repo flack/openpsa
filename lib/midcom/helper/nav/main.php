@@ -334,12 +334,11 @@ class midcom_helper_nav
     {
         debug_add('Looking for a topic to use via get_parent()');
         while ($parent = $object->get_parent()) {
-            if (is_a($parent, midcom_db_topic::class)) {
-                // Verify that this topic is within the current sites tree, if it is not,
-                // we ignore it.
-                if ($this->is_node_in_tree($parent->id, $this->get_root_node())) {
-                    return $parent;
-                }
+            // Verify that this topic is within the current sites tree, if it is not,
+            // we ignore it.
+            if (   is_a($parent, midcom_db_topic::class)
+                && $this->is_node_in_tree($parent->id, $this->get_root_node())) {
+                return $parent;
             }
             $object = $parent;
         }

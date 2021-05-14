@@ -674,12 +674,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $response->setLastModified(DateTime::createFromFormat('U', (string) $time));
         }
 
-        if (!$response->headers->has('Content-Length')) {
-            /* TODO: Doublecheck the way this is handled, now we just don't send it
-             * if headers_strategy implies caching */
-            if (!in_array($this->_headers_strategy, ['public', 'private'])) {
-                $response->headers->set("Content-Length", strlen($response->getContent()));
-            }
+        /* TODO: Doublecheck the way this is handled, now we just don't send it
+         * if headers_strategy implies caching */
+        if (   !$response->headers->has('Content-Length')
+            && !in_array($this->_headers_strategy, ['public', 'private'])) {
+            $response->headers->set("Content-Length", strlen($response->getContent()));
         }
 
         $this->cache_control_headers($response);
