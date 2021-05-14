@@ -39,10 +39,10 @@ class org_openpsa_contacts_duplicates_merge
      * Depending on modes either all or only future dependencies, this method
      * will go trough all components' interface classes and call a merge method there
      *
-     * @param object $obj1 Object that data will be merged to
-     * @param object $obj2 Object that data will be merged from
+     * @param midcom_core_dbaobject $obj1 Object that data will be merged to
+     * @param midcom_core_dbaobject $obj2 Object that data will be merged from
      */
-    public function merge($obj1, $obj2, string $merge_mode)
+    public function merge(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2, string $merge_mode)
     {
         if (!in_array($merge_mode, ['all', 'future'])) {
             debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
