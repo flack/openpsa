@@ -24,7 +24,6 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
-        ignore_user_abort();
 
         $pfinder = new org_openpsa_contacts_duplicates_check_person;
         $pfinder->mark_all(false);

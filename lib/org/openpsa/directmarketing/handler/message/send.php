@@ -45,7 +45,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $this->batch_number = $batch_number;
         midcom_services_at_entry_dba::get_cached($job);
 
-        ignore_user_abort();
         midcom::get()->skip_page_style = true;
         midcom::get()->auth->drop_sudo();
     }
@@ -129,8 +128,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $this->load_datamanager($data['message']);
 
         $this->send_start = time();
-
-        ignore_user_abort();
     }
 
     public function _show_send(string $handler_id, array &$data)
