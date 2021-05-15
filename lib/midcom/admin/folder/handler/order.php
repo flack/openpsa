@@ -147,15 +147,14 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     public function _show_order(string $handler_id, array &$data)
     {
-        // Navorder list for the selection
-        $data['navorder_list'] = [
-            MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
-            MIDCOM_NAVORDER_TOPICSFIRST => $this->_l10n->get('folders first'),
-            MIDCOM_NAVORDER_ARTICLESFIRST => $this->_l10n->get('pages first'),
-            MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
-        ];
-
         if (!$this->ajax) {
+            // Navorder list for the selection
+            $data['navorder_list'] = [
+                MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
+                MIDCOM_NAVORDER_TOPICSFIRST => $this->_l10n->get('folders first'),
+                MIDCOM_NAVORDER_ARTICLESFIRST => $this->_l10n->get('pages first'),
+                MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
+            ];
             midcom_show_style('midcom-admin-folder-order-start');
         }
 

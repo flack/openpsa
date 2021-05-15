@@ -5,6 +5,8 @@
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * @package midcom.admin.rcs
  */
@@ -26,13 +28,14 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
         return $items;
     }
 
-    protected function handler_callback(string $handler_id)
+    protected function reply(string $element) : Response
     {
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => $this->get_object_url(),
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->resolve_object_title()),
             MIDCOM_TOOLBAR_GLYPHICON => 'eject',
         ]);
+        return $this->show($element);
     }
 
     protected function get_object_url() : string

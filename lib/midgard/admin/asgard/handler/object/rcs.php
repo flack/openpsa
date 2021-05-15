@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Simple styling class to make html out of diffs and get a simple way
  * to provide rcs functionality
@@ -31,9 +33,9 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
         return midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb') ?: [];
     }
 
-    protected function handler_callback(string $handler_id)
+    protected function reply(string $element) : Response
     {
-        return $this->get_response();
+        return $this->get_response($element);
     }
 
     /**

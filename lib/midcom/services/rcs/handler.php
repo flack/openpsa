@@ -8,6 +8,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use midcom\datamanager\schemabuilder;
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package midcom.services.rcs
@@ -30,7 +31,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     abstract protected function get_object_url() : string;
 
-    abstract protected function handler_callback(string $handler_id);
+    abstract protected function reply(string $element) : Response;
 
     abstract protected function get_breadcrumbs() : array;
 
@@ -154,24 +155,23 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     public function translate(string $string) : string
     {
-        $translated = $string;
-        $component = midcom::get()->dbclassloader->get_component_for_class($this->object->__midcom_class_name__);
-        if (midcom::get()->componentloader->is_installed($component)) {
-            $translated = $this->_i18n->get_string($string, $component);
+        $stack = [$this->_component, 'midcom'];
+        if ($component = midcom::get()->dbclassloader->get_component_for_class($this->object->__midcom_class_name__)) {
+            array_unshift($stack, $component);
         }
-        if ($translated === $string) {
-            $translated = $this->_l10n->get($string);
-            if ($translated === $string) {
-                $translated = $this->_l10n_midcom->get($string);
+        foreach ($stack as $db) {
+            $translated = $this->_i18n->get_string($string, $db);
+            if ($translated != $string) {
+                return $translated;
             }
         }
-        return $translated;
+        return $string;
     }
 
     /**
      * Show the changes done to the object
      */
-    public function _handler_history(Request $request, string $handler_id, array $args)
+    public function _handler_history(Request $request, array &$data, array $args)
     {
         // Check if the comparison request is valid
         $first = $request->query->get('first');
@@ -184,20 +184,15 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $view_title = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
 
         $this->prepare_request_data($view_title);
-        return $this->handler_callback($handler_id);
-    }
-
-    public function _show_history(string $handler_id, array &$data)
-    {
         $data['history'] = $this->backend->get_history();
         $data['guid'] = $this->object->guid;
-        midcom_show_style($this->style_prefix . 'history');
+        return $this->reply($this->style_prefix . 'history');
     }
 
     /**
      * Show a diff between two versions
      */
-    public function _handler_diff(string $handler_id, array $args, array &$data)
+    public function _handler_diff(array $args, array &$data)
     {
         $this->load_object($args[0]);
         $history = $this->backend->get_history();
@@ -231,7 +226,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             sprintf($this->_l10n->get('differences between %s and %s'), $compare_revision['version'], $latest_revision['version'])
         );
 
-        return $this->handler_callback($handler_id);
+        return $this->reply($this->style_prefix . 'diff');
     }
 
     private function render_revision_info(array $metadata) : string
@@ -250,17 +245,9 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     }
 
     /**
-     * Show the differences between the versions
-     */
-    public function _show_diff()
-    {
-        midcom_show_style($this->style_prefix . 'diff');
-    }
-
-    /**
      * View previews
      */
-    public function _handler_preview(string $handler_id, array $args, array &$data)
+    public function _handler_preview(array $args, array &$data)
     {
         $revision = $args[1];
         $data['latest_revision'] = $revision;
@@ -288,12 +275,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         // Load the toolbars
         $this->rcs_toolbar($metadata);
         $this->prepare_request_data($view_title);
-        return $this->handler_callback($handler_id);
-    }
-
-    public function _show_preview()
-    {
-        midcom_show_style($this->style_prefix . 'preview');
+        return $this->reply($this->style_prefix . 'preview');
     }
 
     /**
