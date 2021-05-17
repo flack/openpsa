@@ -186,7 +186,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return $this->_prepare_save();
     }
@@ -276,7 +276,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         //TODO: Handle repeats
         return $this->_prepare_save();
@@ -347,7 +347,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $qb->execute_unchecked();
     }
 
-    public function _on_deleting()
+    public function _on_deleting() : bool
     {
         //Remove participants
         midcom::get()->auth->request_sudo('org.openpsa.calendar');

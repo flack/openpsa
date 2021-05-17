@@ -30,7 +30,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     const CONFIRMED = 120;
     const NOTRELATED = 130;
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->check_status();
         //PONDER: Should we call check_db() here and prevent creation of multiple very similar links ??
@@ -42,7 +42,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         $this->check_status();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         $this->check_status();
         return true;

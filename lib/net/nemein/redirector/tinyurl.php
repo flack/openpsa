@@ -25,7 +25,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     /**
      * Check that everything is ok on creation event
      */
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return !$this->duplicate_names();
     }
@@ -33,7 +33,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     /**
      * Check that everything is ok on creation event
      */
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return !$this->duplicate_names();
     }

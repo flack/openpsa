@@ -13,7 +13,7 @@
  */
 class org_openpsa_documents_directory extends midcom_db_topic
 {
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->name = midcom_helper_misc::urlize($this->extra);
         return parent::_on_creating();

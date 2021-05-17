@@ -57,12 +57,12 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         return $qb->count() == 0;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return $this->check_duplicates();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return $this->check_duplicates();
     }

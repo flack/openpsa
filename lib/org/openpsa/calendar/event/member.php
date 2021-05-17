@@ -33,7 +33,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         if ($this->notify_person) {
             $this->notify('update');

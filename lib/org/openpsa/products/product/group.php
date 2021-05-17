@@ -23,7 +23,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     const TYPE_SMART = 1000;
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if ($this->_check_duplicates($this->code)) {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
@@ -32,7 +32,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         if ($this->_check_duplicates($this->code)) {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);

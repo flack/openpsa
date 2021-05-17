@@ -63,7 +63,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     private $_update_parent_on_save = false;
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->calculate_price(false);
         return true;
@@ -74,7 +74,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_update_parent();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         $this->calculate_price(false);
 

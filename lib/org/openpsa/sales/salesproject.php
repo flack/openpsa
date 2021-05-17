@@ -173,7 +173,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         return parent::__get($property);
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->start = $this->start ?: time();
         $this->state = $this->state ?: self::STATE_ACTIVE;
@@ -182,7 +182,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         if (   $this->state != self::STATE_ACTIVE
             && !$this->end) {

@@ -70,12 +70,12 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $qb->count() == 0;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return $this->check_duplicate_membership();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return $this->check_duplicate_membership();
     }

@@ -52,13 +52,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $this->_unserialize_rules();
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->_serialize_rules();
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         $this->_serialize_rules();
         return true;

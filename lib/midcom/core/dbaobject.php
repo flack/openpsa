@@ -414,14 +414,14 @@ abstract class midcom_core_dbaobject
     public function _on_created()
     {
     }
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return true;
     }
     public function _on_deleted()
     {
     }
-    public function _on_deleting()
+    public function _on_deleting() : bool
     {
         return $this->_delete_dependents();
     }
@@ -441,14 +441,14 @@ abstract class midcom_core_dbaobject
     public function _on_updated()
     {
     }
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return true;
     }
     public function _on_imported()
     {
     }
-    public function _on_importing()
+    public function _on_importing() : bool
     {
         return true;
     }

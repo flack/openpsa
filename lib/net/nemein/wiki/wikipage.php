@@ -26,7 +26,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if (   $this->title == ''
             || !$this->topic) {
@@ -50,7 +50,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         if (midcom::get()->auth->user) {
             // Place current user in the page authors list

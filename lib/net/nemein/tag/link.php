@@ -56,12 +56,12 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return $this->_sanity_check();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return $this->_sanity_check();
     }

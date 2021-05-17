@@ -23,7 +23,7 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
 
     public $_use_rcs = false;
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if (   !$this->referrer
             && !empty($_SERVER['HTTP_REFERER'])) {

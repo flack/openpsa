@@ -50,7 +50,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if (!$this->author) {
             $user = midcom::get()->auth->user->get_storage();

@@ -30,7 +30,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         $this->orgOpenpsaObtype = self::MYCONTACTS;
         if (!$this->owner) {

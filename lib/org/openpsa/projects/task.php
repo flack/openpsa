@@ -55,7 +55,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $privileges;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if (!$this->manager) {
             $this->manager = midcom_connection::get_user();
@@ -97,7 +97,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return $this->_prepare_save();
     }
@@ -125,7 +125,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->_update_parent();
     }
 
-    public function _on_deleting()
+    public function _on_deleting() : bool
     {
         $this->update_cache(false);
         return parent::_on_deleting();

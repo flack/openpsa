@@ -45,10 +45,8 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
 
     /**
      * Makes sure we have status set and arguments serialized
-     *
-     * @return boolean Always true
      */
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         if (!$this->status) {
             $this->status = self::SCHEDULED;
@@ -59,10 +57,8 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
 
     /**
      * Makes sure we have arguments serialized
-     *
-     * @return boolean Always true
      */
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         $this->_serialize_arguments();
         return true;

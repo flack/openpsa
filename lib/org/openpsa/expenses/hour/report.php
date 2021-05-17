@@ -52,7 +52,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return $this->_prepare_save();
     }
@@ -62,7 +62,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         $this->_update_parent();
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         $this->modify_hours_by_time_slot();
         return $this->_prepare_save();

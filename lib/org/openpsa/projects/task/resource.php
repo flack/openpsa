@@ -38,7 +38,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         return $qb->count() > 0;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return !$this->find_duplicates();
     }
@@ -141,7 +141,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return !$this->find_duplicates();
     }

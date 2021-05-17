@@ -39,7 +39,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     const APPROVED = 6570;
     const CLOSED = 6580;
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         //Check for duplicate(s) (for some reason at times the automagic actions in task object try to create duplicate statuses)
         $mc = self::new_collector('task', $this->task);

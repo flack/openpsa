@@ -38,7 +38,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return null;
     }
 
-    public function _on_creating()
+    public function _on_creating() : bool
     {
         return (   $this->validate_tag($this->tag)
                 && $this->_check_duplicates() == 0);
@@ -67,7 +67,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updating() : bool
     {
         return (   $this->validate_tag($this->tag)
                 && $this->_check_duplicates() == 0);
