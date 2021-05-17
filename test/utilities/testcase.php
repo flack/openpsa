@@ -71,7 +71,7 @@ abstract class openpsa_testcase extends TestCase
                     $topic_attributes = [
                         'up' => $root_topic->id,
                         'component' => $component,
-                        'name' => 'handler_' . get_called_class() . time()
+                        'name' => 'handler_' . str_replace('\\', '_', get_called_class()) . time()
                     ];
                     self::$nodes[$component] = self::create_class_object(midcom_db_topic::class, $topic_attributes);
                 }
