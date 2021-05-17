@@ -11,7 +11,7 @@
  */
 class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
-    private $prefix = '/org.openpsa.calendar/fullcalendar-4.4.0/';
+    private $prefix = '/org.openpsa.calendar/fullcalendar-5.7.0/';
 
     /**
      * Initialization of the handler class
@@ -40,9 +40,9 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     public function _handler_day(string $timestamp, array &$data)
     {
         $date = new DateTime($timestamp);
-        $data['calendar_options'] = $this->get_calendar_options(['list']);
-        $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
-        $data['calendar_options']['plugins'] = ['list'];
+        $data['calendar_options'] = $this->get_calendar_options();
+        $data['calendar_options']['initialDate'] = $date->format('Y-m-d');
+        $data['calendar_options']['initialView'] = ['timeGridDay'];
         return $this->show('show-agenda');
     }
 
@@ -85,14 +85,14 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         ];
         $this->_view_toolbar->add_items($buttons);
 
-        $data['calendar_options'] = $this->get_calendar_options(['daygrid', 'timegrid']);
+        $data['calendar_options'] = $this->get_calendar_options();
         midcom::get()->head->enable_jquery_ui(['datepicker']);
         return $this->show('show-calendar');
     }
 
-    private function get_calendar_options(array $views) : array
+    private function get_calendar_options() : array
     {
-        $this->add_head_elements($views);
+        $this->add_head_elements();
         $options = [
             'businessHours' => [
                 'start' => $this->_config->get('day_start_time') . ':00',
@@ -109,22 +109,15 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         return $options;
     }
 
-    private function add_head_elements(array $views)
+    private function add_head_elements()
     {
         $head = midcom::get()->head;
-        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'core/main.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'interaction/main.min.js');
-        foreach ($views as $view) {
-            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . $view . '/main.min.js');
-        }
+        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'lib/main.min.js');
         if ($lang = $this->get_lang()) {
-            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "core/locales/{$lang}.js");
+            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "lib/locales/{$lang}.js");
         }
 
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'core/main.min.css');
-        foreach ($views as $view) {
-            $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . $view . '/main.min.css');
-        }
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'lib/main.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
@@ -133,11 +126,11 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     private function get_lang() : ?string
     {
         $lang = $this->_i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "lib/locales/{$lang}.js")) {
             return $lang;
         }
         $lang = $this->_i18n->get_fallback_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "core/locales/{$lang}.js")) {
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "lib/locales/{$lang}.js")) {
             return $lang;
         }
         return null;

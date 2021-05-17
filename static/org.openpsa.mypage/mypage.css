@@ -71,5 +71,5 @@ div.org_openpsa_mypage_workingon .controls
 
 .org_openpsa_mypage.main + aside .agenda
 {
-    min-height: 200px;
+    height: 200px;
 }

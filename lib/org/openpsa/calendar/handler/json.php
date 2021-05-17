@@ -50,7 +50,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
                         'title' => $holiday->getName(),
                         'start' => $from->format('Y-m-d'),
                         'className' => [],
-                        'rendering' => 'background'
+                        'display' => 'background'
                     ];
                 }
                 $from->modify('+1 day');
