@@ -58,7 +58,8 @@
 }
 
 /* see https://github.com/fullcalendar/fullcalendar/issues/5731 */
-.fc-liquid-hack td 
+.fc-liquid-hack td,
+.fc-liquid-hack th
 {
     background-clip: padding-box;    
 }
