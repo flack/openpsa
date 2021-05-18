@@ -134,7 +134,7 @@ const openpsa_calendar_widget = {
                         };
                     }
                     return {
-                        html: '<div class="fc-event-time">' + info.timeText + '</div><div class="fc-event-title-container"><div class="fc-event-title fc-sticky">' + info.event.title + '</div><div class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</div></div>'
+                        html: '<div class="fc-event-main-frame"><div class="fc-event-time">' + info.timeText + '</div><div class="fc-event-title-container"><div class="fc-event-title fc-sticky">' + info.event.title + '</div><div class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</div></div></div>'
                     };
                 }
             },
