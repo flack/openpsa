@@ -56,8 +56,8 @@ class image extends blobs implements recreateable
             $this->save_attachment_list();
         }
 
-        if (array_intersect_key(array_flip(['description', 'title', 'score']), $this->value)) {
-            $main = $this->get_main();
+        if (   array_intersect_key(array_flip(['description', 'title', 'score']), $this->value)
+            && $main = $this->get_main()) {
             $needs_update = false;
             if (array_key_exists('description', $this->value)) {
                 $main->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value['description']);
@@ -76,11 +76,11 @@ class image extends blobs implements recreateable
         }
     }
 
-    private function get_main() : \midcom_db_attachment
+    private function get_main() : ?\midcom_db_attachment
     {
         if (!empty($this->map['main'])) {
             return $this->map['main'];
         }
-        return $this->load()['main'];
+        return $this->load()['main'] ?? null;
     }
 }
