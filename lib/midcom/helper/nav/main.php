@@ -195,7 +195,11 @@ class midcom_helper_nav
      */
     public function is_node_in_tree($node_id, $root_id) : bool
     {
+        if ($node_id == $root_id) {
+            return true;
+        }
         $uplink = $this->get_node_uplink($node_id);
+
         if ($uplink == $root_id) {
             return true;
         }
