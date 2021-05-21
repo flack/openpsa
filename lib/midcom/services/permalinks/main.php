@@ -89,17 +89,6 @@ class midcom_services_permalinks
             return null;
         }
 
-        if ($object instanceof midcom_db_attachment) {
-            // Faster linking to attachments
-            $parent = $object->get_parent();
-            if (   is_a($parent, midcom_db_topic::class)
-                && $nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
-                $napobj = $nav->get_node($parent->id);
-                return $napobj[MIDCOM_NAV_FULLURL] . $object->name;
-            }
-            return $this->create_attachment_link($object->guid, $object->name);
-        }
-
         // Ok, unfortunately, this is not an immediate topic. We try to traverse
         // upwards in the object chain to find a topic.
         $parent = $object->get_parent();
@@ -109,6 +98,9 @@ class midcom_services_permalinks
                 // Verify that this topic is within the current sites tree, if it is not,
                 // we ignore it.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
+                    if ($object instanceof midcom_db_attachment) {
+                        return $this->create_attachment_link($object->guid, $object->name);
+                    }
                     if ($return_value = $this->_resolve_permalink_in_topic($parent, $object)) {
                         return $return_value;
                     }
