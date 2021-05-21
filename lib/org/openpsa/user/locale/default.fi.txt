@@ -114,10 +114,6 @@ Käyttäjätunnus
 Käyttäjätunnus
 ---STRINGEND
 
----STRING username already exists
-Käyttäjätunnus on jo olemassa
----STRINGEND
-
 ---STRING username and password identical
 Käyttäjätunnus ja salasana ovat samat
 ---STRINGEND
