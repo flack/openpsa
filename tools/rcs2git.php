@@ -88,7 +88,7 @@ class rcs2git extends Command
                 $this->exec($cmd, $output);
                 $revisions++;
 
-                $next = $history->get_next_version($current['revision']);
+                $next = $history->get_next($current['revision']);
                 if (!$next) {
                     break;
                 }
