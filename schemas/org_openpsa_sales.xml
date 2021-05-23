@@ -5,12 +5,6 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="up" upfield="up" link="org_openpsa_salesproject:id" type="unsigned integer">
-          <description>
-            In practice all salesprojects will have up of 0 but in case we someday wish to divide
-            a huge salesproject to subprojects this is here
-          </description>
-        </property>
 
         <property name="start" type="integer" index="yes"/>
         <property name="end" type="integer" index="yes"/>
