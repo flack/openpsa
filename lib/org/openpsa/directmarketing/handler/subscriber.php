@@ -49,7 +49,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $campaign->require_do('midgard:create');
 
             $member = new org_openpsa_directmarketing_campaign_member_dba();
-            $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
             $member->person = $this->person->id;
             $member->campaign = $campaign->id;
             if ($member->create()) {
