@@ -218,11 +218,6 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->get($key);
     }
 
-    public function destroy()
-    {
-        return $this->_query->destroy();
-    }
-
     public function add_value_property(string $property) : bool
     {
         if (!$this->_query->add_value_property($property)) {
