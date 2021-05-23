@@ -9,13 +9,11 @@
 /**
  * MidCOM wrapped class for access to offers
  *
- * @property integer $id Local non-replication-safe database identifier
  * @property integer $salesproject
  * @property string $designation Official designation of the company
  * @property string $introduction Introduction sentences for further information
  * @property string $notice further information related to the salesproject
  * @property string $deliverables Deliverables (serialized)
- * @property string $guid
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_offer_dba extends midcom_core_dbaobject

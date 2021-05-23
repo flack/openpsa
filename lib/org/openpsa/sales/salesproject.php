@@ -9,28 +9,28 @@
 /**
  * MidCOM wrapped base class, keep logic here
  *
- * @property integer $start
- * @property integer $end
  * @property string $code
  * @property string $title
  * @property string $description
- * @property integer $state
+ * @property integer $start
+ * @property integer $end
+ * @property integer $status Current project status
+ * @property integer $manager
  * @property integer $customer
  * @property integer $customerContact
- * @property integer $owner
- * @property integer $probability
- * @property float $value
- * @property float $profit
- * @property float $price
- * @property float $cost
- * @property integer $closeEst
- * @property integer $status Current project status
  * @property float $plannedHours
  * @property float $reportedHours
  * @property float $invoicedHours
  * @property float $invoiceableHours
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
+ * @property integer $state
+ * @property integer $probability
+ * @property float $value
+ * @property float $profit
+ * @property float $price
+ * @property float $cost
+ * @property integer $closeEst
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer

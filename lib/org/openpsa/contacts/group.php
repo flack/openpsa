@@ -19,6 +19,7 @@
  * @property string $fax Fax number of the group
  * @property string $extra Additional information about the group
  * @property integer $owner Group the group is under
+ * @property integer $orgOpenpsaObtype
  * @property string $postalStreet
  * @property string $postalPostcode
  * @property string $postalCity
@@ -27,13 +28,11 @@
  * @property string $invoicePostcode
  * @property string $invoiceCity
  * @property string $invoiceCountry
- * @property string $customerId
  * @property string $keywords
  * @property integer $invoiceDue
  * @property integer $invoiceVat
  * @property string $invoiceDistribution
  * @property string $vatNo
- * @property integer $orgOpenpsaObtype
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_group_dba extends midcom_core_dbaobject

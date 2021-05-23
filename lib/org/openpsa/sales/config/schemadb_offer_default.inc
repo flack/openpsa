@@ -1,7 +1,7 @@
 'default' => [
     'description' => 'salesproject',
     'fields'      => [
-    'designation' => [
+        'designation' => [
             'title' => 'designation',
             'storage' => 'designation',
             'type' => 'text',

@@ -7,30 +7,28 @@
  */
 
 /**
- * @property integer $id Local non-replication-safe database identifier
- * @property integer $start
- * @property integer $end
  * @property string $code
  * @property string $title
  * @property string $description
- * @property integer $state
+ * @property integer $start
+ * @property integer $end
+ * @property integer $status Current project status
+ * @property integer $manager
  * @property integer $customer
  * @property integer $customerContact
- * @property integer $owner
- * @property integer $probability
- * @property float $value
- * @property float $profit
- * @property float $price
- * @property float $cost
- * @property integer $closeEst
- * @property string $guid
- * @property integer $status Current project status
  * @property float $plannedHours
  * @property float $reportedHours
  * @property float $invoicedHours
  * @property float $invoiceableHours
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
+ * @property integer $state
+ * @property integer $probability
+ * @property float $value
+ * @property float $profit
+ * @property float $price
+ * @property float $cost
+ * @property integer $closeEst
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_project extends midcom_core_dbaobject
