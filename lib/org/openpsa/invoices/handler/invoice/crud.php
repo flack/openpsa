@@ -37,6 +37,8 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      */
     private $contact_id;
 
+    private $mode;
+
     /**
      * Generates an object creation view.
      */

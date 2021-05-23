@@ -31,6 +31,7 @@
  * @property float $price
  * @property float $cost
  * @property integer $closeEst
+ * @property integer $owner Alias for manager
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer

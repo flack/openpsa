@@ -215,7 +215,6 @@ abstract class openpsa_testcase extends TestCase
 
     public function run_relocate_handler($component, array $args = [])
     {
-        $url = null;
         try {
             $data = $this->run_handler($component, $args);
             if (!array_key_exists('__openpsa_testcase_response', $data)) {

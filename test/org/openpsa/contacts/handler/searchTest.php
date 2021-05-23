@@ -28,7 +28,7 @@ class org_openpsa_contacts_handler_searchTest extends openpsa_testcase
         $this->assertEquals('search', $data['handler_id']);
 
         $_GET = ['query' => 'firstname lastname'];
-        $data = $this->run_handler('org.openpsa.contacts', ['search']);
+        $this->run_handler('org.openpsa.contacts', ['search']);
         midcom::get()->auth->drop_sudo();
     }
 

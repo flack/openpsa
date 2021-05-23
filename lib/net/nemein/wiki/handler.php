@@ -32,7 +32,6 @@ trait net_nemein_wiki_handler
         $page->name = 'index';
         $page->title = $topic->extra;
         $page->content = $this->_l10n->get('wiki default page content');
-        $page->author = midcom_connection::get_user();
         if (!$page->create()) {
             throw new midcom_error('Failed to create index article: ' . midcom_connection::get_error_string());
         }

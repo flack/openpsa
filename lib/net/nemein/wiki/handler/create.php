@@ -125,7 +125,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         $this->_page = new net_nemein_wiki_wikipage();
         $this->_page->topic = $this->_topic->id;
         $this->_page->title = $this->_wikiword;
-        $this->_page->author = midcom_connection::get_user();
 
         $dm = new datamanager($schemadb);
         $data['controller'] = $dm

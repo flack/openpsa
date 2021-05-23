@@ -50,7 +50,6 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     {
         $attachment = $this->create_object(midcom_db_attachment::class, ['parentguid' => self::$_topic->guid, 'title'=> 'someImg']);
         $attachment->copy_from_file(self::$_filename);
-        $filter = new midcom_helper_imagefilter($attachment);
         $stat = stat(self::$_filename);
         $dest_stat = $attachment->stat();
 

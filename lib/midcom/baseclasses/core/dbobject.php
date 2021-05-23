@@ -7,7 +7,6 @@
  */
 
 use midcom\events\dbaevent;
-use midgard\portable\api\mgdobject;
 
 /**
  * This class only contains static functions which are there to hook into
