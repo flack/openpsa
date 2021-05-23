@@ -77,26 +77,23 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     /**
      * Remove a member from parent resources if necessary
      */
-    private function remove_resource_from_parent(org_openpsa_projects_task_dba $object)
+    private function remove_resource_from_parent(org_openpsa_projects_task_dba $task)
     {
-        $parent = $object->get_parent();
-        if (!$parent) {
-            return;
-        }
-
         $mc = self::new_collector('person', $this->person);
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
-        $mc->add_constraint('task.project', 'INTREE', $parent->id);
+        $mc->add_constraint('task.project', '=', $task->project);
         $mc->execute();
         if ($mc->count() > 0) {
             //Resource is still present in sibling tasks, aborting
             return;
         }
 
-        $qb = self::new_query_builder();
+        $project  = new org_openpsa_projects_project($task->project);
+
+        $qb = org_openpsa_contacts_role_dba::new_query_builder();
         $qb->add_constraint('person', '=', $this->person);
-        $qb->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
-        $qb->add_constraint('task', '=', $parent->id);
+        $qb->add_constraint('role', '=', $this->orgOpenpsaObtype);
+        $qb->add_constraint('objectGuid', '=', $project->guid);
 
         foreach ($qb->execute() as $result) {
             $result->delete();

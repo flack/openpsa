@@ -8,7 +8,6 @@
 
 /**
  * @property integer $id Local non-replication-safe database identifier
- * @property integer $up  In practice all salesprojects will have up of 0 but in case we someday wish to divide a huge salesproject to subprojects this is here
  * @property integer $start
  * @property integer $end
  * @property string $code

@@ -5,7 +5,6 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="up" upfield="up" link="org_openpsa_project:id" type="unsigned integer"/>
         <property name="code" type="string" />
         <property name="title" type="string"/>
         <property name="description" type="text"/>
