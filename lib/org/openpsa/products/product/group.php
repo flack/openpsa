@@ -107,13 +107,4 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
         return $ret;
     }
-
-    public function get_root() : self
-    {
-        $root = $this;
-        while ($root->up != 0) {
-            $root = self::get_cached($root->up);
-        }
-        return $root;
-    }
 }

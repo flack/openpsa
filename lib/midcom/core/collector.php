@@ -84,69 +84,6 @@ class midcom_core_collector extends midcom_core_query
     }
 
     /**
-     * Runs a query where limit and offset is taken into account <i>prior</i> to
-     * execution in the core.
-     *
-     * This is useful in cases where you can safely assume read privileges on all
-     * objects, and where you would otherwise have to deal with huge resultsets.
-     *
-     * Be aware that this might lead to empty resultsets "in the middle" of the
-     * actual full resultset when read privileges are missing.
-     *
-     * @see list_keys()
-     */
-    public function list_keys_unchecked() : array
-    {
-        $this->_reset();
-
-        // Add the limit / offsets
-        if ($this->_limit) {
-            $this->_query->set_limit($this->_limit);
-        }
-        $this->_query->set_offset($this->_offset);
-
-        $newresult = $this->_list_keys_and_check_privileges(false);
-
-        $this->_real_class::_on_process_collector_result($newresult);
-
-        $this->count = count($newresult);
-
-        return $newresult;
-    }
-
-    private function _list_keys_and_check_privileges(bool $apply_offset_limit = true) : array
-    {
-        $this->execute();
-        $result = $this->_query->list_keys();
-        $newresult = [];
-        $counter = 0;
-
-        foreach ($result as $object_guid => $empty_copy) {
-            if (!$this->is_readable($object_guid)) {
-                debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
-                continue;
-            }
-
-            if ($apply_offset_limit) {
-                $counter++;
-                if ($counter <= $this->_offset) {
-                    continue;
-                }
-                if (   $this->_limit
-                    && $counter > ($this->_offset + $this->_limit)) {
-                    break;
-                }
-            }
-
-            // Register the GUID as loaded in this request
-            midcom::get()->cache->content->register($object_guid);
-
-            $newresult[$object_guid] = [];
-        }
-        return $newresult;
-    }
-
-    /**
      * Convenience function to get all values of a specific column, indexed by GUID
      */
     public function get_values(string $field) : array
@@ -191,10 +128,32 @@ class midcom_core_collector extends midcom_core_query
      */
     public function list_keys() : array
     {
-        $result = $this->_list_keys_and_check_privileges();
+        $this->execute();
+        $result = [];
+        $counter = 0;
+
+        foreach ($this->_query->list_keys() as $object_guid => $empty_copy) {
+            if (!$this->is_readable($object_guid)) {
+                debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
+                continue;
+            }
+
+            $counter++;
+            if ($counter <= $this->_offset) {
+                continue;
+            }
+            if (   $this->_limit
+                && $counter > ($this->_offset + $this->_limit)) {
+                break;
+            }
+
+            // Register the GUID as loaded in this request
+            midcom::get()->cache->content->register($object_guid);
+
+            $result[$object_guid] = [];
+        }
 
         $this->_real_class::_on_process_collector_result($result);
-
         $this->count = count($result);
 
         return $result;

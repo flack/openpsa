@@ -117,14 +117,4 @@ class midcom_services_session
     {
         return $this->_sessioning->remove($this->_domain . '/' . $key);
     }
-
-    /**
-     * Get all the session data
-     *
-     * @return Array containing session data
-     */
-    public function get_session_data()
-    {
-        return $this->_sessioning->get($this->_domain, false);
-    }
 }

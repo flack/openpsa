@@ -21,19 +21,4 @@ class midcom_helper_xsspreventer
         $output = str_replace('"', '&quot;', $input);
         return '"' . $output . '"';
     }
-
-    /**
-     * Escape contents of an XML element
-     * (basically prevents early closure of the element)
-     */
-    public static function escape_element(string $element, string $input) : string
-    {
-        return preg_replace_callback(
-            "%(<\s*)+(/\s*)+{$element}%i",
-            function ($matches) {
-                return htmlentities($matches[0]);
-            },
-            $input
-        );
-    }
 }

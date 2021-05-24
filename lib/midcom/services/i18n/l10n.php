@@ -309,11 +309,8 @@ class midcom_services_i18n_l10n
      */
     function string_available(string $string)
     {
-        return
-        (
-               $this->string_exists($string, $this->_language)
-            || $this->string_exists($string, $this->_fallback_language)
-        );
+        return $this->string_exists($string, $this->_language)
+            || $this->string_exists($string, $this->_fallback_language);
     }
 
     /**
@@ -358,17 +355,5 @@ class midcom_services_i18n_l10n
     public function show(string $string, $language = null)
     {
         echo $this->get($string, $language);
-    }
-
-    /**
-     * Returns the entire translation table for the given language
-     */
-    public function get_stringdb(string $language) : array
-    {
-        $this->_check_for_language($language);
-        if (empty($this->_stringdb[$language])) {
-            return [];
-        }
-        return $this->_stringdb[$language];
     }
 }

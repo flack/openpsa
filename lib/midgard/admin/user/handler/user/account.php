@@ -19,8 +19,14 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
 {
     use midgard_admin_asgard_handler;
 
+    /**
+     * @var midcom_db_person
+     */
     private $person;
 
+    /**
+     * @var midcom_core_account
+     */
     private $account;
 
     public function _on_initialize()

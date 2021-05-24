@@ -62,22 +62,9 @@ class org_openpsa_invoices_calculator
         return $this_cycle_amount;
     }
 
-    /**
-     * Invoice getter
-     *
-     * @return org_openpsa_invoices_invoice_dba
-     */
-    public function get_invoice()
+    public function get_invoice() : org_openpsa_invoices_invoice_dba
     {
         return $this->_invoice;
-    }
-
-    /**
-     * Invoice setter
-     */
-    public function set_invoice(org_openpsa_invoices_invoice_dba $invoice)
-    {
-        $this->_invoice = $invoice;
     }
 
     /**

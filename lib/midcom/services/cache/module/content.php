@@ -72,14 +72,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_no_cache = false;
 
     /**
-     * Page expiration in seconds. If null (unset), the page does
-     * not expire.
-     *
-     * @var int
-     */
-    private $_expires;
-
-    /**
      * An array storing all HTTP headers registered through register_sent_header().
      * They will be sent when a cached page is delivered.
      *
@@ -434,34 +426,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * Sets the expiration time of the current page (Unix (GMT) Timestamp).
-     *
-     * <b>Note:</B> This generate error call will add browser-side cache control
-     * headers as well to force a browser to revalidate a page after the set
-     * expiry.
-     *
-     * You should call this at all places where you have timed content in your
-     * output, so that the page will be regenerated once a certain article has
-     * expired.
-     *
-     * Multiple calls to expires will only save the
-     * "youngest" timestamp, so you can safely call expires where appropriate
-     * without respect to other values.
-     *
-     * The cache's default (null) will disable the expires header. Note, that once
-     * an expiry time on a page has been set, it is not possible, to reset it again,
-     * this is for dynamic_load situation, where one component might depend on a
-     * set expiry.
-     */
-    public function expires(int $timestamp)
-    {
-        if (   $this->_expires === null
-            || $this->_expires > $timestamp) {
-            $this->_expires = $timestamp;
-        }
-    }
-
-    /**
      * Sets the content type for the current page. The required HTTP Headers for
      * are automatically generated, so, to the contrary of expires, you just have
      * to set this header accordingly.
@@ -572,13 +536,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if ($this->_expires !== null) {
-            $lifetime = $this->_expires - time();
-        } else {
-            // Use default expiry for cache entry, most components don't bother calling expires() properly
-            $lifetime = $this->_default_lifetime;
-        }
-
         // Construct cache identifier
         $request_id = $this->generate_request_identifier($request);
 
@@ -586,7 +543,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $request_id => $content_id,
             $content_id => $response->headers->all()
         ];
-        $this->backend->saveMultiple($entries, $lifetime);
+        $this->backend->saveMultiple($entries, $this->_default_lifetime);
 
         // Cache where the object have been
         $context = midcom_core_context::get()->id;
@@ -643,14 +600,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $dl_request_id = 'DL' . $this->generate_request_identifier($request);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
-        if ($this->_expires !== null) {
-            $lifetime = $this->_expires - time();
-        } else {
-            // Use default expiry for cache entry, most components don't bother calling expires() properly
-            $lifetime = $this->_default_lifetime;
-        }
-        $this->backend->save($dl_request_id, $dl_content_id, $lifetime);
-        $this->_data_cache->save($dl_content_id, $dl_cache_data, $lifetime);
+        $this->backend->save($dl_request_id, $dl_content_id, $this->_default_lifetime);
+        $this->_data_cache->save($dl_content_id, $dl_cache_data, $this->_default_lifetime);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
     }
@@ -698,13 +649,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $default_lifetime = $this->_default_lifetime_authenticated;
             }
 
-            $now = time();
-            if ($strategy == 'revalidate') {
-                // If expires is not set, we force the client to revalidate every time.
-                // The timeout of a content cache entry is not affected by this.
-                $expires = $this->_expires ?? $now;
-            } else {
-                $expires = $this->_expires ?? $now + $default_lifetime;
+            $now = $expires = time();
+            if ($strategy != 'revalidate') {
+                $expires += $default_lifetime;
                 if ($strategy == 'private') {
                     $response->setPrivate();
                 } else {

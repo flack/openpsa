@@ -100,19 +100,6 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $qb->count_unchecked();
     }
 
-    /**
-     * Returns the number of comments associated with a given object by actual registered users.
-     * This is intended for outside usage to render stuff like "15 comments". The count is
-     * executed unchecked.
-     */
-    public static function count_by_objectguid_filter_anonymous(string $guid) : int
-    {
-        $qb = self::_prepare_query($guid);
-        $qb->add_constraint('author', '<>', '');
-        $qb->add_constraint('content', '<>', '');
-        return $qb->count_unchecked();
-    }
-
     private static function _prepare_query(string $guid, $paging = false, $limit = false) : midcom_core_querybuilder
     {
         if ($paging !== false) {
