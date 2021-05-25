@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * This is the Output Caching Engine of MidCOM. It will intercept page output,
@@ -126,7 +126,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * A cache backend used to store the actual cached pages.
      *
-     * @var Doctrine\Common\Cache\CacheProvider
+     * @var AdapterInterface
      */
     private $_data_cache;
 
@@ -153,12 +153,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * trigger the delivery of the cached page and exit) and start the output buffer
      * afterwards.
      */
-    public function __construct(midcom_config $config, CacheProvider $backend, CacheProvider $data_cache)
+    public function __construct(midcom_config $config, AdapterInterface $backend, AdapterInterface $data_cache)
     {
         parent::__construct($backend);
         $this->config = $config;
         $this->_data_cache = $data_cache;
-        $this->_data_cache->setNamespace($backend->getNamespace());
 
         $this->_uncached = $config->get('cache_module_content_uncached');
         $this->_headers_strategy = $this->get_strategy('cache_module_content_headers_strategy');
@@ -220,16 +219,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Check that we have cache for the identifier
         $request_id = $this->generate_request_identifier($request);
         // Load metadata for the content identifier connected to current request
-        $content_id = $this->backend->fetch($request_id);
-        if ($content_id === false) {
+        $content_id = $this->backend->getItem($request_id);
+        if (!$content_id->isHit()) {
             debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
             return;
         }
+        $content_id = $content_id->get();
         debug_add("HIT {$request_id}");
 
-        $headers = $this->backend->fetch($content_id);
-        if ($headers === false) {
+        $headers = $this->backend->getItem($content_id);
+        if (!$headers->isHit()) {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
             return;
@@ -237,14 +237,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         debug_add("HIT {$content_id}");
 
-        $response = new Response('', Response::HTTP_OK, $headers);
+        $response = new Response('', Response::HTTP_OK, $headers->get());
         if (!$response->isNotModified($request)) {
-            $content = $this->_data_cache->fetch($content_id);
-            if ($content === false) {
+            $content = $this->_data_cache->getItem($content_id);
+            if (!$content->isHit()) {
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
-            $response->setContent($content);
+            $response->setContent($content->get());
         }
         // disable cache writing in on_response
         $this->_no_cache = true;
@@ -307,7 +307,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         $content_id = 'C-' . $etag;
         $this->write_meta_cache($content_id, $request, $response);
-        $this->_data_cache->save($content_id, $cache_data);
+        $item = $this->_data_cache->getItem($content_id);
+        $this->_data_cache->save($item->set($cache_data));
     }
 
     /**
@@ -476,27 +477,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function invalidate(string $guid, $object = null)
     {
-        $guidmap = $this->backend->fetch($guid);
-        if ($guidmap === false) {
+        $guidmap = $this->backend->getItem($guid);
+        if (!$guidmap->isHit()) {
             debug_add("No entry for {$guid} in meta cache, ignoring invalidation request.");
             return;
         }
 
-        foreach ($guidmap as $content_id) {
-            if ($this->backend->contains($content_id)) {
-                $this->backend->delete($content_id);
-            }
-
-            if ($this->_data_cache->contains($content_id)) {
-                $this->_data_cache->delete($content_id);
-            }
+        foreach ($guidmap->get() as $content_id) {
+            $this->backend->delete($content_id);
+            $this->_data_cache->delete($content_id);
         }
     }
 
     public function invalidate_all()
     {
         parent::invalidate_all();
-        $this->_data_cache->flushAll();
+        $this->_data_cache->clear();
     }
 
     /**
@@ -539,11 +535,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Construct cache identifier
         $request_id = $this->generate_request_identifier($request);
 
-        $entries = [
-            $request_id => $content_id,
-            $content_id => $response->headers->all()
-        ];
-        $this->backend->saveMultiple($entries, $this->_default_lifetime);
+        $item = $this->backend->getItem($request_id);
+        $this->backend->save($item->set($content_id));
+        $item2 = $this->backend->getItem($content_id);
+        $this->backend->save($item2->set($response->headers->all()));
 
         // Cache where the object have been
         $context = midcom_core_context::get()->id;
@@ -557,24 +552,25 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $maps = $this->backend->fetchMultiple($this->context_guids[$context]);
+        $maps = $this->backend->getItems($this->context_guids[$context]);
         $to_save = [];
         foreach ($this->context_guids[$context] as $guid) {
-            // Getting old map from cache or create new, empty one
-            $guidmap = $maps[$guid] ?? [];
+            $guidmap = $maps[$guid]->get() ?? [];
 
             if (!in_array($content_id, $guidmap)) {
                 $guidmap[] = $content_id;
-                $to_save[$guid] = $guidmap;
+                $to_save[$guid] = $maps[$guid]->set($guidmap);
             }
 
             if (!in_array($request_id, $guidmap)) {
                 $guidmap[] = $request_id;
-                $to_save[$guid] = $guidmap;
+                $to_save[$guid] = $maps[$guid]->set($guidmap);
             }
         }
 
-        $this->backend->saveMultiple($to_save);
+        foreach ($to_save as $item) {
+            $this->backend->save($item);
+        }
     }
 
     public function check_dl_hit(Request $request)
@@ -583,12 +579,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($request);
-        $dl_content_id = $this->backend->fetch($dl_request_id);
-        if ($dl_content_id === false) {
+        $dl_content_id = $this->backend->getItem($dl_request_id);
+        if (!$dl_content_id->isHit()) {
             return false;
         }
 
-        return $this->_data_cache->fetch($dl_content_id);
+        return $this->_data_cache->getItem($dl_content_id->get())->get();
     }
 
     public function store_dl_content(int $context, string $dl_cache_data, Request $request)
@@ -600,8 +596,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $dl_request_id = 'DL' . $this->generate_request_identifier($request);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
-        $this->backend->save($dl_request_id, $dl_content_id, $this->_default_lifetime);
-        $this->_data_cache->save($dl_content_id, $dl_cache_data, $this->_default_lifetime);
+        $item = $this->backend->getItem($dl_request_id)
+            ->set($dl_content_id)
+            ->expiresAfter($this->_default_lifetime);
+        $this->backend->save($item);
+        $item = $this->_data_cache->getItem($dl_content_id)
+            ->set($dl_cache_data)
+            ->expiresAfter($this->_default_lifetime);
+        $this->_data_cache->save($item);
+
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
     }

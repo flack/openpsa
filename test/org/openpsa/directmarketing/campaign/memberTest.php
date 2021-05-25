@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_campaign_memberTest extends openpsa_testcase
         $member = new org_openpsa_directmarketing_campaign_member_dba();
 
         $stat = $member->create();
-        $this->assertTrue($stat);
+        $this->assertTrue($stat, midcom_connection::get_error_string());
         $this->register_object($member);
 
         $member->suspended = 1;

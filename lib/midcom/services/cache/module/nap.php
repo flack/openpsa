@@ -99,7 +99,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     {
         $napobject = null;
         try {
-            if (!is_object($object)) {
+            if (!$object) {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
             }
             $nav = new midcom_helper_nav;
@@ -123,12 +123,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     public function get_node(string $key) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($key);
-        if (!isset($result[$lang_id])) {
-            return null;
-        }
-
-        return $result[$lang_id];
+        return $this->backend->getItem($key)->get()[$lang_id] ?? null;
     }
 
     /**
@@ -139,12 +134,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     public function get_leaves(string $key) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($key);
-        if (!isset($result[$lang_id])) {
-            return null;
-        }
-
-        return $result[$lang_id];
+        return $this->backend->getItem($key)->get()[$lang_id] ?? null;
     }
 
     /**
@@ -154,14 +144,16 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_node(string $key, $data)
     {
+        $item = $this->backend->getItem($key);
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($key);
-        if (!is_array($result)) {
-            $result = [];
-        }
+        $result = $item->get() ?: [];
         $result[$lang_id] = $data;
-        $this->backend->save($key, $result);
-        $this->backend->save($data[MIDCOM_NAV_GUID], $result);
+        $this->backend->save($item->set($result));
+        // symfony cache doesn't like empty cache keys
+        if ($data[MIDCOM_NAV_GUID]) {
+            $guid_item = $this->backend->getItem($data[MIDCOM_NAV_GUID]);
+            $this->backend->save($guid_item->set($result));
+        }
     }
 
     /**
@@ -172,12 +164,10 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     public function put_guid(string $guid, $data)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($guid);
-        if (!is_array($result)) {
-            $result = [];
-        }
+        $item = $this->backend->getItem($guid);
+        $result = $item->get() ?: [];
         $result[$lang_id] = $data;
-        $this->backend->save($guid, $result);
+        $this->backend->save($item->set($result));
     }
 
     /**
@@ -186,12 +176,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     public function get_guid(string $guid) : ?array
     {
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($guid);
-
-        if (!isset($result[$lang_id])) {
-            return null;
-        }
-        return $result[$lang_id];
+        return $this->backend->getItem($guid)->get()[$lang_id] ?? null;
     }
 
     /**
@@ -202,11 +187,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     public function put_leaves(string $key, $data)
     {
         $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->backend->fetch($key);
-        if (!is_array($result)) {
-            $result = [];
-        }
+        $item = $this->backend->getItem($key);
+        $result = $item->get() ?: [];
         $result[$lang_id] = $data;
-        $this->backend->save($key, $result);
+        $this->backend->save($item->set($result));
     }
 }

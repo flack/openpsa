@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Cache\ArrayCache;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 /**
  * OpenPSA testcase
@@ -26,7 +26,7 @@ class midcom_services_cache_module_contentTest extends TestCase
         $config = new midcom_config;
         $config->set('cache_module_content_headers_strategy', 'revalidate');
 
-        $module = new midcom_services_cache_module_content($config, new ArrayCache, new ArrayCache);
+        $module = new midcom_services_cache_module_content($config, new ArrayAdapter, new ArrayAdapter);
         $module->uncached(false);
 
         $request = Request::create('/');

@@ -13,7 +13,7 @@
  */
 class midgard_admin_asgard_handler_welcomeTest extends openpsa_testcase
 {
-    public function testHandler_edit()
+    public function testHandler_welcome()
     {
         $this->create_user(true);
         midcom::get()->auth->request_sudo('midgard.admin.asgard');

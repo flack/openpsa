@@ -359,7 +359,7 @@ class midcom_core_privilege
     {
         static $cache = [];
 
-        $cache_key = $type . '::' . $guid;
+        $cache_key = $type . '-' . $guid;
 
         if (!array_key_exists($cache_key, $cache)) {
             $return = midcom::get()->cache->memcache->get('ACL', $cache_key);

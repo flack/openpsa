@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * This is the base class for the MidCOM cache modules. It provides a basic infrastructure
@@ -22,7 +22,7 @@ use Doctrine\Common\Cache\CacheProvider;
 abstract class midcom_services_cache_module
 {
     /**
-     * @var Doctrine\Common\Cache\CacheProvider
+     * @var AdapterInterface
      */
     protected $backend;
 
@@ -30,20 +30,19 @@ abstract class midcom_services_cache_module
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
      */
-    public function __construct(CacheProvider $backend)
+    public function __construct(AdapterInterface $backend)
     {
         $this->backend = $backend;
-        $this->backend->setNamespace(get_class($this) . $_SERVER['SERVER_NAME']);
     }
 
     /**
      * Invalidate the cache completely, dropping all entries. The default implementation will
-     * drop all entries from the cache backend using CacheProvider::flushAll().
+     * drop all entries from the cache backend using AdapterInterface::clear().
      * Override this function if this behavior doesn't suit your needs.
      */
     public function invalidate_all()
     {
-        $this->backend->flushAll();
+        $this->backend->clear();
     }
 
     /**

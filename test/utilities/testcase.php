@@ -58,23 +58,23 @@ abstract class openpsa_testcase extends TestCase
     {
         if (!isset(self::$nodes[$component])) {
             midcom::get()->auth->request_sudo($component);
-                $qb = midcom_db_topic::new_query_builder();
-                $qb->add_constraint('component', '=', $component);
-                $qb->set_limit(1);
-                $qb->add_order('id');
-                $result = $qb->execute();
-                if (!empty($result)) {
-                    self::$nodes[$component] = $result[0];
-                } else {
-                    $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
+            $qb = midcom_db_topic::new_query_builder();
+            $qb->add_constraint('component', '=', $component);
+            $qb->set_limit(1);
+            $qb->add_order('id');
+            $result = $qb->execute();
+            if (!empty($result)) {
+                self::$nodes[$component] = $result[0];
+            } else {
+                $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
 
-                    $topic_attributes = [
-                        'up' => $root_topic->id,
-                        'component' => $component,
-                        'name' => 'handler_' . str_replace('\\', '_', get_called_class()) . time()
-                    ];
-                    self::$nodes[$component] = self::create_class_object(midcom_db_topic::class, $topic_attributes);
-                }
+                $topic_attributes = [
+                    'up' => $root_topic->id,
+                    'component' => $component,
+                    'name' => 'handler_' . str_replace('\\', '_', get_called_class()) . time()
+                ];
+                self::$nodes[$component] = self::create_class_object(midcom_db_topic::class, $topic_attributes);
+            }
             midcom::get()->auth->drop_sudo();
         }
 

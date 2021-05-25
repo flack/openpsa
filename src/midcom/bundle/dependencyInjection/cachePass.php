@@ -3,12 +3,29 @@ namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Doctrine\Common\Cache;
 use midcom_services_cache_module_memcache;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\Cache\Adapter\MemcachedAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\PdoAdapter;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 
 class cachePass implements CompilerPassInterface
 {
+    const NS_PLACEHOLDER = '__NAMESPACE__';
+
+    public static function factory(string $name, string $classname, ...$args) : AdapterInterface
+    {
+        foreach ($args as &$arg) {
+            if ($arg == self::NS_PLACEHOLDER) {
+                $arg = $name . $_SERVER['SERVER_NAME'];
+            }
+        }
+        return new $classname(...$args);
+    }
+
     public function process(ContainerBuilder $container)
     {
         foreach ($container->getParameter('midcom.cache_autoload_queue') as $name) {
@@ -45,7 +62,7 @@ class cachePass implements CompilerPassInterface
 
         switch ($driver) {
             case 'apc':
-                $backend->setClass(Cache\ApcuCache::class);
+                $backend->setArguments([$name, ApcuAdapter::class, self::NS_PLACEHOLDER]);
                 break;
             case 'memcached':
                 if ($memcached = midcom_services_cache_module_memcache::prepare_memcached($config)) {
@@ -54,24 +71,19 @@ class cachePass implements CompilerPassInterface
                     $server = $memcached->getServerList()[0];
                     $definition->addMethodCall('addServer', [$server['host'], $server['port']]);
 
-                    $backend->setClass(Cache\MemcachedCache::class);
-                    $backend->addMethodCall('setMemcached', [$definition]);
+                    $backend->setArguments([$name, MemcachedAdapter::class, $definition, self::NS_PLACEHOLDER]);
                     break;
                 }
                 // fall-through
             case 'dba':
             case 'flatfile':
-                $backend->setClass(Cache\FilesystemCache::class);
-                $backend->addArgument($directory . '/' . $name);
+                $backend->setArguments([$name, FilesystemAdapter::class, self::NS_PLACEHOLDER, 0, $directory . '/' . $name]);
                 break;
             case 'sqlite':
-                $definition = $container->register('cache.sqlite.' . $name, \SQLite3::class);
-                $definition->setArguments(["{$directory}/sqlite.db"]);
-
-                $backend->setClass(Cache\SQLite3Cache::class);
-                $backend->setArguments([$definition, $name]);
+                $backend->setArguments([$name, PdoAdapter::class, "{$directory}/sqlite.db", self::NS_PLACEHOLDER]);
                 break;
+            default:
+                $backend->addArgument($name, NullAdapter::class);
         }
     }
-
 }

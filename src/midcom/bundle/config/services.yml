@@ -78,24 +78,28 @@ services:
         arguments: ['@config', '@cache.module.content.backend', '@cache.module.content_data.backend']
 
     cache.module.content.backend:
-        class: Doctrine\Common\Cache\VoidCache
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        factory: [midcom\bundle\dependencyInjection\cachePass, 'factory']
 
     cache.module.content_data.backend:
-        class: Doctrine\Common\Cache\VoidCache
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        factory: [midcom\bundle\dependencyInjection\cachePass, 'factory']
 
     cache.module.memcache:
         class: midcom_services_cache_module_memcache
         arguments: ['@config', '@cache.module.memcache.backend']
 
     cache.module.memcache.backend:
-        class: Doctrine\Common\Cache\VoidCache
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        factory: [midcom\bundle\dependencyInjection\cachePass, 'factory']
 
     cache.module.nap:
         class: midcom_services_cache_module_nap
         arguments: ['@cache.module.nap.backend']
 
     cache.module.nap.backend:
-        class: Doctrine\Common\Cache\VoidCache
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        factory: [midcom\bundle\dependencyInjection\cachePass, 'factory']
 
     config:
         synthetic: true

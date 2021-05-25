@@ -14,10 +14,10 @@ use midcom_services_cache;
 use Symfony\Component\DependencyInjection\Reference;
 use midcom\bundle\dependencyInjection\cachePass;
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Cache\VoidCache;
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Cache\FilesystemCache;
-use Doctrine\Common\Cache\SQLite3Cache;
+use Symfony\Component\Cache\Adapter\NullAdapter;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\PdoAdapter;
 
 /**
  * OpenPSA testcase
@@ -78,12 +78,12 @@ class cachePassTest extends TestCase
         }
         $backend = $this
             ->getMockBuilder(Definition::class)
-            ->setConstructorArgs([VoidCache::class])
+            ->setConstructorArgs([NullAdapter::class])
             ->getMock();
         $backend
             ->expects($this->once())
-            ->method('setClass')
-            ->with(ApcuCache::class);
+            ->method('setArguments')
+            ->with(['nap', ApcuAdapter::class, cachePass::NS_PLACEHOLDER]);
 
         return $backend;
     }
@@ -95,8 +95,8 @@ class cachePassTest extends TestCase
         }
 
         $container = $this->prepare_container();
-        $container->register('cache.module.content.backend', VoidCache::class);
-        $container->register('cache.module.content_data.backend', VoidCache::class);
+        $container->register('cache.module.content.backend', NullAdapter::class);
+        $container->register('cache.module.content_data.backend', NullAdapter::class);
         $container->setParameter('midcom.cache_autoload_queue', ['content']);
         $container->setParameter('midcom.cache_module_content_backend', ['driver' => 'memcached']);
 
@@ -110,11 +110,11 @@ class cachePassTest extends TestCase
         $container = $this->prepare_container();
         $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
         $container->setParameter('midcom.cache_module_memcache_backend', 'flatfile');
-        $backend = $container->register('cache.module.memcache.backend', VoidCache::class);
+        $backend = $container->register('cache.module.memcache.backend', NullAdapter::class);
 
         (new cachePass)->process($container);
 
-        $this->assertEquals(FilesystemCache::class, $backend->getClass());
+        $this->assertEquals(FilesystemAdapter::class, $backend->getArgument(1));
     }
 
     public function test_process_memcache_sqlite()
@@ -122,11 +122,11 @@ class cachePassTest extends TestCase
         $container = $this->prepare_container();
         $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
         $container->setParameter('midcom.cache_module_memcache_backend', 'sqlite');
-        $backend = $container->register('cache.module.memcache.backend', VoidCache::class);
+        $backend = $container->register('cache.module.memcache.backend', NullAdapter::class);
 
         (new cachePass)->process($container);
 
-        $this->assertEquals(SQLite3Cache::class, $backend->getClass());
+        $this->assertEquals(PdoAdapter::class, $backend->getArgument(1));
     }
 
     private function prepare_container() : ContainerBuilder

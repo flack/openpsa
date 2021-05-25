@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\CacheItem;
 
 /**
  * The Memory caching system is geared to hold needed information available quickly.
@@ -62,7 +63,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         return $memcached;
     }
 
-    public function __construct(midcom_config $config, CacheProvider $backend)
+    public function __construct(midcom_config $config, AdapterInterface $backend)
     {
         parent::__construct($backend);
         $this->_data_groups = $config->get_array('cache_module_memcache_data_groups');
@@ -75,8 +76,8 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     {
         foreach ($this->_data_groups as $group) {
             if ($group == 'ACL') {
-                $this->backend->delete("{$group}-SELF::{$guid}");
-                $this->backend->delete("{$group}-CONTENT::{$guid}");
+                $this->backend->delete("{$group}-SELF-{$guid}");
+                $this->backend->delete("{$group}-CONTENT-{$guid}");
             } else {
                 $this->backend->delete("{$group}-{$guid}");
             }
@@ -91,14 +92,19 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function get(string $data_group, string $key)
     {
-        return $this->backend->fetch("{$data_group}-{$key}");
+        $item = $this->backend->getItem("{$data_group}-{$key}");
+        if ($item->isHit()) {
+            return $item->get();
+        }
+
+        return false;
     }
 
     /**
      * Sets a given key in the cache. If the data group is unknown, a Warning-Level error
      * is logged and putting is denied.
      */
-    public function put(string $data_group, string $key, $data, int $timeout = 0)
+    public function put(string $data_group, string $key, $data, int $timeout = null)
     {
         if (!in_array($data_group, $this->_data_groups)) {
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);
@@ -106,8 +112,12 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             debug_print_function_stack('We were called from here:');
             return;
         }
+        $item = $this->backend
+            ->getItem("{$data_group}-{$key}")
+            ->set($data)
+            ->expiresAfter($timeout);
 
-        $this->backend->save("{$data_group}-{$key}", $data, $timeout);
+        $this->backend->save($item);
     }
 
     /**
