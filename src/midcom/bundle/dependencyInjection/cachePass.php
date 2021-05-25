@@ -19,7 +19,7 @@ class cachePass implements CompilerPassInterface
     public static function factory(string $name, string $classname, ...$args) : AdapterInterface
     {
         foreach ($args as &$arg) {
-            if ($arg == self::NS_PLACEHOLDER) {
+            if ($arg === self::NS_PLACEHOLDER) {
                 $arg = $name . $_SERVER['SERVER_NAME'];
             }
         }
