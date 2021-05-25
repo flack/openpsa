@@ -140,7 +140,12 @@ abstract class openpsa_testcase extends TestCase
         $rendered = str_replace(',}', '}', $renderer->block($view, 'form'));
         // php72 compat:
         $flags = defined('JSON_THROW_ON_ERROR') ? JSON_THROW_ON_ERROR : null;
-        $data = json_decode($rendered, true, 32, $flags);
+        try {
+            $data = json_decode($rendered, true, 32, $flags);
+        } catch (Exception $e) {
+            dump('Rendered JSON:' . $rendered);
+            throw $e;
+        }
         $formname = key($data);
         $data[$formname]['form_toolbar'][$button . '0'] = '';
 
