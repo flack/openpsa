@@ -7,7 +7,6 @@
  */
 
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\CacheItem;
 
 /**
  * The Memory caching system is geared to hold needed information available quickly.
@@ -76,10 +75,10 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     {
         foreach ($this->_data_groups as $group) {
             if ($group == 'ACL') {
-                $this->backend->delete("{$group}-SELF-{$guid}");
-                $this->backend->delete("{$group}-CONTENT-{$guid}");
+                $this->backend->deleteItem("{$group}-SELF-{$guid}");
+                $this->backend->deleteItem("{$group}-CONTENT-{$guid}");
             } else {
-                $this->backend->delete("{$group}-{$guid}");
+                $this->backend->deleteItem("{$group}-{$guid}");
             }
         }
     }

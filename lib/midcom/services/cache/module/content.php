@@ -484,8 +484,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         foreach ($guidmap->get() as $content_id) {
-            $this->backend->delete($content_id);
-            $this->_data_cache->delete($content_id);
+            $this->backend->deleteItem($content_id);
+            $this->_data_cache->deleteItem($content_id);
         }
     }
 

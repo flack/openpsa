@@ -56,11 +56,11 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 $parent_entry = $this->get_guid($parent->guid);
                 if (   $parent_entry
                     && $parent_entry[MIDCOM_NAV_ID] != $cached_node_id) {
-                    $this->backend->delete($parent_entry[MIDCOM_NAV_ID] . '-leaves');
+                    $this->backend->deleteItem($parent_entry[MIDCOM_NAV_ID] . '-leaves');
                 }
             }
             if (!empty($napobject[MIDCOM_NAV_GUID])) {
-                $this->backend->delete($napobject[MIDCOM_NAV_GUID]);
+                $this->backend->deleteItem($napobject[MIDCOM_NAV_GUID]);
             }
         } else {
             $cached_node_id = $napobject[MIDCOM_NAV_ID];
@@ -90,9 +90,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
         $leaves_key = "{$cached_node_id}-leaves";
 
-        $this->backend->delete($cached_node_id);
-        $this->backend->delete($napobject[MIDCOM_NAV_GUID]);
-        $this->backend->delete($leaves_key);
+        $this->backend->deleteItem((string) $cached_node_id);
+        $this->backend->deleteItem($napobject[MIDCOM_NAV_GUID]);
+        $this->backend->deleteItem($leaves_key);
     }
 
     private function _load_from_guid(string $guid, ?object $object) : ?array

@@ -83,7 +83,7 @@ class cachePass implements CompilerPassInterface
                 $backend->setArguments([$name, PdoAdapter::class, "{$directory}/sqlite.db", self::NS_PLACEHOLDER]);
                 break;
             default:
-                $backend->addArgument($name, NullAdapter::class);
+                $backend->setArguments([$name, NullAdapter::class]);
         }
     }
 }
