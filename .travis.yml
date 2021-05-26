@@ -20,7 +20,7 @@ addons:
     - rcs
 
 before_install:
-  - pecl install memcached
+  - printf "\n" | pecl install memcached
 
 install:
   - travis_retry composer install
