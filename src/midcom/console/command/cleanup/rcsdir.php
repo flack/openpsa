@@ -31,9 +31,7 @@ class rcsdir extends Command
      */
     private $counter = 0;
 
-    private $findings = [
-        'orphaned' => []
-    ];
+    private $orphaned = [];
 
     protected function configure()
     {
@@ -56,7 +54,7 @@ class rcsdir extends Command
                 // got something
                 $file = $outerDir . "/" . $d;
                 if (!$this->has_repligard_entry($file)) {
-                    $this->findings['orphaned'][] = $file;
+                    $this->orphaned[] = $file;
                 }
                 $this->counter++;
             }
@@ -98,15 +96,15 @@ class rcsdir extends Command
         $this->check_dir($output, $dir);
 
         $output->writeln("\nScanned <info>" . $this->counter . "</info> files");
-        $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</info> orphaned files:");
+        $output->writeln("Found <info>" . count($this->orphaned) . "</info> orphaned files:");
 
         if (!$dry) {
             $output->writeln("<comment>Deleting orphans</comment>");
-            $progress = new ProgressBar($output, count($this->findings['orphaned']));
+            $progress = new ProgressBar($output, count($this->orphaned));
             $progress->setRedrawFrequency(100);
             $progress->start();
 
-            foreach ($this->findings['orphaned'] as $file) {
+            foreach ($this->orphaned as $file) {
                 $this->cleanup_file($output, $file);
                 $progress->advance();
             }

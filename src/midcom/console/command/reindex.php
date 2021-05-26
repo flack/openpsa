@@ -21,7 +21,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use midcom\console\loginhelper;
 
 /**
- * Redinex command
+ * Reindex command
  *
  * Drops the index, then iterates over all existing topics, retrieves the corresponding
  * interface class and invokes the reindexing.
