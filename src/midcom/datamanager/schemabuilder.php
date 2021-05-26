@@ -230,24 +230,22 @@ class schemabuilder
             case MGD_TYPE_UINT:
             case MGD_TYPE_STRING:
             case MGD_TYPE_GUID:
-                $class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
-                if (!$class) {
-                    break;
+                if ($class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type)) {
+                    $this->schema['fields'][$key] = [
+                        'title'       => $field_label,
+                        'storage'     => $key,
+                        'type'        => 'select',
+                        'type_config' => [
+                            'require_corresponding_option' => false,
+                            'options' => [],
+                            'allow_other' => true,
+                            'allow_multiple' => false,
+                        ],
+                        'widget' => 'autocomplete',
+                        'widget_config' => $this->build_autocomplete_config($key, $class, $linked_type),
+                        'required' => (midgard_object_class::get_property_parent($this->object->__mgdschema_class_name__) == $key)
+                    ];
                 }
-                $this->schema['fields'][$key] = [
-                    'title'       => $field_label,
-                    'storage'     => $key,
-                    'type'        => 'select',
-                    'type_config' => [
-                        'require_corresponding_option' => false,
-                        'options' => [],
-                        'allow_other' => true,
-                        'allow_multiple' => false,
-                    ],
-                    'widget' => 'autocomplete',
-                    'widget_config' => $this->build_autocomplete_config($key, $class, $linked_type),
-                    'required' => (midgard_object_class::get_property_parent($this->object->__mgdschema_class_name__) == $key)
-                ];
                 break;
         }
     }

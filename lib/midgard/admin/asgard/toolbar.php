@@ -90,8 +90,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                             // Articles and topics can always be created
                             break;
                         default:
-                            $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
-                            if (!$midcom_dba_classname) {
+                            if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type)) {
                                 $display_button = false;
                                 break;
                             }

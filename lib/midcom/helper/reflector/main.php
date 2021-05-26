@@ -109,14 +109,7 @@ class midcom_helper_reflector extends midgard_reflection_property
     public function get_class_label() : string
     {
         $component_l10n = $this->get_component_l10n();
-        $use_classname = $this->mgdschema_class;
-
-        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($use_classname);
-
-        if (!empty($midcom_dba_classname)) {
-            $use_classname = $midcom_dba_classname;
-        }
-
+        $use_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class) ?: $this->mgdschema_class;
         $use_classname = preg_replace('/_(db|dba)$/', '', $use_classname);
 
         $label = $component_l10n->get($use_classname);

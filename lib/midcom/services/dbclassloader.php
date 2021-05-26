@@ -120,9 +120,8 @@ class midcom_services_dbclassloader
      * We also ensure that the corresponding component has been loaded.
      *
      * @param string|object $object The object (or classname) to check
-     * @return string The corresponding MidCOM DB class name, false otherwise.
      */
-    public function get_midcom_class_name_for_mgdschema_object($object)
+    public function get_midcom_class_name_for_mgdschema_object($object) : ?string
     {
         static $dba_classes_by_mgdschema = [];
 
@@ -133,17 +132,17 @@ class midcom_services_dbclassloader
             $classname = get_class($object);
         } else {
             debug_print_r("Invalid input provided", $object, MIDCOM_LOG_WARN);
-            return false;
+            return null;
         }
 
-        if (isset($dba_classes_by_mgdschema[$classname])) {
+        if (array_key_exists($classname, $dba_classes_by_mgdschema)) {
             return $dba_classes_by_mgdschema[$classname];
         }
 
         if (!$this->is_mgdschema_object($object)) {
             debug_add("{$classname} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
-            $dba_classes_by_mgdschema[$classname] = false;
-            return false;
+            $dba_classes_by_mgdschema[$classname] = null;
+            return null;
         }
 
         if ($classname == midcom::get()->config->get('person_class')) {
@@ -152,8 +151,8 @@ class midcom_services_dbclassloader
             $component = $this->get_component_for_class($classname);
             if (!$component) {
                 debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
-                $dba_classes_by_mgdschema[$classname] = false;
-                return false;
+                $dba_classes_by_mgdschema[$classname] = null;
+                return null;
             }
         }
         $definitions = $this->get_component_classes($component);
@@ -166,8 +165,8 @@ class midcom_services_dbclassloader
         }
 
         debug_add("{$classname} cannot be resolved to any DBA class name");
-        $dba_classes_by_mgdschema[$classname] = false;
-        return false;
+        $dba_classes_by_mgdschema[$classname] = null;
+        return null;
     }
 
     /**
