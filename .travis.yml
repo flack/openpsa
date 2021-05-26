@@ -20,7 +20,7 @@ addons:
     - rcs
 
 before_install:
-  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - pecl install memcached
 
 install:
   - travis_retry composer install
