@@ -8,6 +8,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+const MIDCOM_ROOT = __DIR__;
+
 /**
  *MidCOM Default Error Codes (-> HTTP)
  */

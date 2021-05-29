@@ -39,7 +39,6 @@ class midcom
         self::$_application = new midcom_application($environment, $debug);
 
         // Define default constants
-        define('MIDCOM_ROOT', __DIR__);
         if (!defined('MIDCOM_STATIC_URL')) {
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }
