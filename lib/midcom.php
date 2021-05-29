@@ -43,7 +43,6 @@ class midcom
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }
         define('MIDCOM_STATIC_ROOT', self::$_application->getProjectDir() . '/web' . MIDCOM_STATIC_URL);
-        define('OPENPSA2_THEME_ROOT', self::$_application->getProjectDir() . '/var/themes/');
         return self::$_application;
     }
 

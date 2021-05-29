@@ -155,6 +155,7 @@ services:
 
     style.loader:
         class: midcom\templating\loader
+        arguments: ['%kernel.project_dir%/var/themes/']
 
     style:
         class: midcom_helper_style

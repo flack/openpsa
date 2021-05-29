@@ -48,6 +48,13 @@ class loader
      */
     private $directories = [];
 
+    private $theme_root;
+
+    public function __construct(string $theme_root)
+    {
+        $this->theme_root = $theme_root;
+    }
+
     public function set_directories(?midcom_db_topic $topic, array $prepend, array $append)
     {
         $this->directories = $prepend;
@@ -122,7 +129,7 @@ class loader
             $candidates[] = '/' . $element_name;
 
             foreach ($candidates as $candidate) {
-                $filename = OPENPSA2_THEME_ROOT . $theme_path . '/style' . $candidate . '.php';
+                $filename = $this->theme_root . $theme_path . '/style' . $candidate . '.php';
                 if (file_exists($filename)) {
                     return file_get_contents($filename);
                 }
@@ -166,7 +173,7 @@ class loader
     public function initialize(midcom_core_context $context, ?string $style)
     {
         if ($style && str_starts_with($style, 'theme:')) {
-            $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
+            $theme_dir = $this->theme_root . midcom::get()->config->get('theme') . '/style';
             $parts = explode('/', str_replace('theme:/', '', $style));
 
             foreach ($parts as &$part) {

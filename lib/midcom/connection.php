@@ -258,11 +258,11 @@ class midcom_connection
      */
     private static function check_page_exists(string $page_name) : bool
     {
+        $prefix = midcom::get()->getProjectDir() . '/var/themes/';
         $path_array = explode('/', midcom::get()->config->get('theme'));
-
         while (!empty($path_array)) {
             $theme_path = implode('/', $path_array);
-            if (is_dir(OPENPSA2_THEME_ROOT . $theme_path . '/style/' . $page_name)) {
+            if (is_dir($prefix . $theme_path . '/style/' . $page_name)) {
                 return true;
             }
             array_pop($path_array);

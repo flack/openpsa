@@ -29,8 +29,9 @@ class dbloader extends loader
      */
     private $content_cache;
 
-    public function __construct(midcom_services_cache_module_content $content_cache)
+    public function __construct(string $theme_root, midcom_services_cache_module_content $content_cache)
     {
+        parent::__construct($theme_root);
         $this->content_cache = $content_cache;
     }
 
