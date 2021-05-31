@@ -147,7 +147,10 @@ class midcom_helper_metadata
      */
     public function get_datamanager() : datamanager
     {
-        $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
+        static $schemadb;
+        if ($schemadb === null) {
+            $schemadb = schemadb::from_path(midcom::get()->config->get('metadata_schema'));
+        }
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');

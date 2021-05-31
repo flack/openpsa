@@ -64,7 +64,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     private function _process_metadata()
     {
         $this->read_metadata_from_object($this->object);
-        foreach ($this->read_metadata() as $key => $value) {
+        foreach ($this->object->metadata->get_datamanager()->get_content_html() as $key => $value) {
             /**
              * @see parent::read_metadata_from_object()
              */
@@ -75,19 +75,6 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
                 $this->add_text("META_{$key}", $value);
             }
         }
-    }
-
-    /**
-     * Usually, documents are processed in batches, and constructing the dm for each
-     * document is pretty wasteful, so we keep the instance around and reuse it
-     */
-    private function read_metadata() : array
-    {
-        static $meta_dm;
-        if ($meta_dm === null) {
-            $meta_dm = $this->object->metadata->get_datamanager();
-        }
-        return $meta_dm->set_storage($this->object)->get_content_html();
     }
 
     /**
