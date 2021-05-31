@@ -70,7 +70,10 @@ class midcom_debug
      */
     public function log(string $message, int $loglevel = MIDCOM_LOG_DEBUG)
     {
-        $this->logger->pushProcessor([$this, 'get_caller']);
+        $bt = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 1);
+        $this->logger->pushProcessor(function(array $record) use ($bt) {
+            return $this->get_caller($record, $bt);
+        });
         $this->logger->addRecord(self::convert_level($loglevel), trim($message));
         $this->logger->popProcessor();
     }
@@ -78,33 +81,17 @@ class midcom_debug
     /**
      * @internal
      */
-    public function get_caller(array $record) : array
+    public function get_caller(array $record, array $bt) : array
     {
         $record['extra']['caller'] = '';
-        $bt = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 3);
-
         while ($bt) {
             $caller = array_shift($bt);
-            if (   !array_key_exists('class', $caller)
-                || $caller['class'] != midcom_debug::class) {
-                if (   !array_key_exists('function', $bt[0])
-                    || $bt[0]['function'] != 'require') {
-                    $caller = array_shift($bt);
-                }
-
+            if (!in_array($caller['class'] ?? '', [midcom_debug::class])) {
                 break;
             }
         }
 
-        if (array_key_exists('class', $caller)) {
-            $record['extra']['caller'] .= $caller['class'] . '::';
-        }
-        if (   array_key_exists('function', $caller)
-            && !str_starts_with($caller['function'], 'debug_')) {
-            $record['extra']['caller'] .= $caller['function'];
-        } else {
-            $record['extra']['caller'] .= $caller['file'] . ' (' . $caller['line']. ')';
-        }
+        $record['extra']['caller'] .= $caller['file'] . ':' . $caller['line'] . '';
         return $record;
     }
 
