@@ -3,7 +3,7 @@ namespace midcom\bundle\dependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use midcom_services_cache_module_memcache;
+use Memcached;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Adapter\MemcachedAdapter;
@@ -65,7 +65,7 @@ class cachePass implements CompilerPassInterface
                 $backend->setArguments([$name, ApcuAdapter::class, self::NS_PLACEHOLDER]);
                 break;
             case 'memcached':
-                if ($memcached = midcom_services_cache_module_memcache::prepare_memcached($config)) {
+                if ($memcached = self::prepare_memcached($config)) {
 
                     $definition = $container->register('cache.memcached.' . $name, \Memcached::class);
                     $server = $memcached->getServerList()[0];
@@ -85,5 +85,17 @@ class cachePass implements CompilerPassInterface
             default:
                 $backend->setArguments([$name, NullAdapter::class]);
         }
+    }
+
+    public static function prepare_memcached(array $config) : ?Memcached
+    {
+        $host = $config['host'] ?? 'localhost';
+        $port = $config['port'] ?? 11211;
+        $memcached = new Memcached;
+        if (!$memcached->addServer($host, $port)) {
+            return null;
+        }
+
+        return $memcached;
     }
 }
