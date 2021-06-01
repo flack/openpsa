@@ -52,9 +52,6 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
  *
  * <b>Module configuration (see also midcom_config)</b>
  *
- * - <i>string cache_module_content_name</i>: The name of the cache database to use. This should usually be tied to the actual
- *   MidCOM site to have exactly one cache per site. This is mandatory (and populated by a sensible default
- *   by midcom_config, see there for details).
  * - <i>boolean cache_module_content_uncached</i>: Set this to true to prevent the saving of cached pages. This is useful
  *   for development work, as all other headers (like E-Tag or Last-Modified) are generated
  *   normally. See the uncached() and _uncached members.
@@ -323,18 +320,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return $identifier_cache[$context];
         }
 
-        $module_name = $this->config->get('cache_module_content_name');
-        if ($module_name == 'auto') {
-            $module_name = midcom_connection::get_unique_host_name();
-        }
-        $identifier_source = 'CACHE:' . $module_name;
+        $identifier_source = '';
 
         $cache_strategy = $this->config->get('cache_module_content_caching_strategy');
 
         switch ($cache_strategy) {
             case 'memberships':
                 if (!midcom::get()->auth->is_valid_user()) {
-                    $identifier_source .= ';USER=ANONYMOUS';
+                    $identifier_source .= 'USER=ANONYMOUS';
                     break;
                 }
 
@@ -342,18 +335,18 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $mc->set_key_property('gid');
                 $mc->execute();
                 $gids = $mc->list_keys();
-                $identifier_source .= ';GROUPS=' . implode(',', array_keys($gids));
+                $identifier_source .= 'GROUPS=' . implode(',', array_keys($gids));
                 break;
             case 'public':
-                $identifier_source .= ';USER=EVERYONE';
+                $identifier_source .= 'USER=EVERYONE';
                 break;
             case 'user':
             default:
-                $identifier_source .= ';USER=' . midcom_connection::get_user();
+                $identifier_source .= 'USER=' . midcom_connection::get_user();
                 break;
         }
 
-        $identifier_source .= ';URL=' . $request->getRequestUri();
+        $identifier_source .= ';URL=' . $request->getUri();
         debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
 
         $identifier_cache[$context] = 'R-' . md5($identifier_source);

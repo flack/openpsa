@@ -269,13 +269,4 @@ class midcom_connection
         }
         return false;
     }
-
-    public static function get_unique_host_name() : string
-    {
-        if (null === self::_get('unique_host_name')) {
-            self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
-        }
-
-        return self::$_data['unique_host_name'];
-    }
 }

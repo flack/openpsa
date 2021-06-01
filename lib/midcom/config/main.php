@@ -85,10 +85,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *   In general, you should use this only to change the backend driver.
  *   In all other cases you should leave this option untouched. The defaults are to store all
  *   cache databases into the 'content/' subdirectory of the cache base directory.
- * - <b>string cache_module_content_name:</b> The identifier, the content cache should use for
- *   naming the files/directories it creates. This defaults to a string constructed out of the
- *   host's name, port and prefix. You should only change this if you run multiple MidCOM
- *   sites on the same host.
  * - <b>boolean cache_module_content_uncached:</b> Set this to true if you want the site to run in an uncached
  *      mode. This is different from cache_disable in that the regular header preprocessing is
  *   done anyway, allowing for browser side caching. Essentially, the computing order is the
@@ -268,9 +264,6 @@ class midcom_config implements ArrayAccess
         // Cache configuration
         'cache_base_directory' => '',
         'cache_autoload_queue' => ['content', 'nap', 'memcache'],
-
-        // Content Cache
-        'cache_module_content_name' => 'auto',
 
         //Memory Caching Daemon
         'cache_module_memcache_backend' => 'flatfile',
