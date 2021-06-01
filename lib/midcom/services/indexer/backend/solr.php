@@ -160,7 +160,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         }
         $uri .= $action;
 
-        return new Request('GET', $uri, [
+        return new Request($method, $uri, [
             'Accept-Charset' => 'UTF-8',
             'Content-Type' => 'application/' . ($method == 'GET' ? 'x-www-form-urlencoded' : 'xml') . '; charset=utf-8',
             'Connection' => 'close'
