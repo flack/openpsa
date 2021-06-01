@@ -1,7 +1,7 @@
 <?php
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\TransferException;
 
 /**
  * Reindex script.
@@ -65,7 +65,7 @@ while ($node !== null) {
             } else {
                 echo "OK.\n";
             }
-        }, function (RequestException $e) use ($uri) {
+        }, function (TransferException $e) use ($uri) {
             echo "failure.\n   Background processing failed, error: {$e->getMessage()}\n";
             echo "Url: " . $uri . "\n";
         })->wait();
