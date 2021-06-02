@@ -80,7 +80,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !midcom_connection::is_admin()
+            && !midcom::get()->auth->admin
             && !midcom::get()->auth->is_component_sudo()) {
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;

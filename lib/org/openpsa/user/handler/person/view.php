@@ -18,6 +18,7 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
     public function _handler_view(string $guid, array &$data)
     {
         $person = new midcom_db_person($guid);
+        $data['account'] = new midcom_core_account($person);
         $data['view'] = datamanager::from_schemadb($this->_config->get('schemadb_person'))
             ->set_storage($person);
 
@@ -37,7 +38,7 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
                 $delete_workflow = $this->get_workflow('delete', ['object' => $person]);
                 $buttons[] = $delete_workflow->get_button($this->router->generate('user_delete', ['guid' => $person->guid]));
             }
-            if (   midcom_connection::is_user($person)
+            if (   $data['account']->get_username()
                 && $person->can_do('midgard:privileges')) {
                 $buttons[] = $workflow->get_button($this->router->generate('user_privileges', ['guid' => $person->guid]), [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
@@ -56,7 +57,6 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
         $this->bind_view_to_object($person);
 
         $data['person'] = $person;
-        $data['account'] = new midcom_core_account($person);
         return $this->show('show-person');
     }
 }

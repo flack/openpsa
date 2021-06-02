@@ -124,16 +124,6 @@ class midcom_connection
         return $password;
     }
 
-    public static function is_user($person) : bool
-    {
-        if (empty($person->guid)) {
-            return false;
-        }
-        $qb = new midgard_query_builder('midgard_user');
-        $qb->add_constraint('person', '=', $person->guid);
-        return $qb->count() > 0;
-    }
-
     /**
      * Get current Midgard user ID
      */
@@ -143,17 +133,6 @@ class midcom_connection
             return $user->get_person()->id;
         }
         return 0;
-    }
-
-    /**
-     * Check if the current user is admin
-     */
-    public static function is_admin() : bool
-    {
-        if ($user = midgard_connection::get_instance()->get_user()) {
-            return $user->is_admin();
-        }
-        return false;
     }
 
     /**
