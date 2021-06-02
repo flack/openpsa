@@ -70,10 +70,13 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
             return true;
         }
         $user = midcom::get()->auth->get_user($fields['person']);
-        if (!midcom_connection::login($user->username, $fields["current_password"])) {
-            return [
-                'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
-            ];
+        if ($user && $user->username) {
+            $account = new midcom_core_account($user->get_storage());
+            if (!midcom_connection::verify_password($fields["current_password"], $account->get_password())) {
+                return [
+                    'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
+                ];
+            }
         }
         return true;
     }
