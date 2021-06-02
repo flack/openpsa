@@ -214,6 +214,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
      */
     public function testCheck_password_reuse()
     {
+        $account = new midcom_core_account(self::$_user);
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
         $password = self::$_user->extra;
         $this->assertFalse($accounthelper->check_password_reuse($password));
@@ -223,31 +224,26 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         } while ($password === $password1);
         do {
             $password2 = $accounthelper->generate_safe_password();
-        } while ($password === $password2 || $password1 === $password2);
-        do {
-            $password3 = $accounthelper->generate_safe_password();
-        } while ($password3 === $password || $password3 === $password1 || $password3 === $password2);
-        $old_passwords = [
-            midcom_connection::prepare_password($password1),
-            midcom_connection::prepare_password($password2)
-        ];
+        } while (in_array($password2, [$password, $password1], true));
 
+        // populate old_passwords
         midcom::get()->auth->request_sudo('org.openpsa.user');
-        self::$_user->set_parameter('org_openpsa_user_password', 'old_passwords', serialize($old_passwords));
+        $this->assertTrue($accounthelper->set_account($account->get_username(), $password1));
         midcom::get()->auth->drop_sudo();
 
-        $this->assertFalse($accounthelper->check_password_reuse($password1));
-        $this->assertTrue($accounthelper->check_password_reuse($password3));
+        $this->assertFalse($accounthelper->check_password_reuse($password));
+        $this->assertTrue($accounthelper->check_password_reuse($password2));
     }
 
     public function testCheck_password_age()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $this->assertFalse($accounthelper->check_password_age());
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->set_parameter('org_openpsa_user_password', 'last_change', time());
         $this->assertTrue($accounthelper->check_password_age());
+        self::$_user->delete_parameter('org_openpsa_user_password', 'last_change');
+        $this->assertFalse($accounthelper->check_password_age());
         self::$_user->set_parameter('org_openpsa_user_password', 'last_change', (time() - 60 * 60 * 24 * 30 * 12));
         midcom::get()->auth->drop_sudo();
         $this->assertFalse($accounthelper->check_password_age());
