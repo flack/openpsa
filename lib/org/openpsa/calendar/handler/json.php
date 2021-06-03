@@ -125,7 +125,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
                 $this->events[$event->guid]['participants'][] = $this->_l10n->get('me');
                 $this->events[$event->guid]['className'][] = 'paticipant_me';
             } else {
-                $person = org_openpsa_contacts_person_dba::get_cached($membership['uid']);
+                $person = midcom_db_person::get_cached($membership['uid']);
                 $this->events[$event->guid]['participants'][] = $person->get_label();
             }
             $this->events[$event->guid]['className'][] = 'paticipant_' . $membership['uid'];

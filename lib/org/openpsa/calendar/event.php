@@ -412,7 +412,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $output = [];
         foreach (array_keys($array) as $pid) {
-            $person = org_openpsa_contacts_person_dba::get_cached($pid);
+            $person = midcom_db_person::get_cached($pid);
             $output[] = $person->name;
         }
         return implode(', ', $output);

@@ -133,10 +133,10 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     /**
      * Returns the person this member points to if that person can be used for notifications
      */
-    private function get_person_obj() : ?org_openpsa_contacts_person_dba
+    private function get_person_obj() : ?midcom_db_person
     {
         try {
-            $person = org_openpsa_contacts_person_dba::get_cached($this->uid);
+            $person = midcom_db_person::get_cached($this->uid);
 
             //We need to have an email which to send to so if no email no point
             if (empty($person->email)) {
@@ -154,7 +154,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      * Find amount (seconds) of free
      * time for person between start and end
      */
-    public static function find_free_times($amount, org_openpsa_contacts_person_dba $person, $start, $end) : array
+    public static function find_free_times($amount, midcom_db_person $person, $start, $end) : array
     {
         // Get current events for person
         $qb = org_openpsa_calendar_event_dba::new_query_builder();

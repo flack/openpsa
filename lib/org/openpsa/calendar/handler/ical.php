@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_handler
 {
     /**
-     * @var org_openpsa_contacts_person_dba
+     * @var midcom_db_person
      */
     private $person;
 
@@ -114,7 +114,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         if (empty($username)) {
             throw new midcom_error('Username missing');
         }
-        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb = midcom_db_person::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '=', $username);
         midcom::get()->auth->request_sudo($this->_component);
         $persons = $qb->execute();

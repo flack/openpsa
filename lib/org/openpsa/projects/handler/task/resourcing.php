@@ -126,7 +126,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     public function _handler_prospect_slots(string $guid, array &$data)
     {
         $data['prospect'] = new org_openpsa_projects_task_resource_dba($guid);
-        $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
+        $data['person'] = new midcom_db_person($data['prospect']->person);
         $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
         $this->_task->require_do('midgard:create');
 
