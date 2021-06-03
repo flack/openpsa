@@ -51,24 +51,24 @@ implements midcom_services_permalinks_resolver
      * Current rule: all participants of event must be either manager, contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _find_suspects_event(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
+    private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
-        if (   !is_array($object->participants)
-            || count($object->participants) < 1) {
+        if (   !is_array($event->participants)
+            || count($event->participants) < 1) {
             //We have invalid list or zero participants, abort
             return;
         }
         $mc = org_openpsa_projects_task_resource_dba::new_collector();
         //Target task starts or ends inside given events window or starts before and ends after
-        $mc->add_constraint('task.start', '<=', $object->end);
-        $mc->add_constraint('task.end', '>=', $object->start);
+        $mc->add_constraint('task.start', '<=', $event->end);
+        $mc->add_constraint('task.end', '>=', $event->start);
         //Target task is active
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         //Each event participant is either manager or member (resource/contact) in task
         $mc->begin_group('OR');
-        $mc->add_constraint('task.manager', 'IN', array_keys($object->participants));
-        $mc->add_constraint('person', 'IN', array_keys($object->participants));
+        $mc->add_constraint('task.manager', 'IN', array_keys($event->participants));
+        $mc->add_constraint('person', 'IN', array_keys($event->participants));
         $mc->end_group();
         $suspects = $mc->get_values('task');
         if (empty($suspects)) {
@@ -83,10 +83,10 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _find_suspects_person(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
+    private function _find_suspects_person(midcom_db_person $person, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
         //List all projects and tasks given person is involved with
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $person->id);
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         $suspects = $mc->get_values('task');

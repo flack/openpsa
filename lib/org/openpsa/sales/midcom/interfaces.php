@@ -45,28 +45,28 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
+     * Used by org_openpsa_relatedto_find_suspects to in case the given object is an event
      *
      * Current rule: all participants of event must be either manager,contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _find_suspects_event(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
+    private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
-        if (   !is_array($object->participants)
-            || count($object->participants) < 2) {
+        if (   !is_array($event->participants)
+            || count($event->participants) < 2) {
             //We have invalid list or less than two participants, abort
             return;
         }
         $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-        $mc->add_constraint('person', 'IN', array_keys($object->participants));
+        $mc->add_constraint('person', 'IN', array_keys($event->participants));
         $guids = $mc->get_values('objectGuid');
 
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
         // Target sales project starts or ends inside given events window or starts before and ends after
-        $qb->add_constraint('start', '<=', $object->end);
+        $qb->add_constraint('start', '<=', $event->end);
         $qb->begin_group('OR');
-        $qb->add_constraint('end', '>=', $object->start);
+        $qb->add_constraint('end', '>=', $event->start);
         $qb->add_constraint('end', '=', 0);
         $qb->end_group();
 
@@ -75,7 +75,7 @@ implements midcom_services_permalinks_resolver
 
         //Each event participant is either manager or member (resource/contact) in task
         $qb->begin_group('OR');
-        $qb->add_constraint('owner', 'IN', array_keys($object->participants));
+        $qb->add_constraint('owner', 'IN', array_keys($event->participants));
         $qb->add_constraint('guid', 'IN', $guids);
         $qb->end_group();
 
@@ -85,15 +85,15 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _find_suspects_person(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
+    private function _find_suspects_person(midcom_db_person $person, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
         $qb->begin_group('OR');
             $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-            $mc->add_constraint('person', '=', $object->id);
+            $mc->add_constraint('person', '=', $person->id);
             $qb->add_constraint('guid', 'IN', $mc->get_values('objectGuid'));
-            $qb->add_constraint('owner', '=', $object->id);
+            $qb->add_constraint('owner', '=', $person->id);
         $qb->end_group();
 
         org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
