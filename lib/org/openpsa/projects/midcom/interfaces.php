@@ -30,18 +30,13 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_suspect::find_links_object to find "related to" information
      *
-     * Currently handles persons
+     * Currently handles events
      */
     public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
-        switch (true) {
-            case $object instanceof midcom_db_person:
-                $this->_find_suspects_person($object, $defaults, $links_array);
-                break;
-            case $object instanceof org_openpsa_calendar_event_dba:
-                $this->_find_suspects_event($object, $defaults, $links_array);
-                break;
-                //TODO: groups ? other objects ?
+        if ($object instanceof org_openpsa_calendar_event_dba) {
+            $this->_find_suspects_event($object, $defaults, $links_array);
+            //TODO: groups ? other objects ?
         }
     }
 
@@ -70,25 +65,6 @@ implements midcom_services_permalinks_resolver
         $mc->add_constraint('task.manager', 'IN', array_keys($event->participants));
         $mc->add_constraint('person', 'IN', array_keys($event->participants));
         $mc->end_group();
-        $suspects = $mc->get_values('task');
-        if (empty($suspects)) {
-            return;
-        }
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', array_unique($suspects));
-
-        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
-    }
-
-    /**
-     * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
-     */
-    private function _find_suspects_person(midcom_db_person $person, org_openpsa_relatedto_dba $defaults, array &$links_array)
-    {
-        //List all projects and tasks given person is involved with
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $person->id);
-        $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         $suspects = $mc->get_values('task');
         if (empty($suspects)) {
             return;
