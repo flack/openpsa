@@ -21,7 +21,7 @@
         $row['date'] = date('Y-m-d', $entry->metadata->created);
 
         try {
-            $creator = org_openpsa_contacts_person_dba::get_cached($entry->metadata->creator);
+            $creator = midcom_db_person::get_cached($entry->metadata->creator);
             $row['creator_index'] = $creator->rname;
             $creator_card = org_openpsa_widgets_contact::get($entry->metadata->creator);
             $row['creator'] = $creator_card->show_inline();
