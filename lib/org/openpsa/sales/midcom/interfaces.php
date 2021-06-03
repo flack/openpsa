@@ -46,9 +46,8 @@ implements midcom_services_permalinks_resolver
      */
     private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
-        if (   !is_array($event->participants)
-            || count($event->participants) < 2) {
-            //We have invalid list or less than two participants, abort
+        if (count($event->participants) < 2) {
+            //We have less than two participants, abort
             return;
         }
         $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);

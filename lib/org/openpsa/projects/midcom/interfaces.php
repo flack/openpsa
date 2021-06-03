@@ -48,9 +48,8 @@ implements midcom_services_permalinks_resolver
      */
     private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
     {
-        if (   !is_array($event->participants)
-            || count($event->participants) < 1) {
-            //We have invalid list or zero participants, abort
+        if (count($event->participants) < 1) {
+            //We have zero participants, abort
             return;
         }
         $mc = org_openpsa_projects_task_resource_dba::new_collector();
