@@ -43,7 +43,7 @@ $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 
             echo "<h1>{$data['view_title']}</h1>\n";
         }
         ?>
-        <div class="org_openpsa_user full-width fill-height">
+        <div class="org_openpsa_products full-width fill-height">
         	<?php $grid->render(); ?>
             <script type="text/javascript">
             $('#<?php echo $grid->get_identifier(); ?>').jqGrid('filterToolbar');
