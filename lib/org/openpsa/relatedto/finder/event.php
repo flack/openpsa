@@ -77,7 +77,6 @@ class org_openpsa_relatedto_finder_event extends org_openpsa_relatedto_finder
         return $this->prepare_links($qb, 'org.openpsa.projects', $defaults);
     }
 
-
     /**
      * Current rule: all participants of event must be either manager,contact or resource in task
      * that overlaps in time with the event.
