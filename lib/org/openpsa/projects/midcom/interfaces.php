@@ -28,53 +28,6 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Used by org_openpsa_relatedto_suspect::find_links_object to find "related to" information
-     *
-     * Currently handles events
-     */
-    public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
-    {
-        if ($object instanceof org_openpsa_calendar_event_dba) {
-            $this->_find_suspects_event($object, $defaults, $links_array);
-            //TODO: groups ? other objects ?
-        }
-    }
-
-    /**
-     * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
-     *
-     * Current rule: all participants of event must be either manager, contact or resource in task
-     * that overlaps in time with the event.
-     */
-    private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
-    {
-        if (count($event->participants) < 1) {
-            //We have zero participants, abort
-            return;
-        }
-        $mc = org_openpsa_projects_task_resource_dba::new_collector();
-        //Target task starts or ends inside given events window or starts before and ends after
-        $mc->add_constraint('task.start', '<=', $event->end);
-        $mc->add_constraint('task.end', '>=', $event->start);
-        //Target task is active
-        $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
-        //Each event participant is either manager or member (resource/contact) in task
-        $mc->begin_group('OR');
-        $mc->add_constraint('task.manager', 'IN', array_keys($event->participants));
-        $mc->add_constraint('person', 'IN', array_keys($event->participants));
-        $mc->end_group();
-        $suspects = $mc->get_values('task');
-        if (empty($suspects)) {
-            return;
-        }
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', array_unique($suspects));
-
-        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
-    }
-
-    /**
      * Prepare the indexer client
      */
     public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer $indexer)

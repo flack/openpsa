@@ -39,7 +39,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $this->bind_view_to_object($this->task, $datamanager->get_schema()->get_name());
 
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
-
+        $data['calendar_node'] = null;
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('up', '=', $this->task->id);
         $data['has_subtasks'] = $qb->count() > 0;

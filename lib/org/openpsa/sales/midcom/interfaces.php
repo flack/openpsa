@@ -26,56 +26,6 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Used by org_openpsa_relatedto_suspect::find_links_object to find "related to" information
-     *
-     * Currently handles events
-     */
-    public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, org_openpsa_relatedto_dba $defaults, array &$links_array)
-    {
-        if ($object instanceof org_openpsa_calendar_event_dba) {
-            $this->_find_suspects_event($object, $defaults, $links_array);
-            //TODO: groups ? other objects ?
-        }
-    }
-
-    /**
-     * Used by org_openpsa_relatedto_find_suspects to in case the given object is an event
-     *
-     * Current rule: all participants of event must be either manager,contact or resource in task
-     * that overlaps in time with the event.
-     */
-    private function _find_suspects_event(org_openpsa_calendar_event_dba $event, org_openpsa_relatedto_dba $defaults, array &$links_array)
-    {
-        if (count($event->participants) < 2) {
-            //We have less than two participants, abort
-            return;
-        }
-        $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-        $mc->add_constraint('person', 'IN', array_keys($event->participants));
-        $guids = $mc->get_values('objectGuid');
-
-        $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-
-        // Target sales project starts or ends inside given events window or starts before and ends after
-        $qb->add_constraint('start', '<=', $event->end);
-        $qb->begin_group('OR');
-        $qb->add_constraint('end', '>=', $event->start);
-        $qb->add_constraint('end', '=', 0);
-        $qb->end_group();
-
-        //Target sales project is active
-        $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
-
-        //Each event participant is either manager or member (resource/contact) in task
-        $qb->begin_group('OR');
-        $qb->add_constraint('owner', 'IN', array_keys($event->participants));
-        $qb->add_constraint('guid', 'IN', $guids);
-        $qb->end_group();
-
-        org_openpsa_relatedto_suspect::add_links($qb, $this->_component, $defaults, $links_array);
-    }
-
-    /**
      * AT handler for handling subscription cycles.
      */
     public function new_subscription_cycle(array $args, midcom_baseclasses_components_cron_handler $handler)

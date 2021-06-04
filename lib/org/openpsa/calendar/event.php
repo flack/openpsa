@@ -197,82 +197,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         if ($this->search_relatedtos) {
             //TODO: add check for failed additions
-            $this->get_suspected_task_links();
-            $this->get_suspected_sales_links();
-        }
-    }
-
-    /**
-     * Returns a defaults template for relatedto objects
-     */
-    private function _suspect_defaults() : org_openpsa_relatedto_dba
-    {
-        $link_def = new org_openpsa_relatedto_dba();
-        $link_def->fromComponent = 'org.openpsa.calendar';
-        $link_def->fromGuid = $this->guid;
-        $link_def->fromClass = get_class($this);
-        $link_def->status = org_openpsa_relatedto_dba::SUSPECTED;
-        return $link_def;
-    }
-
-    /**
-     * Queries org.openpsa.projects for suspected task links and saves them
-     */
-    private function get_suspected_task_links()
-    {
-        // Do not seek if we have only one participant (gives a ton of results, most of them useless)
-        if (count($this->participants) < 2) {
-            debug_add("we have less than two participants, skipping seek");
-            return;
-        }
-
-        // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->guid, org_openpsa_projects_task_dba::class, 'outgoing');
-        $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
-
-        $links = $mc->get_related_guids();
-        if (!empty($links)) {
-            $cnt = count($links);
-            debug_add("Found {$cnt} confirmed links already, skipping seek");
-            return;
-        }
-
-        $link_def = $this->_suspect_defaults();
-        $projects_suspect_links = org_openpsa_relatedto_suspect::find_links_object_component($this, 'org.openpsa.projects', $link_def);
-
-        foreach ($projects_suspect_links as $linkdata) {
-            if ($linkdata['link']->create()) {
-                debug_add("saved link to task #{$linkdata['other_obj']->id} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
-            } else {
-                debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
-        }
-    }
-
-    /**
-     * Queries org.openpsa.sales for suspected task links and saves them
-     */
-    private function get_suspected_sales_links()
-    {
-        // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->guid, [org_openpsa_sales_salesproject_dba::class, org_openpsa_sales_salesproject_deliverable_dba::class]);
-        $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
-
-        $links = $mc->get_related_guids();
-        if (!empty($links)) {
-            $cnt = count($links);
-            debug_add("Found {$cnt} confirmed links already, skipping seek");
-            return;
-        }
-
-        $link_def = $this->_suspect_defaults();
-        $sales_suspect_links = org_openpsa_relatedto_suspect::find_links_object_component($this, 'org.openpsa.sales', $link_def);
-        foreach ($sales_suspect_links as $linkdata) {
-            if ($linkdata['link']->create()) {
-                debug_add("saved sales link to {$linkdata['other_obj']->guid} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
-            } else {
-                debug_add("could not save sales link to {$linkdata['other_obj']->guid}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
+            (new org_openpsa_relatedto_finder_event($this))->process();
         }
     }
 
@@ -322,8 +247,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         if ($this->search_relatedtos) {
-            $this->get_suspected_task_links();
-            $this->get_suspected_sales_links();
+            (new org_openpsa_relatedto_finder_event($this))->process();
         }
     }
 
