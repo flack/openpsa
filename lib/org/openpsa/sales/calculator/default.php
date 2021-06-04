@@ -97,13 +97,13 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         $tasks = $this->_find_tasks($qb);
 
         foreach ($tasks as $task) {
-            $hours_marked = org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
+            $hours_marked = org_openpsa_expenses_hour_report_dba::mark_invoiced($task, $invoice);
             $items[] = $this->_generate_invoice_item($task->title, $hours_marked, $task);
 
             $qb = org_openpsa_projects_task_dba::new_query_builder();
             $qb->add_constraint('up', 'INTREE', $task->id);
             foreach ($this->_find_tasks($qb) as $subtask) {
-                $hours_marked = org_openpsa_projects_workflow::mark_invoiced($subtask, $invoice);
+                $hours_marked = org_openpsa_expenses_hour_report_dba::mark_invoiced($subtask, $invoice);
                 $items[] = $this->_generate_invoice_item($subtask->title, $hours_marked, $subtask);
             }
         }

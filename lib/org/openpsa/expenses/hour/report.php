@@ -133,4 +133,32 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.expenses');
         return "<em>" . $l10n->get('no description given') . "</em>";
     }
+
+    /**
+     * Connect task hour reports to an invoice
+     */
+    public static function mark_invoiced(org_openpsa_projects_task_dba $task, org_openpsa_invoices_invoice_dba $invoice)
+    {
+        $hours_marked = 0;
+        $qb = self::new_query_builder();
+        $qb->add_constraint('task', '=', $task->id);
+        $qb->add_constraint('invoice', '=', 0);
+
+        foreach ($qb->execute() as $report) {
+            $report->invoice = $invoice->id;
+            $report->_skip_parent_refresh = true;
+            if ($report->update() && $report->invoiceable) {
+                $hours_marked += $report->hours;
+            }
+        }
+
+        // Update hour caches to agreement
+        if (!$task->update_cache()) {
+            debug_add('Failed to update task hour caches, last Midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+        }
+
+        // Notify user
+        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title));
+        return $hours_marked;
+    }
 }

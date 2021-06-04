@@ -62,7 +62,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $item->create();
 
             // Connect invoice to the tasks involved
-            org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
+            org_openpsa_expenses_hour_report_dba::mark_invoiced($task, $invoice);
         }
         return $invoice;
     }

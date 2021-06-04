@@ -107,7 +107,7 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
             'invoiceable' => true
         ]);
 
-        midcom::get()->auth->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
         self::$_task->refresh();
         $this->assertEquals(2.5, self::$_task->invoiceableHours);
@@ -118,5 +118,51 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         $this->assertEquals(0, self::$_task->invoiceableHours);
 
         midcom::get()->auth->drop_sudo();
+    }
+
+    public function test_mark_invoiced()
+    {
+        $group = $this->create_object(org_openpsa_products_product_group_dba::class);
+        $project = $this->create_object(org_openpsa_projects_project::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+
+        $product_attributes = [
+            'productGroup' => $group->id,
+            'code' => 'TEST-' . __CLASS__ . time(),
+            'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+        ];
+        $product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
+
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+
+        $deliverable_attributes = [
+            'salesproject' => $salesproject->id,
+            'product' => $product->id,
+            'description' => 'TEST DESCRIPTION',
+            'plannedUnits' => 15,
+        ];
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
+        $task->agreement = $deliverable->id;
+        $task->update();
+
+        $report_attributes = [
+            'task' => $task->id,
+            'invoiceable' => true,
+            'hours' => 15
+        ];
+        $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
+        unset($report_attributes['invoiceable']);
+        $report2 = $this->create_object(org_openpsa_expenses_hour_report_dba::class, $report_attributes);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+        $result = org_openpsa_expenses_hour_report_dba::mark_invoiced($task, $invoice);
+        midcom::get()->auth->drop_sudo();
+
+        $this->assertEquals(15, $result);
+        $report->refresh();
+        $this->assertEquals($invoice->id, $report->invoice);
+        $report2->refresh();
+        $this->assertEquals($invoice->id, $report2->invoice);
     }
 }

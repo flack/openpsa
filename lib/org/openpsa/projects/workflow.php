@@ -275,37 +275,6 @@ class org_openpsa_projects_workflow
         return self::create_status($task, org_openpsa_projects_task_status_dba::REOPENED, 0, $comment);
     }
 
-    /**
-     * Connect the task hour reports to an invoice
-     */
-    public static function mark_invoiced(org_openpsa_projects_task_dba $task, org_openpsa_invoices_invoice_dba $invoice)
-    {
-        debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
-
-        // Mark the hour reports invoiced
-        $hours_marked = 0;
-        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb->add_constraint('task', '=', $task->id);
-        $qb->add_constraint('invoice', '=', 0);
-
-        foreach ($qb->execute() as $report) {
-            $report->invoice = $invoice->id;
-            $report->_skip_parent_refresh = true;
-            if ($report->update() && $report->invoiceable) {
-                $hours_marked += $report->hours;
-            }
-        }
-
-        // Update hour caches to agreement
-        if (!$task->update_cache()) {
-            debug_add('Failed to update task hour caches, last Midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-        }
-
-        // Notify user
-        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title));
-        return $hours_marked;
-    }
-
     private static function is_manager(org_openpsa_projects_task_dba $task) : bool
     {
         return (   $task->manager == 0
