@@ -90,20 +90,31 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
             'invoice' => $invoice->id
         ];
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $task->update_cache();
+        $this->sudo([$task, 'refresh']);
         $this->assertEquals(4, $task->invoicedHours);
 
         $data['invoiceable'] = false;
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $task->update_cache();
+        $this->sudo([$task, 'refresh']);
         $this->assertEquals(4, $task->invoicedHours);
         $this->assertEquals(8, $task->reportedHours);
 
         $data['invoiceable'] = true;
         unset($data['invoice']);
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $task->update_cache();
+        $this->sudo([$task, 'refresh']);
         $this->assertEquals(4, $task->invoiceableHours);
         $this->assertEquals(12, $task->reportedHours);
+    }
+
+    private function sudo(callable $function)
+    {
+        if (!midcom::get()->auth->request_sudo('org.openpsa.projects')) {
+            $this->fail('Could not get sudo');
+        }
+
+        $function();
+
+        midcom::get()->auth->drop_sudo();
     }
 }
