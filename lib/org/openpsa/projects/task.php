@@ -125,12 +125,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->_update_parent();
     }
 
-    public function _on_deleting() : bool
-    {
-        $this->update_cache(false);
-        return parent::_on_deleting();
-    }
-
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
