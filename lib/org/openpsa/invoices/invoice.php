@@ -123,27 +123,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
             return false;
         }
 
-        $tasks_to_update = [];
-
-        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->id);
-        foreach ($qb->execute() as $hour) {
-            $hour->invoice = 0;
-            $hour->_skip_parent_refresh = true;
-            $tasks_to_update[] = $hour->task;
-            if (!$hour->update()) {
-                debug_add("Failed to remove invoice from hour record #{$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-        }
-
-        foreach (array_unique($tasks_to_update) as $id) {
-            try {
-                $task = new org_openpsa_projects_task_dba($id);
-                $task->update_cache();
-            } catch (midcom_error $e) {
-            }
-        }
-
         $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
         foreach ($qb->execute() as $canceled) {

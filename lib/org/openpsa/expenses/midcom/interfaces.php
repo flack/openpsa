@@ -24,4 +24,36 @@ implements midcom_services_permalinks_resolver
         }
         return null;
     }
+
+    public function _on_watched_dba_delete(midcom_core_dbaobject $object)
+    {
+        if (!midcom::get()->auth->request_sudo($this->_component)) {
+            debug_add('Failed to get SUDO privileges, skipping task cache update silently.', MIDCOM_LOG_ERROR);
+            return;
+        }
+
+        $tasks_to_update = [];
+
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $object->id);
+        foreach ($qb->execute() as $report) {
+            $report->invoice = 0;
+            $report->_skip_parent_refresh = true;
+            $tasks_to_update[] = $report->task;
+            if (!$report->update()) {
+                debug_add("Failed to remove invoice from hour record #{$report->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            }
+        }
+
+        foreach (array_unique($tasks_to_update) as $id) {
+            try {
+                $task = new org_openpsa_projects_task_dba($id);
+                $task->update_cache();
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

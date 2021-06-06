@@ -106,15 +106,4 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $this->assertEquals(4, $task->invoiceableHours);
         $this->assertEquals(12, $task->reportedHours);
     }
-
-    private function sudo(callable $function)
-    {
-        if (!midcom::get()->auth->request_sudo('org.openpsa.projects')) {
-            $this->fail('Could not get sudo');
-        }
-
-        $function();
-
-        midcom::get()->auth->drop_sudo();
-    }
 }

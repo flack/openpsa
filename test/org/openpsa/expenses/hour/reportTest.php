@@ -90,6 +90,26 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         $this->assertEquals(org_openpsa_projects_task_status_dba::STARTED, $task2->status);
     }
 
+    public function test_invoice_delete()
+    {
+        $person = $this->create_object(midcom_db_person::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+
+        $this->create_object(org_openpsa_expenses_hour_report_dba::class, [
+            'task' => $task->id,
+            'invoiceable' => true,
+            'invoice' => $invoice->id,
+            'hours' => 2,
+            'person' => $person->id
+        ]);
+        $this->sudo([$task, 'refresh']);
+        $this->assertEquals(2, $task->invoicedHours);
+
+        $this->sudo([$invoice, 'delete']);
+        $this->assertEquals(2, $task->invoicedHours);
+    }
+
     public function test_get_parent()
     {
         $report = $this->create_object(org_openpsa_expenses_hour_report_dba::class, ['task' => self::$_task->id]);
