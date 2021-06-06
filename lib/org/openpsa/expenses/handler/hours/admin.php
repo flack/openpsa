@@ -40,10 +40,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $task = new org_openpsa_projects_task_dba($guid);
             $task->require_do('midgard:create');
             $defaults['task'] = $task->id;
+            $defaults['invoiceable'] = $task->hoursInvoiceableDefault;
         } elseif ($handler_id == 'hours_create_invoice') {
             $invoice = new org_openpsa_invoices_invoice_dba($guid);
             $invoice->require_do('midgard:create');
             $defaults['invoice'] = $invoice->id;
+            $defaults['invoiceable'] = true;
         }
         $dm = $this->load_datamanager($report, $defaults, $schema);
         $data['controller'] = $dm->get_controller();
