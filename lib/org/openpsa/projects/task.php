@@ -210,14 +210,13 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         if ($agreement = $this->get_agreement()) {
             // Get customer company into cache from agreement's sales project
-            try {
-                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement);
-                $this->hoursInvoiceableDefault = true;
-                if (!$this->customer) {
+            if (!$this->customer) {
+                try {
+                    $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement);
                     $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
                     $this->customer = $salesproject->customer;
                 }
-            } catch (midcom_error $e) {
+                catch (midcom_error $e) {}
             }
         } else {
             // No agreement, we can't be invoiceable
