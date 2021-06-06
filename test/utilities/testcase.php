@@ -153,6 +153,10 @@ abstract class openpsa_testcase extends TestCase
         $flags = defined('JSON_THROW_ON_ERROR') ? JSON_THROW_ON_ERROR : null;
         try {
             $data = json_decode($rendered, true, 32, $flags);
+            // php72 compat:
+            if ($data === null) {
+                throw new RuntimeException(json_last_error_msg());
+            }
         } catch (Exception $e) {
             dump('Rendered JSON:' . $rendered);
             throw $e;
