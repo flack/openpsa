@@ -120,6 +120,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
      */
     public function testRun_cycle($params, $input, $result)
     {
+        $this->set_config('org.openpsa.sales', 'calculator', org_openpsa_expenses_calculator::class);
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $this->_apply_input($input);
 

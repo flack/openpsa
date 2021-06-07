@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Doctrine\ORM\Query\Expr\Join;
-
 /**
  * Default deliverable cost/price calculator
  *
@@ -16,14 +14,9 @@ use Doctrine\ORM\Query\Expr\Join;
 class org_openpsa_sales_calculator_default implements org_openpsa_invoices_interfaces_calculator
 {
     /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $_invoice;
-
-    /**
      * @var org_openpsa_sales_salesproject_deliverable_dba
      */
-    private $_deliverable;
+    protected $deliverable;
 
     /**
      * @var float
@@ -40,29 +33,29 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      */
     public function run(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
-        $this->_deliverable = $deliverable;
+        $this->deliverable = $deliverable;
         $units = $this->get_units();
-        $this->_price = $units * $this->_deliverable->pricePerUnit;
+        $this->_price = $units * $this->deliverable->pricePerUnit;
 
         // Count cost based on the cost type
-        if ($this->_deliverable->costType == '%') {
+        if ($this->deliverable->costType == '%') {
             // The cost is a percentage of the price
-            $this->_cost = $this->_price / 100 * $this->_deliverable->costPerUnit;
+            $this->_cost = $this->_price / 100 * $this->deliverable->costPerUnit;
         } else {
             // The cost is a fixed sum per unit
-            $this->_cost = $units * $this->_deliverable->costPerUnit;
+            $this->_cost = $units * $this->deliverable->costPerUnit;
         }
     }
 
     private function get_units($units = false) : float
     {
-        if (   $this->_deliverable->invoiceByActualUnits
-            || $this->_deliverable->plannedUnits == 0) {
+        if (   $this->deliverable->invoiceByActualUnits
+            || $this->deliverable->plannedUnits == 0) {
             // In most cases we calculate the price based on the actual units entered
-            return $units ?: $this->_deliverable->units;
+            return $units ?: $this->deliverable->units;
         }
         // But in some deals we use the planned units instead
-        return $this->_deliverable->plannedUnits;
+        return $this->deliverable->plannedUnits;
     }
 
     /**
@@ -88,38 +81,15 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      */
     public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice) : array
     {
-        $this->_invoice = $invoice;
-
-        $items = [];
-        // Mark the tasks (and hour reports) related to this agreement as invoiced
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('agreement', '=', $this->_deliverable->id);
-        $tasks = $this->_find_tasks($qb);
-
-        foreach ($tasks as $task) {
-            $hours_marked = org_openpsa_expenses_hour_report_dba::mark_invoiced($task, $invoice);
-            $items[] = $this->_generate_invoice_item($task->title, $hours_marked, $task);
-
-            $qb = org_openpsa_projects_task_dba::new_query_builder();
-            $qb->add_constraint('up', 'INTREE', $task->id);
-            foreach ($this->_find_tasks($qb) as $subtask) {
-                $hours_marked = org_openpsa_expenses_hour_report_dba::mark_invoiced($subtask, $invoice);
-                $items[] = $this->_generate_invoice_item($subtask->title, $hours_marked, $subtask);
-            }
-        }
-
-        if (empty($tasks)) {
-            $items[] = $this->_generate_invoice_item($this->_deliverable->title, $this->_deliverable->units);
-        }
-        return $items;
+        return [$this->generate_invoice_item($this->deliverable->title, $this->deliverable->units, $invoice->id)];
     }
 
-    private function _generate_invoice_item(string $description, float $units, org_openpsa_projects_task_dba $task = null) : org_openpsa_invoices_invoice_item_dba
+    protected function generate_invoice_item(string $description, float $units, int $invoice, org_openpsa_projects_task_dba $task = null) : org_openpsa_invoices_invoice_item_dba
     {
         $item = new org_openpsa_invoices_invoice_item_dba();
         $item->description = $description;
-        $item->invoice = $this->_invoice->id;
-        $item->pricePerUnit = $this->_deliverable->pricePerUnit;
+        $item->invoice = $invoice;
+        $item->pricePerUnit = $this->deliverable->pricePerUnit;
         $item->units = $this->get_units($units);
 
         if (null !== $task) {
@@ -127,18 +97,6 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         }
 
         return $item;
-    }
-
-    private function _find_tasks(midcom_core_querybuilder $qb) : array
-    {
-        if ($this->_deliverable->invoiceByActualUnits) {
-            $qb->add_constraint('invoiceableHours', '>', 0);
-        } else {
-            $qb->get_doctrine()
-                ->leftJoin('org_openpsa_invoice_item', 'i', Join::WITH, 'i.task = c.id')
-                ->where('i.deliverable IS NULL');
-        }
-        return $qb->execute();
     }
 
     /**
