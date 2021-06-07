@@ -42,7 +42,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public $contacts = []; //Shorthand access for contact members
     public $resources = []; // --''--
     public $_skip_acl_refresh = false;
-    private $_skip_parent_refresh = false;
+    public $_skip_parent_refresh = false;
     private $_status;
 
     /**
@@ -223,9 +223,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $this->hoursInvoiceableDefault = false;
         }
 
-        // Update hour caches
-        $this->update_cache(false);
-
         return true;
     }
 
@@ -238,50 +235,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return $parent->agreement;
         }
         return $this->agreement;
-    }
-
-    /**
-     * Update hour report caches
-     */
-    public function update_cache(bool $update = true) : bool
-    {
-        if (!$this->id) {
-            return false;
-        }
-
-        debug_add("updating hour caches");
-        $this->reportedHours = $this->invoicedHours = $this->invoiceableHours = 0;
-
-        $report_mc = org_openpsa_expenses_hour_report_dba::new_collector('task', $this->id);
-        $report_mc->add_value_property('hours');
-        $report_mc->add_value_property('invoice');
-        $report_mc->add_value_property('invoiceable');
-        $report_mc->execute();
-
-        foreach ($report_mc->list_keys() as $guid => $empty) {
-            $report_data = $report_mc->get($guid);
-            $report_hours = $report_data['hours'];
-
-            $this->reportedHours += $report_hours;
-
-            if ($report_data['invoiceable']) {
-                if ($report_data['invoice']) {
-                    $this->invoicedHours += $report_hours;
-                } else {
-                    $this->invoiceableHours += $report_hours;
-                }
-            }
-        }
-        $stat = true;
-
-        if ($update) {
-            $this->_use_rcs = false;
-            $this->_skip_acl_refresh = true;
-            $this->_skip_parent_refresh = true;
-            $stat = $this->update();
-            debug_add("saving updated values to database returned {$stat}");
-        }
-        return $stat;
     }
 
     private function _update_parent()

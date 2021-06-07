@@ -82,10 +82,10 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     private function _update_parent(bool $delete = false)
     {
-        midcom::get()->auth->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
         try {
             $parent = new org_openpsa_projects_task_dba($this->task);
-            $parent->update_cache();
+            self::update_cache($parent);
             if (!$delete && $parent->status < org_openpsa_projects_task_status_dba::STARTED) {
                 //Add person to resources if necessary
                 $parent->get_members();
@@ -96,8 +96,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
             }
 
             if ($this->old_task) {
-                $oldparent = new org_openpsa_projects_task_dba($this->old_task);
-                $oldparent->update_cache();
+                self::update_cache(new org_openpsa_projects_task_dba($this->old_task));
             }
         } catch (midcom_error $e) {
             $e->log();
@@ -134,6 +133,41 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         return "<em>" . $l10n->get('no description given') . "</em>";
     }
 
+
+    /**
+     * Update hour report caches
+     */
+    public static function update_cache(org_openpsa_projects_task_dba $task) : bool
+    {
+        if (!$task->id) {
+            return false;
+        }
+
+        debug_add("updating hour caches");
+        $task->reportedHours = $task->invoicedHours = $task->invoiceableHours = 0;
+
+        $report_mc = self::new_collector('task', $task->id);
+
+        foreach ($report_mc->get_rows(['hours', 'invoice', 'invoiceable']) as $report_data) {
+            $report_hours = $report_data['hours'];
+
+            $task->reportedHours += $report_hours;
+
+            if ($report_data['invoiceable']) {
+                if ($report_data['invoice']) {
+                    $task->invoicedHours += $report_hours;
+                } else {
+                    $task->invoiceableHours += $report_hours;
+                }
+            }
+        }
+
+        $task->_use_rcs = false;
+        $task->_skip_acl_refresh = true;
+        $task->_skip_parent_refresh = true;
+        return $task->update();
+    }
+
     /**
      * Connect task hour reports to an invoice
      */
@@ -153,7 +187,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         }
 
         // Update hour caches to agreement
-        if (!$task->update_cache()) {
+        if (!self::update_cache($task)) {
             debug_add('Failed to update task hour caches, last Midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
 

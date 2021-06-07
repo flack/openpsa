@@ -33,8 +33,7 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
 
         $report->task = self::$_task->id;
         $report->hours = 2.5;
-        $stat = $report->create();
-        $this->assertTrue($stat);
+        $this->assertTrue($report->create());
         $this->register_object($report);
 
         $parent = $report->get_parent();
@@ -47,9 +46,8 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
 
         $report->invoiceable = true;
         $report->hours = 3.5;
-        $stat = $report->update();
+        $this->assertTrue($report->update());
 
-        $this->assertTrue($stat);
         self::$_task->refresh();
         $this->assertEquals(3.5, self::$_task->invoiceableHours);
         $task_hours = self::$_project->get_task_hours();
@@ -138,6 +136,34 @@ class org_openpsa_expenses_hour_reportTest extends openpsa_testcase
         $this->assertEquals(0, self::$_task->invoiceableHours);
 
         midcom::get()->auth->drop_sudo();
+    }
+
+    public function test_update_cache()
+    {
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$_project->id]);
+        $data = [
+            'task' => $task->id,
+            'hours' => 4,
+            'invoiceable' => true,
+            'invoice' => $invoice->id
+        ];
+        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
+        $this->sudo([$task, 'refresh']);
+        $this->assertEquals(4, $task->invoicedHours);
+
+        $data['invoiceable'] = false;
+        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
+        $this->sudo([$task, 'refresh']);
+        $this->assertEquals(4, $task->invoicedHours);
+        $this->assertEquals(8, $task->reportedHours);
+
+        $data['invoiceable'] = true;
+        unset($data['invoice']);
+        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
+        $this->sudo([$task, 'refresh']);
+        $this->assertEquals(4, $task->invoiceableHours);
+        $this->assertEquals(12, $task->reportedHours);
     }
 
     public function test_mark_invoiced()

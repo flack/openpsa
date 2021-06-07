@@ -78,32 +78,4 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
 
         $this->assertCount(2, $task->contacts);
     }
-
-    public function test_update_cache()
-    {
-        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
-        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
-        $data = [
-            'task' => $task->id,
-            'hours' => 4,
-            'invoiceable' => true,
-            'invoice' => $invoice->id
-        ];
-        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
-        $this->assertEquals(4, $task->invoicedHours);
-
-        $data['invoiceable'] = false;
-        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
-        $this->assertEquals(4, $task->invoicedHours);
-        $this->assertEquals(8, $task->reportedHours);
-
-        $data['invoiceable'] = true;
-        unset($data['invoice']);
-        $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
-        $this->assertEquals(4, $task->invoiceableHours);
-        $this->assertEquals(12, $task->reportedHours);
-    }
 }

@@ -47,8 +47,7 @@ implements midcom_services_permalinks_resolver
 
         foreach (array_unique($tasks_to_update) as $id) {
             try {
-                $task = new org_openpsa_projects_task_dba($id);
-                $task->update_cache();
+                org_openpsa_expenses_hour_report_dba::update_cache(new org_openpsa_projects_task_dba($id));
             } catch (midcom_error $e) {
                 $e->log();
             }

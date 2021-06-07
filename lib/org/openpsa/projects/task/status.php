@@ -78,7 +78,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     private function _update_task()
     {
-        $task = org_openpsa_projects_task_dba::get_cached($this->task);
+        $task = new org_openpsa_projects_task_dba($this->task);
 
         if ($this->type == self::PROPOSED) {
             try {
