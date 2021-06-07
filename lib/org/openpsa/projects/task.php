@@ -42,7 +42,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public $contacts = []; //Shorthand access for contact members
     public $resources = []; // --''--
     public $_skip_acl_refresh = false;
-    public $_skip_parent_refresh = false;
+    private $_skip_parent_refresh = false;
     private $_status;
 
     /**
@@ -250,37 +250,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         debug_add("updating hour caches");
-
-        $hours = $this->list_hours();
-        $stat = true;
-
-        $this->reportedHours = $hours['reported'];
-        $this->invoicedHours = $hours['invoiced'];
-        $this->invoiceableHours = $hours['invoiceable'];
-
-        try {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
-            $agreement->update_units($this->id, $hours);
-        } catch (midcom_error $e) {
-        }
-
-        if ($update) {
-            $this->_use_rcs = false;
-            $this->_skip_acl_refresh = true;
-            $this->_skip_parent_refresh = true;
-            $stat = $this->update();
-            debug_add("saving updated values to database returned {$stat}");
-        }
-        return $stat;
-    }
-
-    private function list_hours() : array
-    {
-        $hours = [
-            'reported'    => 0,
-            'invoiced'    => 0,
-            'invoiceable' => 0,
-        ];
+        $this->reportedHours = $this->invoicedHours = $this->invoiceableHours = 0;
 
         $report_mc = org_openpsa_expenses_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
@@ -292,17 +262,26 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $report_data = $report_mc->get($guid);
             $report_hours = $report_data['hours'];
 
-            $hours['reported'] += $report_hours;
+            $this->reportedHours += $report_hours;
 
             if ($report_data['invoiceable']) {
                 if ($report_data['invoice']) {
-                    $hours['invoiced'] += $report_hours;
+                    $this->invoicedHours += $report_hours;
                 } else {
-                    $hours['invoiceable'] += $report_hours;
+                    $this->invoiceableHours += $report_hours;
                 }
             }
         }
-        return $hours;
+        $stat = true;
+
+        if ($update) {
+            $this->_use_rcs = false;
+            $this->_skip_acl_refresh = true;
+            $this->_skip_parent_refresh = true;
+            $stat = $this->update();
+            debug_add("saving updated values to database returned {$stat}");
+        }
+        return $stat;
     }
 
     private function _update_parent()
@@ -311,6 +290,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $project = new org_openpsa_projects_project($this->project);
             $project->refresh_from_tasks();
         }
+        try {
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
+            $agreement->update_units();
+        } catch (midcom_error $e) {}
     }
 
     /**

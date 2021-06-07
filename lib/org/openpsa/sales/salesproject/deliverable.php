@@ -180,38 +180,31 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     /**
      * Recalculate the deliverable's unit trackers based on data form a (recently updated) task
-     *
-     * @param integer $task_id The ID of the task that requested the update
-     * @param array $hours The task's hours
      */
-    public function update_units(int $task_id = 0, array $hours = null)
+    public function update_units()
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
-        if (null === $hours) {
-            $hours = [
-                'reported' => 0,
-                'invoiced' => 0,
-                'invoiceable' => 0
-            ];
-        }
-        $agreement_hours = $hours;
+        $hours = [
+            'reported' => 0,
+            'invoiced' => 0,
+            'invoiceable' => 0
+        ];
 
         // List hours from tasks of the agreement
         $mc = org_openpsa_projects_task_dba::new_collector('agreement', $this->id);
-        $mc->add_constraint('id', '<>', $task_id);
         $other_tasks = $mc->get_rows(['reportedHours', 'invoicedHours', 'invoiceableHours']);
 
         foreach ($other_tasks as $other_task) {
             // Add the hours of the other tasks to agreement's totals
-            $agreement_hours['reported'] += $other_task['reportedHours'];
-            $agreement_hours['invoiced'] += $other_task['invoicedHours'];
-            $agreement_hours['invoiceable'] += $other_task['invoiceableHours'];
+            $hours['reported'] += $other_task['reportedHours'];
+            $hours['invoiced'] += $other_task['invoicedHours'];
+            $hours['invoiceable'] += $other_task['invoiceableHours'];
         }
 
         // Update units on the agreement with invoiceable hours
-        $units = $agreement_hours['invoiceable'];
-        $uninvoiceableUnits = $agreement_hours['reported'] - ($agreement_hours['invoiceable'] + $agreement_hours['invoiced']);
+        $units = $hours['invoiceable'];
+        $uninvoiceableUnits = $hours['reported'] - ($hours['invoiceable'] + $hours['invoiced']);
 
         if (   $units != $this->units
             || $uninvoiceableUnits != $this->uninvoiceableUnits) {
