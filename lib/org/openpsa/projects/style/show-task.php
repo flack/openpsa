@@ -66,11 +66,10 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo "</ul>\n";
         }
 
-        if ($data['task_booked_percentage'] >= 105) {
-            $status = 'acceptable';
-        } elseif ($data['task_booked_percentage'] >= 95) {
+        $delta = abs(100 - $data['task_booked_percentage']);
+        if ($delta <= 5) {
             $status = 'ok';
-        } elseif ($data['task_booked_percentage'] >= 75) {
+        } elseif ($delta <= 25) {
             $status = 'acceptable';
         } else {
             $status = 'bad';
