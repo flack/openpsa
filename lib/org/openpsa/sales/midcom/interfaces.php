@@ -25,6 +25,18 @@ implements midcom_services_permalinks_resolver
         return null;
     }
 
+    public function _on_watched_dba_update(midcom_core_dbaobject $object)
+    {
+        if ($agreement = $object->get_agreement()) {
+            try {
+                $agreement = new org_openpsa_sales_salesproject_deliverable_dba($agreement);
+                $agreement->update_units();
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
+    }
+
     /**
      * AT handler for handling subscription cycles.
      */

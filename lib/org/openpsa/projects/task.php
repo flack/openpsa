@@ -243,10 +243,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $project = new org_openpsa_projects_project($this->project);
             $project->refresh_from_tasks();
         }
-        try {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->get_agreement());
-            $agreement->update_units();
-        } catch (midcom_error $e) {}
     }
 
     /**

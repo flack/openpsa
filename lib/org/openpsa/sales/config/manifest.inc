@@ -8,6 +8,14 @@
 ],
 'privileges' => [],
 'description' => 'Sales process manager',
+'watches' => [
+    [
+        'classes' => [
+            'org_openpsa_projects_task_dba',
+        ],
+        'operations' => MIDCOM_OPERATION_DBA_UPDATE,
+    ],
+],
 'customdata' => [
     'org.openpsa.notifications' => [
         'new_subscription_cycle' => [

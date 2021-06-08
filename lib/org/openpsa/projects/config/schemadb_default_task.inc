@@ -201,7 +201,7 @@
                  'require_corresponding_option' => false,
                  'options' => [],
             ],
-            'widget' => 'autocomplete',
+            'widget' => midcom::get()->componentloader->is_installed('org.openpsa.sales') ? 'autocomplete' : 'hidden',
             'widget_config' => [
                 'class'       => 'org_openpsa_sales_salesproject_deliverable_dba',
                 'titlefield'  => 'title',
@@ -214,7 +214,7 @@
                 'orders'        => [
                     ['title'    => 'ASC'],
                 ],
-            ],
+            ]
         ],
         'plannedHours' => [
             'title'    => 'planned hours',
