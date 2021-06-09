@@ -38,7 +38,7 @@ Projekt-Code
 ---STRINGEND
 
 ---STRING contacts
-Weitere Kontakte
+Kontakte
 ---STRINGEND
 
 ---STRING continuous subscription

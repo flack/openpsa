@@ -12,7 +12,7 @@ use midcom\datamanager\controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Projects edit/delete deliverable handler
+ * Edit/delete deliverable handler
  *
  * @package org.openpsa.sales
  */
