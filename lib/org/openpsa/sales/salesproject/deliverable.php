@@ -52,13 +52,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     const STATE_INVOICED = 600;
 
     /**
-     * Combination property containing HTML depiction of the deliverable
-     *
-     * @var string
-     */
-    private $_deliverable_html;
-
-    /**
      * @var boolean
      */
     private $_update_parent_on_save = false;
@@ -107,27 +100,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         $project = new org_openpsa_sales_salesproject_dba($this->salesproject);
         $project->calculate_price();
-    }
-
-    public function __get($property)
-    {
-        if ($property == 'deliverable_html') {
-            if ($this->_deliverable_html === null) {
-                $this->_generate_html();
-            }
-            return $this->_deliverable_html;
-        }
-        return parent::__get($property);
-    }
-
-    private function _generate_html()
-    {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->salesproject);
-
-        $this->_deliverable_html  = "<span class=\"org_openpsa_sales_salesproject_deliverable\">\n";
-        $this->_deliverable_html .= "    <span class=\"title\">{$this->title}</span>\n";
-        $this->_deliverable_html .= "    (<span class=\"salesproject\">{$salesproject->title}</span>)\n";
-        $this->_deliverable_html .= "</span>\n";
     }
 
     public function get_state() : string
