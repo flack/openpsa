@@ -379,11 +379,12 @@ class org_openpsa_widgets_contact
             return;
         }
 
-        $root_group = org_openpsa_contacts_interface::find_root_group();
-        $parent = $customer->get_parent();
         $parent_name = false;
-        if ($parent->id != $root_group->id) {
-            $parent_name = $parent->get_label();
+        if ($parent = $customer->get_parent()) {
+            $root_group = org_openpsa_contacts_interface::find_root_group();
+            if ($parent->id != $root_group->id) {
+                $parent_name = $parent->get_label();
+            }
         }
 
         foreach ($cards_to_show as $cardname) {
