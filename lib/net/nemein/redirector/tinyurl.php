@@ -15,7 +15,7 @@
  * @property string $title
  * @property string $url
  * @property string $description
- * @package net.nemein.calendar
+ * @package net.nemein.redirector
  */
 class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
 {
