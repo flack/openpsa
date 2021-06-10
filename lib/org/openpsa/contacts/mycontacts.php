@@ -14,60 +14,57 @@
 class org_openpsa_contacts_mycontacts
 {
     /**
-     * @var midcom_core_user
+     * @var midcom_db_person
      */
-    private $_user;
+    private $person;
 
     /**
-     * @var org_openpsa_contacts_list_dba
+     * @var array
      */
-    private $_group;
+    private $contacts;
 
-    public function __construct(midcom_core_user $user = null)
+    public function __construct()
     {
-        $this->_user = $user ?: midcom::get()->auth->user;
+        $this->person = midcom::get()->auth->user->get_storage();
     }
 
-    private function _get_group(bool $autocreate = false) : ?org_openpsa_contacts_list_dba
+    private function load()
     {
-        if (!$this->_group) {
-            $qb = org_openpsa_contacts_list_dba::new_query_builder();
-            $qb->add_constraint('person', '=', $this->_user->guid);
-            $results = $qb->execute();
-            if (!empty($results)) {
-                $this->_group = $results[0];
-            } elseif ($autocreate) {
-                $this->_group = new org_openpsa_contacts_list_dba;
-                $this->_group->person = $this->_user->guid;
-                midcom::get()->auth->request_sudo('org.openpsa.contacts');
-                $this->_group->create();
-                $this->_group->set_privilege('midgard:owner', $this->_user->id, MIDCOM_PRIVILEGE_ALLOW);
-                midcom::get()->auth->drop_sudo();
+        if ($this->contacts === null) {
+            $this->contacts = [];
+            if ($saved = $this->person->get_parameter('org.openpsa.contacts', 'mycontacts')) {
+                $this->contacts = unserialize($saved) ?: [];
             }
         }
+    }
 
-        return $this->_group;
+    private function save()
+    {
+        $this->person->set_parameter('org.openpsa.contacts', 'mycontacts', serialize($this->contacts));
     }
 
     public function add(string $guid)
     {
-        $group = $this->_get_group(true);
-        $group->add_member($guid);
+        $this->load();
+        $this->contacts[] = $guid;
+        $this->contacts = array_unique($this->contacts);
+        $this->save();
     }
 
     public function remove(string $guid)
     {
-        if ($group = $this->_get_group()) {
-            $group->remove_member($guid);
+        $this->load();
+        $key = array_search($guid, $this->contacts);
+        if ($key !== false) {
+            unset($this->contacts[$key]);
         }
+        $this->save();
     }
 
     public function is_member(string $guid) : bool
     {
-        if ($group = $this->_get_group()) {
-            return $group->is_member($guid);
-        }
-        return false;
+        $this->load();
+        return in_array($guid, $this->contacts);
     }
 
     /**
@@ -75,14 +72,9 @@ class org_openpsa_contacts_mycontacts
      */
     public function list_members() : array
     {
-        if ($group = $this->_get_group()) {
-            $memberships = $group->list_members();
-            if (!empty($memberships)) {
-                $qb = org_openpsa_contacts_person_dba::new_query_builder();
-                $qb->add_constraint('id', 'IN', $memberships);
-                return $qb->execute();
-            }
-        }
-        return [];
+        $this->load();
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb->add_constraint('guid', 'IN', $this->contacts);
+        return $qb->execute();
     }
 }

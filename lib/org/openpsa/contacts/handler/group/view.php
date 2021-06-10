@@ -78,7 +78,7 @@ implements client
         $this->group = new org_openpsa_contacts_group_dba($guid);
         $data['group'] = $this->group;
 
-        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::ORGANIZATION) {
             $type = 'group';
             $data['group_tree'] = $this->get_group_tree();
             $data['members_grid'] = new grid('members_grid', 'json');
@@ -109,7 +109,7 @@ implements client
 
         $this->add_breadcrumb_path_for_group();
 
-        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::ORGANIZATION) {
             return $this->show('show-group-other');
         }
         return $this->show('show-group');

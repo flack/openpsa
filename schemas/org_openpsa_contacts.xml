@@ -30,7 +30,6 @@
         <property name="invoiceCity" type="string" />
         <property name="invoiceCountry" type="string" />
 
-        <property name="customerId" type="string" index="yes" />
         <property name="phone" type="string" />
         <property name="fax" type="string" />
         <property name="keywords" type="string" />
@@ -39,27 +38,6 @@
         <property name="invoiceVat" type="unsigned integer" />
         <property name="invoiceDistribution" type="string" />
         <property name="vatNo" type="string" />
-
-        <!-- Common OpenPSA properties -->
-
-        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
-        <property name="orgOpenpsaObtype" type="integer" />
-
-        <!-- /Common OpenPSA properties -->
-    </type>
-
-
-    <type name="org_openpsa_contacts_list" table="grp">
-        <!-- Clean extending not supported yet
-             NewMidgardGrp properties -->
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="name" type="string" index="yes" />
-        <property name="official" type="string" index="yes" />
-        <property name="extra" type="text" />
-        <property name="owner" link="midgard_group:id" type="unsigned integer" upfield="owner" />
-        <property name="person" field="customerId" type="string" index="yes" />
 
         <!-- Common OpenPSA properties -->
 

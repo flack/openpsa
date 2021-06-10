@@ -454,10 +454,6 @@ City
 Country
 ---STRINGEND
 
----STRING property:customerId
-Customer ID
----STRINGEND
-
 ---STRING property:email
 E-Mail
 ---STRINGEND

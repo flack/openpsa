@@ -34,7 +34,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
 
             if ($group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION) {
                 $defaults['organizations'] = [$group->id];
-            } elseif ($group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+            } else {
                 $defaults['groups'] = [$group->id];
             }
         }

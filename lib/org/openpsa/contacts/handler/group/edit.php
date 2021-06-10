@@ -27,7 +27,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
         $this->_group = new org_openpsa_contacts_group_dba($guid);
         $this->_group->require_do('midgard:update');
 
-        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::ORGANIZATION) {
             $type = 'group';
         } else {
             $type = 'organization';

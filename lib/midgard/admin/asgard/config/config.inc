@@ -2,7 +2,6 @@
     'name',
     'title',
     'official',
-    'customerId',
     'firstname',
     'lastname',
     'prefix',

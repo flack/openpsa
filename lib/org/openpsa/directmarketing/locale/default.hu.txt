@@ -170,10 +170,6 @@ Város
 Ország
 ---STRINGEND
 
----STRING property:customerId
-Ügyfél azonosító
----STRINGEND
-
 ---STRING property:email
 E-Mail
 ---STRINGEND

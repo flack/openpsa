@@ -179,7 +179,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             ->where('m.uid = :uid')
             ->setParameter('uid', $contact_id);
 
-        $qb->add_constraint('orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $qb->add_constraint('orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
         $qb->add_order('official');
         $qb->add_order('name');
         foreach ($qb->execute() as $group) {

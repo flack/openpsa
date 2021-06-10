@@ -112,7 +112,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $mc->add_constraint('uid', 'IN', array_keys($contacts));
         // Skip magic groups and contact lists
         $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
-        $mc->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $memberships = $mc->get_values('gid');
 
         foreach ($memberships as $gid) {

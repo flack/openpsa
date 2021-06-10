@@ -84,7 +84,7 @@
                 	[
                         'field' => 'orgOpenpsaObtype',
                         'op'    => '<',
-                        'value' => 500, // org_openpsa_contacts_group_dba::MYCONTACTS
+                        'value' => 1000, // org_openpsa_contacts_group_dba::ORGANIZATION
                     ],
                 ],
             ],

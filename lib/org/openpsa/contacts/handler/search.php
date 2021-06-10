@@ -233,7 +233,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
 
         $qb_org = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb_org->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $this->_apply_constraints($qb_org, 'organization');
 
         $this->_groups = $qb_org->execute();

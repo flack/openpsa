@@ -30,7 +30,7 @@ trait org_openpsa_contacts_handler
         $tree->link_callback = function ($guid) use ($prefix) {
             return $prefix . 'group/' . $guid . '/';
         };
-        $tree->constraints[] = ['orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS];
+        $tree->constraints[] = ['orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::ORGANIZATION];
         $tree->root_node = $root_group->id;
         $tree->title_fields = ['official', 'name'];
         return $tree;

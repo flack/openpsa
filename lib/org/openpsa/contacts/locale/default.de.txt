@@ -94,10 +94,6 @@ Unterorganisation erstellen
 Untergruppe erstellen
 ---STRINGEND
 
----STRING contacts of %s
-Kontakte von %s
----STRINGEND
-
 ---STRING daughter organization
 Unterorganisation
 ---STRINGEND

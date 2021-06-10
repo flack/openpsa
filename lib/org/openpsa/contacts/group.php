@@ -45,7 +45,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     ];
 
     const OTHERGROUP = 0;
-    const MYCONTACTS = 500;
     const ORGANIZATION = 1000;
     const DAUGHTER = 1001;
     const DEPARTMENT = 1002;

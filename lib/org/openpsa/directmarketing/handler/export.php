@@ -84,7 +84,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
-        $qb_memberships->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $qb_memberships->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
 
         if ($memberships = $qb_memberships->execute_unchecked()) {
             if ($this->membership_mode == 'first') {

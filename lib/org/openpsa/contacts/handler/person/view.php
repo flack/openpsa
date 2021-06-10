@@ -155,12 +155,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
-        $qb->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $qb->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
         $this->organizations = $qb->execute();
 
         $qb = org_openpsa_contacts_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $data['person']->id);
-        $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::ORGANIZATION);
         $this->groups = $qb->execute();
     }
 

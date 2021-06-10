@@ -418,10 +418,6 @@ Stadt
 Land
 ---STRINGEND
 
----STRING property:customerId
-Kunden-ID
----STRINGEND
-
 ---STRING property:email
 E-Mail
 ---STRINGEND

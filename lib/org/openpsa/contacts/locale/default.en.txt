@@ -90,10 +90,6 @@ Create suborganization
 Create subgroup
 ---STRINGEND
 
----STRING contacts of %s
-Contacts of %s
----STRINGEND
-
 ---STRING daughter organization
 Daughter organization
 ---STRINGEND

@@ -454,10 +454,6 @@ Kaupunki
 Maa
 ---STRINGEND
 
----STRING property:customerId
-Asiakasnumero
----STRINGEND
-
 ---STRING property:email
 Sähköposti
 ---STRINGEND

@@ -22,7 +22,6 @@ implements midcom_services_permalinks_resolver
     public function _on_reindex($topic, midcom_helper_configuration $config, midcom_services_indexer $indexer)
     {
         $qb_organisations = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb_organisations->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
         $organisation_dm = datamanager::from_schemadb($config->get('schemadb_group'));
 
         $qb_persons = org_openpsa_contacts_person_dba::new_query_builder();
