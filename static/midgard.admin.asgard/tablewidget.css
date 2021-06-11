@@ -25,7 +25,10 @@
     padding: 2px 20px 2px 5px;
     cursor: pointer;
     white-space: nowrap;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #555753;
 }
 
 .table_widget thead th:before {

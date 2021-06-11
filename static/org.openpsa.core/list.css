@@ -28,7 +28,9 @@ table.list thead th
     color: #ffffff;
     text-align: left;
     padding-right: 8px;
-    white-space: nowrap
+    white-space: nowrap;
+    position: sticky;
+    top: -1em;
 }
 
 table.list tbody th
