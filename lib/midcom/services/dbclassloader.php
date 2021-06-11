@@ -86,7 +86,6 @@ class midcom_services_dbclassloader
             'org.openpsa.document' => 'org.openpsa.documents',
             'org.openpsa.organization' => 'org.openpsa.contacts',
             'org.openpsa.person' => 'org.openpsa.contacts',
-            'org.openpsa.role' => 'org.openpsa.contacts',
             'org.openpsa.member' => 'org.openpsa.contacts',
             'org.openpsa.salesproject' => 'org.openpsa.sales',
             'org.openpsa.offer' => 'org.openpsa.sales',
@@ -97,6 +96,7 @@ class midcom_services_dbclassloader
             'org.openpsa.query' => 'org.openpsa.reports',
             'org.openpsa.task' => 'org.openpsa.projects',
             'org.openpsa.project' => 'org.openpsa.projects',
+            'org.openpsa.role' => 'org.openpsa.projects',
             'org.openpsa.hour' => 'org.openpsa.expenses'
         ];
 

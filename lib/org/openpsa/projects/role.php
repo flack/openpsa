@@ -46,7 +46,7 @@ class org_openpsa_projects_role_dba extends midcom_core_dbaobject
     {
         $qb = new midgard_query_builder('org_openpsa_role');
         $qb->add_constraint('person', '=', $this->person);
-        $qb->add_constraint('objectGuid', '=', $this->objectGuid);
+        $qb->add_constraint('project', '=', $this->project);
         $qb->add_constraint('role', '=', $this->role);
 
         if ($this->id) {
