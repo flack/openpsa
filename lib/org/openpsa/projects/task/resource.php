@@ -54,7 +54,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
 
         if ($parent instanceof org_openpsa_projects_project) {
-            org_openpsa_contacts_role_dba::add($parent->guid, $this->person, $this->orgOpenpsaObtype);
+            org_openpsa_projects_role_dba::add($parent->id, $this->person, $this->orgOpenpsaObtype);
             return;
         }
 
@@ -88,12 +88,10 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return;
         }
 
-        $project  = new org_openpsa_projects_project($task->project);
-
-        $qb = org_openpsa_contacts_role_dba::new_query_builder();
+        $qb = org_openpsa_projects_role_dba::new_query_builder();
         $qb->add_constraint('person', '=', $this->person);
         $qb->add_constraint('role', '=', $this->orgOpenpsaObtype);
-        $qb->add_constraint('objectGuid', '=', $project->guid);
+        $qb->add_constraint('project', '=', $task->project);
 
         foreach ($qb->execute() as $result) {
             $result->delete();

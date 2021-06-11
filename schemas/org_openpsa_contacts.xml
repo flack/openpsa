@@ -74,18 +74,6 @@
         <property name="fax" type="string" />
     </type>
 
-    <type name="org_openpsa_role" table="org_openpsa_role" >
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="fromComponent" type="string" index="yes"/>
-        <property name="objectGuid" type="guid" index="yes"/>
-        <property name="role" type="integer" index="yes"/>
-        <property name="description" type="string"/>
-        <property name="person" link="midgard_person:id" type="unsigned integer" />
-        <property name="status" type="integer"/>
-    </type>
-    
     <type name="org_openpsa_member" table="member">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>

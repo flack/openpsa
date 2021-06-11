@@ -21,8 +21,8 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
 
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-        $member1 = new org_openpsa_contacts_role_dba();
-        $member1->objectGuid = $salesproject->guid;
+        $member1 = new org_openpsa_projects_role_dba();
+        $member1->project = $salesproject->id;
         $member1->person = $person1->id;
         $member1->role = org_openpsa_sales_salesproject_dba::ROLE_MEMBER;
         $stat = $member1->create();
@@ -34,11 +34,11 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $stat = $member1->delete();
         $this->assertTrue($stat);
 
-        $stat = org_openpsa_contacts_role_dba::add($salesproject->guid, $person2->id, org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
+        $stat = org_openpsa_projects_role_dba::add($salesproject->id, $person2->id, org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
         $this->assertTrue($stat);
 
-        $qb = org_openpsa_contacts_role_dba::new_query_builder();
-        $qb->add_constraint('objectGuid', '=', $salesproject->guid);
+        $qb = org_openpsa_projects_role_dba::new_query_builder();
+        $qb->add_constraint('project', '=', $salesproject->id);
         $this->assertEquals(1, $qb->count());
 
         $members = $qb->execute();

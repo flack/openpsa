@@ -27,12 +27,6 @@
     ],
     'org_openpsa_contacts_person_dba' => [],
     'org_openpsa_contacts_group_dba' => [],
-    'org_openpsa_contacts_role_dba' => [
-        'person' => [
-            'target' => 'id',
-            'duplicate_check' => 'check_duplicates'
-        ]
-    ],
 
     'org_openpsa_directmarketing_campaign_member_dba' => [
         'person' => [
@@ -61,6 +55,12 @@
         'linkGuid' => [
             'target' => 'guid',
             'duplicate_check' => 'linkGuid'
+        ]
+    ],
+    'org_openpsa_projects_role_dba' => [
+        'person' => [
+            'target' => 'id',
+            'duplicate_check' => 'check_duplicates'
         ]
     ],
     'org_openpsa_projects_task_resource_dba' => [

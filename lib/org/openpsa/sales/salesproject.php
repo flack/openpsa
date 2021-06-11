@@ -40,7 +40,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
     public $autodelete_dependents = [
-        org_openpsa_contacts_role_dba::class => 'objectGuid'
+        org_openpsa_projects_role_dba::class => 'project'
     ];
 
     //org.openpsa.sales salesproject states
@@ -226,7 +226,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
             $this->_contacts[$this->customerContact] = true;
         }
         if ($this->id) {
-            $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+            $mc = org_openpsa_projects_role_dba::new_collector('project', $this->id);
             $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
             $this->_contacts += array_fill_keys($mc->get_values('person'), true);

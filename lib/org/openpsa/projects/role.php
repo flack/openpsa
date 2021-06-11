@@ -1,30 +1,29 @@
 <?php
 /**
- * @package org.openpsa.contacts
+ * @package org.openpsa.projects
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
 /**
- * @property string $fromComponent
- * @property string $objectGuid
+ * @property integer $project
  * @property integer $role
  * @property string $description
  * @property integer $person
  * @property integer $status
- * @package org.openpsa.contacts
+ * @package org.openpsa.projects
  */
-class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
+class org_openpsa_projects_role_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_role';
 
     public $_use_rcs = false;
 
-    public static function add(string $object_guid, int $person, int $role) : bool
+    public static function add(int $project, int $person, int $role) : bool
     {
-        $mc = self::new_collector('objectGuid', $object_guid);
+        $mc = self::new_collector('project', $project);
         $mc->add_constraint('role', '=', $role);
         $mc->add_constraint('person', '=', $person);
         $mc->execute();
@@ -36,7 +35,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         $new_role = new self();
         $new_role->person = $person;
         $new_role->role = $role;
-        $new_role->objectGuid = $object_guid;
+        $new_role->project = $project;
         return $new_role->create();
     }
 

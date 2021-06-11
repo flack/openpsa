@@ -37,7 +37,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public $__mgdschema_class_name__ = 'org_openpsa_project';
 
     public $autodelete_dependents = [
-        org_openpsa_contacts_role_dba::class => 'objectGuid'
+        org_openpsa_projects_role_dba::class => 'project'
     ];
 
     public $contacts = []; //Shorthand access for contact members
@@ -166,7 +166,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public function get_members()
     {
         if ($this->guid) {
-            $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+            $mc = org_openpsa_projects_role_dba::new_collector('project', $this->id);
             $ret = $mc->get_rows(['role', 'person']);
 
             foreach ($ret as $data) {

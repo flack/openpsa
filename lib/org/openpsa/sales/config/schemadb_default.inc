@@ -133,8 +133,8 @@
             'storage' => null,
             'type' => 'mnrelation',
             'type_config' => [
-                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
-                'master_fieldname' => 'objectGuid',
+                'mapping_class_name' => 'org_openpsa_projects_role_dba',
+                'master_fieldname' => 'project',
                 'member_fieldname' => 'person',
                 'additional_fields' => ['role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER],
             ],

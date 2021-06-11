@@ -211,10 +211,10 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
         $member_attributes = [
             'person' => $member->id,
-            'objectGuid' => $salesproject->guid,
+            'project' => $salesproject->id,
             'role' => org_openpsa_sales_salesproject_dba::ROLE_MEMBER
         ];
-        $this->create_object(org_openpsa_contacts_role_dba::class, $member_attributes);
+        $this->create_object(org_openpsa_projects_role_dba::class, $member_attributes);
 
         $deliverable_attributes = [
            'salesproject' => $salesproject->id,

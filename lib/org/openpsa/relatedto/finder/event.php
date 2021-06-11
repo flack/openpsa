@@ -88,10 +88,6 @@ class org_openpsa_relatedto_finder_event extends org_openpsa_relatedto_finder
             return [];
         }
 
-        $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-        $mc->add_constraint('person', 'IN', array_keys($this->event->participants));
-        $guids = $mc->get_values('objectGuid');
-
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
         // Target sales project starts or ends inside given events window or starts before and ends after
@@ -105,9 +101,13 @@ class org_openpsa_relatedto_finder_event extends org_openpsa_relatedto_finder
         $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
 
         //Each event participant is either manager or member (resource/contact) in task
+        $mc = org_openpsa_projects_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
+        $mc->add_constraint('person', 'IN', array_keys($this->event->participants));
+        $ids = $mc->get_values('project');
+
         $qb->begin_group('OR');
             $qb->add_constraint('owner', 'IN', array_keys($this->event->participants));
-            $qb->add_constraint('guid', 'IN', $guids);
+            $qb->add_constraint('id', 'IN', $ids);
         $qb->end_group();
 
         $defaults = $this->suspect_defaults($this->event, 'org.openpsa.calendar', 'incoming');

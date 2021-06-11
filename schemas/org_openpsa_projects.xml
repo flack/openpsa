@@ -46,6 +46,18 @@
 
     </type>
 
+    <type name="org_openpsa_role" table="org_openpsa_role" >
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="objectGuid" type="guid" index="yes"/>
+        <property name="project" parentfield="project" link="org_openpsa_project:id" type="unsigned integer"/>
+        <property name="role" type="integer" index="yes"/>
+        <property name="description" type="string"/>
+        <property name="person" link="midgard_person:id" type="unsigned integer" />
+        <property name="status" type="integer"/>
+    </type>
+
     <type name="org_openpsa_task" table="org_openpsa_task" parent="org_openpsa_project">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>

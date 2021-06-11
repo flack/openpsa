@@ -5,6 +5,7 @@
 'class_mapping' => [
     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
     'org_openpsa_project' => 'org_openpsa_projects_project',
+    'org_openpsa_role' => 'org_openpsa_projects_role_dba',
     'org_openpsa_task_resource' => 'org_openpsa_projects_task_resource_dba',
     'org_openpsa_task_status' => 'org_openpsa_projects_task_status_dba',
 ],
