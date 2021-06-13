@@ -138,6 +138,16 @@ div.org_openpsa_projects_project .filter_form
     padding-bottom:0;
 }
 
+table.list td.multivalue > div
+{
+    display: inline
+}
+
+table.list td.multivalue > .details
+{
+    margin-left: 1em;
+}
+
 .workflow-status::before {
     content: '';
     border-radius: 50%;

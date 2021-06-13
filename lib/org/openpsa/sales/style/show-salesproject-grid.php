@@ -41,12 +41,9 @@ foreach ($data['salesprojects'] as $salesproject) {
     if ($salesproject->customerContact) {
         try {
             $customer = org_openpsa_contacts_person_dba::get_cached($salesproject->customerContact);
-            $label = $customer->get_label();
-            $row['index_customerContact'] = $label;
-            $row['customerContact'] = $label;
-            if ($data['contacts_url']) {
-                $row['customerContact'] = "<a href=\"{$data['contacts_url']}person/{$customer->guid}/\">{$label}</a>";
-            }
+            $contact_widget = org_openpsa_widgets_contact::get($salesproject->customerContact);
+            $row['index_customerContact'] = $customer->get_label();
+            $row['customerContact'] = $contact_widget->show_inline();
         } catch (midcom_error $e) {
             $e->log();
         }
@@ -77,7 +74,6 @@ foreach ($data['salesprojects'] as $salesproject) {
 }
 ?>
 <div class="org_openpsa_sales full-width crop-height <?php echo $data['mode']; ?>">
-
 <?php
 $grid
     ->set_column('created', $data['l10n']->get('created'), 'width: 95, align: "right", formatter: "date", fixed: true')
@@ -85,9 +81,9 @@ $grid
 if ($data['mode'] != 'customer') {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
 }
-$grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 80, classes: "ui-ellipsis"', 'string');
+$grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 80, classes: "ui-ellipsis", template: "title_from_index"', 'string');
 $grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
-$grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
+$grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis", template: "title_from_index"', 'string')
     ->set_column('value', $data['l10n']->get('value'), 'width: 60, summaryType: "sum", template: "number"');
 if ($data['mode'] == 'active') {
     $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, fixed: true, align: "right"')

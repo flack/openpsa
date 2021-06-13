@@ -105,7 +105,10 @@ implements client
         if (!is_a($this->_customer, org_openpsa_contacts_person_dba::class)) {
             try {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
+                $contact_widget = org_openpsa_widgets_contact::get($invoice->customerContact);
+                $contact_widget->link = $this->router->generate('list_customer_all', ['guid' => $contact->guid]);
                 $entry['contact'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $contact->guid])}\">" . $contact->get_label() . "</a>";
+                $entry['contact'] = $contact_widget->show_inline();
                 $entry['index_contact'] = $contact->get_label();
             } catch (midcom_error $e) {
                 $entry['contact'] = '';

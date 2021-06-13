@@ -18,9 +18,18 @@ const midcom_jqgrid_presets = {
         id: '0'
     }
 };
+$.extend(true, $.jgrid.cmTemplate, {
+    title_from_index: {
+        title: false,
+        cellattr: function (rowId, cellValue, rawObject, cm, rdata) {
+            if (cellValue) {
+                return ' title="' + rdata['index_' + cm.name] + '"';
+            }
+        }
+    }
+});
 
 $.jgrid.defaults = $.extend($.jgrid.defaults, midcom_jqgrid_presets);
-
 $.jgrid.search.searchOnEnter = false;
 $.jgrid.search.defaultSearch = 'cn';
 
