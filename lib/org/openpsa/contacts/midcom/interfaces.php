@@ -37,23 +37,23 @@ implements midcom_services_permalinks_resolver
     /**
      * Locates the root group
      */
-    public static function find_root_group(string $name = '__org_openpsa_contacts') : midcom_db_group
+    public static function find_root_group() : midcom_db_group
     {
-        static $root_groups = [];
+        static $root_group;
 
         //Check if we have already initialized
-        if (!empty($root_groups[$name])) {
-            return $root_groups[$name];
+        if (!empty($root_group)) {
+            return $root_group;
         }
 
         $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('owner', '=', 0);
-        $qb->add_constraint('name', '=', $name);
+        $qb->add_constraint('name', '=', '__org_openpsa_contacts');
 
         $results = $qb->execute();
 
         if (!empty($results)) {
-            $root_groups[$name] = end($results);
+            $root_group = end($results);
         } else {
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
@@ -61,17 +61,17 @@ implements midcom_services_permalinks_resolver
             midcom::get()->auth->request_sudo('org.openpsa.contacts');
             $grp = new midcom_db_group();
             $grp->owner = 0;
-            $grp->name = $name;
-            $grp->official = midcom::get()->i18n->get_string($name, 'org.openpsa.contacts');
+            $grp->name = '__org_openpsa_contacts';
+            $grp->official = midcom::get()->i18n->get_string($grp->name, 'org.openpsa.contacts');
             $ret = $grp->create();
             midcom::get()->auth->drop_sudo();
             if (!$ret) {
                 throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
             }
-            $root_groups[$name] = $grp;
+            $root_group = $grp;
         }
 
-        return $root_groups[$name];
+        return $root_group;
     }
 
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object) : ?string

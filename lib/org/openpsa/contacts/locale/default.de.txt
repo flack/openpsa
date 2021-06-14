@@ -6,10 +6,6 @@
 CRM-Basisgruppe
 ---STRINGEND
 
----STRING __org_openpsa_contacts_list
-Basisgruppe für Kontaktlisten
----STRINGEND
-
 ---STRING add contact
 Kontakt hinzufügen
 ---STRINGEND

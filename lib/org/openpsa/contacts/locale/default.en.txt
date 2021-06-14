@@ -6,10 +6,6 @@
 CRM Root Group
 ---STRINGEND
 
----STRING __org_openpsa_contacts_list
-Contact Lists Root Group
----STRINGEND
-
 ---STRING %s of
 %s of
 ---STRINGEND
