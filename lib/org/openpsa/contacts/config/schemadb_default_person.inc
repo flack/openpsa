@@ -148,6 +148,11 @@
                 'master_is_id' => true,
                 'constraints' => [
                     [
+                        'field' => 'orgOpenpsaObtype',
+                        'op'    => '<',
+                        'value' => org_openpsa_contacts_group_dba::ORGANIZATION,
+                    ],
+                    [
                         'field' => 'owner',
                         'op' => 'INTREE',
                         'value' => org_openpsa_contacts_interface::find_root_group()->id
