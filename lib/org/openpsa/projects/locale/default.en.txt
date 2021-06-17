@@ -6,10 +6,6 @@
 %d closed projects
 ---STRINGEND
 
----STRING %s of %s planned hours booked
-%s of %s planned hours booked in calendar
----STRINGEND
-
 ---STRING accept
 Accept
 ---STRINGEND
@@ -40,10 +36,6 @@ Approved by %s
 
 ---STRING basic information
 Basic information
----STRINGEND
-
----STRING booked times
-Booked times
 ---STRINGEND
 
 ---STRING closed
@@ -312,10 +304,6 @@ Resources
 
 ---STRING resourcing
 Resourcing
----STRINGEND
-
----STRING schedule resources
-Schedule resources
 ---STRINGEND
 
 ---STRING skills required

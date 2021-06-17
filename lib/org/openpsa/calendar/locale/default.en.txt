@@ -2,8 +2,16 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING %s of %s planned hours booked
+%s of %s planned hours booked in calendar
+---STRINGEND
+
 ---STRING available slot
 Available time slot
+---STRINGEND
+
+---STRING booked times
+Booked times
 ---STRINGEND
 
 ---STRING calendar
@@ -112,6 +120,10 @@ Resource
 
 ---STRING resources
 Resources
+---STRINGEND
+
+---STRING schedule resources
+Schedule resources
 ---STRINGEND
 
 ---STRING start time

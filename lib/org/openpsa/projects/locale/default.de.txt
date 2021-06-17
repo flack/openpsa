@@ -6,10 +6,6 @@
 %d abgeschlosse Projekte
 ---STRINGEND
 
----STRING %s of %s planned hours booked
-%s von %s geplanten Arbeitsstunden sind im Kalender gebucht
----STRINGEND
-
 ---STRING accept
 Annehmen
 ---STRINGEND
@@ -40,10 +36,6 @@ Genehmigt durch %s
 
 ---STRING basic information
 Basis-Informationen
----STRINGEND
-
----STRING booked times
-Gebuchte Zeiten
 ---STRINGEND
 
 ---STRING closed
@@ -308,10 +300,6 @@ Ressourcen
 
 ---STRING resourcing
 Ressourcen-Planung
----STRINGEND
-
----STRING schedule resources
-Ressourcen planen
 ---STRINGEND
 
 ---STRING skills required

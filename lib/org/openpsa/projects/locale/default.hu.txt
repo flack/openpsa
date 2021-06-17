@@ -30,10 +30,6 @@ Jóváhagyva
 Alap információk
 ---STRINGEND
 
----STRING booked times
-Foglalások
----STRINGEND
-
 ---STRING closed
 Zárva
 ---STRINGEND
@@ -222,10 +218,6 @@ Erősforrás
 Erőforrások menedzselése
 ---STRINGEND
 
----STRING schedule resources
-Erőforrások ütemezése
----STRINGEND
-
 ---STRING skills required
 Szükséges képességek
 ---STRINGEND
@@ -264,8 +256,4 @@ Fajta
 
 ---STRING work started by %s
 %s által a munka elkezdve
----STRINGEND
-
----STRING %s of %s planned hours booked
-%s óra van a naptárba bejegyezve a tervezett %s órából
 ---STRINGEND

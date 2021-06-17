@@ -6,6 +6,14 @@
 Saatavilla oleva aika
 ---STRINGEND
 
+---STRING %s of %s planned hours booked
+%sh %s:stä arvioidusta tunnista varattu kalenterista
+---STRINGEND
+
+---STRING booked times
+Aikavaraukset
+---STRINGEND
+
 ---STRING calendar
 Kalenteri
 ---STRINGEND
@@ -84,6 +92,10 @@ Yksityinen tapahtuma
 
 ---STRING resources
 Resurssit
+---STRINGEND
+
+---STRING schedule resources
+Aikatauluta resursseja
 ---STRINGEND
 
 ---STRING start time

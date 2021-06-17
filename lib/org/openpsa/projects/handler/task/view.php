@@ -43,7 +43,6 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('up', '=', $this->task->id);
         $data['has_subtasks'] = $qb->count() > 0;
-        $data['task_bookings'] = $this->list_bookings();
 
         return $this->show('show-task');
     }
@@ -118,41 +117,5 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         }
 
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    private function list_bookings() : array
-    {
-        $task_booked_time = 0;
-        $task_booked_percentage = 100;
-
-        $bookings = [
-            'confirmed' => [],
-            'suspected' => [],
-        ];
-        $mc = new org_openpsa_relatedto_collector($this->task->guid, org_openpsa_calendar_event_dba::class);
-        $mc->add_object_order('start', 'ASC');
-        $events = $mc->get_related_objects_grouped_by('status');
-
-        foreach ($events as $status => $list) {
-            if ($status == org_openpsa_relatedto_dba::CONFIRMED) {
-                $bookings['confirmed'] = $list;
-            } else {
-                $bookings['suspected'] = $list;
-            }
-        }
-        foreach ($bookings['confirmed'] as $booking) {
-            $task_booked_time += ($booking->end - $booking->start) / 3600;
-        }
-
-        $task_booked_time = round($task_booked_time);
-
-        if ($this->task->plannedHours != 0) {
-            $task_booked_percentage = round(100 / $this->task->plannedHours * $task_booked_time);
-        }
-
-        $this->_request_data['task_booked_percentage'] = $task_booked_percentage;
-        $this->_request_data['task_booked_time'] = $task_booked_time;
-
-        return $bookings;
     }
 }

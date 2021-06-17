@@ -6,10 +6,6 @@
 %d suljetut projektit
 ---STRINGEND
 
----STRING %s of %s planned hours booked
-%sh %s:stä arvioidusta tunnista varattu kalenterista
----STRINGEND
-
 ---STRING accept
 Hyväksy
 ---STRINGEND
@@ -36,10 +32,6 @@ Hyväksynyt valmiiksi %s
 
 ---STRING basic information
 Perustiedot
----STRINGEND
-
----STRING booked times
-Aikavaraukset
 ---STRINGEND
 
 ---STRING closed
@@ -288,10 +280,6 @@ Resurssit
 
 ---STRING resourcing
 Resurssointi
----STRINGEND
-
----STRING schedule resources
-Aikatauluta resursseja
 ---STRINGEND
 
 ---STRING skills required

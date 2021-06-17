@@ -41,48 +41,10 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         </div>
     </div>
 
-    <div class="bookings">
-        <?php
-        echo "<h2>" . $data['l10n']->get('booked times') . "</h2>\n";
-        if (!empty($data['task_bookings']['confirmed'])) {
-            echo "<ul>\n";
-            foreach ($data['task_bookings']['confirmed'] as $booking) {
-                echo "<li>";
-                echo $formatter->timeframe($booking->start, $booking->end) . ': ';
-
-                if ($data['calendar_node']) {
-                    echo "<a " . org_openpsa_calendar_interface::get_viewer_attributes($booking->guid, $data['calendar_node']) . ">{$booking->title}</a>";
-                } else {
-                    echo $booking->title;
-                }
-
-                echo " (";
-                foreach ($booking->participants as $participant_id => $display) {
-                    $participant = org_openpsa_widgets_contact::get($participant_id);
-                    echo $participant->show_inline();
-                }
-                echo ")</li>\n";
-            }
-            echo "</ul>\n";
-        }
-
-        $delta = abs(100 - $data['task_booked_percentage']);
-        if ($delta <= 5) {
-            $status = 'ok';
-        } elseif ($delta <= 25) {
-            $status = 'acceptable';
-        } else {
-            $status = 'bad';
-        }
-        echo "<p class=\"{$status}\">" . sprintf($data['l10n']->get('%s of %s planned hours booked'), $data['task_booked_time'], $task->plannedHours) . ".\n";
-        if ($task->resources) {
-            $url = $data['router']->generate('task_resourcing', ['guid' => $task->guid]);
-            echo "<a href=\"{$url}\">" . $data['l10n']->get('schedule resources') . "</a>";
-        }
-        echo ".</p>\n";
-        ?>
-    </div>
     <?php
+        if ($data['calendar_node']) {
+            midcom::get()->dynamic_load($data['calendar_node'][MIDCOM_NAV_RELATIVEURL] . '/bookings/' . $task->guid . '/');
+        }
         $tabs = [[
             'url' => $expenses_url . "hours/task/" . $task->guid . "/",
             'title' => $data['l10n']->get('hour reports'),

@@ -54,6 +54,10 @@ calendar_view_json:
     path: /json/
     defaults: { _controller: 'org_openpsa_calendar_handler_json::json' }
 
+bookings:
+    path: /bookings/{guid}/
+    defaults: { _controller: 'org_openpsa_calendar_handler_bookings::list' }
+
 calendar_view_mode_date:
     path: /{mode}/{date}/
     defaults: { _controller: 'org_openpsa_calendar_handler_calendar::calendar' }

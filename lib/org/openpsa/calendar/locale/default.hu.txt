@@ -2,6 +2,14 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
+---STRING %s of %s planned hours booked
+%s óra van a naptárba bejegyezve a tervezett %s órából
+---STRINGEND
+
+---STRING booked times
+Foglalások
+---STRINGEND
+
 ---STRING choose calendars
 Válasszon megjelenítendő naptárt
 ---STRINGEND
@@ -56,6 +64,10 @@ Résztvevők
 
 ---STRING print
 Nyomtatás
+---STRINGEND
+
+---STRING schedule resources
+Erőforrások ütemezése
 ---STRINGEND
 
 ---STRING start time

@@ -2,8 +2,16 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING %s of %s planned hours booked
+%s von %s geplanten Arbeitsstunden sind im Kalender gebucht
+---STRINGEND
+
 ---STRING available slot
 Verfügbarer Time-Slot
+---STRINGEND
+
+---STRING booked times
+Gebuchte Zeiten
 ---STRINGEND
 
 ---STRING choose calendars
@@ -121,6 +129,10 @@ Ressource
 
 ---STRING resources
 Ressourcen
+---STRINGEND
+
+---STRING schedule resources
+Ressourcen planen
 ---STRINGEND
 
 ---STRING you have been added to event "%s"
