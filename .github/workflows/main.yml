@@ -21,6 +21,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: KeisukeYamashita/memcahed-action@v1
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -46,5 +47,4 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
-      uses: KeisukeYamashita/memcahed-action@v1
       run: vendor/bin/phpunit
