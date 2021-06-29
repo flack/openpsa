@@ -46,4 +46,5 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
+      uses: KeisukeYamashita/memcahed-action@v1
       run: vendor/bin/phpunit
