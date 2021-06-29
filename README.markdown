@@ -1,4 +1,4 @@
-OpenPSA [![Build Status](https://secure.travis-ci.org/flack/openpsa.svg?branch=master)](https://travis-ci.org/flack/openpsa)
+OpenPSA
 =======
 
 [OpenPSA](http://midgard-project.org/openpsa/) is a management suite for web agencies and consultants that provides a unified interface for handling many common business processes. It is built on a component architecture that makes it easy to integrate new components for specific requirements and is available as free software under the terms of the LGPL license.
@@ -39,7 +39,7 @@ And use something like this in your vhost config (or .htaccess file):
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ /openpsa/rootfile.php [QSA,L]
-    
+
 ## Setting up Lighttpd
 
 Alternatively, you can also run under lighttpd (or any other web server, for that matter). Enable `rewrite` and `fastcgi` modules in your Lighttpd config (by default `/etc/lighttpd/lighttpd.conf`):
@@ -69,4 +69,3 @@ Then just configure your Lighttpd to pass all requests to the OpenPSA "rootfile"
     )
 
 *Note:* this rewrite rule is a bit too inclusive, to be improved.
-
