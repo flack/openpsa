@@ -4,13 +4,16 @@
 *.css   text eol=lf
 *.php   text eol=lf
 
-static/jQuery/* linguist-vendored
-static/midcom.datamanager/tinymce/* linguist-vendored
-static/midcom.datamanager/simplemde/* linguist-vendored
-static/midcom.datamanager/codemirror-* linguist-vendored
-static/midcom.grid/jqGrid-* linguist-vendored
-static/org.openpsa.calendar/fullcalendar-* linguist-vendored
-static/org.openpsa.core/jquery-ui-multiselect-widget-* linguist-vendored
-static/org.openpsa.documents/elFinder-* linguist-vendored
-static/org.openpsa.slideshow/galleria/* linguist-vendored
-static/stock-icons/* linguist-vendored
+static/jQuery/** linguist-vendored
+static/midcom.datamanager/tinymce/** linguist-vendored
+static/midcom.datamanager/simplemde/** linguist-vendored
+static/midcom.datamanager/codemirror-*/** linguist-vendored
+static/midcom.grid/jqGrid-*/** linguist-vendored
+static/org.openpsa.calendar/fullcalendar-*/** linguist-vendored
+static/org.openpsa.core/jquery-ui-multiselect-widget-*/** linguist-vendored
+static/org.openpsa.documents/elFinder-*/** linguist-vendored
+static/org.openpsa.slideshow/galleria/** linguist-vendored
+static/stock-icons/** linguist-vendored
+
+# linguist interprets style files as Hack without this
+*.php linguist-language=PHP
