@@ -619,12 +619,18 @@ const midcom_grid_csv = {
             data = '';
 
         function trim(input) {
-            return input
+            let sepExp = new RegExp(midcom_grid_csv.separator),
+                converted = input
                 .replace(/\n|\r/g, " ") // remove line breaks
                 .replace(/\s+/g, " ") // Shorten long whitespace
                 .replace(/^\s+/g, "") // strip leading ws
                 .replace(/\s+$/g, "") // strip trailing ws
                 .replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, ''); //strip HTML tags
+
+            if (converted.match(sepExp)) {
+                return '"' + converted + '"';
+            }
+            return converted;
         }
 
         for (field in config.fields) {
