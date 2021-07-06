@@ -546,6 +546,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $maps = $this->backend->getItems($this->context_guids[$context]);
+        if ($maps instanceof Traversable) {
+            $maps = iterator_to_array($maps);
+        }
         $to_save = [];
         foreach ($this->context_guids[$context] as $guid) {
             $guidmap = $maps[$guid]->get() ?? [];

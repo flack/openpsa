@@ -55,4 +55,33 @@ class midcom_services_cache_module_contentTest extends TestCase
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
     }
+
+    public function test_store_dl_content()
+    {
+        $config = new midcom_config;
+        $config->set('cache_module_content_headers_strategy', 'revalidate');
+
+        $backend = new ArrayAdapter;
+        $data_cache = new ArrayAdapter;
+
+        $request = Request::create('/');
+        $ctx = midcom_core_context::enter('/');
+        $request->attributes->set('context', $ctx);
+
+        $module = new midcom_services_cache_module_content($config, $backend, $data_cache);
+        $module->uncached(false);
+        $module->register('1111111111111111111111111');
+
+        $module->store_dl_content($ctx->id, 'test', $request);
+
+        $backend_values = $backend->getValues();
+        $this->assertCount(2, $backend_values);
+        $this->assertArrayHasKey('1111111111111111111111111', $backend_values);
+
+        $data_values = $data_cache->getValues();
+        $this->assertCount(1, $data_values);
+        $dl_content_id = unserialize(current($backend_values));
+        $this->assertArrayHasKey($dl_content_id, $data_values);
+        $this->assertEquals('test', unserialize($data_values[$dl_content_id]));
+    }
 }
