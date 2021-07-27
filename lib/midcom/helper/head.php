@@ -90,6 +90,8 @@ class midcom_helper_head
 
     private static $listener_added = false;
 
+    private $cachebusting = '';
+
     /**
      * Sets the page title for the current context.
      *
@@ -213,6 +215,9 @@ class midcom_helper_head
     {
         $string = '';
         foreach ($attributes as $key => $val) {
+            if ($this->cachebusting && $key === 'href') {
+                $val .= $this->cachebusting;
+            }
             $string .= ' ' . $key . '="' . htmlspecialchars($val, ENT_COMPAT) . '"';
         }
         return $string;
@@ -364,11 +369,14 @@ class midcom_helper_head
      * @see add_jsfile()
      * @see add_jscript()
      */
-    public function print_head_elements()
+    public function print_head_elements(string $cachebusting = '')
     {
         if (!self::$listener_added) {
             midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$this, 'inject_head_elements']);
             self::$listener_added = true;
+        }
+        if ($cachebusting) {
+            $this->cachebusting = '?cb=' . $cachebusting;
         }
         echo self::HEAD_PLACEHOLDER;
     }
@@ -432,6 +440,9 @@ class midcom_helper_head
     private function render_js(string $carry, array $js_call) : string
     {
         if (array_key_exists('url', $js_call)) {
+            if ($this->cachebusting) {
+                $js_call['url'] .= $this->cachebusting;
+            }
             return $carry . '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
         }
         $carry .= '<script type="text/javascript"' . ($js_call['defer'] ?? '') . ">\n";
