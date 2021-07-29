@@ -338,6 +338,6 @@
                 'end_fieldset' => 1,
             ],
         ],
-        net_nemein_rss_helpers::default_rss_config_schema_fields('net.nehmer.blog')
+        class_exists('net_nemein_rss_helpers') ? net_nemein_rss_helpers::default_rss_config_schema_fields('net.nehmer.blog') : []
     ),
 ],

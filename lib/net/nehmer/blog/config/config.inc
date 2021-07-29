@@ -18,7 +18,7 @@
 'index_fulltext' => false,
 
 // RSS export
-'rss_enable' => true,  // enable RSS export on rss/latest.xml
+'rss_enable' => class_exists('UniversalFeedCreator'),  // enable RSS export on rss/latest.xml
 'rss_count' => 20, // show that many items by default (if called 'rss.xml' without any count)
 'rss_title' => null,  // RSS feed title, leave null to use the topic title
 'rss_description' => '',
