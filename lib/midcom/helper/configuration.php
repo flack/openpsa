@@ -68,7 +68,6 @@ class midcom_helper_configuration
      * Internal cache-related items
      * @ignore
      */
-    private $_object_stored = false;
     private $_object;
     private $_path;
 
@@ -130,7 +129,6 @@ class midcom_helper_configuration
         $this->_check_local_array($array);
         $this->_local = ($merge) ? array_merge($this->_local, $array) : $array;
         $this->_update_cache();
-        $this->_object_stored = true;
     }
 
     /**
@@ -176,11 +174,6 @@ class midcom_helper_configuration
      */
     public function store(array $params, bool $reset = true)
     {
-        if (   !$this->_object_stored
-            && $this->_object) {
-            $this->_store_from_object();
-        }
-
         $this->_check_local_array($params);
         if ($reset) {
             $this->reset_local();
@@ -265,11 +258,6 @@ class midcom_helper_configuration
      */
     public function get_all() : array
     {
-        if (   !$this->_object_stored
-            && $this->_object) {
-            $this->_store_from_object();
-        }
-
         return $this->_merged;
     }
 
@@ -278,11 +266,6 @@ class midcom_helper_configuration
      */
     public function exists(string $key) : bool
     {
-        if (   !$this->_object_stored
-            && $this->_object) {
-            $this->_store_from_object();
-        }
-
         return array_key_exists($key, $this->_merged);
     }
 }
