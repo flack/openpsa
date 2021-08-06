@@ -112,7 +112,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
             if (!isset($reports[$row_identifier])) {
                 try {
-                    $person_object = org_openpsa_contacts_person_dba::get_cached($row['person']);
+                    $person_object = midcom_db_person::get_cached($row['person']);
                     $person_label = $this->_get_list_link($person_object->name, null, null, $row['person']);
                     $person_name = $person_object->name;
                 } catch (midcom_error $e) {
