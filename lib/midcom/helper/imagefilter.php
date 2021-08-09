@@ -382,12 +382,11 @@ class midcom_helper_imagefilter
     public function rotate($rotate = 0)
     {
         // Do some normalizing on the argument
-        while ($rotate < 0) {
+        $rotate %= 360;
+        if ($rotate < 0) {
             $rotate += 360;
         }
-        while ($rotate > 360) {
-            $rotate -= 360;
-        }
+
         if (in_array($rotate, [0, 360])) {
             debug_add("Rotate is {$rotate}, we're happy as-is.");
             return;
