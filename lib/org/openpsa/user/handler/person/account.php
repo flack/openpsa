@@ -104,12 +104,6 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             return new midcom_response_relocate($this->router->generate('account_create', ['guid' => $guid]));
         }
 
-        // if there is no password set (due to block), show ui-message for info
-        $account_helper = new org_openpsa_user_accounthelper($this->person);
-        if ($account_helper->is_blocked()) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
-        }
-
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit account'));
         org_openpsa_user_widget_password::jsinit('input[name="org_openpsa_user[new_password][first]"]', $this->_l10n, $this->_config, true);
         $controller = $this->load_controller();

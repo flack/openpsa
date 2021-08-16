@@ -11,6 +11,11 @@
             echo '<p>' . $data['l10n']->get('last login') . ': ' . $formatter->datetime($lastlogin) . "</p>\n";
         }
 
+        $account_helper = new org_openpsa_user_accounthelper($data['person']);
+        if ($account_helper->is_blocked()) {
+            echo '<p>' . sprintf($data['l10n']->get('account blocked %s minutes'), $data['config']->get('password_block_timeframe_min')) . '</p>';
+        }
+
         if (   $data['person']->guid == midcom::get()->auth->user->guid
             || midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class)) {
             $workflow = new midcom\workflow\datamanager;
