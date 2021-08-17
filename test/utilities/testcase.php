@@ -217,6 +217,29 @@ abstract class openpsa_testcase extends TestCase
         return $data;
     }
 
+    private function get_controller(midcom_response_styled $response) : controller
+    {
+        $prop = new ReflectionProperty($response, 'context');
+        $prop->setAccessible(true);
+        return $prop->getValue($response)->get_key(MIDCOM_CONTEXT_SHOWCALLBACK)[0];
+    }
+
+    public function submit_dm_dialog(array $formdata, $component, array $args = []) : string
+    {
+        $data = $this->run_handler($component, $args);
+        $controller = $this->get_controller($data['__openpsa_testcase_response']);
+
+        $this->set_dm_formdata($controller, $formdata);
+        $data = $this->run_handler($component, $args);
+        if (   array_key_exists('__openpsa_testcase_response', $data)
+            && $data['__openpsa_testcase_response'] instanceof midcom_response_styled) {
+            $controller = $this->get_controller($data['__openpsa_testcase_response']);
+            $this->assertEquals([], $controller->get_errors(), 'Form validation failed');
+        }
+
+        return $this->get_dialog_url();
+    }
+
     public function get_dialog_url()
     {
         $head_elements = midcom::get()->head->get_jshead_elements();

@@ -30,6 +30,9 @@ class midcom_admin_folder_handler_editTest extends openpsa_testcase
         $data = $this->run_handler('net.nehmer.static', ['__ais', 'folder', 'edit']);
         $this->assertEquals('edit', $data['handler_id']);
 
+        $url = $this->submit_dm_dialog(['name' => uniqid()], 'net.nehmer.static', ['__ais', 'folder', 'edit']);
+        $this->assertEquals('', $url);
+
         midcom::get()->auth->drop_sudo();
     }
 }
