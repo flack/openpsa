@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\mypage;
+
+use openpsa_testcase;
+use midcom_baseclasses_components_configuration;
+use org_openpsa_mypage_viewer;
+use org_openpsa_mypage_handler_workingon;
+use DateTime;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_mypage_handlerTest extends openpsa_testcase
+class handlerTest extends openpsa_testcase
 {
     public function test_prepare_timestamps()
     {

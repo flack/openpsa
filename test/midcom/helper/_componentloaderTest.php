@@ -6,14 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper;
+
 use PHPUnit\Framework\TestCase;
+use midcom_helper__componentloader;
+use org_openpsa_user_interface;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper__componentloaderTest extends TestCase
+class _componentloaderTest extends TestCase
 {
     public function test_is_installed()
     {

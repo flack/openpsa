@@ -6,12 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\sales\handler;
+
+use openpsa_testcase;
+use org_openpsa_sales_salesproject_dba;
+use org_openpsa_products_product_group_dba;
+use org_openpsa_products_product_dba;
+use midcom;
+use org_openpsa_sales_salesproject_deliverable_dba;
+use midcom_response_json;
+use org_openpsa_invoices_invoice_item_dba;
+use org_openpsa_invoices_invoice_dba;
+use org_openpsa_relatedto_collector;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_handler_viewTest extends openpsa_testcase
+class viewTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_salesproject;

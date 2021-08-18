@@ -6,12 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\mypage\handler;
+
+use openpsa_testcase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_mypage_handler_todayTest extends openpsa_testcase
+class todayTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {

@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\projects\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_projects_project;
+use org_openpsa_projects_task_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_projects_handler_workflowTest extends openpsa_testcase
+class workflowTest extends openpsa_testcase
 {
     public function testHandler_post()
     {

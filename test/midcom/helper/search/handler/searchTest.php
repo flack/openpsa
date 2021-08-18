@@ -6,12 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\search\handler;
+
+use openpsa_testcase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_search_handler_searchTest extends openpsa_testcase
+class searchTest extends openpsa_testcase
 {
     protected static $_topic;
 

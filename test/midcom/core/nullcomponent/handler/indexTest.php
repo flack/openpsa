@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\core\nullcomponent\handler;
+
+use openpsa_testcase;
+use midcom_db_topic;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_core_nullcomponent_handler_indexTest extends openpsa_testcase
+class indexTest extends openpsa_testcase
 {
     public function testHandler_index()
     {

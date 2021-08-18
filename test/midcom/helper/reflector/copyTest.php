@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\reflector;
+
+use openpsa_testcase;
+use midcom_db_topic;
+use midcom;
+use midcom_helper_reflector_copy;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_reflector_copyTest extends openpsa_testcase
+class copyTest extends openpsa_testcase
 {
     public function test_copy_parameters()
     {

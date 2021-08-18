@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\core;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_person;
+use org_openpsa_projects_project;
+use midcom_core_privilege;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_core_privilegeTest extends openpsa_testcase
+class privilegeTest extends openpsa_testcase
 {
     /**
      * @dataProvider providerStoreArray

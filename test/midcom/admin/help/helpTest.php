@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\admin\help;
+
+use openpsa_testcase;
+use midcom_admin_help_help;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_help_helpTest extends openpsa_testcase
+class helpTest extends openpsa_testcase
 {
     public function test_generate_file_path()
     {

@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\user\handler\group;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_user_handler_group_listTest extends openpsa_testcase
+class listTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {

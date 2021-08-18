@@ -6,12 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\reflector;
+
+use openpsa_testcase;
+use midcom_helper_reflector;
+use midgard_article;
+use midcom_db_article;
+use midgard_topic;
+use midcom_db_topic;
+use midcom_core_dbaproxy;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_reflector_reflectorTest extends openpsa_testcase
+class reflectorTest extends openpsa_testcase
 {
     /**
      * @dataProvider provider_property_exists

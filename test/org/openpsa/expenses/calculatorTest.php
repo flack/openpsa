@@ -6,12 +6,23 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\expenses;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_projects_task_dba;
+use org_openpsa_projects_project;
+use org_openpsa_invoices_invoice_dba;
+use org_openpsa_sales_salesproject_dba;
+use org_openpsa_sales_salesproject_deliverable_dba;
+use org_openpsa_expenses_calculator;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_expenses_calculatorTest extends openpsa_testcase
+class calculatorTest extends openpsa_testcase
 {
     public function testGet_invoice_items()
     {

@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\invoices\handler\rest;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
+class billingdataTest extends openpsa_testcase
 {
     protected static $_person;
 

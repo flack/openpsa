@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\expenses\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_expenses_handler_indexTest extends openpsa_testcase
+class indexTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {

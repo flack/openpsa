@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @package openpsa.test
  */
-class org_openpsa_widgets_grid_mainTest extends TestCase
+class mainTest extends TestCase
 {
     public function test__construct()
     {

@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\user\handler;
+
+use openpsa_testcase;
+use midgard_admin_user_plugin;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_user_pluginTest extends openpsa_testcase
+class pluginTest extends openpsa_testcase
 {
     public function testGenerate_password()
     {

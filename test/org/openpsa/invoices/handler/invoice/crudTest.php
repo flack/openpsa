@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\invoices\handler\invoice;
+
+use openpsa_testcase;
+use org_openpsa_invoices_invoice_dba;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_invoices_handler_invoice_crudTest extends openpsa_testcase
+class crudTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_invoice;

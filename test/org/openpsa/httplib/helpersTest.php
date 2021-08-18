@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\httplib;
+
 use PHPUnit\Framework\TestCase;
+use org_openpsa_httplib_helpers;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_httplib_helpersTest extends TestCase
+class helpersTest extends TestCase
 {
     public function test_get_link_values()
     {

@@ -6,14 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\exporter;
+
 use PHPUnit\Framework\TestCase;
+use midcom_helper_exporter_xml;
+use org_openpsa_projects_task_dba;
+use midcom_db_element;
+use xml_comparison;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_exporter_xmlTest extends TestCase
+class xmlTest extends TestCase
 {
     public function test_data2array()
     {

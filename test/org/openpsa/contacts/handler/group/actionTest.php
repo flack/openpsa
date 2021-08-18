@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\contacts\handler\group;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_contacts_group_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_handler_group_actionTest extends openpsa_testcase
+class actionTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_group;

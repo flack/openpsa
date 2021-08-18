@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\admin\folder\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_folder_handler_orderTest extends openpsa_testcase
+class orderTest extends openpsa_testcase
 {
     public function testHandler_order()
     {

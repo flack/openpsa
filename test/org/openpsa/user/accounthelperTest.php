@@ -6,12 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\user;
+
+use openpsa_testcase;
+use midcom_core_account;
+use midcom;
+use org_openpsa_user_accounthelper;
+use midcom_db_person;
+use Exception;
+use midcom_baseclasses_components_configuration;
+use midcom_services_at_entry_dba;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_user_accounthelperTest extends openpsa_testcase
+class accounthelperTest extends openpsa_testcase
 {
     protected static $_user;
 

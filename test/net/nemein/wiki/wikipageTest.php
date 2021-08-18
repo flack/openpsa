@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nemein\wiki;
+
+use openpsa_testcase;
+use midcom;
+use net_nemein_wiki_wikipage;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nemein_wiki_wikipageTest extends openpsa_testcase
+class wikipageTest extends openpsa_testcase
 {
     public function testCRUD()
     {

@@ -6,15 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom;
+
 use PHPUnit\Framework\TestCase;
 use Monolog\Logger;
+use midcom_debug;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_debugTest extends TestCase
+class debugTest extends TestCase
 {
     /**
      * @dataProvider provider_get_caller

@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\products\handler\group;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_products_product_group_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_products_handler_group_createTest extends openpsa_testcase
+class createTest extends openpsa_testcase
 {
     public function testHandler_create()
     {

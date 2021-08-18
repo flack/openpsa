@@ -6,12 +6,28 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\invoices;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_sales_salesproject_deliverable_dba;
+use org_openpsa_invoices_scheduler;
+use org_openpsa_contacts_group_dba;
+use midcom_db_person;
+use org_openpsa_products_product_group_dba;
+use org_openpsa_products_product_dba;
+use org_openpsa_sales_salesproject_dba;
+use org_openpsa_projects_role_dba;
+use org_openpsa_projects_task_dba;
+use org_openpsa_projects_project;
+use midcom_baseclasses_components_configuration;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_invoices_schedulerTest extends openpsa_testcase
+class schedulerTest extends openpsa_testcase
 {
     protected $_salesproject;
 

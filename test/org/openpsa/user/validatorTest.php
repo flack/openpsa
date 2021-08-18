@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\user;
+
+use openpsa_testcase;
+use midcom_core_account;
+use midcom;
+use org_openpsa_user_validator;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_user_validatorTest extends openpsa_testcase
+class validatorTest extends openpsa_testcase
 {
     protected static $_user;
 

@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\reports;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_reports_query_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_reports_queryTest extends openpsa_testcase
+class queryTest extends openpsa_testcase
 {
     public function testCRUD()
     {

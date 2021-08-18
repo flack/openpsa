@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\directmarketing;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_directmarketing_campaign_dba;
+use midcom_db_topic;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_campaignTest extends openpsa_testcase
+class campaignTest extends openpsa_testcase
 {
     public function testCRUD()
     {

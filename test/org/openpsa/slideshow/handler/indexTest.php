@@ -6,12 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\slideshow\handler;
+
+use openpsa_testcase;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_slideshow_handler_indexTest extends openpsa_testcase
+class indexTest extends openpsa_testcase
 {
     public function test_handler_index()
     {

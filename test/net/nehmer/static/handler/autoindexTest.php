@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nehmer\handler;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_topic;
+use midcom_db_article;
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nehmer_static_handler_autoindexTest extends openpsa_testcase
+class autoindexTest extends openpsa_testcase
 {
     public function testHandler_autoindex()
     {
@@ -20,7 +26,7 @@ class net_nehmer_static_handler_autoindexTest extends openpsa_testcase
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
         ];
-        $topic = $this->create_object(midcom_db_topic::class, $data);
+        $topic = $this->create_object(midcom_db_topic::class, str_replace('\\', '_', $data));
         $topic->set_parameter('net.nehmer.static', 'autoindex', true);
         $article_properties = [
             'topic' => $topic->id,

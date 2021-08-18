@@ -6,14 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services;
+
 use PHPUnit\Framework\TestCase;
+use midcom;
+use midcom_db_person;
+use midcom_services_at_entry_db;
+use midcom_services_dbclassloader;
+use midgard_person;
+use openpsa_person;
+use org_openpsa_projects_task_dba;
+use org_openpsa_task;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_dbclassloaderTest extends TestCase
+class dbclassloaderTest extends TestCase
 {
     /**
      * @dataProvider providerGet_component_classes

@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\sales\calculator;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_invoices_invoice_dba;
+use org_openpsa_sales_calculator_default;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_calculator_defaultTest extends openpsa_testcase
+class defaultTest extends openpsa_testcase
 {
     public function testGenerate_invoice_number()
     {

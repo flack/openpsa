@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nehmer\blog\handler;
+
+use openpsa_testcase;
+use midcom_db_article;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nehmer_blog_handler_feedTest extends openpsa_testcase
+class feedTest extends openpsa_testcase
 {
     protected static $topic;
     protected static $article;

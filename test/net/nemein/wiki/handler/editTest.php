@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nemein\wiki\handler;
+
+use openpsa_testcase;
+use midcom_db_topic;
+use midcom;
+use net_nemein_wiki_wikipage;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nemein_wiki_handler_editTest extends openpsa_testcase
+class editTest extends openpsa_testcase
 {
     protected static $_topic;
     protected static $_page;

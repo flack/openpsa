@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\reports\handler\projects;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_reports_query_dba;
+use org_openpsa_projects_project;
+use org_openpsa_projects_task_dba;
+use org_openpsa_expenses_hour_report_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
+class reportTest extends openpsa_testcase
 {
     private static $project;
 

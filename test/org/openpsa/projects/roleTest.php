@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\projects;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_sales_salesproject_dba;
+use midcom_db_person;
+use org_openpsa_projects_role_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_roleTest extends openpsa_testcase
+class roleTest extends openpsa_testcase
 {
     public function testCRUD()
     {

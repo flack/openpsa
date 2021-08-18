@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\expenses\handler\hours;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_projects_task_dba;
+use org_openpsa_projects_project;
+use org_openpsa_expenses_hour_report_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
+class listTest extends openpsa_testcase
 {
     protected static $project;
 

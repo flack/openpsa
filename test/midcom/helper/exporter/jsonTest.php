@@ -6,14 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\exporter;
+
 use PHPUnit\Framework\TestCase;
+use midcom_helper_exporter_json;
+use midcom_db_element;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_exporter_jsonTest extends TestCase
+class jsonTest extends TestCase
 {
     public function test_array2data()
     {

@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nemein\redirector;
+
+use openpsa_testcase;
+use midcom;
+use midcom_connection;
+use net_nemein_redirector_tinyurl_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nemein_redirector_tinyurlTest extends openpsa_testcase
+class tinyurlTest extends openpsa_testcase
 {
     public function testCRUD()
     {

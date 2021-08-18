@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services;
+
 use PHPUnit\Framework\TestCase;
+use midcom_services_cron;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_cronTest extends TestCase
+class cronTest extends TestCase
 {
     /**
      * @dataProvider provider_load_jobs

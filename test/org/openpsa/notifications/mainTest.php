@@ -6,14 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\notifications;
+
+use openpsa_testcase;
 use midcom\datamanager\datamanager;
+use midcom_db_person;
+use org_openpsa_notifications;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_notifications_mainTest extends openpsa_testcase
+class mainTest extends openpsa_testcase
 {
     public function test_notify()
     {

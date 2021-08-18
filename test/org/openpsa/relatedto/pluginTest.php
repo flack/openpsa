@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\relatedto;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_relatedto_dba;
+use org_openpsa_invoices_invoice_dba;
+use org_openpsa_sales_salesproject_dba;
+use org_openpsa_relatedto_plugin;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_relatedto_pluginTest extends openpsa_testcase
+class pluginTest extends openpsa_testcase
 {
     public function testCreate()
     {

@@ -6,16 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\rcs\backend;
+
+use openpsa_testcase;
+use midcom_config;
+use midcom_services_rcs_config;
+use midcom_db_topic;
+use midcom_services_rcs_backend_git;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_rcs_backend_gitTest extends openpsa_testcase
+class gitTest extends openpsa_testcase
 {
     public function test_get_history()
     {
-        $tmpdir = OPENPSA2_UNITTEST_OUTPUT_DIR . '/' . __CLASS__;
+        $class = str_replace('\\', '', __CLASS__);
+        $tmpdir = OPENPSA2_UNITTEST_OUTPUT_DIR . '/' . $class;
         if (!file_exists($tmpdir)) {
             mkdir($tmpdir);
         }
