@@ -54,7 +54,7 @@ class importTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', 'simpleemails', $campaign->guid]);
         $this->assertEquals('import_simpleemails', $data['handler_id']);
 
-        $email = __FUNCTION__ . '.' . time() . '@' . __CLASS__ . '.org';
+        $email = __FUNCTION__ . '.' . time() . '@openpsa2.org';
         $_POST = [
             'org_openpsa_directmarketing_import_separator' => 'N',
             'org_openpsa_directmarketing_import_textarea' => $email . "\n" . $email,
