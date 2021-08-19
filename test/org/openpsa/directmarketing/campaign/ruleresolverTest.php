@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\directmarketing\campaign;
+
 use PHPUnit\Framework\TestCase;
+use org_openpsa_directmarketing_campaign_ruleresolver;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_campaign_ruleresolverTest extends TestCase
+class ruleresolverTest extends TestCase
 {
     /**
      * @dataProvider provider_resolve

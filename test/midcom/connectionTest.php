@@ -6,14 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom;
+
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
+use midcom_connection;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_connectionTest extends TestCase
+class connectionTest extends TestCase
 {
     public function test_url()
     {

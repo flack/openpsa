@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\calendar\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_calendar_event_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
+class agendaTest extends openpsa_testcase
 {
     public function testHandler_day()
     {

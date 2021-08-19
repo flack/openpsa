@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\imagepopup\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_imagepopup_handler_linksTest extends openpsa_testcase
+class linksTest extends openpsa_testcase
 {
     protected static $node;
 

@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\i18n;
+
 use PHPUnit\Framework\TestCase;
+use midcom_services_i18n_l10n;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_i18n_l10nTest extends TestCase
+class l10nTest extends TestCase
 {
     public function test_string_exists()
     {

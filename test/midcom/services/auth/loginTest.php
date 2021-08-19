@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\auth;
+
+use openpsa_testcase;
+use midcom_db_person;
+use midcom;
+use midcom_core_account;
+use midcom_core_user;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_auth_loginTest extends openpsa_testcase
+class loginTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_password;

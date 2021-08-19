@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\asgard\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_asgard_handler_shellTest extends openpsa_testcase
+class shellTest extends openpsa_testcase
 {
     public function testHandler_shell()
     {

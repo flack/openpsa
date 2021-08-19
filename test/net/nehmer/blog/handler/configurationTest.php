@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nehmer\blog\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nehmer_blog_handler_configurationTest extends openpsa_testcase
+class configurationTest extends openpsa_testcase
 {
     protected static $_topic;
 

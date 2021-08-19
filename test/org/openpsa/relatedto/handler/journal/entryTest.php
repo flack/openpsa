@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\relatedto\handler\journal;
+
+use openpsa_testcase;
+use org_openpsa_contacts_person_dba;
+use org_openpsa_relatedto_journal_entry_dba;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_relatedto_handler_journal_entryTest extends openpsa_testcase
+class entryTest extends openpsa_testcase
 {
     protected static $_object;
     protected static $_entry;

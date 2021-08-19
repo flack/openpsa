@@ -6,12 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\contacts\duplicates;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_person;
+use midcom_db_group;
+use midcom_db_member;
+use midcom_baseclasses_components_configuration;
+use org_openpsa_contacts_duplicates_merge;
+use org_openpsa_calendar_event_dba;
+use org_openpsa_calendar_event_member_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
+class mergeTest extends openpsa_testcase
 {
     public function test_person_merge()
     {

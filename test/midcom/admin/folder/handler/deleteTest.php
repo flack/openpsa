@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\admin\folder\handler;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_topic;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
+class deleteTest extends openpsa_testcase
 {
     public function testHandler_delete()
     {

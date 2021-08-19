@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper;
+
 use PHPUnit\Framework\TestCase;
+use midcom_helper_misc;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_miscTest extends TestCase
+class miscTest extends TestCase
 {
     public function test_urlize()
     {

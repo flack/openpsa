@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\indexer;
+
 use PHPUnit\Framework\TestCase;
+use midcom_services_indexer_document;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_indexer_documentTest extends TestCase
+class documentTest extends TestCase
 {
     /**
      * @dataProvider provider_html2text

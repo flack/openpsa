@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\reflector;
+
+use openpsa_testcase;
+use midcom_db_article;
+use midcom_helper_reflector_nameresolver;
+use midcom_db_topic;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_reflector_nameresolverTest extends openpsa_testcase
+class nameresolverTest extends openpsa_testcase
 {
     public function test_get_object_name()
     {

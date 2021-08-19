@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\slideshow\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_slideshow_image_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
+class editTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {

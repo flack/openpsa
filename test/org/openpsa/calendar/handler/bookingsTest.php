@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\calendar\handler;
+
+use openpsa_testcase;
+use org_openpsa_projects_project;
+use org_openpsa_projects_task_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_calendar_handler_bookingsTest extends openpsa_testcase
+class bookingsTest extends openpsa_testcase
 {
     public function testHandler_list()
     {

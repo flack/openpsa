@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nemein\tag;
+
+use openpsa_testcase;
+use net_nemein_tag_handler;
+use midcom_db_person;
+use net_nemein_tag_tag_dba;
+use net_nemein_tag_link_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nemein_tag_handlerTest extends openpsa_testcase
+class handlerTest extends openpsa_testcase
 {
     /**
      * @dataProvider provider_resolve_tagname

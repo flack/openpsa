@@ -6,14 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\asgard\handler;
+
+use midcom;
 use PHPUnit\Framework\TestCase;
+use midcom_baseclasses_components_configuration;
+use midgard_admin_asgard_schemadb;
+use midcom_db_article;
+use org_openpsa_calendar_event_dba;
+use midcom_db_person;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_asgard_schemadbTest extends TestCase
+class schemadbTest extends TestCase
 {
     /**
      * @dataProvider provider_sort

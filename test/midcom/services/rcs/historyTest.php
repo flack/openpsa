@@ -6,14 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\rcs;
+
 use PHPUnit\Framework\TestCase;
+use midcom_services_rcs_history;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_rcs_historyTest extends TestCase
+class historyTest extends TestCase
 {
     public function test_get_next()
     {

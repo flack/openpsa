@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nehmer\comments\handler;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nehmer_comments_handler_viewTest extends openpsa_testcase
+class viewTest extends openpsa_testcase
 {
     public function testHandler_comments()
     {

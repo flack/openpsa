@@ -6,12 +6,17 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\user\handler\user;
+
+use openpsa_testcase;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_user_handler_user_editTest extends openpsa_testcase
+class editTest extends openpsa_testcase
 {
     protected static $_user;
 

@@ -6,12 +6,25 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\auth;
+
+use openpsa_testcase;
+use midcom_core_user;
+use midcom_db_topic;
+use midcom_db_article;
+use midcom;
+use midcom_db_group;
+use midcom_db_member;
+use midgard_topic;
+use midcom_services_auth_acl;
+use midcom_db_attachment;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_auth_aclTest extends openpsa_testcase
+class aclTest extends openpsa_testcase
 {
     public function test_can_do_parent_object_privilege()
     {

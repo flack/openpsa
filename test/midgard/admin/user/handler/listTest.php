@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\user\handler;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_person;
+use midcom_db_group;
+use midcom_db_member;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_user_handler_listTest extends openpsa_testcase
+class listTest extends openpsa_testcase
 {
     public function testHandler_list()
     {

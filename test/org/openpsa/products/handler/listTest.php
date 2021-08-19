@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\products\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_products_product_group_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_products_handler_listTest extends openpsa_testcase
+class listTest extends openpsa_testcase
 {
     protected static $_group;
 

@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\services\at;
+
+use openpsa_testcase;
+use midcom;
+use midcom_services_at_entry_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_at_entryTest extends openpsa_testcase
+class entryTest extends openpsa_testcase
 {
     public function testCRUD()
     {

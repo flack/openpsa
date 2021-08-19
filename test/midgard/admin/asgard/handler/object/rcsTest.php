@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midgard\admin\asgard\handler\object;
+
+use openpsa_testcase;
+use midcom_db_topic;
+use midcom;
+use midcom_db_person;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midgard_admin_asgard_handler_object_rcsTest extends openpsa_testcase
+class rcsTest extends openpsa_testcase
 {
     protected static $_object;
 

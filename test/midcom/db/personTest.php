@@ -6,12 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\db;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_person;
+use midcom_db_group;
+use midcom_db_member;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_db_personTest extends openpsa_testcase
+class personTest extends openpsa_testcase
 {
     public function testCRUD()
     {

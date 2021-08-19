@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\contacts;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_contacts_group_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_contacts_groupTest extends openpsa_testcase
+class groupTest extends openpsa_testcase
 {
     public function testCRUD()
     {

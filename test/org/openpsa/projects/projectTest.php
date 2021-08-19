@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\projects;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_projects_project;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_projects_projectTest extends openpsa_testcase
+class projectTest extends openpsa_testcase
 {
     public function testCRUD()
     {

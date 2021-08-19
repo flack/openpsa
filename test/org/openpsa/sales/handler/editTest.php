@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\sales\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_sales_salesproject_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_handler_editTest extends openpsa_testcase
+class editTest extends openpsa_testcase
 {
     protected static $_person;
 

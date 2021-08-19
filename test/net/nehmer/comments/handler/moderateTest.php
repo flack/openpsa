@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nehmer\comments\handler;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_topic;
+use net_nehmer_comments_comment;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
+class moderateTest extends openpsa_testcase
 {
     public function testHandler_abuse()
     {

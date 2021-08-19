@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\mypage\handler;
+
+use openpsa_testcase;
+use org_openpsa_projects_project;
+use org_openpsa_projects_task_dba;
+use org_openpsa_expenses_hour_report_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
+class workingonTest extends openpsa_testcase
 {
     private static $task;
 

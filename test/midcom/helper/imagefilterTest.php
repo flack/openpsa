@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper;
+
+use openpsa_testcase;
+use midcom_db_topic;
+use midcom_db_attachment;
+use midcom;
+use midcom_helper_imagefilter;
+use midcom_error;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_imagefilterTest extends openpsa_testcase
+class imagefilterTest extends openpsa_testcase
 {
     protected static $_topic;
     protected static $_filepath;

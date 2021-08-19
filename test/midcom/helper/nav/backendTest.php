@@ -6,15 +6,24 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\helper\nav;
+
+use openpsa_testcase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use midcom_db_topic;
+use midcom_helper_nav_backend;
+use midcom_db_article;
+use midcom_baseclasses_components_configuration;
+use midcom_core_context;
+use midcom;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_helper_nav_backendTest extends openpsa_testcase
+class backendTest extends openpsa_testcase
 {
     public function test_singlenode()
     {

@@ -6,12 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\net\nemein\rss;
+
+use openpsa_testcase;
+use midcom_db_topic;
+use net_nemein_rss_feed_dba;
+use net_nemein_rss_fetch;
+use midcom;
+use midcom_db_article;
+use midcom_db_person;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class net_nemein_rss_fetchTest extends openpsa_testcase
+class fetchTest extends openpsa_testcase
 {
     private function _get_items($source, $raw = false)
     {

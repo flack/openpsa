@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\directmarketing\handler\message;
+
+use openpsa_testcase;
+use openpsa_test_campaign_helper;
+use midcom;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_handler_message_listTest extends openpsa_testcase
+class listTest extends openpsa_testcase
 {
     protected static $_person;
 

@@ -6,12 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\helpers\handler;
+
+use openpsa_testcase;
+use midcom;
+use org_openpsa_contacts_person_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
+class chooserTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {

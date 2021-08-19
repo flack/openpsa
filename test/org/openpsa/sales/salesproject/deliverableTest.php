@@ -6,12 +6,22 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\sales\salesproject;
+
+use openpsa_testcase;
+use org_openpsa_sales_salesproject_dba;
+use org_openpsa_products_product_group_dba;
+use org_openpsa_products_product_dba;
+use org_openpsa_sales_salesproject_deliverable_dba;
+use midcom;
+use midcom_connection;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
+class deliverableTest extends openpsa_testcase
 {
     protected static $_salesproject;
 

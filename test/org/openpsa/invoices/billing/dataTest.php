@@ -6,12 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\invoices\billing;
+
+use openpsa_testcase;
+use org_openpsa_contacts_person_dba;
+use midcom;
+use org_openpsa_invoices_billing_data_dba;
+use midcom_connection;
+use org_openpsa_invoices_invoice_dba;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
+class dataTest extends openpsa_testcase
 {
     protected static $_contact;
 

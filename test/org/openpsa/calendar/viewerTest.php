@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\calendar;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_topic;
+use midcom_response_relocate;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_calendar_viewerTest extends openpsa_testcase
+class viewerTest extends openpsa_testcase
 {
     protected static $_topic;
 

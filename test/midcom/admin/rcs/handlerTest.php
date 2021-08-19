@@ -6,12 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\midcom\admin\rcs;
+
+use openpsa_testcase;
+use midcom;
+use midcom_db_person;
+use midcom_db_topic;
+
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_admin_rcs_handlerTest extends openpsa_testcase
+class handlerTest extends openpsa_testcase
 {
     protected static $_object;
 

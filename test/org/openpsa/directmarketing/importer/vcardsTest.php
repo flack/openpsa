@@ -6,15 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace test\org\openpsa\directmarketing\importer;
+
 use midcom\datamanager\schemadb;
 use PHPUnit\Framework\TestCase;
+use org_openpsa_directmarketing_importer_vcards;
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class org_openpsa_directmarketing_importer_vcardsTest extends TestCase
+class vcardsTest extends TestCase
 {
     public function testHandler_index()
     {
