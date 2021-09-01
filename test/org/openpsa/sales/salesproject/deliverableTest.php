@@ -274,6 +274,54 @@ class deliverableTest extends openpsa_testcase
         ];
     }
 
+    /**
+     * @dataProvider providerGet_cycle_identifier
+     */
+    public function testGet_cycle_identifier($attributes, $output)
+    {
+        $deliverable = self::prepare_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
+        $identifier = $deliverable->get_cycle_identifier($deliverable->start);
+        $this->assertEquals($identifier, $output);
+    }
+
+    public function providerGet_cycle_identifier()
+    {
+        return [
+            [
+                [
+                    'unit' => 'm',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ],
+                '2011-01',
+            ],
+            [
+                [
+                    'unit' => 'y',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ],
+                '2011',
+            ],
+            [
+                [
+                    'unit' => 'q',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ],
+                '1Q11',
+            ],
+            [
+                [
+                    'unit' => 'hy',
+                    'start' => 1293840000,
+                    'end' => 1325376000,
+                ],
+                '1/2011',
+            ],
+        ];
+    }
+
     public function tearDown() : void
     {
         self::delete_linked_objects('org_openpsa_sales_salesproject_deliverable_dba', 'salesproject', self::$_salesproject->id);

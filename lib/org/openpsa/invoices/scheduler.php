@@ -90,7 +90,7 @@ class org_openpsa_invoices_scheduler
             }
 
             // Create task for the duration of this cycle
-            $task_title = sprintf('%s %s', $this->_deliverable->title, $this->get_cycle_identifier($this_cycle_start));
+            $task_title = $this->_deliverable->get_cycle_identifier($this_cycle_start);
             $new_task = $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
         }
 
@@ -370,34 +370,5 @@ class org_openpsa_invoices_scheduler
 
         // cycle number > 1
         return $time;
-    }
-
-    public function get_cycle_identifier(int $time)
-    {
-        $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
-
-        switch ($this->_deliverable->unit) {
-            case 'm':
-                // Monthly recurring subscription
-                $identifier = $date->format('Y-m');
-                break;
-            case 'q':
-                // Quarterly recurring subscription
-                $identifier = ceil(((int)$date->format('n')) / 4) . 'Q' . $date->format('y');
-                break;
-            case 'hy':
-                // Half-yearly recurring subscription
-                $identifier = ceil(((int)$date->format('n')) / 6) . '/' . $date->format('Y');
-                break;
-            case 'y':
-                // Yearly recurring subscription
-                $identifier = $date->format('Y');
-                break;
-            default:
-                debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
-                return false;
-        }
-
-        return $identifier;
     }
 }

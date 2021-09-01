@@ -218,6 +218,35 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
+    public function get_cycle_identifier(int $time) : string
+    {
+        $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+
+        switch ($this->unit) {
+            case 'm':
+                // Monthly recurring subscription
+                $identifier = $date->format('Y-m');
+                break;
+            case 'q':
+                // Quarterly recurring subscription
+                $identifier = ceil(((int)$date->format('n')) / 4) . 'Q' . $date->format('y');
+                break;
+            case 'hy':
+                // Half-yearly recurring subscription
+                $identifier = ceil(((int)$date->format('n')) / 6) . '/' . $date->format('Y');
+                break;
+            case 'y':
+                // Yearly recurring subscription
+                $identifier = $date->format('Y');
+                break;
+            default:
+                debug_add('Unrecognized unit value "' . $this->unit . '" for deliverable ' . $this->guid, MIDCOM_LOG_INFO);
+                $identifier = '';
+        }
+
+        return trim($this->title . ' ' . $identifier);
+    }
+
     public function end_subscription() : bool
     {
         $this->state = self::STATE_INVOICED;
