@@ -60,7 +60,7 @@ abstract class midcom_core_dbaobject
      *
      * @var string
      */
-    private $_rcs_message = false;
+    private $_rcs_message = '';
 
     /**
      * Should it be allowed to automatically generate unique name in case of clash
