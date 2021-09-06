@@ -20,17 +20,6 @@ class multipleTransformer implements DataTransformerInterface
 
     private $multiple_storagemode = 'serialized';
 
-    /**
-     * This member contains the other key, in case it is set. In case of multiselects,
-     * the full list of unknown keys is collected here, in case of single select, this value
-     * takes precedence from the standard selection.
-     *
-     * This is only valid if the allow_other flag is set.
-     * TODO: still to be implentend
-     * @var string
-     */
-    private $others = [];
-
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -87,9 +76,6 @@ class multipleTransformer implements DataTransformerInterface
                 return $array;
 
             case 'serialized':
-                if ($this->others) {
-                    return array_merge($array, $this->others);
-                }
                 return serialize($array);
 
             case 'imploded':
@@ -113,19 +99,8 @@ class multipleTransformer implements DataTransformerInterface
     {
         $glue = $this->multiple_separator;
 
-        if ($this->others) {
-            if (is_string($this->others)) {
-                $this->others = [
-                    $this->others => $this->others,
-                ];
-            }
-            $options = array_merge($array, $this->others);
-        } else {
-            $options = $array;
-        }
-
         $result = [];
-        foreach ($options as $key) {
+        foreach ($array as $key) {
             if (str_contains($key, $glue)) {
                 debug_add("The option key '{$key}' contained the multiple separator ($this->multiple_storagemode) char, which is not allowed for imploded storage targets. ignoring silently.",
                 MIDCOM_LOG_WARN);
