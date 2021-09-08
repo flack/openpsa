@@ -118,7 +118,7 @@ END:VCALENDAR\r\n
 
         $event = new org_openpsa_calendar_event_dba($results[0]->eid);
         $this->register_object($event);
-        $this->assertEquals(1631009701, $event->start);
+        $this->assertEquals('353975f8-48dd-4a9d-bb08-07e2bfbf0d98', $event->externalGuid);
 
         midcom::get()->auth->drop_sudo();
     }
