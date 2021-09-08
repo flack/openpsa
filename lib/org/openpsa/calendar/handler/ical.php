@@ -72,16 +72,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             return;
         }
         foreach ($vcalendar->select('VEVENT') as $vevent) {
-            $uid = (string) $vevent->UID;
-            if (str_ends_with($uid, '-midgardGuid')) {
-                $event = new org_openpsa_calendar_event_dba(substr($uid, 0, -12));
-            } else {
-                $event = new org_openpsa_calendar_event_dba;
-                $event->externalGuid = $uid;
-                $root_event = org_openpsa_calendar_interface::find_root_event();
-                $root_event->require_do('midgard:create');
-                $event->up = $root_event->id;
-            }
+            $event = $this->find_event((string) $vevent->UID);
 
             $event->title = (string) $vevent->SUMMARY;
             $event->description = (string) $vevent->DESCRIPTION;
@@ -102,6 +93,25 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 $member->create();
             }
         }
+    }
+
+    private function find_event(string $uid) : org_openpsa_calendar_event_dba
+    {
+        if (str_ends_with($uid, '-midgardGuid')) {
+            return new org_openpsa_calendar_event_dba(substr($uid, 0, -12));
+        }
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('externalGuid', '=', $uid);
+        if ($result = $qb->execute()) {
+            return $result[0];
+        }
+
+        $event = new org_openpsa_calendar_event_dba;
+        $event->externalGuid = $uid;
+        $root_event = org_openpsa_calendar_interface::find_root_event();
+        $root_event->require_do('midgard:create');
+        $event->up = $root_event->id;
+        return $event;
     }
 
     /**
