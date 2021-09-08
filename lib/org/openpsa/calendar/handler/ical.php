@@ -54,7 +54,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
         $this->find_person_by_name($username);
         if ($request->getMethod() === 'PUT') {
-            $this->update(file_get_contents('php://input'));
+            $this->update($request->getContent());
         }
 
         $encoder = new org_openpsa_calendar_vcal;
@@ -72,7 +72,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             return;
         }
         foreach ($vcalendar->select('VEVENT') as $vevent) {
-            $uid = $vevent->UID->getValue();
+            $uid = (string) $vevent->UID;
             if (str_ends_with($uid, '-midgardGuid')) {
                 $event = new org_openpsa_calendar_event_dba(substr($uid, 0, -12));
             } else {
@@ -83,13 +83,13 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 $event->up = $root_event->id;
             }
 
-            $event->title = $vevent->SUMMARY->getValue();
-            $event->description = $vevent->DESCRIPTION ? $vevent->DESCRIPTION->getValue() : '';
-            $event->location = $vevent->LOCATION ? $vevent->LOCATION->getValue() : '';
-            $event->busy = $vevent->TRANSP->getValue() == 'OPAQUE';
-            $start = new DateTime($vevent->DTSTART->getValue());
+            $event->title = (string) $vevent->SUMMARY;
+            $event->description = (string) $vevent->DESCRIPTION;
+            $event->location = (string) $vevent->LOCATION;
+            $event->busy = (string) $vevent->TRANSP == 'OPAQUE';
+            $start = new DateTime((string) $vevent->DTSTART);
             $event->start = (int) $start->format('U');
-            $end = new DateTime($vevent->DTEND->getValue());
+            $end = new DateTime((string) $vevent->DTEND);
             $event->end = (int) $end->format('U');
 
             if ($event->id) {

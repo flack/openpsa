@@ -105,7 +105,7 @@ abstract class openpsa_testcase extends TestCase
         midcom_baseclasses_components_configuration::set($component, 'config', new midcom_helper_configuration($config->get_all()));
     }
 
-    public function run_handler($topic, array $args = [])
+    public function run_handler($topic, array $args = [], Request $request = null)
     {
         if (is_object($topic)) {
             $component = $topic->component;
@@ -116,7 +116,7 @@ abstract class openpsa_testcase extends TestCase
 
         $context = midcom_core_context::enter(midcom_connection::get_url('self') . implode('/', $args) . '/', $topic);
 
-        $request = Request::createFromGlobals();
+        $request = $request ?? Request::createFromGlobals();
         $request->attributes->set('context', $context);
 
         $result = midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
