@@ -609,7 +609,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 
     private function create_attachment(org_openpsa_documents_document_dba $doc, string $name, string $mimetype, $fp) : bool
     {
-        $filename = midcom_db_attachment::safe_filename($name, true);
+        $filename = midcom_db_attachment::safe_filename($name);
         $att = $doc->create_attachment($filename, $name, $mimetype);
         if (   !$att
             || !$att->copy_from_handle($fp)) {

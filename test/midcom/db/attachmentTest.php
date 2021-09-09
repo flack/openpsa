@@ -101,20 +101,18 @@ class attachmentTest extends openpsa_testcase
     /**
      * @dataProvider provider_safe_filename
      */
-    public function test_safe_filename($input, $extension, $output)
+    public function test_safe_filename($input, $output)
     {
-        $converted = midcom_db_attachment::safe_filename($input, $extension);
+        $converted = midcom_db_attachment::safe_filename($input);
         $this->assertEquals($converted, $output);
     }
 
     public function provider_safe_filename()
     {
         return [
-            ['Minä olen huono tiedosto.foo.jpg', true, 'minae-olen-huono-tiedosto-foo.jpg'],
-            ['Minä olen huono tiedosto.foo.jpg', false, 'minae-olen-huono-tiedosto.foo.jpg'],
-            ['Minä olen huono tiedosto ilman päätettä', true, 'minae-olen-huono-tiedosto-ilman-paeaetettae'],
-            ['Minä olen huono tiedosto ilman päätettä', false, 'minae-olen-huono-tiedosto-ilman-paeaetettae'],
-            ['www.openpsa2.org - Home.htm', false, 'www-openpsa2-org-home.htm'],
+            ['Minä olen huono tiedosto.foo.jpg', 'minae-olen-huono-tiedosto-foo.jpg'],
+            ['Minä olen huono tiedosto ilman päätettä', 'minae-olen-huono-tiedosto-ilman-paeaetettae'],
+            ['www.openpsa2.org - Home.htm', 'www-openpsa2-org-home.htm'],
         ];
     }
 }

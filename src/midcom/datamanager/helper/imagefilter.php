@@ -68,7 +68,7 @@ class imagefilter
             $input->mimetype = $guesser->guessMimeType($input->location);
         }
 
-        $filename = midcom_db_attachment::safe_filename($identifier . '_' . $input->name, true);
+        $filename = midcom_db_attachment::safe_filename($identifier . '_' . $input->name);
         if (!empty($existing[$identifier])) {
             $attachment = $existing[$identifier];
             if ($attachment->name != $filename) {
@@ -171,7 +171,7 @@ class imagefilter
         // Prevent double .jpg.jpg
         if (!preg_match("/\.{$conversion}$/", $upload->name)) {
             // Make sure there is only one extension on the file ??
-            $upload->name = midcom_db_attachment::safe_filename($upload->name . ".{$conversion}", true);
+            $upload->name = midcom_db_attachment::safe_filename($upload->name . ".{$conversion}");
         }
         $filter->write($upload);
     }

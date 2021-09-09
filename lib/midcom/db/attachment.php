@@ -122,19 +122,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @todo add possibility to use the file utility to determine extension if missing.
      */
-    public static function safe_filename(string $filename, bool $force_single_extension = true) : string
+    public static function safe_filename(string $filename) : string
     {
-        // we could use basename() here, except that it swallows multibyte chars at the
+        // we could use basename() or pathinfo() here, except that it swallows multibyte chars at the
         // beginning of the string if we run in e.g. C locale..
         $parts = explode('/', trim($filename));
         $filename = end($parts);
 
-        if ($force_single_extension) {
-            $regex = '/^(.*)(\..*?)$/';
-        } else {
-            $regex = '/^(.*?)(\.[a-zA-Z0-9\.]*)$/';
-        }
-        if (preg_match($regex, $filename, $ext_matches)) {
+        if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
             $name = $ext_matches[1];
             $ext = $ext_matches[2];
         } else {

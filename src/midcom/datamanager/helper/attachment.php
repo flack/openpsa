@@ -19,7 +19,7 @@ trait attachment
      */
     private function generate_unique_name(string $filename, string $parentguid) : string
     {
-        $filename = midcom_db_attachment::safe_filename($filename, true);
+        $filename = midcom_db_attachment::safe_filename($filename);
         $attachment = new midcom_db_attachment;
         $attachment->title = $filename;
         $attachment->name = $filename;

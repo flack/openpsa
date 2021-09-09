@@ -67,7 +67,7 @@ class blobs extends delayed
 
                 // new upload case
                 if ($att->id === 0) {
-                    $filename = midcom_db_attachment::safe_filename($att->name, true);
+                    $filename = midcom_db_attachment::safe_filename($att->name);
                     $title = $att->title ?: $att->name;
                     $source = $att->location;
                     $mimetype = $guesser->guessMimeType($source);
