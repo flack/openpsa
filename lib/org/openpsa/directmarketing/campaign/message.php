@@ -47,12 +47,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     public function get_css_class() : string
     {
-        $class = 'email';
         if ($this->sendCompleted) {
-            $class .= ' ' . $class . '-completed';
-        } elseif ($this->sendStarted) {
-            $class .= ' ' . $class . '-started';
+            return 'check';
         }
-        return $class;
+        if ($this->sendStarted) {
+            return 'envelope-o';
+        }
+        return 'envelope-open-o';
     }
 }

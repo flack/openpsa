@@ -31,20 +31,11 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     ?>
 
     &(view['description']:h);
-    <?php
-    echo '<h2>' . $data['l10n']->get('testers') . '</h2>';
 
-    $data['campaign']->get_testers();
-    if (!empty($data['campaign']->testers)) {
-        $testers = [];
-        foreach (array_keys($data['campaign']->testers) as $id) {
-            $person = org_openpsa_widgets_contact::get($id);
-            $testers[] = $person->show_inline();
-        }
-        echo implode(', ', $testers);
-    } else {
-        echo "<strong>" . $data['l10n']->get('no testers') . "</strong>";
-    } ?>
+    <?php
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
+    ?>
+
     <div class="org_openpsa_directmarketing full-width fill-height">
       <?php $grid->render(); ?>
     </div>
@@ -67,7 +58,18 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
 </div>
 <aside>
     <?php
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
-    ?>
+    echo '<h2>' . $data['l10n']->get('testers') . '</h2>';
+
+    $data['campaign']->get_testers();
+    if (!empty($data['campaign']->testers)) {
+        $testers = [];
+        foreach (array_keys($data['campaign']->testers) as $id) {
+            $person = org_openpsa_widgets_contact::get($id);
+            $testers[] = $person->show_inline();
+        }
+        echo implode(', ', $testers);
+    } else {
+        echo "<strong>" . $data['l10n']->get('no testers') . "</strong>";
+    } ?>
 </aside>
 </div>

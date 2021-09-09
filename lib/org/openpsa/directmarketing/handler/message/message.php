@@ -82,12 +82,14 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             MIDCOM_TOOLBAR_ACCESSKEY => 'p',
             MIDCOM_TOOLBAR_OPTIONS => ['target' => '_BLANK'],
         ];
-        $buttons[] = [
-            MIDCOM_TOOLBAR_URL => $this->router->generate('message_report', ['guid' => $this->_message->guid]),
-            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
-            MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-            MIDCOM_TOOLBAR_GLYPHICON => 'print',
-        ];
+        if ($this->_message->sendStarted) {
+            $buttons[] = [
+                MIDCOM_TOOLBAR_URL => $this->router->generate('message_report', ['guid' => $this->_message->guid]),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
+                MIDCOM_TOOLBAR_ACCESSKEY => 'r',
+                MIDCOM_TOOLBAR_GLYPHICON => 'print',
+            ];
+        }
 
         $this->_campaign->get_testers();
         $buttons[] = [

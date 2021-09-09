@@ -133,24 +133,20 @@ div.area ul.comments li {
    margin-left: 0;
 }
 div.area ul.comments li div {
-   background-color: #ffffff;
-   border: 1px solid #e0e0e0;
-   padding: 6px;
-   padding-right: 20px;
-   border-radius: 6px;
-   background-image: url('../stock-icons/16x16/stock_mail-open.png');
-   background-position: top right;
-   background-repeat: no-repeat;
-   margin-bottom: 6px;
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 6px;
+    padding-right: 20px;
+    border-radius: 6px;
+    margin-bottom: 6px;
 }
-div.area ul.comments li div.email-started {
-    background-image: url('../stock-icons/16x16/stock_mail.png');
-}
-div.area ul.comments li div.email-completed {
-    background-image: url('../stock-icons/16x16/stock_mail-reply.png');
-}
-div.area ul.comments li div.mobile {
-    background-image: url('../stock-icons/16x16/stock_cell-phone.png');
+
+div.area ul.comments li div > i {
+    opacity: .7;
+    position: absolute;
+    right: .3em;
+    top: .3em;
 }
 
 /* Datamanager-generated view handling*/
