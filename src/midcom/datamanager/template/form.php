@@ -228,6 +228,11 @@ class form extends base
         return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "email"]);
     }
 
+    public function color_widget(FormView $view, array $data)
+    {
+        return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "color"]);
+    }
+
     public function password_widget(FormView $view, array $data)
     {
         return $this->renderer->block($view, 'form_widget_simple', ['type' => $data['type'] ?? "password"]);
