@@ -15,6 +15,7 @@ use midcom_core_account;
 use org_openpsa_calendar_interface;
 use org_openpsa_calendar_event_member_dba;
 use Symfony\Component\HttpFoundation\Request;
+use DateTime;
 
 /**
  * OpenPSA testcase
@@ -101,7 +102,8 @@ END:VCALENDAR\r\n
 
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $request = new Request([], [], [], [], [], [], self::UPDATE);
+        $data = str_replace('20210907', (new DateTime)->format('Ymd'), self::UPDATE);
+        $request = new Request([], [], [], [], [], [], $data);
         $request->setMethod('PUT');
 
         $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()], $request);
