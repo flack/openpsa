@@ -34,7 +34,11 @@ function init_subform(id, sortable) {
             .sortable({items: '> :not(a.add-item)'})
             .on('sortupdate', function() {
                 $($(this).find('> .ui-sortable-handle').get().reverse()).each(function(index, element) {
-                    $('#' + element.id + '_score').val(index);
+                    let id = element.id
+                    if (!id) {
+                        id = $('> .input > *:first-child', element).attr('id');
+                    }
+                    $('#' + id + '_score').val(index);
                 });
             });
     }
