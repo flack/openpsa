@@ -34,6 +34,8 @@ class dbacollection extends delayed
             'schema' => null
         ];
         $this->config['type_config'] = array_merge($defaults, $this->config['type_config']);
+        // in order for sortable to work, the child schema must contain a score field that saves to metadata.score
+        $this->config['widget_config'] = array_merge(['sortable' => false], $this->config['widget_config']);
         if (is_string($this->config['type_config']['schema'])) {
             $schemadb = schemadb::from_path($this->config['type_config']['schema']);
             $this->schema = $schemadb->get_first();
@@ -97,8 +99,11 @@ class dbacollection extends delayed
         $qb = midcom::get()->dbfactory->new_query_builder($this->config['type_config']['mapping_class_name']);
         $qb->add_constraint($this->config['type_config']['master_fieldname'], '=', $this->get_master_foreign_key());
 
-        $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
+        if (!empty($this->config['widget_config']['sortable'])) {
+            $qb->add_order('metadata.score', 'DESC');
+        }
 
+        $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
         foreach ($qb->execute() as $object) {
             $result[$object->$identifier] = new dbacontainer($this->schema, $object, []);
         }
