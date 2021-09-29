@@ -12,6 +12,7 @@ use midcom_core_dbaobject;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\schema;
 use midgard\portable\storage\connection;
+use midcom\datamanager\schemadb;
 
 /**
  * Experimental storage class
@@ -33,7 +34,12 @@ class dbacollection extends delayed
             'schema' => null
         ];
         $this->config['type_config'] = array_merge($defaults, $this->config['type_config']);
-        $this->schema = new schema($this->config['type_config']['schema']);
+        if (is_string($this->config['type_config']['schema'])) {
+            $schemadb = schemadb::from_path($this->config['type_config']['schema']);
+            $this->schema = $schemadb->get_first();
+        } else {
+            $this->schema = new schema($this->config['type_config']['schema']);
+        }
     }
 
     /**

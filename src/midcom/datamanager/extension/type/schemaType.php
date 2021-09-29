@@ -20,6 +20,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use midcom\datamanager\controller;
+use midcom\datamanager\schemadb;
 
 /**
  * Schema form type
@@ -33,7 +34,7 @@ class schemaType extends AbstractType
     {
         $resolver
             ->setRequired('schema')
-            ->setAllowedTypes('schema', schema::class)
+            ->setAllowedTypes('schema', [schema::class, 'string'])
             ->setDefault('action', function (Options $options, $value) {
                 return $options['schema']->get('action');
             });
@@ -51,6 +52,13 @@ class schemaType extends AbstractType
             if (!empty($validation)) {
                 $cb_wrapper = new cb_wrapper($validation);
                 return [new Callback(['callback' => [$cb_wrapper, 'validate']])];
+            }
+            return $value;
+        });
+        $resolver->setNormalizer('schema', function (Options $options, $value) {
+            if (is_string($value)) {
+                $schemadb = schemadb::from_path($value);
+                return $schemadb->get_first();
             }
             return $value;
         });
