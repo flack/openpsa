@@ -31,7 +31,8 @@ class dbacollection extends delayed
             'mapping_class_name' => null,
             'master_fieldname' => null,
             'master_is_id' => false,
-            'schema' => null
+            'schema' => null,
+            'order' => []
         ];
         $this->config['type_config'] = array_merge($defaults, $this->config['type_config']);
         // in order for sortable to work, the child schema must contain a score field that saves to metadata.score
@@ -101,6 +102,9 @@ class dbacollection extends delayed
 
         if (!empty($this->config['widget_config']['sortable'])) {
             $qb->add_order('metadata.score', 'DESC');
+        }
+        foreach ($this->config['type_config']['order'] as $field => $direction) {
+            $qb->add_order($field, $direction);
         }
 
         $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
