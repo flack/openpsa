@@ -35,8 +35,16 @@ class callback
         }
     }
 
-    private function to_array(container $container) : array
+    /**
+     * @param container|array $container
+     * @return array
+     */
+    private function to_array($container) : array
     {
+        if (is_array($container)) {
+            // This is a newly added subform, not yet saved, so it's already in view format
+            return $container;
+        }
         $data = [];
 
         foreach ($container as $field => $value) {
