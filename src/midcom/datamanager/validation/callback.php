@@ -22,15 +22,12 @@ class callback
         foreach ($this->validation as $entry) {
             if (!empty($entry['callback'])) {
                 $form = $context->getObject();
-                // hack to get error messages to show up at the correct place (also see below)
-                $context->setNode($form->getData(), $form, null, '');
                 $result = $entry['callback']($this->to_array($form->getData()));
                 if (is_array($result)) {
                     foreach ($result as $field => $message) {
                         $context
                             ->buildViolation($message)
-                            // There might be a nice way to do this, but I have no idea what it could be...
-                            ->atPath('children[' . $field . '].data')
+                            ->atPath('[' . $field . ']')
                             ->addViolation();
                     }
                 }
