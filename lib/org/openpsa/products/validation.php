@@ -28,9 +28,9 @@ class org_openpsa_products_validation
         } else {
             $product = new org_openpsa_products_product_dba;
         }
-        if (!empty($fields['productGroup']['selection'])) {
-            $selection = json_decode($fields['productGroup']['selection']);
-            $product->productGroup = (int) current($selection);
+
+        if (!empty($fields['productGroup'])) {
+            $product->productGroup = (int) $fields['productGroup'];
         }
         if (!$product->validate_code($fields["code"])) {
             $result["code"] = sprintf(midcom::get()->i18n->get_string("product code %s already exists in database", "org.openpsa.products"), $fields['code']);
