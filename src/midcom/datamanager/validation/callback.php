@@ -21,7 +21,7 @@ class callback
     {
         foreach ($this->validation as $entry) {
             if (!empty($entry['callback'])) {
-                $form = $context->getRoot();
+                $form = $context->getObject();
                 // hack to get error messages to show up at the correct place (also see below)
                 $context->setNode($form->getData(), $form, null, '');
                 $result = $entry['callback']($this->to_array($form->getData()));
