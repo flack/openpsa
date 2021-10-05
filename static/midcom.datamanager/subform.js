@@ -56,11 +56,11 @@ function init_subform(id, sortable) {
 function add_form(container, add_button, delete_button, sortable) {
     var prototype = container.data('prototype'),
         index = container.data('index'),
-        new_form = prototype.replace(/__name__/g, index);
+        new_form = $(prototype.replace(/__name__/g, index))
+	        .prepend(delete_button.clone())
+	        .insertBefore(add_button);
+
     container.data('index', index + 1);
-    $(new_form)
-        .prepend(delete_button.clone())
-        .insertBefore(add_button);
 
     if (   container.data('max-count') > 0
         && container.data('max-count') >= container.find('> :not(.button.add-item)').length) {
@@ -70,4 +70,5 @@ function add_form(container, add_button, delete_button, sortable) {
         container.sortable('refresh');
         container.trigger('sortupdate');
     }
+	new_form.trigger('subformadded');
 }
