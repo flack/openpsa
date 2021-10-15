@@ -56,7 +56,7 @@ function init_subform(id, sortable) {
 function add_form(container, add_button, delete_button, sortable) {
     var prototype = container.data('prototype'),
         index = container.data('index'),
-        new_form = $(prototype.replace(/__name__/g, index))
+        new_form = $(prototype.replace(/__name__/g, 'new-' + index))
 	        .prepend(delete_button.clone())
 	        .insertBefore(add_button);
 
