@@ -6,12 +6,10 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\helper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Form\AbstractType;
@@ -65,14 +63,6 @@ class subformType extends AbstractType
             }
             return $value;
         });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->addEventSubscriber(new ResizeFormListener($options['entry_type'], $options['entry_options']));
     }
 
     /**
