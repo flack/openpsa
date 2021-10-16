@@ -53,7 +53,6 @@ class subformType extends AbstractType
         });
         $resolver->setNormalizer('entry_options', function (Options $options, $value) {
             return array_replace([
-                'required' => false, //@todo no idea why this is necessary
                 'widget_config' => $options['widget_config']
             ], (array) $value);
         });
