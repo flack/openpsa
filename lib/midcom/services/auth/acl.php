@@ -479,46 +479,41 @@ class midcom_services_auth_acl
         }
         static $cache = [];
 
-        $cache_prefix = "{$user_id}::{$object_guid}";
-        $cache_key = $cache_prefix . "::{$privilege}";
+        $cache_key = "{$user_id}::{$object_guid}::{$privilege}";
 
-        if (isset($cache[$cache_key])) {
-            return $cache[$cache_key];
+        if (!isset($cache[$cache_key])) {
+            $cache[$cache_key] = $this->can_do_byguid_uncached($privilege, $object_guid, $object_class, $user_id);
         }
+        return $cache[$cache_key];
+    }
 
+    private function can_do_byguid_uncached(string $privilege, string $object_guid, string $object_class, string $user_id) : bool
+    {
         if ($this->_load_content_privilege($privilege, $object_guid, $object_class, $user_id)) {
-            $cache[$cache_key] = self::$_content_privileges_cache[$cache_prefix][$privilege];
-            return $cache[$cache_key];
+            return self::$_content_privileges_cache["{$user_id}::{$object_guid}"][$privilege];
         }
 
         // user privileges
         if ($user = midcom::get()->auth->get_user($user_id)) {
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
-
             if (array_key_exists($privilege, $user_per_class_privileges)) {
-                $cache[$cache_key] = ($user_per_class_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-                return $cache[$cache_key];
+                return $user_per_class_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW;
             }
 
             $user_privileges = $user->get_privileges();
-
             if (array_key_exists($privilege, $user_privileges)) {
-                $cache[$cache_key] = ($user_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-                return $cache[$cache_key];
+                return $user_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW;
             }
         }
 
         // default magic class privileges user
         $dmcp = $this->_get_class_magic_privileges($object_class, midcom::get()->auth->user);
-
         if (array_key_exists($privilege, $dmcp)) {
-            $cache[$cache_key] = ($dmcp[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-            return $cache[$cache_key];
+            return $dmcp[$privilege] == MIDCOM_PRIVILEGE_ALLOW;
         }
 
         if (array_key_exists($privilege, self::$_default_privileges)) {
-            $cache[$cache_key] = (self::$_default_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
-            return $cache[$cache_key];
+            return self::$_default_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW;
         }
 
         debug_add("The privilege {$privilege} is unknown at this point. Assuming not granted privilege.", MIDCOM_LOG_WARN);
