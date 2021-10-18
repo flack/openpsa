@@ -62,7 +62,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
             ]);
         }
 
-        if ($this->_group->can_do('midgard:update')) {
+        if ($this->_group->can_do('midgard:update') && midcom::get()->componentloader->is_installed('org.openpsa.notifications')) {
             $buttons[] = $workflow->get_button($this->router->generate('group_notifications', ['guid' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'bell-o',
