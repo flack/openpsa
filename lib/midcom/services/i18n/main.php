@@ -235,7 +235,12 @@ class midcom_services_i18n
      */
     public function get_string(string $stringid, string $component) : string
     {
-        return $this->get_l10n($component)->get($stringid);
+        try {
+            return $this->get_l10n($component)->get($stringid);
+        } catch (midcom_error $e) {
+            $e->log(MIDCOM_LOG_WARN);
+            return $stringid;
+        }
     }
 
     /**
