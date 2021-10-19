@@ -518,11 +518,12 @@ class form extends base
             $head->enable_jquery_ui(['mouse', 'sortable']);
         }
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
-
-        $data['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
+        if (array_key_exists('prototype', $view->vars)) {
+            $data['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
+        }
         $data['attr']['data-max-count'] = $view->vars['max_count'];
         $string = $this->renderer->widget($data['form'], $data);
-        return $string . $this->jsinit('init_subform("' . $view->vars['id'] . '", ' . $view->vars['sortable'] . ');');
+        return $string . $this->jsinit('init_subform("' . $view->vars['id'] . '", ' . $view->vars['sortable'] . ', ' . $view->vars['allow_add'] . ', ' . $view->vars['allow_delete'] . ');');
     }
 
     public function submit_widget(FormView $view, array $data)

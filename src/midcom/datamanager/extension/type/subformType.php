@@ -71,6 +71,8 @@ class subformType extends AbstractType
     {
         $view->vars['max_count'] = $options['type_config']['max_count'];
         $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
+        $view->vars['allow_add'] = $options['allow_add'] ? 'true' : 'false';
+        $view->vars['allow_delete'] = $options['allow_delete'] ? 'true' : 'false';
     }
 
     /**
