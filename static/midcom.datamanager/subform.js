@@ -64,7 +64,7 @@ function add_form(container, add_button, delete_button, sortable, allow_delete) 
         new_form = $(prototype.replace(/__name__/g, 'new-' + index))
             .insertBefore(add_button);
     if(allow_delete === true) {
-        new_form += new_form.prepend(delete_button.clone());
+        new_form.prepend(delete_button.clone());
     }
     container.data('index', index + 1);
 
