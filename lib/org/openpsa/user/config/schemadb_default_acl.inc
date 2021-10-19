@@ -68,7 +68,8 @@
             'type'        => 'privilege',
             'type_config' => [
                 'privilege_name' => 'midgard:create',
-                /* Set the calendar root event and the assignee prior to initializing DM */
+                /* The calendar root event and assignee are set prior to initializing DM */
+                'assignee'       => 'SELF',
             ],
             'widget'      => 'privilege',
             'storage'     => null,
