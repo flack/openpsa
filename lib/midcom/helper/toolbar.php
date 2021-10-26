@@ -275,7 +275,7 @@ class midcom_helper_toolbar
         } elseif ($before == 0) {
             array_unshift($this->items, $item);
         } else {
-            $start = array_slice($this->items, 0, $before - 1);
+            $start = array_slice($this->items, 0, $before);
             $start[] = $item;
             $this->items = array_merge($start, array_slice($this->items, $before));
         }

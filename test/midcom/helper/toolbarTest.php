@@ -18,6 +18,19 @@ use midcom_helper_toolbar;
  */
 class toolbarTest extends TestCase
 {
+    public function test_add_item()
+    {
+        $toolbar = new midcom_helper_toolbar;
+        $toolbar->add_item([MIDCOM_TOOLBAR_LABEL => 'Item 1']);
+        $this->assertCount(1, $toolbar->items);
+        $toolbar->add_item([MIDCOM_TOOLBAR_LABEL => 'Item 2'], 0);
+        $this->assertCount(2, $toolbar->items);
+        $this->assertEquals('Item 2', $toolbar->items[0][MIDCOM_TOOLBAR_LABEL]);
+        $toolbar->add_item([MIDCOM_TOOLBAR_LABEL => 'Item 3'], 1);
+        $this->assertCount(3, $toolbar->items);
+        $this->assertEquals('Item 3', $toolbar->items[1][MIDCOM_TOOLBAR_LABEL]);
+    }
+
     public function test_remove_item()
     {
         $toolbar = new midcom_helper_toolbar;
