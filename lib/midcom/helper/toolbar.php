@@ -394,7 +394,7 @@ class midcom_helper_toolbar
         } elseif ($index == count($this->items) -1) {
             array_pop($this->items);
         } else {
-            $this->items = array_merge(array_slice($this->items, 0, $index - 1),
+            $this->items = array_merge(array_slice($this->items, 0, $index),
                 array_slice($this->items, $index + 1));
         }
     }
