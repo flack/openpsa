@@ -15,7 +15,7 @@ class org_openpsa_mail_backend_mail_smtp extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        $transport = new Swift_SmtpTransport($params['host'], $params['port']);
+        $transport = new Swift_SmtpTransport($params['host'], $params['port'], $params['encryption'] ?? null);
         if (isset($params['username'])) {
             $transport->setUsername($params['username']);
         }
