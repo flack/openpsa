@@ -54,7 +54,7 @@
         <div class="icon">
             <a href="&(file_url);">
                 <span class="thumb">&(mime_icon:h);</span>
-                <?php echo midcom_helper_misc::filesize_to_string($stat[7]) . " {$data['file']->mimetype}"; ?>
+                <?php echo midcom_helper_misc::filesize_to_string($stat[7] ?? 0) . " {$data['file']->mimetype}"; ?>
             </a>
         </div>
 

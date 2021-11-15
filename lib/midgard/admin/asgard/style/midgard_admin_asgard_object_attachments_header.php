@@ -50,7 +50,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 } else {
                     echo "<td>&nbsp;</td>\n";
                 }
-                echo "  <td>" . midcom_helper_misc::filesize_to_string($stat[7]) . "</td>\n";
+                echo "  <td>" . midcom_helper_misc::filesize_to_string($stat[7] ?? 0) . "</td>\n";
                 echo "  <td>\n";
                 echo "    <a {$preview_class} title=\"{$file->name}\" target=\"_self\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">\n";
                 echo "      <i class=\"fa fa-eye\"></i>\n";

@@ -78,7 +78,7 @@ class org_openpsa_helpers_fileinfo
         $attachments = blobs::get_attachments($object, $field);
         foreach ($attachments as $attachment) {
             $stat = $attachment->stat();
-            $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
+            $filesize = midcom_helper_misc::filesize_to_string($stat[7] ?? 0);
             $url = midcom::get()->permalinks->create_attachment_link($attachment->guid, $attachment->name);
             $type = self::render_type($attachment->mimetype);
             $parts = explode('.', $attachment->name);

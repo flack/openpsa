@@ -74,8 +74,8 @@ implements client
             $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
             $alt = $att->name;
             $stats = $att->stat();
-            $entry['index_filesize'] = $stats[7];
-            $entry['filesize'] = midcom_helper_misc::filesize_to_string($stats[7]);
+            $entry['index_filesize'] = $stats[7] ?? 0;
+            $entry['filesize'] = midcom_helper_misc::filesize_to_string($stats[7] ?? 0);
             $entry['mimetype'] = org_openpsa_helpers_fileinfo::render_type($att->mimetype);
         }
 
