@@ -89,6 +89,7 @@ person_rest:
 frontpage:
     path: /
     defaults: { _controller: 'org_openpsa_contacts_handler_frontpage::frontpage' }
+    methods: [ 'POST' ]
 
 config:
     path: /config/

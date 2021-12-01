@@ -15,6 +15,8 @@ use midcom_error_notfound;
 use midcom_baseclasses_components_viewer;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @package midcom.routing
@@ -153,6 +155,9 @@ class resolver
             // No match
             debug_add("Component {$viewer->_component} in {$viewer->_topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             throw new midcom_error_notfound("This page is not available on this server.");
+        } catch (MethodNotAllowedException $e) {
+            debug_add("Component {$viewer->_component} in {$viewer->_topic->name} declared unable to handle request (method not allowed).", MIDCOM_LOG_INFO);
+            throw new midcom_error_forbidden($e->getMessage(), Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
         $result['args'] = array_values(array_filter($result, function($name) {
