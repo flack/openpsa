@@ -110,8 +110,11 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             ];
 
             $row['approved'] = ($object->is_approved()) ? strftime('%x %X', $object->metadata->approved) : $this->_l10n->get('not approved');
-
-            $row['index_title'] = $reflector->get_object_label($object) ?: '[' . $this->_l10n->get('no title') . ']';
+            try {
+                $row['index_title'] = $reflector->get_object_label($object) ?: '[' . $this->_l10n->get('no title') . ']';
+            } catch (Exception $e) {
+                $row['index_title'] = 'ERROR: ' . $e->getMessage();
+            }
             $link = $this->router->generate('object_' . $this->_request_data['default_mode'], ['guid' => $object->guid]);
             $row['title'] = '<a href="' . $link . '" title="' . $row['class'] . '">' . $reflector->get_object_icon($object) . ' ' . $row['index_title'] . '</a>';
 
