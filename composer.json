@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "checkdomain/holiday": "^3.0.0",
@@ -100,6 +100,6 @@
         "classmap": ["test"]
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5.8"
+        "phpunit/phpunit": "^9.5.10"
     }
 }

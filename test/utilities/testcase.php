@@ -149,14 +149,8 @@ abstract class openpsa_testcase extends TestCase
         $renderer = new renderer(new engine);
         $renderer->set_template($view, new datamanager_form($renderer));
         $rendered = str_replace(',}', '}', $renderer->block($view, 'form'));
-        // php72 compat:
-        $flags = defined('JSON_THROW_ON_ERROR') ? JSON_THROW_ON_ERROR : null;
         try {
-            $data = json_decode($rendered, true, 32, $flags);
-            // php72 compat:
-            if ($data === null) {
-                throw new RuntimeException(json_last_error_msg());
-            }
+            $data = json_decode($rendered, true, 32, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
             dump('Rendered JSON:' . $rendered);
             throw $e;
