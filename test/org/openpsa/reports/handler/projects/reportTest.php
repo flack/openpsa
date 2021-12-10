@@ -81,7 +81,7 @@ class reportTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object(org_openpsa_reports_query_dba::class);
-        $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
+        $timestamp = date('Y_m_d', $query->metadata->created);
 
         $url = $this->run_relocate_handler('org.openpsa.reports', ['projects', $query->guid]);
 

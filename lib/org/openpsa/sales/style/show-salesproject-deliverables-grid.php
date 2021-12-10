@@ -11,7 +11,7 @@ foreach ($data['deliverables'] as $entry) {
         'index_title' => $deliverable->title,
         'index_price' => $deliverable->get_state() == 'invoiced' ? $deliverable->invoiced : $deliverable->price,
         'price' => $deliverable->get_state() == 'invoiced' ? $deliverable->invoiced : $deliverable->price,
-        'created' => strftime('%Y-%m-%d %H:%i:%s', $deliverable->metadata->created),
+        'created' => date('Y-m-d H:i:s', $deliverable->metadata->created),
         'subscription' => $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
         'action' => $entry['actions']
     ];

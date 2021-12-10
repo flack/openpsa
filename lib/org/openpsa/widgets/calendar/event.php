@@ -118,8 +118,8 @@ class org_openpsa_widgets_calendar_event
     {
         $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
 
-        $dtstart = strftime('%Y-%m-%dT%H:%M:%S%z', $this->start);
-        $dtend = strftime('%Y-%m-%dT%H:%M:%S%z', $this->end);
+        $dtstart = date('c', $this->start);
+        $dtend = date('c', $this->end);
         $timelabel = "        <abbr class=\"dtstart\" title=\"{$dtstart}\">";
         $separator = "</abbr> &ndash; <abbr class=\"dtend\" title=\"{$dtend}\">";
         $timelabel .= $formatter->timeframe($this->start, $this->end, 'both', $separator, $show_day_name);

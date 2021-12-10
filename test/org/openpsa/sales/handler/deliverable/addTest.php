@@ -88,7 +88,7 @@ class addTest extends openpsa_testcase
         $formdata = [
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'continuous' => true,
-            'start' => ['date' => strftime('%Y-%m-%d')],
+            'start' => ['date' => date('Y-m-d')],
             'plannedUnits' => '1'
         ];
 

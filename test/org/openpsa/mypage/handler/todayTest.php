@@ -30,7 +30,7 @@ class todayTest extends openpsa_testcase
 
     public function testHandler_day()
     {
-        $data = $this->run_handler('org.openpsa.mypage', ['day', strftime('%Y-%m-%d')]);
+        $data = $this->run_handler('org.openpsa.mypage', ['day', date('Y-m-d')]);
         $this->assertEquals('day', $data['handler_id']);
     }
 

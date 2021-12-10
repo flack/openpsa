@@ -26,7 +26,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => strftime('%Y-%m-%d', $this->_request_data['week_start'])]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('day', ['date' => date('Y-m-d', $this->_request_data['week_start'])]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day review'),
             MIDCOM_TOOLBAR_GLYPHICON => 'dashboard',
         ]);

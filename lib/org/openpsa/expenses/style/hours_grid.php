@@ -10,7 +10,7 @@ $filename = $data['mode'];
 foreach ($data['hours'] as $report) {
     $entry = [
         'id' => $report->id,
-        'date' => strftime('%Y-%m-%d', $report->date)
+        'date' => date('Y-m-d', $report->date)
     ];
 
     if ($data['mode'] != 'task') {

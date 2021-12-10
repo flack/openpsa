@@ -23,7 +23,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
             return false;
         }
 
-        $this->cutoff = gmstrftime('%Y-%m-%d %T', time() - ($days * 3600 * 24));
+        $this->cutoff = gmdate('Y-m-d H:i:s', time() - ($days * 3600 * 24));
 
         return true;
     }

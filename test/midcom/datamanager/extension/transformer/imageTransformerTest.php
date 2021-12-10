@@ -73,7 +73,7 @@ class imageTransformerTest extends openpsa_testcase
                        'filesize' => 4,
                        'formattedsize' => '4 Bytes',
                        'lastmod' => $time,
-                       'isoformattedlastmod' => strftime('%Y-%m-%d %H:%M:%S', $time),
+                       'isoformattedlastmod' => date('Y-m-d H:i:s', $time),
                        'size_x' => null,
                        'size_y' => null,
                        'size_line' => null,

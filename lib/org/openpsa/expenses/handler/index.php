@@ -70,8 +70,8 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
     private function _populate_toolbar()
     {
-        $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
-        $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
+        $week_start = date('Y-m-d', $this->_request_data['week_start']);
+        $week_end = date('Y-m-d', $this->_request_data['week_end']);
 
         $this->_view_toolbar->add_item([
             MIDCOM_TOOLBAR_URL => $this->router->generate('list_hours') . '?date[from]=' . $week_start . '&date[to]=' . $week_end,
@@ -154,8 +154,8 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         if ($date !== null) {
             $filters['date'] = ['from' => $date, 'to' => $date];
         } else {
-            $start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
-            $end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
+            $start = date('Y-m-d', $this->_request_data['week_start']);
+            $end = date('Y-m-d', $this->_request_data['week_end']);
             $filters['date'] = ['from' => $start, 'to' => $end];
         }
         if ($person_id !== null) {

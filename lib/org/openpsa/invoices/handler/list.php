@@ -131,7 +131,7 @@ implements client
 
         $entry['due'] = '';
         if ($invoice->due > 0) {
-            $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
+            $entry['due'] = date('Y-m-d', $invoice->due);
         }
 
         $colname = 'action';

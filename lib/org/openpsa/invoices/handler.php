@@ -28,7 +28,7 @@ trait org_openpsa_invoices_handler
     public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice) : string
     {
         if ($invoice->paid) {
-            return strftime('%Y-%m-%d', $invoice->paid);
+            return date('Y-m-d', $invoice->paid);
         }
         if (!$invoice->can_do('midgard:update')) {
             return '';

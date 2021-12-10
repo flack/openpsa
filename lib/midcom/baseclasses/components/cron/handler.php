@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *     public function execute()
  *     {
  *         $this->print_error("Executing...");
- *         $this->print_error(strftime('%x %X'));
+ *         $this->print_error(date('r'));
  *     }
  * }
  * </code>

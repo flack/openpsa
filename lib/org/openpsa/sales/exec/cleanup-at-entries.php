@@ -24,11 +24,11 @@ foreach ($qb->execute() as $deliverable) {
     foreach ($at_entries as $entry) {
         if ($first) {
             $first = false;
-            echo "Keeping entry for " . strftime('%x %X', $entry->start) . "\n";
+            echo "Keeping entry for " . date('Y-m-d H:i:s', $entry->start) . "\n";
             continue;
         }
 
-        echo "Deleting entry for " . strftime('%x %X', $entry->start) . "\n";
+        echo "Deleting entry for " . date('Y-m-d H:i:s', $entry->start) . "\n";
         $entry->delete();
     }
 }

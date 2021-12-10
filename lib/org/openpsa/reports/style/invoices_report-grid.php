@@ -57,10 +57,10 @@ foreach ($data['invoices'] as $invoice) {
     }
 
     if ($invoice->{$data['date_field']} > 0) {
-        $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
-        $entry['year'] = strftime('%Y', $invoice->{$data['date_field']});
+        $entry['date'] = date('Y-m-d', $invoice->{$data['date_field']});
+        $entry['year'] = date('Y', $invoice->{$data['date_field']});
         $entry['month'] = $formatter->customdate($invoice->{$data['date_field']}, 'MMMM y');
-        $entry['index_month'] = strftime('%Y%m', $invoice->{$data['date_field']});
+        $entry['index_month'] = date('Ym', $invoice->{$data['date_field']});
     }
     try {
         $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);

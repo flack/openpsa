@@ -52,7 +52,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             'old_status' => $this->old_status,
             'messages' => [$message],
             'updated' => [
-                ['due', strftime('%Y-%m-%d', $this->invoice->due)]
+                ['due', date('Y-m-d', $this->invoice->due)]
             ]
         ]);
     }

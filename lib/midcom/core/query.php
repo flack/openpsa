@@ -136,7 +136,7 @@ abstract class midcom_core_query
             && !$this->_visibility_checks_added) {
             if (!midcom::get()->config->get('show_hidden_objects')) {
                 $this->add_constraint('metadata.hidden', '=', false);
-                $now = strftime('%Y-%m-%d %H:%M:%S');
+                $now = date('Y-m-d H:i:s');
                 $this->add_constraint('metadata.schedulestart', '<=', $now);
                 $this->begin_group('OR');
                     $this->add_constraint('metadata.scheduleend', '>=', $now);

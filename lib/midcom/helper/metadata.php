@@ -228,7 +228,7 @@ class midcom_helper_metadata
             if (!is_numeric($value) || $value == 0) {
                 $value = null;
             } else {
-                $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
+                $value = new midgard_datetime(gmdate('Y-m-d H:i:s', $value));
             }
         } elseif (!in_array($key, $this->field_config['other']) && $key !== 'approver') {
             // Fall-back for non-core properties

@@ -41,10 +41,10 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         if ($this->_product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             $schema = 'subscription';
-            $schemadb->get($schema)->get_field('start')['type_config']['min_date'] = strftime('%Y-%m-%d');
+            $schemadb->get($schema)->get_field('start')['type_config']['min_date'] = date('Y-m-d');
         } else {
             $schema = 'default';
-            $schemadb->get($schema)->get_field('end')['type_config']['min_date'] = strftime('%Y-%m-%d');
+            $schemadb->get($schema)->get_field('end')['type_config']['min_date'] = date('Y-m-d');
             if ($this->_product->costType == "%") {
                 $schemadb->get($schema)->get_field('costPerUnit')['title'] = $this->_l10n->get('cost per unit (percentage)');
             }

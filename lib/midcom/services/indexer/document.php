@@ -313,7 +313,7 @@ class midcom_services_indexer_document
     public function add_date(string $name, int $timestamp)
     {
         // This is always UTF-8 conformant.
-        $this->_add_field($name, 'date', gmstrftime('%Y-%m-%dT%H:%M:%SZ', $timestamp), true);
+        $this->_add_field($name, 'date', gmdate('c', $timestamp), true);
     }
 
     /**

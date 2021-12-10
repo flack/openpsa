@@ -72,7 +72,7 @@ class midcom_core_nullcomponent_handler_wizard extends midcom_baseclasses_compon
             return;
         }
         $conf = '<?php' . "\n";
-        $conf .= "//AUTO-GENERATED on " . strftime('%x %X') . "\n";
+        $conf .= "//AUTO-GENERATED on " . date('r') . "\n";
         $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $guid . '";' . "\n";
 
         $project_dir = dirname(__DIR__, 5);

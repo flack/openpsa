@@ -48,7 +48,7 @@ class schedulerTest extends openpsa_testcase
         $next_cycle = $scheduler->calculate_cycle_next($start);
 
         if ($next_cycle !== false) {
-            $next_cycle = gmstrftime('%Y-%m-%d %H:%M:%S', $next_cycle);
+            $next_cycle = gmdate('Y-m-d H:i:s', $next_cycle);
         }
 
         $this->assertEquals($result, $next_cycle, 'Wrong value for unit ' . $unit . ', start value: ' . $start);

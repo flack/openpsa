@@ -52,9 +52,9 @@ implements client
     public function get_row(midcom_core_dbaobject $at_entry)
     {
         $invoice = [
-            'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
+            'time' => date('Y-m-d H:i:s', $at_entry->start),
             'month' => $this->_l10n->get_formatter()->customdate($at_entry->start, 'MMMM y'),
-            'index_month' => strftime('%Y-%m', $at_entry->start),
+            'index_month' => date('Y-m', $at_entry->start),
         ];
         try {
             $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);

@@ -37,8 +37,8 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 
     private function add_holidays(int $from, int $to)
     {
-        $from = new DateTime(strftime('%Y-%m-%d', $from));
-        $to = new DateTime(strftime('%Y-%m-%d', $to));
+        $from = new DateTime('@' . $from);
+        $to = new DateTime('@' . $to);
         $country = $this->_config->get('holidays_country');
         if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . strtoupper($country))) {
             $util = new \Checkdomain\Holiday\Util;

@@ -244,8 +244,8 @@ implements client
         $entry['index_manager'] = preg_replace('/<span.*?class="uid".*?>.*?<\/span>/', '', $entry['manager']);
         $entry['index_manager'] = strip_tags($entry['index_manager']);
 
-        $entry['start'] = strftime('%Y-%m-%d', $task->start);
-        $entry['end'] = strftime('%Y-%m-%d', $task->end);
+        $entry['start'] = date('Y-m-d', $task->start);
+        $entry['end'] = date('Y-m-d', $task->end);
 
         $entry['planned_hours'] = $task->plannedHours;
         $entry['reported_hours'] = $task->reportedHours;

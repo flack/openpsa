@@ -49,7 +49,7 @@ implements client
             $qb->add_constraint('nextVersion', '=', $this->_document->id);
         } else {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+            $qb->add_constraint('metadata.created', '<', gmdate('Y-m-d H:i:s', $this->_document->metadata->created));
         }
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
 
@@ -83,7 +83,7 @@ implements client
         $title .= 'alt="' . $alt . '" style="border: 0px; height: 16px; vertical-align: middle" /> ' . $document->title . '</a>';
         $entry['title'] = $title;
 
-        $entry['created'] = strftime('%Y-%m-%d %X', $document->metadata->created);
+        $entry['created'] = date('Y-m-d H:i:s', $document->metadata->created);
 
         $entry['index_author'] = '';
         $entry['author'] = '';
@@ -172,7 +172,7 @@ implements client
         $qb = org_openpsa_documents_document_dba::new_query_builder();
         if ($this->_document->nextVersion) {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+            $qb->add_constraint('metadata.created', '<', gmdate('Y-m-d H:i:s', $this->_document->metadata->created));
         } else {
             $qb->add_constraint('nextVersion', '=', $this->_document->id);
         }
@@ -194,7 +194,7 @@ implements client
             $qb->begin_group('OR');
             $qb->begin_group('AND');
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.revised', '>', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+            $qb->add_constraint('metadata.revised', '>', gmdate('Y-m-d H:i:s', $this->_document->metadata->created));
             $qb->end_group();
             $qb->add_constraint('id', '=', $this->_document->nextVersion);
             $qb->end_group();
