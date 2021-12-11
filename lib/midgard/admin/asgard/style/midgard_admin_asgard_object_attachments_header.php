@@ -16,6 +16,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "        </tr>\n";
             echo "    </thead>\n";
             echo "    <tbody>\n";
+            $formatter = $data['l10n']->get_formatter();
             foreach ($data['files'] as $file) {
                 $workflow = new midcom\workflow\delete(['object' => $file, 'label' => $file->name]);
                 $revisor = midcom::get()->auth->get_user($file->metadata->revisor);
@@ -43,7 +44,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "        {$file->name}\n";
                 echo "    </a>\n ";
                 echo "  </td>\n";
-                echo "  <td>" . strftime('%x %X', $last_edit) . "</td>\n";
+                echo "  <td>" . $formatter->datetime($last_edit, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . "</td>\n";
                 if (!empty($revisor->guid)) {
                     $revisor_link = $data['router']->generate('object_open', ['guid' => $revisor->guid]);
                     echo "<td><a href=\"{$revisor_link}\">{$revisor->name}</a></td>\n";

@@ -122,8 +122,9 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                             } catch (midcom_error $e) {
                                 $creator_string = $l10n->get('unknown person');
                             }
+                            $formatter = $data['l10n']->get_formatter();
                             $created = (int) $view_metadata->get('created');
-                            printf($l10n->get('created by %s on %s'), $creator_string, strftime('%c', $created) . ".\n");
+                            printf($l10n->get('created by %s on %s'), $creator_string, $formatter->datetime($created, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM) . ".\n");
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
@@ -136,7 +137,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                     $editor_string = $l10n->get('unknown person');
                                 }
 
-                                printf($l10n->get('last edited by %s on %s (revision %s)'), $editor_string, strftime('%c', $edited), $revision) . "\n";
+                                printf($l10n->get('last edited by %s on %s (revision %s)'), $editor_string, $formatter->datetime($edited, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM), $revision) . "\n";
                             }
                         }
                         ?>

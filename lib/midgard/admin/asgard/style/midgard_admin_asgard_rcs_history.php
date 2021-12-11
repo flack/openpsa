@@ -23,13 +23,14 @@ if (empty($history)) {
             </thead>
             <tbody>
             <?php
+            $formatter = $data['l10n']->get_formatter();
             foreach ($history as $number => $revision) {
                 $link = $data['router']->generate('object_rcs_preview', ['guid' => $guid, 'revision' => $number]);
                 echo "                <tr>\n";
                 echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$number}\" />\n";
                 echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$number}\" />\n";
                 echo "                    <td><a href='{$link}'>{$number}</a></td>\n";
-                echo "                    <td>" . strftime('%x %X Z', $revision['date']) . "</td>\n";
+                echo "                    <td>" . $formatter->datetime($revision['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::LONG) . "</td>\n";
                 echo "                    <td>";
 
                 if (   $revision['user']

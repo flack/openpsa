@@ -55,6 +55,7 @@ if (isset($data['search_results'])) {
         echo "        </tr>\n";
         echo "    </thead>\n";
         echo "    <tbody>\n";
+        $formatter = $data['l10n']->get_formatter();
         foreach ($data['search_results'] as $result) {
             $icon = midcom_helper_reflector::get_object_icon($result);
             $label = midcom_helper_reflector_tree::resolve_path($result, '/');
@@ -63,7 +64,7 @@ if (isset($data['search_results'])) {
 
             echo "        <tr>\n";
             echo "            <td><a href=\"{$link}/\">{$icon} {$label}</a></td>\n";
-            echo "            <td>" . strftime('%x %X', $result->metadata->created) . "</td>\n";
+            echo "            <td>" . $formatter->datetime($result->metadata->created, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . "</td>\n";
 
             if (!empty($creator->guid)) {
                 $link = $data['router']->generate('object_view', ['guid' => $creator->guid]);

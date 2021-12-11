@@ -109,7 +109,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 'class' => get_class($object),
             ];
 
-            $row['approved'] = ($object->is_approved()) ? strftime('%x %X', $object->metadata->approved) : $this->_l10n->get('not approved');
+            $row['approved'] = $object->is_approved() ? $object->metadata->approved : '';
             try {
                 $row['index_title'] = $reflector->get_object_label($object) ?: '[' . $this->_l10n->get('no title') . ']';
             } catch (Exception $e) {

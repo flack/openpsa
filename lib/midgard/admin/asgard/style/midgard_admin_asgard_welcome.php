@@ -68,7 +68,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
         ->set_column('title', $data['l10n_midcom']->get('title'), 'width: 150', 'string')
         ->set_column('revised', midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'), 'fixed: true, width: 180, align: "center", formatter: "date", formatoptions: {srcformat: "U", newformat: "ISO8601Long"}')
         ->set_column('revisor', midcom::get()->i18n->get_string('revisor', 'midcom.admin.folder'), 'width: 70')
-        ->set_column('approved', $data['l10n_midcom']->get('approved'), 'width: 50')
+        ->set_column('approved', $data['l10n_midcom']->get('approved'), 'fixed: true, width: 180, align: "center", formatter: "date", formatoptions: {srcformat: "U", newformat: "ISO8601Long"}')
         ->set_column('revision', midcom::get()->i18n->get_string('revision', 'midcom.admin.folder'), 'fixed: true, width: 95, template: "integer"')
 
         ->set_option('multiselect', true);
