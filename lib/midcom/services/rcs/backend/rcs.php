@@ -23,7 +23,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update(string $updatemessage = null)
+    public function update(string $updatemessage = '')
     {
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;

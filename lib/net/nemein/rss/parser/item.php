@@ -103,8 +103,8 @@ class net_nemein_rss_parser_item extends SimplePie_Item
         $this->_local_guid = $guid;
     }
 
-    private function _decode($string)
+    private function _decode($string) : string
     {
-        return html_entity_decode($string, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
+        return html_entity_decode((string) $string, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
     }
 }

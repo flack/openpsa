@@ -31,7 +31,7 @@ class org_openpsa_mypage_workingon
     /**
      * The description for the current hour report
      */
-    public $description;
+    public $description = '';
 
     /**
      * Person working on the task

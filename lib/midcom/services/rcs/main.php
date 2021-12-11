@@ -47,7 +47,7 @@ class midcom_services_rcs
     /**
      * Create or update the RCS file for the object.
      */
-    public function update(midcom_core_dbaobject $object, string $message = null) : bool
+    public function update(midcom_core_dbaobject $object, string $message = '') : bool
     {
         if (!$this->config->use_rcs()) {
             return true;

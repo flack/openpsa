@@ -286,7 +286,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     private function _get_property_data(midgard_reflection_property $mrp, string $prop) : array
     {
         return [
-            'value' => $mrp->description($prop),
+            'value' => $mrp->description($prop) ?? '',
             'link' => $mrp->is_link($prop),
             'link_name' => $mrp->get_link_name($prop),
             'link_target' => $mrp->get_link_target($prop),

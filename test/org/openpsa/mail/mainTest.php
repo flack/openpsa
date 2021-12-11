@@ -21,6 +21,8 @@ class mainTest extends TestCase
     public function test_send()
     {
         $mail = new org_openpsa_mail;
+        $mail->from = 'nowhere@openpsa2.org';
+        $mail->to = 'nowhere@openpsa2.org';
         $mail->html_body = '<p>Test</p>';
         $this->assertTrue($mail->send());
         $this->assertEquals('Test', $mail->body);

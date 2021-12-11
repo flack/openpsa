@@ -78,7 +78,7 @@ abstract class midcom_services_rcs_backend
     /**
      * Save a revision of an object, or create a revision if none exists
      */
-    abstract public function update(string $updatemessage = null);
+    abstract public function update(string $updatemessage = '');
 
     /**
      * Get a revision

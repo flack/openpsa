@@ -13,7 +13,7 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update(string $updatemessage = null)
+    public function update(string $updatemessage = '')
     {
         $author = midcom::get()->auth->user->id ?? 'NOBODY';
         $author .= ' <' . $author . '@' . $_SERVER['REMOTE_ADDR'] . '>';
