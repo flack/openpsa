@@ -37,7 +37,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
             debug_add("Fetching {$feed->url}...", MIDCOM_LOG_INFO);
             $fetcher = new net_nemein_rss_fetch($feed);
             $items = $fetcher->import();
-            debug_add("Imported " . count($items) . " items, set feed refresh time to " . strftime('%x %X', $feed->latestfetch), MIDCOM_LOG_INFO);
+            debug_add("Imported " . count($items) . " items, set feed refresh time to " . date('Y-m-d H:i:s', $feed->latestfetch), MIDCOM_LOG_INFO);
         }
         midcom::get()->auth->drop_sudo();
     }

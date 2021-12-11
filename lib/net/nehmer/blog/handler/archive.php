@@ -89,7 +89,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         if (!empty($result)) {
-            return new DateTime(strftime('%Y-%m-%d %H:%M:%S', $result[0]->metadata->published));
+            return new DateTime('@' . $result[0]->metadata->published);
         }
         return null;
     }

@@ -9,7 +9,7 @@ if ($view_counter == 0) {
     $class_str = ' last';
 }
 $published = $data['l10n']->get_formatter()->datetime($data['article']->metadata->published);
-$published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . strftime('%Y-%m-%dT%H:%M:%S%z', $data['article']->metadata->published) . "\">" . $published . "</abbr>");
+$published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . date('c', $data['article']->metadata->published) . "\">" . $published . "</abbr>");
 
 if (array_key_exists('base_ajax_comments_url', $data)) {
     $published .= ' <a href="#switch_comments" onClick="showAjaxComments(this, \'' . $data['article']->guid . '\'); return false;">'

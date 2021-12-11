@@ -56,7 +56,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 
         $this->_populate_toolbar();
 
-        $data['view_title'] = sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $data['week_start']));
+        $data['view_title'] = sprintf($this->_l10n->get("expenses in week %s"), date("W o", $data['week_start']));
         $this->add_breadcrumb('', $data['view_title']);
         midcom::get()->head->set_pagetitle($data['view_title']);
         $data['grid'] = new grid('hours_week', 'local');

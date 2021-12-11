@@ -131,7 +131,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             $title_string = 'review of week %s';
         }
 
-        $data['title'] = sprintf($this->_l10n->get($title_string), strftime('%W %Y', $requested_time));
+        $data['title'] = sprintf($this->_l10n->get($title_string), date('W o', $requested_time));
         midcom::get()->head->set_pagetitle($data['title']);
 
         $this->_populate_toolbar();

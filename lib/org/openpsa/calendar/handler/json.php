@@ -153,8 +153,8 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
                 'id' => $event->guid,
                 'title' => $label,
                 'location' => $event->location,
-                'start' => strftime('%Y-%m-%dT%T', $event->start),
-                'end' => strftime('%Y-%m-%dT%T', $event->end),
+                'start' => date('Y-m-d\TH:i:s', $event->start),
+                'end' => date('Y-m-d\TH:i:s', $event->end),
                 'className' => [],
                 'participants' => [],
                 'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
