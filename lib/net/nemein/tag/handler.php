@@ -423,7 +423,7 @@ class net_nemein_tag_handler
      * @see net_nemein_tag_handler::tag_object()
      * @param string $from_string String to parse tags from
      */
-    public static function string2tag_array($from_string) : array
+    public static function string2tag_array(string $from_string) : array
     {
         // Clean all whitespace sequences to single space
         $tags_string = preg_replace('/\s+/', ' ', $from_string);

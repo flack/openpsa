@@ -46,7 +46,7 @@ class org_openpsa_mail
      *
      * @var string
      */
-    public $body;
+    public $body = '';
 
     /**
      * key is header name, value is header data
@@ -66,7 +66,7 @@ class org_openpsa_mail
      *
      * @var string
      */
-    public $html_body;
+    public $html_body = '';
 
     /**
      * The parameters to use for the Mail template.

@@ -10,7 +10,7 @@ use midcom\datamanager\storage\delayed;
  */
 class net_nemein_tag_datamanager_storage extends delayed
 {
-    private $auto_context = null;
+    private $auto_context = '';
 
     public function load()
     {
@@ -25,7 +25,7 @@ class net_nemein_tag_datamanager_storage extends delayed
      */
     public function save()
     {
-        $tag_array = net_nemein_tag_handler::string2tag_array($this->value);
+        $tag_array = net_nemein_tag_handler::string2tag_array((string) $this->value);
         $this->auto_context = trim($this->auto_context);
         if (!empty($this->auto_context)) {
             $new_tag_array = [];

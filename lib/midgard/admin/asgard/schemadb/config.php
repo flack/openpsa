@@ -109,7 +109,7 @@ class midgard_admin_asgard_schemadb_config
                 // Complex Array fields should be readonly for topics as we cannot store and read them properly with parameters
                 $result['readonly'] = $this->is_folder;
                 break;
-            default:
+            case 'string':
                 if (preg_match("/\n/", $value)) {
                     $result['widget'] = 'textarea';
                 }

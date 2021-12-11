@@ -117,7 +117,7 @@ class org_openpsa_mail_template
      *
      * @param string $input The string to parse
      */
-    public function parse($input) : string
+    public function parse(string $input) : string
     {
         return preg_replace_callback($this->_patterns, [$this, '_replace_callback'], $input);
     }

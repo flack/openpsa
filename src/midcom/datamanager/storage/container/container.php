@@ -96,17 +96,17 @@ abstract class container implements node, \ArrayAccess, \Iterator
         return key($this->fields);
     }
 
-    public function next()
+    public function next() : void
     {
         next($this->fields);
     }
 
-    public function rewind()
+    public function rewind() : void
     {
         reset($this->fields);
     }
 
-    public function valid()
+    public function valid() : bool
     {
         return key($this->fields) !== null;
     }

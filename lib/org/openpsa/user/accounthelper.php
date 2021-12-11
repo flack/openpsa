@@ -298,7 +298,7 @@ class org_openpsa_user_accounthelper
     private function count_unique_characters(string $password) : int
     {
         // Split into individual (multibyte) characters, flip to filter out duplicates, and then count
-        return count(array_flip(preg_split('//u', $password, null, PREG_SPLIT_NO_EMPTY)));
+        return count(array_flip(preg_split('//u', $password, -1, PREG_SPLIT_NO_EMPTY)));
     }
 
     /**
