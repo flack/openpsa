@@ -278,7 +278,8 @@ class autocomplete
             $value = $object->metadata->$metadata_property;
 
             if (in_array($metadata_property, $date_fields)) {
-                return $value ? strftime('%x %X', $value) : '';
+                $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
+                return $value ? $formatter->datetime($value, \IntlDateFormatter::SHORT, \IntlDateFormatter::MEDIUM) : '';
             }
             if (in_array($metadata_property, $person_fields)) {
                 if ($value) {

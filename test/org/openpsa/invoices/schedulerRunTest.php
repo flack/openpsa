@@ -197,7 +197,7 @@ class schedulerRunTest extends openpsa_testcase
 
         foreach ($values as $field => $value) {
             if ($field == 'start') {
-                $this->assertEquals(gmstrftime('%x %X', $value), gmstrftime('%x %X', $at_entry->$field), 'Difference in at_entry field ' . $field);
+                $this->assertEquals(date('c', $value), date('c', $at_entry->$field), 'Difference in at_entry field ' . $field);
             } else {
                 $this->assertEquals($value, $at_entry->$field, 'Difference in at_entry field ' . $field);
             }

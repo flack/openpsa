@@ -143,11 +143,12 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $client = new $client_class();
+        $formatter = $this->_l10n->get_formatter();
         $calculation_base = $this->_i18n->get_string('estimated delivery', 'org.openpsa.sales') . ': ';
         foreach ($qb->execute() as $deliverable) {
             $client->run($deliverable);
             if ($client->get_price()) {
-                $invoices[] = $this->get_invoice_for_deliverable($deliverable, $client->get_price(), $deliverable->end, $calculation_base . strftime('%x', $deliverable->end));
+                $invoices[] = $this->get_invoice_for_deliverable($deliverable, $client->get_price(), $deliverable->end, $calculation_base . $formatter->date($deliverable->end));
             }
         }
         return $invoices;
