@@ -152,8 +152,8 @@ class org_openpsa_mail_message
             if ($matches['proto'][$key]) {
                 $uri = $matches["uri"][$key];
             }
-            // uri is relative
-            elseif (preg_match('/^\//', $location)) {
+            // uri is absolute
+            elseif (str_starts_with($location, '/')) {
                 $uri = midcom::get()->get_host_name() . $location;
             } else {
                 debug_add('No usable uri found, skipping embed', MIDCOM_LOG_WARN);

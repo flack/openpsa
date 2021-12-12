@@ -457,7 +457,7 @@ class midcom_core_user
         if (is_a($group, midcom_core_group::class)) {
             return array_key_exists($group->id, $this->_all_groups);
         }
-        if (preg_match('/^group:/', $group)) {
+        if (str_starts_with($group, 'group:')) {
             return array_key_exists($group, $this->_all_groups);
         }
         // We scan through our groups looking for a midgard group with the right name

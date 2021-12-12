@@ -169,7 +169,7 @@ class imagefilter
         $filter->convert($conversion);
 
         // Prevent double .jpg.jpg
-        if (!preg_match("/\.{$conversion}$/", $upload->name)) {
+        if (!str_ends_with($upload->name, ".{$conversion}")) {
             // Make sure there is only one extension on the file ??
             $upload->name = midcom_db_attachment::safe_filename($upload->name . ".{$conversion}");
         }

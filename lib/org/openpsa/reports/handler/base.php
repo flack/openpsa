@@ -126,7 +126,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             debug_add('Empty style definition encountered, forcing builtin:basic');
             $data['query_data']['style'] = 'builtin:basic';
         }
-        if (!preg_match('/^builtin:(.+)/', $data['query_data']['style'])) {
+        if (!str_starts_with($data['query_data']['style'], 'builtin:')) {
             debug_add("appending '{$data['query_data']['style']}' to substyle path");
             midcom::get()->style->append_substyle($data['query_data']['style']);
         }

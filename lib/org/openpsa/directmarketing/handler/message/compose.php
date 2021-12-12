@@ -65,7 +65,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
         //Substyle handling
         if (   !empty($data['message_array']['substyle'])
-            && !preg_match('/^builtin:/', $data['message_array']['substyle'])) {
+            && !str_starts_with($data['message_array']['substyle'], 'builtin:')) {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
             midcom::get()->style->append_substyle($data['message_array']['substyle']);
         }

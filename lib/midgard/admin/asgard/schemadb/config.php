@@ -110,7 +110,7 @@ class midgard_admin_asgard_schemadb_config
                 $result['readonly'] = $this->is_folder;
                 break;
             case 'string':
-                if (preg_match("/\n/", $value)) {
+                if (str_contains($value, "\n")) {
                     $result['widget'] = 'textarea';
                 }
         }

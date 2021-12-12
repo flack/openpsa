@@ -20,7 +20,7 @@ class org_openpsa_helpers_fileinfo
      */
     public static function render_type(string $mimetype) : string
     {
-        if (!preg_match('/\//', $mimetype)) {
+        if (!str_contains($mimetype, '/')) {
             return $mimetype;
         }
 
@@ -43,12 +43,12 @@ class org_openpsa_helpers_fileinfo
             case 'application':
                 $type = 'document';
 
-                if (preg_match('/^vnd\.oasis\.opendocument/', $subtype)) {
+                if (str_starts_with($subtype, 'vnd.oasis.opendocument')) {
                     $type = str_replace('vnd.oasis.opendocument.', '', $subtype);
                     $subtype = 'OpenDocument';
-                } elseif (preg_match('/^vnd\.ms/', $subtype)) {
+                } elseif (str_starts_with($subtype, '/vnd.ms')) {
                     $subtype = ucfirst(str_replace('vnd.ms-', '', $subtype));
-                } elseif (preg_match('/^vnd\.openxmlformats/', $subtype)) {
+                } elseif (str_starts_with($subtype, 'vnd.openxmlformats')) {
                     $type = str_replace('vnd.openxmlformats-officedocument.', '', $subtype);
                     $type = str_replace('ml.', ' ', $type);
                     $subtype = 'OOXML';
