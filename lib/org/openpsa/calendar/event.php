@@ -320,7 +320,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function details_text(string $nl) : string
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
-        $str .= $l10n->get('location') . ': ' . $this->location . $nl;
+        $str = $l10n->get('location') . ': ' . $this->location . $nl;
         $str .= $l10n->get('time') . ': ' . $l10n->get_formatter()->timeframe($this->start, $this->end) . $nl;
         $str .= $l10n->get('participants') . ': ' . $this->implode_members($this->participants) . $nl;
         $str .= $l10n->get('resources') . ': ' . $this->implode_members($this->resources) . $nl;
