@@ -320,12 +320,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function details_text(string $nl) : string
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
-        $str = sprintf($l10n->get('location: %s') . $nl, $this->location);
-        $str .= sprintf($l10n->get('time: %s') . $nl, $l10n->get_formatter()->timeframe($this->start, $this->end));
-        $str .= sprintf($l10n->get('participants: %s') . $nl, $this->implode_members($this->participants));
-        $str .= sprintf($l10n->get('resources: %s') . $nl, $this->implode_members($this->resources));
+        $str .= $l10n->get('location') . ': ' . $this->location . $nl;
+        $str .= $l10n->get('time') . ': ' . $l10n->get_formatter()->timeframe($this->start, $this->end) . $nl;
+        $str .= $l10n->get('participants') . ': ' . $this->implode_members($this->participants) . $nl;
+        $str .= $l10n->get('resources') . ': ' . $this->implode_members($this->resources) . $nl;
         //TODO: Tentative, overlaps, public
-        $str .= sprintf($l10n->get('description: %s') . $nl, $this->description);
+        $str .= $l10n->get('description') . ': ' . $this->description . $nl;
         return $str;
     }
 
