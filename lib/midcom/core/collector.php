@@ -108,6 +108,7 @@ class midcom_core_collector extends midcom_core_query
         if ($indexed_by !== 'guid') {
             $this->add_value_property($indexed_by);
         }
+        $indexed_by = str_replace('.', '_', $indexed_by);
 
         $this->execute();
         $results = [];
