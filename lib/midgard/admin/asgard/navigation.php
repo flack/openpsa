@@ -282,18 +282,16 @@ class midgard_admin_asgard_navigation
      */
     private function _process_root_types() : array
     {
-        // Get the types that might have special display conditions
-        // @TODO: Should this just include to the configuration selection, although it would break the consistency
-        // of other similar preference sets, which simply override the global settings?
-        $selected = midgard_admin_asgard_plugin::get_preference('midgard_types');
-
         // Get the inclusion/exclusion model
-        $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
-        $exclude = ($model == 'exclude');
+        $exclude = midgard_admin_asgard_plugin::get_preference('midgard_types_model') == 'exclude';
 
         $label_mapping = midgard_admin_asgard_plugin::get_root_classes();
 
-        if (preg_match_all('/\|([a-z0-9\.\-_]+)/', $selected, $regs)) {
+        // Get the types that might have special display conditions
+        // @TODO: Should this just include to the configuration selection, although it would break the consistency
+        // of other similar preference sets, which simply override the global settings?
+        if (   ($selected = midgard_admin_asgard_plugin::get_preference('midgard_types'))
+            && preg_match_all('/\|([a-z0-9\.\-_]+)/', $selected, $regs)) {
             $types = array_flip($regs[1]);
             if ($exclude) {
                 $label_mapping = array_diff_key($label_mapping, $types);
