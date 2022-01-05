@@ -303,15 +303,13 @@ class midgard_admin_asgard_navigation
         }
 
         // Get the possible regular expression
-        $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp');
+        if ($regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp')) {
+            // "Convert" quickly to PERL regular expression
+            if (!preg_match('/^[\/|]/', $regexp)) {
+                $regexp = "/{$regexp}/";
+            }
 
-        // "Convert" quickly to PERL regular expression
-        if (!preg_match('/^[\/|]/', $regexp)) {
-            $regexp = "/{$regexp}/";
-        }
-
-        // If the regular expression has been set, check which types should be shown
-        if ($regexp !== '//') {
+            // If the regular expression has been set, check which types should be shown
             $label_mapping = array_filter($label_mapping, function ($root_type) use ($regexp, $exclude) {
                 return preg_match($regexp, $root_type) == $exclude;
             }, ARRAY_FILTER_USE_KEY);
