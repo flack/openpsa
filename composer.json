@@ -101,5 +101,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "openpsa/installer": true
+        }
     }
 }
