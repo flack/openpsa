@@ -164,7 +164,7 @@
             'storage' => [
                 'location' => 'parameter',
                 'domain' => 'midgard.admin.asgard:preferences',
-                'name' => 'midgard_types_excluded',
+                'name' => 'midgard_types',
             ],
             'type' => 'select',
             'type_config' => [
