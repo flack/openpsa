@@ -387,7 +387,7 @@ class midcom_helper_head
      */
     public function inject_head_elements(ResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         $response = $event->getResponse();

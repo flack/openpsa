@@ -173,7 +173,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     public function on_request(RequestEvent $event)
     {
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             $request = $event->getRequest();
             /* Load and start up the cache system, this might already end the request
              * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
@@ -264,7 +264,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function on_response(ResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         $response = $event->getResponse();
