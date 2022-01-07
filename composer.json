@@ -26,7 +26,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "mf2/mf2": ">=0.2.12",
         "michelf/php-markdown": "^1.9.0",
-        "monolog/monolog": "^1.15",
+        "monolog/monolog": "^1.15 || ^2.0",
         "openpsa/installer": "^1.0",
         "openpsa/midgard-portable": "^1.4.0",
         "openpsa/ranger": ">=0.3.0",
