@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-versions: ['7.3', '7.4', '8.0']
       fail-fast: false
 
     steps:
@@ -33,7 +33,7 @@ jobs:
 
     - name: Install RCS
       run: sudo apt-get install rcs
-  
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
