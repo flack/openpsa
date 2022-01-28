@@ -247,8 +247,8 @@ class midcom_baseclasses_components_viewer
 
         $parameters['handler'] = explode('::', $parameters['_controller'], 2);
 
-        $this->initialize_handler(new $parameters['handler'][0]);
         midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
+        $this->initialize_handler(new $parameters['handler'][0]);
     }
 
     private function initialize_handler(midcom_baseclasses_components_handler $handler)
