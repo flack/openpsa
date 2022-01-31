@@ -103,7 +103,10 @@
     height: 80px;
     vertical-align: middle;
     text-align: center;
-    background-color: white;
+    background-color: #d9d9d9;
+    background-image: linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+    background-size: 20px 20px;
+    background-position:0 0, 10px 10px;
 }
 
 #item_container .entry.active .thumbnail
@@ -151,13 +154,27 @@
     width: 16px;
     margin-left: 6px;
     margin-bottom: 3px;
-    cursor: pointer
+    cursor: pointer;
+    text-align: center;
+    border-radius: 2px;
+    color: white;
+    opacity: .5;
+}
+
+#item_container .entry:hover .controls .action
+{
+    opacity: .7;
+}
+
+#item_container .entry .controls .action:hover
+{
+    opacity: 1;
 }
 
 #item_container .entry .controls .image-delete
 {
     display: none;
-    background-image: url('../stock-icons/16x16/cancel.png');
+    background-color: red;
 }
 #item_container .entry:hover .controls .image-delete
 {
@@ -173,7 +190,7 @@
 #item_container .entry .controls .image-cancel-delete
 {
     display: none;
-    background-image: url('../stock-icons/16x16/stock_refresh.png');
+    background-color: green;
 }
 
 #item_container .entry-deleted .controls .image-cancel-delete

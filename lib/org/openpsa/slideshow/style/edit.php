@@ -32,8 +32,8 @@ foreach ($data['images'] as $image) {
       </div>
       <div class="details">
         <span class="controls">
-          <span class="action image-delete"></span>
-          <span class="action image-cancel-delete"></span>
+          <span class="action image-delete"><i class="fa fa-trash"></i></span>
+          <span class="action image-cancel-delete"><i class="fa fa-refresh"></i></span>
         </span>
         <span class="filename" title="&(name);">&(name);</span>
         <span class="title"><input type="text" placeholder="<?php echo $data['l10n_midcom']->get('title'); ?>" value="&(image.title);" /></span>
