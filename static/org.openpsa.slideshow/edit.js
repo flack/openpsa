@@ -37,7 +37,8 @@ $(document).ready(function() {
         });
     });
     $('#item_container')
-        .on('click', '.image-delete', function() {
+        .on('click', '.image-delete', function(e) {
+            e.stopPropagation();
             var entry = $(this).closest('.entry');
             if (entry.hasClass('new-entry')) {
                 entry.remove();
