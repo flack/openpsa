@@ -46,7 +46,8 @@ $(document).ready(function() {
                 entry.addClass('entry-deleted');
             }
         })
-        .on('click', '.image-cancel-delete', function() {
+        .on('click', '.image-cancel-delete', function(e) {
+            e.stopPropagation();
             $(this).closest('.entry').removeClass('entry-deleted');
         })
         .on('click', '.entry', function() {

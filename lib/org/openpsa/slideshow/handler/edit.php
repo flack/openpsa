@@ -8,6 +8,8 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\FileBag;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Edit handler
@@ -125,7 +127,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
         $function = '_process_' . $this->_operation;
         try {
-            $this->$function($request->request);
+            $this->$function($request->request, $request->files);
             $this->_response->success = true;
         } catch (midcom_error $e) {
             $this->_response->success = false;
@@ -135,7 +137,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         return $this->_response;
     }
 
-    private function _process_create(ParameterBag $post)
+    private function _process_create(ParameterBag $post, FileBag $files)
     {
         $image = new org_openpsa_slideshow_image_dba();
         $image->topic = $this->_topic->id;
@@ -148,8 +150,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
         $this->_response->position = $image->position;
         $this->_response->guid = $image->guid;
-        if (isset($_FILES['image'])) {
-            $this->_upload_image($_FILES['image'], $post->get('title', ''), $image);
+        if ($files->has('image')) {
+            $this->_upload_image($files->get('image'), $post->get('title', ''), $image);
         }
     }
 
@@ -232,15 +234,15 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _upload_image(array $file, string $title, org_openpsa_slideshow_image_dba $image)
+    private function _upload_image(UploadedFile $file, string $title, org_openpsa_slideshow_image_dba $image)
     {
         $attachment = new midcom_db_attachment();
-        $attachment->name = midcom_db_attachment::safe_filename($file['name']);
+        $attachment->name = midcom_db_attachment::safe_filename($file->getClientOriginalName());
         $attachment->title = $title;
-        $attachment->mimetype = $file['type'];
+        $attachment->mimetype = $file->getMimeType();
         $attachment->parentguid = $image->guid;
         if (   !$attachment->create()
-            || !$attachment->copy_from_file($file['tmp_name'])) {
+            || !$attachment->copy_from_file($file->getRealPath())) {
             throw new midcom_error('Failed to create attachment: ' . midcom_connection::get_error_string());
         }
         // apply filter for original image
