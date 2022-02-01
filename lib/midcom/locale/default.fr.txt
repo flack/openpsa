@@ -1,0 +1,7 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fr
+
+---STRING create %s
+Créer %s
+---STRINGEND
