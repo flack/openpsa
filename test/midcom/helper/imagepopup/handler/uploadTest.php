@@ -12,6 +12,8 @@ use openpsa_testcase;
 use midcom;
 use midcom_db_attachment;
 use Exception;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * OpenPSA testcase
@@ -36,45 +38,48 @@ class uploadTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
         $node = self::get_component_node('net.nehmer.static');
-        $_FILES['file'] = array_shift(self::$_images);
+        $img = array_shift(self::$_images);
+        $request = new Request([], [], [], [], ['file' => new UploadedFile($img['tmp_name'], $img['name'], $img['type'])]);
 
         // Do it goes with guid ?
-        $data = $this->run_handler($node, ['__ais', 'imagepopup', 'upload', 'image', $node->guid]);
+        $data = $this->run_handler($node, ['__ais', 'imagepopup', 'upload', 'image', $node->guid], $request);
         $this->assertEquals('upload_image', $data['handler_id']);
+        $attachment = $this->get_attachment($data);
 
         // Do new attachment exists ? Has a location and name ?
-        $this->assertInstanceOf(midcom_db_attachment::class, $data['attachment']);
-        $this->assertNotNull($data['attachment']->location);
-        $this->assertEquals('image/jpeg', $data['attachment']->mimetype);
-        $location = midcom_db_attachment::get_url($data['attachment']);
-        $this->assertEquals($location, $data['location']);
+        $this->assertNotNull($attachment->location);
+        $this->assertEquals('image/jpeg', $attachment->mimetype);
 
         midcom::get()->auth->drop_sudo();
+    }
+
+    private function get_attachment(array $data) : \midcom_db_attachment
+    {
+        $url = $data['__openpsa_testcase_response']->location;
+        $this->assertMatchesRegularExpression('/\/midcom-serveattachmentguid-.+?/', $url);
+        $guid = preg_replace('/\/midcom-serveattachmentguid-(.+?)\/.+/', '$1', $url);
+        return new \midcom_db_attachment($guid);
     }
 
     public function testHandler_upload_noguid()
     {
         midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
-        $_FILES['file'] = array_shift(self::$_images);
-
-        // Sleep for 1 second to avoid the same modified filenames for both files in upload handler class
-        sleep(1);
+        $img = array_shift(self::$_images);
+        $request = new Request([], [], [], [], ['file' => new UploadedFile($img['tmp_name'], $img['name'], $img['type'])]);
 
         // Do it goes without guid ?
-        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image']);
+        $data = $this->run_handler('net.nehmer.static', ['__ais', 'imagepopup', 'upload', 'image'], $request);
         $this->assertEquals('upload_image_noobject', $data['handler_id']);
+        $attachment = $this->get_attachment($data);
 
         // Do new attachment exists ? Has a location and name ?
-        $this->assertInstanceOf(midcom_db_attachment::class, $data['attachment']);
-        $this->assertNotNull($data['attachment']->location);
-        $this->assertEquals('image/jpeg', $data['attachment']->mimetype);
-        $location = midcom_db_attachment::get_url($data['attachment']);
-        $this->assertEquals($location, $data['location']);
+        $this->assertNotNull($attachment->location);
+        $this->assertEquals('image/jpeg', $attachment->mimetype);
 
         midcom::get()->auth->drop_sudo();
     }
 
-    private static function create_images($how_many)
+    private static function create_images(int $how_many) : array
     {
         $images = [];
         $path = sys_get_temp_dir() . "/" . md5(rand());
@@ -93,8 +98,7 @@ class uploadTest extends openpsa_testcase
             array_push(self::$_tmp_names, $filename);
             $name = "imagetools" . $i . ".jpg";
 
-            $image = ['name' => $name, 'type' => 'image/jpeg', 'tmp_name' => $filename, 'error' => 0, 'size' => 999];
-            array_push($images, $image);
+            $images[] = ['name' => $name, 'type' => 'image/jpeg', 'tmp_name' => $filename];
         }
 
         return $images;

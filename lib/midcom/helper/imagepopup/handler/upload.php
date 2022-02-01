@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * This handler get uploaded file and save it in database and write to file.
  *
@@ -13,41 +16,34 @@
  */
 class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_components_handler
 {
-    public function _handler_upload(array &$data, string $guid = null)
+    public function _handler_upload(Request $request, string $guid = null)
     {
         // Get the file
-        reset($_FILES);
-        $temp = array_shift($_FILES);
+        $temp = $request->files->get('file');
 
         // Verify file extension
-        if (   is_uploaded_file($temp['tmp_name'])
-            && !in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), ["gif", "jpg", "png"])) {
-            throw new midcom_error('Invalid extension.');
+        if (   !$temp instanceof UploadedFile
+            || !in_array(strtolower($temp->getClientOriginalExtension()), ["gif", "jpg", "png"])) {
+                throw new midcom_error('Invalid extension.');
         }
 
         // Get the data
-        $temp_name = $temp['tmp_name'];
-        $mimetype = $temp['type'];
         $parentguid = $guid ?: $this->_topic->guid;
 
         // Set modified filename
-        $filename = $this->get_modify_filename($temp['name']);
+        $filename = $this->get_modify_filename($temp->getClientOriginalName());
 
         // Insert the image into database
-        $attachment = $this->insert_database($filename, $mimetype, $parentguid);
-
-        $data['attachment'] = $attachment;
+        $attachment = $this->insert_database($filename, $temp->getClientMimeType(), $parentguid);
 
         // Get target to write the file
         $target = $this->get_data_from_database($filename, $parentguid);
 
         // Write the file
-        $this->write_the_file($temp_name, $target);
+        $this->write_the_file($temp->getRealPath(), $target);
 
         // Make a response for editor.uploadImages() function
         $location = midcom_db_attachment::get_url($attachment);
-
-        $data['location'] = $location;
 
         // Return image location as JSON
         return new midcom_response_json(['location' => $location]);
