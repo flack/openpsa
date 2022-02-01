@@ -503,8 +503,6 @@ p
     border: none;
     margin-right: 14px;
     padding: 4px;
-    padding-left: 22px;
-    background-position: 4px;
     cursor: pointer;
 }
 #content form.datamanager2 div.form_toolbar .save,

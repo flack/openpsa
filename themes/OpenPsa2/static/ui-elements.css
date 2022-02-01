@@ -408,12 +408,6 @@ button[type="submit"][disabled],
     color: rgba(0, 0, 0, .5)
 }
 
-form.datamanager2 div.form_toolbar .submit
-{
-    background-position: 3px center;
-    padding-left: 21px
-}
-
 form.datamanager2 fieldset.checkbox label,
 form.datamanager2 fieldset.radiobox label {
     display: inline;

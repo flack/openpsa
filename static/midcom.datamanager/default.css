@@ -127,46 +127,58 @@ form.datamanager2 div.form_toolbar
 
 form.datamanager2 div.form_toolbar .submit
 {
-    background-repeat: no-repeat;
-    background-position: 1px center;
     border-style: outset;
     padding: 0 .3em;
 }
 
-form.datamanager2 div.form_toolbar .save
-{
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/save.png');
-}
-
+form.datamanager2 div.form_toolbar .save,
 form.datamanager2 div.form_toolbar .cancel
 {
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/cancel.png');
+    display: inline-flex;
+    align-items: baseline;
 }
 
-form.datamanager2 div.form_toolbar .previous
+form.datamanager2 div.form_toolbar .save:before,
+form.datamanager2 div.form_toolbar .cancel:before,
+form.datamanager2 div.form_toolbar .previous:before,
+form.datamanager2 div.form_toolbar .next:before,
+form.datamanager2 div.form_toolbar .delete:before,
+form.datamanager2 div.form_toolbar .preview:before
 {
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/previous.png');
+    font-family: FontAwesome;
+    padding-right: 3px;
+    opacity: .6
 }
 
-form.datamanager2 div.form_toolbar .next
+form.datamanager2 div.form_toolbar .save:before
 {
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/next.png');
+    content: '\f0c7';
 }
 
-form.datamanager2 div.form_toolbar .delete
+form.datamanager2 div.form_toolbar .cancel:before
 {
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/trash.png');
+    content: '\f05e';
+    color: red;
 }
 
-form.datamanager2 div.form_toolbar .preview
+form.datamanager2 div.form_toolbar .previous:before
 {
-    padding-left: 19px;
-    background-image: url('../stock-icons/16x16/view.png');
+    content: '\f053';
+}
+
+form.datamanager2 div.form_toolbar .next:before
+{
+    content: '\f054';
+}
+
+form.datamanager2 div.form_toolbar .delete:before
+{
+    content: '\f014';
+}
+
+form.datamanager2 div.form_toolbar .preview:before
+{
+    content: '\f002';
 }
 
 /* Checkbox display */
