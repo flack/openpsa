@@ -44,4 +44,18 @@ trait org_openpsa_user_handler
 
         return $stat;
     }
+
+    /**
+     * Sends welcome email to user 
+     */
+    public function welcome_email(midcom_db_person $person) : bool
+    {
+        $account_helper = new org_openpsa_user_accounthelper();
+
+        $stat = $account_helper->welcome_email($person);
+        if (!$stat) {
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $account_helper->errstr, 'error');
+        }
+        return $stat;
+    }  
 }

@@ -50,6 +50,10 @@ account_edit:
     path: /account/edit/{guid}/
     defaults: { _controller: 'org_openpsa_user_handler_person_account::edit' }
 
+account_welcome:
+    path: /account/welcome_email/{guid}/
+    defaults: { _controller: 'org_openpsa_user_handler_person_account::welcome_email' }
+
 account_delete:
     path: /account/delete/{guid}/
     defaults: { _controller: 'org_openpsa_user_handler_person_account::delete' }

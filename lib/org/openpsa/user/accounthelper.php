@@ -321,6 +321,41 @@ class org_openpsa_user_accounthelper
     }
 
     /**
+     * Function sends an email to the user with username and password
+     *
+     * @return boolean indicates success
+     */
+    public function welcome_email(midcom_db_person $person) : bool
+    {
+        $this->person = $person;
+        $account = $this->get_account();
+
+        $email = $person->email;
+        $username = $account->get_username();
+
+        $mail = new org_openpsa_mail();
+        $mail->to = $email;
+
+
+        $password = $this->generate_safe_password($this->_config->get("min_password_length"));
+        $this->set_account($username, $password);
+
+        $mail->parameters = [
+            "USERNAME" => $username,
+            "PASSWORD" => $password,
+        ];
+
+        $this->prepare_mail($mail);
+
+        if (!$mail->send()) {
+            $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Function to disable account for time period given in config
      *
      * @return boolean - indicates success
