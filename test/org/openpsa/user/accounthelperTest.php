@@ -331,7 +331,7 @@ class accounthelperTest extends openpsa_testcase
         $user = self::create_user();
         $accounthelper = new org_openpsa_user_accounthelper($user);
         midcom::get()->auth->request_sudo('org.openpsa.user');
-        $this->assertTrue($accounthelper->welcome_email($user));
+        $this->assertTrue($accounthelper->welcome_email());
         midcom::get()->auth->drop_sudo();
     }    
 }
