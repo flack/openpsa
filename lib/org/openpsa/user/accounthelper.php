@@ -335,17 +335,14 @@ class org_openpsa_user_accounthelper
      *
      * @return boolean indicates success
      */
-    public function welcome_email(midcom_db_person $person) : bool
+    public function welcome_email() : bool
     {
-        $account = $this->get_account();
-
-        $email = $person->email;
-        $username = $account->get_username();
-
+        $username = $this->get_account()->get_username();
+        $email = $this->person->email;
+        
         //Resets Password
         $password = $this->generate_safe_password($this->_config->get("min_password_length"));
         $this->set_account($username, $password);
-
         return $this->send_mail($username, $email, $password);
     }
 
