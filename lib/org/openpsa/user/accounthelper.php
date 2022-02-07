@@ -95,23 +95,9 @@ class org_openpsa_user_accounthelper
         }
 
         //send welcome mail?
-        if ($send_welcome_mail) {
-            $mail = new org_openpsa_mail();
-            $mail->to = $usermail;
-
-            // Make replacements to body
-            $mail->parameters = [
-                "USERNAME" => $username,
-                "PASSWORD" => $password,
-            ];
-
-            $this->prepare_mail($mail);
-
-            if (!$mail->send()) {
-                $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
-                $this->delete_account();
-                return false;
-            }
+        if ($send_welcome_mail && (!$this->send_mail($username, $usermail, $password))) {
+            $this->delete_account();
+            return false;
         } elseif ($generated_password) {
             /*
              * no welcome mail was sent:
@@ -138,6 +124,28 @@ class org_openpsa_user_accounthelper
         $mail->subject = $this->_config->get('welcome_mail_title');
         $mail->body = $this->_config->get('welcome_mail_body');
         $mail->parameters["SITE_URL"] = midcom::get()->config->get('midcom_site_url');
+    }
+
+    /**
+     * Send mail
+     */
+    protected function send_mail(string $username, string $usermail, string $password) : bool
+    {
+        $mail = new org_openpsa_mail();
+        $mail->to = $usermail;
+
+        // Make replacements to body
+        $mail->parameters = [
+            "USERNAME" => $username,
+            "PASSWORD" => $password,
+        ];
+
+        $this->prepare_mail($mail);
+        if (!$mail->send()) {
+            $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -333,26 +341,12 @@ class org_openpsa_user_accounthelper
         $email = $person->email;
         $username = $account->get_username();
 
-        $mail = new org_openpsa_mail();
-        $mail->to = $email;
-
-
+        //Resets Password
         $password = $this->generate_safe_password($this->_config->get("min_password_length"));
         $this->set_account($username, $password);
 
-        $mail->parameters = [
-            "USERNAME" => $username,
-            "PASSWORD" => $password,
-        ];
+        return $this->send_mail($username, $email, $password);
 
-        $this->prepare_mail($mail);
-
-        if (!$mail->send()) {
-            $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
-            return false;
-        }
-
-        return true;
     }
 
     /**
