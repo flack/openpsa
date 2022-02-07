@@ -80,9 +80,9 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
 
     public function _handler_welcome_email(string $guid)
     {
-        $this->person = new midcom_db_person($guid);
-        $accounthelper = new org_openpsa_user_accounthelper($this->person);
-        $accounthelper->welcome_email($this->person);
+        $person = new midcom_db_person($guid);
+        $accounthelper = new org_openpsa_user_accounthelper($person);
+        $accounthelper->welcome_email($person);
 
         return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $guid]));
     }

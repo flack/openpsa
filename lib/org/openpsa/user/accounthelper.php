@@ -95,9 +95,11 @@ class org_openpsa_user_accounthelper
         }
 
         //send welcome mail?
-        if ($send_welcome_mail && (!$this->send_mail($username, $usermail, $password))) {
-            $this->delete_account();
-            return false;
+        if ($send_welcome_mail) {
+            if (!$this->send_mail($username, $usermail, $password)) {
+                $this->delete_account();
+                return false;
+            }
         } elseif ($generated_password) {
             /*
              * no welcome mail was sent:
@@ -129,7 +131,7 @@ class org_openpsa_user_accounthelper
     /**
      * Send mail
      */
-    protected function send_mail(string $username, string $usermail, string $password) : bool
+    private function send_mail(string $username, string $usermail, string $password) : bool
     {
         $mail = new org_openpsa_mail();
         $mail->to = $usermail;
@@ -335,7 +337,6 @@ class org_openpsa_user_accounthelper
      */
     public function welcome_email(midcom_db_person $person) : bool
     {
-        $this->person = $person;
         $account = $this->get_account();
 
         $email = $person->email;
@@ -346,7 +347,6 @@ class org_openpsa_user_accounthelper
         $this->set_account($username, $password);
 
         return $this->send_mail($username, $email, $password);
-
     }
 
     /**
