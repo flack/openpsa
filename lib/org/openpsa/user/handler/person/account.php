@@ -78,6 +78,15 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
             ->get_controller();
     }
 
+    public function _handler_welcome_email(string $guid)
+    {
+        $person = new midcom_db_person($guid);
+        $accounthelper = new org_openpsa_user_accounthelper($person);
+        $accounthelper->welcome_email();
+
+        return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $guid]));
+    }
+
     public function _handler_su(string $guid)
     {
         if (!midcom::get()->config->get('auth_allow_trusted')) {
