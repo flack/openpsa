@@ -294,8 +294,12 @@ Person %s wurde erstellt
 Person %s wurde gespeichert
 ---STRINGEND
 
----STRING password reset and mail sent
-Das Passwort wurde zurückgesetzt und an den Benutzer gesendet
+---STRING password reset and mail to %s sent
+Das Passwort wurde zurückgesetzt und an %s gesendet
+---STRINGEND
+
+---STRING error password reset and mail not sent to %s
+Es ist ein Fehler aufgetreten. E-Mail konnte nicht an %s gesendet werden
 ---STRINGEND
 
 ---STRING postcode
