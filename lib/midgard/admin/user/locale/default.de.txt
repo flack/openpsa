@@ -194,6 +194,10 @@ Die Passwörter wurden aktualisiert und eine Mail verschickt
 Benutzer %s gespeichert
 ---STRINGEND
 
+---STRING password reset and mail sent
+Das Passwort wurde zurückgesetzt und an den Benutzer gesendet
+---STRINGEND
+
 ---STRING personalized equal
 Personalisiertes Äquivalent
 ---STRINGEND
