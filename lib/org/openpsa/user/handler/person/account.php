@@ -84,9 +84,9 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         $accounthelper = new org_openpsa_user_accounthelper($person);
         $accounthelper->welcome_email();
         if ($accounthelper->welcome_email()) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('password reset and mail to %s sent'), $person->email ));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('password reset and mail to %s sent'), $person->email ));
         } else {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('error password reset and mail not sent to %s'), $person->email) , 'warning'); 
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $accounthelper->errstr, 'error'); 
         }
         return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $guid]));
     }

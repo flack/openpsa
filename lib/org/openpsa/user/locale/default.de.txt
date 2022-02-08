@@ -298,10 +298,6 @@ Person %s wurde gespeichert
 Das Passwort wurde zurückgesetzt und an %s gesendet
 ---STRINGEND
 
----STRING error password reset and mail not sent to %s
-Es ist ein Fehler aufgetreten. E-Mail konnte nicht an %s gesendet werden
----STRINGEND
-
 ---STRING postcode
 PLZ
 ---STRINGEND

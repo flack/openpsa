@@ -298,10 +298,6 @@ Person %s saved
 Password has been reset and sent to %s
 ---STRINGEND
 
----STRING error password reset and mail not sent to %s
-There was an error. Email could not be sent to %s
----STRINGEND
-
 ---STRING postcode
 Postcode
 ---STRINGEND
