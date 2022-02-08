@@ -294,6 +294,10 @@ Person %s created
 Person %s saved
 ---STRINGEND
 
+---STRING password reset and mail to %s sent
+Password has been reset and sent to %s
+---STRINGEND
+
 ---STRING postcode
 Postcode
 ---STRINGEND
