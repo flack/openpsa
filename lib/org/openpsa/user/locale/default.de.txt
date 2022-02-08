@@ -294,6 +294,10 @@ Person %s wurde erstellt
 Person %s wurde gespeichert
 ---STRINGEND
 
+---STRING password reset and mail sent
+Das Passwort wurde zurückgesetzt und an den Benutzer gesendet
+---STRINGEND
+
 ---STRING postcode
 PLZ
 ---STRINGEND
