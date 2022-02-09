@@ -57,4 +57,15 @@ class accountTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function test_handler_welcome_email()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.user');
+
+        $data = $this->run_handler('org.openpsa.user', ['account', 'welcome', self::$_user->guid]);
+        $this->assertEquals('account_welcome', $data['handler_id']);
+        $this->assertCount(1, \org_openpsa_mail_backend_unittest::$mails);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }
