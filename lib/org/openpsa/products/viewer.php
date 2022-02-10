@@ -31,7 +31,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
 
         $document = $indexer->new_document($dm);
         if (   $config->get('enable_scheduling')
-            && is_a($object, org_openpsa_products_product_dba::class)) {
+            && $object instanceof org_openpsa_products_product_dba) {
             // Check start/end for products
             if (   $object->start > time()
                 || (   $object->end != 0

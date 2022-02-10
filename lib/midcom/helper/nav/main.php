@@ -340,7 +340,7 @@ class midcom_helper_nav
         while ($parent = $object->get_parent()) {
             // Verify that this topic is within the current sites tree, if it is not,
             // we ignore it.
-            if (   is_a($parent, midcom_db_topic::class)
+            if (   $parent instanceof midcom_db_topic
                 && $this->is_node_in_tree($parent->id, $this->get_root_node())) {
                 return $parent;
             }

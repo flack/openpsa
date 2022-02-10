@@ -454,7 +454,7 @@ class midcom_core_user
         }
 
         // Process
-        if (is_a($group, midcom_core_group::class)) {
+        if ($group instanceof midcom_core_group) {
             return array_key_exists($group->id, $this->_all_groups);
         }
         if (str_starts_with($group, 'group:')) {

@@ -59,7 +59,7 @@ class blobs extends delayed
         if (!empty($this->value)) {
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => $att) {
-                if (!is_a($att, midcom_db_attachment::class)) {
+                if (!($att instanceof midcom_db_attachment)) {
                     continue;
                 }
 
@@ -115,7 +115,7 @@ class blobs extends delayed
         $total_moved = 0;
 
         foreach ($this->value as $att) {
-            if (!is_a($att, midcom_db_attachment::class)) {
+            if (!($att instanceof midcom_db_attachment)) {
                 continue;
             }
             if ($att->id !== 0) {

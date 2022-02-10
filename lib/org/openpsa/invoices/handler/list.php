@@ -91,7 +91,7 @@ implements client
         $entry['index_number'] = $number;
         $entry['number'] = $link_html;
 
-        if (!is_a($this->_customer, org_openpsa_contacts_group_dba::class)) {
+        if (!($this->_customer instanceof org_openpsa_contacts_group_dba)) {
             try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
                 $entry['customer'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $customer->guid])}\">" . $customer->get_label() . "</a>";
@@ -102,7 +102,7 @@ implements client
             }
         }
 
-        if (!is_a($this->_customer, org_openpsa_contacts_person_dba::class)) {
+        if (!($this->_customer instanceof org_openpsa_contacts_person_dba)) {
             try {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
                 $contact_widget = org_openpsa_widgets_contact::get($invoice->customerContact);
@@ -208,7 +208,7 @@ implements client
                 ->setParameter('deliverable', $this->_deliverable->id);
             $qb->get_current_group()->add('i.deliverable = :deliverable');
         } elseif ($this->_customer) {
-            if (is_a($this->_customer, org_openpsa_contacts_group_dba::class)) {
+            if ($this->_customer instanceof org_openpsa_contacts_group_dba) {
                 $qb->add_constraint('customer', '=', $this->_customer->id);
             } else {
                 $qb->add_constraint('customerContact', '=', $this->_customer->id);
@@ -282,7 +282,7 @@ implements client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => $contacts_url . (is_a($this->_customer, org_openpsa_contacts_group_dba::class) ? 'group' : 'person') . "/{$guid}/",
+                MIDCOM_TOOLBAR_URL => $contacts_url . ($this->_customer instanceof org_openpsa_contacts_group_dba ? 'group' : 'person') . "/{$guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ];

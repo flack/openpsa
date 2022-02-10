@@ -71,7 +71,7 @@ trait privileges
             return false;
         }
 
-        if (is_a($privilege, 'midcom_core_privilege')) {
+        if ($privilege instanceof midcom_core_privilege) {
             return $privilege->store();
         }
         if (is_string($privilege)) {
@@ -105,7 +105,7 @@ trait privileges
             $assignee = midcom::get()->auth->user ?: 'EVERYONE';
         }
 
-        if (is_a($privilege, 'midcom_core_privilege')) {
+        if ($privilege instanceof midcom_core_privilege) {
             $priv = $privilege;
         } elseif (is_string($privilege)) {
             $priv = $this->get_privilege($privilege, $assignee, $classname);

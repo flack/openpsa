@@ -151,9 +151,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     {
         if ($this->useContactAddress && !empty($this->linkGuid)) {
             $contact = $this->get_contact();
-            if (is_a($contact, org_openpsa_contacts_person_dba::class)) {
+            if ($contact instanceof org_openpsa_contacts_person_dba) {
                 $this->recipient = $contact->firstname . " " . $contact->lastname;
-            } elseif (is_a($contact, org_openpsa_contacts_group_dba::class)) {
+            } elseif ($contact instanceof org_openpsa_contacts_group_dba) {
                 $this->recipient = $contact->official;
             }
             $this->street = $contact->street;

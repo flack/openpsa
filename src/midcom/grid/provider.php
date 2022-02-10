@@ -100,7 +100,7 @@ class provider
     public function __construct($source, $datatype = 'json')
     {
         $this->_datatype = $datatype;
-        if (is_a($source, client::class)) {
+        if ($source instanceof client) {
             $this->_client = $source;
         } elseif (is_array($source)) {
             $this->set_rows($source);

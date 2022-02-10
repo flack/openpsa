@@ -196,7 +196,7 @@ class midcom_helper_nav_backend
      */
     private function load_node($topic) : bool
     {
-        if (is_a($topic, midcom_db_topic::class)) {
+        if ($topic instanceof midcom_db_topic) {
             $id = $topic->id;
         } else {
             $id = $topic;

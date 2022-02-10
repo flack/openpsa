@@ -179,7 +179,7 @@ class midcom_services_auth
         if ($user === null) {
             return $this->user && $this->admin;
         }
-        if (is_a($user, midcom_core_user::class)) {
+        if ($user instanceof midcom_core_user) {
             return $user->is_admin();
         }
         return false;
@@ -544,7 +544,7 @@ class midcom_services_auth
 
         if (!array_key_exists($id, $this->_group_cache)) {
             try {
-                if (is_a($param, midcom_core_dbaobject::class)) {
+                if ($param instanceof midcom_core_dbaobject) {
                     $param = $param->__object;
                 }
                 $this->_group_cache[$id] = new midcom_core_group($param);

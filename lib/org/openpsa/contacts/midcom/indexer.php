@@ -18,7 +18,7 @@ class org_openpsa_contacts_midcom_indexer extends client
 {
     public function prepare_document(midcom_services_indexer_document $document, datamanager $dm)
     {
-        if (is_a($dm->get_storage()->get_value(), org_openpsa_contacts_person_dba::class)) {
+        if ($dm->get_storage()->get_value() instanceof org_openpsa_contacts_person_dba) {
             $document->title = $dm->get_storage()->get_value()->name;
         }
     }

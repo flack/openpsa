@@ -55,7 +55,7 @@ if (!$indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
 echo "Done\n";
 
 $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
-if (is_a($stat, midcom_services_indexer_client::class)) {
+if ($stat instanceof midcom_services_indexer_client) {
     $stat->reindex();
 } elseif ($stat === false) {
     $msg = "Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";

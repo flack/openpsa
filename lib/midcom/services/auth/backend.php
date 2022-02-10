@@ -78,7 +78,7 @@ abstract class midcom_services_auth_backend
         }
         if (!array_key_exists($id, $this->_user_cache)) {
             try {
-                if (is_a($param, midcom_db_person::class)) {
+                if ($param instanceof midcom_db_person) {
                     $param = $param->__object;
                 }
                 $this->_user_cache[$id] = new midcom_core_user($param);

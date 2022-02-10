@@ -83,7 +83,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         $i = 0;
         while (   !empty($tmp->guid)
-               && !is_a($tmp, midcom_db_topic::class)
+               && !($tmp instanceof midcom_db_topic)
                && $i < 100) {
             // Get the parent; wishing eventually to get a topic
             $tmp = $tmp->get_parent();
@@ -91,7 +91,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if (is_a($tmp, midcom_db_topic::class)) {
+        if ($tmp instanceof midcom_db_topic) {
             $current_manifest = $component_loader->get_manifest($tmp->component);
         } else {
             $current_manifest = $component_loader->get_manifest(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));

@@ -18,7 +18,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 
     public function __construct($topic)
     {
-        if (is_a($topic, midcom_db_topic::class)) {
+        if ($topic instanceof midcom_db_topic) {
             $this->topic = $topic;
             $this->topic_id = $topic->id;
         } else {

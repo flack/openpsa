@@ -69,7 +69,7 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        return is_a($object, mgdobject::class);
+        return $object instanceof mgdobject;
     }
 
     /**

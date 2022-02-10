@@ -20,7 +20,7 @@ class org_openpsa_projects_midcom_indexer extends client
     {
         $object = $dm->get_storage()->get_value();
         $document->title = $object->get_label();
-        if (is_a($object, org_openpsa_projects_task_dba::class)) {
+        if ($object instanceof org_openpsa_projects_task_dba) {
             $values = $dm->get_content_html();
             $document->abstract = $values['start'] . ' - ' . $values['end'] . ', ' . $values['status'];
             $document->abstract .= ' ' . mb_substr($values['description'], 0, 200);

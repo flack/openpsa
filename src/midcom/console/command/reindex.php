@@ -70,7 +70,7 @@ class reindex extends Command
             }
             $interface = midcom::get()->componentloader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
             $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
-            if (is_a($stat, midcom_services_indexer_client::class)) {
+            if ($stat instanceof midcom_services_indexer_client) {
                 try {
                     $stat->reindex();
                 } catch (RequestException $e) {

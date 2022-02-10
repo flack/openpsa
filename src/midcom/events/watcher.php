@@ -53,7 +53,7 @@ class watcher implements EventSubscriberInterface
     {
         $found = empty($classes);
         foreach ($classes as $classname) {
-            if (is_a($object, $classname)) {
+            if ($object instanceof $classname) {
                 return true;
             }
         }

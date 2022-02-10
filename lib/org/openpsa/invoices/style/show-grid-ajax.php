@@ -39,11 +39,11 @@ $grid->set_option('loadComplete', 'calculate_total', false);
 
 $grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
-if (!is_a($data['customer'], org_openpsa_contacts_group_dba::class)) {
+if (!($data['customer'] instanceof org_openpsa_contacts_group_dba)) {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'sortable: false, classes: "ui-ellipsis"');
 }
 
-if (!is_a($data['customer'], org_openpsa_contacts_person_dba::class)) {
+if (!($data['customer'] instanceof org_openpsa_contacts_person_dba)) {
     $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false, classes: "ui-ellipsis"');
 }
 

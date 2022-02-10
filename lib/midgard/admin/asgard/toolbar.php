@@ -39,7 +39,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         $config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
         $no_permalink = false;
         foreach ($config->get_array('no_permalinks_for') as $classname) {
-            if (is_a($object, $classname)) {
+            if ($object instanceof $classname) {
                 $no_permalink = true;
                 break;
             }
@@ -82,7 +82,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             $child_types = $data['tree_reflector']->get_child_classes();
             foreach ($child_types as $type) {
                 $display_button = true;
-                if (is_a($object, midcom_db_topic::class)) {
+                if ($object instanceof midcom_db_topic) {
                     // With topics we should check for component before populating create buttons as so many types can be children of topics
                     switch ($type) {
                         case 'midgard_topic':
@@ -100,7 +100,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                             }
                             break;
                     }
-                } elseif (is_a($object, midcom_db_article::class)) {
+                } elseif ($object instanceof midcom_db_article) {
                     try {
                         $topic = new midcom_db_topic($object->topic);
                         // With articles we should check for topic component before populating create buttons as so many types can be children of topics
@@ -203,7 +203,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
     private function get_toolbar_update_items($object) : array
     {
         $buttons = [];
-        if (   is_a($object, midcom_db_topic::class)
+        if (   $object instanceof midcom_db_topic
             && $object->component
             && $object->can_do('midcom:component_config')) {
             $buttons[] = [

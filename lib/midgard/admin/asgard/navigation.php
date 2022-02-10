@@ -57,7 +57,7 @@ class midgard_admin_asgard_navigation
             // we go through the path bottom up and show the first root type we find
             foreach (array_reverse($this->_object_path) as $node) {
                 foreach ($this->root_types as $root_type) {
-                    if (   is_a($node, $root_type)
+                    if (   $node instanceof $root_type
                         || midcom_helper_reflector::is_same_class($root_type, $node->__midcom_class_name__)) {
                         $this->expanded_root_types[] = $root_type;
                         break;
@@ -265,7 +265,7 @@ class midgard_admin_asgard_navigation
         }
         if (   is_object($this->_object)
             && (   $object->guid == $this->_object->guid
-                || (   is_a($this->_object, midcom_db_parameter::class)
+                || (   $this->_object instanceof midcom_db_parameter
                     && $object->guid == $this->_object->parentguid))) {
             $css_class .= ' current';
         }

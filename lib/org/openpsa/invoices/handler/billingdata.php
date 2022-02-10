@@ -98,10 +98,10 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');
         switch (true) {
-            case is_a($this->_linked_object, org_openpsa_contacts_person_dba::class):
+            case $this->_linked_object instanceof org_openpsa_contacts_person_dba:
                 $relocate .= 'person/' . $this->_linked_object->guid . '/';
                 break;
-            case is_a($this->_linked_object, org_openpsa_contacts_group_dba::class):
+            case $this->_linked_object instanceof org_openpsa_contacts_group_dba:
                 $relocate .= 'group/' . $this->_linked_object->guid . '/';
                 break;
             default:
