@@ -52,6 +52,7 @@ implements client
     public function get_row(midcom_core_dbaobject $at_entry)
     {
         $invoice = [
+            'id' => $at_entry->guid,
             'time' => date('Y-m-d H:i:s', $at_entry->start),
             'month' => $this->_l10n->get_formatter()->customdate($at_entry->start, 'MMMM y'),
             'index_month' => date('Y-m', $at_entry->start),
