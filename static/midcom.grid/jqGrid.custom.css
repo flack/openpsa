@@ -199,3 +199,52 @@ div.org_openpsa_invoices table button:not([disabled]):hover i
 {
     color: #ee2b2b;
 }
+
+.ui-jqgrid .ui-jqgrid-btable .row_button
+{
+    font-size: 16px;
+    border: none;
+    width: 16px;
+    height: 16px;
+    margin-left: .3em;
+    vertical-align: middle;
+    opacity: .75;
+    cursor: pointer;
+}
+
+.ui-jqgrid .ui-jqgrid-btable .row_button:hover
+{
+    opacity: 1
+}
+.ui-jqgrid .ui-jqgrid-btable .row_edit
+{
+    color: #5d81b0;
+    display: none;
+    margin-right: 20px
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit
+{
+    display: inline;
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit.hidden,
+.ui-jqgrid .ui-jqgrid-btable .row_button.hidden
+{
+    display: none;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_delete
+{
+    color: #ee2b2b;
+    display: none;
+}
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_delete
+{
+    display: inline;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_save
+{
+    color: #76d41a;
+}
+.ui-jqgrid .ui-jqgrid-btable .row_cancel
+{
+    color: orange;
+}

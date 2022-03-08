@@ -38,7 +38,7 @@
         "swiftmailer/swiftmailer": "^6.2",
         "symfony/config": ">=5.4",
         "symfony/console" : ">=5.4",
-        "symfony/cache": ">=5.4",
+        "symfony/cache": ">=5.4 <6.0.5",
         "symfony/css-selector": ">=5.4",
         "symfony/dependency-injection": ">=5.4 <6.0",
         "symfony/dom-crawler": ">=5.4",
