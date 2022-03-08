@@ -92,7 +92,7 @@ class org_openpsa_httplib
         }
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-        $request = new Request('POST', $uri, $headers, http_build_query($variables, null, '&'));
+        $request = new Request('POST', $uri, $headers, http_build_query($variables, '', '&'));
 
         return $this->send($request, $this->basicauth['user'], $this->basicauth['password']);
     }
