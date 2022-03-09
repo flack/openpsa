@@ -89,6 +89,9 @@ class cachePass implements CompilerPassInterface
 
     public static function prepare_memcached(array $config) : ?Memcached
     {
+        if (!MemcachedAdapter::isSupported()) {
+            return null;
+        }
         $host = $config['host'] ?? 'localhost';
         $port = $config['port'] ?? 11211;
         $memcached = new Memcached;

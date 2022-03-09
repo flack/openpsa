@@ -18,6 +18,7 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Adapter\PdoAdapter;
+use Symfony\Component\Cache\Adapter\MemcachedAdapter;
 
 /**
  * OpenPSA testcase
@@ -90,8 +91,8 @@ class cachePassTest extends TestCase
 
     public function test_process_content_memcached()
     {
-        if (!class_exists('Memcached')) {
-            $this->markTestSkipped('php-memcached missing');
+        if (!MemcachedAdapter::isSupported()) {
+            $this->markTestSkipped('php-memcached missing or version no supported');
         }
 
         $container = $this->prepare_container();
