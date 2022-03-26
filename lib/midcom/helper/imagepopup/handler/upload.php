@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * This handler get uploaded file and save it in database and write to file.
@@ -24,7 +25,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         // Verify file extension
         if (   !$temp instanceof UploadedFile
             || !in_array(strtolower($temp->getClientOriginalExtension()), ["gif", "jpg", "png"])) {
-                throw new midcom_error('Invalid extension.');
+            throw new midcom_error('Invalid extension.');
         }
 
         // Get the data
@@ -43,10 +44,9 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $this->write_the_file($temp->getRealPath(), $target);
 
         // Make a response for editor.uploadImages() function
-        $location = midcom_db_attachment::get_url($attachment);
-
-        // Return image location as JSON
-        return new midcom_response_json(['location' => $location]);
+        return new JsonResponse([
+            'location' => midcom_db_attachment::get_url($attachment)
+        ]);
     }
 
     private function get_modify_filename(string $filename) : string

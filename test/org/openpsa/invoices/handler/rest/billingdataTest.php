@@ -10,6 +10,7 @@ namespace test\org\openpsa\invoices\handler\rest;
 
 use openpsa_testcase;
 use midcom;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * OpenPSA testcase
@@ -25,7 +26,7 @@ class billingdataTest extends openpsa_testcase
         self::$_person = self::create_user(true);
     }
 
-    private function perform_get_request($params = [])
+    private function perform_get_request($params = []) : JsonResponse
     {
         $_SERVER["REQUEST_METHOD"] = "GET";
         $_GET = $params;
@@ -44,16 +45,17 @@ class billingdataTest extends openpsa_testcase
         // test invalid request
         $response = $this->perform_get_request([]); // invalid filter options, we need at least an id / guid
 
-        $this->assertEquals(500, $response->code);
-        $this->assertEquals($response->_data["message"], "Invalid filter options");
+        $this->assertEquals(500, $response->getStatusCode());
+        $data = json_decode($response->getContent());
+        $this->assertEquals($data->message, "Invalid filter options");
 
         // test valid request
         $response = $this->perform_get_request(["guid" => "", "linkGuid" => self::$_person->guid]);
 
-        $obj = $response->_data["object"];
+        $obj = json_decode($response->getContent())->object;
 
         // check some properties..
-        $this->assertEquals(200, $response->code);
+        $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue(isset($obj->guid));
         $this->assertTrue(isset($obj->metadata));
         $this->assertEquals(self::$_person->guid, $obj->linkGuid);

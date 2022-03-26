@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @package org.openpsa.directmarketing
@@ -346,10 +347,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $message_obj = new org_openpsa_directmarketing_campaign_message_dba($guid);
         $sender = new org_openpsa_directmarketing_sender($message_obj);
         $result = $sender->get_status();
-        $response = new midcom_response_json;
-        $response->members = $result[0];
-        $response->receipts = $result[1];
 
-        return $response;
+        return new JsonResponse([
+            'members' => $result[0],
+            'receipts' => $result[1]
+        ]);
     }
 }

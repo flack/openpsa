@@ -10,6 +10,7 @@ use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Preferences interface
@@ -137,6 +138,6 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         }
 
         midcom::get()->auth->drop_sudo();
-        return new midcom_response_json;
+        return new JsonResponse;
     }
 }

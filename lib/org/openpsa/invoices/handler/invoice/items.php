@@ -9,6 +9,7 @@
 use midcom\grid\grid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Invoice item handler
@@ -123,15 +124,14 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
                 throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
             }
         }
-        $result = [
+        return new JsonResponse([
             'id' => $item->id,
             'quantity' => $item->units,
             'price' => $item->pricePerUnit,
             'description' => $item->description,
             'position' => $item->position,
             'oldid' => $request->request->get('id')
-        ];
-        return new midcom_response_json($result);
+        ]);
     }
 
     private function _verify_post_data(ParameterBag $post)
@@ -152,7 +152,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         if (!$item->update()) {
             throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
         }
-        return new midcom_response_json([]);
+        return new JsonResponse([]);
     }
 
     public function _handler_recalculation(string $guid)

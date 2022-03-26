@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\helper\autocomplete;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Salesproject display class
@@ -252,7 +253,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             }
         }
 
-        return new midcom_response_json([
+        return new JsonResponse([
             'success' => $success,
             'action' => $this->render_actions($deliverable),
             'new_status' => $deliverable->get_state(),

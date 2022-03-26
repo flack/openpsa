@@ -9,6 +9,7 @@
 use midcom\datamanager\helper\autocomplete;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * org.openpsa.contacts search handler and viewer class.
@@ -131,7 +132,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $data['query_string'] = $this->_query_string;
     }
 
-    private function _prepare_json_reply()
+    private function _prepare_json_reply() : JsonResponse
     {
         $data = [];
         foreach ($this->_persons as $person) {
@@ -152,7 +153,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
         usort($data, [autocomplete::class, 'sort_items']);
 
-        return new midcom_response_json($data);
+        return new JsonResponse($data);
     }
 
     private function _populate_toolbar()

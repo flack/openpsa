@@ -9,6 +9,7 @@
 /**
  * Wrapper for HTTP responses
  *
+ * @deprecated use Symfony\Component\HttpFoundation\JsonResponse instead
  * @package midcom
  */
 class midcom_response_json extends midcom_response

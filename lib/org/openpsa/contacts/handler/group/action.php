@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * org.openpsa.contacts group handler and viewer class.
@@ -24,22 +25,21 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 
     public function _handler_update_member_title(Request $request)
     {
-        $response = new midcom_response_json;
-        $response->status = false;
+        $response = ['status' => false];
 
         if ($request->request->has('guid') && $request->request->has('title')) {
             try {
                 $member = new midcom_db_member($request->request->get('guid'));
                 $member->require_do('midgard:update');
                 $member->extra = $request->request->get('title');
-                $response->status = $member->update();
+                $response['status'] = $member->update();
             } catch (midcom_error $e) {
                 $e->log();
             }
-            $response->message = midcom_connection::get_error_string();
+            $response['message'] = midcom_connection::get_error_string();
         }
 
-        return $response;
+        return new JsonResponse($response);
     }
 
     public function _handler_members(string $guid, array &$data)

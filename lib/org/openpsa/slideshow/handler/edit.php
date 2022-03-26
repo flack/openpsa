@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Edit handler
@@ -19,14 +20,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * @var string
+     * @var array
      */
-    private $_operation;
-
-    /**
-     * @var midcom_response_json
-     */
-    private $_response;
+    private $response;
 
     public function _on_initialize()
     {
@@ -120,21 +116,19 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
      */
     public function _handler_edit_ajax(Request $request)
     {
-        $this->_validate_request($request->request);
+        $function = $this->_validate_request($request->request);
 
-        $this->_response = new midcom_response_json;
-        $this->_response->title = $this->_l10n->get($this->_component);
+        $this->response['title'] = $this->_l10n->get($this->_component);
 
-        $function = '_process_' . $this->_operation;
         try {
             $this->$function($request->request, $request->files);
-            $this->_response->success = true;
+            $this->response['success'] = true;
         } catch (midcom_error $e) {
-            $this->_response->success = false;
-            $this->_response->error = $e->getMessage();
+            $this->response['success'] = false;
+            $this->response['error'] = $e->getMessage();
         }
 
-        return $this->_response;
+        return new JsonResponse($this->response);
     }
 
     private function _process_create(ParameterBag $post, FileBag $files)
@@ -148,8 +142,8 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         if (!$image->create()) {
             throw new midcom_error('Failed to create image: ' . midcom_connection::get_error_string());
         }
-        $this->_response->position = $image->position;
-        $this->_response->guid = $image->guid;
+        $this->response['position'] = $image->position;
+        $this->response['guid'] = $image->guid;
         if ($files->has('image')) {
             $this->_upload_image($files->get('image'), $post->get('title', ''), $image);
         }
@@ -204,11 +198,11 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         }
     }
 
-    private function _validate_request(ParameterBag $post)
+    private function _validate_request(ParameterBag $post) : string
     {
-        $this->_operation = $post->get('operation');
+        $operation = $post->get('operation');
 
-        switch ($this->_operation) {
+        switch ($operation) {
             case 'batch_update':
                 if (!$post->has('items')) {
                     throw new midcom_error('Invalid request');
@@ -232,6 +226,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             default:
                 throw new midcom_error('Invalid request');
         }
+        return '_process_' . $operation;
     }
 
     private function _upload_image(UploadedFile $file, string $title, org_openpsa_slideshow_image_dba $image)
@@ -250,7 +245,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             $imagefilter = new midcom_helper_imagefilter($attachment);
             $imagefilter->process_chain($filter_chain);
         }
-        $this->_response->filename = $attachment->name;
+        $this->response['filename'] = $attachment->name;
 
         $image->attachment = $attachment->id;
         $image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'));

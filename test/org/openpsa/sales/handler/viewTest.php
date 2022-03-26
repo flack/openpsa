@@ -14,10 +14,10 @@ use org_openpsa_products_product_group_dba;
 use org_openpsa_products_product_dba;
 use midcom;
 use org_openpsa_sales_salesproject_deliverable_dba;
-use midcom_response_json;
 use org_openpsa_invoices_invoice_item_dba;
 use org_openpsa_invoices_invoice_dba;
 use org_openpsa_relatedto_collector;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * OpenPSA testcase
@@ -89,8 +89,8 @@ class viewTest extends openpsa_testcase
         ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'order']);
-        $this->assertInstanceOf(midcom_response_json::class, $data['__openpsa_testcase_response']);
-        $this->assertTrue($data['__openpsa_testcase_response']->success);
+        $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
@@ -99,8 +99,8 @@ class viewTest extends openpsa_testcase
         ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'deliver']);
-        $this->assertInstanceOf(midcom_response_json::class, $data['__openpsa_testcase_response']);
-        $this->assertTrue($data['__openpsa_testcase_response']->success);
+        $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED, $deliverable->state);
 
@@ -109,8 +109,8 @@ class viewTest extends openpsa_testcase
         ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'invoice']);
-        $this->assertInstanceOf(midcom_response_json::class, $data['__openpsa_testcase_response']);
-        $this->assertTrue($data['__openpsa_testcase_response']->success);
+        $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
 
@@ -148,8 +148,8 @@ class viewTest extends openpsa_testcase
         ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'order']);
-        $this->assertInstanceOf(midcom_response_json::class, $data['__openpsa_testcase_response']);
-        $this->assertTrue($data['__openpsa_testcase_response']->success);
+        $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
@@ -165,8 +165,8 @@ class viewTest extends openpsa_testcase
         ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'run_cycle']);
-        $this->assertInstanceOf(midcom_response_json::class, $data['__openpsa_testcase_response']);
-        $this->assertTrue($data['__openpsa_testcase_response']->success);
+        $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
 
         $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');

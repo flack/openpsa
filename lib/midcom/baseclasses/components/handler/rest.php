@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General
  */
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * generic REST handler baseclass
  * this needs to be extended by every REST handler in the application
@@ -169,7 +171,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * Do the processing: will call the corresponding handler method and set the mode
      */
-    protected function _process_request() : midcom_response_json
+    protected function _process_request() : JsonResponse
     {
         try {
             // call corresponding method
@@ -208,17 +210,15 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * sends the response as json
      * containing the current response data
      */
-    private function _send_response(string $message = null) : midcom_response_json
+    private function _send_response(string $message = null) : JsonResponse
     {
         // always add status code and message
         $this->_response['code'] = $this->_responseStatus;
         if ($message) {
             $this->_response['message'] = $message;
         }
-
-        $response = new midcom_response_json($this->_response);
-        $response->code = $this->_response['code'];
-        return $response;
+        $exporter = new midcom_helper_exporter_json();
+        return JsonResponse::fromJsonString($exporter->array2data($this->_response), $this->_responseStatus);
     }
 
     /**

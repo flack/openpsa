@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Invoice action handler
@@ -45,7 +46,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return new midcom_response_relocate($this->router->generate('invoice', ['guid' => $this->invoice->guid]));
         }
 
-        return new midcom_response_json([
+        return new JsonResponse([
             'success' => $success,
             'action' => $this->render_invoice_actions($this->invoice),
             'new_status' => $this->invoice->get_status(),

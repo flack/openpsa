@@ -55,7 +55,7 @@ class uploadTest extends openpsa_testcase
 
     private function get_attachment(array $data) : \midcom_db_attachment
     {
-        $url = $data['__openpsa_testcase_response']->location;
+        $url = json_decode($data['__openpsa_testcase_response']->getContent())->location;
         $this->assertMatchesRegularExpression('/\/midcom-serveattachmentguid-.+?/', $url);
         $guid = preg_replace('/\/midcom-serveattachmentguid-(.+?)\/.+/', '$1', $url);
         return new \midcom_db_attachment($guid);

@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * org.openpsa.calendar site interface class.
@@ -71,7 +72,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         if (!$event->update()) {
             throw new midcom_error('Update failed:' . midcom_connection::get_error_string());
         }
-        return new midcom_response_json;
+        return new JsonResponse;
     }
 
     /**

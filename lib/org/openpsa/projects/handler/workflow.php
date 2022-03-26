@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * org.openpsa.projects workflow handler and viewer class.
@@ -20,7 +21,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         midcom::get()->auth->require_valid_user();
         $this->run($action, $guid);
         //TODO: return ajax status
-        return new midcom_response_json;
+        return new JsonResponse;
     }
 
     public function _handler_post(Request $request, string $guid)
