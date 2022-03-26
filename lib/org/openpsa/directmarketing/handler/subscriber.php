@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * org.openpsa.directmarketing campaign handler and viewer class.
@@ -151,10 +152,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         debug_add("Unsubscribe status: {$unsubscribe_status}");
 
-        $response = new midcom_response_xml;
-        $response->status = "Unsubscribe failed";
-        $response->result = $unsubscribe_status;
-        return $response;
+        return new JsonResponse(['status' => $unsubscribe_status]);
     }
 
     /**
