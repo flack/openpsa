@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * relatedto ajax/ahah handler
  *
@@ -394,42 +396,39 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         midcom::get()->auth->require_valid_user();
 
-        $response = new midcom_response_xml;
-        $response->result = false;
+        $response = ['result' => false];
 
         try {
             $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
             if (!($this->_object instanceof org_openpsa_relatedto_dba)) {
-                $response->status = "method requires guid of a link object as an argument";
+                $response['status'] = "method requires guid of a link object as an argument";
             }
         } catch (midcom_error $e) {
-            $response->status = "error: " . $e->getMessage();
+            $response['status'] = "error: " . $e->getMessage();
         }
 
-        if (empty($response->status)) {
+        if (empty($response['status'])) {
             $this->_object->status = $mode == 'deny' ? org_openpsa_relatedto_dba::NOTRELATED : org_openpsa_relatedto_dba::CONFIRMED;
-            $response->result = $this->_object->update();
-            $response->status = 'error:' . midcom_connection::get_error_string();
+            $response['result'] = $this->_object->update();
+            $response['status'] = 'error:' . midcom_connection::get_error_string();
         }
 
-        return $response;
+        return new JsonResponse($response);
     }
 
     public function _handler_delete(string $guid)
     {
         midcom::get()->auth->require_valid_user();
 
-        $response = new midcom_response_xml;
-
         try {
             $relation = new org_openpsa_relatedto_dba($guid);
-            $response->result = $relation->delete();
-            $response->status = 'Last message: ' . midcom_connection::get_error_string();
+            $result = $relation->delete();
+            $status = 'Last message: ' . midcom_connection::get_error_string();
         } catch (midcom_error $e) {
-            $response->result = false;
-            $response->status = "Object '{$guid}' could not be loaded, error:" . $e->getMessage();
+            $result = false;
+            $status = "Object '{$guid}' could not be loaded, error:" . $e->getMessage();
         }
 
-        return $response;
+        return new JsonResponse(['result' => $result, 'status' => $status]);
     }
 }
