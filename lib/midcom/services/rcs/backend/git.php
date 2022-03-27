@@ -18,11 +18,7 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
         $author = midcom::get()->auth->user->id ?? 'NOBODY';
         $author .= ' <' . $author . '@' . $_SERVER['REMOTE_ADDR'] . '>';
 
-        $filename = $this->generate_filename();
-        $mapper = new midcom_helper_exporter_xml;
-        file_put_contents($filename, $mapper->object2data($this->object));
-
-        $this->exec('add ' . $this->relative_path($filename));
+        $this->exec('add ' . $this->relative_path($this->write_object()));
         $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
             ' --author ' . escapeshellarg($author);
         $this->exec($command);

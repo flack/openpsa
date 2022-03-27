@@ -25,12 +25,12 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      */
     public function update(string $updatemessage = '')
     {
+        $filename = $this->write_object();
+        $rcsfilename = "{$filename},v";
+
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
         $message = (midcom::get()->auth->user->id ?? 'NOBODY') . '|' . $message;
-
-        $filename = $this->generate_filename();
-        $rcsfilename = "{$filename},v";
         $message = escapeshellarg($message);
 
         if (file_exists($rcsfilename)) {
@@ -39,8 +39,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         } else {
             $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
         }
-        $mapper = new midcom_helper_exporter_xml;
-        file_put_contents($filename, $mapper->object2data($this->object));
         $this->exec($command);
 
         if (file_exists($rcsfilename)) {

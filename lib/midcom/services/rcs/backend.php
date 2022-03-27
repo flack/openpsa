@@ -75,6 +75,14 @@ abstract class midcom_services_rcs_backend
         }
     }
 
+    protected function write_object() : string
+    {
+        $filename = $this->generate_filename();
+        $mapper = new midcom_helper_exporter_xml;
+        file_put_contents($filename, $mapper->object2data($this->object));
+        return $filename;
+    }
+
     /**
      * Save a revision of an object, or create a revision if none exists
      */
