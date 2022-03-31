@@ -93,6 +93,44 @@ const org_openpsa_layout = {
         });
     },
 
+    add_splitters: function() {
+        $('<div></div>')
+            .attr('id', 'template_openpsa2_left_resizer')
+            .css('left', $('#leftframe').width()+23)
+            .appendTo('#container');
+
+        $('#template_openpsa2_left_resizer').draggable({
+            axis: 'x',
+            containment: 'window',
+            stop: function(event, ui) {
+                var offset = Math.max((ui.offset.left), 0);
+
+                $('#leftframe').css('width', offset + 'px');
+
+                $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset + 2});
+                $(window).trigger('resize');
+            }
+        });
+
+        $('<div></div>')
+        .attr('id', 'template_openpsa2_right_resizer')
+        .css('right', $('#rightframe').width()+23)
+        .appendTo('#container'); 
+
+        $('#template_openpsa2_right_resizer').draggable({
+            axis: 'x',
+            containment: 'window',
+            stop: function(event, ui) {
+                var offset = $(window).width() - Math.max((ui.offset.left), 0);
+
+                $('#rightframe').css('width', offset + 'px');
+
+                $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset + 2});
+                $(window).trigger('resize');
+            }
+        });
+    },
+
     initialize_search: function(providers, current) {
         if (typeof providers !== 'object' || providers.length === 0) {
             return;
