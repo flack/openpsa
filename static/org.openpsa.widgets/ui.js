@@ -155,7 +155,7 @@ const org_openpsa_layout = {
                 .data('provider', provider)
                 .click(function() {
                     var old_item = $('#org_openpsa_search_providers .current'),
-                        query = $('#org_openpsa_search_query');
+                        query = field;
 
                     if (old_item.data('provider').autocomplete) {
                         query.category_complete('destroy');
