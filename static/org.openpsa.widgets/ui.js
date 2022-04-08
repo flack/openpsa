@@ -93,18 +93,25 @@ const org_openpsa_layout = {
         });
     },
 
-    initialize_search: function(providers, current) {
+    initialize_search: function(providers, config) {
         if (typeof providers !== 'object' || providers.length === 0) {
             return;
         }
+        
+        let defaults = {
+            field: '#org_openpsa_search_query',
+            current: providers[0].identifier
+        };
 
-        var field = $('#org_openpsa_search_query'),
+        if (typeof config === 'string'){
+            config = {field: defaults.field, current: config};
+        }
+
+        Object.assign(defaults, config);
+
+        var field = $(config.field),
             selector = $('<ul id="org_openpsa_search_providers"></ul>'),
             li_class = '';
-
-        if (typeof current !== 'string' || current === '') {
-            current = providers[0].identifier;
-        }
 
         function enable_provider(provider) {
             field
@@ -139,7 +146,7 @@ const org_openpsa_layout = {
 
         providers.forEach(function(provider) {
             li_class = 'provider';
-            if (current === provider.identifier) {
+            if (config.current === provider.identifier) {
                 li_class += ' current';
                 enable_provider(provider);
             }
