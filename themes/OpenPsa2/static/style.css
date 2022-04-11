@@ -417,7 +417,7 @@ a:hover
     float: right
 }
 
-ul#org_openpsa_search_providers
+ul.org_openpsa_search_providers
 {
     display: none;
     text-align: left;
@@ -432,7 +432,7 @@ ul#org_openpsa_search_providers
     box-shadow: .1em .2em .5em rgba(0, 0, 0, .3);
 }
 
-ul#org_openpsa_search_providers li
+ul.org_openpsa_search_providers li
 {
     display: block;
     border: none;
@@ -440,19 +440,19 @@ ul#org_openpsa_search_providers li
     font-size: 1em
 }
 
-ul#org_openpsa_search_providers li:hover
+ul.org_openpsa_search_providers li:hover
 {
     background-color: #3364A3;
     color: white;
     cursor: pointer
 }
 
-ul#org_openpsa_search_providers li.current
+ul.org_openpsa_search_providers li.current
 {
     font-weight: bold
 }
 
-#org_openpsa_search_trigger
+.org_openpsa_search_trigger
 {
     height: 16px;
     width: 20px;
@@ -467,7 +467,7 @@ ul#org_openpsa_search_providers li.current
     text-align: center;
     color: #777
 }
-#org_openpsa_search_trigger i
+.org_openpsa_search_trigger i
 {
     font-size: 14px;
 }
@@ -494,19 +494,19 @@ input#org_openpsa_search_query
     opacity: .5
 }
 
-#org_openpsa_search_trigger.focused
+.org_openpsa_search_trigger.focused
 {
     border-radius: .6em 0 0 0;
 }
 
 #org_openpsa_search_query:hover,
-#org_openpsa_search_trigger:hover
+.org_openpsa_search_trigger:hover
 {
     opacity: .7
 }
 
 #org_openpsa_search_query:focus,
-#org_openpsa_search_trigger.focused
+.org_openpsa_search_trigger.focused
 {
     opacity: 1
 }
