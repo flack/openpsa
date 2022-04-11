@@ -107,7 +107,7 @@ const org_openpsa_layout = {
             config = {field: defaults.field, current: config};
         }
 
-        Object.assign(defaults, config);
+        config = Object.assign(defaults, config);
 
         var field = $(config.field),
             selector = $('<ul id="org_openpsa_search_providers"></ul>'),
