@@ -432,7 +432,8 @@ ul.org_openpsa_search_providers
     box-shadow: .1em .2em .5em rgba(0, 0, 0, .3);
 }
 
-ul.org_openpsa_search_providers li
+form[id^="org_openpsa_search_"] ul.org_openpsa_search_providers li,
+#org_openpsa_search_form ul.org_openpsa_search_providers li
 {
     display: block;
     border: none;
