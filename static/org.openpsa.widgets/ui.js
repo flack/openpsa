@@ -110,14 +110,15 @@ const org_openpsa_layout = {
         config = Object.assign(defaults, config);
 
         var field = $(config.field),
-            selector = $('<ul id="org_openpsa_search_providers"></ul>'),
+            form = field.closest('form'), 
+            selector = $('<ul class="org_openpsa_search_providers"></ul>'),
             li_class = '';
 
         function enable_provider(provider) {
             field
                 .attr('placeholder', provider.placeholder || '')
                 .focus();
-            $('#org_openpsa_search_form').attr('action', provider.url);
+            form.attr('action', provider.url);
 
             if (provider.autocomplete) {
                 field.category_complete({
@@ -154,11 +155,10 @@ const org_openpsa_layout = {
             $('<li class="' + li_class + '">' + provider.placeholder + '</li>')
                 .data('provider', provider)
                 .click(function() {
-                    var old_item = $('#org_openpsa_search_providers .current'),
-                        query = field;
+                    var old_item = form.find('.org_openpsa_search_providers .current');
 
                     if (old_item.data('provider').autocomplete) {
-                        query.category_complete('destroy');
+                        field.category_complete('destroy');
                     }
 
                     old_item.removeClass('current');
@@ -166,7 +166,7 @@ const org_openpsa_layout = {
 
                     enable_provider(provider);
 
-                    $('#org_openpsa_search_trigger').click();
+                    form.find('.org_openpsa_search_trigger').click();
 
                     $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: provider.identifier});
                 })
@@ -180,9 +180,9 @@ const org_openpsa_layout = {
 
         selector.insertBefore(field);
 
-        $('<div id="org_openpsa_search_trigger"><i class="fa fa-search"></i></div>')
+        $('<div class="org_openpsa_search_trigger"><i class="fa fa-search"></i></div>')
             .click(function() {
-                $('#org_openpsa_search_providers').toggle();
+                form.find('.org_openpsa_search_providers').toggle();
                 $(this).toggleClass('focused');
             })
             .insertBefore(field);
