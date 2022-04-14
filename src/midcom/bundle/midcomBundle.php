@@ -15,6 +15,7 @@ use midcom\bundle\dependencyInjection\loggerPass;
 use midcom\bundle\dependencyInjection\componentPass;
 use midcom\bundle\dependencyInjection\cachePass;
 use midcom\bundle\dependencyInjection\indexerPass;
+use midcom\bundle\dependencyInjection\authPass;
 
 class midcomBundle extends Bundle
 {
@@ -26,6 +27,7 @@ class midcomBundle extends Bundle
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/config'));
         $loader->load('services.yml');
         $loader->load('form.yml');
+        $container->addCompilerPass(new authPass);
         $container->addCompilerPass(new loggerPass);
         $container->addCompilerPass(new componentPass);
         $container->addCompilerPass(new cachePass);
