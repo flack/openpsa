@@ -42,7 +42,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     private function prepare_admin_view(string $guid) : midcom_core_dbaobject
     {
         $type = connection::get_em()
-            ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
+            ->createQuery('SELECT r.typename from midgard_repligard r WHERE r.guid = ?1')
             ->setParameter(1, $guid)
             ->getSingleScalarResult();
 

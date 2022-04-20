@@ -257,7 +257,7 @@ class midcom_helper__dbfactory
             return ['', null];
         }
         $class_name = connection::get_em()
-            ->createQuery('SELECT r.typename from midgard:midgard_repligard r WHERE r.guid = ?1')
+            ->createQuery('SELECT r.typename from midgard_repligard r WHERE r.guid = ?1')
             ->setParameter(1, $guid)
             ->getSingleScalarResult();
 
