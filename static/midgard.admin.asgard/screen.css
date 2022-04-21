@@ -1052,6 +1052,14 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
     resize: vertical;
 }
 
+#content form[target="shell-runner"] label {
+	display: none;
+}
+
+#content form[target="shell-runner"] .input {
+    margin-right: 0;
+}
+
 #content #shell-runner
 {
     background-color: white;
