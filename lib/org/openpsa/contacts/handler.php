@@ -41,24 +41,21 @@ trait org_openpsa_contacts_handler
      */
     public function get_person_schema(org_openpsa_contacts_person_dba $contact) : string
     {
-        $my_company_guid = $this->_config->get('owner_organization');
+        $my_company_guid = (string) $this->_config->get('owner_organization');
 
-        if (   empty($my_company_guid)
-            || !mgd_is_guid($my_company_guid)) {
-            if (midcom::get()->auth->admin) {
-                midcom::get()->uimessages->add(
-                    $this->_l10n->get($this->_component),
-                    $this->_l10n->get('owner organization couldnt be found'),
-                    'error'
-                );
-            }
-        } else {
+        if (mgd_is_guid($my_company_guid)) {
             // Figure out if user is from own organization or other org
             $person_user = new midcom_core_user($contact->id);
 
             if ($person_user->is_in_group("group:{$my_company_guid}")) {
                 return 'employee';
             }
+        } elseif (midcom::get()->auth->admin) {
+            midcom::get()->uimessages->add(
+                $this->_l10n->get($this->_component),
+                $this->_l10n->get('owner organization couldnt be found'),
+                'error'
+            );
         }
 
         return 'default';
