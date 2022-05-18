@@ -488,10 +488,7 @@ class midcom_services_auth
             return null;
         }
 
-        $person_class = midcom::get()->config->get('person_class');
-        $person = new $person_class(key($keys));
-
-        return $this->get_user($person);
+        return $this->get_user(key($keys));
     }
 
     /**
