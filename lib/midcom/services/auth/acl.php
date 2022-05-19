@@ -379,9 +379,8 @@ class midcom_services_auth_acl
      * identifier with the current user and anonymous as fallback
      *
      * @param mixed $user The user to check for as string or object.
-     * @return string The identifier
      */
-    public function get_user_id($user = null)
+    public function get_user_id($user = null) : string
     {
         if ($user === null) {
             return midcom::get()->auth->user->id ?? 'ANONYMOUS';
@@ -393,10 +392,7 @@ class midcom_services_auth_acl
             // Could be a magic assignee (?)
             return $user;
         }
-        if (is_object($user)) {
-            return $user->id;
-        }
-        return $user;
+        return $user->id;
     }
 
     /**
