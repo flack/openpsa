@@ -167,11 +167,8 @@ abstract class midcom_services_auth_backend
     public function login(string $username, string $password, string $clientip = null, bool $trusted = false) : ?midcom_core_user
     {
         $user = $this->authenticate($username, $password, $trusted);
-        if (!$user) {
-            return null;
-        }
 
-        if ($this->create_session($clientip, $user)) {
+        if ($user && $this->create_session($clientip, $user)) {
             $person = $user->get_storage()->__object;
             $person->set_parameter('midcom', 'online', time());
             return $user;
