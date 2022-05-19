@@ -157,7 +157,7 @@ class midcom_core_privilege
                 if ($this->__privilege['assignee'] == $user_id) {
                     return true;
                 }
-                if (strstr($this->__privilege['assignee'], 'group:') !== false) {
+                if (str_starts_with($this->__privilege['assignee'], 'group:')) {
                     if ($user = midcom::get()->auth->get_user($user_id)) {
                         return $user->is_in_group($this->__privilege['assignee']);
                     }

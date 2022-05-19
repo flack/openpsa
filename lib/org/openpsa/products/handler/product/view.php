@@ -72,7 +72,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             '<PRODUCT_TITLE>' => $this->_product->title,
             '<TOPIC_TITLE>' => $this->_topic->extra
         ];
-        if (strstr($title, '<PRODUCTGROUP')) {
+        if (str_contains($title, '<PRODUCTGROUP')) {
             try {
                 $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
                 $replacements['<PRODUCTGROUP_TITLE>'] = $productgroup->title;

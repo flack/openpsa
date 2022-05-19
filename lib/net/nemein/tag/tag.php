@@ -56,7 +56,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
             $message = 'tag "%s" is not valid. tags may not be empty';
         } elseif (is_numeric($tag)) {
             $message = 'tag "%s" is not valid. tags may not be numeric';
-        } elseif (strstr($tag, '"') || strstr($tag, "'")) {
+        } elseif (str_contains($tag, '"') || str_contains($tag, "'")) {
             $message = 'tag "%s" is not valid. tags may not contain quotes';
         }
         if (!empty($message)) {

@@ -5,9 +5,8 @@ $back_button_name = midcom::get()->i18n->get_string("back", "midcom");
 
 $view_toolbar = midcom::get()->toolbars->get_view_toolbar();
 foreach ($view_toolbar->items as $key => $item) {
-    if (   $item[1] == $back_button_name
-       || (    array_key_exists('HTTP_REFERER', $_SERVER)
-            && strpos($_SERVER['HTTP_REFERER'], $item[0]) !== false)) {
+    if (   $item[MIDCOM_NAV_NAME] == $back_button_name
+        || str_contains($_SERVER['HTTP_REFERER'] ?? '', $item[MIDCOM_NAV_URL])) {
         $view_toolbar->hide_item($key);
     }
 }

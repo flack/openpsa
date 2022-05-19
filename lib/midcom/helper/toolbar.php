@@ -344,8 +344,7 @@ class midcom_helper_toolbar
             && !array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys)) {
             // We have valid access key, add it to help text
             $prefix = 'Alt-';
-            if (   isset($_SERVER['HTTP_USER_AGENT'])
-                && strstr($_SERVER['HTTP_USER_AGENT'], 'Macintosh')) {
+            if (str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'Macintosh')) {
                 // Mac users
                 $prefix = 'Ctrl-Alt-';
             }

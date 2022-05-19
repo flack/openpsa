@@ -373,7 +373,7 @@ class net_nemein_rss_fetch
             if (!preg_match('/[<\(]/', $name)) {
                 $author_info['user_or_full'] = $name;
             } else {
-                if (strstr($name, '<')) {
+                if (str_contains($name, '<')) {
                     // The classic "Full Name <email>" format
                     $regex = '/(?<fullname>.+) <?(?<email>[a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
                 } else {
@@ -389,7 +389,7 @@ class net_nemein_rss_fetch
 
         if (isset($author_info['user_or_full'])) {
             $author_info['user_or_full'] = trim($author_info['user_or_full']);
-            if (strstr($author_info['user_or_full'], ' ')) {
+            if (str_contains($author_info['user_or_full'], ' ')) {
                 // This value has a space in it, assuming full name
                 $author_info['full_name'] = $author_info['user_or_full'];
             } else {

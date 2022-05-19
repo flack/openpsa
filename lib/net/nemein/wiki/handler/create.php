@@ -42,7 +42,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         } else {
             $to_node = $resolved['folder'];
         }
-        if (strstr($resolved['remaining_path'], '/')) {
+        if (str_contains($resolved['remaining_path'], '/')) {
             // One or more namespaces left, find first, create it and recurse
             $paths = explode('/', $resolved['remaining_path']);
             $folder_title = array_shift($paths);

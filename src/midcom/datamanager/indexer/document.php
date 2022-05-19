@@ -128,11 +128,11 @@ class document extends midcom_services_indexer_document_midcom
         $this->content .= "{$this->author}\n{$this->title}\n";
 
         // Add the abstract only if we haven't done so already.
-        if (strstr($this->abstract, $this->content) === false) {
+        if (!str_contains($this->content, $this->abstract)) {
             $this->content .= "{$this->abstract}\n";
         }
 
-        if (! $this->title) {
+        if (!$this->title) {
             $this->title = $this->document_url;
         }
     }

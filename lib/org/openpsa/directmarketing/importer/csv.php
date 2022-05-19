@@ -56,7 +56,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
             // Process the row accordingly
             $field_matching = $this->_settings['fields'][$field];
             if (   $field_matching
-                && strstr($field_matching, ':')) {
+                && str_contains($field_matching, ':')) {
                 [$schemadb, $schema_field] = explode(':', $field_matching);
 
                 if (   !array_key_exists($schemadb, $this->_schemadbs)
