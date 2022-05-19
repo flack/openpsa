@@ -94,9 +94,7 @@ class midcom_connection
             return null;
         }
 
-        if (!$user->login()) {
-            return null;
-        }
+        $user->login();
         return $user;
     }
 
