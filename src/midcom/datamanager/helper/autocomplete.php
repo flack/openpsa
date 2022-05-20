@@ -82,7 +82,6 @@ class autocomplete
 
     private function apply_constraints(midcom_core_query $query, array $constraints)
     {
-        ksort($constraints);
         foreach ($constraints as $key => $data) {
             if (   !array_key_exists('value', $data)
                 || empty($data['field'])

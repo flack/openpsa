@@ -149,7 +149,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         // Break if dealing with MidCOM Core docs
         if ($component == 'midcom') {
-            ksort($files);
             return $files;
         }
 
