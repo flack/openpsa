@@ -8,13 +8,14 @@
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Helper functions for managing HTML head
  *
  * @package midcom.helper
  */
-class midcom_helper_head
+class midcom_helper_head implements EventSubscriberInterface
 {
     /**
      * Array with all JavaScript declarations for the page's head.
@@ -88,9 +89,14 @@ class midcom_helper_head
 
     const HEAD_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
 
-    private static $listener_added = false;
+    private static $placeholder_added = false;
 
     private $cachebusting = '';
+
+    public static function getSubscribedEvents()
+    {
+        return [KernelEvents::RESPONSE => ['inject_head_elements']];
+    }
 
     /**
      * Sets the page title for the current context.
@@ -371,14 +377,11 @@ class midcom_helper_head
      */
     public function print_head_elements(string $cachebusting = '')
     {
-        if (!self::$listener_added) {
-            midcom::get()->dispatcher->addListener(KernelEvents::RESPONSE, [$this, 'inject_head_elements']);
-            self::$listener_added = true;
-        }
         if ($cachebusting) {
             $this->cachebusting = '?cb=' . $cachebusting;
         }
         echo self::HEAD_PLACEHOLDER;
+        self::$placeholder_added = true;
     }
 
     /**
@@ -387,7 +390,7 @@ class midcom_helper_head
      */
     public function inject_head_elements(ResponseEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        if (!self::$placeholder_added || !$event->isMainRequest()) {
             return;
         }
         $response = $event->getResponse();

@@ -16,6 +16,7 @@ services:
             - [addSubscriber, ['@streamed_response_listener']]
             - [addSubscriber, ['@watcher']]
             - [addSubscriber, ['@cache']]
+            - [addSubscriber, ['@head']]
 
     dispatcher:
         alias: event_dispatcher
