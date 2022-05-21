@@ -54,25 +54,6 @@ use midgard\portable\api\mgdobject;
 class midcom_services_dbclassloader
 {
     /**
-     * Simple helper to check whether we are dealing with a MgdSchema or MidCOM DBA
-     * object or a subclass thereof.
-     *
-     * @param string|object $object The object to check
-     */
-    public function is_mgdschema_object($object) : bool
-    {
-        // Sometimes we might get class string instead of an object
-        if (is_string($object)) {
-            $object = new $object;
-        }
-        if ($this->is_midcom_db_object($object)) {
-            return true;
-        }
-
-        return $object instanceof mgdobject;
-    }
-
-    /**
      * Get component name associated with a class name to get its DBA classes defined
      */
     public function get_component_for_class(string $classname) : ?string
@@ -139,7 +120,7 @@ class midcom_services_dbclassloader
             return $dba_classes_by_mgdschema[$classname];
         }
 
-        if (!$this->is_mgdschema_object($object)) {
+        if (!is_subclass_of($classname, mgdobject::class)) {
             debug_add("{$classname} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
             $dba_classes_by_mgdschema[$classname] = null;
             return null;
@@ -200,14 +181,8 @@ class midcom_services_dbclassloader
      */
     public function is_midcom_db_object($object) : bool
     {
-        if (is_object($object)) {
-            return ($object instanceof midcom_core_dbaobject || $object instanceof midcom_core_dbaproxy);
-        }
-        if (is_string($object) && class_exists($object)) {
-            return $this->is_midcom_db_object(new $object);
-        }
-
-        return false;
+        return is_subclass_of($object, midcom_core_dbaobject::class)
+            || is_a($object, midcom_core_dbaproxy::class, true);
     }
 
     public function get_component_classes(string $component) : array
