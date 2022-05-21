@@ -53,6 +53,13 @@ use midgard\portable\api\mgdobject;
  */
 class midcom_services_dbclassloader
 {
+    private $map;
+
+    public function __construct(array $map)
+    {
+        $this->map = $map;
+    }
+
     /**
      * Get component name associated with a class name to get its DBA classes defined
      */
@@ -87,7 +94,7 @@ class midcom_services_dbclassloader
                 $component = $component_map[$component];
             }
 
-            if (midcom::get()->componentloader->is_installed($component)) {
+            if (array_key_exists($component, $this->map)) {
                 return $component;
             }
             array_pop($class_parts);
@@ -100,54 +107,33 @@ class midcom_services_dbclassloader
      * Get a MidCOM DB class name for a MgdSchema Object.
      * We also ensure that the corresponding component has been loaded.
      *
-     * @param string|object $object The object (or classname) to check
+     * @param string|object $classname The classname (or object) to check
      */
-    public function get_midcom_class_name_for_mgdschema_object($object) : ?string
+    public function get_midcom_class_name_for_mgdschema_object($classname) : ?string
     {
         static $dba_classes_by_mgdschema = [];
 
-        if (is_string($object)) {
-            // In some cases we get a class name instead
-            $classname = $object;
-        } elseif (is_object($object)) {
-            $classname = get_class($object);
-        } else {
-            debug_print_r("Invalid input provided", $object, MIDCOM_LOG_WARN);
+        if (is_object($classname)) {
+            $classname = get_class($classname);
+        } elseif (!is_string($classname)) {
+            debug_print_r("Invalid input provided", $classname, MIDCOM_LOG_WARN);
             return null;
         }
 
-        if (array_key_exists($classname, $dba_classes_by_mgdschema)) {
-            return $dba_classes_by_mgdschema[$classname];
-        }
-
-        if (!is_subclass_of($classname, mgdobject::class)) {
-            debug_add("{$classname} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
-            $dba_classes_by_mgdschema[$classname] = null;
-            return null;
-        }
-
-        if ($classname == midcom::get()->config->get('person_class')) {
-            $component = 'midcom';
-        } else {
-            $component = $this->get_component_for_class($classname);
-            if (!$component) {
-                debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
+        if (!array_key_exists($classname, $dba_classes_by_mgdschema)) {
+            foreach ($this->map as $mapping) {
+                if (array_key_exists($classname, $mapping)) {
+                    $dba_classes_by_mgdschema[$classname] = $mapping[$classname];
+                    break;
+                }
+            }
+            if (!array_key_exists($classname, $dba_classes_by_mgdschema)) {
+                debug_add("{$classname} cannot be resolved to any DBA class name");
                 $dba_classes_by_mgdschema[$classname] = null;
-                return null;
             }
         }
-        $definitions = $this->get_component_classes($component);
 
-        //TODO: This allows components to override midcom classes fx. Do we want that?
-        $dba_classes_by_mgdschema = array_merge($dba_classes_by_mgdschema, $definitions);
-
-        if (array_key_exists($classname, $dba_classes_by_mgdschema)) {
-            return $dba_classes_by_mgdschema[$classname];
-        }
-
-        debug_add("{$classname} cannot be resolved to any DBA class name");
-        $dba_classes_by_mgdschema[$classname] = null;
-        return null;
+        return $dba_classes_by_mgdschema[$classname];
     }
 
     /**
@@ -186,10 +172,6 @@ class midcom_services_dbclassloader
 
     public function get_component_classes(string $component) : array
     {
-        $map = midcom::get()->componentloader->get_manifest($component)->class_mapping;
-        if ($component == 'midcom') {
-            $map[midcom::get()->config->get('person_class')] = midcom_db_person::class;
-        }
-        return $map;
+        return $this->map[$component];
     }
 }

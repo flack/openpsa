@@ -19,6 +19,8 @@ class componentPass implements CompilerPassInterface
         \MIDCOM_OPERATION_DBA_IMPORT => []
     ];
 
+    private $classmap = [];
+
     public function process(ContainerBuilder $container)
     {
         $paths = $this->find_builtin_components();
@@ -46,6 +48,9 @@ class componentPass implements CompilerPassInterface
 
         $watcher = $container->getDefinition('watcher');
         $watcher->addArgument($this->watches);
+
+        $dbclassloader = $container->getDefinition('dbclassloader');
+        $dbclassloader->addArgument($this->classmap);
     }
 
     private function find_builtin_components() : array
@@ -87,6 +92,10 @@ class componentPass implements CompilerPassInterface
         if ($manifest->privileges) {
             $acl = $container->getDefinition('auth.acl');
             $acl->addMethodCall('register_default_privileges', [$manifest->privileges]);
+        }
+        $this->classmap[$manifest->name] = $manifest->class_mapping;
+        if ($manifest->name == 'midcom') {
+            $this->classmap['midcom'][$container->getParameter('midcom.person_class')] = \midcom_db_person::class;
         }
     }
 }

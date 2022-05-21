@@ -10,6 +10,7 @@ namespace midcom\bundle\test;
 
 use midcom_services_auth_acl;
 use midcom_helper__componentloader;
+use midcom_services_dbclassloader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use midcom\bundle\dependencyInjection\componentPass;
 use midcom\events\watcher;
@@ -27,10 +28,12 @@ class componentPassTest extends TestCase
         $container = new ContainerBuilder();
         $container->register('auth.acl', midcom_services_auth_acl::class);
         $container->register('componentloader', midcom_helper__componentloader::class);
+        $container->register('dbclassloader', midcom_services_dbclassloader::class);
         $container->register('watcher', watcher::class);
         $container->setParameter('midcom.midcom_components', [
             'midgard.admin.asgard' => dirname(MIDCOM_ROOT) . '/lib/midgard/admin/asgard'
         ]);
+        $container->setParameter('midcom.person_class', \midgard_person::class);
 
         (new componentPass)->process($container);
 
@@ -50,5 +53,10 @@ class componentPassTest extends TestCase
 
         $components = $container->getDefinition('componentloader')->getArgument(0);
         $this->assertArrayHasKey('midgard.admin.asgard', $components);
+
+        $map = $container->getDefinition('dbclassloader')->getArgument(0);
+        $this->assertArrayHasKey('midgard.admin.asgard', $map);
+        $this->assertArrayHasKey('midcom', $map);
+        $this->assertArrayHasKey(\midgard_person::class, $map['midcom']);
     }
 }

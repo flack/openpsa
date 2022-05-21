@@ -55,7 +55,11 @@ class dbclassloaderTest extends TestCase
      */
     public function test_class_conversion(string $midcom, string $midgard)
     {
-        $cl = new midcom_services_dbclassloader();
+        $cl = new midcom_services_dbclassloader(['test' => [
+            org_openpsa_task::class => org_openpsa_projects_task_dba::class,
+            \midgard_person::class => midcom_db_person::class,
+            midcom::get()->config->get('person_class') => midcom_db_person::class,
+        ]]);
         $result = $cl->get_mgdschema_class_name_for_midcom_class($midcom);
         $this->assertEquals($midgard, $result);
 
