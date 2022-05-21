@@ -29,7 +29,7 @@ implements client
      */
     private $memberships;
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = []) : midcom_core_querybuilder
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
@@ -53,7 +53,7 @@ implements client
         return $query;
     }
 
-    public function get_row(midcom_core_dbaobject $person)
+    public function get_row(midcom_core_dbaobject $person) : array
     {
         $template = '%s';
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

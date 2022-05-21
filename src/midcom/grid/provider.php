@@ -67,7 +67,7 @@ class provider
      *
      * @var string
      */
-    private $_sort_direction;
+    private $_sort_direction = 'ASC';
 
     /**
      * The grid we're working with
@@ -166,7 +166,7 @@ class provider
     /**
      * returns the query (uncached)
      */
-    public function get_query()
+    public function get_query() : midcom_core_query
     {
         if ($this->_datatype == 'json') {
             $this->_parse_query($_GET);
@@ -280,7 +280,7 @@ class provider
         }
     }
 
-    private function _prepare_query()
+    private function _prepare_query() : midcom_core_query
     {
         if ($this->_query === null) {
             $this->_query = $this->get_query();

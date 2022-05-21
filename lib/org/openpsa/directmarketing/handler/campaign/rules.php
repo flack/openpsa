@@ -30,7 +30,7 @@ implements client
      */
     private $rules;
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $resolver = new org_openpsa_directmarketing_campaign_ruleresolver();
         $resolver->resolve($this->rules);
@@ -47,7 +47,7 @@ implements client
         return $query;
     }
 
-    public function get_row(midcom_core_dbaobject $person)
+    public function get_row(midcom_core_dbaobject $person) : array
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/';

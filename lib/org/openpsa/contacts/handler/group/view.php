@@ -151,7 +151,7 @@ implements client
     /**
      * Get querybuilder for JSON group member list
      */
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = midcom_db_person::new_collector();
         $qb->get_doctrine()
@@ -172,7 +172,7 @@ implements client
     /**
      * Prepares group member data for JSON display
      */
-    public function get_row(midcom_core_dbaobject $user)
+    public function get_row(midcom_core_dbaobject $user) : array
     {
         $link = $this->router->generate('person_view', ['guid' => $user->guid]);
         $lastname = trim($user->lastname) ?: $this->_l10n->get('person') . ' #' . $user->id;

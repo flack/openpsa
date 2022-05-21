@@ -22,7 +22,7 @@ implements client
      */
     private $_product;
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
         if ($field !== null) {
@@ -32,7 +32,7 @@ implements client
         return $mc;
     }
 
-    public function get_row(midcom_core_dbaobject $deliverable)
+    public function get_row(midcom_core_dbaobject $deliverable) : array
     {
         $salesproject = $deliverable->get_parent();
         $deliverable_link = $this->router->generate('deliverable_view', ['guid' => $deliverable->guid]);

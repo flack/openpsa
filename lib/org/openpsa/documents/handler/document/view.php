@@ -41,7 +41,7 @@ implements client
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
@@ -56,7 +56,7 @@ implements client
         return $qb;
     }
 
-    public function get_row(midcom_core_dbaobject $document)
+    public function get_row(midcom_core_dbaobject $document) : array
     {
         $link = $this->router->generate('document-view', ['guid' => $document->guid]);
         $entry = [];

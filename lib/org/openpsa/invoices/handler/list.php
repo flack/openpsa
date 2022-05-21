@@ -48,7 +48,7 @@ implements client
         midcom::get()->uimessages->add_head_elements();
     }
 
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector();
         if ($field !== null) {
@@ -80,7 +80,7 @@ implements client
         return $qb;
     }
 
-    public function get_row(midcom_core_dbaobject $invoice)
+    public function get_row(midcom_core_dbaobject $invoice) : array
     {
         $link = $this->router->generate('invoice', ['guid' => $invoice->guid]);
         $entry = [];

@@ -21,7 +21,7 @@ implements client
     /**
      * {@inheritdoc}
      */
-    public function get_qb($field = null, $direction = 'ASC', array $search = [])
+    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
 
@@ -52,7 +52,7 @@ implements client
     /**
      * {@inheritdoc}
      */
-    public function get_row(midcom_core_dbaobject $object)
+    public function get_row(midcom_core_dbaobject $object) : array
     {
         $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
         $row = [
