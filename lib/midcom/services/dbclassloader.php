@@ -163,9 +163,8 @@ class midcom_services_dbclassloader
             $mapping[$classname] = false;
 
             if (class_exists($classname)) {
-                $dummy_object = new $classname();
-                if ($this->is_midcom_db_object($dummy_object)) {
-                    $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
+                if ($this->is_midcom_db_object($classname)) {
+                    $mapping[$classname] = (new $classname)->__mgdschema_class_name__;
                 }
             }
         }
