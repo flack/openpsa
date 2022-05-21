@@ -85,8 +85,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     private function _find_component()
     {
         // Figure out the component
-        $dummy = new $this->type;
-        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type);
         if (!$midcom_dba_classname) {
             throw new midcom_error("Failed to load DBA class for type {$this->type}.");
         }
