@@ -66,7 +66,7 @@ trait privileges
     {
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:privileges')) {
-            debug_add("Failed to set a privilege, midgard:update or midgard:privileges on the " . get_class($this) . " {$this->guid} not granted for the current user.",
+            debug_add("Failed to set a privilege, midgard:update or midgard:privileges on " . static::class . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             return false;
         }
@@ -96,7 +96,7 @@ trait privileges
     {
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:privileges')) {
-            debug_add("Failed to unset a privilege, midgard:update or midgard:privileges on the " . get_class($this) . " {$this->guid} not granted for the current user.",
+            debug_add("Failed to unset a privilege, midgard:update or midgard:privileges on " . static::class . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             return false;
         }
@@ -129,7 +129,7 @@ trait privileges
     public function get_privilege(string $privilege, $assignee, string $classname = '')
     {
         if (!$this->can_do('midgard:privileges')) {
-            debug_add("Failed to get a privilege, midgard:update or midgard:privileges on the " . get_class($this) . " {$this->guid} not granted for the current user.",
+            debug_add("Failed to get a privilege, midgard:update or midgard:privileges on " . static::class . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             return false;
         }

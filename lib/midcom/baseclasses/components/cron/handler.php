@@ -87,7 +87,7 @@ abstract class midcom_baseclasses_components_cron_handler
     {
         $prefix = 'ERROR';
         if ($this->output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
-            $prefix .= ' ' . get_class($this);
+            $prefix .= ' ' . static::class;
         }
         $this->output->writeln("$prefix: $message");
         debug_add($message, MIDCOM_LOG_ERROR);

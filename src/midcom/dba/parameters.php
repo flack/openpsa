@@ -203,8 +203,8 @@ trait parameters
 
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:parameters')) {
-            debug_add("Failed to set parameters, midgard:update or midgard:parameters on the " . get_class($this) . " {$this->guid} not granted for the current user.",
-                      MIDCOM_LOG_ERROR);
+            debug_add("Failed to set parameters, midgard:update or midgard:parameters on " . static::class . " {$this->guid} not granted for the current user.",
+                  MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
@@ -247,8 +247,8 @@ trait parameters
 
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:parameters')) {
-            debug_add("Failed to delete parameters, midgard:update or midgard:parameters on the " . get_class($this) . " {$this->guid} not granted for the current user.",
-                      MIDCOM_LOG_ERROR);
+            debug_add("Failed to delete parameters, midgard:update or midgard:parameters on " . static::class . " {$this->guid} not granted for the current user.",
+                  MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }

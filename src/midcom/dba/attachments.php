@@ -47,13 +47,13 @@ trait attachments
         $attachment = $this->get_attachment($name);
 
         if (!$attachment) {
-            debug_add("Tried to delete the attachment {$name} at the object " . get_class($this) . " {$this->guid}, but it did not exist. Failing silently.");
+            debug_add("Tried to delete the attachment {$name} at the object " . static::class . " {$this->guid}, but it did not exist. Failing silently.");
             return false;
         }
 
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:attachments')) {
-            debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . get_class($this) . " {$this->guid} not granted for the current user.",
+            debug_add("Failed to set parameters, midgard:update or midgard:attachments on " . static::class . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             return false;
         }
@@ -73,7 +73,7 @@ trait attachments
 
         if (   !$this->can_do('midgard:update')
             || !$this->can_do('midgard:attachments')) {
-            debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . get_class($this) . " {$this->guid} not granted for the current user.",
+            debug_add("Failed to set parameters, midgard:update or midgard:attachments on the " . static::class . " {$this->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             return null;
         }
@@ -85,7 +85,7 @@ trait attachments
         $attachment->parentguid = $this->guid;
 
         if (!$attachment->create()) {
-            debug_add("Could not create the attachment '{$name}' for " . get_class($this) . " {$this->guid}: "  . midcom_connection::get_error_string(),
+            debug_add("Could not create the attachment '{$name}' for " . static::class . " {$this->guid}: "  . midcom_connection::get_error_string(),
             MIDCOM_LOG_INFO);
             return null;
         }
