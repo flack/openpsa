@@ -290,25 +290,23 @@ class provider
 
     private function _get_rows()
     {
-        $qb = $this->_prepare_query();
+        $query = $this->_prepare_query();
 
-        $this->_total_rows = $qb->count();
+        $this->_total_rows = $query->count();
 
         if (   $this->_datatype == 'json'
             && !empty($this->_results_per_page)) {
-            $qb->set_limit($this->_results_per_page);
+            $query->set_limit($this->_results_per_page);
             if (!empty($this->_offset)) {
-                $qb->set_offset($this->_offset);
+                $query->set_offset($this->_offset);
             }
         }
         $this->_rows = [];
 
-        if ($qb instanceof \midcom_core_querybuilder) {
-            $items = $qb->execute();
-        } elseif ($qb instanceof \midcom_core_collector) {
-            $items = $qb->get_objects();
+        if ($query instanceof \midcom_core_collector) {
+            $items = $query->get_objects();
         } else {
-            throw new midcom_error('Unsupported query class ' . get_class($qb));
+            $items = $query->execute();
         }
         foreach ($items as $item) {
             $this->_rows[] = $this->_client->get_row($item);
