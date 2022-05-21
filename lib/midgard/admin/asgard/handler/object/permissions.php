@@ -98,17 +98,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         }
         $this->_privileges = array_merge($this->_privileges, array_keys($current_manifest->privileges));
 
-        if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'])) {
-            foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege) {
-                if (!str_contains($privilege, ':')) {
-                    // Only component specified
-                    // TODO: load components manifest and add privileges from there
-                    continue;
-                }
-                $this->_privileges[] = $privilege;
-            }
-        }
-
         // In addition, give component configuration privileges if we're in topic
         if ($this->_object instanceof midcom_db_topic) {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
