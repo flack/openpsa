@@ -98,26 +98,14 @@ abstract class midcom_core_query
      */
     protected function _convert_class(string $classname) : string
     {
-        if (!class_exists($classname)) {
-            throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
-        }
-
-        static $_class_mapping_cache = [];
-
         $this->_real_class = $classname;
-        if (!array_key_exists($classname, $_class_mapping_cache)) {
-            if (!is_subclass_of($classname, midcom_core_dbaobject::class)) {
-                throw new midcom_error(
-                    "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
-                );
-            }
-
-            // Figure out the actual MgdSchema class from the decorator
-            $dummy = new $classname();
-            $mgdschemaclass = $dummy->__mgdschema_class_name__;
-            $_class_mapping_cache[$classname] = $mgdschemaclass;
+        $mgdschema_class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($classname);
+        if (!$mgdschema_class) {
+            throw new midcom_error(
+                "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
+            );
         }
-        return $_class_mapping_cache[$classname];
+        return $mgdschema_class;
     }
 
     protected function is_readable(string $guid) : bool
