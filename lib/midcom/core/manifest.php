@@ -198,14 +198,6 @@ class midcom_core_manifest
     public $icon;
 
     /**
-     * This is the translated, full component name obtained by looking up the string
-     * $name in the l10n library $name.
-     *
-     * This member is only populated on demand by the get_translated_name() function.
-     */
-    public $name_translated;
-
-    /**
      * If this is true, it is a pure-code component, otherwise it is a full blown
      * component.
      *
@@ -272,16 +264,12 @@ class midcom_core_manifest
     }
 
     /**
-     * Populates and translates the name of the component.
-     *
-     * @see $name_translated
+     * This is the translated, full component name obtained by looking up the
+     * name in its l10n library.
      */
     public function get_name_translated() : string
     {
-        if ($this->name_translated === null) {
-            $this->name_translated = midcom::get()->i18n->get_string($this->name, $this->name);
-        }
-        return $this->name_translated;
+        return midcom::get()->i18n->get_string($this->name, $this->name);
     }
 
     /**
