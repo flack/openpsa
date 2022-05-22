@@ -1,5 +1,3 @@
 'name' => 'midcom.datamanager',
-'version' => '9.0.0-rc.3+git',
-'state' => 'stable',
 'purecode' => true,
 'description' => 'Data abstraction and form rendering library',
