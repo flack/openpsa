@@ -82,19 +82,11 @@ class midcom_services_i18n_l10n
     private $_language;
 
     /**
-     * Global string table cache, it stores the string tables
-     * loaded during runtime.
+     * The string database
      *
      * @var array
      */
-    private static $_localedb = [];
-
-    /**
-     * The string database, a reference into the global cache.
-     *
-     * @var array
-     */
-    private $_stringdb;
+    private $_stringdb = [];
 
     /**
      * The current L10n DB file format number
@@ -110,18 +102,10 @@ class midcom_services_i18n_l10n
      */
     public function __construct(string $component, string $language, string $fallback_language)
     {
-        $path = midcom::get()->componentloader->path_to_snippetpath($component) . "/locale/default";
-        $this->_library_filename = $path;
         $this->_library = $component;
-
-        if (!isset(self::$_localedb[$this->_library])) {
-            self::$_localedb[$this->_library] = [];
-        }
-
-        $this->_stringdb =& self::$_localedb[$this->_library];
-
         $this->_fallback_language = $fallback_language;
         $this->_language = $language;
+        $this->_library_filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/locale/default";
     }
 
     /**
