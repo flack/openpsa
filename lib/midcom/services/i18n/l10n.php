@@ -108,13 +108,11 @@ class midcom_services_i18n_l10n
      * path $component and initializes the system completely. The output character
      * set will be initialized to the language's default.
      */
-    public function __construct(string $component)
+    public function __construct(string $component, string $language, string $fallback_language)
     {
         $path = midcom::get()->componentloader->path_to_snippetpath($component) . "/locale/default";
         $this->_library_filename = $path;
         $this->_library = $component;
-
-        $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
         if (!isset(self::$_localedb[$this->_library])) {
             self::$_localedb[$this->_library] = [];
@@ -122,7 +120,8 @@ class midcom_services_i18n_l10n
 
         $this->_stringdb =& self::$_localedb[$this->_library];
 
-        $this->set_language(midcom::get()->i18n->get_current_language());
+        $this->_fallback_language = $fallback_language;
+        $this->_language = $language;
     }
 
     /**
