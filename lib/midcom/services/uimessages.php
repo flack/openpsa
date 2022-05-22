@@ -144,15 +144,12 @@ class midcom_services_uimessages
      */
     public function show(bool $show_simple = false)
     {
-        if (!$this->_message_stack) {
-            return;
-        }
         if (   $show_simple
             || !midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
             $this->show_simple();
             return;
         }
-        if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
+        if ($this->has_messages()) {
             $this->add_head_elements();
         }
 
@@ -181,7 +178,7 @@ class midcom_services_uimessages
      */
     public function show_simple()
     {
-        if ($this->_message_stack && !empty($this->_message_stack->peekAll())) {
+        if ($this->has_messages()) {
             midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
 
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
@@ -190,6 +187,11 @@ class midcom_services_uimessages
             }
             echo "</div>\n";
         }
+    }
+
+    private function has_messages() : bool
+    {
+        return $this->_message_stack && !empty($this->_message_stack->peekAll());
     }
 
     /**
