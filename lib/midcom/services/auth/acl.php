@@ -324,10 +324,8 @@ class midcom_services_auth_acl
 
     /**
      * Load and prepare the list of class magic privileges for usage.
-     *
-     * @param mixed $user The user to check
      */
-    private function _get_class_magic_privileges(string $class, $user) : array
+    private function _get_class_magic_privileges(string $class, ?midcom_core_user $user) : array
     {
         if (!array_key_exists($class, self::$_default_magic_class_privileges)) {
             $privs = [
@@ -337,16 +335,15 @@ class midcom_services_auth_acl
             ];
 
             if (method_exists($class, 'get_class_magic_default_privileges')) {
-                $object = new $class();
-                $privs = $object->get_class_magic_default_privileges();
+                $privs = (new $class)->get_class_magic_default_privileges();
             }
 
             self::$_default_magic_class_privileges[$class] = $privs;
         }
-        $dmcp_user = $user === null ? 'ANONYMOUS' : 'USERS';
+
         return array_merge(
             self::$_default_magic_class_privileges[$class]['EVERYONE'],
-            self::$_default_magic_class_privileges[$class][$dmcp_user]
+            self::$_default_magic_class_privileges[$class][$user ? 'USERS' : 'ANONYMOUS']
         );
     }
 
@@ -404,7 +401,7 @@ class midcom_services_auth_acl
         return array_key_exists($name, self::$_default_privileges);
     }
 
-    public function can_do_byclass(string $privilege, $user, $class) : bool
+    public function can_do_byclass(string $privilege, ?midcom_core_user $user, $class) : bool
     {
         if ($this->_internal_sudo) {
             debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.');
