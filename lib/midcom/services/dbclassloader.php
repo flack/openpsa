@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\portable\api\mgdobject;
-
 /**
  * <b>How to write database class definitions:</b>
  *

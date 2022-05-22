@@ -13,7 +13,6 @@ use midcom;
 use midcom_response_styled;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Workflow base class
