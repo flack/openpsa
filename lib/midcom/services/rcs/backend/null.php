@@ -15,7 +15,7 @@ class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
     {
     }
 
-    public function update(string $updatemessage = '')
+    public function update(string $user_id, string $updatemessage = '')
     {
     }
 

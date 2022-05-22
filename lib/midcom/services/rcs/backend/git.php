@@ -13,10 +13,9 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update(string $updatemessage = '')
+    public function update(string $user_id, string $updatemessage = '')
     {
-        $author = midcom::get()->auth->user->id ?? 'NOBODY';
-        $author .= ' <' . $author . '@' . $_SERVER['REMOTE_ADDR'] . '>';
+        $author = $user_id . ' <' . $user_id . '@' . $_SERVER['REMOTE_ADDR'] . '>';
 
         $this->exec('add ' . $this->relative_path($this->write_object()));
         $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .

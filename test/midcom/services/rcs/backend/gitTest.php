@@ -39,7 +39,7 @@ class gitTest extends openpsa_testcase
 
         $this->assertEquals([], $backend->get_history()->all());
         $topic->title = 'TEST';
-        $backend->update();
+        $backend->update('NOBODY');
         $backend = new midcom_services_rcs_backend_git($topic, $config);
 
         $this->assertCount(1, $backend->get_history()->all());

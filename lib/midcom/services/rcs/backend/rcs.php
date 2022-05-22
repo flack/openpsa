@@ -23,14 +23,14 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Save a new revision
      */
-    public function update(string $updatemessage = '')
+    public function update(string $user_id, string $updatemessage = '')
     {
         $filename = $this->write_object();
         $rcsfilename = "{$filename},v";
 
         // Store user identifier and IP address to the update string
         $message = $_SERVER['REMOTE_ADDR'] . '|' . $updatemessage;
-        $message = (midcom::get()->auth->user->id ?? 'NOBODY') . '|' . $message;
+        $message = $user_id . '|' . $message;
         $message = escapeshellarg($message);
 
         if (file_exists($rcsfilename)) {

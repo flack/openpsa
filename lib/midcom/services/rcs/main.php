@@ -54,7 +54,7 @@ class midcom_services_rcs
         }
         $backend = $this->load_backend($object);
         try {
-            $backend->update($message);
+            $backend->update(midcom::get()->auth->user->id ?? 'NOBODY', $message);
             return true;
         } catch (midcom_error $e) {
             debug_add('RCS: Could not save file!');
