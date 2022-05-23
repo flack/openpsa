@@ -113,6 +113,7 @@ services:
     dbfactory:
         class: midcom_helper__dbfactory
         public: true
+        arguments: ['%midcom.person_class%', '@dbclassloader', '@cache.module.memcache']
 
     debug:
        class:  midcom_debug

@@ -34,6 +34,28 @@ class midcom_helper__dbfactory
     private $_parent_candidates = [];
 
     /**
+     * @var string
+     */
+    private $person_class;
+
+    /**
+     * @var midcom_services_cache_module_memcache
+     */
+    private $memcache;
+
+    /**
+     * @var midcom_services_dbclassloader
+     */
+    private $dbclassloader;
+
+    public function __construct(string $person_class, midcom_services_dbclassloader $dbclassloader, midcom_services_cache_module_memcache $memcache)
+    {
+        $this->person_class = $person_class;
+        $this->dbclassloader = $dbclassloader;
+        $this->memcache = $memcache;
+    }
+
+    /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
      */
@@ -46,10 +68,9 @@ class midcom_helper__dbfactory
 
             throw new midcom_error_midgard($e, $guid);
         }
-        $person_class = midcom::get()->config->get('person_class');
         if (   get_class($tmp) == 'midgard_person'
-            && $person_class != 'midgard_person') {
-            $tmp = new $person_class($guid);
+            && $this->person_class != 'midgard_person') {
+            $tmp = new $this->person_class($guid);
         }
         return $this->convert_midgard_to_midcom($tmp);
     }
@@ -107,7 +128,7 @@ class midcom_helper__dbfactory
      */
     public function convert_midgard_to_midcom(mgdobject $object) : midcom_core_dbaobject
     {
-        $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
+        $classname = $this->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
         return new $classname($object);
     }
 
@@ -186,7 +207,7 @@ class midcom_helper__dbfactory
                 // We already got this either via query or memcache
                 return $cached_parent_data[$guid];
             }
-            $parent_data = midcom::get()->cache->memcache->lookup_parent_data($guid);
+            $parent_data = $this->memcache->lookup_parent_data($guid);
         }
 
         if (empty($parent_data)) {
@@ -194,11 +215,11 @@ class midcom_helper__dbfactory
             $parent_data = $callback();
 
             if (!empty($parent_data[0])) {
-                $parent_data[0] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($parent_data[0]);
+                $parent_data[0] = $this->dbclassloader->get_midcom_class_name_for_mgdschema_object($parent_data[0]);
             }
 
             if (mgd_is_guid($guid)) {
-                midcom::get()->cache->memcache->update_parent_data($guid, $parent_data);
+                $this->memcache->update_parent_data($guid, $parent_data);
             }
         }
 
@@ -229,7 +250,7 @@ class midcom_helper__dbfactory
      */
     private function get_parent_data_uncached_static(string $object_guid, string $class_name) : array
     {
-        $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
+        $class_name = $this->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
         $candidates = $this->_get_parent_candidates($class_name);
 
         foreach ($candidates as $data) {
@@ -309,7 +330,7 @@ class midcom_helper__dbfactory
         ];
 
         if ($data['target_class'] == 'midgard_person') {
-            $data['target_class'] = midcom::get()->config->get('person_class');
+            $data['target_class'] = $this->person_class;
         }
 
         $this->_parent_candidates[$classname][] = $data;
