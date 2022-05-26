@@ -55,6 +55,7 @@ class org_openpsa_user_handler_person_view extends midcom_baseclasses_components
             $this->_view_toolbar->add_items($buttons);
         }
         $this->bind_view_to_object($person);
+        midcom::get()->head->set_pagetitle($person->get_label());
 
         $data['person'] = $person;
         return $this->show('show-person');

@@ -77,6 +77,7 @@ class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_group);
+        midcom::get()->head->set_pagetitle($this->_group->get_label());
 
         return $this->show('show-group');
     }
