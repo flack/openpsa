@@ -113,6 +113,11 @@ class midcom_services_auth
         // Try to start up a new session, this will authenticate as well.
         if ($credentials = $this->frontend->read_login_data($request)) {
             if (!$this->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
+                if (is_callable(midcom::get()->config->get('auth_failure_callback'))) {
+                    debug_print_r('Calling auth failure callback: ', midcom::get()->config->get('auth_failure_callback'));
+                    // Calling the failure function with the username as a parameter. No password sent to the user function for security reasons
+                    call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
+                }
                 return;
             }
             debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
@@ -126,6 +131,12 @@ class midcom_services_auth
                 $person->set_parameter('midcom', 'prev_login', $person->get_parameter('midcom', 'last_login'));
             }
             $person->set_parameter('midcom', 'last_login', time());
+
+            if (is_callable(midcom::get()->config->get('auth_success_callback'))) {
+                debug_print_r('Calling auth success callback:', midcom::get()->config->get('auth_success_callback'));
+                // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
+                call_user_func(midcom::get()->config->get('auth_success_callback'));
+            }
 
             // Now we check whether there is a success-relocate URL given somewhere.
             if ($request->get('midcom_services_auth_login_success_url')) {

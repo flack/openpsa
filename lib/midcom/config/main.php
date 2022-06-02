@@ -70,6 +70,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * - <b>auth_backend_simple_cookie_secure:</b> Set the "secure" flag on cookie, defaults to true, applies only when actually using SSL/TLS
  * - <b>auth_backend_simple_cookie_id:</b> The ID appended to the cookie prefix, separating
  *   auth cookies for different sites. Defaults to 1.
+ * - <b>auth_failure_callback:</b> value acceptable by call_user_func() (array or string), callback
+ *   function/method to be called on failed login, it must take exactly one argument which is the username as string.
+ * - <b>auth_success_callback:</b> value acceptable by call_user_func() (array or string), callback
+ *   function/method to be called on successful login, no values are passed.
  *
  * <b>Cache configuration</b>
  *
@@ -255,6 +259,8 @@ class midcom_config implements ArrayAccess
         'auth_allow_sudo' => true,
         'auth_login_form_httpcode' => 403,
         'auth_save_prev_login' => false,
+        'auth_success_callback' => null,
+        'auth_failure_callback' => null,
         'auth_allow_trusted' => false,
         'person_class' => 'openpsa_person',
 
