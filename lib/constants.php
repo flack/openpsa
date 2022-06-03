@@ -8,16 +8,18 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 const MIDCOM_ROOT = __DIR__;
 
 /**
  *MidCOM Default Error Codes (-> HTTP)
  */
-const MIDCOM_ERROK = 200;
-const MIDCOM_ERRNOTFOUND = 404;
-const MIDCOM_ERRFORBIDDEN = 403;
-const MIDCOM_ERRAUTH = 401;
-const MIDCOM_ERRCRIT = 500;
+const MIDCOM_ERROK = Response::HTTP_OK;
+const MIDCOM_ERRNOTFOUND = Response::HTTP_NOT_FOUND;
+const MIDCOM_ERRFORBIDDEN = Response::HTTP_FORBIDDEN;
+const MIDCOM_ERRAUTH = Response::HTTP_UNAUTHORIZED;
+const MIDCOM_ERRCRIT = Response::HTTP_INTERNAL_SERVER_ERROR;
 
 // MidCOM NAP URL Information Constants
 
