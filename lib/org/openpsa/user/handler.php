@@ -36,7 +36,7 @@ trait org_openpsa_user_handler
             $formdata['username'],
             $person->email,
             $password,
-            $formdata['send_welcome_mail']
+            !empty($formdata['send_welcome_mail'])
         );
         if (!$stat) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $account_helper->errstr, 'error');
