@@ -45,7 +45,7 @@ class midcom_exception_handler
         $message = $this->error->getMessage();
         debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $this->error->getTraceAsString());
 
-        if (!in_array($httpcode, [MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT])) {
+        if (!array_key_exists($httpcode, Response::$statusTexts)) {
             debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
             $httpcode = MIDCOM_ERRCRIT;
         }
@@ -68,23 +68,9 @@ class midcom_exception_handler
             return new midcom_response_login;
         }
 
-        switch ($httpcode) {
-            case MIDCOM_ERROK:
-                $title = "OK";
-                break;
-
-            case MIDCOM_ERRNOTFOUND:
-                $title = "Not Found";
-                break;
-
-            case MIDCOM_ERRCRIT:
-                $title = "Server Error";
-                break;
-        }
-
         $style = midcom::get()->style;
 
-        $style->data['error_title'] = $title;
+        $style->data['error_title'] = Response::$statusTexts[$httpcode];
         $style->data['error_message'] = $message;
         $style->data['error_code'] = $httpcode;
         $style->data['error_exception'] = $this->error;
