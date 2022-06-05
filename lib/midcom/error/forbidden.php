@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * MidCOM unauthorized exception
  *
@@ -15,7 +17,7 @@ class midcom_error_forbidden extends midcom_error
 {
     private $method;
 
-    public function __construct(string $message = null, int $code = MIDCOM_ERRFORBIDDEN, string $method = 'form')
+    public function __construct(string $message = null, int $code = Response::HTTP_FORBIDDEN, string $method = 'form')
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied', 'midcom');

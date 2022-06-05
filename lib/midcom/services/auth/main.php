@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Main Authentication/Authorization service class, it provides means to authenticate
@@ -443,7 +444,7 @@ class midcom_services_auth
             $this->_http_basic_auth();
         }
         if (!$this->is_valid_user()) {
-            throw new midcom_error_forbidden(null, MIDCOM_ERRAUTH, $method);
+            throw new midcom_error_forbidden(null, Response::HTTP_UNAUTHORIZED, $method);
         }
     }
 

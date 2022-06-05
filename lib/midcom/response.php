@@ -28,7 +28,7 @@ class midcom_response extends Response
      *
      * @var int HTTP response code
      */
-    public $code = MIDCOM_ERROK;
+    public $code = Response::HTTP_OK;
 
     /**
      * The data to be transmitted

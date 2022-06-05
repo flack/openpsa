@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 const MIDCOM_ROOT = __DIR__;
 
 /**
- *MidCOM Default Error Codes (-> HTTP)
+ * MidCOM Default Error Codes (-> HTTP)
+ * @deprecated Use HttpFoundation directly
  */
 const MIDCOM_ERROK = Response::HTTP_OK;
 const MIDCOM_ERRNOTFOUND = Response::HTTP_NOT_FOUND;

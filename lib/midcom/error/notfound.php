@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * MidCOM not found exception
  *
@@ -13,7 +15,7 @@
  */
 class midcom_error_notfound extends midcom_error
 {
-    public function __construct(string $message, int $code = MIDCOM_ERRNOTFOUND)
+    public function __construct(string $message, int $code = Response::HTTP_NOT_FOUND)
     {
         parent::__construct($message, $code);
     }

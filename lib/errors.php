@@ -37,7 +37,7 @@ class midcom_exception_handler
      *
      * The error pages can be customized by creating style elements named midcom_error_$httpcode.
      *
-     * For a list of the allowed HTTP codes see the MIDCOM_ERR... constants
+     * For a list of the allowed HTTP codes see the Response::HTTP_... constants
      */
     public function render()
     {
@@ -47,7 +47,7 @@ class midcom_exception_handler
 
         if (!array_key_exists($httpcode, Response::$statusTexts)) {
             debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
-            $httpcode = MIDCOM_ERRCRIT;
+            $httpcode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
         // Send error to special log or recipient as per configuration.
@@ -57,10 +57,10 @@ class midcom_exception_handler
             throw $this->error;
         }
 
-        if ($httpcode == MIDCOM_ERRFORBIDDEN) {
+        if ($httpcode == Response::HTTP_FORBIDDEN) {
             return new midcom_response_accessdenied($message);
         }
-        if ($httpcode == MIDCOM_ERRAUTH) {
+        if ($httpcode == Response::HTTP_UNAUTHORIZED) {
             if ($this->error instanceof midcom_error_forbidden) {
                 return new midcom_response_login($this->error->get_method());
             }

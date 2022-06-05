@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-
 use midgard\portable\api\error\exception as mgd_exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MidCOM wrapped Midgard exception
@@ -20,19 +20,19 @@ class midcom_error_midgard extends midcom_error
     {
         if ($id !== null) {
             if ($e->getCode() === MGD_ERR_NOT_EXISTS) {
-                $code = MIDCOM_ERRNOTFOUND;
+                $code = Response::HTTP_NOT_FOUND;
                 $message = "The object with identifier {$id} was not found.";
             } elseif ($e->getCode() == MGD_ERR_ACCESS_DENIED) {
-                $code = MIDCOM_ERRFORBIDDEN;
+                $code = Response::HTTP_FORBIDDEN;
                 $message = midcom::get()->i18n->get_string('access denied', 'midcom');
             } elseif ($e->getCode() == MGD_ERR_OBJECT_DELETED) {
-                $code = MIDCOM_ERRNOTFOUND;
+                $code = Response::HTTP_NOT_FOUND;
                 $message = "The object with identifier {$id} was deleted.";
             }
         }
         //If other options fail, go for the server error
         if (!isset($code)) {
-            $code = MIDCOM_ERRCRIT;
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
             $message = $e->getMessage();
         }
         parent::__construct($message, $code);

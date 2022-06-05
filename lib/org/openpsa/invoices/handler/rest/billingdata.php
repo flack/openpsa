@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * org.openpsa.invoices rest billingdata handler
  *
@@ -53,7 +55,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         }
 
         $this->_object = $this->get_billingdata($filter['linkGuid']);
-        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_responseStatus = Response::HTTP_OK;
         $this->_response["object"] = $this->_object;
         $this->_response["message"] = "get ok";
     }

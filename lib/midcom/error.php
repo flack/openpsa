@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Basic MidCOM exception
  *
@@ -13,7 +15,7 @@
  */
 class midcom_error extends Exception
 {
-    public function __construct(string $message, int $code = MIDCOM_ERRCRIT)
+    public function __construct(string $message, int $code = Response::HTTP_INTERNAL_SERVER_ERROR)
     {
         parent::__construct($message, $code);
     }

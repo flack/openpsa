@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * generic REST handler baseclass
@@ -35,7 +36,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      *
      * @var int
      */
-    protected $_responseStatus = MIDCOM_ERRCRIT;
+    protected $_responseStatus = Response::HTTP_INTERNAL_SERVER_ERROR;
 
     /**
      * @var midcom_core_dbaobject
@@ -162,7 +163,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         if (!$stat) {
             throw new midcom_error("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string());
         }
-        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_responseStatus = Response::HTTP_OK;
         $this->_response["id"] = $this->_object->id;
         $this->_response["guid"] = $this->_object->guid;
         $this->_response["message"] = $this->_mode . " ok";
@@ -224,7 +225,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * stops the application and outputs the info message with corresponding statuscode
      */
-    protected function _stop(string $message, int $statuscode = MIDCOM_ERRCRIT)
+    protected function _stop(string $message, int $statuscode = Response::HTTP_INTERNAL_SERVER_ERROR)
     {
         throw new midcom_error($message, $statuscode);
     }
@@ -249,7 +250,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function handle_get()
     {
         $this->retrieve_object();
-        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_responseStatus = Response::HTTP_OK;
         $this->_response["object"] = $this->_object;
         $this->_response["message"] = "get ok";
     }
@@ -275,7 +276,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             throw new midcom_error("Failed to delete object, last error was: " . midcom_connection::get_error_string());
         }
         // on success, return id
-        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_responseStatus = Response::HTTP_OK;
         $this->_response["id"] = $this->_object->id;
         $this->_response["guid"] = $this->_object->guid;
         $this->_response["message"] = $this->_mode . "ok";
