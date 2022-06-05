@@ -25,7 +25,7 @@
                 'object' => $data['person'],
                 'label' => $data['l10n']->get('account')
             ]);
-            echo '<li><a href="' . $data['router']->generate('account_delete', ['guid' => $data['person']->guid]). '" ' . $workflow->render_attributes() . '"  class="button">';
+            echo '<li><a href="' . $data['router']->generate('account_delete', ['guid' => $data['person']->guid]). '" ' . $workflow->render_attributes() . ' class="button">';
             echo '<span class="toolbar_label">' . $data['l10n_midcom']->get('delete') . '</span></a></li>';
             if (    midcom::get()->config->get('auth_allow_trusted') === true
                  && $data['person']->can_do('org.openpsa.user:su')) {
