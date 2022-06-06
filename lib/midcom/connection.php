@@ -204,7 +204,6 @@ class midcom_connection
         $page_style = '';
         $path = $self;
 
-        self::$_data['argv'] = [];
         $args_started = false;
         foreach ($path_parts as $part) {
             if ($part === '') {
@@ -216,7 +215,6 @@ class midcom_connection
                 $page_style .= '/' . $part;
                 $self .= $part . '/';
             } else {
-                self::$_data['argv'][] = $part;
                 $path .= $part . '/';
                 $args_started = true;
             }
