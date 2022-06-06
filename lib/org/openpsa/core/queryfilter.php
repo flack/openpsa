@@ -98,8 +98,7 @@ class org_openpsa_core_queryfilter
      */
     public function render()
     {
-        $url = midcom_connection::get_url('uri');
-        echo '<form id="org_openpsa_core_queryfilter" class="org_openpsa_queryfilter" action="' . $url . '" method="post" style="display:inline">';
+        echo '<form id="org_openpsa_core_queryfilter" class="org_openpsa_queryfilter" action="" method="post" style="display:inline">';
 
         foreach ($this->_filters as $filter) {
             echo '<div class="org_openpsa_filter_widget" id="' . $this->_identifier . '_' . $filter->name . '">';

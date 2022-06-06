@@ -8,7 +8,7 @@ if (empty($history)) {
     return;
 }
 ?>
-<form method="get" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midgard_admin_asgard_rcs_version_compare">
+<form method="get" action="" id="midgard_admin_asgard_rcs_version_compare">
     <div>
         <table>
             <thead>

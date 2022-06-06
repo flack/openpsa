@@ -1,5 +1,5 @@
 <h1>&(data['view_title']:h);</h1>
-<form action="<?php echo midcom_connection::get_url('uri'); ?>" method="post">
+<form action="" method="post">
     <p>
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />
@@ -19,7 +19,7 @@
 <div class="object_view">
    <?php $data['datamanager']->display_view(); ?>
 </div>
-<form action="<?php echo midcom_connection::get_url('uri'); ?>" method="post">
+<form action="" method="post">
     <p>
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />

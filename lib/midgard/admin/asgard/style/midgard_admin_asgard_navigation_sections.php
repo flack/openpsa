@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midgard_admin_asgard_navigation_form">
+<form method="post" action="" id="midgard_admin_asgard_navigation_form">
     <p>
     <select name="midgard_type" id="midgard_admin_asgard_navigation_chooser">
         <option value=""><?php echo $data['l10n']->get('midgard.admin.asgard'); ?></option>
