@@ -204,13 +204,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $viewer = $handler->get_viewer(new midcom_db_topic);
         $routes = $viewer->get_router()->getRouteCollection()->all();
         foreach ($routes as $request_handler_id => $route) {
-            $details = [];
+            $details = [
+                'route' => preg_replace('/args_(\d+)/', 'args[\1]', $route->getPath())
+            ];
 
-            // Build the dynamic_loadable URI, starting from topic path
-            $details['route'] = str_replace(midcom_connection::get_url('prefix') . '/', '', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX));
-
-            // Add fixed arguments
-            $details['route'] .= preg_replace('/args_(\d+)/', 'args[\1]', $route->getPath());
             list ($details['controller'], $details['action']) = explode('::', $route->getDefault('_controller'), 2);
 
             if (self::generate_file_path('handlers_' . $request_handler_id, $component)) {
