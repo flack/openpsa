@@ -34,7 +34,6 @@
             'widget_config' => [
                 'require_password' => false
             ],
-
             'required' => false,
             'storage' => null,
         ],

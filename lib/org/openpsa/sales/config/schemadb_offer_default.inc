@@ -14,10 +14,8 @@
             'type_config' => [
                 'output_mode' => 'markdown'
             ],
-
             'widget' => 'textarea',
             'required' => true,
-
         ],
         'notice' => [
             'title' => 'notice',

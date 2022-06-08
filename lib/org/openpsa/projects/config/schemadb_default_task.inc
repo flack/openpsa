@@ -163,7 +163,6 @@
                 'orders'        => [
                     ['lastname'    => 'ASC'],
                     ['firstname'    => 'ASC'],
-
                 ],
             ],
         ],

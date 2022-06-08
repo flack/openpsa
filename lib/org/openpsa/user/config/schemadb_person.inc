@@ -45,7 +45,6 @@
         ],
         'email' => [
             'required' => true,
-
             'title'    => 'email',
             'storage'  => 'email',
             'type'     => 'text',

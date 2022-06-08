@@ -120,7 +120,6 @@
         'sendingoption' => [
             'title' => 'sending option',
             'storage'    => 'sendingoption',
-
             'type'    => 'select',
             'type_config' => [
                 'options' => [

@@ -105,7 +105,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_projects_task_dba',
             ],
-
             'widget'      => 'privilege',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
         ],
@@ -117,7 +116,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_projects_task_dba',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
@@ -132,7 +130,6 @@
                 'classname'      => 'org_openpsa_contacts_person_dba',
                 /* Set the contacts root group and assignee prior to initializing */
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'),
@@ -149,7 +146,6 @@
                 'classname'      => 'org_openpsa_contacts_person_dba',
                 /* Set the contacts root group and assignee prior to initializing */
             ],
-
             'widget'      => 'privilege',
         ],
 
@@ -161,7 +157,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_contacts_group_dba',
             ],
-
             'widget'      => 'privilege',
         ],
 
@@ -173,7 +168,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_contacts_group_dba',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
         ],
@@ -212,7 +206,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_invoices_invoice_dba',
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
@@ -229,7 +222,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_invoices_invoice_dba',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.invoices'),
@@ -243,7 +235,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'net_nemein_wiki_wikipage',
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('net.nemein.wiki', 'net.nemein.wiki'),
@@ -260,7 +251,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'net_nemein_wiki_wikipage',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('net.nemein.wiki'),
@@ -274,7 +264,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_products_product_dba',
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('org.openpsa.products', 'org.openpsa.products'),
@@ -291,7 +280,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_products_product_dba',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.products'),
@@ -305,7 +293,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_directmarketing_campaign_dba',
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'),
@@ -322,7 +309,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_directmarketing_campaign_dba',
             ],
-
             'widget'      => 'privilege',
             'end_fieldset' => '',
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.directmarketing'),
@@ -336,7 +322,6 @@
                 'assignee'       => 'SELF',
                 'classname'      => 'org_openpsa_sales_salesproject_dba',
             ],
-
             'widget'      => 'privilege',
             'start_fieldset' => [
                 'title' => midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),

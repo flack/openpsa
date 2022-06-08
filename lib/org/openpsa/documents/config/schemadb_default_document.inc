@@ -1,5 +1,4 @@
 'default' => [
-
     'name'        => 'default',
     'description' => 'Document',
     'fields'      => [

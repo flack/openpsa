@@ -64,7 +64,6 @@
             'start_fieldset' => [
                 'title' => 'autoindex settings'
             ],
-
         ],
 
         'show_blobs_in_autoindex' => [

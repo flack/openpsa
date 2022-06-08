@@ -2,7 +2,6 @@
  'name'        => 'config',
  'description' => 'Default Configuration Schema', /* This is a topic */
  'fields'      => [
-
   'results_per_page' => [
    'description' => 'results_per_page',
    'datatype' => 'text',
