@@ -94,7 +94,7 @@ abstract class org_openpsa_contacts_duplicates_check
             }
             // TODO: Avoid objects marked as not_duplicate already in this phase.
             $mc->begin_group('OR');
-            foreach ($this->get_fields() as $field) {
+            foreach ($fields as $field) {
                 if ($field != 'id' && $object->$field) {
                     $mc->add_constraint($field, 'LIKE', $object->$field);
                 }

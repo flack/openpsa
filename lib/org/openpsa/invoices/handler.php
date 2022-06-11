@@ -83,9 +83,8 @@ trait org_openpsa_invoices_handler
             $mc->add_constraint('number', '<', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'DESC');
-            $results = $mc->list_keys();
 
-            if (!empty($results)) {
+            if ($results = $mc->list_keys()) {
                 $url = $urlprefix . key($results) . '/';
             }
         }
@@ -103,9 +102,8 @@ trait org_openpsa_invoices_handler
             $mc->add_constraint('number', '>', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'ASC');
-            $results = $mc->list_keys();
 
-            if (!empty($results)) {
+            if ($results = $mc->list_keys()) {
                 $url = $urlprefix . key($results) . '/';
             }
         }
