@@ -88,7 +88,7 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_values(string $field, string $indexed_by = 'guid') : array
     {
-        return static::get_rows([$field], $indexed_by, true);
+        return $this->get_rows([$field], $indexed_by, true);
     }
 
     /**
