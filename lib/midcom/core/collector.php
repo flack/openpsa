@@ -84,24 +84,18 @@ class midcom_core_collector extends midcom_core_query
     }
 
     /**
-     * Convenience function to get all values of a specific column, indexed by GUID
+     * Convenience function to get all values of a specific column, by default indexed by GUID
      */
-    public function get_values(string $field) : array
+    public function get_values(string $field, string $indexed_by = 'guid') : array
     {
-        $this->add_value_property($field);
-        $this->execute();
-        $results = $this->list_keys();
-        foreach ($results as $guid => &$value) {
-            $value = $this->get_subkey($guid, $field);
-        }
-        return $results;
+        return static::get_rows([$field], $indexed_by, true);
     }
 
     /**
      * Convenience function to get all values of a number of columns
      * They are indexed by GUID unless you specify something else
      */
-    public function get_rows(array $fields, string $indexed_by = 'guid') : array
+    public function get_rows(array $fields, string $indexed_by = 'guid', bool $single_value = false) : array
     {
         array_map([$this, 'add_value_property'], $fields);
 
@@ -118,6 +112,9 @@ class midcom_core_collector extends midcom_core_query
             $index = $guid;
             if ($indexed_by !== 'guid') {
                 $index = $values[$indexed_by];
+            }
+            if ($single_value) {
+                $values = $values[$fields[0]];
             }
             $results[$index] = $values;
         }
