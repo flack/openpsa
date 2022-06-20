@@ -467,11 +467,7 @@ class midcom_services_indexer_document
             "'\s*<script[^>]*?>.*?</script>\s*'si", // Strip out javascript
             "'\s*<[\/\!]*?[^<>]*?>\s*'si", // Strip out html tags
         ];
-        $replace = [
-            ' ',
-            ' ',
-        ];
-        $result = $this->_i18n->html_entity_decode(preg_replace($search, $replace, $text));
+        $result = $this->_i18n->html_entity_decode(preg_replace($search, ' ', $text));
         return trim(preg_replace('/\s+/s', ' ', $result));
     }
 
