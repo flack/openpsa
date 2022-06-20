@@ -128,19 +128,15 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_word()
     {
-        if (!midcom::get()->config->get('utility_catdoc')) {
-            debug_add('Could not find catdoc, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->process_mime_binary();
-            return;
+        if ($path = $this->check_utility('catdoc')) {
+            debug_add("Converting Word-Attachment to plain text");
+            $wordfile = $this->attachment->get_path();
+            $txtfile = "{$wordfile}.txt";
+            $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'utf-8' : '8859-1';
+
+            $command = $path . " -d{$encoding} -a $wordfile > $txtfile";
+            $this->process_command($command, $txtfile);
         }
-
-        debug_add("Converting Word-Attachment to plain text");
-        $wordfile = $this->attachment->get_path();
-        $txtfile = "{$wordfile}.txt";
-        $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'utf-8' : '8859-1';
-
-        $command = midcom::get()->config->get('utility_catdoc') . " -d{$encoding} -a $wordfile > $txtfile";
-        $this->process_command($command, $txtfile);
     }
 
     /**
@@ -148,19 +144,15 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_pdf()
     {
-        if (!midcom::get()->config->get('utility_pdftotext')) {
-            debug_add('Could not find pdftotext, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->process_mime_binary();
-            return;
+        if ($path = $this->check_utility('pdftotext')) {
+            debug_add("Converting PDF-Attachment to plain text");
+            $pdffile = $this->attachment->get_path();
+            $txtfile = "{$pdffile}.txt";
+            $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'UTF-8' : 'Latin1';
+
+            $command = $path . " -enc {$encoding} -nopgbrk -eol unix $pdffile $txtfile 2>&1";
+            $this->process_command($command, $txtfile);
         }
-
-        debug_add("Converting PDF-Attachment to plain text");
-        $pdffile = $this->attachment->get_path();
-        $txtfile = "{$pdffile}.txt";
-        $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'UTF-8' : 'Latin1';
-
-        $command = midcom::get()->config->get('utility_pdftotext') . " -enc {$encoding} -nopgbrk -eol unix $pdffile $txtfile 2>&1";
-        $this->process_command($command, $txtfile);
     }
 
     /**
@@ -168,20 +160,25 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_richtext()
     {
-        if (!midcom::get()->config->get('utility_unrtf')) {
-            debug_add('Could not find unrtf, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->process_mime_binary();
-            return;
+        if ($path = $this->check_utility('unrtf')) {
+            debug_add("Converting RTF-Attachment to plain text");
+            $rtffile = $this->attachment->get_path();
+            $txtfile = "{$rtffile}.txt";
+
+            // Kill the first five lines, they are crap from the converter.
+            $command = $path . " --nopict --text $rtffile | sed '1,5d' > $txtfile";
+            $this->process_command($command, $txtfile);
         }
+    }
 
-        debug_add("Converting RTF-Attachment to plain text");
-        $rtffile = $this->attachment->get_path();
-        $txtfile = "{$rtffile}.txt";
-
-        // Kill the first five lines, they are crap from the converter.
-        $command = midcom::get()->config->get('utility_unrtf') . " --nopict --text $rtffile | sed '1,5d' > $txtfile";
-
-        $this->process_command($command, $txtfile);
+    private function check_utility(string $name) : ?string
+    {
+        if ($path = midcom::get()->config->get('utility_' . $name)) {
+            return $path;
+        }
+        debug_add('Could not find ' . $name . ', indexing as binary.', MIDCOM_LOG_INFO);
+        $this->process_mime_binary();
+        return null;
     }
 
     private function process_command(string $command, string $txtfile)
