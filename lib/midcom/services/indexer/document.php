@@ -312,8 +312,8 @@ class midcom_services_indexer_document
      */
     public function add_date(string $name, int $timestamp)
     {
-        // This is always UTF-8 conformant.
-        $this->_add_field($name, 'date', gmdate('c', $timestamp), true);
+        // solr seems to only accept Z for timezone, not the equivalent +00:00, so we can't use gmdate('c')
+        $this->_add_field($name, 'date', gmdate('Y-m-d\TH:i:s\Z', $timestamp), true);
     }
 
     /**
