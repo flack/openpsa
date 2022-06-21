@@ -142,7 +142,7 @@ abstract class base
 
     protected function add_head_elements_for_codemirror(array $modes)
     {
-        $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-5.46.0/';
+        $prefix = MIDCOM_STATIC_URL . '/midcom.datamanager/codemirror-5.65.5/';
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_stylesheet($prefix . 'lib/codemirror.css');
         midcom::get()->head->add_stylesheet($prefix . 'theme/eclipse.css');
