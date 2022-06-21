@@ -10,7 +10,7 @@
 // will be silently ignored).
 'tinymce_default_theme' => 'simple',
 'tinymce_default_config_snippet' => "file://midcom/datamanager/config/tinymce_default",
-'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce',
+'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.datamanager/tinymce-5.10.5',
 
 'codemirror_config_snippet' => "file://midcom/datamanager/config/codemirror_default",
 
