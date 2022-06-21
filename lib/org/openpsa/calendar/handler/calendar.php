@@ -11,7 +11,7 @@
  */
 class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
-    private $prefix = '/org.openpsa.calendar/fullcalendar-5.7.0/';
+    private $prefix = '/org.openpsa.calendar/fullcalendar-5.11.0/';
 
     /**
      * Initialization of the handler class
