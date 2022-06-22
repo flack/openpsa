@@ -5,7 +5,7 @@
 *.php   text eol=lf
 
 static/jQuery/** linguist-vendored
-static/midcom.datamanager/tinymce/** linguist-vendored
+static/midcom.datamanager/tinymce-*/** linguist-vendored
 static/midcom.datamanager/easymde/** linguist-vendored
 static/midcom.datamanager/codemirror-*/** linguist-vendored
 static/midcom.grid/jqGrid-*/** linguist-vendored
