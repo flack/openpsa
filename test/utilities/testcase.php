@@ -31,7 +31,7 @@ abstract class openpsa_testcase extends TestCase
         $person = new midcom_db_person();
         $person->_use_rcs = false;
         $person->extra = substr('p_' . time(), 0, 11);
-        $username = uniqid(__CLASS__ . '-user-');
+        $person->lastname = uniqid(__CLASS__ . '-user-');
 
         midcom::get()->auth->request_sudo('midcom.core');
         if (!$person->create()) {
@@ -40,14 +40,14 @@ abstract class openpsa_testcase extends TestCase
 
         $account = new midcom_core_account($person);
         $account->set_password($person->extra);
-        $account->set_username($username);
+        $account->set_username($person->lastname);
         if (!$account->save()) {
             throw new Exception('Account could not be saved. Reason: ' . midcom_connection::get_error_string());
         }
         midcom::get()->auth->drop_sudo();
         if ($login) {
-            if (!midcom::get()->auth->login($username, $person->extra)) {
-                throw new Exception('Login for user ' . $username . ' failed. Reason: ' . midcom_connection::get_error_string());
+            if (!midcom::get()->auth->login($person->lastname, $person->extra)) {
+                throw new Exception('Login for user ' . $person->lastname . ' failed. Reason: ' . midcom_connection::get_error_string());
             }
         }
         self::$_class_objects[$person->guid] = $person;

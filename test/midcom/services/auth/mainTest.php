@@ -13,6 +13,7 @@ use midcom_db_topic;
 use midcom_core_user;
 use midcom;
 use midcom_core_context;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * OpenPSA testcase
@@ -21,6 +22,22 @@ use midcom_core_context;
  */
 class mainTest extends openpsa_testcase
 {
+    public function test_check_for_login_session()
+    {
+        $user = $this->create_user();
+        $acl = new \midcom_services_auth_acl;
+        $backend = new \midcom_services_auth_backend_simple('test');
+        $frontend = new \midcom_services_auth_frontend_form;
+        $auth = new \midcom_services_auth($acl, $backend, $frontend);
+        $request = new Request([], [
+            'username' => $user->lastname,
+            'password' => $user->extra,
+            'midcom_services_auth_frontend_form_submit' => ''
+        ]);
+        $auth->check_for_login_session($request);
+        $this->assertEquals($user->guid, $auth->user->guid);
+    }
+
     public function test_can_do()
     {
         $topic = $this->create_object(midcom_db_topic::class);
