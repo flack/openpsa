@@ -32,7 +32,7 @@
     text-align: left;
     position: fixed;
     top: 0;
-    right: 30%;
+    left: calc(50% - 156px);
 }
 
 #midcom_services_uimessages_wrapper.uimessages-fancy
