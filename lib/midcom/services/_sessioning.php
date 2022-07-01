@@ -7,7 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +54,7 @@ class midcom_services__sessioning extends Session
     {
         $storage = $this->prepare_storage($stack->getCurrentRequest(), $cookie_secure);
 
-        parent::__construct($storage, new NamespacedAttributeBag('midcom_session_data'));
+        parent::__construct($storage, new AttributeBag('midcom_session_data'));
     }
 
     protected function prepare_storage(?Request $request, bool $cookie_secure)

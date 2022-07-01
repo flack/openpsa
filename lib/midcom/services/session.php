@@ -82,7 +82,8 @@ class midcom_services_session
      */
     public function get(string $key)
     {
-        return $this->_sessioning->get($this->_domain . '/' . $key);
+        $data = $this->_sessioning->get($this->_domain, []);
+        return $data[$key] ?? null;
     }
 
     /**
@@ -94,7 +95,9 @@ class midcom_services_session
      */
     public function set(string $key, $value)
     {
-        $this->_sessioning->set($this->_domain . '/' . $key, $value);
+        $data = $this->_sessioning->get($this->_domain, []);
+        $data[$key] = $value;
+        $this->_sessioning->set($this->_domain, $data);
     }
 
     /**
@@ -104,7 +107,8 @@ class midcom_services_session
      */
     public function exists(string $key) : bool
     {
-        return $this->_sessioning->has($this->_domain . '/' . $key);
+        $data = $this->_sessioning->get($this->_domain, []);
+        return array_key_exists($key, $data);
     }
 
     /**
@@ -115,6 +119,7 @@ class midcom_services_session
      */
     public function remove(string $key)
     {
-        return $this->_sessioning->remove($this->_domain . '/' . $key);
+        $data = $this->_sessioning->get($this->_domain, []);
+        unset($data[$key]);
     }
 }
