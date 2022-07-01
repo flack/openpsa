@@ -61,7 +61,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
         if ($this->_topic->can_do('midgard:update')) {
             if ($this->_topic->can_do('midgard:create')) {
                 $buttons[] = [
-                    MIDCOM_TOOLBAR_URL => 'export/product/csv/',
+                    MIDCOM_TOOLBAR_URL => $this->router->generate('export_product_csv'),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'download',
