@@ -88,10 +88,6 @@ class midcom_services_session
 
     /**
      * This will store the value to the specified key.
-     *
-     * Note, that a _copy_ is stored,
-     * the actual object is not referenced in the session data. You will have to update
-     * it manually in case of changes.
      */
     public function set(string $key, $value)
     {
@@ -112,10 +108,7 @@ class midcom_services_session
     }
 
     /**
-     * Removes the value associated with the specified key. Returns null if the key
-     * is non-existent or the value of the key just removed otherwise. Note, that
-     * this is not necessarily a valid non-existence check, as the sessioning
-     * system does allow null values. Use the exists function if unsure.
+     * Removes the specified key.
      */
     public function remove(string $key)
     {
