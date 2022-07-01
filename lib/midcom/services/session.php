@@ -121,5 +121,6 @@ class midcom_services_session
     {
         $data = $this->_sessioning->get($this->_domain, []);
         unset($data[$key]);
+        $this->_sessioning->set($this->_domain, $data);
     }
 }
