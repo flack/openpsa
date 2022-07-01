@@ -153,8 +153,10 @@ class midcom_services_i18n
      */
     public function set_language(string $lang) : bool
     {
-        if (Locales::getName($lang) === null) {
-            debug_add("Language {$lang} not found.", MIDCOM_LOG_ERROR);
+        try {
+            Locales::getName($lang);
+        } catch (Exception $e) {
+            debug_add("Language {$lang} not found:" . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
 
