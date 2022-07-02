@@ -68,7 +68,7 @@ implements midcom_services_permalinks_resolver
         return "{$arg}/";
     }
 
-    public function get_opengraph_default($object) : string
+    public function get_opengraph_default(midcom_core_dbaobject $object) : string
     {
         if (midcom::get()->dbfactory->is_a($object, 'midgard_topic')) {
             return 'blog';

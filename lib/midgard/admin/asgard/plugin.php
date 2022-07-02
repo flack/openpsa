@@ -147,10 +147,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     /**
      * Populate the object breadcrumb
-     *
-     * @param mixed $object        MgdSchema object for which the toolbar will be created
      */
-    private static function _set_object_breadcrumb($object, string $handler_id, array $data)
+    private static function _set_object_breadcrumb(midcom_core_dbaobject $object, string $handler_id, array $data)
     {
         $breadcrumb = [];
         $label = $data['object_reflector']->get_object_label($object);

@@ -157,7 +157,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         $this->_disable_active_item($handler_id, $object, $data);
     }
 
-    private function _disable_active_item(string $handler_id, $object, array $data)
+    private function _disable_active_item(string $handler_id, midcom_core_dbaobject $object, array $data)
     {
         switch ($handler_id) {
             case 'object_view':
@@ -200,7 +200,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
     }
 
-    private function get_toolbar_update_items($object) : array
+    private function get_toolbar_update_items(midcom_core_dbaobject $object) : array
     {
         $buttons = [];
         if (   $object instanceof midcom_db_topic

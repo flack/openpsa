@@ -61,7 +61,7 @@ implements midcom_services_permalinks_resolver
         return "{$object->name}/";
     }
 
-    public function get_opengraph_default($object)
+    public function get_opengraph_default(midcom_core_dbaobject $object)
     {
         return 'article';
     }

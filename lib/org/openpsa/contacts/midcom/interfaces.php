@@ -200,7 +200,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    private function _update_from_hcard($object, array $hcard)
+    private function _update_from_hcard(midcom_core_dbaobject $object, array $hcard)
     {
         foreach ($hcard as $key => $val) {
             switch ($key) {
