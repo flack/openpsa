@@ -468,7 +468,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * {@inheritDoc}
      */
-    public function invalidate(string $guid, $object = null)
+    public function invalidate(string $guid, midcom_core_dbaobject $object = null)
     {
         $guidmap = $this->backend->getItem($guid);
         if (!$guidmap->isHit()) {

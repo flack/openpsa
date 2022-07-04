@@ -34,7 +34,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    public function invalidate(string $guid, $object = null)
+    public function invalidate(string $guid, midcom_core_dbaobject $object = null)
     {
         $napobject = $this->get_guid($guid);
 
@@ -95,7 +95,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->backend->deleteItem($leaves_key);
     }
 
-    private function _load_from_guid(string $guid, ?object $object) : ?array
+    private function _load_from_guid(string $guid, ?midcom_core_dbaobject $object) : ?array
     {
         $napobject = null;
         try {
