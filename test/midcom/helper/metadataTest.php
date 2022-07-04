@@ -87,7 +87,6 @@ class metadataTest extends openpsa_testcase
         $this->assertEquals($expected, $topic->metadata->$field);
     }
 
-
     public function providerSetDBObjectProperties()
     {
         return [

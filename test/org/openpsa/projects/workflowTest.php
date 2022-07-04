@@ -162,7 +162,6 @@ class workflowTest extends openpsa_testcase
         $this->assertFalse($stat);
     }
 
-
     public function testDeclineTask()
     {
         self::$_task->manager = self::$_other_user->id;

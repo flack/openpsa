@@ -110,7 +110,6 @@ class midcom_helper_nav
         return $this->_backend->get_root_node();
     }
 
-
     /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
      * an empty array

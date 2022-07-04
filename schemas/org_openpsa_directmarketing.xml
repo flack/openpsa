@@ -7,7 +7,6 @@
         <property name="archived" type="integer" index="yes" />
         <property name="rulesSerialized" type="text" />
 
-
         <!-- Common OpenPSA properties -->
 
         <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->

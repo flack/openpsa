@@ -546,7 +546,6 @@ class schedulerRunTest extends openpsa_testcase
         ];
     }
 
-
     /**
      * @depends testRun_cycle
      */

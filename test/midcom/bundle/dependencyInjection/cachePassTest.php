@@ -40,7 +40,6 @@ class cachePassTest extends TestCase
             ->with($this->logicalOr('midcom.cache_autoload_queue', 'midcom.cache_module_memcache_backend', 'midcom.cache_module_memcache_backend_config', 'kernel.cache_dir'))
             ->will($this->returnCallback([$this, 'get_config']));
 
-
         $container
             ->expects($this->exactly(2))
             ->method('getDefinition')

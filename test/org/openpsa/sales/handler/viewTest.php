@@ -67,7 +67,6 @@ class viewTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-
     public function testHandler_action_single()
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');

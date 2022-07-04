@@ -133,7 +133,6 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         return "<em>" . $l10n->get('no description given') . "</em>";
     }
 
-
     /**
      * Update hour report caches
      */

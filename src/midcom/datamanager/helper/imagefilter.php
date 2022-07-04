@@ -86,7 +86,6 @@ class imagefilter
         return $attachment;
     }
 
-
     private function set_imagedata(midcom_db_attachment $attachment)
     {
         $path = $attachment->get_path();

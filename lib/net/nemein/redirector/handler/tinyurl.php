@@ -117,7 +117,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         return $this->show('tinyurl-edit');
     }
 
-
     /**
      * Delete an existing TinyURL
      */

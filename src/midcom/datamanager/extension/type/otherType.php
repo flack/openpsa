@@ -54,7 +54,6 @@ class otherType extends AbstractType
         $builder->add('other', TextType::class, ['label' => 'widget select: other value']);
     }
 
-
     /**
      * {@inheritdoc}
      */

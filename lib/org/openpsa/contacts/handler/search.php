@@ -212,7 +212,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             midcom_show_style('search-persons-footer');
         }
 
-
         if (!$found && $this->_query_string) {
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');

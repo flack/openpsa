@@ -226,7 +226,6 @@ class midcom_connection
         self::$_data['prefix'] = $prefix;
     }
 
-
     /**
      * Iterate through possible page directories in style-tree
      * and check if the page exists (as a folder).

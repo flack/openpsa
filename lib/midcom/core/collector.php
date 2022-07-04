@@ -33,7 +33,6 @@ class midcom_core_collector extends midcom_core_query
      */
     private $orders = [];
 
-
     /**
      * The initialization routine
      */

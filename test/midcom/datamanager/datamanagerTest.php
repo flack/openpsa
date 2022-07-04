@@ -25,7 +25,6 @@ class datamanagerTest extends TestCase
         ]]));
         $dm = new datamanager($schemadb);
 
-
         $topic1 = new \midcom_db_topic;
         $topic1->name = uniqid();
         $dm->set_storage($topic1);
