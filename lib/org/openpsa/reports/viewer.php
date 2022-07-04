@@ -84,10 +84,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_viewer
 
     public static function get_available_generators() : array
     {
-        static $available_generators;
-        if (is_array($available_generators)) {
-            return $available_generators;
-        }
         $available_generators = [];
 
         $components = [
@@ -101,8 +97,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_viewer
         foreach ($components as $component) {
             $node_guid = $siteconfig->get_node_guid($component);
             try {
-                midcom_db_topic::get_cached($node_guid);
-                $available_generators[$component] = midcom::get()->i18n->get_string($component, $component);
+                $available_generators[$component] = midcom_db_topic::get_cached($node_guid)->get_label();
             } catch (midcom_error $e) {
                 debug_add("topic for component '{$component}' not found or accessible");
             }
