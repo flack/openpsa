@@ -87,13 +87,12 @@ class subscriber implements EventSubscriberInterface
     public function on_arguments(ControllerArgumentsEvent $event)
     {
         $arguments = $event->getArguments();
-        foreach ($arguments as $i => $argument) {
-            if ($argument === '__request_data__') {
-                $context = $event->getRequest()->attributes->get('context');
-                $arguments[$i] =& $context->get_custom_key('request_data');
-            }
+        $i = array_search('__request_data__', $arguments, true);
+        if ($i !== false) {
+            $context = $event->getRequest()->attributes->get('context');
+            $arguments[$i] =& $context->get_custom_key('request_data');
+            $event->setArguments($arguments);
         }
-        $event->setArguments($arguments);
     }
 
     public function on_view(ViewEvent $event)
