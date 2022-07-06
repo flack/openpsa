@@ -239,20 +239,19 @@ class midcom_baseclasses_components_viewer
 
     /**
      * Prepares the handler callback for execution.
-     * This will create the handler class instance if required.
+     * Set up handler fields and call the _on_handle event handler to allow for
+     * generic request preparation.
+     *
+     * @see _on_handle()
      */
-    public function prepare_handler(array &$parameters)
+    public function prepare_handler(midcom_baseclasses_components_handler $handler, array &$parameters)
     {
         $this->parameters =& $parameters;
 
         $parameters['handler'] = explode('::', $parameters['_controller'], 2);
 
         midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
-        $this->initialize_handler(new $parameters['handler'][0]);
-    }
 
-    private function initialize_handler(midcom_baseclasses_components_handler $handler)
-    {
         //For plugins, set the component name explicitly so that L10n and config can be found
         if (!empty($this->active_plugin)) {
             $handler->_component = $this->active_plugin->_component;
@@ -260,18 +259,6 @@ class midcom_baseclasses_components_viewer
 
         $handler->initialize($this, $this->router);
         $this->parameters['handler'][0] = $handler;
-    }
-
-    /**
-     * Set up handler fields and call the _on_handle event handler to allow for
-     * generic request preparation.
-     *
-     * @see _on_handle()
-     */
-    public function handle()
-    {
-        // Init
-        $handler = $this->parameters['handler'][0];
 
         // Update the request data
         $this->_request_data['topic'] = $this->_topic;
@@ -299,7 +286,7 @@ class midcom_baseclasses_components_viewer
     {
         if (!empty($this->parameters['handler'])) {
             $handler = $this->parameters['handler'][0];
-            $method = "_show_{$this->parameters['handler'][1]}";
+            $method = str_replace('_handler_', '_show_', $this->parameters['handler'][1]);
 
             $handler->$method($this->parameters['_route'], $this->_request_data);
         }

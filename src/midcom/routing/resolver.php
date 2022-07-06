@@ -99,35 +99,12 @@ class resolver
     public function process_component()
     {
         $topic = $this->parser->find_topic();
-        $this->request->attributes->set('argv', $this->parser->argv);
+        $argv = $this->parser->argv;
 
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($topic->component);
         $viewer = $component_interface->get_viewer($topic);
 
-        $parameters = $this->get_parameters($viewer);
-        $viewer->prepare_handler($parameters);
-
-        $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
-
-        foreach ($parameters as $key => $value) {
-            if ($key === 'handler') {
-                $key = '_controller';
-                $value[1] = '_handler_' . $value[1];
-            } elseif ($key === '_route') {
-                $key = 'handler_id';
-            }
-            $this->request->attributes->set($key, $value);
-        }
-        $viewer->handle();
-    }
-
-    /**
-     * Checks against all registered handlers if a valid one can be found.
-     */
-    private function get_parameters(midcom_baseclasses_components_viewer $viewer) : array
-    {
-        $argv = $this->request->attributes->get('argv', []);
         $prefix = $this->context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Check if we need to start up a plugin.
@@ -164,6 +141,10 @@ class resolver
             return !str_starts_with($name, '_');
         }, ARRAY_FILTER_USE_KEY));
 
-        return $result;
+        $result['__viewer'] = $viewer;
+        $result['_controller'] = str_replace('::', '::_handler_', $result['_controller']);
+
+        $this->request->attributes->add($result);
+        $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
     }
 }

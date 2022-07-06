@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 /**
  * @package midcom.httpkernel
@@ -34,6 +35,7 @@ class subscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => ['on_request'],
+            KernelEvents::CONTROLLER => ['on_controller'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
             KernelEvents::EXCEPTION => ['on_exception'],
@@ -82,6 +84,18 @@ class subscriber implements EventSubscriberInterface
 
         $resolver->process_component();
         $request->attributes->set('data', '__request_data__');
+    }
+
+    public function on_controller(ControllerEvent $event)
+    {
+        $request = $event->getRequest();
+        $attributes = $request->attributes->all();
+        if (!empty($attributes['__viewer'])) {
+            $controller = $event->getController();
+            $attributes['__viewer']->prepare_handler($controller[0], $attributes);
+            unset($attributes['__viewer']);
+            $request->attributes->set('handler_id', $attributes['_route']);
+        }
     }
 
     public function on_arguments(ControllerArgumentsEvent $event)
