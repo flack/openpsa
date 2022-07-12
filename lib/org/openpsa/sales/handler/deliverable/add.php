@@ -89,7 +89,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         $this->_salesproject->require_do('midgard:create');
 
         if ($request->request->has('org_openpsa_sales')) {
-            $selection = json_decode($request->request->get('org_openpsa_sales')['product']['selection']);
+            $selection = json_decode($request->request->all('org_openpsa_sales')['product']['selection']);
             $product_id = current($selection);
         } else {
             $product_id = $request->request->getInt('product');

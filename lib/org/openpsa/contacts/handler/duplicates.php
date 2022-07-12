@@ -119,8 +119,8 @@ class org_openpsa_contacts_handler_duplicates extends midcom_baseclasses_compone
 
     private function process_submit(Request $request)
     {
-        $keep = $request->request->get('org_openpsa_contacts_handler_duplicates_object_keep');
-        $options = $request->request->get('org_openpsa_contacts_handler_duplicates_object_options');
+        $keep = $request->request->all('org_openpsa_contacts_handler_duplicates_object_keep');
+        $options = $request->request->all('org_openpsa_contacts_handler_duplicates_object_options');
         if (!empty($keep) && count($options) == 2) {
             $option1 = $this->load($options[1]);
             $option2 = $this->load($options[2]);

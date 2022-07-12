@@ -70,7 +70,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $data['type'] = $type;
 
-        if ($guids = $request->request->get('undelete')) {
+        if ($guids = $request->request->all('undelete')) {
             return $this->process_request($guids, $request->request->has('purge'));
         }
 

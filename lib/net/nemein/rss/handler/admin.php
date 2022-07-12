@@ -58,7 +58,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $this->_topic->require_do('midgard:create');
 
         // Single feed addition
-        $post = $request->request->get('net_nemein_rss_manage_newfeed');
+        $post = $request->request->all('net_nemein_rss_manage_newfeed');
         if (!empty($post['url'])) {
             $this->_subscribe_feed($post['url']);
             // TODO: display error messages

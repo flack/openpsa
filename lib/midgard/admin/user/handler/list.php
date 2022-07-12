@@ -132,7 +132,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         if ($request->query->count() > 0) {
             $relocate_url .= '?' . $request->getQueryString();
         }
-        if (empty($request->request->get('midgard_admin_user'))) {
+        if (empty($request->request->all('midgard_admin_user'))) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n->get('empty selection'));
             return new midcom_response_relocate($relocate_url);
         }
@@ -140,7 +140,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $method = '_batch_' . $action;
 
         $qb = midcom_db_person::new_query_builder();
-        $qb->add_constraint('guid', 'IN', $request->request->get('midgard_admin_user'));
+        $qb->add_constraint('guid', 'IN', $request->request->all('midgard_admin_user'));
         $this->_persons = $qb->execute();
         foreach ($this->_persons as $person) {
             $this->$method($request, $person);

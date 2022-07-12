@@ -48,7 +48,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
 
         // There was form data sent before authentication was re-required
         if ($request->request->has('restore_form_data')) {
-            foreach ($request->request->get('restored_form_data', []) as $key => $string) {
+            foreach ($request->request->all('restored_form_data', []) as $key => $string) {
                 $value = json_decode(base64_decode($string), true);
                 $request->request->set($key, $value);
             }

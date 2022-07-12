@@ -102,7 +102,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_batch(Request $request)
     {
-        if ($entries = $request->request->get('entries')) {
+        if ($entries = $request->request->all('entries')) {
             $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $entries);
 

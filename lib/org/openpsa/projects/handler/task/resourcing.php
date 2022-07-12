@@ -59,7 +59,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         }
 
         if (   $request->request->has('save')
-            && $prospects = $request->request->get('org_openpsa_projects_prospects')) {
+            && $prospects = $request->request->all('org_openpsa_projects_prospects')) {
             $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('guid', 'IN', array_keys($prospects));
             foreach ($qb->execute() as $prospect) {

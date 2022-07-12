@@ -47,10 +47,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $success = true;
 
         // Total number of the entries
-        $count = array_sum(array_map('count', $request->request->get('sortable')));
+        $count = array_sum(array_map('count', $request->request->all('sortable')));
 
         // Loop through the sortables and store the new score
-        foreach ($request->request->get('sortable') as $array) {
+        foreach ($request->request->all('sortable') as $array) {
             foreach ($array as $identifier => $i) {
                 $score_r = $count - (int) $i;
 

@@ -219,7 +219,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         // Allow setting defaults from query string, useful for things like "create event for today" and chooser
         if ($request->query->has('defaults')) {
-            $get_defaults = array_intersect_key($request->query->get('defaults'), $this->schemadb->get_first()->get('fields'));
+            $get_defaults = array_intersect_key($request->query->all('defaults'), $this->schemadb->get_first()->get('fields'));
             $defaults = array_merge($defaults, array_map('trim', $get_defaults));
         }
         return $defaults;
@@ -377,7 +377,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 $class_name = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($link_properties[$parent]['class']);
                 $copy->target = new $class_name($formdata[$parent]);
             }
-            $copy->exclude = array_diff($request->request->get('all_objects'), $request->request->get('selected'));
+            $copy->exclude = array_diff($request->request->all('all_objects'), $request->request->all('selected'));
         } else {
             $copy->recursive = false;
         }

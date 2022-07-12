@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         if ($request->request->has('action') && $request->request->has('entries')) {
             $method_name = '_mass_' . $request->request->get('action');
-            $this->$method_name($request->request->get('entries'));
+            $this->$method_name($request->request->all('entries'));
         }
 
         if ($request->query->has('revised_after')) {

@@ -51,7 +51,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         $this->_load_component_node();
 
-        $defaults = $request->query->get('defaults', []);
+        $defaults = $request->query->all('defaults', []);
         $this->_controller = $this->load_controller($defaults);
         $data['controller'] = $this->_controller;
 
