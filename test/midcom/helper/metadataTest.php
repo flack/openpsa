@@ -22,9 +22,8 @@ class metadataTest extends openpsa_testcase
     /**
      * @dataProvider providerEmptyProperties
      */
-    public function testEmptyProperties($data)
+    public function testEmptyProperties($name)
     {
-        $name = $data[0];
         $topic = new midcom_db_topic();
         $this->assertIsObject($topic->metadata);
         $this->assertTrue(isset($topic->metadata->$name));
@@ -37,18 +36,15 @@ class metadataTest extends openpsa_testcase
             ['schedulestart'],
             ['scheduleend'],
             ['navnoentry'],
-            ['hide'],
+            ['hidden'],
             ['keywords'],
             ['description'],
             ['robots'],
             ['published'],
             ['publisher'],
             ['created'],
-            ['creator'],
             ['revised'],
-            ['revisor'],
             ['approved'],
-            ['approver'],
         ];
     }
 
@@ -69,7 +65,7 @@ class metadataTest extends openpsa_testcase
             ['schedulestart', 1329255039],
             ['scheduleend', 0],
             ['navnoentry', true],
-            ['hide', false],
+            ['hidden', false],
             ['published', time()],
         ];
     }
@@ -93,12 +89,12 @@ class metadataTest extends openpsa_testcase
             ['schedulestart', 1329255039],
             ['scheduleend', 0],
             ['navnoentry', true],
-            //array('hide', false),
+            ['hidden', false],
             ['keywords', 'test kewords'],
             ['description', 'test description'],
             ['robots', 'test robots'],
             ['published', time()],
-            //array('publisher', $person->guid),
+            ['publisher', 'cda8160834f7502bcdb71537c2772cc6'],
         ];
     }
 }
