@@ -85,7 +85,7 @@ abstract class midcom_helper_exporter
      */
     protected function _get_classname(object $object) : string
     {
-        if (!empty($object->__mgdschema_class_name__)) {
+        if (property_exists($object, '__mgdschema_class_name__')) {
             return $object->__mgdschema_class_name__;
         }
         return get_class($object);

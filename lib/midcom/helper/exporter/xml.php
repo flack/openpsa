@@ -97,7 +97,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
 
         foreach ($arr as $key => $val) {
             if (is_array($val)) {
-                $root_node = isset($object->{$key}) ? $this->_get_classname($object->{$key}) : "array";
+                $root_node = is_object($object->{$key}) ? $this->_get_classname($object->{$key}) : "array";
                 $data .= $this->array2data($val, $root_node, "    ");
             } elseif (is_numeric($val) || $val === null || is_bool($val)) {
                 $data .= "{$prefix}    <{$key}>{$val}</{$key}>\n";
