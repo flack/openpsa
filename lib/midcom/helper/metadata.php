@@ -83,10 +83,14 @@ class midcom_helper_metadata
     private $_cache = [];
 
     private $field_config = [
-        'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported'],
+        'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported', 'islocked', 'isapproved'],
         'timebased' => ['created', 'revised', 'published', 'locked', 'approved', 'schedulestart', 'scheduleend', 'exported', 'imported'],
         'person' => ['creator', 'revisor', 'locker', 'approver'],
-        'other' => ['authors', 'owner', 'hidden', 'navnoentry', 'score', 'revision', 'size', 'deleted']
+        'other' => ['authors', 'owner', 'hidden', 'navnoentry', 'score', 'revision', 'size', 'deleted'],
+        'functions' => [
+            'islocked' => 'is_locked',
+            'isapproved' => 'is_approved'
+        ]
     ];
 
     /**
@@ -300,6 +304,10 @@ class midcom_helper_metadata
                 return $root_user_guid;
             }
             return $this->__metadata->$key;
+        }
+        if (array_key_exists($key, $this->field_config['functions'])) {
+            $function = $this->field_config['functions'][$key];
+            return $this->$function();
         }
         if (!in_array($key, $this->field_config['other'])) {
             // Fall-back for non-core properties
