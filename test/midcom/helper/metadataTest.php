@@ -26,7 +26,6 @@ class metadataTest extends openpsa_testcase
     {
         $topic = new midcom_db_topic();
         $this->assertIsObject($topic->metadata);
-        $this->assertTrue(isset($topic->metadata->$name));
         $this->assertEmpty($topic->metadata->$name);
     }
 
@@ -46,6 +45,16 @@ class metadataTest extends openpsa_testcase
             ['revised'],
             ['approved'],
         ];
+    }
+
+    public function test_isset()
+    {
+        $topic = new midcom_db_topic();
+        $this->assertTrue(isset($topic->metadata->created));
+        $this->assertFalse(isset($topic->metadata->robots));
+        $t2 = $this->create_object(midcom_db_topic::class);
+        $this->assertTrue(isset($t2->metadata->created));
+        $this->assertFalse(isset($t2->metadata->robots));
     }
 
     /**

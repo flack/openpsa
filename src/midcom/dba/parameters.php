@@ -26,15 +26,13 @@ trait parameters
     /**
      * Return a parameter from the database.
      *
-     * No event handlers are called here yet.
-     *
-     * @return ?string The parameter value or false otherwise (remember typesafe comparisons to protect against '' strings).
+     * @return ?string The parameter value or null otherwise (remember typesafe comparisons to protect against '' strings).
      */
     public function get_parameter(string $domain, string $name)
     {
         if (!$this->guid) {
             debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);
-            return false;
+            return null;
         }
 
         if (isset(self::$parameter_cache[$this->guid][$domain])) {
