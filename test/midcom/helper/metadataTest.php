@@ -57,6 +57,16 @@ class metadataTest extends openpsa_testcase
         $this->assertFalse(isset($t2->metadata->robots));
     }
 
+    public function test_delete()
+    {
+        $topic = $this->create_object(midcom_db_topic::class);
+        $this->assertFalse($topic->metadata->deleted);
+        midcom::get()->auth->request_sudo('midcom.core');
+        $this->assertTrue($topic->delete());
+        midcom::get()->auth->drop_sudo();
+        $this->assertTrue($topic->metadata->deleted);
+    }
+
     /**
      * @depends testEmptyProperties
      * @dataProvider providerSetEmptyObjectProperties

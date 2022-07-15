@@ -77,11 +77,6 @@ class midcom_helper_metadata
      */
     private $__metadata;
 
-    /**
-     * @var array
-     */
-    private $_cache = [];
-
     private $field_config = [
         'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported', 'islocked', 'isapproved'],
         'timebased' => ['created', 'revised', 'published', 'locked', 'approved', 'schedulestart', 'scheduleend', 'exported', 'imported'],
@@ -116,11 +111,7 @@ class midcom_helper_metadata
      */
     public function get(string $key)
     {
-        if (!isset($this->_cache[$key])) {
-            $this->_cache[$key] = $this->_retrieve_value($key);
-        }
-
-        return $this->_cache[$key];
+        return $this->_retrieve_value($key);
     }
 
     public function __get($key)
@@ -133,11 +124,7 @@ class midcom_helper_metadata
 
     public function __isset($key)
     {
-        if (!isset($this->_cache[$key])) {
-            $this->_cache[$key] = $this->_retrieve_value($key);
-        }
-
-        return isset($this->_cache[$key]);
+        return $this->_retrieve_value($key) !== null;
     }
 
     /**
@@ -252,8 +239,6 @@ class midcom_helper_metadata
      */
     private function on_update(string $key)
     {
-        unset($this->_cache[$key]);
-
         if (!empty($this->__object->guid)) {
             midcom::get()->cache->invalidate($this->__object->guid);
         }
@@ -262,11 +247,8 @@ class midcom_helper_metadata
     /* ------- METADATA I/O INTERFACE -------- */
 
     /**
-     * Retrieves a given metadata key, postprocesses it where necessary
-     * and stores it into the local cache.
+     * Retrieves a given metadata key and postprocesses it where necessary
      *
-     * - Person references (both guid and id) get resolved into the corresponding
-     *   Person object.
      * - created, creator, edited and editor are taken from the corresponding
      *   MidgardObject fields.
      * - Parameters are accessed using $object->get_parameter directly
@@ -470,13 +452,7 @@ class midcom_helper_metadata
     public function lock() : bool
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
-
-        if ($this->__object->lock()) {
-            $this->_cache = [];
-            return true;
-        }
-
-        return false;
+        return $this->__object->lock();
     }
 
     /**
@@ -497,12 +473,6 @@ class midcom_helper_metadata
      */
     public function unlock() : bool
     {
-        if (   $this->can_unlock()
-            && $this->__object->unlock()) {
-            $this->_cache = [];
-            return true;
-        }
-
-        return false;
+        return $this->can_unlock() && $this->__object->unlock();
     }
 }
