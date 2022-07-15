@@ -250,13 +250,9 @@ class midcom_helper_metadata
      *
      * @param string $key The key that was updated. Leave empty for a complete update by the Datamanager.
      */
-    private function on_update(string $key = null)
+    private function on_update(string $key)
     {
-        if ($key) {
-            unset($this->_cache[$key]);
-        } else {
-            $this->_cache = [];
-        }
+        unset($this->_cache[$key]);
 
         if (!empty($this->__object->guid)) {
             midcom::get()->cache->invalidate($this->__object->guid);
