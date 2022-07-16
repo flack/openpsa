@@ -164,7 +164,7 @@ class midcom_baseclasses_components_viewer
      * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar
+     * @var midcom_helper_toolbar_node
      * @see midcom_services_toolbars
      */
     public $_node_toolbar;
@@ -176,7 +176,7 @@ class midcom_baseclasses_components_viewer
      * @var midcom_helper_toolbar
      * @see midcom_services_toolbars
      */
-    public $_view_toolbar;
+    public $_view_toolbar_view;
 
     /**
      * @var midcom_baseclasses_components_plugin

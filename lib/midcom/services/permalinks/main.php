@@ -54,7 +54,7 @@ class midcom_services_permalinks
      * 4. As a last resort we have to iterate over all NAP topics to do the resolving.
      *
      * @param string $guid The GUID to resolve.
-     * @return string The full HTTP relocation'able URL to the GUID.
+     * @return ?string The full HTTP relocation'able URL to the GUID.
      */
     public function resolve_permalink($guid) : ?string
     {

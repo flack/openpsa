@@ -67,7 +67,7 @@ abstract class midcom_baseclasses_components_handler
      * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar
+     * @var midcom_helper_toolbar_node
      * @see midcom_services_toolbars
      */
     var $_node_toolbar;
@@ -76,7 +76,7 @@ abstract class midcom_baseclasses_components_handler
      * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar
+     * @var midcom_helper_toolbar_view
      * @see midcom_services_toolbars
      */
     var $_view_toolbar;

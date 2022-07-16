@@ -17,7 +17,7 @@
  *    into this toolbar, where applicable.
  *
  * 2. The <i>View</i> toolbar is applicable to the specific view ("url"). Usually
- *    this maps to a single displayed object (see also the bind_to_object() member
+ *    this maps to a single displayed object (see also the bind_to() member
  *    function). MidCOM places the object-specific management operations (like
  *    Metadata controls) into this toolbar, if it is bound to an object. Otherwise,
  *    this toolbar is not touched by MidCOM.
@@ -157,39 +157,6 @@ class midcom_services_toolbars
     {
         $context_id = midcom_core_context::get()->id;
         $this->_toolbars[$context_id][$identifier] = $toolbar;
-    }
-
-    /**
-     * Binds the a toolbar to a DBA object. This will append a number of globally available
-     * toolbar options. For example, expect Metadata- and Version Control-related options
-     * to be added.
-     *
-     * This call is available through convenience functions throughout the framework: The
-     * toolbar main class has a mapping for it (midcom_helper_toolbar::bind_to($object))
-     * and object toolbars created by this service will automatically be bound to the
-     * specified object.
-     *
-     * Repeated bind calls are intercepted, you can only bind a toolbar to a single object.
-     *
-     * @see midcom_helper_toolbar::bind_to()
-     * @see create_object_toolbar()
-     */
-    public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, midcom_core_dbaobject $object)
-    {
-        if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)) {
-            debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);
-            return;
-        }
-        if (array_key_exists('midcom_services_toolbars_bound_to_object', $toolbar->customdata)) {
-            // We already processed this toolbar, skipping further adds.
-            return;
-        }
-        $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
-
-        $reflector = new midcom_helper_reflector($object);
-        $toolbar->set_label($reflector->get_class_label());
-
-        $toolbar->bind_object($object);
     }
 
     /**

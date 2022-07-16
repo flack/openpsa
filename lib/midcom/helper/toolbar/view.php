@@ -26,8 +26,28 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         $this->label = midcom::get()->i18n->get_string('page', 'midcom');
     }
 
-    public function bind_object(midcom_core_dbaobject $object)
+    /**
+     * Binds the a toolbar to a DBA object. This will append a number of globally available
+     * toolbar options. For example, expect Metadata- and Version Control-related options
+     * to be added.
+     *
+     * Repeated bind calls are intercepted, you can only bind a toolbar to a single object.
+     */
+    public function bind_to(midcom_core_dbaobject $object)
     {
+        if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)) {
+            debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);
+            return;
+        }
+        if (array_key_exists('midcom_services_toolbars_bound_to_object', $this->customdata)) {
+            // We already processed this toolbar, skipping further adds.
+            return;
+        }
+        $this->customdata['midcom_services_toolbars_bound_to_object'] = true;
+
+        $reflector = new midcom_helper_reflector($object);
+        $this->set_label($reflector->get_class_label());
+
         $buttons = $this->get_approval_controls($object);
 
         if ($object->can_do('midgard:update')) {
