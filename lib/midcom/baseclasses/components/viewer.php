@@ -173,10 +173,10 @@ class midcom_baseclasses_components_viewer
      * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar
+     * @var midcom_helper_toolbar_view
      * @see midcom_services_toolbars
      */
-    public $_view_toolbar_view;
+    public $_view_toolbar;
 
     /**
      * @var midcom_baseclasses_components_plugin
