@@ -33,6 +33,7 @@ class componentPass implements CompilerPassInterface
             $paths[] = $path . '/config/manifest.inc';
         }
 
+        $components = [];
         foreach ($paths as $path) {
             $manifest = new midcom_core_manifest($path);
             $components[$manifest->name] = $path;

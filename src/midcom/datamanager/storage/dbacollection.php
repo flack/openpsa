@@ -118,8 +118,6 @@ class dbacollection extends delayed
     /**
      * Returns the foreign key of the master object. This is either the ID or the GUID of
      * the master object, depending on the $master_is_id member.
-     *
-     * @var string Foreign key for the master field in the mapping table.
      */
     private function get_master_foreign_key()
     {
