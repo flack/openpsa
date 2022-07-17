@@ -84,7 +84,7 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
             midcom::get()->cache->content->enable_live_mode();
             ob_implicit_flush();
             midcom_show_style('midgard_admin_asgard_shell_runner');
-            ob_implicit_flush(0);
+            ob_implicit_flush(false);
         }
     }
 }

@@ -27,7 +27,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     public function _handler_post(Request $request, string $guid)
     {
         midcom::get()->auth->require_valid_user();
-        $action = $request->request->get('org_openpsa_projects_workflow_action');
+        $action = $request->request->all('org_openpsa_projects_workflow_action');
         if (empty($action)) {
             throw new midcom_error('Incomplete request');
         }
