@@ -33,7 +33,7 @@ class org_openpsa_mail_message
 
     public function __construct($to, array $headers, string $encoding)
     {
-        $this->_to = $this->_encode_address_field($to);
+        $this->_to = $to;
         $this->_headers = $headers;
         $this->_encoding = $encoding;
 
@@ -65,7 +65,11 @@ class org_openpsa_mail_message
         foreach ($this->get_headers() as $name => $value) {
             if (array_key_exists(strtolower($name), $headers_setter_map)) {
                 $setter = $headers_setter_map[strtolower($name)];
-                $this->_message->$setter($value);
+                if (is_array($value)) {
+                    $this->_message->$setter(...$value);
+                } else {
+                    $this->_message->$setter($value);
+                }
             } elseif ($msg_headers->has($name)) {
                 // header already exists => just set a new value
                 $msg_headers->get($name)->setValue($value);
@@ -94,9 +98,6 @@ class org_openpsa_mail_message
         foreach ($this->_headers as $header => $value) {
             if (is_string($value)) {
                 $this->_headers[$header] = trim($value);
-            }
-            if (in_array(strtolower($header), ['from', 'reply-to', 'to'])) {
-                $this->_headers[$header] = $this->_encode_address_field($value);
             }
         }
 
@@ -188,29 +189,5 @@ class org_openpsa_mail_message
                 $this->_message->attach($att['content'], $att['name'], $att['mimetype']);
             }
         }
-    }
-
-    /**
-     * Helper function that provides backwards compatibility
-     * to addresses specified in a "Name <email@addre.ss>" format
-     *
-     * @param string $value The value to encode
-     * @return mixed the encoded value
-     */
-    private function _encode_address_field($value)
-    {
-        if (is_array($value)) {
-            array_walk($value, [$this, '_encode_address_field']);
-            return $value;
-        }
-        if ($pos = strpos($value, '<')) {
-            $name = substr($value, 0, $pos);
-            $name = preg_replace('/^\s*"/', '', $name);
-            $name = preg_replace('/"\s*$/', '', $name);
-            $address = substr($value, $pos + 1);
-            $address = substr($address, 0, strlen($address) - 1);
-            $value = [$address => $name];
-        }
-        return $value;
     }
 }
