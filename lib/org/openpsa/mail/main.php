@@ -169,9 +169,6 @@ class org_openpsa_mail
         ];
         $text = preg_replace(array_keys($converters), array_values($converters), $text);
 
-        // Wrap to RFC width
-        $text = wordwrap($text, 72, "\n");
-
         return trim($text);
     }
 
@@ -188,9 +185,6 @@ class org_openpsa_mail
             $this->body = $template_helper->parse($this->body);
             $this->html_body = $template_helper->parse($this->html_body);
         }
-        //Translate newlines
-        $this->body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->body);
-        $this->html_body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->html_body);
 
         //Try to translate HTML-only body to plaintext as well
         if (empty($this->body) && !empty($this->html_body) && !$this->allow_only_html) {
