@@ -118,8 +118,6 @@ class org_openpsa_mail
         $this->_component = 'org.openpsa.mail';
         $this->encoding = $this->_i18n->get_current_charset();
 
-        $backend_params['swift_plugins'] = $this->_config->get_array('swift_plugins');
-
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
 
         $this->headers['X-Originating-IP'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';
@@ -199,7 +197,7 @@ class org_openpsa_mail
             $this->body = $this->html2text($this->html_body);
         }
 
-        $message = new org_openpsa_mail_message($this->to, $this->headers, $this->encoding);
+        $message = new org_openpsa_mail_message($this->to, array_filter($this->headers), $this->encoding);
 
         //Check whether it's necessary to initialize MIME
         if (!empty($this->html_body) || !empty($this->attachments)) {

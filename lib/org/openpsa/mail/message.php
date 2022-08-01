@@ -6,6 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\MimeTypes;
+
 /**
  * Wrapper class for emails
  *
@@ -23,7 +27,7 @@ class org_openpsa_mail_message
     private $_html_body;
 
     /**
-     * @var Swift_Message
+     * @var Email
      */
     private $_message;
 
@@ -33,7 +37,7 @@ class org_openpsa_mail_message
         $this->_headers = $headers;
         $this->_encoding = $encoding;
 
-        $this->_message = new Swift_Message('');
+        $this->_message = new Email;
     }
 
     public function get_recipients()
@@ -41,26 +45,24 @@ class org_openpsa_mail_message
         return $this->_to;
     }
 
-    public function get_message() : Swift_Message
+    public function get_message() : Email
     {
         // set headers
         $headers_setter_map = [
-            "content-type" => "setContentType",
-            "content-description" => "setDescription",
-            "from" => "setFrom",
-            "to" => "setTo",
-            "cc" => "setCc",
-            "bcc" => "setBcc",
-            "reply-to" => "setReplyTo",
-            "subject" => "setSubject",
-            "date" => "setDate",
-            "return-path" => "setReturnPath"
+            "from" => "from",
+            "to" => "to",
+            "cc" => "cc",
+            "bcc" => "bcc",
+            "reply-to" => "replyTo",
+            "subject" => "subject",
+            "date" => "date",
+            "return-path" => "returnPath"
         ];
 
-        // map headers we got to swift setter methods
+        // map headers we got to sf mailer setter methods
         $msg_headers = $this->_message->getHeaders();
-        $headers = $this->get_headers();
-        foreach ($headers as $name => $value) {
+
+        foreach ($this->get_headers() as $name => $value) {
             if (array_key_exists(strtolower($name), $headers_setter_map)) {
                 $setter = $headers_setter_map[strtolower($name)];
                 $this->_message->$setter($value);
@@ -74,11 +76,9 @@ class org_openpsa_mail_message
 
         // somehow we need to set the body after the headers...
         if (!empty($this->_html_body)) {
-            $this->_message->setBody($this->_html_body, 'text/html');
-            $this->_message->addPart($this->_body, 'text/plain');
-        } else {
-            $this->_message->setBody($this->_body, 'text/plain');
+            $this->_message->html($this->_html_body);
         }
+        $this->_message->text($this->_body);
 
         return $this->_message;
     }
@@ -90,10 +90,6 @@ class org_openpsa_mail_message
 
     public function get_headers() : array
     {
-        if (empty($this->_headers['Content-Type'])) {
-            $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";
-        }
-
         reset($this->_headers);
         foreach ($this->_headers as $header => $value) {
             if (is_string($value)) {
@@ -160,9 +156,18 @@ class org_openpsa_mail_message
                 continue;
             }
 
-            // replace src by swiftmailer embedded image
-            $repl = $this->_message->embed(Swift_Image::fromPath($uri));
-            $new_html = str_replace($location, $repl, $match);
+            // replace src by embedded image
+            $name = basename($uri);
+            $mimetype = null;
+            if ($ext = pathinfo($name, PATHINFO_EXTENSION)) {
+                $mimetype = (new MimeTypes)->getMimeTypes($ext)[0] ?? null;
+            }
+
+            $part = (new DataPart(fopen($uri, 'r'), $name, $mimetype))
+                ->asInline();
+            $this->_message->attachPart($part);
+
+            $new_html = str_replace($location, 'cid:' . $part->getContentId(), $match);
             $this->_html_body = str_replace($match, $new_html, $this->_html_body);
         }
     }
@@ -174,18 +179,13 @@ class org_openpsa_mail_message
                 $att['mimetype'] = "application/octet-stream";
             }
 
-            $swift_att = false;
             // we got a file path
             if (!empty($att['file'])) {
-                $swift_att = Swift_Attachment::fromPath($att['file'], $att['mimetype']);
+                $this->_message->attachFromPath($att['file'], $att['name'], $att['mimetype']);
             }
             // we got the contents (bytes)
             elseif (!empty($att['content'])) {
-                $swift_att = new Swift_Attachment($att['content'], $att['name'], $att['mimetype']);
-            }
-
-            if ($swift_att) {
-                $this->_message->attach($swift_att);
+                $this->_message->attach($att['content'], $att['name'], $att['mimetype']);
             }
         }
     }

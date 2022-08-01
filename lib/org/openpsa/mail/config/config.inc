@@ -14,5 +14,3 @@
     'sendmail_path' => '/usr/sbin/sendmail',
     'sendmail_args' => '-bs',
 ],
-
-'swift_plugins' => [],

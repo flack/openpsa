@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+
 /**
  * Backend for mailer operations
  *
@@ -16,7 +19,7 @@ abstract class org_openpsa_mail_backend
     public $error;
 
     /**
-     * @var Swift_Mailer
+     * @var Mailer
      */
     protected $mailer;
 
@@ -52,14 +55,9 @@ abstract class org_openpsa_mail_backend
         return self::_load_backend($implementation, $params);
     }
 
-    protected function prepare_mailer(Swift_Transport $transport, array $params)
+    protected function prepare_mailer(TransportInterface $transport)
     {
-        $this->mailer = new Swift_Mailer($transport);
-        if (!empty($params['swift_plugins'])) {
-            foreach ($params['swift_plugins'] as $plugin) {
-                $this->mailer->registerPlugin($plugin);
-            }
-        }
+        $this->mailer = new Mailer($transport);
     }
 
     private static function _load_backend(string $backend, array $params) : self

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\Mailer\Transport\SendmailTransport;
+
 /**
  * Send backend for org_openpsa_mail
  *
@@ -15,8 +17,8 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        $transport = new Swift_SendmailTransport($params['sendmail_path'] . " " . $params['sendmail_args']);
-        $this->prepare_mailer($transport, $params);
+        $transport = new SendmailTransport($params['sendmail_path'] . " " . $params['sendmail_args']);
+        $this->prepare_mailer($transport);
     }
 
     public function mail(org_openpsa_mail_message $message)

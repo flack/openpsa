@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+
 /**
  * Send backend for org_openpsa_mail
  *
@@ -15,14 +17,16 @@ class org_openpsa_mail_backend_mail_smtp extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        $transport = new Swift_SmtpTransport($params['host'], $params['port'], $params['encryption'] ?? null);
-        if (isset($params['username'])) {
+        $transport = new EsmtpTransport($params['host'], (int) $params['port']);
+
+        if (!empty($params['username'])) {
             $transport->setUsername($params['username']);
         }
-        if (isset($params['password'])) {
+        if (!empty($params['password'])) {
             $transport->setPassword($params['password']);
         }
-        $this->prepare_mailer($transport, $params);
+
+        $this->prepare_mailer($transport);
     }
 
     public function mail(org_openpsa_mail_message $message)
