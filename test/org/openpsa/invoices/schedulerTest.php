@@ -36,10 +36,7 @@ class schedulerTest extends openpsa_testcase
      */
     public function testCalculate_cycle_next($unit, $start, $result)
     {
-        $old = date_default_timezone_get();
-        date_default_timezone_set('UTC');
         $start = strtotime($start);
-        date_default_timezone_set($old);
 
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->unit = $unit;
@@ -48,7 +45,7 @@ class schedulerTest extends openpsa_testcase
         $next_cycle = $scheduler->calculate_cycle_next($start);
 
         if ($next_cycle !== false) {
-            $next_cycle = gmdate('Y-m-d H:i:s', $next_cycle);
+            $next_cycle = date('Y-m-d H:i:s', $next_cycle);
         }
 
         $this->assertEquals($result, $next_cycle, 'Wrong value for unit ' . $unit . ', start value: ' . $start);
