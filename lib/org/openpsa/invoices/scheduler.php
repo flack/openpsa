@@ -300,22 +300,27 @@ class org_openpsa_invoices_scheduler
 
     public function calculate_cycle_next(int $time)
     {
+        $date = new DateTime('@' . $time);
+        $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
+        $date->setTime(0, 0, 0);
+
         switch ($this->_deliverable->unit) {
             case 'm':
                 // Monthly recurring subscription
-                $new_date = $this->_add_month($time, 1);
+                $new_date = $this->_add_month($date, 1);
                 break;
             case 'q':
                 // Quarterly recurring subscription
-                $new_date = $this->_add_month($time, 3);
+                $new_date = $this->_add_month($date, 3);
                 break;
             case 'hy':
                 // Half-yearly recurring subscription
-                $new_date = $this->_add_month($time, 6);
+                $new_date = $this->_add_month($date, 6);
                 break;
             case 'y':
                 // Yearly recurring subscription
-                $new_date = new DateTime('+1 year ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+                $new_date = clone $date;
+                $new_date->modify('+1 year');
                 break;
             default:
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
@@ -323,7 +328,6 @@ class org_openpsa_invoices_scheduler
         }
 
         //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
-        $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         if (   $date->format('t') == $date->format('j')
             && $new_date->format('t') != $new_date->format('j')) {
             $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
@@ -337,12 +341,11 @@ class org_openpsa_invoices_scheduler
      * sure the new date is always in the expected month (so in the example above
      * it would return 2012-11-30)
      *
-     * @param integer $time Original timestamp
+     * @param Datetime $orig Original timestamp
      * @param integer $offset number of months to add
      */
-    private function _add_month(int $time, int $offset) : DateTime
+    private function _add_month(Datetime $orig, int $offset) : DateTime
     {
-        $orig = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         $new_date = clone $orig;
         $new_date->modify('+' . $offset . ' months');
         $control = clone $new_date;
