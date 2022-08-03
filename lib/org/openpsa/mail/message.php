@@ -70,11 +70,8 @@ class org_openpsa_mail_message
                 } else {
                     $this->_message->$setter($value);
                 }
-            } elseif ($msg_headers->has($name)) {
-                // header already exists => just set a new value
-                $msg_headers->get($name)->setValue($value);
             } else {
-                $msg_headers->addTextHeader($name, $value);
+                $msg_headers->addHeader($name, $value);
             }
         }
 
