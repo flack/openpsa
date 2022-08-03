@@ -48,31 +48,13 @@ class org_openpsa_mail_message
     public function get_message() : Email
     {
         // set headers
-        $headers_setter_map = [
-            "from" => "from",
-            "to" => "to",
-            "cc" => "cc",
-            "bcc" => "bcc",
-            "reply-to" => "replyTo",
-            "subject" => "subject",
-            "date" => "date",
-            "return-path" => "returnPath"
-        ];
-
-        // map headers we got to sf mailer setter methods
         $msg_headers = $this->_message->getHeaders();
 
         foreach ($this->get_headers() as $name => $value) {
-            if (array_key_exists(strtolower($name), $headers_setter_map)) {
-                $setter = $headers_setter_map[strtolower($name)];
-                if (is_array($value)) {
-                    $this->_message->$setter(...$value);
-                } else {
-                    $this->_message->$setter($value);
-                }
-            } else {
-                $msg_headers->addHeader($name, $value);
+            if (is_string($value) && in_array(strtolower($name), ["from", "to", "cc", "bcc", "reply-to"])) {
+                $value = [$value];
             }
+            $msg_headers->addHeader($name, $value);
         }
 
         // somehow we need to set the body after the headers...
