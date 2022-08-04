@@ -23,6 +23,6 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 
     public function mail(org_openpsa_mail_message $message)
     {
-        return $this->mailer->send($message->get_message());
+        $this->mailer->send($message->get_message());
     }
 }

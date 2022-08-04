@@ -28,7 +28,6 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
         self::$mails[$this->_index]['recipients'] = $message->get_recipients();
         self::$mails[$this->_index]['headers'] = $message->get_headers();
         self::$mails[$this->_index]['body'] = $message->get_body();
-        return true;
     }
 
     public static function flush()

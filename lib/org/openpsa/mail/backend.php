@@ -70,12 +70,12 @@ abstract class org_openpsa_mail_backend
         return new $classname($params);
     }
 
-    final public function send(org_openpsa_mail_message $message)
+    final public function send(org_openpsa_mail_message $message) : bool
     {
         try {
-            $ret = $this->mail($message);
+            $this->mail($message);
             $this->error = null;
-            return $ret;
+            return true;
         } catch (Exception $e) {
             $this->error = $e->getMessage();
             return false;
