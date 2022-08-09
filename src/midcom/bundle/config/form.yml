@@ -103,7 +103,7 @@ services:
 
     form.csrf_token_storage:
         class: Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage
-        arguments: ['@session']
+        arguments: ['@request_stack']
 
     form.csrf_token_manager:
         class: Symfony\Component\Security\Csrf\CsrfTokenManager

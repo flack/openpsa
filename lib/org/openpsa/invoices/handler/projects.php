@@ -42,7 +42,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // create invoice_items
-        $ids = array_keys(array_filter($post->get('org_openpsa_invoices_invoice_tasks')));
+        $ids = array_keys(array_filter($post->all('org_openpsa_invoices_invoice_tasks')));
         foreach ($ids as $task_id) {
             $task = $this->_tasks[$task_id];
 
@@ -57,8 +57,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             }
             $item->invoice = $invoice->id;
             $item->description = $task->title;
-            $item->pricePerUnit = (float) $post->get('org_openpsa_invoices_invoice_tasks_price')[$task_id];
-            $item->units = (float) $post->get('org_openpsa_invoices_invoice_tasks_units')[$task_id];
+            $item->pricePerUnit = (float) $post->all('org_openpsa_invoices_invoice_tasks_price')[$task_id];
+            $item->units = (float) $post->all('org_openpsa_invoices_invoice_tasks_units')[$task_id];
             $item->create();
 
             // Connect invoice to the tasks involved
