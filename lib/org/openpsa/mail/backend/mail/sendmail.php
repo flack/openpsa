@@ -17,7 +17,7 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        $transport = new SendmailTransport($params['sendmail_path'] . " " . $params['sendmail_args']);
+        $transport = new SendmailTransport($params['sendmail_path'] . " " . $params['sendmail_args'], midcom::get()->dispatcher);
         $this->prepare_mailer($transport);
     }
 
