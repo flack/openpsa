@@ -267,7 +267,7 @@ class provider
         }
         if (!empty($query['sidx'])) {
             $this->_sort_field = $query['sidx'];
-            $this->_sort_direction = strtoupper($query['sord']);
+            $this->_sort_direction = strtoupper($query['sord'] ?? 'ASC');
         }
         if (   !empty($query['_search'])
             && $query['_search'] === 'true') {
