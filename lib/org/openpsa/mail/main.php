@@ -78,10 +78,10 @@ class org_openpsa_mail
     /**
      * Primary keys are int, secondary keys for decoded array are:
      *
-     * 'name'     (filename)
-     * 'content'  (file contents)
-     * 'mimetype' Array for encoding may instead of 'content' have 'file'
-     *            which is path to the file to be attached
+     * 'name'     Filename
+     * 'file'     File path. Alternatively, content can be passed in
+     * 'content'  File contents
+     * 'mimetype' MIME type
      *
      * @var array
      */

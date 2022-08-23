@@ -155,17 +155,13 @@ class org_openpsa_mail_message
     private function _process_attachments(array $attachments)
     {
         foreach ($attachments as $att) {
-            if (empty($att['mimetype'])) {
-                $att['mimetype'] = "application/octet-stream";
-            }
-
             // we got a file path
             if (!empty($att['file'])) {
-                $this->_message->attachFromPath($att['file'], $att['name'], $att['mimetype']);
+                $this->_message->attachFromPath($att['file'], $att['name'] ?? basename($att['file']), $att['mimetype'] ?? null);
             }
             // we got the contents (bytes)
             elseif (!empty($att['content'])) {
-                $this->_message->attach($att['content'], $att['name'], $att['mimetype']);
+                $this->_message->attach($att['content'], $att['name'], $att['mimetype'] ?? null);
             }
         }
     }
