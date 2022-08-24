@@ -77,11 +77,11 @@ class datamanager_form extends base
         return '[]';
     }
 
-    public function radiocheckselect_widget(FormView $view, array $data)
+    public function radiocheckselect_row(FormView $view, array $data)
     {
         foreach ($view->children as $child) {
             if ($child->vars['checked']) {
-                return '"' . $child->vars['value']. '"';
+                return '"' . $data['name'] . '": "' . $child->vars['value'] . '",';
             }
         }
         return '';
@@ -90,7 +90,9 @@ class datamanager_form extends base
     public function org_openpsa_user_widget_password_widget(FormView $view, array $data)
     {
         $string = '{"password": ' . $this->renderer->widget($view['password']) . ',';
-        return $string . '"switch": ' . $this->renderer->widget($view['switch']) . '}';
+        $string .= $this->renderer->row($view['switch']) . '}';
+        $string = str_replace(',}', '}', $string);
+        return $string;
     }
 
     public function autocomplete_widget(FormView $view, array $data)
