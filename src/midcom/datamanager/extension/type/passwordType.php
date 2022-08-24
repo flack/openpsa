@@ -24,8 +24,8 @@ class passwordType extends AbstractType
         $resolver->setDefaults([
             'type' => sf_type::class,
             'invalid_message' => 'passwords do not match',
-            'first_options' => ['label' => 'password', 'always_empty' => false],
-            'second_options' => ['label' => '(confirm)', 'always_empty' => false],
+            'first_options' => ['label' => 'password', 'always_empty' => false, 'attr' => ['autocomplete' => 'new-password']],
+            'second_options' => ['label' => '(confirm)', 'always_empty' => false, 'attr' => ['autocomplete' => 'new-password']],
         ]);
 
         $resolver->setNormalizer('required', function(Options $options, $value) {
