@@ -40,7 +40,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * DBA magic defaults which assign write privileges for all USERS, so that they can
      * add new comments at will.
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         return [
             'EVERYONE' => [],

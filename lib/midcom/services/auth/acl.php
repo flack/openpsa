@@ -78,7 +78,7 @@
  * example:
  *
  * <code>
- * public function get_class_magic_default_privileges()
+ * public function get_class_magic_default_privileges() : array
  * {
  *     return [
  *         'EVERYONE' => [],

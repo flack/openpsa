@@ -48,7 +48,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Deny midgard:read by default
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['EVERYONE']['midgard:read'] = MIDCOM_PRIVILEGE_DENY;

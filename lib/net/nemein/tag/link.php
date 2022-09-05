@@ -71,7 +71,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      * whatever they wish with tag objects, later we can add
      * restrictions on object level as necessary.
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['USERS']['midgard:create']  = MIDCOM_PRIVILEGE_ALLOW;

@@ -98,10 +98,8 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      * By default all authenticated users should be able to do
      * whatever they wish with entry objects, later we can add
      * restrictions on object level as necessary.
-     *
-     * @return array MidCOM privileges
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['USERS']['midgard:create']  = MIDCOM_PRIVILEGE_ALLOW;

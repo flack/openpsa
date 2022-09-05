@@ -142,7 +142,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      * whatever they wish with relatedto objects, later we can add
      * restrictions on object level as necessary.
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['ANONYMOUS']['midgard:read'] = MIDCOM_PRIVILEGE_DENY;

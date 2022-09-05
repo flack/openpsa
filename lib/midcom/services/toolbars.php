@@ -66,7 +66,7 @@ class midcom_services_toolbars
      */
     private $_centralized_mode = false;
 
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         return [
             'EVERYONE' => [],

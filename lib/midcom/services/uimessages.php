@@ -96,7 +96,7 @@ class midcom_services_uimessages
         midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
     }
 
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         return [
             'EVERYONE' => [],

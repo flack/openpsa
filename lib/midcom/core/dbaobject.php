@@ -383,7 +383,7 @@ abstract class midcom_core_dbaobject
     }
 
     // DBA API
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         return [
             'EVERYONE' => [],

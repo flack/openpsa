@@ -46,7 +46,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
      * whatever they wish with query objects, later we can add
      * restrictions on object level as necessary.
      */
-    public function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges() : array
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['USERS']['midgard:owner']  = MIDCOM_PRIVILEGE_ALLOW;
