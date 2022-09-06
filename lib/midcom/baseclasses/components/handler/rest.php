@@ -8,6 +8,7 @@
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * generic REST handler baseclass
@@ -69,26 +70,17 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * the base handler that should be pointed to by the routes
      */
-    public function _handler_process()
+    public function _handler_process(Request $request)
     {
-        $this->_init();
-        return $this->_process_request();
-    }
-
-    /**
-     * on init start processing the request data
-     */
-    protected function _init()
-    {
-        $this->_request['method'] = strtolower($_SERVER['REQUEST_METHOD']);
+        $this->_request['method'] = strtolower($request->getMethod());
 
         switch ($this->_request['method']) {
             case 'get':
             case 'delete':
-                $this->_request['params'] = $_GET;
+                $this->_request['params'] = $request->query->all();
                 break;
             case 'post':
-                $this->_request['params'] = array_merge($_POST, $_GET);
+                $this->_request['params'] = array_merge($request->request->all(), $request->query->all());
                 break;
             case 'put':
                 parse_str(file_get_contents('php://input'), $this->_request['params']);
@@ -103,6 +95,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         if (isset($this->_request['params']['guid'])) {
             $this->_id = $this->_request['params']['guid'];
         }
+        return $this->_process_request();
     }
 
     /**
