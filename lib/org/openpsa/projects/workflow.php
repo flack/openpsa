@@ -245,16 +245,18 @@ class org_openpsa_projects_workflow
             if ($task->agreement) {
                 $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
 
-                // Set agreement delivered if this is the only open task for it
-                $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-                $task_qb->add_constraint('agreement', '=', $task->agreement);
-                $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
-                $task_qb->add_constraint('id', '<>', $task->id);
-                if ($task_qb->count() == 0) {
-                    // No other open tasks, mark as delivered
-                    $agreement->deliver(false);
-                } else {
-                    midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
+                if ($agreement->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED) {
+                    // Set agreement delivered if this is the only open task for it
+                    $task_qb = org_openpsa_projects_task_dba::new_query_builder();
+                    $task_qb->add_constraint('agreement', '=', $task->agreement);
+                    $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
+                    $task_qb->add_constraint('id', '<>', $task->id);
+                    if ($task_qb->count() == 0) {
+                        // No other open tasks, mark as delivered
+                        $agreement->deliver(false);
+                    } else {
+                        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('did not mark deliverable "%s" delivered due to other tasks', 'org.openpsa.sales'), $agreement->title), 'info');
+                    }
                 }
             }
             return true;
