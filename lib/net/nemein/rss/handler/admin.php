@@ -68,13 +68,11 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         }
 
         // OPML subscription list import support
-        if (   array_key_exists('net_nemein_rss_manage_opml', $_FILES)
-            && is_uploaded_file($_FILES['net_nemein_rss_manage_opml']['tmp_name'])) {
-            $opml_file = $_FILES['net_nemein_rss_manage_opml']['tmp_name'];
+        if ($request->files->has('net_nemein_rss_manage_opml')) {
+            $opml_file = $request->files->get('net_nemein_rss_manage_opml');
 
             // We have OPML file, parse it
-            $opml_data = file_get_contents($opml_file);
-            unlink($opml_file);
+            $opml_data = $opml_file->getContent();
 
             $opml_parser = xml_parser_create();
             xml_parse_into_struct($opml_parser, $opml_data, $opml_values);
