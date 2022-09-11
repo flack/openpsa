@@ -161,10 +161,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $guid);
 
-        if (   $request->request->has('org_openpsa_directmarketing_import')
-            && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
+        if ($file = $request->files->get('org_openpsa_directmarketing_import_upload')) {
             $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
-            $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
+            $this->_run_import($importer, $file->getPathname());
         }
 
         if (!$this->_import_success) {
@@ -192,10 +191,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 $data['separator'] = ',';
             }
 
-            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
+            if ($file = $request->files->get('org_openpsa_directmarketing_import_upload')) {
                 // Copy the file for later processing
-                $data['tmp_file'] = tempnam(midcom::get()->config->get('midcom_tempdir'), 'org_openpsa_directmarketing_import_csv');
-                move_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], $data['tmp_file']);
+                $data['tmp_file'] = $file->move(midcom::get()->config->get('midcom_tempdir'))->getPathname();
 
                 // Read cell headers from the file
                 $read_rows = 0;
