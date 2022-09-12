@@ -70,6 +70,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $qb->add_order('firstname');
 
         if ($search = $query->get('midgard_admin_user_search')) {
+            $this->_request_data['search'] = $search;
             // Run the person-seeking QB
             $qb->begin_group('OR');
             foreach ($this->_request_data['search_fields'] as $field) {

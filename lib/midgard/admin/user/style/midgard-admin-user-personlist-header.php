@@ -1,9 +1,7 @@
 <form method="get" class="midgard_admin_user_search">
     <label>
         <span><?php echo $data['l10n']->get('search person'); ?></span>
-        <input type="text" id="midgard_admin_user_search" name="midgard_admin_user_search" value="<?php if (isset($_REQUEST['midgard_admin_user_search'])) {
-    echo $_REQUEST['midgard_admin_user_search'];
-} ?>" />
+        <input type="text" id="midgard_admin_user_search" name="midgard_admin_user_search" value="<?php echo $data['search'] ?? ''; ?>" />
     </label>
     <script type="text/javascript">
     document.getElementById('midgard_admin_user_search').focus();
@@ -20,8 +18,8 @@
 <?php
 if (!empty($data['persons'])) {
     $action_uri = $data['router']->generate('user_list');
-    if (isset($_REQUEST['midgard_admin_user_search'])) {
-        $action_uri .= "?midgard_admin_user_search=" . $_REQUEST['midgard_admin_user_search'];
+    if (isset($data['search'])) {
+        $action_uri .= "?midgard_admin_user_search=" . $data['search'];
     }
 
     $data['enabled'] = 0; ?>
