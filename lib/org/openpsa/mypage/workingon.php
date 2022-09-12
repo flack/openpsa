@@ -48,51 +48,34 @@ class org_openpsa_mypage_workingon
      */
     public function __construct(midcom_db_person $person = null)
     {
-        if ($person === null) {
-            midcom::get()->auth->require_valid_user();
-            $this->person = midcom::get()->auth->user->get_storage();
-        } else {
-            $this->person = $person;
-        }
+        $this->person = $person ?? midcom::get()->auth->user->get_storage();
 
         // Figure out what the person is working on
-        $this->_get();
-    }
+        if ($workingon = $this->person->get_parameter('org.openpsa.mypage', 'workingon')) {
+            $workingon = json_decode($workingon);
+            $task_time = strtotime($workingon->start . " GMT");
 
-    /**
-     * Load task and time person is working on
-     */
-    private function _get()
-    {
-        $workingon = $this->person->get_parameter('org.openpsa.mypage', 'workingon');
-
-        if (!$workingon) {
-            // Person isn't working on anything at the moment
-            return;
+            // Set the protected vars
+            $this->task = new org_openpsa_projects_task_dba($workingon->task);
+            $this->time = time() - $task_time;
+            $this->start = $task_time;
+            $this->description = $workingon->description;
+            $this->invoiceable = $workingon->invoiceable;
         }
-        $workingon = json_decode($workingon);
-        $task_time = strtotime($workingon->start . " GMT");
-
-        // Set the protected vars
-        $this->task = new org_openpsa_projects_task_dba($workingon->task);
-        $this->time = time() - $task_time;
-        $this->start = $task_time;
-        $this->description = $workingon->description;
-        $this->invoiceable = $workingon->invoiceable;
     }
 
     /**
      * Set a task the user works on. If user was previously working on something else hours will be reported automatically.
      */
-    public function set(string $task_guid = '') : bool
+    public function set(string $task_guid) : bool
     {
         $description = trim($_POST['description']);
+        $invoiceable = isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true';
         midcom::get()->auth->request_sudo('org.openpsa.mypage');
-        $invoiceable = (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true');
         if ($this->task) {
             // We were previously working on another task. Report hours
-            // Generate a message
-            if ($description == "") {
+            if (!$description) {
+                // Generate a message
                 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.mypage');
                 $formatter = $l10n->get_formatter();
                 $description = sprintf($l10n->get('worked from %s to %s'), $formatter->time($this->start), $formatter->time());
@@ -101,7 +84,7 @@ class org_openpsa_mypage_workingon
             // Do the actual report
             $this->_report_hours($description, $invoiceable);
         }
-        if ($task_guid == '') {
+        if (!$task_guid) {
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
         } else {
