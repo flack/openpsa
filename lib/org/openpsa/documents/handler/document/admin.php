@@ -92,7 +92,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         if (   $data['enable_versioning']
             && $request->request->count() > 0) {
-            $this->_backup_attachment();
+            $this->_backup_attachment($request);
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
         return $this->run_workflow($request);
@@ -128,10 +128,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      *
      * @todo Move this to the DBA class (using wrapped midcom_db_attachment for change detection)
      */
-    private function _backup_attachment()
+    private function _backup_attachment(Request $request)
     {
-        if (!empty($_FILES['org_openpsa_documents']['tmp_name']['document'])) {
-            $tmp = reset($_FILES['org_openpsa_documents']['tmp_name']['document']);
+        if (!empty($request->files->all('org_openpsa_documents')['document'])) {
+            $tmp = reset($request->files->all('org_openpsa_documents')['document']);
             if (!empty($tmp['file'])) {
                 $this->_document->backup_version();
             }
