@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Class to handle query filters
  * Filters are saved to current user in the parameter field
@@ -43,13 +45,13 @@ class org_openpsa_core_queryfilter
     /**
      * Apply registered filters to query object
      */
-    public function apply_filters(midcom_core_query $query)
+    public function apply_filters(midcom_core_query $query, Request $request)
     {
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
         foreach ($this->_filters as $filter) {
             $filter->add_head_elements();
-            if ($selection = $this->_get_selection($filter->name)) {
+            if ($selection = $this->get_selection($filter->name, $request)) {
                 $filter->apply($selection, $query);
             }
         }
@@ -58,14 +60,13 @@ class org_openpsa_core_queryfilter
     /**
      * Queries multiple sources for filter selection information
      */
-    private function _get_selection(string $filtername) : ?array
+    private function get_selection(string $filtername, Request $request) : ?array
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $filter_id = $this->_identifier . '_' . $filtername;
         $user = midcom::get()->auth->user->get_storage();
 
-        if (   isset($_POST['unset_filter'])
-            && $_POST['unset_filter'] == $filter_id) {
+        if ($request->request->get('unset_filter') == $filter_id) {
             if (   $user->get_parameter("org_openpsa_core_filter", $filter_id)
                 && !$user->delete_parameter("org_openpsa_core_filter", $filter_id)) {
                 $message_content = sprintf(
@@ -76,16 +77,16 @@ class org_openpsa_core_queryfilter
             }
             return null;
         }
-        if (isset($_POST[$filtername])) {
-            $selection = (array) $_POST[$filtername];
+        if ($request->request->has($filtername)) {
+            $selection = $request->request->all($filtername);
             $filter_string = serialize($selection);
             if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, $filter_string)) {
                 midcom::get()->uimessages->add($l10n->get('filter error'), $l10n->get('the handed filter for %s could not be set as parameter'), 'error');
             }
             return $selection;
         }
-        if (isset($_GET[$filtername])) {
-            return (array) $_GET[$filtername];
+        if ($request->query->has($filtername)) {
+            return $request->query->all($filtername);
         }
         if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id)) {
             return unserialize($filter_string);

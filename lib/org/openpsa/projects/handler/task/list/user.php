@@ -7,6 +7,7 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * My Tasks handler
@@ -17,7 +18,7 @@ class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_h
 {
     protected $show_status_controls = true;
 
-    public function _handler_list(array $args)
+    public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data('my_tasks');
 

@@ -7,6 +7,7 @@
  */
 
 use midcom\grid\grid;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package org.openpsa.expenses
@@ -41,12 +42,12 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * The handler for the index view.
      */
-    public function _handler_index(array &$data, string $timestamp = null)
+    public function _handler_index(Request $request, array &$data, string $timestamp = null)
     {
         $this->prepare_dates($timestamp, $data);
 
         $hours_mc = org_openpsa_expenses_hour_report_dba::new_collector();
-        $this->add_list_filter($hours_mc);
+        $this->add_list_filter($hours_mc, $request);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);
         $hours_mc->add_order('task');

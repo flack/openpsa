@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Agreement tasks handler
  *
@@ -15,7 +17,7 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
 {
     protected $show_customer = false;
 
-    public function _handler_list(array $args)
+    public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data('agreement');
 
@@ -28,7 +30,7 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
         $this->qb->add_constraint('agreement', '=', $deliverable->id);
         $this->provider->add_order('end', 'DESC');
 
-        $this->add_filters('agreement');
+        $this->add_filters('agreement', $request);
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {

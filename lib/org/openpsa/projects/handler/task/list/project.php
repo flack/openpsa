@@ -7,6 +7,7 @@
  */
 
 use midcom\grid\provider;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Project tasks handler
@@ -21,7 +22,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
     protected $show_customer = false;
 
-    public function _handler_list(array $args)
+    public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data('project_tasks');
         $this->prepare_toolbar();
@@ -30,7 +31,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         $this->qb->add_constraint('project', '=', $project->id);
-        $this->add_filters('project');
+        $this->add_filters('project', $request);
     }
 
     public function _handler_json(array $args, array &$data)

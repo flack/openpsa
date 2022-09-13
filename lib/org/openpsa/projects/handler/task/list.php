@@ -9,6 +9,7 @@
 use midcom\datamanager\schemadb;
 use midcom\grid\provider\client;
 use midcom\grid\provider;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Task list handler
@@ -76,7 +77,7 @@ implements client
         }
     }
 
-    public function _handler_list(array $args)
+    public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data($args[0]);
         $this->prepare_toolbar();
@@ -110,7 +111,7 @@ implements client
                 break;
         }
         $this->set_active_leaf($this->_topic->id . ':tasks_' . $args[0]);
-        $this->add_filters($args[0]);
+        $this->add_filters($args[0], $request);
     }
 
     public function _show_list(string $handler_id, array &$data)
@@ -253,13 +254,13 @@ implements client
         return $entry;
     }
 
-    protected function add_filters(string $identifier)
+    protected function add_filters(string $identifier, Request $request)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $identifier);
         $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
         $date_filter->set_label($this->_l10n->get("timeframe"));
         $qf->add_filter($date_filter);
-        $qf->apply_filters($this->qb);
+        $qf->apply_filters($this->qb, $request);
         $this->_request_data["qf"] = $qf;
     }
 

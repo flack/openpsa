@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Handler addons
  *
@@ -13,11 +15,10 @@
  */
 trait org_openpsa_expenses_handler
 {
-
     /**
      * Apply user filters to hour lists
      */
-    public function add_list_filter(midcom_core_query $query, bool $add_time_filter = false)
+    public function add_list_filter(midcom_core_query $query, Request $request, bool $add_time_filter = false)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
         $person_filter = new org_openpsa_core_filter_multiselect('person');
@@ -30,7 +31,7 @@ trait org_openpsa_expenses_handler
             $date_filter->set_label($this->_l10n->get("timeframe"));
             $qf->add_filter($date_filter);
         }
-        $qf->apply_filters($query);
+        $qf->apply_filters($query, $request);
         $this->_request_data["qf"] = $qf;
     }
 

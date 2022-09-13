@@ -10,6 +10,7 @@ use midcom\datamanager\helper\autocomplete;
 use midcom\grid\grid;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @package org.openpsa.expenses
@@ -41,12 +42,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the list view
      */
-    public function _handler_list(array &$data)
+    public function _handler_list(Request $request, array &$data)
     {
         $data['mode'] = 'full';
         $data['view_title'] = $data['l10n']->get('hour reports');
         $this->breadcrumb_title = $data['view_title'];
-        $this->add_list_filter($this->qb, true);
+        $this->add_list_filter($this->qb, $request, true);
         $this->prepare_request_data();
 
         return $this->show_list($data);
@@ -55,7 +56,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * The handler for the task list view
      */
-    public function _handler_project(string $guid, array &$data)
+    public function _handler_project(Request $request, string $guid, array &$data)
     {
         $project = new org_openpsa_projects_project($guid);
         $this->qb->add_constraint('task.project', '=', $project->id);
@@ -64,7 +65,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['view_title'] = sprintf($data['l10n']->get("list_hours_project %s"), $project->title);
 
         $this->breadcrumb_title = $project->title;
-        $this->add_list_filter($this->qb, true);
+        $this->add_list_filter($this->qb, $request, true);
         $this->prepare_request_data();
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
