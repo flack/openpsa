@@ -6,12 +6,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use SimplePie\Item;
+
 /**
  * Helper class for custom RSS handling
  *
  * @package net.nemein.rss
  */
-class net_nemein_rss_parser_item extends SimplePie_Item
+class net_nemein_rss_parser_item extends Item
 {
     private $_id_missing = true;
 

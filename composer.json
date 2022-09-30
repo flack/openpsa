@@ -33,7 +33,7 @@
         "openpsa/universalfeedcreator": "^1.8.2",
         "phpspec/php-diff": "^1.1.0",
         "sabre/vobject" : "^4.3.0",
-        "simplepie/simplepie": "^1.5.4",
+        "simplepie/simplepie": "^1.7.0",
         "studio-42/elfinder": ">=2.1.59",
         "symfony/config": ">=5.4",
         "symfony/console" : ">=5.4",

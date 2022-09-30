@@ -8,6 +8,7 @@
 
 use Symfony\Component\DomCrawler\Crawler;
 use midcom\dba\softdelete;
+use SimplePie\SimplePie;
 
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles

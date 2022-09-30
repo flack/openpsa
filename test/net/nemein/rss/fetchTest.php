@@ -54,7 +54,7 @@ class fetchTest extends openpsa_testcase
         $this->assertEquals('import-test', $article->name);
         $this->assertEquals('Import Test', $article->title);
         // trim is a php 7.1 / 7.2 workaround
-        $this->assertEquals('Test Description <a rel="tag" title="tag title" href="http://openpsa2.org/news/tag-link" class="test">dummy</a>', trim($article->content));
+        $this->assertEquals('Test Description <a rel="tag" title="tag title" href="http://openpsa2.org/news/no-such-entry/tag-link" class="test">dummy</a>', trim($article->content));
         $this->assertEquals('http://openpsa2.org/news/no-such-entry/', $article->url);
         $this->assertEquals('|feed:' . md5($feed->url) . '|test category|test2|', $article->extra1);
 
