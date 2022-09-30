@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\Common\Util\ClassUtils;
+
 /**
  * <b>How to write database class definitions:</b>
  *
@@ -112,7 +114,7 @@ class midcom_services_dbclassloader
         static $dba_classes_by_mgdschema = [];
 
         if (is_object($classname)) {
-            $classname = get_class($classname);
+            $classname = ClassUtils::getClass($classname);
         } elseif (!is_string($classname)) {
             debug_print_r("Invalid input provided", $classname, MIDCOM_LOG_WARN);
             return null;
