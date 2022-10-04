@@ -54,7 +54,7 @@ class repligard extends Command
         }
 
         $result = $this->_run('SELECT DISTINCT typename FROM repligard');
-        foreach ($result->fetchFirstColumn(PDO::FETCH_COLUMN) as $typename) {
+        foreach ($result->fetchFirstColumn() as $typename) {
             if (!is_a($typename, dbobject::class, true)) {
                 $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE typename="' . $typename . '"');
                 $output->writeln('Found <info>' . $result->fetchOne() . '</info> entries for nonexistent type <comment>' . $typename . '</comment>');
