@@ -268,22 +268,20 @@ class view extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (isset($data['data'])) {
-            if (!empty($view->vars['multiple'])) {
-                $selection = $data['data'];
-            } else {
-                $selection = (string) $data['data'];
-            }
-            foreach ($data['choices'] as $choice) {
-                if ($choice instanceof ChoiceGroupView) {
-                    foreach ($choice->choices as $option) {
-                        if ($data['is_selected']($option->value, $selection)) {
-                            return $this->renderer->humanize($option->label);
-                        }
+        if (!empty($view->vars['multiple'])) {
+            $selection = $data['data'];
+        } else {
+            $selection = (string) $data['data'];
+        }
+        foreach ($data['choices'] as $choice) {
+            if ($choice instanceof ChoiceGroupView) {
+                foreach ($choice->choices as $option) {
+                    if ($data['is_selected']($option->value, $selection)) {
+                        return $this->renderer->humanize($option->label);
                     }
-                } elseif ($data['is_selected']($choice->value, $selection)) {
-                    return $this->renderer->humanize($choice->label);
                 }
+            } elseif ($data['is_selected']($choice->value, $selection)) {
+                return $this->renderer->humanize($choice->label);
             }
         }
         return '';
