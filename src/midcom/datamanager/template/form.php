@@ -22,12 +22,13 @@ class form extends base
 
     public function form_start(FormView $view, array $data)
     {
-        $attributes = $data['attr'];
-        $attributes['name'] = $data['name'];
-        $attributes['id'] = $data['name'];
-        $attributes['method'] = strtolower($data['method']);
-        $attributes['action'] = $data['action'];
-        $attributes['class'] = 'datamanager2';
+        $attributes = array_replace([
+            'id' => $data['name'],
+            'name' => $data['name'],
+            'method' => strtolower($data['method']),
+            'action' => $data['action'],
+            'class' => 'datamanager2'
+        ], $data['attr']);
 
         if ($data['multipart']) {
             $attributes['enctype'] = 'multipart/form-data';
