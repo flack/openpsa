@@ -25,7 +25,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      */
     public function update(string $user_id, string $updatemessage = '')
     {
-        $filename = $this->write_object();
+        $filename = $this->generate_filename();
         $rcsfilename = "{$filename},v";
 
         // Store user identifier and IP address to the update string
@@ -39,6 +39,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         } else {
             $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
         }
+        $this->write_object();
         $this->exec($command);
 
         if (file_exists($rcsfilename)) {
