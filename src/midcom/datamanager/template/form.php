@@ -328,13 +328,30 @@ class form extends base
             }
             $string .= '>' . $data['placeholder'] . '</option>';
         }
+        $available_values = [];
         if (count($data['preferred_choices']) > 0) {
+            foreach ($data['preferred_choices'] as $choice) {
+                $available_values[] = $choice->value;
+            }
             $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['preferred_choices']]);
             if (count($data['choices']) > 0 && null !== $data['separator']) {
                 $string .= '<option disabled="disabled">' . $data['separator'] . '</option>';
             }
         }
+
         $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['choices']]);
+
+        foreach ($data['choices'] as $choice) {
+            $available_values[] = $choice->value;
+        }
+        if ($data['data']) {
+            foreach ((array) $data['data'] as $selected) {
+                if (!in_array($selected, $available_values)) {
+                    $string .= '<option ' . $this->attributes(['value' => $selected, 'selected' => 'selected']) . '>' . $data['data'] . '</option>';
+                }
+            }
+        }
+
         return $string . '</select>';
     }
 
