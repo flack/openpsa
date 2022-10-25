@@ -299,6 +299,19 @@ class form extends base
         return '<input ' . $this->renderer->block($view, 'widget_attributes', $data) . ' />';
     }
 
+    private function collect_choices(array $input, array &$choices)
+    {
+        foreach ($input as $choice) {
+            if ($choice instanceof ChoiceGroupView) {
+                $this->collect_choices($choice->getIterator()->getArrayCopy(), $choices);
+            } elseif (is_array($choice)) {
+                $this->collect_choices($choice, $choices);
+            } else {
+                $choices[] = $choice->value;
+            }
+        }
+    }
+
     public function choice_widget_collapsed(FormView $view, array $data)
     {
         if ($view->vars['readonly'] && empty($view->vars['multiple'])) {
@@ -330,9 +343,7 @@ class form extends base
         }
         $available_values = [];
         if (count($data['preferred_choices']) > 0) {
-            foreach ($data['preferred_choices'] as $choice) {
-                $available_values[] = $choice->value;
-            }
+            $this->collect_choices($data['preferred_choices'], $available_values);
             $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['preferred_choices']]);
             if (count($data['choices']) > 0 && null !== $data['separator']) {
                 $string .= '<option disabled="disabled">' . $data['separator'] . '</option>';
@@ -341,9 +352,8 @@ class form extends base
 
         $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $data['choices']]);
 
-        foreach ($data['choices'] as $choice) {
-            $available_values[] = $choice->value;
-        }
+        $this->collect_choices($data['choices'], $available_values);
+
         if ($data['data']) {
             foreach ((array) $data['data'] as $selected) {
                 if (!in_array($selected, $available_values)) {
