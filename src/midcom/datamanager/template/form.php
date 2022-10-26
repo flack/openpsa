@@ -193,8 +193,21 @@ class form extends base
     {
         $type = $data['type'] ?? 'text';
         if ($view->vars['readonly'] && $type !== 'hidden') {
+            $vr = $this->get_view_renderer();
+            if ($type == 'text' && ($data['attr']['inputmode'] ?? null) == 'url') {
+                // see https://github.com/symfony/symfony/issues/29690
+                $method = 'url_widget';
+            } else {
+                $method = $type . '_widget';
+            }
+            if (is_callable([$vr, $method])) {
+                $value = $vr->$method($view, $data);
+            } else {
+                $value = $data['value'];
+            }
+
             $data['type'] = 'hidden';
-            return $data['value'] . $this->renderer->block($view, 'form_widget_simple', $data);
+            return $value . $this->renderer->block($view, 'form_widget_simple', $data);
         }
 
         if (empty($data['attr']['class']) && in_array($type, ['text', 'password', 'email', 'url'])) {
