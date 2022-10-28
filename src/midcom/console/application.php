@@ -38,6 +38,7 @@ class application extends base_application
         $this->add(new command\repligard);
         $this->add(new command\cleanup\blobdir);
         $this->add(new command\cleanup\parameters);
+        $this->add(new command\cleanup\privileges);
         $this->add(new command\cleanup\rcsdir);
         $this->add(new command\reindex);
         $this->add(new command\cron);
