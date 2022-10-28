@@ -55,14 +55,14 @@ class privileges extends Command
                 }
             }
             if (!$seen_parents[$priv->objectguid]) {
-                $to_delete[] = $priv;
+                $to_delete[$priv->guid] = $priv;
             }
             if (!$checker->is_magic_assignee($priv->assignee)) {
                 if (!array_key_exists($priv->assignee, $seen_assignees)) {
                     $seen_assignees[$priv->assignee] = (bool) \midcom::get()->auth->get_assignee($priv->assignee);
                 }
                 if (!$seen_assignees[$priv->assignee]) {
-                    $to_delete[] = $priv;
+                    $to_delete[$priv->guid] = $priv;
                 }
             }
 
