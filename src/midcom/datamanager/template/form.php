@@ -367,10 +367,10 @@ class form extends base
 
         $this->collect_choices($data['choices'], $available_values);
 
-        if ($data['data']) {
-            foreach ((array) $data['data'] as $selected) {
+        if ($data['value']) {
+            foreach ((array) $data['value'] as $selected) {
                 if (!in_array($selected, $available_values)) {
-                    $string .= '<option ' . $this->attributes(['value' => $selected, 'selected' => 'selected']) . '>' . $data['data'] . '</option>';
+                    $string .= '<option ' . $this->attributes(['value' => $selected, 'selected' => 'selected']) . '>' . $selected . '</option>';
                 }
             }
         }
