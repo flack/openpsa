@@ -58,11 +58,20 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         if (   $deliverable->invoiceByActualUnits
             && $at_entry->arguments['cycle'] > 1) {
-            $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);
+            $months = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_profit_months');
+            $cutoff = (new DateTime)->modify('-' . $months . ' months');
+            $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+            $qb->add_constraint('deliverable', '=', $deliverable->id);
+            $qb->add_constraint('metadata.created', '>=', $cutoff->format('Y-m-d'));
+            $runs = $invoice_sum = 0;
+            foreach ($qb->execute() as $item) {
+                $runs++;
+                $invoice_sum += $item->pricePerUnit * $item->units;
+            }
             if ($invoice_sum == 0) {
                 return [];
             }
-            $calculation_base = sprintf($this->_l10n->get('average of %s runs'), $at_entry->arguments['cycle'] - 1);
+            $calculation_base = sprintf($this->_l10n->get('average of %s runs'), $runs);
         } else {
             $invoice_sum = $deliverable->price;
             $calculation_base = $this->_l10n->get('fixed price');
