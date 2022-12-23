@@ -71,6 +71,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             if ($invoice_sum == 0) {
                 return [];
             }
+            $invoice_sum /= $runs;
             $calculation_base = sprintf($this->_l10n->get('average of %s runs'), $runs);
         } else {
             $invoice_sum = $deliverable->price;
