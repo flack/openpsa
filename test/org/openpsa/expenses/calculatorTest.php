@@ -27,11 +27,11 @@ class calculatorTest extends openpsa_testcase
     public function testGet_invoice_items()
     {
         $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
-        $this->_deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => $salesproject->id]);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, ['salesproject' => $salesproject->id]);
         $project = $this->create_object(org_openpsa_projects_project::class);
         $task_attributes = [
             'project' => $project->id,
-            'agreement' => $this->_deliverable->id
+            'agreement' => $deliverable->id
         ];
         $task = $this->create_object(org_openpsa_projects_task_dba::class, $task_attributes);
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
@@ -39,7 +39,7 @@ class calculatorTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $calculator = new org_openpsa_expenses_calculator;
-        $calculator->run($this->_deliverable);
+        $calculator->run($deliverable);
         $items = $calculator->get_invoice_items($invoice);
 
         $this->assertCount(1, $items);

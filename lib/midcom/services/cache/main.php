@@ -38,11 +38,25 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * the module is loaded in advance though. The class will automatically load all modules which
  * are configured in the autoload_queue in the cache configuration.
  *
- * @property midcom_services_cache_module_content $content
  * @package midcom.services
  */
 class midcom_services_cache implements EventSubscriberInterface
 {
+    /**
+     * @var midcom_services_cache_module_content
+     */
+    public $content;
+
+    /**
+     * @var midcom_services_cache_module_memcache
+     */
+    public $memcache;
+
+    /**
+     * @var midcom_services_cache_module_nap
+     */
+    public $nap;
+
     /**
      * List of all loaded modules, indexed by their class name.
      *

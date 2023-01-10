@@ -136,10 +136,7 @@ class midcom_core_account
     public static function add_username_constraint(midcom_core_query $query, string $operator, $value)
     {
         $qb = $query->get_doctrine();
-        if (empty($query->join_added)) {
-            $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
-            $query->join_added = true;
-        }
+        $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
         $query->get_current_group()->add('u.login ' . $operator . ' :value AND u.authtype = :authtype');
         $qb->setParameter('value', $value);
         $qb->setParameter('authtype', midcom::get()->config->get('auth_type'));
@@ -151,10 +148,7 @@ class midcom_core_account
     public static function add_username_order(midcom_core_query $query, string $direction)
     {
         $qb = $query->get_doctrine();
-        if (empty($query->join_added)) {
-            $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
-            $query->join_added = true;
-        }
+        $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
         $qb->addOrderBy('u.login', $direction);
     }
 
