@@ -22,7 +22,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             $this->topic = $topic;
             $this->topic_id = $topic->id;
         } else {
-            $this->topic_id = $topic;
+            $this->topic_id = (int) $topic;
         }
     }
 
@@ -36,11 +36,11 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     public function get_subnodes() : array
     {
         if (!isset($this->subnodes)) {
-            if ((int) $this->topic_id == 0) {
+            if ($this->topic_id == 0) {
                 $this->subnodes = [];
             } else {
                 // Use midgard_collector to get the subnodes
-                $mc = midcom_db_topic::new_collector('up', (int) $this->topic_id);
+                $mc = midcom_db_topic::new_collector('up', $this->topic_id);
                 $mc->add_constraint('name', '<>', '');
                 $mc->add_order('metadata.score', 'DESC');
                 $mc->add_order('metadata.created');
