@@ -84,7 +84,7 @@ class deliverableTest extends openpsa_testcase
     {
         $productgroup = $this->create_object(org_openpsa_products_product_group_dba::class);
         $attributes['product']['productGroup'] = $productgroup->id;
-        $attributes['product']['name'] = __CLASS__ . __FUNCTION__ . time();
+        $attributes['product']['code'] = __CLASS__ . __FUNCTION__ . time();
         $product = $this->create_object(org_openpsa_products_product_dba::class, $attributes['product']);
 
         $attributes['deliverable']['product'] = $product->id;
@@ -117,7 +117,7 @@ class deliverableTest extends openpsa_testcase
                 'attributes' => [
                     'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
-                        'type' => org_openpsa_products_product_dba::TYPE_GOODS,
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ],
                     'deliverable' => [
                         'plannedUnits' => 10,
@@ -149,7 +149,7 @@ class deliverableTest extends openpsa_testcase
                 'attributes' => [
                     'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
-                        'type' => org_openpsa_products_product_dba::TYPE_GOODS,
+                        'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ],
                     'deliverable' => [
                         'plannedUnits' => 10,

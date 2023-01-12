@@ -301,10 +301,12 @@ abstract class openpsa_testcase extends TestCase
 
     private static function _create_object($classname, array $data)
     {
-        $presets = [
-            '_use_rcs' => false,
-        ];
-        $data = array_merge($presets, $data);
+        if (is_a($classname, midcom_core_dbaobject::class)) {
+            $presets = [
+                '_use_rcs' => false,
+            ];
+            $data = array_merge($presets, $data);
+        }
         $object = self::prepare_object($classname, $data);
 
         midcom::get()->auth->request_sudo('midcom.core');
@@ -421,7 +423,9 @@ abstract class openpsa_testcase extends TestCase
         $queue = array_reverse($queue);
         while (!empty($queue)) {
             $object = array_pop($queue);
-            $object->_use_rcs = false;
+            if ($object instanceof midcom_core_dbaobject) {
+                $object->_use_rcs = false;
+            }
             try {
                 if (   method_exists($object, 'refresh')
                     && $object->refresh() === false) {

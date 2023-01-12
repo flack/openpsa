@@ -25,7 +25,7 @@ class deleteTest extends openpsa_testcase
         $parent = self::get_component_node('net.nehmer.static');
         $attributes = [
             'component' => 'net.nehmer.static',
-            'parent' => $parent->id
+            'up' => $parent->id
         ];
         $topic = $this->create_object(midcom_db_topic::class, $attributes);
 

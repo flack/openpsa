@@ -34,7 +34,7 @@ class listTest extends openpsa_testcase
         $product_group = $this->create_object(org_openpsa_products_product_group_dba::class);
         $product_attributes = [
             'productGroup' => $product_group->id,
-            'name' => 'TEST_' . __CLASS__ . '_' . time(),
+            'code' => 'TEST_' . __CLASS__ . '_' . time(),
         ];
         $product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
         $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);

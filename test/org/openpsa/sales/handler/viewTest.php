@@ -38,13 +38,13 @@ class viewTest extends openpsa_testcase
         $product_group = self::create_class_object(org_openpsa_products_product_group_dba::class);
         $product_attributes = [
             'productGroup' => $product_group->id,
-            'name' => 'TEST_' . __CLASS__ . '_' . time(),
+            'code' => 'TEST_' . __CLASS__ . '_' . microtime(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE
         ];
         self::$_product = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
 
         $product_attributes['delivery'] = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
-        $product_attributes['name'] .= 'subscription';
+        $product_attributes['code'] .= 'subscription';
 
         self::$_product_subscription = self::create_class_object(org_openpsa_products_product_dba::class, $product_attributes);
     }
