@@ -16,11 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handler
 {
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $_l10n;
-
     use midgard_admin_asgard_handler;
 
     protected $style_prefix = 'midgard_admin_asgard_rcs_';
