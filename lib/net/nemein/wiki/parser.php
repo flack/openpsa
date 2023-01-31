@@ -190,7 +190,7 @@ class net_nemein_wiki_parser
      *
      * Used by $this->_run_macro_tagged()
      */
-    private function _code_sort_by_title($a, $b)
+    private function _code_sort_by_title($a, $b) : int
     {
         return strnatcmp($a->title, $b->title);
     }

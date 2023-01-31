@@ -317,7 +317,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     /**
      * Callback for sorting wikipages by title
      */
-    public static function sort_by_title(net_nemein_wiki_wikipage $a, net_nemein_wiki_wikipage $b)
+    public static function sort_by_title(net_nemein_wiki_wikipage $a, net_nemein_wiki_wikipage $b) : int
     {
         return strnatcmp($a->title, $b->title);
     }

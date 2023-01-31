@@ -242,7 +242,7 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         return $score;
     }
 
-    public function sort_schema_fields(string $first, string $second)
+    public function sort_schema_fields(string $first, string $second) : int
     {
         $score1 = $this->_get_score($first);
         $score2 = $this->_get_score($second);
