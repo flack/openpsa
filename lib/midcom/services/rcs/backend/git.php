@@ -16,10 +16,20 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
     public function update(string $user_id, string $updatemessage = '')
     {
         $author = $user_id . ' <' . $user_id . '@' . $_SERVER['REMOTE_ADDR'] . '>';
-
-        $this->exec('add ' . $this->relative_path($this->write_object()));
         $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
             ' --author ' . escapeshellarg($author);
+
+        $filename = $this->generate_filename();
+        $relative_path = $this->relative_path($filename);
+        // avoid the separate add cmd where possible to mitigate concurrency issues
+        if (!file_exists($filename)) {
+            $this->write_object($filename);
+            $this->exec('add ' . $relative_path);
+        } else {
+            $this->write_object($filename);
+            $command .= ' ' . $relative_path;
+        }
+
         $this->exec($command);
     }
 
@@ -92,7 +102,12 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
 
     private function exec(string $command)
     {
-        $this->run_command('git -C ' . $this->config->get_rootdir() . ' ' . $command);
+        $prefix = 'git -C ' . $this->config->get_rootdir();
+        if ($command != 'init') {
+            // These help for the nested repo case
+            $prefix .= ' --git-dir=' . $this->config->get_rootdir() . '/.git ' . ' --work-tree=' . $this->config->get_rootdir();
+        }
+        $this->run_command($prefix . ' ' . $command);
     }
 
     private function relative_path(string $filename) : string

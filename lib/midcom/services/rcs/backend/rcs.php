@@ -39,7 +39,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         } else {
             $command = 'ci -q -i -t-' . $message . ' -m' . $message . " {$filename}";
         }
-        $this->write_object();
+        $this->write_object($filename);
         $this->exec($command);
 
         if (file_exists($rcsfilename)) {
