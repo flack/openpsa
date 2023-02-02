@@ -26,7 +26,7 @@ class viewerTest extends openpsa_testcase
     {
         $attributes = [
             'component' => 'org.openpsa.calendar',
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         self::$_topic = self::create_class_object(midcom_db_topic::class, $attributes);

@@ -22,7 +22,9 @@ class collectorTest extends openpsa_testcase
 
     public static function setUpBeforeClass() : void
     {
-        self::$_topic = self::create_class_object(midcom_db_topic::class, ['name' => __CLASS__ . time()]);
+        self::$_topic = self::create_class_object(midcom_db_topic::class, [
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
+        ]);
     }
 
     /**

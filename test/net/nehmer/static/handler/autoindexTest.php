@@ -24,7 +24,7 @@ class autoindexTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('net.nehmer.static');
         $data = [
             'component' => 'net.nehmer.static',
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         $topic = $this->create_object(midcom_db_topic::class, str_replace('\\', '_', $data));
         $topic->set_parameter('net.nehmer.static', 'autoindex', true);

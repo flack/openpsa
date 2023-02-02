@@ -25,7 +25,7 @@ class listTest extends openpsa_testcase
         self::create_user(true);
         $data = [
             'component' => 'net.nehmer.blog',
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         self::$topic = self::create_class_object(midcom_db_topic::class, $data);
         self::$topic->set_parameter('net.nehmer.blog', 'rss_subscription_enable', true);

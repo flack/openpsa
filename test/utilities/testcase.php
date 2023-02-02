@@ -334,7 +334,6 @@ abstract class openpsa_testcase extends TestCase
 
     public static function create_class_object($classname, array $data = [])
     {
-        $data = str_replace('\\', '_', $data);
         $object = self::_create_object($classname, $data);
         self::$_class_objects[$object->guid] = $object;
         return $object;

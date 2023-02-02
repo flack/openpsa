@@ -28,7 +28,7 @@ class adminTest extends openpsa_testcase
 
         $article_properties = [
             'topic' => self::$_topic->id,
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         self::$_article = self::create_class_object(midcom_db_article::class, $article_properties);
     }

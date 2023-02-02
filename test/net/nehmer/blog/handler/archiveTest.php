@@ -27,7 +27,7 @@ class archiveTest extends openpsa_testcase
         self::$_topic = self::get_component_node('net.nehmer.blog');
         $article_properties = [
             'topic' => self::$_topic->id,
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         self::$_article = self::create_class_object(midcom_db_article::class, $article_properties);
     }

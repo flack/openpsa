@@ -26,7 +26,7 @@ class redirectTest extends openpsa_testcase
     {
         $topic_attributes = [
             'component' => 'net.nemein.redirector',
-            'name' => __CLASS__ . time()
+            'name' => \midcom_helper_misc::urlize(__CLASS__) . time()
         ];
         self::$_topic = self::create_class_object(midcom_db_topic::class, $topic_attributes);
     }

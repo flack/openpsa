@@ -26,7 +26,7 @@ class directoryTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.documents');
 
         $directory = new org_openpsa_documents_directory();
-        $directory->name = 'TEST_' . __CLASS__ . time();
+        $directory->name = 'TEST_' . \midcom_helper_misc::urlize(__CLASS__) . time();
         $directory->_use_rcs = false;
 
         $stat = $directory->create();
