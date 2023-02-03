@@ -14,6 +14,7 @@ class patternValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
+        $value = (string) $value;
 
         foreach ($constraint->forbidden_patterns as $condition) {
             if (!isset($condition['explanation'])) {

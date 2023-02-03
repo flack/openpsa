@@ -119,7 +119,7 @@ class schema
         $resolver->setDefaults(array_merge([
             'title' => '',
             'description' => '',
-            'type' => null,
+            'type' => '',
             'type_config' => [],
             'widget' => null,
             'widget_config' => [],
