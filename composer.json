@@ -59,9 +59,6 @@
         "symfony/yaml": ">=5.4",
         "cocur/slugify": "^4.0"
     },
-    "conflict": {
-        "symfony/form": "5.0.9 || 5.1.0"
-    },
     "scripts": {
         "post-install-cmd": [
             "openpsa\\installer\\installer::setup_root_package"
@@ -82,7 +79,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "9.8.x-dev"
+            "dev-master": "9.9.x-dev"
         }
     },
     "bin" : [
