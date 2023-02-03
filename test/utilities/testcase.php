@@ -26,7 +26,7 @@ abstract class openpsa_testcase extends TestCase
 
     private $_testcase_objects = [];
 
-    public static function create_user($login = false) : midcom_db_person
+    public static function create_user(bool $login = false) : midcom_db_person
     {
         $person = new midcom_db_person();
         $person->_use_rcs = false;
@@ -65,7 +65,7 @@ abstract class openpsa_testcase extends TestCase
         midcom::get()->auth->drop_sudo();
     }
 
-    public static function get_component_node($component)
+    public static function get_component_node(string $component) : midcom_db_topic
     {
         if (!isset(self::$nodes[$component])) {
             midcom::get()->auth->request_sudo($component);
@@ -105,7 +105,7 @@ abstract class openpsa_testcase extends TestCase
         midcom_baseclasses_components_configuration::set($component, 'config', new midcom_helper_configuration($config->get_all()));
     }
 
-    public function run_handler($topic, array $args = [], Request $request = null)
+    public function run_handler($topic, array $args = [], Request $request = null) : array
     {
         if (is_object($topic)) {
             $component = $topic->component;
@@ -138,7 +138,7 @@ abstract class openpsa_testcase extends TestCase
         $_REQUEST = $_POST;
     }
 
-    public function set_dm_formdata(controller $controller, array $formdata, $button = 'save')
+    public function set_dm_formdata(controller $controller, array $formdata, string $button = 'save')
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
@@ -165,7 +165,7 @@ abstract class openpsa_testcase extends TestCase
         $_REQUEST = $_POST;
     }
 
-    public function submit_dm_form($controller_key, array $formdata, $component, array $args = [], $button = 'save')
+    public function submit_dm_form(string $controller_key, array $formdata, $component, array $args = [], $button = 'save')
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
@@ -189,7 +189,7 @@ abstract class openpsa_testcase extends TestCase
         }
     }
 
-    public function submit_dm_no_relocate_form($controller_key, array $formdata, $component, array $args = [], $button = 'save')
+    public function submit_dm_no_relocate_form(string $controller_key, array $formdata, $component, array $args = [], $button = 'save') : array
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
@@ -234,7 +234,7 @@ abstract class openpsa_testcase extends TestCase
         return $this->get_dialog_url();
     }
 
-    public function get_dialog_url()
+    public function get_dialog_url() : string
     {
         $head_elements = midcom::get()->head->get_jshead_elements();
         foreach (array_reverse($head_elements) as $element) {
@@ -250,7 +250,7 @@ abstract class openpsa_testcase extends TestCase
         $this->fail('No refresh URL found');
     }
 
-    public function run_relocate_handler($component, array $args = [])
+    public function run_relocate_handler($component, array $args = []) : string
     {
         try {
             $data = $this->run_handler($component, $args);
@@ -267,12 +267,7 @@ abstract class openpsa_testcase extends TestCase
         return $url;
     }
 
-    /**
-     * @param string $classname
-     * @param array $data
-     * @return midcom_core_dbaobject
-     */
-    public function create_object($classname, array $data = [])
+    public function create_object(string $classname, array $data = []) : object
     {
         $object = self::_create_object($classname, $data);
         $this->_testcase_objects[$object->guid] = $object;
@@ -283,7 +278,7 @@ abstract class openpsa_testcase extends TestCase
      * Register an object created in a testcase. That way, it'll get properly deleted
      * if the test aborts
      */
-    public function register_object($object)
+    public function register_object(object $object)
     {
         $this->_testcase_objects[$object->guid] = $object;
     }
@@ -299,7 +294,7 @@ abstract class openpsa_testcase extends TestCase
         }
     }
 
-    private static function _create_object($classname, array $data)
+    private static function _create_object(string $classname, array $data) : object
     {
         if (is_a($classname, midcom_core_dbaobject::class)) {
             $presets = [
@@ -317,7 +312,7 @@ abstract class openpsa_testcase extends TestCase
         return $object;
     }
 
-    public static function prepare_object($classname, array $data)
+    public static function prepare_object(string $classname, array $data) : object
     {
         $object = new $classname();
 
@@ -332,14 +327,14 @@ abstract class openpsa_testcase extends TestCase
         return $object;
     }
 
-    public static function create_class_object($classname, array $data = [])
+    public static function create_class_object(string $classname, array $data = []) : object
     {
         $object = self::_create_object($classname, $data);
         self::$_class_objects[$object->guid] = $object;
         return $object;
     }
 
-    public static function delete_linked_objects($classname, $link_field, $id)
+    public static function delete_linked_objects(string $classname, string $link_field, $id)
     {
         midcom::get()->auth->request_sudo('midcom.core');
         $qb = $classname::new_query_builder();
@@ -411,7 +406,7 @@ abstract class openpsa_testcase extends TestCase
         midcom::get()->auth->logout();
     }
 
-    private static function _process_delete_queue($queue_name, $queue)
+    private static function _process_delete_queue(string $queue_name, array $queue)
     {
         midcom::get()->auth->request_sudo('midcom.core');
         $limit = count($queue) * 5;
