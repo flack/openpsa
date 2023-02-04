@@ -6,16 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-//namespace test\org\openpsa\directmarketing\_helper;
-
-// use openpsa_testcase;
-// use org_openpsa_directmarketing_campaign_dba;
-// use midcom_db_person;
-// use org_openpsa_directmarketing_campaign_member_dba;
-// use org_openpsa_directmarketing_campaign_message_dba;
-// use org_openpsa_directmarketing_link_log_dba;
-// use org_openpsa_directmarketing_campaign_messagereceipt_dba;
-
 /**
  * OpenPSA testcase helper class
  *
