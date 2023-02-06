@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "checkdomain/holiday": "^3.0.0",
