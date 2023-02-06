@@ -23,11 +23,8 @@ use org_openpsa_invoices_invoice_dba;
  */
 class adminTest extends openpsa_testcase
 {
-    /**
-     * @var org_openpsa_projects_task_dba
-     */
-    protected static $_task;
-    protected static $_report;
+    protected static org_openpsa_projects_task_dba $_task;
+    protected static org_openpsa_expenses_hour_report_dba $_report;
 
     public static function setUpBeforeClass() : void
     {

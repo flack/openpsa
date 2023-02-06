@@ -21,10 +21,10 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class openpsa_testcase extends TestCase
 {
-    private static $_class_objects = [];
-    private static $nodes = [];
+    private static array $_class_objects = [];
+    private static array $nodes = [];
 
-    private $_testcase_objects = [];
+    private array $_testcase_objects = [];
 
     public static function create_user(bool $login = false) : midcom_db_person
     {

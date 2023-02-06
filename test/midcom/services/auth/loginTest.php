@@ -22,9 +22,9 @@ use midcom_connection;
  */
 class loginTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_password;
-    protected static $_username;
+    protected static midcom_db_person $_person;
+    protected static string $_password;
+    protected static string $_username;
 
     public static function setUpBeforeClass() : void
     {

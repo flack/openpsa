@@ -19,7 +19,7 @@ use midcom;
  */
 class manageTest extends openpsa_testcase
 {
-    protected static $_object;
+    protected static midcom_db_topic $_object;
 
     public static function setUpBeforeClass() : void
     {

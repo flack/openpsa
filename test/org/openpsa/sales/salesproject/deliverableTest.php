@@ -23,7 +23,7 @@ use midcom_connection;
  */
 class deliverableTest extends openpsa_testcase
 {
-    protected static $_salesproject;
+    protected static org_openpsa_sales_salesproject_dba $_salesproject;
 
     public static function setUpBeforeClass() : void
     {

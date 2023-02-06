@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\contacts\handler\group;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_contacts_group_dba;
@@ -19,7 +20,7 @@ use org_openpsa_contacts_group_dba;
  */
 class createTest extends openpsa_testcase
 {
-    protected static $_person;
+    protected static midcom_db_person $_person;
 
     public static function setUpBeforeClass() : void
     {

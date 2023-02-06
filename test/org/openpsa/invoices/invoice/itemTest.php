@@ -22,8 +22,8 @@ use org_openpsa_invoices_invoice_item_dba;
  */
 class itemTest extends openpsa_testcase
 {
-    protected static $_invoice;
-    protected static $_deliverable;
+    protected static org_openpsa_invoices_invoice_dba $_invoice;
+    protected static org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
     public static function setUpBeforeClass() : void
     {

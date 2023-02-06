@@ -25,7 +25,7 @@ use midcom_connection;
  */
 class accounthelperTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\projects;
 
+use midcom_db_person;
 use openpsa_testcase;
 use org_openpsa_projects_project;
 use org_openpsa_projects_task_dba;
@@ -21,10 +22,10 @@ use org_openpsa_projects_workflow;
  */
 class workflowTest extends openpsa_testcase
 {
-    protected static $_user;
-    protected static $_other_user;
-    protected static $_project;
-    protected static $_task;
+    protected static midcom_db_person $_user;
+    protected static midcom_db_person $_other_user;
+    protected static org_openpsa_projects_project $_project;
+    protected static org_openpsa_projects_task_dba $_task;
 
     public static function setUpBeforeClass() : void
     {

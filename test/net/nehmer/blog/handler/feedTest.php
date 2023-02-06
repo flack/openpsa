@@ -8,6 +8,7 @@
 
 namespace test\net\nehmer\blog\handler;
 
+use midcom_db_topic;
 use openpsa_testcase;
 use midcom_db_article;
 
@@ -18,8 +19,8 @@ use midcom_db_article;
  */
 class feedTest extends openpsa_testcase
 {
-    protected static $topic;
-    protected static $article;
+    protected static midcom_db_topic $topic;
+    protected static midcom_db_article $article;
 
     public static function setUpBeforeClass() : void
     {

@@ -14,6 +14,7 @@ use org_openpsa_contacts_group_dba;
 use midcom_db_person;
 use org_openpsa_products_product_group_dba;
 use org_openpsa_products_product_dba;
+use org_openpsa_projects_project;
 use org_openpsa_sales_salesproject_dba;
 use org_openpsa_projects_role_dba;
 use org_openpsa_sales_salesproject_deliverable_dba;
@@ -33,17 +34,17 @@ use org_openpsa_contacts_person_dba;
  */
 class schedulerRunTest extends openpsa_testcase
 {
-    protected static $organization;
-    protected static $manager;
-    protected static $member;
-    protected static $group;
+    protected static org_openpsa_contacts_group_dba $organization;
+    protected static midcom_db_person $manager;
+    protected static midcom_db_person $member;
+    protected static org_openpsa_products_product_group_dba $group;
 
-    protected $_product;
-    protected $_project;
-    protected $_task;
-    protected $_hour_report;
-    protected $_salesproject;
-    protected $_deliverable;
+    protected org_openpsa_products_product_dba $_product;
+    protected org_openpsa_projects_project $_project;
+    protected org_openpsa_projects_task_dba $_task;
+    protected org_openpsa_expenses_hour_report_dba $_hour_report;
+    protected org_openpsa_sales_salesproject_dba $_salesproject;
+    protected org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
     public static function setUpBeforeClass() : void
     {

@@ -21,9 +21,9 @@ use org_openpsa_expenses_hour_report_dba;
  */
 class listTest extends openpsa_testcase
 {
-    protected static $project;
+    protected static org_openpsa_projects_project $project;
 
-    protected static $_task;
+    protected static org_openpsa_projects_task_dba $_task;
 
     public static function setUpBeforeClass() : void
     {

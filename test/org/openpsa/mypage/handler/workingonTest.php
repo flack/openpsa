@@ -20,7 +20,7 @@ use org_openpsa_expenses_hour_report_dba;
  */
 class workingonTest extends openpsa_testcase
 {
-    private static $task;
+    private static org_openpsa_projects_task_dba $task;
 
     public static function setUpBeforeClass() : void
     {

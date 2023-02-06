@@ -29,11 +29,8 @@ use org_openpsa_sales_salesproject_deliverable_dba;
  */
 class reportTest extends openpsa_testcase
 {
-    /**
-     * @var org_openpsa_projects_task_dba
-     */
-    protected static $_task;
-    protected static $_project;
+    protected static org_openpsa_projects_task_dba $_task;
+    protected static org_openpsa_projects_project $_project;
 
     public static function setUpBeforeClass() : void
     {

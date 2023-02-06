@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\documents\handler\document;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_documents_document_dba;
@@ -19,8 +20,8 @@ use org_openpsa_documents_document_dba;
  */
 class adminTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_document;
+    protected static midcom_db_person $_person;
+    protected static org_openpsa_documents_document_dba $_document;
 
     public static function setUpBeforeClass() : void
     {

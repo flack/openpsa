@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\user\handler\group;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use midcom_db_group;
@@ -19,7 +20,7 @@ use midcom_db_group;
  */
 class deleteTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

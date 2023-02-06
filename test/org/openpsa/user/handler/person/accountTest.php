@@ -19,7 +19,7 @@ use midcom_db_person;
  */
 class accountTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

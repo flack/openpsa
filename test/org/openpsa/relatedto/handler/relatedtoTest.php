@@ -11,6 +11,7 @@ namespace test\org\openpsa\relatedto\handler;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_invoices_invoice_dba;
+use org_openpsa_relatedto_dba;
 use org_openpsa_sales_salesproject_dba;
 use org_openpsa_relatedto_plugin;
 
@@ -21,9 +22,9 @@ use org_openpsa_relatedto_plugin;
  */
 class relatedtoTest extends openpsa_testcase
 {
-    protected static $_object_from;
-    protected static $_object_to;
-    protected static $_relation;
+    protected static org_openpsa_invoices_invoice_dba $_object_from;
+    protected static org_openpsa_sales_salesproject_dba $_object_to;
+    protected static org_openpsa_relatedto_dba $_relation;
 
     public static function setUpBeforeClass() : void
     {

@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\invoices\handler\rest;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class billingdataTest extends openpsa_testcase
 {
-    protected static $_person;
+    protected static midcom_db_person $_person;
 
     public static function setUpBeforeClass() : void
     {

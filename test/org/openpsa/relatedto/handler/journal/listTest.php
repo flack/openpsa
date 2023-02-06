@@ -20,8 +20,8 @@ use midcom;
  */
 class listTest extends openpsa_testcase
 {
-    protected static $_object;
-    protected static $_entry;
+    protected static org_openpsa_contacts_person_dba $_object;
+    protected static org_openpsa_relatedto_journal_entry_dba $_entry;
 
     public static function setUpBeforeClass() : void
     {

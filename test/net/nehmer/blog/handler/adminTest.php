@@ -8,6 +8,7 @@
 
 namespace test\net\nehmer\blog\handler;
 
+use midcom_db_topic;
 use openpsa_testcase;
 use midcom_db_article;
 use midcom;
@@ -19,8 +20,8 @@ use midcom;
  */
 class adminTest extends openpsa_testcase
 {
-    protected static $_topic;
-    protected static $_article;
+    protected static midcom_db_topic $_topic;
+    protected static midcom_db_article $_article;
 
     public static function setUpBeforeClass() : void
     {

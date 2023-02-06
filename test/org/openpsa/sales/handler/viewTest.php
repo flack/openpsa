@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\sales\handler;
 
+use midcom_db_person;
 use openpsa_testcase;
 use org_openpsa_sales_salesproject_dba;
 use org_openpsa_products_product_group_dba;
@@ -26,10 +27,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class viewTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_salesproject;
-    protected static $_product;
-    protected static $_product_subscription;
+    protected static midcom_db_person $_person;
+    protected static org_openpsa_sales_salesproject_dba $_salesproject;
+    protected static org_openpsa_products_product_dba $_product;
+    protected static org_openpsa_products_product_dba $_product_subscription;
 
     public static function setUpBeforeClass() : void
     {

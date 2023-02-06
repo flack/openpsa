@@ -22,9 +22,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class uploadTest extends openpsa_testcase
 {
-    protected static $_images;
-    protected static $_tmp_folder;
-    protected static $_tmp_names;
+    protected static array $_images;
+    protected static string $_tmp_folder;
+    protected static array $_tmp_names;
 
     public static function setUpBeforeClass() : void
     {

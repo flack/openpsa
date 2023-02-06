@@ -20,7 +20,7 @@ use org_openpsa_products_product_dba;
  */
 class editTest extends openpsa_testcase
 {
-    protected static $_product;
+    protected static org_openpsa_products_product_dba $_product;
 
     public static function setUpBeforeClass() : void
     {

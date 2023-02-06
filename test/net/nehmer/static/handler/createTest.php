@@ -20,8 +20,8 @@ use midcom_db_article;
  */
 class createTest extends openpsa_testcase
 {
-    protected static $_topic;
-    protected static $_article;
+    protected static midcom_db_topic $_topic;
+    protected static midcom_db_article $_article;
 
     public static function setUpBeforeClass() : void
     {

@@ -19,7 +19,7 @@ use midcom;
  */
 class crudTest extends openpsa_testcase
 {
-    protected static $_project;
+    protected static org_openpsa_projects_project $_project;
 
     public static function setUpBeforeClass() : void
     {

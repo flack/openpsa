@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\user\handler\person;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 
@@ -18,7 +19,7 @@ use midcom;
  */
 class viewTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

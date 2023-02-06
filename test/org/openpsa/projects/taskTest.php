@@ -22,7 +22,7 @@ use org_openpsa_projects_task_status_dba;
  */
 class taskTest extends openpsa_testcase
 {
-    private static $project;
+    private static org_openpsa_projects_project $project;
 
     public static function setUpBeforeClass() : void
     {

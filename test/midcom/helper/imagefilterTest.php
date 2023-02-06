@@ -22,9 +22,9 @@ use midcom_error;
  */
 class imagefilterTest extends openpsa_testcase
 {
-    protected static $_topic;
-    protected static $_filepath;
-    protected static $_filename;
+    protected static midcom_db_topic $_topic;
+    protected static string $_filepath;
+    protected static string $_filename;
 
     public static function setUpBeforeClass() : void
     {

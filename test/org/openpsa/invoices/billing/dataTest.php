@@ -22,7 +22,7 @@ use org_openpsa_invoices_invoice_dba;
  */
 class dataTest extends openpsa_testcase
 {
-    protected static $_contact;
+    protected static org_openpsa_contacts_person_dba $_contact;
 
     public static function setUpBeforeClass() : void
     {

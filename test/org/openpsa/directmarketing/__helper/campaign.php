@@ -13,11 +13,11 @@
  */
 class openpsa_test_campaign_helper
 {
-    private $_campaign;
-    private $_member;
-    private $_message;
+    private ?org_openpsa_directmarketing_campaign_dba $_campaign = null;
+    private ?org_openpsa_directmarketing_campaign_member_dba $_member = null;
+    private ?org_openpsa_directmarketing_campaign_message_dba $_message = null;
 
-    public function get_campaign($type = org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL)
+    public function get_campaign($type = org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL) : org_openpsa_directmarketing_campaign_dba
     {
         if (!$this->_campaign) {
             $topic = openpsa_testcase::get_component_node('org.openpsa.directmarketing');
@@ -32,7 +32,7 @@ class openpsa_test_campaign_helper
         return $this->_campaign;
     }
 
-    public function get_member(midcom_db_person $person)
+    public function get_member(midcom_db_person $person) : org_openpsa_directmarketing_campaign_member_dba
     {
         if (!$this->_member) {
             $campaign = $this->get_campaign();
@@ -56,7 +56,7 @@ class openpsa_test_campaign_helper
         return openpsa_testcase::create_class_object(org_openpsa_directmarketing_link_log_dba::class, $parameters);
     }
 
-    public function get_receipt(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
+    public function get_receipt(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person) : org_openpsa_directmarketing_campaign_messagereceipt_dba
     {
         $parameters = [
             'message' => $message->id,
@@ -67,7 +67,7 @@ class openpsa_test_campaign_helper
         return openpsa_testcase::create_class_object(org_openpsa_directmarketing_campaign_messagereceipt_dba::class, $parameters);
     }
 
-    public function get_message()
+    public function get_message() : org_openpsa_directmarketing_campaign_message_dba
     {
         if (!$this->_message) {
             $campaign = $this->get_campaign();

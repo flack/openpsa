@@ -19,7 +19,7 @@ use net_nemein_rss_feed_dba;
  */
 class adminTest extends openpsa_testcase
 {
-    protected static $topic;
+    protected static midcom_db_topic $topic;
 
     public static function setUpBeforeClass() : void
     {

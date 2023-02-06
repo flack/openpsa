@@ -21,8 +21,8 @@ use midcom_connection;
  */
 class attachmentTest extends openpsa_testcase
 {
-    protected static $_topic;
-    protected static $_filepath;
+    protected static midcom_db_topic $_topic;
+    protected static string $_filepath;
 
     public static function setUpBeforeClass() : void
     {

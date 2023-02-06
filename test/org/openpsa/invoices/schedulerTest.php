@@ -29,8 +29,6 @@ use midcom_baseclasses_components_configuration;
  */
 class schedulerTest extends openpsa_testcase
 {
-    protected $_salesproject;
-
     /**
      * @dataProvider providerCalculate_cycle_next
      */

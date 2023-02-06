@@ -20,7 +20,7 @@ use midcom_response_relocate;
  */
 class viewerTest extends openpsa_testcase
 {
-    protected static $_topic;
+    protected static midcom_db_topic $_topic;
 
     public static function setUpBeforeClass() : void
     {

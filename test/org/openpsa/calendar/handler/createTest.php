@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\calendar\handler;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_calendar_event_dba;
@@ -19,7 +20,7 @@ use org_openpsa_calendar_event_dba;
  */
 class createTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

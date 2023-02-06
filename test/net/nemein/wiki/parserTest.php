@@ -20,7 +20,7 @@ use net_nemein_wiki_parser;
  */
 class parserTest extends openpsa_testcase
 {
-    protected static $_page;
+    protected static net_nemein_wiki_wikipage $_page;
 
     public static function setUpBeforeClass() : void
     {

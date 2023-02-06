@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\sales\handler\deliverable;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_sales_salesproject_dba;
@@ -22,10 +23,10 @@ use org_openpsa_sales_salesproject_deliverable_dba;
  */
 class addTest extends openpsa_testcase
 {
-    protected static $_person;
+    protected static midcom_db_person $_person;
 
-    protected $_salesproject;
-    protected $_product;
+    protected org_openpsa_sales_salesproject_dba $_salesproject;
+    protected org_openpsa_products_product_dba $_product;
 
     public static function setUpBeforeClass() : void
     {

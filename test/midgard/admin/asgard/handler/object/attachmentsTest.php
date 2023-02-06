@@ -20,10 +20,10 @@ use midcom;
  */
 class attachmentsTest extends openpsa_testcase
 {
-    protected static $_object;
-    protected static $_attachment;
+    protected static midcom_db_topic $_object;
+    protected static midcom_db_attachment $_attachment;
 
-    protected static $_filename = 'test.txt';
+    protected static string $_filename = 'test.txt';
 
     public static function setUpBeforeClass() : void
     {

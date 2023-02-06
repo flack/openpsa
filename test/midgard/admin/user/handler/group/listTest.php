@@ -20,7 +20,7 @@ use midgard_admin_user_handler_group_list;
  */
 class listTest extends openpsa_testcase
 {
-    protected static $_group;
+    protected static midcom_db_group $_group;
 
     public static function setUpBeforeClass() : void
     {

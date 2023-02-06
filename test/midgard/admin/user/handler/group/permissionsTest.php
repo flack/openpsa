@@ -19,7 +19,7 @@ use midcom_db_group;
  */
 class permissionsTest extends openpsa_testcase
 {
-    protected static $_group;
+    protected static midcom_db_group $_group;
 
     public static function setUpBeforeClass() : void
     {

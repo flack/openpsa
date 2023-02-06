@@ -22,9 +22,9 @@ use org_openpsa_sales_salesproject_deliverable_dba;
  */
 class listTest extends openpsa_testcase
 {
-    protected static $_project;
+    protected static org_openpsa_projects_project $_project;
 
-    protected static $_task;
+    protected static org_openpsa_projects_task_dba $_task;
 
     public static function setUpBeforeClass() : void
     {

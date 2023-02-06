@@ -8,6 +8,7 @@
 
 namespace test\midcom\helper\imagepopup\handler;
 
+use midcom_db_topic;
 use openpsa_testcase;
 use midcom;
 
@@ -18,7 +19,7 @@ use midcom;
  */
 class listTest extends openpsa_testcase
 {
-    protected static $node;
+    protected static midcom_db_topic $node;
 
     public static function setUpBeforeClass() : void
     {

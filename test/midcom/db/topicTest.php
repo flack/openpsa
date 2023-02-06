@@ -20,7 +20,7 @@ use midcom_connection;
  */
 class topicTest extends openpsa_testcase
 {
-    protected static $_parent;
+    protected static midcom_db_topic $_parent;
 
     public static function setUpBeforeClass() : void
     {

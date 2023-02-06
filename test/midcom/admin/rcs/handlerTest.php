@@ -20,7 +20,7 @@ use midcom_db_topic;
  */
 class handlerTest extends openpsa_testcase
 {
-    protected static $_object;
+    protected static midcom_db_person $_object;
 
     public static function setUpBeforeClass() : void
     {

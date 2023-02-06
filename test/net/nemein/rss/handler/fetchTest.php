@@ -18,7 +18,7 @@ use midcom_db_topic;
  */
 class fetchTest extends openpsa_testcase
 {
-    protected static $topic;
+    protected static midcom_db_topic $topic;
 
     public static function setUpBeforeClass() : void
     {

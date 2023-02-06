@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\user;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom_core_account;
 use midcom;
@@ -20,7 +21,7 @@ use org_openpsa_user_validator;
  */
 class validatorTest extends openpsa_testcase
 {
-    protected static $_user;
+    protected static midcom_db_person $_user;
 
     public static function setUpBeforeClass() : void
     {

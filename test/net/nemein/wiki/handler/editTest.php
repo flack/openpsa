@@ -20,8 +20,8 @@ use net_nemein_wiki_wikipage;
  */
 class editTest extends openpsa_testcase
 {
-    protected static $_topic;
-    protected static $_page;
+    protected static midcom_db_topic $_topic;
+    protected static net_nemein_wiki_wikipage $_page;
 
     public static function setUpBeforeClass() : void
     {

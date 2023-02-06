@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\reports\handler\sales;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_reports_query_dba;
@@ -23,7 +24,7 @@ use org_openpsa_invoices_invoice_item_dba;
  */
 class reportTest extends openpsa_testcase
 {
-    private static $person;
+    private static midcom_db_person $person;
 
     public static function setUpBeforeClass() : void
     {

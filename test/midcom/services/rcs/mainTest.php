@@ -23,7 +23,7 @@ use midcom_services_rcs_backend_rcs;
  */
 class mainTest extends openpsa_testcase
 {
-    private $tmpdir;
+    private string $tmpdir;
 
     public function setUp() : void
     {

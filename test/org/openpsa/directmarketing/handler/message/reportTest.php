@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\directmarketing\handler\message;
 
+use midcom_db_person;
 use openpsa_testcase;
 use openpsa_test_campaign_helper;
 use midcom;
@@ -19,12 +20,9 @@ use midcom;
  */
 class reportTest extends openpsa_testcase
 {
-    protected static $_person;
+    protected static midcom_db_person $_person;
 
-    /**
-     * @var openpsa_test_campaign_helper
-     */
-    private static $helper;
+    private static openpsa_test_campaign_helper $helper;
 
     public static function setUpBeforeClass() : void
     {

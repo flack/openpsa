@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\invoices\handler;
 
+use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use midcom\datamanager\controller;
@@ -20,7 +21,7 @@ use org_openpsa_invoices_billing_data_dba;
  */
 class billingdataTest extends openpsa_testcase
 {
-    protected static $_person;
+    protected static midcom_db_person $_person;
 
     public static function setUpBeforeClass() : void
     {

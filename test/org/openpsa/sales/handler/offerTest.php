@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\sales\handler;
 
+use midcom_db_person;
 use openpsa_testcase;
 use org_openpsa_sales_salesproject_dba;
 use test_offer_pdfbuilder;
@@ -20,8 +21,8 @@ use org_openpsa_sales_salesproject_offer_dba;
  */
 class offerTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_salesproject;
+    protected static midcom_db_person $_person;
+    protected static org_openpsa_sales_salesproject_dba $_salesproject;
 
     public static function setUpBeforeClass() : void
     {

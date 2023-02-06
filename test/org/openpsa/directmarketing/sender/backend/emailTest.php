@@ -21,7 +21,7 @@ use midcom\datamanager\datamanager;
  */
 class emailTest extends openpsa_testcase
 {
-    private static $campaign;
+    private static org_openpsa_directmarketing_campaign_dba $campaign;
 
     public static function setUpBeforeClass() : void
     {

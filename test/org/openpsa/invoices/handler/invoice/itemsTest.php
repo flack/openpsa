@@ -8,6 +8,7 @@
 
 namespace test\org\openpsa\invoices\handler\invoice;
 
+use midcom_db_person;
 use openpsa_testcase;
 use org_openpsa_invoices_invoice_dba;
 use midcom;
@@ -20,8 +21,8 @@ use org_openpsa_invoices_invoice_item_dba;
  */
 class itemsTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_invoice;
+    protected static midcom_db_person $_person;
+    protected static org_openpsa_invoices_invoice_dba $_invoice;
 
     public static function setUpBeforeClass() : void
     {
