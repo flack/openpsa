@@ -22,53 +22,39 @@ class midcom_helper_reflector_copy
 
     /**
      * List of GUIDs of objects that shall not be copied
-     *
-     * @var array
      */
-    public $exclude = [];
+    public array $exclude = [];
 
     /**
      * Override properties of the new root object. This feature is
      * directed for overriding e.g. parent information.
-     *
-     * @var array        Property-value pairs
      */
-    public $root_object_values = [];
+    public array $root_object_values = [];
 
     /**
      * Switch for attachments
-     *
-     * @var boolean
      */
-    public $attachments = true;
+    public bool $attachments = true;
 
     /**
      * Switch for parameters
-     *
-     * @var boolean
      */
-    public $parameters = true;
+    public bool $parameters = true;
 
     /**
      * Switch for privileges
-     *
-     * @var boolean
      */
-    public $privileges = true;
+    public bool $privileges = true;
 
     /**
      * Switch for metadata
-     *
-     * @var boolean
      */
-    public $metadata = true;
+    public bool $metadata = true;
 
     /**
      * Copy the whole tree
-     *
-     * @var boolean
      */
-    public $recursive = true;
+    public bool $recursive = true;
 
     /**
      * Metadata fields that shall be copied
@@ -86,17 +72,13 @@ class midcom_helper_reflector_copy
     /**
      * Switch for halt on error. If this is set to false, errors will be
      * reported, but will not stop executing
-     *
-     * @var boolean
      */
-    public $halt_on_errors = true;
+    public bool $halt_on_errors = true;
 
     /**
      * Encountered errors
-     *
-     * @var array
      */
-    public $errors = [];
+    public array $errors = [];
 
     /**
      * Get the parent property for overriding it

@@ -19,73 +19,53 @@ class midcom_helper_head implements EventSubscriberInterface
 {
     /**
      * Array with all JavaScript declarations for the page's head.
-     *
-     * @var array
      */
-    private $_jshead = [];
+    private array $_jshead = [];
 
     /**
      * Array with all JavaScript file inclusions.
-     *
-     * @var array
      */
-    private $_jsfiles = [];
+    private array $_jsfiles = [];
 
     /**
      * Array with all prepend JavaScript declarations for the page's head.
-     *
-     * @var array
      */
-    private $_prepend_jshead = [];
+    private array $_prepend_jshead = [];
 
     /**
      * Boolean showing if jQuery is enabled
-     *
-     * @var boolean
      */
-    private $_jquery_enabled = false;
+    private bool $_jquery_enabled = false;
 
     /**
      * Array with all JQuery state scripts for the page's head.
-     *
-     * @var array
      */
-    private $_jquery_states = [];
+    private array $_jquery_states = [];
 
     /**
      * Array with all linked URLs for HEAD.
-     *
-     * @var array
      */
-    private $_linkhrefs = [];
+    private array $_linkhrefs = [];
 
     /**
      * Array with all methods for the BODY's onload event.
-     *
-     * @var array
      */
-    private $_jsonload = [];
+    private array $_jsonload = [];
 
     /**
      * string with all metatags to go into the page head.
-     *
-     * @var string
      */
-    private $_meta_head = '';
+    private string $_meta_head = '';
 
     /**
      * String with all css styles to go into a page's head.
-     *
-     * @var string
      */
-    private $_style_head = '';
+    private string $_style_head = '';
 
     /**
      * Array with all link elements to be included in a page's head.
-     *
-     * @var array
      */
-    private $_link_head = [];
+    private array $_link_head = [];
 
     const HEAD_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
 

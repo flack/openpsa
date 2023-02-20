@@ -35,30 +35,24 @@ class midcom_core_user
 
     /**
      * Username of the current user, it is to be considered read-only.
-     *
-     * @var string
      */
-    public $username;
+    public string $username;
 
     /**
      * The full name of the current user.
      *
      * Built from the first and last name of the user record, falling back
      * to the username if both are unset. It is to be considered read-only.
-     *
-     * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The full reversed name of the current user.
      *
      * Built from the first and last name of the user record, falling back
      * to the username if both are unset. It is to be considered read-only.
-     *
-     * @var string
      */
-    public $rname;
+    public string $rname;
 
     /**
      * Lists all groups in which a user is a member, both directly and indirectly.
@@ -102,7 +96,7 @@ class midcom_core_user
      *
      * @var array
      */
-    private $_inheritance_chains;
+    private array $_inheritance_chains;
 
     /**
      * List of all privileges assigned to that user. It is to be considered read-only.
@@ -133,17 +127,13 @@ class midcom_core_user
      * in the system.
      *
      * This is usually some kind of user:$guid string combination.
-     *
-     * @var string
      */
-    public $id;
+    public string $id;
 
     /**
      * The GUID identifying this user, made directly available for easier linking.
-     *
-     * @var string
      */
-    public $guid;
+    public string $guid;
 
     /**
      * The scope value, which must be set during the _load callback, indicates the
@@ -154,10 +144,8 @@ class midcom_core_user
      * use the magic value -1.
      *
      * The variable is considered to be read-only.
-     *
-     * @var integer
      */
-    public $scope = MIDCOM_PRIVILEGE_SCOPE_USER;
+    public int $scope = MIDCOM_PRIVILEGE_SCOPE_USER;
 
     /**
      * The constructor retrieves the user identified by its name from the database and

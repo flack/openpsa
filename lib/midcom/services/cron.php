@@ -42,10 +42,8 @@ class midcom_services_cron
      * The recurrence rule to use. Set in the constructor
      *
      * MIDCOM_CRON_MINUTE, MIDCOM_CRON_HOUR, or MIDCOM_CRON_DAY
-     *
-     * @var int
      */
-    private $_recurrence = MIDCOM_CRON_MINUTE;
+    private int $_recurrence = MIDCOM_CRON_MINUTE;
 
     public function __construct(int $recurrence = MIDCOM_CRON_MINUTE)
     {

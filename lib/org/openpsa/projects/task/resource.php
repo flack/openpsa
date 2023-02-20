@@ -19,10 +19,10 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     const RESOURCE = 6006;
     const CONTACT = 6007;
 
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_task_resource';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_task_resource';
 
-    public $_use_rcs = false;
+    public bool $_use_rcs = false;
 
     private function find_duplicates() : bool
     {

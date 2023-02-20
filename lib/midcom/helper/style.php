@@ -43,7 +43,7 @@ class midcom_helper_style
 {
     /**
      * Current topic
-     *
+     * 
      * @var midcom_db_topic
      */
     private $_topic;
@@ -57,29 +57,20 @@ class midcom_helper_style
 
     /**
      * List of styledirs to handle after componentstyle
-     *
-     * @var array
      */
-    private $_styledirs_append = [];
+    private array $_styledirs_append = [];
 
     /**
      * List of styledirs to handle before componentstyle
-     *
-     * @var array
      */
-    private $_styledirs_prepend = [];
+    private array $_styledirs_prepend = [];
 
-    /**
-     * @var loader
-     */
-    private $loader;
+    private loader $loader;
 
     /**
      * Data to pass to the style
-     *
-     * @var array
      */
-    public $data;
+    public array $data;
 
     public function __construct(loader $loader)
     {

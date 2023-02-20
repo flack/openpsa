@@ -19,8 +19,8 @@
  */
 class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_invoice_item';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_invoice_item';
     public $skip_invoice_update = false;
 
     public function _on_creating() : bool

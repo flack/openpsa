@@ -22,8 +22,8 @@
  */
 class net_nemein_rss_feed_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'net_nemein_rss_feed';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'net_nemein_rss_feed';
 
     public function _on_loaded()
     {

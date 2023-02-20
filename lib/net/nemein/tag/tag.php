@@ -15,10 +15,10 @@
  */
 class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'net_nemein_tag';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'net_nemein_tag';
 
-    public $_use_rcs = false;
+    public bool $_use_rcs = false;
 
     public function get_label() : string
     {

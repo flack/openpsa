@@ -20,7 +20,7 @@ class midcom
 
     /**
      * Main application singleton
-     *
+     * 
      * @var midcom_application
      */
     private static $_application;

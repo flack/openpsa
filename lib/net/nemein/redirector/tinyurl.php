@@ -19,8 +19,8 @@
  */
 class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'net_nemein_redirector_tinyurl';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'net_nemein_redirector_tinyurl';
 
     /**
      * Check that everything is ok on creation event

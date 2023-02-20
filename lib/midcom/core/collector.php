@@ -28,10 +28,8 @@ class midcom_core_collector extends midcom_core_query
 {
     /**
      * The applied ordering instructions (for reuse in get_objects)
-     *
-     * @var array
      */
-    private $orders = [];
+    private array $orders = [];
 
     /**
      * The initialization routine

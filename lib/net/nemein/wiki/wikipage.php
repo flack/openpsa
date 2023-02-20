@@ -13,7 +13,7 @@
  */
 class net_nemein_wiki_wikipage extends midcom_db_article
 {
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         net_nemein_wiki_link_dba::class => 'frompage'
     ];
 

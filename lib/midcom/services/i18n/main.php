@@ -34,25 +34,16 @@ use Symfony\Component\Translation\Translator;
  */
 class midcom_services_i18n
 {
-    /**
-     * @var string
-     */
-    private $_fallback_language;
+    private string $_fallback_language;
 
     /**
      * @var midcom_services_i18n_l10n[]
      */
     private $_obj_l10n = [];
 
-    /**
-     * @var string
-     */
-    private $_current_language;
+    private string $_current_language;
 
-    /**
-     * @var string
-     */
-    private $_current_charset = 'utf-8';
+    private string $_current_charset = 'utf-8';
 
     /**
      * Initialize the available i18n framework by determining the desired language

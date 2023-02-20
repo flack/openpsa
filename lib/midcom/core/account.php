@@ -24,17 +24,13 @@ class midcom_core_account
 
     /**
      * The current account
-     *
-     * @var midgard_user
      */
-    private $_user;
+    private midgard_user $_user;
 
     /**
      * Change tracking variable
-     *
-     * @var string
      */
-    private $_old_username;
+    private string $_old_username;
 
     /**
      * @param object $person midgard_person, midcom_db_person or similar

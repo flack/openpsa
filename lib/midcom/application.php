@@ -38,10 +38,7 @@ use midcom\bundle\midcomBundle;
  */
 class midcom_application extends Kernel
 {
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
     /**
      * Set this variable to true during the handle phase of your component to
@@ -52,17 +49,12 @@ class midcom_application extends Kernel
      *
      * Changing this flag after the handle phase or for dynamically loaded
      * components won't change anything.
-     *
-     * @var boolean
      */
-    public $skip_page_style = false;
+    public bool $skip_page_style = false;
 
     private $project_dir;
 
-    /**
-     * @var midcom_config
-     */
-    private $cfg;
+    private midcom_config $cfg;
 
     public function __construct(string $environment, bool $debug)
     {

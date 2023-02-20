@@ -18,9 +18,9 @@
  */
 class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_campaign_message_receipt';
-    public $_use_rcs = false;
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_campaign_message_receipt';
+    public bool $_use_rcs = false;
 
     const SENT = 8500;
     const DELIVERED = 8501;

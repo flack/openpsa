@@ -29,10 +29,7 @@ use Monolog\Logger;
  */
 class midcom_debug
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
+    private Logger $logger;
 
     /**
      * Standard constructor

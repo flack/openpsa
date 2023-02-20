@@ -22,29 +22,23 @@ class midcom_core_group
      *
      * Access to this member is restricted to the ACL user/group core. In case you
      * need a real Storage object for this group, call get_storage() instead.
-     *
-     * @var midgard_group
      */
-    protected $_storage;
+    protected midgard_group $_storage;
 
     /**
      * Name of the group
      *
      * The variable is considered to be read-only.
-     *
-     * @var string
      */
-    public $name = '';
+    public string $name = '';
 
     /**
      * The identification string used to internally identify the group uniquely
      * in the system. This is usually some kind of group:$guid string combination.
      *
      * The variable is considered to be read-only.
-     *
-     * @var string
      */
-    public $id = '';
+    public string $id = '';
 
     /**
      * The scope value, which must be set during the _load callback, indicates the "depth" of the
@@ -53,10 +47,8 @@ class midcom_core_group
      * start with a scope of 1.
      *
      * The variable is considered to be read-only.
-     *
-     * @var integer
      */
-    public $scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
+    public int $scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
 
     /**
      * The constructor retrieves the group identified by its name from the database and

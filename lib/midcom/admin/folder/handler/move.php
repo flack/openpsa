@@ -15,15 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midcom_admin_folder_handler_move extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
+    private midcom_core_dbaobject $_object;
 
-    /**
-     * @var midcom_db_topic
-     */
-    private $current_folder;
+    private midcom_db_topic $current_folder;
 
     /**
      * Handler for folder move. Checks for updating permissions, initializes

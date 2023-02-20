@@ -19,15 +19,9 @@ abstract class midcom_services_rcs_backend
      */
     private $history;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    protected $object;
+    protected midcom_core_dbaobject $object;
 
-    /**
-     * @var midcom_services_rcs_config
-     */
-    protected $config;
+    protected midcom_services_rcs_config $config;
 
     public function __construct(midcom_core_dbaobject $object, midcom_services_rcs_config $config)
     {

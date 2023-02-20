@@ -60,18 +60,14 @@ class midcom_helper_nav_backend
 {
     /**
      * The ID of the MidCOM Root Content Topic
-     *
-     * @var int
      */
-    private $_root;
+    private int $_root;
 
     /**
      * The ID of the currently active Navigation Node, determined by the active
      * MidCOM Topic or one of its uplinks, if the subtree in question is invisible.
-     *
-     * @var int
      */
-    private $_current;
+    private int $_current;
 
     /**
      * The GUID of the currently active leaf.
@@ -117,19 +113,15 @@ class midcom_helper_nav_backend
 
     /**
      * The NAP cache store
-     *
-     * @var midcom_services_cache_module_nap
      */
-    private $_nap_cache;
+    private midcom_services_cache_module_nap $_nap_cache;
 
     /**
      * This array holds the node path from the URL. First value at key 0 is
      * the root node ID, possible second value is the first subnode ID etc.
      * Contains only visible nodes (nodes which can be loaded).
-     *
-     * @var array
      */
-    private $_node_path = [];
+    private array $_node_path = [];
 
     /**
      * Will initialize Root Topic, Current Topic and all cache arrays.

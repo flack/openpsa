@@ -15,15 +15,9 @@
  */
 class midcom_core_dbaproxy
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $__object;
+    private midcom_core_dbaobject $__object;
 
-    /**
-     * @var string
-     */
-    public $__midcom_class_name__;
+    public string $__midcom_class_name__;
 
     /**
      * MidCOM DBA object identifier, can be ID or GUID
@@ -32,10 +26,7 @@ class midcom_core_dbaproxy
      */
     private $__identifier;
 
-    /**
-     * @var boolean
-     */
-    private $__tried_to_load = false;
+    private bool $__tried_to_load = false;
 
     public function __construct($identifier, string $classname)
     {

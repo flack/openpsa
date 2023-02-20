@@ -21,32 +21,19 @@ class midcom_helper__dbfactory
 {
     /**
      * ID => GUID cache for parents
-     *
-     * @var array
      */
-    private $_parent_mapping = [];
+    private array $_parent_mapping = [];
 
     /**
      * Cache for possible parent configurations per mgdschema class
-     *
-     * @var array
      */
-    private $_parent_candidates = [];
+    private array $_parent_candidates = [];
 
-    /**
-     * @var string
-     */
-    private $person_class;
+    private string $person_class;
 
-    /**
-     * @var midcom_services_cache_module_memcache
-     */
-    private $memcache;
+    private midcom_services_cache_module_memcache $memcache;
 
-    /**
-     * @var midcom_services_dbclassloader
-     */
-    private $dbclassloader;
+    private midcom_services_dbclassloader $dbclassloader;
 
     public function __construct(string $person_class, midcom_services_dbclassloader $dbclassloader, midcom_services_cache_module_memcache $memcache)
     {

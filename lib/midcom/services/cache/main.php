@@ -42,20 +42,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class midcom_services_cache implements EventSubscriberInterface
 {
-    /**
-     * @var midcom_services_cache_module_content
-     */
-    public $content;
+    public midcom_services_cache_module_content $content;
 
-    /**
-     * @var midcom_services_cache_module_memcache
-     */
-    public $memcache;
+    public midcom_services_cache_module_memcache $memcache;
 
-    /**
-     * @var midcom_services_cache_module_nap
-     */
-    public $nap;
+    public midcom_services_cache_module_nap $nap;
 
     /**
      * List of all loaded modules, indexed by their class name.

@@ -33,10 +33,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     private $_backend;
 
-    /**
-     * @var boolean
-     */
-    private $_disabled;
+    private bool $_disabled;
 
     /**
      * Initialization

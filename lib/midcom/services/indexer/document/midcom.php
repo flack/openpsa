@@ -26,10 +26,7 @@
  */
 class midcom_services_indexer_document_midcom extends midcom_services_indexer_document
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $object;
+    private midcom_core_dbaobject $object;
 
     /**
      * The constructor initializes the content object, loads the metadata object

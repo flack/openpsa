@@ -12,10 +12,7 @@
  */
 class midcom_services_rcs_history
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
     public function __construct(array $history)
     {

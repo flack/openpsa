@@ -15,24 +15,18 @@ class midcom_services_indexer_filter_date implements midcom_services_indexer_fil
 {
     /**
      * Start timestamp, may be 0
-     *
-     * @var int
      */
-    private $start;
+    private int $start;
 
     /**
      * End timestamp, may be 0
-     *
-     * @var int
      */
-    private $end;
+    private int $end;
 
     /**
      * The name of the field that should be restricted.
-     *
-     * @var string
      */
-    private $field = '';
+    private string $field = '';
 
     /**
      * Create a new date filter.

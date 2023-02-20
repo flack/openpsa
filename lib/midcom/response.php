@@ -19,23 +19,18 @@ class midcom_response extends Response
      * Character encoding to use
      *
      * @todo determine on the fly?
-     * @var string Character encoding
      */
-    public $encoding = 'UTF-8';
+    public string $encoding = 'UTF-8';
 
     /**
      * Response code to use
-     *
-     * @var int HTTP response code
      */
-    public $code = Response::HTTP_OK;
+    public int $code = Response::HTTP_OK;
 
     /**
      * The data to be transmitted
-     *
-     * @var array
      */
-    public $_data = [];
+    public array $_data = [];
 
     public function __get($name)
     {

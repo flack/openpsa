@@ -21,10 +21,7 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
  */
 abstract class midcom_services_cache_module
 {
-    /**
-     * @var AdapterInterface
-     */
-    protected $backend;
+    protected AdapterInterface $backend;
 
     /**
      * Initialize the module. This will initialize the class configuration

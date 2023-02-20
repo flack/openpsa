@@ -23,8 +23,8 @@
  */
 class net_nehmer_comments_comment extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
 
     // New messages enter at 4, and can be lowered or raised
     const JUNK = 1;

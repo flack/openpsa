@@ -16,10 +16,10 @@
  */
 class midcom_db_member extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'midgard_member';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'midgard_member';
 
-    public $_use_rcs = false;
+    public bool $_use_rcs = false;
 
     public function get_label() : string
     {

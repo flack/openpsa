@@ -25,10 +25,10 @@
  */
 class midcom_db_group extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'midgard_group';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'midgard_group';
 
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         midcom_db_member::class => 'gid'
     ];
 

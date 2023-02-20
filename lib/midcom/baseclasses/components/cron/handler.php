@@ -42,10 +42,7 @@ abstract class midcom_baseclasses_components_cron_handler
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var OutputInterface
-     */
-    private $output;
+    private OutputInterface $output;
 
     /**
      * Initialize the cron job. Before calling the on_initialize callback, it prepares

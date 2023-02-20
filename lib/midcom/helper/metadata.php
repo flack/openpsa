@@ -67,15 +67,9 @@ use midcom\datamanager\datamanager;
  */
 class midcom_helper_metadata
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $__object;
+    private midcom_core_dbaobject $__object;
 
-    /**
-     * @var midgard\portable\api\metadata
-     */
-    private $__metadata;
+    private midgard\portable\api\metadata $__metadata;
 
     private $field_config = [
         'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported', 'islocked', 'isapproved'],

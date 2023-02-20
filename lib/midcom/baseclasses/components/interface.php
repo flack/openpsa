@@ -119,14 +119,12 @@ class midcom_baseclasses_components_interface
      * Class suffix used when constructing the NAP handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_navigation (as a default).
-     *
-     * @var string
      */
-    protected $_nap_class_suffix = 'navigation';
+    protected string $_nap_class_suffix = 'navigation';
 
     /**
      * The NAP interface instance from the component, initialized on demand.
-     *
+     * 
      * @var midcom_baseclasses_components_navigation
      */
     private $_nap_instance;
@@ -135,10 +133,8 @@ class midcom_baseclasses_components_interface
      * Class suffix used when constructing the on-site handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_viewer (as a default).
-     *
-     * @var string
      */
-    protected $_site_class_suffix = 'viewer';
+    protected string $_site_class_suffix = 'viewer';
 
     public static function get_classname(string $component, string $suffix = 'interface') : string
     {

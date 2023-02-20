@@ -24,30 +24,23 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     /**
      * Flag indicating whether or not the GUID of the first type should be included in exports.
-     *
-     * @var boolean
      */
-    public $include_guid = true;
+    public bool $include_guid = true;
 
     /**
      * Flag indicating whether or not totals for number fields should be generated
-     *
-     * @var boolean
      */
-    public $include_totals = false;
+    public bool $include_totals = false;
 
-    /**
-     * @var array
-     */
-    public $csv = [];
+    public array $csv = [];
 
     protected $_schema;
 
-    private $_rows = [];
+    private array $_rows = [];
 
-    private $_totals = [];
+    private array $_totals = [];
 
-    private $schemas = [];
+    private array $schemas = [];
 
     /**
      * @return midcom\datamanager\schemadb[]

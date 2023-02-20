@@ -33,10 +33,10 @@
  */
 class org_openpsa_projects_project extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_project';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_project';
 
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         org_openpsa_projects_role_dba::class => 'project'
     ];
 

@@ -15,15 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class midcom_services_rcs_handler extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_services_rcs_backend
-     */
-    private $backend;
+    private midcom_services_rcs_backend $backend;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    protected $object;
+    protected midcom_core_dbaobject $object;
 
     protected $style_prefix = '';
 

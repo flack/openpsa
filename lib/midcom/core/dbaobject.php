@@ -26,22 +26,14 @@ abstract class midcom_core_dbaobject
 {
     use parameters, attachments, privileges;
 
-    /**
-     * @var string
-     */
-    public $__midcom_class_name__;
+    public string $__midcom_class_name__;
 
-    /**
-     * @var string
-     */
-    public $__mgdschema_class_name__;
+    public string $__mgdschema_class_name__;
 
     /**
      * MgdSchema object
-     *
-     * @var mgdobject
      */
-    public $__object;
+    public mgdobject $__object;
 
     /**
      * @var midcom_helper_metadata
@@ -50,33 +42,26 @@ abstract class midcom_core_dbaobject
 
     /**
      * Should the revision control system be enabled for object updates
-     *
-     * @var boolean
      */
-    public $_use_rcs = true;
+    public bool $_use_rcs = true;
 
     /**
      * Change message used for RCS and the Activity Log summary
-     *
-     * @var string
      */
-    private $_rcs_message = '';
+    private string $_rcs_message = '';
 
     /**
      * Should it be allowed to automatically generate unique name in case of clash
      *
      * @see http://trac.midgard-project.org/ticket/809
-     * @var boolean
      */
-    public $allow_name_catenate = false;
+    public bool $allow_name_catenate = false;
 
     /**
      * May contain a list of dbaclass => field entries. When deleting an object,
      * these dependent objects are automatically deleted beforehand
-     *
-     * @var array
      */
-    public $autodelete_dependents = [];
+    public array $autodelete_dependents = [];
 
     /**
      * Creates an abstraction layer for an MgdSchema object.

@@ -16,10 +16,7 @@
  */
 class midcom_services_rcs_config
 {
-    /**
-     * @var midcom_config
-     */
-    private $config;
+    private midcom_config $config;
 
     public function __construct(midcom_config $config)
     {

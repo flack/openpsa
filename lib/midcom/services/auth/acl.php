@@ -219,27 +219,21 @@ class midcom_services_auth_acl
      * grants all privileges except midgard:create, midgard:update, midgard:delete and
      * midgard:privileges, which will always be denied. These checks go after the basic checks
      * for not authenticated users or admin level users.
-     *
-     * @var boolean
      */
-    private $_internal_sudo = false;
+    private bool $_internal_sudo = false;
 
     /**
      * Internal listing of all default privileges currently registered in the system. This
      * is a privilege name/value map.
-     *
-     * @var array
      */
-    private static $_default_privileges = [];
+    private static array $_default_privileges = [];
 
     /**
      * Internal listing of all default owner privileges currently registered in the system.
      * All privileges not set in this list will be inherited. This is a privilege name/value
      * map.
-     *
-     * @var array
      */
-    private static $_owner_default_privileges = [];
+    private static array $_owner_default_privileges = [];
 
     /**
      * This listing contains all magic privileges assigned to the existing classes. It is a
@@ -255,10 +249,8 @@ class midcom_services_auth_acl
      *     ],
      * ]
      * </pre>
-     *
-     * @var array
      */
-    private static $_default_magic_class_privileges = [];
+    private static array $_default_magic_class_privileges = [];
 
     /**
     * Internal cache of the content privileges of users on content objects, this is
@@ -269,10 +261,8 @@ class midcom_services_auth_acl
     * This must not be merged with the class-wide privileges_cache, because otherwise
     * class_default_privileges for child objects might be overridden by parent default
     * privileges
-    *
-    * @var array
     */
-    private static $_content_privileges_cache = [];
+    private static array $_content_privileges_cache = [];
 
     /**
      * Merges a new set of default privileges into the current set.

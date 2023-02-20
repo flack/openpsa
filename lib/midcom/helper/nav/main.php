@@ -25,20 +25,14 @@
  */
 class midcom_helper_nav
 {
-    /**
-     * @var midcom_helper_nav_backend
-     */
-    private $_backend;
+    private midcom_helper_nav_backend $_backend;
 
     /**
      * @var midcom_helper_nav_backend[]
      */
     private static $_backends = [];
 
-    /**
-     * @var midcom_core_context
-     */
-    private $context;
+    private midcom_core_context $context;
 
     /**
      * Create a NAP instance for the currently active context

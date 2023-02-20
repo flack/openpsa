@@ -57,17 +57,12 @@ class midcom_services_uimessages
      */
     private $_message_stack;
 
-    /**
-     * @var array
-     */
-    private $_allowed_types = ['info', 'ok', 'warning', 'error', 'debug'];
+    private array $_allowed_types = ['info', 'ok', 'warning', 'error', 'debug'];
 
     /**
      * DOM path of the UI message holder object
-     *
-     * @var string
      */
-    public $uimessage_holder = 'body';
+    public string $uimessage_holder = 'body';
 
     private function get_message_stack() : FlashBagInterface
     {

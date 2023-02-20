@@ -144,17 +144,13 @@ class midcom_helper_toolbar
     /**
      * The CSS class-Style rule that should be used for the toolbar.
      * Set to null if none should be used.
-     *
-     * @var string
      */
-    public $class_style;
+    public string $class_style;
 
     /**
      * The toolbar's label
-     *
-     * @var string
      */
-    protected $label = '';
+    protected string $label = '';
 
     /**
      * The items in the toolbar.
@@ -165,10 +161,8 @@ class midcom_helper_toolbar
      * relative URLs are processed upon the invocation of add_item(), if
      * you change URL manually, you have to ensure a valid URL by yourself
      * or use update_item_url, which is recommended.
-     *
-     * @var array
      */
-    public $items = [];
+    public array $items = [];
 
     /**
      * Allow our users to add arbitrary data to the toolbar.
@@ -178,10 +172,8 @@ class midcom_helper_toolbar
      *
      * The entries should be namespaced according to the usual MidCOM
      * Namespacing rules.
-     *
-     * @var array
      */
-    public $customdata = [];
+    public array $customdata = [];
 
     private $rendered = false;
 

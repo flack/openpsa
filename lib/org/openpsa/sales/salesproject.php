@@ -36,10 +36,10 @@
  */
 class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         org_openpsa_projects_role_dba::class => 'project'
     ];
 

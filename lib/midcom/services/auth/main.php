@@ -48,22 +48,15 @@ class midcom_services_auth
     /**
      * Admin user level state. This is true if the currently authenticated user is an
      * Administrator, false otherwise.
-     *
-     * @var boolean
      */
-    public $admin = false;
+    public bool $admin = false;
 
-    /**
-     * @var midcom_services_auth_acl
-     */
-    public $acl;
+    public midcom_services_auth_acl $acl;
 
     /**
      * Internal cache of all loaded groups, indexed by their identifiers.
-     *
-     * @var array
      */
-    private $_group_cache = [];
+    private array $_group_cache = [];
 
     /**
      * This flag indicates if sudo mode is active during execution. This will only be the
@@ -79,21 +72,14 @@ class midcom_services_auth
      * It is thus still safely possible to evaluate this member in a boolean context to check
      * for an enabled sudo mode.
      *
-     * @var int
      * @see request_sudo()
      * @see drop_sudo()
      */
-    private $_component_sudo = 0;
+    private int $_component_sudo = 0;
 
-    /**
-     * @var midcom_services_auth_backend
-     */
-    private $backend;
+    private midcom_services_auth_backend $backend;
 
-    /**
-     * @var midcom_services_auth_frontend
-     */
-    private $frontend;
+    private midcom_services_auth_frontend $frontend;
 
     /**
      * Loads all configured authentication drivers.

@@ -19,10 +19,7 @@ use Monolog\Handler\StreamHandler;
  */
 class midcom_exception_handler
 {
-    /**
-     * @var Throwable
-     */
-    private $error;
+    private Throwable $error;
 
     public function __construct(Throwable $error)
     {

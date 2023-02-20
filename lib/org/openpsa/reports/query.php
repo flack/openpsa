@@ -25,8 +25,8 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     const OBTYPE_REPORT = 7000;
     const OBTYPE_REPORT_TEMPORARY = 7001;
 
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_query';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_query';
 
     public function _on_loaded()
     {

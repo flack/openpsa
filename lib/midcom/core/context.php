@@ -16,10 +16,7 @@
  */
 class midcom_core_context
 {
-    /**
-     * @var int
-     */
-    private static $counter = 0;
+    private static int $counter = 0;
 
     /**
      * @var midcom_core_context[]
@@ -28,10 +25,8 @@ class midcom_core_context
 
     /**
      * The context's data
-     *
-     * @var array
      */
-    private $_data = [
+    private array $_data = [
         MIDCOM_CONTEXT_ANCHORPREFIX => '',
         MIDCOM_CONTEXT_URI => '',
         MIDCOM_CONTEXT_ROOTTOPIC => null,
@@ -48,10 +43,8 @@ class midcom_core_context
 
     /**
      * The context's ID
-     *
-     * @var int
      */
-    public $id;
+    public int $id;
 
     /**
      * @var midcom_db_topic

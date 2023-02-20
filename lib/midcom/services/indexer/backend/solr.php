@@ -20,15 +20,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
-    /**
-     * @var midcom_services_indexer_solrDocumentFactory
-     */
-    private $factory;
+    private midcom_services_indexer_solrDocumentFactory $factory;
 
-    /**
-     * @var midcom_config
-     */
-    private $config;
+    private midcom_config $config;
 
     public function __construct(midcom_config $config)
     {

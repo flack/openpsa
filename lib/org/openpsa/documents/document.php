@@ -28,10 +28,10 @@ use midcom\datamanager\storage\blobs;
  */
 class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_document';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_document';
 
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         self::class => 'nextVersion'
     ];
 

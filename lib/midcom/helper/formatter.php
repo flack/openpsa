@@ -15,10 +15,8 @@ class midcom_helper_formatter
 {
     /**
      * Filter registry
-     *
-     * @var array
      */
-    private static $_filters = [
+    private static array $_filters = [
         'h' => '',
         'p' => '',
         'u' => 'rawurlencode',

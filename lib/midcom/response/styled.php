@@ -15,15 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_response_styled extends Response
 {
-    /**
-     * @var string
-     */
-    private $root_element;
+    private string $root_element;
 
-    /**
-     * @var midcom_core_context
-     */
-    private $context;
+    private midcom_core_context $context;
 
     public function __construct(midcom_core_context $context, string $root_element = 'ROOT')
     {

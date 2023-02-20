@@ -54,46 +54,34 @@ class midcom_services_i18n_l10n
     /**
      * The name of the locale library we use, this is usually
      * a component's name.
-     *
-     * @var string
      */
-    private $_library;
+    private string $_library;
 
     /**
      * The full path basename to the active library files. The individual
      * files are ending with .$lang.txt.
-     *
-     * @var string
      */
-    private $_library_filename;
+    private string $_library_filename;
 
     /**
      * Fallback language, in case the selected language is not available.
-     *
-     * @var string
      */
-    private $_fallback_language;
+    private string $_fallback_language;
 
     /**
      * Current language.
-     *
-     * @var string
      */
-    private $_language;
+    private string $_language;
 
     /**
      * The string database
-     *
-     * @var array
      */
-    private $_stringdb = [];
+    private array $_stringdb = [];
 
     /**
      * The current L10n DB file format number
-     *
-     * @var string
      */
-    private $_version = '2.1.0';
+    private string $_version = '2.1.0';
 
     /**
      * The constructor loads the translation library indicated by the snippetdir

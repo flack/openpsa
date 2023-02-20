@@ -17,10 +17,7 @@ use midgard\portable\api\mgdobject;
  */
 class midcom_connection
 {
-    /**
-     * @var array
-     */
-    private static $_data = [];
+    private static array $_data = [];
 
     /**
      * DB connection setup routine

@@ -19,10 +19,10 @@
  */
 class midcom_services_at_entry_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
 
-    public $_use_rcs = false;
+    public bool $_use_rcs = false;
 
     const SCHEDULED = 100;
     const RUNNING = 110;
@@ -30,10 +30,8 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
 
     /**
      * Unserialized form of argumentsstore
-     *
-     * @var array
      */
-    public $arguments = [];
+    public array $arguments = [];
 
     /**
      * Makes sure $arguments is properly set

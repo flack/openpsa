@@ -33,8 +33,8 @@
  */
 class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_billing_data';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_billing_data';
 
     public function _on_creating() : bool
     {

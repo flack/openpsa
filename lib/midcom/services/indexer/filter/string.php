@@ -15,17 +15,13 @@ class midcom_services_indexer_filter_string implements midcom_services_indexer_f
 {
     /**
      * The string we're working with
-     *
-     * @var string
      */
-    private $value;
+    private string $value;
 
     /**
      * The name of the field that should be restricted.
-     *
-     * @var string
      */
-    private $field = '';
+    private string $field = '';
 
     /**
      * Create a new string filter.

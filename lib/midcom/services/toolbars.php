@@ -54,17 +54,13 @@ class midcom_services_toolbars
      * This array is indexed by context id; each value consists of a flat array
      * of two toolbars, the first object being the Node toolbar, the second
      * View toolbar. The toolbars are created on-demand.
-     *
-     * @var array
      */
-    private $_toolbars = [];
+    private array $_toolbars = [];
 
     /**
      * Whether we're in centralized mode, i.e. centralized toolbar has been shown
-     *
-     * @var boolean
      */
-    private $_centralized_mode = false;
+    private bool $_centralized_mode = false;
 
     public function get_class_magic_default_privileges() : array
     {

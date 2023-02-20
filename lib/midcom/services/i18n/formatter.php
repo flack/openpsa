@@ -16,10 +16,7 @@ use OpenPsa\Ranger\Ranger;
  */
 class midcom_services_i18n_formatter
 {
-    /**
-     * @var string
-     */
-    private $language;
+    private string $language;
 
     public function __construct(string $language)
     {

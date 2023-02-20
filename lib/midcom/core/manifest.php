@@ -182,28 +182,18 @@ class midcom_core_manifest
 {
     /**
      * The name of the component.
-     *
-     * @var string
      */
-    public $name = '';
+    public string $name = '';
 
-    /**
-     * @var string
-     */
-    public $description = '';
+    public string $description = '';
 
-    /**
-     * @var string
-     */
-    public $icon;
+    public string $icon;
 
     /**
      * If this is true, it is a pure-code component, otherwise it is a full blown
      * component.
-     *
-     * @var boolean
      */
-    public $purecode = false;
+    public bool $purecode = false;
 
     /**
      * Privileges array definition.
@@ -212,20 +202,17 @@ class midcom_core_manifest
      * prefix), values are arrays holding the global / owner privilege default.
      *
      * @todo Complete documentation
-     * @var array
      */
-    public $privileges = [];
+    public array $privileges = [];
 
     /**
      * A list of class definitions
-     *
-     * @var array
      */
-    public $class_mapping = [];
+    public array $class_mapping = [];
 
     /**
      * A list of all watches defined by the component.
-     *
+     * 
      * @var array
      */
     public $watches;
@@ -235,10 +222,8 @@ class midcom_core_manifest
      *
      * The array holds data indexed by the component name
      * they are relevant to.
-     *
-     * @var array
      */
-    public $customdata = [];
+    public array $customdata = [];
 
     /**
      * the filename the manifest was loaded from

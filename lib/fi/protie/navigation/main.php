@@ -35,17 +35,13 @@ class fi_protie_navigation
 {
     /**
      * MidCOM helper class for navigation subsystem. Uses class 'midcom.helper.nav'
-     *
-     * @var midcom_helper_nav
      */
-    private $_nap;
+    private midcom_helper_nav $_nap;
 
     /**
      * Stores the navigation access point history or in other words path to the current point.
-     *
-     * @var array
      */
-    private $node_path = [];
+    private array $node_path = [];
 
     /**
      * ID for the folder to get the navigation
@@ -56,60 +52,44 @@ class fi_protie_navigation
 
     /**
      * Number of the parsed level
-     *
-     * @var integer
      */
-    private $_level = 1;
+    private int $_level = 1;
 
     /**
      * The amount of lowest level elements to be skipped.
-     *
-     * @var integer
      */
-    public $skip_levels = 0;
+    public int $skip_levels = 0;
 
     /**
      * Switch to determine if navigation should display leaves or pages.
-     *
-     * @var boolean
      */
-    public $list_leaves = true;
+    public bool $list_leaves = true;
 
     /**
      * List only the leaf elements or pages
-     *
-     * @var boolean
      */
-    public $list_nodes = true;
+    public bool $list_nodes = true;
 
     /**
      * Switch to determine if navigation should follow node path (on true) or stop on the
      * spot.
-     *
-     * @var boolean
      */
-    public $follow_selected = true;
+    public bool $follow_selected = true;
 
     /**
      * Switch to determine if navigation should follow all the nodes or only the current
-     *
-     * @var boolean
      */
-    public $follow_all = false;
+    public bool $follow_all = false;
 
     /**
      * Switch to determine if navigation should show only the information of the currently selected node.
-     *
-     * @var boolean
      */
-    public $show_only_current = false;
+    public bool $show_only_current = false;
 
     /**
      * Restrict the amount of levels listed.
-     *
-     * @var integer
      */
-    public $list_levels = 0;
+    public int $list_levels = 0;
 
     /**
      * ID of the root level list object
@@ -120,67 +100,49 @@ class fi_protie_navigation
 
     /**
      * CSS class for styling the lists
-     *
-     * @var string
      */
-    public $css_list_style = 'fi_protie_navigation';
+    public string $css_list_style = 'fi_protie_navigation';
 
     /**
      * Add component name to list item ul class name
-     *
-     * @var boolean
      */
-    public $component_name_to_class = false;
+    public bool $component_name_to_class = false;
 
     /**
      * Check if item has children and if so, add node/leaf class to list item
-     *
-     * @var boolean
      */
-    public $has_children_to_class = false;
+    public bool $has_children_to_class = false;
 
     /**
      * Should the object's status be added to list item ul class names
      * Since this forces us to load the entire object, set it to false if you don't need it
-     *
-     * @var boolean
      */
-    public $object_status_to_class = false;
+    public bool $object_status_to_class = false;
 
     /**
      * CSS class for nodes
-     *
-     * @var string
      */
-    public $css_node = 'node';
+    public string $css_node = 'node';
 
     /**
      * CSS class for leaves
-     *
-     * @var string
      */
-    public $css_leaf = 'leaf';
+    public string $css_leaf = 'leaf';
 
     /**
      * CSS class for the elements in node path. All the elements in node path will have this class.
-     *
-     * @var string
      */
-    public $css_selected = 'selected';
+    public string $css_selected = 'selected';
 
     /**
      * CSS class for the current, active node or leaf. There can be only one active element.
-     *
-     * @var string
      */
-    public $css_active = 'active';
+    public string $css_active = 'active';
 
     /**
      * CSS class for links
-     *
-     * @var string
      */
-    public $css_link = 'link';
+    public string $css_link = 'link';
 
     /**
      * Here we initialize the classes and variables needed through the class.

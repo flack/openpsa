@@ -22,30 +22,21 @@ abstract class midcom_services_indexer_client
 
     /**
      * The NAP node corresponding to the topic
-     *
-     * @var array
      */
-    protected $_node;
+    protected array $_node;
 
     /**
      * The L10n DB for the topic's component
-     *
-     * @var midcom_services_i18n_l10n
      */
-    protected $_l10n;
+    protected midcom_services_i18n_l10n $_l10n;
 
-    /**
-     * @var midcom_services_indexer
-     */
-    private $_indexer;
+    private midcom_services_indexer $_indexer;
 
     /**
      * The queries we will work on. Each entry consists of a querybuilder
      * instance and a datamanager to render the results, and is indexed by name
-     *
-     * @var array
      */
-    private $_queries = [];
+    private array $_queries = [];
 
     /**
      * @param midcom_db_topic $topic The current topic

@@ -45,10 +45,8 @@ class midcom_core_privilege
 {
     /**
      * Cached actual midcom_core_privilege_db data for this privilege.
-     *
-     * @var array
      */
-    private $__privilege = [
+    private array $__privilege = [
         'guid' => '',
         'objectguid' => '',
         'privilegename'=> '',
@@ -59,22 +57,20 @@ class midcom_core_privilege
     ];
 
     /**
-     * The actual midcom_core_privilege_db object for this privilege.
-     *
+     * The actual object for this privilege.
+     * 
      * @var midcom_core_privilege_db
      */
     private $__privilege_object;
 
     /**
      * GUID of the midcom_core_privilege_db object, used when values are retrieved via collector instead of QB
-     *
-     * @var string
      */
-    private $__guid = '';
+    private string $__guid = '';
 
     /**
      * Cached content object, based on $objectguid.
-     *
+     * 
      * @var midcom_core_dbaobject
      */
     private $__cached_object;

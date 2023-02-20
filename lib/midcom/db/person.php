@@ -30,10 +30,10 @@
  */
 class midcom_db_person extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'midgard_person';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'midgard_person';
 
-    public $autodelete_dependents = [
+    public array $autodelete_dependents = [
         midcom_db_member::class => 'uid'
     ];
 
@@ -41,39 +41,31 @@ class midcom_db_person extends midcom_core_dbaobject
      * Read-Only variable, consisting of "$firstname $lastname".
      *
      * Updated during all DB operations.
-     *
-     * @var string
      */
-    public $name = '';
+    public string $name = '';
 
     /**
      * Read-Only variable, consisting of "$lastname, $firstname".
      *
      * Updated during all DB operations.
-     *
-     * @var string
      */
-    public $rname = '';
+    public string $rname = '';
 
     /**
      * Read-Only variable, consisting of a complete A HREF tag to homepage
      * if set.
      *
      * Updated during all DB operations.
-     *
-     * @var string
      */
-    public $homepagelink = '';
+    public string $homepagelink = '';
 
     /**
      * Read-Only variable, consisting of a complete mailto A HREF tag to
      * the set email address.
      *
      * Updated during all DB operations.
-     *
-     * @var string
      */
-    public $emaillink = '';
+    public string $emaillink = '';
 
     /**
      * The default constructor will create an empty object. Optionally, you can pass

@@ -18,10 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var controller
-     */
-    private $_controller;
+    private controller $_controller;
 
     private $_handler_id;
 

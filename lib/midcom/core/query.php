@@ -26,60 +26,44 @@ abstract class midcom_core_query
      * Be aware, that this setting will currently not use the QB to filter the objects accordingly,
      * since there is no way yet to filter against parameters. This will mean some performance
      * impact.
-     *
-     * @var boolean
      */
-    public $hide_invisible = true;
+    public bool $hide_invisible = true;
 
     /**
      * Flag that tracks whether deleted visibility check have already been added
-     *
-     * @var boolean
      */
-    protected $_visibility_checks_added = false;
+    protected bool $_visibility_checks_added = false;
 
     /**
      * The number of records to return to the client at most.
-     *
-     * @var int
      */
-    protected $_limit = 0;
+    protected int $_limit = 0;
 
     /**
      * The offset of the first record the client wants to have available.
-     *
-     * @var int
      */
-    protected $_offset = 0;
+    protected int $_offset = 0;
 
     /**
      * Type that the application expects to retrieve from this instance.
-     *
-     * @var string
      */
-    protected $_real_class;
+    protected string $_real_class;
 
     /**
      * The number of records found by the last execute() run. This is -1 as long as no
      * query has been executed. This member is read-only.
-     *
-     * @var int
      */
-    protected $count = -1;
+    protected int $count = -1;
 
     /**
      * The query backend, should be set in constructor. Currently collector or querybuilder
-     *
-     * @var \midgard\portable\query
      */
-    protected $_query;
+    protected \midgard\portable\query $_query;
 
     /**
      * The number of objects for which access was denied.
-     *
-     * @var int
      */
-    public $denied = 0;
+    public int $denied = 0;
 
     /**
      * User id for ACL checks. This is set when executing to avoid unnecessary overhead

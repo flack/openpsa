@@ -142,51 +142,35 @@ class midcom_baseclasses_components_viewer
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var midcom_db_topic
-     */
-    public $_topic;
+    public midcom_db_topic $_topic;
 
-    /**
-     * @var midcom_helper_configuration
-     */
-    public $_config;
+    public midcom_helper_configuration $_config;
 
     /**
      * Request specific data storage area. Registered in the component context
      * as ''.
-     *
-     * @var array
      */
-    public $_request_data = [];
+    public array $_request_data = [];
 
     /**
      * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar_node
      * @see midcom_services_toolbars
      */
-    public $_node_toolbar;
+    public midcom_helper_toolbar_node $_node_toolbar;
 
     /**
      * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar_view
      * @see midcom_services_toolbars
      */
-    public $_view_toolbar;
+    public midcom_helper_toolbar_view $_view_toolbar;
 
-    /**
-     * @var midcom_baseclasses_components_plugin
-     */
-    private $active_plugin;
+    private midcom_baseclasses_components_plugin $active_plugin;
 
-    /**
-     * @var Router
-     */
-    protected $router;
+    protected Router $router;
 
     /**
      * Request execution switch configuration.
@@ -194,20 +178,16 @@ class midcom_baseclasses_components_viewer
      * The main request switch data. You need to set this during construction,
      * it will be post-processed afterwards during initialize to provide a unified
      * set of data. Therefore you must not modify this switch after construction.
-     *
-     * @var array
      */
-    protected $_request_switch = [];
+    protected array $_request_switch = [];
 
     /**
      * The handler which has been declared to be able to handle the
      * request. The array will contain the original index of the handler in the
      * '_route' member for backtracking purposes. The variable argument list will be
      * placed into 'args' for performance reasons.
-     *
-     * @var array
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * Initializes the class, only basic variable assignment.

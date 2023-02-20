@@ -20,36 +20,25 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
 {
     /**
      * storing request data
-     *
-     * @var array
      */
-    protected $_request = [];
+    protected array $_request = [];
 
     /**
      * storing response data
-     *
-     * @var array
      */
-    protected $_response;
+    protected array $_response;
 
     /**
      * the response status
-     *
-     * @var int
      */
-    protected $_responseStatus = Response::HTTP_INTERNAL_SERVER_ERROR;
+    protected int $_responseStatus = Response::HTTP_INTERNAL_SERVER_ERROR;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    protected $_object;
+    protected midcom_core_dbaobject $_object;
 
     /**
      * the request mode (get, create, update, delete)
-     *
-     * @var string
      */
-    protected $_mode;
+    protected string $_mode;
 
     /**
      * the id or guid of the requested object

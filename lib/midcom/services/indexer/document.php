@@ -48,25 +48,19 @@ class midcom_services_indexer_document
      *
      * Each field is indexed by its name (a string). The value is another
      * array containing the fields "name", type" and "content".
-     *
-     * @var array
      */
-    private $_fields = [];
+    private array $_fields = [];
 
     /**
      * The i18n service, used for charset conversion.
-     *
-     * @var midcom_services_i18n
      */
-    protected $_i18n;
+    protected midcom_services_i18n $_i18n;
 
     /**
      * This is the score of this document. Only populated on resultset documents,
      * of course.
-     *
-     * @var double
      */
-    public $score = 0.0;
+    public float $score = 0.0;
 
     /* ------ START OF DOCUMENT FIELDS --------- */
 
@@ -76,19 +70,15 @@ class midcom_services_indexer_document
      * Must be UTF-8 on assignment already.
      *
      * This field is mandatory.
-     *
-     * @var string
      */
-    public $RI = '';
+    public string $RI = '';
 
     /**
      * Two letter language code of the document content
      *
      * This field is optional.
-     *
-     * @var string
      */
-    public $lang = '';
+    public string $lang = '';
 
     /**
      * The GUID of the topic the document is assigned to.
@@ -96,10 +86,8 @@ class midcom_services_indexer_document
      * May be empty for non-midgard resources.
      *
      * This field is mandatory.
-     *
-     * @var string GUID
      */
-    public $topic_guid = '';
+    public string $topic_guid = '';
 
     /**
      * The name of the component responsible for the document.
@@ -107,46 +95,36 @@ class midcom_services_indexer_document
      * May be empty for non-midgard resources.
      *
      * This field is mandatory.
-     *
-     * @var string
      */
-    public $component = '';
+    public string $component = '';
 
     /**
      * The fully qualified URL to the document, this should be a PermaLink.
      *
      * This field is mandatory.
-     *
-     * @var string
      */
-    public $document_url = '';
+    public string $document_url = '';
 
     /**
      * The time of document creation, this is a UNIX timestamp.
      *
      * This field is mandatory.
-     *
-     * @var int
      */
-    public $created = 0;
+    public int $created = 0;
 
     /**
      * The time of the last document modification, this is a UNIX timestamp.
      *
      * This field is mandatory.
-     *
-     * @var int
      */
-    public $edited = 0;
+    public int $edited = 0;
 
     /**
      * The timestamp of indexing.
      *
      * This field is added automatically and to be considered read-only.
-     *
-     * @var int
      */
-    public $indexed = 0;
+    public int $indexed = 0;
 
     /**
      * The MidgardPerson who created the object.
@@ -170,10 +148,8 @@ class midcom_services_indexer_document
      * The title of the document
      *
      * This is mandatory.
-     *
-     * @var string
      */
-    public $title = '';
+    public string $title = '';
 
     /**
      * The content of the document
@@ -181,28 +157,22 @@ class midcom_services_indexer_document
      * This is mandatory.
      *
      * This field is empty on documents retrieved from the index.
-     *
-     * @var string
      */
-    public $content = '';
+    public string $content = '';
 
     /**
      * The abstract of the document
      *
      * This is optional.
-     *
-     * @var string
      */
-    public $abstract = '';
+    public string $abstract = '';
 
     /**
      * The author of the document
      *
      * This is optional.
-     *
-     * @var string
      */
-    public $author = '';
+    public string $author = '';
 
     /**
      * An additional tag indicating the source of the document for use by the
@@ -212,10 +182,8 @@ class midcom_services_indexer_document
      * component doing the indexing.
      *
      * This is optional.
-     *
-     * @var string
      */
-    public $source = '';
+    public string $source = '';
 
     /**
      * The full path to the topic that houses the document.
@@ -228,10 +196,8 @@ class midcom_services_indexer_document
      * a trailing slash, f.x. https://host/path/to/topic/
      *
      * This is optional.
-     *
-     * @var string
      */
-    public $topic_url = '';
+    public string $topic_url = '';
 
     /**
      * The type of the document, set by subclasses and added to the index
@@ -242,9 +208,8 @@ class midcom_services_indexer_document
      *
      * @see is_a()
      * @see _set_type()
-     * @var string
      */
-    public $type = '';
+    public string $type = '';
 
     /**
      * This is have support for #651 without rewriting all components' index methods
@@ -252,9 +217,8 @@ class midcom_services_indexer_document
      * If set to false the indexer backend will silently skip this document.
      *
      * @see http://trac.midgard-project.org/ticket/651
-     * @var boolean
      */
-    public $actually_index = true;
+    public bool $actually_index = true;
 
     /* ------ END OF DOCUMENT FIELDS --------- */
 

@@ -25,10 +25,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     private $_cookie_id = 'midcom_services_auth_backend_simple-';
 
-    /**
-     * @var midcom_services_session
-     */
-    private $session;
+    private midcom_services_session $session;
 
     /**
      * Read the configuration

@@ -18,10 +18,10 @@
  */
 class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_link_log';
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_link_log';
 
-    public $_use_rcs = false;
+    public bool $_use_rcs = false;
 
     public function _on_creating() : bool
     {

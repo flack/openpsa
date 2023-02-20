@@ -25,20 +25,16 @@ class midcom_helper_imagefilter
 {
     /**
      * The temp file we're working in
-     *
-     * @var string
      */
-    private $_filename;
+    private string $_filename;
 
     /**
      * The quality to use for JPEG manipulation, this is not
      * yet settable from the outside.
      *
      * Stored as a valid imagemagick option, defaults to '-quality 90' right now.
-     *
-     * @var string
      */
-    private $_quality = "-quality 90";
+    private string $_quality = "-quality 90";
 
     public function __construct(midcom_db_attachment $input)
     {

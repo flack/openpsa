@@ -23,10 +23,8 @@ trait midcom_baseclasses_components_base
     /**
      * The name of the component, e.g. net.nehmer.static. Should be used whenever the
      * component's name is required instead of hardcoding it.
-     *
-     * @var string
      */
-    public $_component = '';
+    public string $_component = '';
 
     /**
      * Initialize $_component (unless already set)

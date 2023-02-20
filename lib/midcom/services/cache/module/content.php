@@ -63,79 +63,62 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     /**
      * Flag, indicating whether the current page may be cached. If
      * false, the usual no-cache headers will be generated.
-     *
-     * @var boolean
      */
-    private $_no_cache = false;
+    private bool $_no_cache = false;
 
     /**
      * An array storing all HTTP headers registered through register_sent_header().
      * They will be sent when a cached page is delivered.
-     *
-     * @var array
      */
-    private $_sent_headers = [];
+    private array $_sent_headers = [];
 
     /**
      * Set this to true if you want to inhibit storage of the generated pages in
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
-     *
-     * @var boolean
      */
-    private $_uncached = false;
+    private bool $_uncached = false;
 
     /**
      * Controls cache headers strategy
      * 'no-cache' activates no-cache mode that actively tries to circumvent all caching
      * 'revalidate' is the default which sets must-revalidate. Expiry defaults to current time, so this effectively behaves like no-cache if expires() was not called
      * 'public' and 'private' enable caching with the cache-control header of the same name, default expiry timestamps are generated using the default_lifetime
-     *
-     * @var string
      */
-    private $_headers_strategy = 'revalidate';
+    private string $_headers_strategy = 'revalidate';
 
     /**
      * Controls cache headers strategy for authenticated users, needed because some proxies store cookies, too,
      * making a horrible mess when used by mix of authenticated and non-authenticated users
      *
      * @see $_headers_strategy
-     * @var string
      */
-    private $_headers_strategy_authenticated = 'private';
+    private string $_headers_strategy_authenticated = 'private';
 
     /**
      * Default lifetime of page for public/private headers strategy
      * When generating the default expires header this is added to time().
-     *
-     * @var int
      */
-    private $_default_lifetime = 0;
+    private int $_default_lifetime = 0;
 
     /**
      * Default lifetime of page for public/private headers strategy for authenticated users
      *
      * @see $_default_lifetime
-     * @var int
      */
-    private $_default_lifetime_authenticated = 0;
+    private int $_default_lifetime_authenticated = 0;
 
     /**
      * A cache backend used to store the actual cached pages.
-     *
-     * @var AdapterInterface
      */
-    private $_data_cache;
+    private AdapterInterface $_data_cache;
 
     /**
      * GUIDs loaded per context in this request
      */
-    private $context_guids = [];
+    private array $context_guids = [];
 
-    /**
-     * @var midcom_config
-     */
-    private $config;
+    private midcom_config $config;
 
     /**
      * Initialize the cache.

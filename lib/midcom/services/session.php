@@ -44,10 +44,7 @@
  */
 class midcom_services_session
 {
-    /**
-     * @var midcom_services__sessioning
-     */
-    private $_sessioning;
+    private midcom_services__sessioning $_sessioning;
 
     /**
      * @var string

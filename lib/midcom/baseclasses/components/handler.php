@@ -42,56 +42,44 @@ abstract class midcom_baseclasses_components_handler
 
     /**
      * The topic for which we are handling a request.
-     *
-     * @var midcom_db_topic
      */
-    var $_topic;
+    var midcom_db_topic $_topic;
 
     /**
      * Request specific data storage area. Registered in the component context
      * as ''.
-     *
-     * @var array
      */
-    var $_request_data = [];
+    var array $_request_data = [];
 
     /**
      * The request class that has invoked this handler instance.
      *
      * @deprecated
-     * @var midcom_baseclasses_components_viewer
      */
-    var $_master;
+    var midcom_baseclasses_components_viewer $_master;
 
     /**
      * The node toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar_node
      * @see midcom_services_toolbars
      */
-    var $_node_toolbar;
+    var midcom_helper_toolbar_node $_node_toolbar;
 
     /**
      * The view toolbar for the current request context. Becomes available in the handle
      * phase.
      *
-     * @var midcom_helper_toolbar_view
      * @see midcom_services_toolbars
      */
-    var $_view_toolbar;
+    var midcom_helper_toolbar_view $_view_toolbar;
 
-    /**
-     * @var Router
-     */
-    protected $router;
+    protected Router $router;
 
     /**
      * Holds breadcrumb entries the handler wants to add
-     *
-     * @var array
      */
-    private $_breadcrumbs = [];
+    private array $_breadcrumbs = [];
 
     /**
      * Initializes the request handler class, called by the component interface after

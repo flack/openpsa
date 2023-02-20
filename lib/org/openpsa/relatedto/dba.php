@@ -22,9 +22,9 @@
  */
 class org_openpsa_relatedto_dba extends midcom_core_dbaobject
 {
-    public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_relatedto';
-    public $_use_rcs = false;
+    public string $__midcom_class_name__ = __CLASS__;
+    public string $__mgdschema_class_name__ = 'org_openpsa_relatedto';
+    public bool $_use_rcs = false;
 
     const SUSPECTED = 100;
     const CONFIRMED = 120;
