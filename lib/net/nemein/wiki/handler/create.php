@@ -22,15 +22,10 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
 
     /**
      * Wiki word we're creating page for
-     *
-     * @var string
      */
-    private $_wikiword = '';
+    private string $_wikiword = '';
 
-    /**
-     * @var net_nemein_wiki_wikipage
-     */
-    private $_page;
+    private net_nemein_wiki_wikipage $_page;
 
     private function check_unique_wikiword(string $wikiword, string $schema)
     {

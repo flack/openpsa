@@ -24,10 +24,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     private $_articles;
 
-    /**
-     * @var UniversalFeedCreator
-     */
-    private $_feed;
+    private UniversalFeedCreator $_feed;
 
     private $category;
 

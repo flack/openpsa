@@ -16,14 +16,11 @@ use midcom\datamanager\validation\phpValidator;
  */
 class midgard_admin_asgard_schemadb_config
 {
-    private $component;
+    private string $component;
 
-    /**
-     * @var midcom_helper_configuration
-     */
-    private $config;
+    private midcom_helper_configuration $config;
 
-    private $is_folder;
+    private bool $is_folder;
 
     public function __construct(string $component, midcom_helper_configuration $config, bool $is_folder)
     {

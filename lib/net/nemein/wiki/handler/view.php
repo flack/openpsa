@@ -18,15 +18,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 {
     use net_nemein_wiki_handler;
 
-    /**
-     * @var net_nemein_wiki_wikipage
-     */
-    private $_page;
+    private net_nemein_wiki_wikipage $_page;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
     /**
      * Internal helper, loads the datamanager for the current wikipage. Any error triggers a 500.

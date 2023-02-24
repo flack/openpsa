@@ -18,7 +18,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * @var net_nemein_redirector_tinyurl_dba
      */
-    private $_tinyurl;
+    private net_nemein_redirector_tinyurl_dba $_tinyurl;
 
     /**
      * @var net_nemein_redirector_tinyurl_dba[]

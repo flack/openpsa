@@ -15,12 +15,10 @@ class net_nemein_wiki_resolver
 {
     /**
      * The topic ID we're starting from
-     *
-     * @var int
      */
-    private $_topic;
+    private int $_topic;
 
-    public function __construct($topic)
+    public function __construct(int $topic)
     {
         $this->_topic = $topic;
     }

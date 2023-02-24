@@ -15,10 +15,7 @@ class midgard_admin_asgard_navigation
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var array
-     */
-    public $root_types = [];
+    public array $root_types = [];
 
     /**
      * @var midgard\portable\api\mgdobject
@@ -27,10 +24,8 @@ class midgard_admin_asgard_navigation
 
     /**
      * Object path to the current object.
-     *
-     * @var array
      */
-    private $_object_path = [];
+    private array $_object_path = [];
 
     private $_request_data = [];
     private $expanded_root_types = [];

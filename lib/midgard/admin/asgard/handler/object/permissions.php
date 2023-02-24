@@ -20,34 +20,19 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 {
     use midgard_admin_asgard_handler;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
+    private midcom_core_dbaobject $_object;
 
-    /**
-     * @var controller
-     */
-    private $_controller;
+    private controller $_controller;
 
-    /**
-     * @var array
-     */
-    private $_privileges = [
+    private array $_privileges = [
         // Midgard core level privileges
         'midgard:owner', 'midgard:read', 'midgard:update', 'midgard:delete', 'midgard:create',
         'midgard:parameters', 'midgard:attachments', 'midgard:privileges'
     ];
 
-    /**
-     * @var string
-     */
-    private $_header = '';
+    private string $_header = '';
 
-    /**
-     * @var array
-     */
-    private $_row_labels = [];
+    private array $_row_labels = [];
 
     private $additional_assignee;
 

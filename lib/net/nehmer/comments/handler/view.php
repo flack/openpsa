@@ -34,20 +34,11 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     private $_comments = [];
 
-    /**
-     * @var net_nehmer_comments_comment
-     */
-    private $_new_comment;
+    private net_nehmer_comments_comment $_new_comment;
 
-    /**
-     * @var string GUID
-     */
-    private $_objectguid;
+    private string $_objectguid;
 
-    /**
-     * @var controller
-     */
-    private $_post_controller;
+    private controller $_post_controller;
 
     /**
      * @var datamanager

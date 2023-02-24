@@ -19,10 +19,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 {
     use net_nehmer_blog_handler;
 
-    /**
-     * @var midcom_db_article
-     */
-    private $article;
+    private midcom_db_article $article;
 
     /**
      * Displays an article edit view.

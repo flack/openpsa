@@ -15,17 +15,13 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 {
     /**
      * Switch to determine if the whole tree should be copied
-     *
-     * @var boolean
      */
-    public $copy_tree = false;
+    public bool $copy_tree = false;
 
     /**
      * Switch to determine the visibility of inputs
-     *
-     * @var boolean
      */
-    public $inputs = true;
+    public bool  $inputs = true;
 
     /**
      * Choose the target type
@@ -43,22 +39,15 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
     /**
      * Show the link to view the object
-     *
-     * @var boolean
      */
-    public $view_link = false;
+    public bool $view_link = false;
 
     /**
      * Show the link to view the object
-     *
-     * @var boolean
      */
-    public $edit_link = false;
+    public bool $edit_link = false;
 
-    /**
-     * @var string
-     */
-    public $page_prefix = '';
+    public string $page_prefix = '';
 
     public function __construct(midcom_core_dbaobject $object, array &$request_data)
     {

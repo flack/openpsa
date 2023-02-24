@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class net_nehmer_static_handler_admin extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_db_article
-     */
-    private $article;
+    private midcom_db_article $article;
 
     private function load_controller() : controller
     {

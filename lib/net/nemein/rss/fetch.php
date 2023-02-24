@@ -23,22 +23,17 @@ class net_nemein_rss_fetch
      */
     public $lasterror;
 
-    /**
-     * @var net_nemein_rss_feed_dba
-     */
-    private $_feed;
+    private net_nemein_rss_feed_dba $_feed;
 
     /**
      * Property of midcom_db_article we're using for storing the feed item GUIDs
      */
-    private $_guid_property = 'extra2';
+    private string $_guid_property = 'extra2';
 
     /**
      * Current node we're importing to
-     *
-     * @var midcom_db_topic
      */
-    private $_node;
+    private midcom_db_topic $_node;
 
     /**
      * Initializes the class with a given feed

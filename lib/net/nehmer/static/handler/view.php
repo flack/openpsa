@@ -21,10 +21,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      */
     private $_article;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
     /**
      * Simple helper which references all important members to the request data listing

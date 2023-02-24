@@ -16,15 +16,9 @@ use midcom\datamanager\storage;
  */
 class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var array
-     */
-    protected $_index_entries = [];
+    protected array $_index_entries = [];
 
-    /**
-     * @var midcom_services_i18n_formatter
-     */
-    private $formatter;
+    private midcom_services_i18n_formatter $formatter;
 
     /**
      * Maps the content topic from the request data to local member variables.

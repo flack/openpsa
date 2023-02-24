@@ -15,20 +15,11 @@ use midcom\datamanager\schemabuilder;
  */
 class midgard_admin_asgard_schemadb extends schemabuilder
 {
-    /**
-     * @var midcom_helper_configuration
-     */
-    private $_config;
+    private midcom_helper_configuration $_config;
 
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n;
+    private midcom_services_i18n_l10n $l10n;
 
-    /**
-     * @var boolean
-     */
-    public $add_copy_fields = false;
+    public bool $add_copy_fields = false;
 
     public function __construct(midcom_core_dbaobject $object, midcom_helper_configuration $config)
     {

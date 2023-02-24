@@ -20,20 +20,11 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 {
     use net_nemein_wiki_handler;
 
-    /**
-     * @var net_nemein_wiki_wikipage
-     */
-    private $page;
+    private net_nemein_wiki_wikipage $page;
 
-    /**
-     * @var controller
-     */
-    private $controller;
+    private controller $controller;
 
-    /**
-     * @var schemadb
-     */
-    private $schemadb;
+    private schemadb $schemadb;
 
     /**
      * Internal helper, loads the controller for the current article. Any error triggers a 500.

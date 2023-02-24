@@ -21,10 +21,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
-     *
-     * @var datamanager
      */
-    private $_display_datamanager;
+    private datamanager $_display_datamanager;
 
     /**
      * @var net_nehmer_comments_comment[]

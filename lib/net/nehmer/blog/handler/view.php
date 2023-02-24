@@ -22,10 +22,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     private $_article;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
     /**
      * Simple helper which references all important members to the request data listing
