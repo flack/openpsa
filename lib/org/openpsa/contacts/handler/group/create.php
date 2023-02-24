@@ -19,17 +19,13 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
 {
     /**
      * What type of group are we dealing with, organization or group?
-     *
-     * @var string
      */
-    private $_type;
+    private string $_type;
 
     /**
      * The group we're working with
-     *
-     * @var org_openpsa_contacts_group_dba
      */
-    private $_group;
+    private org_openpsa_contacts_group_dba $_group;
 
     /**
      * The parent group, if any

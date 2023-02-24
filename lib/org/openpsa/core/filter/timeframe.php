@@ -15,24 +15,20 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
 {
     /**
      * The object field containing the timeframe's start
-     *
-     * @var string
      */
-    private $start;
+    private string $start;
 
     /**
      * The object field containing the timeframe's end
-     *
-     * @var string
      */
-    private $end;
+    private string $end;
 
     /**
      * @param string $name The filter's name
      * @param string $start The field representing the timeframe's start
      * @param string $end The field representing the timeframe's end
      */
-    public function __construct($name, $start = null, $end = null)
+    public function __construct(string $name, $start = null, $end = null)
     {
         $this->name = $name;
         $this->start = $start ?: $name;

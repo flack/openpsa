@@ -17,10 +17,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 {
     use org_openpsa_directmarketing_handler;
 
-    /**
-     * @var org_openpsa_contacts_person_dba
-     */
-    private $person;
+    private org_openpsa_contacts_person_dba $person;
 
     public function _on_initialize()
     {

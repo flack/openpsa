@@ -13,10 +13,7 @@
  */
 class org_openpsa_core_filter_select extends org_openpsa_core_filter
 {
-    /**
-     * @var array
-     */
-    protected $_options;
+    protected array $_options;
 
     /**
      * @var callable
@@ -25,10 +22,8 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
 
     /**
      * The query operator
-     *
-     * @var string
      */
-    protected $_operator;
+    protected string $_operator;
 
     public function __construct(string $name, string $operator = '=', array $options = [])
     {

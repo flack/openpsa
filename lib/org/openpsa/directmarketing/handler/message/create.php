@@ -18,10 +18,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 {
     use org_openpsa_directmarketing_handler;
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_message_dba
-     */
-    private $_message;
+    private org_openpsa_directmarketing_campaign_message_dba $_message;
 
     /**
      * Displays an message create view.

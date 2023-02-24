@@ -19,17 +19,12 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     /**
      * config key csv_export_memberships cached
-     *
-     * @var string
      */
-    private $membership_mode;
+    private string $membership_mode;
 
     protected $_schema = 'export';
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_dba
-     */
-    private $campaign;
+    private org_openpsa_directmarketing_campaign_dba $campaign;
 
     public function _load_schemadbs(string $handler_id, array &$args, array &$data) : array
     {

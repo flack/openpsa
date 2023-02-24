@@ -20,54 +20,40 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 {
     /**
      * The group results, if any
-     *
-     * @var array
      */
-    private $_groups = [];
+    private array $_groups = [];
 
     /**
      * The person results, if any
-     *
-     * @var array
      */
-    private $_persons = [];
+    private array $_persons = [];
 
     /**
      * The search string as entered by the user
-     *
-     * @var string
      */
-    private $_query_string;
+    private string $_query_string;
 
     /**
      * The search string, prepared for querying
-     *
-     * @var string
      */
-    private $_query_string_processed;
+    private string $_query_string_processed;
 
     /**
      * The wildcard to wrap around the query terms, if any
-     *
-     * @var string
      */
-    private $_wildcard_template = '__TERM__';
+    private string $_wildcard_template = '__TERM__';
 
     /**
      * The query to run
-     *
-     * @var array
      */
-    private $_query = [];
+    private array $_query = [];
 
     /**
      * Which types of objects should be queried
      *
      * Options are: person, group, both
-     *
-     * @var string
      */
-    private $_query_mode = 'person';
+    private string $_query_mode = 'person';
 
     private function _parse_query(ParameterBag $query)
     {

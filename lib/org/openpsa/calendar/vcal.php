@@ -16,10 +16,7 @@ use Sabre\VObject\Component\VCalendar;
  */
 class org_openpsa_calendar_vcal
 {
-    /**
-     * @var Sabre\VObject\Component\VCalendar
-     */
-    private $_calendar;
+    private VCalendar $_calendar;
 
     /**
      * @param string $method vCalendar method (defaults to "publish")

@@ -19,10 +19,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 {
     use org_openpsa_contacts_handler;
 
-    /**
-     * @var org_openpsa_contacts_person_dba
-     */
-    private $_contact;
+    private org_openpsa_contacts_person_dba $_contact;
 
     private function load_controller() : controller
     {

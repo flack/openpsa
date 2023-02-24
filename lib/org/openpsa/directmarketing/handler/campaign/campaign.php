@@ -19,15 +19,9 @@ implements client
 {
     use org_openpsa_directmarketing_handler;
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_dba
-     */
-    private $_campaign;
+    private org_openpsa_directmarketing_campaign_dba $_campaign;
 
-    /**
-     * @var array
-     */
-    private $memberships;
+    private array $memberships;
 
     public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {

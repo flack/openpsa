@@ -15,48 +15,30 @@ class org_openpsa_directmarketing_sender
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var boolean
-     */
-    private $test_mode = false;
+    private bool $test_mode = false;
 
     /**
      * How many messages to send in one go
-     *
-     * @var integer
      */
-    public $chunk_size = 50;
+    public int $chunk_size = 50;
 
     /**
      * Length of the message token
-     *
-     * @var integer
      */
-    public $token_size = 15;
+    public int $token_size = 15;
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_message_dba
-     */
-    private $_message;
+    private org_openpsa_directmarketing_campaign_message_dba $_message;
 
-    /**
-     * @var org_openpsa_directmarketing_sender_backend
-     */
-    private $_backend;
+    private org_openpsa_directmarketing_sender_backend $_backend;
 
-    /**
-     * @var integer
-     */
-    private static $_messages_sent = 0;
+    private static int $_messages_sent = 0;
 
-    private $_chunk_num = 0;
+    private int $_chunk_num = 0;
 
     /**
      * How many times to recurse if all results are filtered (speed vs memory [and risk on crashing], higher is faster)
-     *
-     * @var integer
      */
-    private $_chunk_max_recurse = 15;
+    private int $_chunk_max_recurse = 15;
 
     private $from;
 

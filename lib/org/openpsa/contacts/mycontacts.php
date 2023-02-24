@@ -13,10 +13,7 @@
  */
 class org_openpsa_contacts_mycontacts
 {
-    /**
-     * @var midcom_db_person
-     */
-    private $person;
+    private midcom_db_person $person;
 
     /**
      * @var array

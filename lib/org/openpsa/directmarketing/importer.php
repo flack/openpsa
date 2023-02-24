@@ -28,20 +28,11 @@ abstract class org_openpsa_directmarketing_importer
      */
     protected $_schemadbs = [];
 
-    /**
-     * @var array
-     */
-    private $_new_objects = [];
+    private array $_new_objects = [];
 
-    /**
-     * @var array
-     */
-    private $_import_status = [];
+    private array $_import_status = [];
 
-    /**
-     * @var array
-     */
-    protected $_settings = [];
+    protected array $_settings = [];
 
     public function __construct(array $schemadbs, array $settings = [])
     {

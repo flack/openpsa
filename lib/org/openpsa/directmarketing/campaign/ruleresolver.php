@@ -65,9 +65,9 @@
 class org_openpsa_directmarketing_campaign_ruleresolver
 {
     /**
-     * @var midcom_core_collector
+     * Contact-qb containing results
      */
-    private $mc; // Contact-qb containing results
+    private midcom_core_collector $mc;
 
     public function __construct()
     {

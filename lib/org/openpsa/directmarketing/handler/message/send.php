@@ -15,10 +15,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 {
     use org_openpsa_directmarketing_handler;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
     private $batch_url_base_full;
 

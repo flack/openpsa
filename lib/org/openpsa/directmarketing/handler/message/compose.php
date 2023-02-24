@@ -15,25 +15,13 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 {
     use org_openpsa_directmarketing_handler;
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_message_dba
-     */
-    private $_message;
+    private org_openpsa_directmarketing_campaign_message_dba $_message;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_member_dba
-     */
-    private $member;
+    private org_openpsa_directmarketing_campaign_member_dba $member;
 
-    /**
-     * @var org_openpsa_contacts_person_dba
-     */
-    private $person;
+    private org_openpsa_contacts_person_dba $person;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.

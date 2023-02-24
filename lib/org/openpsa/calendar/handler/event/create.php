@@ -19,10 +19,7 @@ use midcom\datamanager\controller;
  */
 class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $root_event;
+    private org_openpsa_calendar_event_dba $root_event;
 
     private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, ?string $resource) : controller
     {

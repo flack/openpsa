@@ -24,10 +24,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_schemadbs = [];
 
-    /**
-     * @var boolean
-     */
-    private $_import_success = false;
+    private bool $_import_success = false;
 
     private function _prepare_handler(string $guid)
     {

@@ -18,10 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_db_person
-     */
-    private $person;
+    private midcom_db_person $person;
 
     /**
      * @return org_openpsa_calendar_event_dba[]

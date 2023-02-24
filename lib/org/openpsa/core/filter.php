@@ -15,20 +15,12 @@ abstract class org_openpsa_core_filter
 {
     /**
      * The filter's unique name
-     *
-     * @var string
      */
-    public $name;
+    public string $name;
 
-    /**
-     * @var array
-     */
-    protected $_selection = [];
+    protected array $_selection = [];
 
-    /**
-     * @var string
-     */
-    protected $_label;
+    protected string $_label;
 
     /**
      * Apply filter to given query

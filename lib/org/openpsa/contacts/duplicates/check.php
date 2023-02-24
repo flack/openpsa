@@ -16,14 +16,12 @@ abstract class org_openpsa_contacts_duplicates_check
     /**
      * Used to store map of probabilities when seeking duplicates for given person/group
      */
-    private $p_map = [];
+    private array $p_map = [];
 
     /**
      * Minimum score to count as duplicate
-     *
-     * @var integer
      */
-    private $threshold = 1;
+    private int $threshold = 1;
 
     /**
      * Calculates P for the given two candidates being duplicates

@@ -17,10 +17,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 {
     private $_config = [];
 
-    /**
-     * @var org_openpsa_directmarketing_campaign_message_dba
-     */
-    private $_message;
+    private org_openpsa_directmarketing_campaign_message_dba $_message;
 
     public function __construct(array $config, org_openpsa_directmarketing_campaign_message_dba $message)
     {

@@ -21,15 +21,12 @@ class org_openpsa_core_queryfilter
      */
     private $_filters = [];
 
-    /**
-     * @var string
-     */
-    private $_identifier;
+    private string $_identifier;
 
     /**
      * @param string $identifier The QF's identifier
      */
-    public function __construct($identifier)
+    public function __construct(string $identifier)
     {
         $this->_identifier = $identifier;
     }

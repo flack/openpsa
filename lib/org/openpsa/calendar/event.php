@@ -35,51 +35,39 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      * list of participants
      *
      * (stored as eventmembers, referenced here for easier access)
-     *
-     * @var array
      */
-    public $participants = [];
+    public array $participants = [];
 
     /**
      * like $participants but for resources.
-     *
-     * @var array
      */
-    public $resources = [];
+    public array $resources = [];
 
     /**
      * vCalendar (or similar external source) GUID for this event
      *
      * (for vCalendar imports)
-     *
-     * @var string
      */
-    private $old_externalGuid = '';
+    private string $old_externalGuid = '';
 
     /**
      * Send notifications to participants of the event
-     *
-     * @var boolean
      */
-    var $send_notify = true;
+    var bool $send_notify = true;
 
     /**
      * Send notification also to current user
-     *
-     * @var boolean
      */
-    public $send_notify_me = false;
+    public bool $send_notify_me = false;
 
     /**
      * Used to work around DM creation features to get correct notification type out
-     *
-     * @var boolean
      */
-    var $notify_force_add = false;
+    var bool $notify_force_add = false;
 
-    public $search_relatedtos = true;
-    public $ignorebusy_em = false;
-    public $rob_tentative = false;
+    public bool $search_relatedtos = true;
+    public bool $ignorebusy_em = false;
+    public bool $rob_tentative = false;
 
     public function get_label() : string
     {

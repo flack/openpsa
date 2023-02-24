@@ -15,22 +15,15 @@ class org_openpsa_calendar_conflictmanager
 {
     /**
      * busy eventmembers
-     *
-     * @var mixed
      */
-    public $busy_members = [];
+    public array $busy_members = [];
 
     /**
      * busy event resources
-     *
-     * @var mixed
      */
-    public $busy_resources = [];
+    public array $busy_resources = [];
 
-    /**
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $_event;
+    private org_openpsa_calendar_event_dba $_event;
 
     /**
      * @var midcom_services_i18n_l10n

@@ -20,17 +20,12 @@ class org_openpsa_core_siteconfig
 
     /**
      * The components for which we're creating the structure information
-     *
-     * @var array
      */
-    private $components = [];
+    private array $components = [];
 
-    private $data = [];
+    private array $data = [];
 
-    /**
-     * @var midcom_db_snippet
-     */
-    private $snippet;
+    private midcom_db_snippet $snippet;
 
     /**
      * @var org_openpsa_core_siteconfig
