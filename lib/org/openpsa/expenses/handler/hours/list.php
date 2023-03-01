@@ -19,15 +19,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 {
     use org_openpsa_expenses_handler;
 
-    /**
-     * @var midcom_core_querybuilder
-     */
-    private $qb;
+    private midcom_core_querybuilder $qb;
 
-    /**
-     * @var string
-     */
-    private $breadcrumb_title;
+    private string $breadcrumb_title;
 
     public function _on_initialize()
     {

@@ -19,15 +19,9 @@ use midcom\datamanager\storage\blobs;
  */
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_documents_document_dba
-     */
-    private $_document;
+    private org_openpsa_documents_document_dba $_document;
 
-    /**
-     * @var controller
-     */
-    private $_controller;
+    private controller $_controller;
 
     public function _on_initialize()
     {

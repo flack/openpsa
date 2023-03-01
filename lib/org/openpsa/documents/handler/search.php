@@ -16,10 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_documents_handler_search extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var datamanager
-     */
-    private $datamanager;
+    private datamanager $datamanager;
 
     /**
      * @var midcom_services_indexer_document[]

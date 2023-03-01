@@ -18,22 +18,14 @@ use midcom\grid\provider;
 class org_openpsa_documents_handler_document_view extends midcom_baseclasses_components_handler
 implements client
 {
-    /**
-     * @var org_openpsa_documents_document_dba
-     */
-    private $_document;
+    private org_openpsa_documents_document_dba $_document;
 
-    /**
-     * @var datamanager
-     */
-    private $_datamanager;
+    private datamanager $_datamanager;
 
     /**
      * The grid provider for document versions
-     *
-     * @var provider
      */
-    private $_provider;
+    private provider $_provider;
 
     public function _on_initialize()
     {

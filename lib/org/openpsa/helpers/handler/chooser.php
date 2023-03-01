@@ -19,10 +19,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 {
     /**
      * The DBA class of the new object.
-     *
-     * @var string
      */
-    private $_dbaclass;
+    private string $_dbaclass;
 
     /**
      * The NAP node for the component the DBA class is from.
@@ -33,15 +31,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
     /**
      * The Controller of the document used for creating
-     *
-     * @var controller
      */
-    private $_controller;
+    private controller $_controller;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
+    private midcom_core_dbaobject $_object;
 
     public function _handler_create(Request $request, string $dbaclass, array &$data)
     {
