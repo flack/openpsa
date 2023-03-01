@@ -131,6 +131,7 @@ $grid->set_footer_data($footer_data);
 
 $filename = preg_replace('/[^a-z0-9-]/i', '_', $data['title'] . '_' . date('Y_m_d'));
 ?>
+<canvas id="chart-&(grid_id);"></canvas>
 <div class="grid-controls">
 <?php
 echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
@@ -172,5 +173,5 @@ midcom_grid_csv.add({
         }
 });
 midcom_grid_helper.bind_grouping_switch('&(grid_id);');
-
+init_chart('&(grid_id);');
 </script>

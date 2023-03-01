@@ -52,6 +52,8 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chartjs-4.2.1/chart.umd.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chart.js');
     }
 
     private function _get_invoices_for_subscription(org_openpsa_sales_salesproject_deliverable_dba $deliverable, midcom_services_at_entry_dba $at_entry) : array
