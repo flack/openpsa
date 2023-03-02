@@ -31,7 +31,11 @@ abstract class midcom_helper_exporter
                 continue;
             }
             if (is_object($object->{$key})) {
-                $out[$key] = $this->object2array($object->{$key});
+                if ($object->{$key} instanceof DateTime) {
+                    $out[$key] = $object->{$key}->format('c');
+                } else {
+                    $out[$key] = $this->object2array($object->{$key});
+                }
             } else {
                 $out[$key] = $object->{$key};
             }
