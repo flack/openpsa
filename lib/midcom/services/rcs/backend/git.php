@@ -97,17 +97,22 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
 
     protected function read_handle(string $command) : array
     {
-        return parent::read_handle('git -C ' . $this->config->get_rootdir() . ' ' . $command);
+        return parent::read_handle($this->get_command_prefix() . ' ' . $command);
     }
 
     private function exec(string $command)
     {
+        $this->run_command($this->get_command_prefix($command != 'init') . ' ' . $command);
+    }
+
+    private function get_command_prefix(bool $initialized = true) : string
+    {
         $prefix = 'git -C ' . $this->config->get_rootdir();
-        if ($command != 'init') {
+        if ($initialized) {
             // These help for the nested repo case
             $prefix .= ' --git-dir=' . $this->config->get_rootdir() . '/.git ' . ' --work-tree=' . $this->config->get_rootdir();
         }
-        $this->run_command($prefix . ' ' . $command);
+        return $prefix;
     }
 
     private function relative_path(string $filename) : string
