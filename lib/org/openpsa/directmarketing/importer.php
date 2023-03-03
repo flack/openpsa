@@ -21,12 +21,12 @@ abstract class org_openpsa_directmarketing_importer
     /**
      * @var datamanager[]
      */
-    private $_datamanagers = [];
+    private array $_datamanagers = [];
 
     /**
      * @var schemadb[]
      */
-    protected $_schemadbs = [];
+    protected array $_schemadbs = [];
 
     private array $_new_objects = [];
 

@@ -23,7 +23,7 @@ class blobs extends delayed
     /**
      * @var midcom_db_attachment[]
      */
-    protected $map = [];
+    protected array $map = [];
 
     /**
      * @return midcom_db_attachment[]

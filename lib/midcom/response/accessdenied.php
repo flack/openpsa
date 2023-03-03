@@ -13,7 +13,7 @@
  */
 class midcom_response_accessdenied extends midcom_response_login
 {
-    private $message;
+    private string $message;
 
     /**
      * @param string $message The message to show to the user.

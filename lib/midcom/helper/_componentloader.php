@@ -62,14 +62,14 @@ class midcom_helper__componentloader
      *
      * @var midcom_baseclasses_components_interface[]
      */
-    private $_interface_classes = [];
+    private array $_interface_classes = [];
 
     /**
      * @var midcom_core_manifest[]
      */
-    private $manifests = [];
+    private array $manifests = [];
 
-    private $components;
+    private array $components;
 
     public function __construct(array $components)
     {

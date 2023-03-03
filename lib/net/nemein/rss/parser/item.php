@@ -15,7 +15,7 @@ use SimplePie\Item;
  */
 class net_nemein_rss_parser_item extends Item
 {
-    private $_id_missing = true;
+    private bool $_id_missing = true;
 
     private $_local_guid;
 

@@ -14,7 +14,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
 {
     private $topic;
 
-    private $topic_id;
+    private int $topic_id;
 
     public function __construct($topic)
     {

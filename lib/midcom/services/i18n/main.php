@@ -39,7 +39,7 @@ class midcom_services_i18n
     /**
      * @var midcom_services_i18n_l10n[]
      */
-    private $_obj_l10n = [];
+    private array $_obj_l10n = [];
 
     private string $_current_language;
 

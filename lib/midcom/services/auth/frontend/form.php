@@ -19,10 +19,8 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     /**
      * Flag, which is set to true if the system encountered any new login credentials
      * during startup. If this is true, but no user is authenticated, login did fail.
-     *
-     * @var boolean
      */
-    private $auth_credentials_found = false;
+    private bool $auth_credentials_found = false;
 
     public function has_login_data() : bool
     {

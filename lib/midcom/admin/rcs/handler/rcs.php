@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
 {
-    protected $style_prefix = 'midcom-admin-rcs-';
+    protected string $style_prefix = 'midcom-admin-rcs-';
 
-    protected $url_prefix = '__ais/rcs/';
+    protected string $url_prefix = '__ais/rcs/';
 
     protected function get_breadcrumbs() : array
     {

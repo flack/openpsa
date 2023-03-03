@@ -23,7 +23,7 @@ class org_openpsa_widgets_contact
     /**
      * Contact information of the person being displayed
      */
-    public $contact_details = [
+    public array $contact_details = [
         'guid' => '',
         'id' => '',
         'firstname' => '',
@@ -66,7 +66,7 @@ class org_openpsa_widgets_contact
      */
     private static $_contacts_url;
 
-    private $person;
+    private midcom_db_person $person;
 
     /**
      * Initializes the class and stores the selected person to be shown

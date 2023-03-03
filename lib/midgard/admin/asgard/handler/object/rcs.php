@@ -18,9 +18,9 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
 {
     use midgard_admin_asgard_handler;
 
-    protected $style_prefix = 'midgard_admin_asgard_rcs_';
+    protected string $style_prefix = 'midgard_admin_asgard_rcs_';
 
-    protected $url_prefix = '__mfa/asgard/object/rcs/';
+    protected string $url_prefix = '__mfa/asgard/object/rcs/';
 
     protected function get_object_url() : string
     {

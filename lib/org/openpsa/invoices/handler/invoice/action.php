@@ -18,9 +18,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 {
     use org_openpsa_invoices_handler;
 
-    private $invoice;
+    private org_openpsa_invoices_invoice_dba $invoice;
 
-    private $old_status;
+    private string $old_status;
 
     public function _on_initialize()
     {

@@ -17,10 +17,7 @@ class net_nemein_wiki_parser
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var net_nemein_wiki_wikipage
-     */
-    private $_page;
+    private net_nemein_wiki_wikipage $_page;
 
     public function __construct(net_nemein_wiki_wikipage $page)
     {

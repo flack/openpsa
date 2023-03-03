@@ -16,7 +16,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     /**
      * @var midcom_db_topic[]
      */
-    private $topic_array;
+    private array $topic_array;
 
     private midcom_db_topic $root_topic;
 

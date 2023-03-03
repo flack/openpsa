@@ -15,12 +15,9 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
 {
     use org_openpsa_directmarketing_handler;
 
-    private $_campaign;
+    private org_openpsa_directmarketing_campaign_dba $_campaign;
 
-    /**
-     * @var datamanager
-     */
-    private $datamanager;
+    private datamanager $datamanager;
 
     /**
      * Looks up an message to display.

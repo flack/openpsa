@@ -14,7 +14,7 @@ use midcom\datamanager\helper\imagefilter;
  */
 class image extends blobs implements recreateable
 {
-    protected $save_archival = false;
+    protected bool $save_archival = false;
 
     public function recreate() : bool
     {

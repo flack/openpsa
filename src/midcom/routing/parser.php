@@ -19,21 +19,21 @@ use midcom_db_topic;
  */
 class parser
 {
-    public $argv = [];
+    public array $argv = [];
 
     /**
      * @var midcom_db_topic
      */
     private $current;
 
-    private $url = '';
+    private string $url = '';
 
     /**
      * Objects by URL
      *
      * @var midcom_db_topic[]
      */
-    private $objects = [];
+    private array $objects = [];
 
     private midcom_core_context $context;
 

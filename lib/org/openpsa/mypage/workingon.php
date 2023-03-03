@@ -16,12 +16,12 @@ class org_openpsa_mypage_workingon
     /**
      * Time person started working on the task
      */
-    public $start = 0;
+    public int $start = 0;
 
     /**
      * Time spent working on the task, in seconds
      */
-    protected $time = 0;
+    protected int $time = 0;
 
     /**
      * Task being worked on
@@ -31,7 +31,7 @@ class org_openpsa_mypage_workingon
     /**
      * The description for the current hour report
      */
-    public $description = '';
+    public string $description = '';
 
     /**
      * Person working on the task
@@ -41,7 +41,7 @@ class org_openpsa_mypage_workingon
     /**
      * If hour report is invoiceable
      */
-    public $invoiceable = false;
+    public bool $invoiceable = false;
 
     /**
      * @param midcom_db_person $person Person to handle "now working on" for. By default current user

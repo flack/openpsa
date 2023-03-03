@@ -13,9 +13,9 @@
  */
 class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handler
 {
-    private $_updated_pages = 0;
-    private $_max_pages = 0;
-    private $latest_pages = [];
+    private int $_updated_pages = 0;
+    private int $_max_pages = 0;
+    private array $latest_pages = [];
 
     /**
      * List all items updated with then given timeframe

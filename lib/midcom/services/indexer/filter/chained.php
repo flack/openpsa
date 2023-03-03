@@ -16,7 +16,7 @@ class midcom_services_indexer_filter_chained implements midcom_services_indexer_
     /**
      * @var midcom_services_indexer_filter[]
      */
-    private $filters = [];
+    private array $filters = [];
 
     public function add_filter(midcom_services_indexer_filter $filter)
     {

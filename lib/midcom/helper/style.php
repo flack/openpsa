@@ -43,7 +43,7 @@ class midcom_helper_style
 {
     /**
      * Current topic
-     * 
+     *
      * @var midcom_db_topic
      */
     private $_topic;
@@ -53,7 +53,7 @@ class midcom_helper_style
      *
      * @var midcom_core_context[]
      */
-    private $_context = [];
+    private array $_context = [];
 
     /**
      * List of styledirs to handle after componentstyle

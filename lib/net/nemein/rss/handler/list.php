@@ -18,7 +18,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     /**
      * @var net_nemein_rss_feed_dba[]
      */
-    private $feeds;
+    private array $feeds;
 
     public function _handler_opml() : Response
     {

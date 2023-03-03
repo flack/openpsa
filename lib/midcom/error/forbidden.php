@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_error_forbidden extends midcom_error
 {
-    private $method;
+    private string $method;
 
     public function __construct(string $message = null, int $code = Response::HTTP_FORBIDDEN, string $method = 'form')
     {

@@ -22,11 +22,11 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     /**
      * @var midcom_db_article[]
      */
-    private $_articles;
+    private array $_articles;
 
     private UniversalFeedCreator $_feed;
 
-    private $category;
+    private string $category;
 
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified

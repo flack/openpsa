@@ -11,7 +11,7 @@
  */
 class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handler
 {
-    private $_cutoff;
+    private int $_cutoff;
 
     public function set_cutoff(int $days)
     {

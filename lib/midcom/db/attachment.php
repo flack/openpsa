@@ -36,7 +36,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Internal tracking state variable, true if the attachment has a handle opened in write mode
      */
-    private $_open_write_mode = false;
+    private bool $_open_write_mode = false;
 
     /**
      * Opens the attachment for file IO.

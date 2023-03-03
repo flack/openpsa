@@ -21,7 +21,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     /**
      * @var org_openpsa_contacts_group_dba[]
      */
-    private $results;
+    private array $results;
 
     public function _handler_update_member_title(Request $request)
     {

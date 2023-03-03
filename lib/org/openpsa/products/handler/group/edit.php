@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_products_handler_group_edit extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_products_product_group_dba
-     */
-    private $_group;
+    private org_openpsa_products_product_group_dba $_group;
 
     /**
      * Looks up a product to display.

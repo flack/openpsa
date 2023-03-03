@@ -13,15 +13,9 @@
  */
 class org_openpsa_invoices_calculator
 {
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    private $_deliverable;
+    private org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
-    /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $_invoice;
+    private org_openpsa_invoices_invoice_dba $_invoice;
 
     public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $cycle_number = null)
     {

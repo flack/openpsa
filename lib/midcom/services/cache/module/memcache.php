@@ -45,10 +45,8 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
 {
     /**
      * List of known data groups. See the class introduction for details.
-     *
-     * @var array
      */
-    private $_data_groups = [];
+    private array $_data_groups = [];
 
     public function __construct(midcom_config $config, AdapterInterface $backend)
     {

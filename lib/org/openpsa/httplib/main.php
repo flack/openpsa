@@ -17,15 +17,15 @@ use GuzzleHttp\RedirectMiddleware;
  */
 class org_openpsa_httplib
 {
-    private $params = [
+    private array $params = [
         'timeout' => 30,
         'ssl_verify_peer' => false,
         'follow_redirects' => true
     ];
 
-    public $error = '';
+    public string $error = '';
 
-    public $basicauth = [
+    public array $basicauth = [
         'user' => false,
         'password' => false,
     ];

@@ -16,7 +16,7 @@ use midgard\portable\storage\connection;
  */
 class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 {
-    private $mgdtypes = [
+    private array $mgdtypes = [
         MGD_TYPE_STRING => "string",
         MGD_TYPE_INT => "integer",
         MGD_TYPE_UINT => "unsigned integer",

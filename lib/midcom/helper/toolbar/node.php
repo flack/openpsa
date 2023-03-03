@@ -13,10 +13,7 @@
  */
 class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
 {
-    /**
-     * @var midcom_db_topic
-     */
-    private $topic;
+    private midcom_db_topic $topic;
 
     public function __construct(midcom_db_topic $topic)
     {

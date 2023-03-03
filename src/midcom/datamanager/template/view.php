@@ -10,21 +10,21 @@ use midcom\datamanager\renderer;
 
 class view extends base
 {
-    private $skip_empty = false;
+    private bool $skip_empty = false;
 
     /**
      * Define the quotes behavior when htmlspecialchars() is called
      *
      * @see http://www.php.net/htmlspecialchars
      */
-    private $specialchars_quotes = ENT_QUOTES;
+    private int $specialchars_quotes = ENT_QUOTES;
 
     /**
      * Define the charset to use when htmlspecialchars() is called
      *
      * @see http://www.php.net/htmlspecialchars
      */
-    private $specialchars_charset = 'UTF-8';
+    private string $specialchars_charset = 'UTF-8';
 
     public function __construct(renderer $renderer, bool $skip_empty = false)
     {

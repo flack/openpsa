@@ -14,11 +14,11 @@ use midcom_error;
  */
 class multipleTransformer implements DataTransformerInterface
 {
-    private $config;
+    private array $config;
 
-    private $multiple_separator = '|';
+    private string $multiple_separator = '|';
 
-    private $multiple_storagemode = 'serialized';
+    private string $multiple_storagemode = 'serialized';
 
     public function __construct(array $config)
     {

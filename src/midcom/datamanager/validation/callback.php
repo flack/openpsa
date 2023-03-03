@@ -10,7 +10,7 @@ use midcom\datamanager\storage\container\container;
 
 class callback
 {
-    private $validation;
+    private array $validation;
 
     public function __construct(array $validation)
     {

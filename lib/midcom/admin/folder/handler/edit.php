@@ -20,11 +20,11 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 {
     private controller $_controller;
 
-    private $_handler_id;
+    private string $_handler_id;
 
-    private $old_name;
+    private string $old_name;
 
-    private $edit_topic;
+    private midcom_db_topic $edit_topic;
 
     private function _load_controller()
     {

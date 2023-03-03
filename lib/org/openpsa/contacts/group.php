@@ -49,10 +49,10 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     const DAUGHTER = 1001;
     const DEPARTMENT = 1002;
 
-    private $members = [];
-    private $_members_loaded = false;
-    private $_register_prober = false;
-    private $_address_extras = [];
+    private array $members = [];
+    private bool $_members_loaded = false;
+    private bool $_register_prober = false;
+    private array $_address_extras = [];
 
     public function __set($name, $value)
     {

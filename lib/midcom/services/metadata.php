@@ -23,7 +23,7 @@ class midcom_services_metadata
      *
      * @var midcom_helper_metadata[]
      */
-    private $_metadata = [];
+    private array $_metadata = [];
 
     /**
      * Class of the current page per each context.

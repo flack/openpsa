@@ -13,7 +13,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
 {
     use midgard_admin_asgard_handler;
 
-    private $_group;
+    private midcom_db_group $_group;
 
     /**
      * Populate breadcrumb

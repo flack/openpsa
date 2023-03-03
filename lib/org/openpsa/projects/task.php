@@ -39,10 +39,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         org_openpsa_projects_task_resource_dba::class => 'task',
     ];
 
-    public $contacts = []; //Shorthand access for contact members
-    public $resources = []; // --''--
-    public $_skip_acl_refresh = false;
-    public $_skip_parent_refresh = false;
+    public array $contacts = []; //Shorthand access for contact members
+    public array $resources = []; // --''--
+    public bool $_skip_acl_refresh = false;
+    public bool $_skip_parent_refresh = false;
     private $_status;
 
     /**

@@ -16,7 +16,7 @@ class org_openpsa_contacts_duplicates_check_person extends org_openpsa_contacts_
     /**
      * Cache memberships when possible
      */
-    private $membership_cache = [];
+    private array $membership_cache = [];
 
     protected function get_class() : string
     {

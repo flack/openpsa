@@ -12,7 +12,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class autocompleteTransformer implements DataTransformerInterface
 {
-    private $config;
+    private array $config;
 
     public function __construct(array $config)
     {

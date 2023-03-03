@@ -53,7 +53,7 @@ class midcom_services_cache implements EventSubscriberInterface
      *
      * @var midcom_services_cache_module[]
      */
-    private $_modules = [];
+    private array $_modules = [];
 
     public static function getSubscribedEvents()
     {

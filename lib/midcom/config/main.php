@@ -247,7 +247,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class midcom_config implements ArrayAccess
 {
-    private $_default_config = [
+    private array $_default_config = [
         // Authentication configuration
         'auth_type' => 'Legacy',
         'auth_backend' => 'simple',
@@ -420,7 +420,7 @@ class midcom_config implements ArrayAccess
         'theme' => '',
     ];
 
-    private $_merged_config = [];
+    private array $_merged_config = [];
 
     public function __construct()
     {

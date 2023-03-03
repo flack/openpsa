@@ -10,7 +10,7 @@ use midcom\datamanager\storage\delayed;
  */
 class net_nemein_tag_datamanager_storage extends delayed
 {
-    private $auto_context = '';
+    private string $auto_context = '';
 
     public function load()
     {

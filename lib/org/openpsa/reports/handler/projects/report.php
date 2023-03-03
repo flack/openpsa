@@ -13,8 +13,8 @@
  */
 class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_handler_base
 {
-    private $_grouping = 'date';
-    private $_valid_groupings = [
+    private string $_grouping = 'date';
+    private array $_valid_groupings = [
         'date' => true,
         'person' => true,
     ];

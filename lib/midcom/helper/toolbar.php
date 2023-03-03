@@ -175,7 +175,7 @@ class midcom_helper_toolbar
      */
     public array $customdata = [];
 
-    private $rendered = false;
+    private bool $rendered = false;
 
     /**
      * Basic constructor, initializes the class and sets defaults for the

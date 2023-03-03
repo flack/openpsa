@@ -71,7 +71,7 @@ class midcom_helper_metadata
 
     private midgard\portable\api\metadata $__metadata;
 
-    private $field_config = [
+    private array $field_config = [
         'readonly' => ['creator', 'created', 'revisor', 'revised', 'locker', 'locked', 'revision', 'size', 'deleted', 'exported', 'imported', 'islocked', 'isapproved'],
         'timebased' => ['created', 'revised', 'published', 'locked', 'approved', 'schedulestart', 'scheduleend', 'exported', 'imported'],
         'person' => ['creator', 'revisor', 'locker', 'approver'],

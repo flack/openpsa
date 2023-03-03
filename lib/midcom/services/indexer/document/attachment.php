@@ -32,7 +32,7 @@
  */
 class midcom_services_indexer_document_attachment extends midcom_services_indexer_document
 {
-    private $attachment;
+    private midcom_db_attachment $attachment;
 
     /**
      * Create a new attachment document

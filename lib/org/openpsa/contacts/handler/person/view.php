@@ -25,12 +25,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      * @var org_openpsa_contacts_member_dba[]
      */
-    private $organizations;
+    private array $organizations;
 
     /**
      * @var org_openpsa_contacts_member_dba[]
      */
-    private $groups;
+    private array $groups;
 
     /**
      * Simple helper which references all important members to the request data listing

@@ -19,15 +19,15 @@ class midcom_config_test
     const WARNING = 1;
     const ERROR = 2;
 
-    private $messages = [
+    private array $messages = [
         'midcom' => [],
         'php' => [],
         'external' => []
     ];
 
-    private $section;
+    private string $section;
 
-    private $status = self::OK;
+    private int $status = self::OK;
 
     public function check()
     {

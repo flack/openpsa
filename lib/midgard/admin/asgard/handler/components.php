@@ -15,9 +15,9 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 {
     use midgard_admin_asgard_handler;
 
-    private $components = [];
+    private array $components = [];
 
-    private $libraries = [];
+    private array $libraries = [];
 
     public function _on_initialize()
     {

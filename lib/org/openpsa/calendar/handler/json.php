@@ -15,14 +15,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $root_event;
+    private org_openpsa_calendar_event_dba $root_event;
 
     private $filters;
 
-    private $events = [];
+    private array $events = [];
 
     /**
      * JSON view

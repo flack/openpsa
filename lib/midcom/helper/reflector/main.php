@@ -18,7 +18,7 @@ class midcom_helper_reflector extends midgard_reflection_property
 {
     use midcom_baseclasses_components_base;
 
-    public $mgdschema_class = '';
+    public string $mgdschema_class = '';
 
     private static $_cache = [
         'l10n' => [],

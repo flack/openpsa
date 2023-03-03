@@ -17,7 +17,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 {
     use midgard_admin_asgard_handler;
 
-    private $type;
+    private string $type;
 
     private function _prepare_qb(string $object_class) : ?midcom_core_querybuilder
     {

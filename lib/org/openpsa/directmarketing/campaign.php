@@ -27,17 +27,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
 
     /**
      * List of tests members (stored as campaign_members, referenced here for easier access)
-     *
-     * @var array
      */
-    public $testers = [];
+    public array $testers = [];
 
     /**
      * Rules for smart-campaign
-     *
-     * @var array
      */
-    public $rules = [];
+    public array $rules = [];
 
     public function __construct($id = null)
     {

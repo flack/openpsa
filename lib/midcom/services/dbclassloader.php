@@ -53,7 +53,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class midcom_services_dbclassloader
 {
-    private $map;
+    private array $map;
 
     public function __construct(array $map)
     {

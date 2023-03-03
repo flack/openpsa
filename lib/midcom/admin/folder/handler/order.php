@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midcom_admin_folder_handler_order extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var boolean
-     */
-    private $ajax = false;
+    private bool $ajax = false;
 
     /**
      * Set the score.

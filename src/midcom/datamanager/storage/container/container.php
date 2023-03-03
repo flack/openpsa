@@ -16,7 +16,7 @@ abstract class container implements node, \ArrayAccess, \Iterator
     /**
      * @var node[]
      */
-    protected $fields = [];
+    protected array $fields = [];
 
     protected schema $schema;
 

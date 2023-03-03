@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_sender
 
     private $from;
 
-    private $subject;
+    private string $subject;
 
     public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', string $subject = '')
     {

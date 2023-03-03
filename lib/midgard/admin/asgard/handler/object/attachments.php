@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * @var midcom_db_attachment[]
      */
-    private $_files = [];
+    private array $_files = [];
 
     /**
      * Current file being edited

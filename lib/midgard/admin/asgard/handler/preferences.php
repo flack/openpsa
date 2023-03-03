@@ -21,10 +21,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 {
     use midgard_admin_asgard_handler;
 
-    /**
-     * @var midcom_db_person
-     */
-    private $_person;
+    private midcom_db_person $_person;
 
     /**
      * Process the UI information

@@ -19,9 +19,9 @@ use midcom_helper__componentloader;
  */
 class watcher implements EventSubscriberInterface
 {
-    private $watches;
+    private array $watches;
 
-    private $map = [
+    private array $map = [
         dbaevent::CREATE => \MIDCOM_OPERATION_DBA_CREATE,
         dbaevent::UPDATE => \MIDCOM_OPERATION_DBA_UPDATE,
         dbaevent::DELETE => \MIDCOM_OPERATION_DBA_DELETE,

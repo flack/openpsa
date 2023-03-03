@@ -15,7 +15,7 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
-    private $review_data = [];
+    private array $review_data = [];
 
     public function _handler_redirect()
     {

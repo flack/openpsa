@@ -27,9 +27,9 @@ class midgard_admin_asgard_navigation
      */
     private array $_object_path = [];
 
-    private $_request_data = [];
-    private $expanded_root_types = [];
-    protected $shown_objects = [];
+    private array $_request_data = [];
+    private array $expanded_root_types = [];
+    protected array $shown_objects = [];
 
     public function __construct(?object $object, array &$request_data)
     {

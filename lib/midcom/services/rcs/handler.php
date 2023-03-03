@@ -19,9 +19,9 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     protected midcom_core_dbaobject $object;
 
-    protected $style_prefix = '';
+    protected string $style_prefix = '';
 
-    protected $url_prefix = '';
+    protected string $url_prefix = '';
 
     abstract protected function get_object_url() : string;
 

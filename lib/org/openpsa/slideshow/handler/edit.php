@@ -19,10 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var array
-     */
-    private $response;
+    private array $response = [];
 
     public function _on_initialize()
     {

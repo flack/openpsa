@@ -13,7 +13,7 @@
  */
 class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_components_cron_handler
 {
-    private $cutoff;
+    private int $cutoff;
 
     public function _on_initialize() : bool
     {

@@ -19,7 +19,7 @@ class org_openpsa_core_queryfilter
     /**
      * @var org_openpsa_core_filter[]
      */
-    private $_filters = [];
+    private array $_filters = [];
 
     private string $_identifier;
 

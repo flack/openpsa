@@ -82,12 +82,9 @@
  */
 class org_openpsa_mail_template
 {
-    /**
-     * @var array
-     */
-    private $_parameters = [];
+    private array $_parameters = [];
 
-    private $_patterns = [];
+    private array $_patterns = [];
 
     /**
      * Constructs the template engine and parses the passed parameters

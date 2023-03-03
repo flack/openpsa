@@ -17,11 +17,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
     private datamanager $_datamanager;
 
-    private $batch_url_base_full;
+    private string $batch_url_base_full;
 
-    private $batch_number;
+    private int $batch_number;
 
-    private $send_start;
+    private int $send_start;
 
     private function load_datamanager(org_openpsa_directmarketing_campaign_message_dba $message)
     {

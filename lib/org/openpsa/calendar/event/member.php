@@ -24,7 +24,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     public bool $_use_rcs = false;
 
-    public $notify_person = true;
+    public bool $notify_person = true;
 
     public function _on_created()
     {

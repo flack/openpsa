@@ -16,8 +16,8 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
 {
     use org_openpsa_expenses_handler;
 
-    private $previous_week;
-    private $next_week;
+    private string $previous_week;
+    private string $next_week;
 
     private function prepare_dates(?string $requested_time, array &$data)
     {

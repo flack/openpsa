@@ -15,10 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $object;
+    private midcom_core_dbaobject $object;
 
     /**
      * Handler for folder metadata. Checks for updating permissions, initializes

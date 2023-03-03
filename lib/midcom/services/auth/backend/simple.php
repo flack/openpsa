@@ -23,7 +23,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      * The auto-generated cookie ID for which this login session is valid. This consists
      * of a static string with the host GUID concatenated to it.
      */
-    private $_cookie_id = 'midcom_services_auth_backend_simple-';
+    private string $_cookie_id = 'midcom_services_auth_backend_simple-';
 
     private midcom_services_session $session;
 

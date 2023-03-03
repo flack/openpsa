@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_contacts_person_dba
-     */
-    private $_person;
+    private org_openpsa_contacts_person_dba $_person;
 
     public function _handler_create(Request $request, string $guid = null)
     {

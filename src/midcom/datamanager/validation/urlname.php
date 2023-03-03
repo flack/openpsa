@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraint;
 
 class urlname extends Constraint
 {
-    public $allow_unclean = false;
-    public $allow_catenate = false;
-    public $title_field = 'title';
+    public bool $allow_unclean = false;
+    public bool $allow_catenate = false;
+    public string $title_field = 'title';
     public $property;
 }

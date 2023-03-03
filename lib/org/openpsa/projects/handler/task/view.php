@@ -15,10 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_projects_handler_task_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_projects_task_dba
-     */
-    private $task;
+    private org_openpsa_projects_task_dba $task;
 
     /**
      * Generates an object view.

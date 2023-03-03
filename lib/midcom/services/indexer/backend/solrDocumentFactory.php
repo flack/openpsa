@@ -16,10 +16,8 @@ class midcom_services_indexer_solrDocumentFactory
 {
     /**
      * The xml document to post.
-     *
-     * @var DOMDocument
      */
-    private $xml;
+    private DOMDocument $xml;
 
     public function __construct()
     {

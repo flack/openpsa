@@ -19,9 +19,9 @@ class org_openpsa_mail_message
 {
     private $_to;
 
-    private $_encoding;
+    private string $_encoding;
 
-    private $_headers;
+    private array $_headers;
 
     private $_body;
     private $_html_body;

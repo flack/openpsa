@@ -39,14 +39,14 @@ class loader
      *
      * @var string[]
      */
-    protected $cache = [];
+    protected array $cache = [];
 
     /**
      * The stack of directories to check for styles.
      *
      * @var string[]
      */
-    private $directories = [];
+    private array $directories = [];
 
     private string $theme_root;
 

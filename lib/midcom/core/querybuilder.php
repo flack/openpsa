@@ -29,7 +29,7 @@ class midcom_core_querybuilder extends midcom_core_query
     /**
      * When determining window sizes for offset/limit queries use this as maximum size
      */
-    private $max_window_size = 500;
+    private int $max_window_size = 500;
 
     /**
      * The initialization routine

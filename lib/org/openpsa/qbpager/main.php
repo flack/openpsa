@@ -12,13 +12,13 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
 {
     use midcom_baseclasses_components_base;
 
-    public $results_per_page = 25;
-    public $display_pages = 10;
-    public $string_next = 'next';
-    public $string_previous = 'previous';
+    public int $results_per_page = 25;
+    public int $display_pages = 10;
+    public string $string_next = 'next';
+    public string $string_previous = 'previous';
     protected $_pager_id;
-    protected $_prefix = '';
-    private $_current_page = 1;
+    protected string $_prefix = '';
+    private int $_current_page = 1;
     private $total;
 
     public function __construct(string $classname, string $pager_id)

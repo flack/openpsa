@@ -20,7 +20,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      *
      * @var org_openpsa_projects_task_dba[]
      */
-    private $event_tasks = [];
+    private array $event_tasks = [];
 
     /**
      * Search for events within configured timeframe and if

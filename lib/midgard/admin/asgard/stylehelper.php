@@ -15,10 +15,8 @@ class midgard_admin_asgard_stylehelper
 {
     /**
      * The current request data
-     *
-     * @var array
      */
-    private $_data;
+    private array $_data;
 
     public function __construct(array &$data)
     {

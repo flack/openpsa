@@ -12,7 +12,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class otherTransformer implements DataTransformerInterface
 {
-    private $choices;
+    private array $choices;
 
     public function __construct(array $choices)
     {

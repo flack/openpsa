@@ -10,5 +10,5 @@ namespace midcom\datamanager\storage;
  */
 class photo extends image
 {
-    protected $save_archival = true;
+    protected bool $save_archival = true;
 }

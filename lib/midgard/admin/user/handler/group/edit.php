@@ -18,7 +18,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
 {
     use midgard_admin_asgard_handler;
 
-    private $_group;
+    private midcom_db_group $_group;
 
     /**
      * Populate breadcrumb

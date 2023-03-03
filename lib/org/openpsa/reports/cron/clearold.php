@@ -13,7 +13,7 @@
  */
 class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cron_handler
 {
-    private $cutoff;
+    private string $cutoff;
 
     public function _on_initialize() : bool
     {

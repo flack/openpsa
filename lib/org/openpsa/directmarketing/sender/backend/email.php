@@ -15,7 +15,7 @@ use midcom\datamanager\storage\blobs;
  */
 class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_directmarketing_sender_backend
 {
-    private $_config = [];
+    private array $_config = [];
 
     private org_openpsa_directmarketing_campaign_message_dba $_message;
 

@@ -40,8 +40,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         org_openpsa_projects_role_dba::class => 'project'
     ];
 
-    public $contacts = []; //Shorthand access for contact members
-    public $resources = []; // --''--
+    public array $contacts = []; //Shorthand access for contact members
+    public array $resources = []; // --''--
 
     /**
      * Map that defines project status changes based on what types of tasks are available

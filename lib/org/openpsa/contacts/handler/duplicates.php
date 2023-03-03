@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_contacts_handler_duplicates extends midcom_baseclasses_components_handler
 {
-    private $notfound = false;
+    private bool $notfound = false;
 
-    private $mode;
+    private string $mode;
 
     public function _handler_person(Request $request, array &$data)
     {

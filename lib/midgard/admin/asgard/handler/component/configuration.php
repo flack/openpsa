@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +19,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 {
     use midgard_admin_asgard_handler;
 
-    private $_controller;
+    private controller $_controller;
 
     /**
      * @var midcom_db_topic

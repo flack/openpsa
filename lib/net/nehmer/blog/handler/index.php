@@ -22,7 +22,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     /**
      * @var midcom_db_article[]
      */
-    private $_articles;
+    private array $_articles;
 
     private $category;
 

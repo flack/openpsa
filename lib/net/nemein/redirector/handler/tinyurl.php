@@ -23,7 +23,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * @var net_nemein_redirector_tinyurl_dba[]
      */
-    private $_tinyurls = [];
+    private array $_tinyurls = [];
 
     private function load_controller() : controller
     {

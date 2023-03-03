@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
  */
 class subscriber implements EventSubscriberInterface
 {
-    private $initialized = false;
+    private bool $initialized = false;
 
     public static function getSubscribedEvents()
     {

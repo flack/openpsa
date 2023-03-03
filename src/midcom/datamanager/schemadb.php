@@ -13,7 +13,7 @@ use midcom_helper_misc;
  */
 class schemadb
 {
-    private $schemas = [];
+    private array $schemas = [];
 
     public static function from_path(string $path) : self
     {

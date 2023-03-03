@@ -71,7 +71,7 @@ class midcom_helper_head implements EventSubscriberInterface
 
     private static $placeholder_added = false;
 
-    private $cachebusting = '';
+    private string $cachebusting = '';
 
     public static function getSubscribedEvents()
     {

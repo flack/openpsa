@@ -32,7 +32,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * @var net_nehmer_comments_comment[]
      */
-    private $_comments = [];
+    private array $_comments = [];
 
     private net_nehmer_comments_comment $_new_comment;
 

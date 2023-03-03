@@ -14,7 +14,7 @@ use midcom_helper_misc;
  */
 class property extends dbanode
 {
-    private $set = false;
+    private bool $set = false;
 
     /**
      * {@inheritdoc}

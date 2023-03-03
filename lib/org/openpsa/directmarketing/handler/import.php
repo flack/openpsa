@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * @var schemadb[]
      */
-    private $_schemadbs = [];
+    private array $_schemadbs = [];
 
     private bool $_import_success = false;
 

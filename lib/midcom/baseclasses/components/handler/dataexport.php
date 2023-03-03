@@ -20,7 +20,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * @var datamanager[]
      */
-    private $_datamanagers = [];
+    private array $_datamanagers = [];
 
     /**
      * Flag indicating whether or not the GUID of the first type should be included in exports.
@@ -34,7 +34,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     public array $csv = [];
 
-    protected $_schema;
+    protected string $_schema = '';
 
     private array $_rows = [];
 

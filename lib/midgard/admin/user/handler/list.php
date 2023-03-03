@@ -16,7 +16,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 {
     use midgard_admin_asgard_handler;
 
-    private $_persons = [];
+    private array $_persons = [];
 
     public function _on_initialize()
     {

@@ -26,7 +26,7 @@ abstract class midcom_helper_nav_item
 {
     protected $data;
 
-    protected $loaded = false;
+    protected bool $loaded = false;
 
     abstract protected function prepare_data() : array;
 

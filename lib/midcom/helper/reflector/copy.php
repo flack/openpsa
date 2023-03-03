@@ -59,7 +59,7 @@ class midcom_helper_reflector_copy
     /**
      * Metadata fields that shall be copied
      */
-    public $copy_metadata_fields = [
+    public array $copy_metadata_fields = [
         'owner',
         'authors',
         'schedulestart',

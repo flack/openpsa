@@ -19,30 +19,16 @@ use Symfony\Component\HttpFoundation\Request;
 class controller
 {
     const EDIT = 'edit';
-
     const SAVE = 'save';
-
     const CANCEL = 'cancel';
-
     const DELETE = 'delete';
-
     const PREVIEW = 'preview';
-
     const NEXT = 'next';
-
     const PREVIOUS = 'previous';
 
-    /**
-     *
-     * @var Form
-     */
-    private $form;
+    private Form $form;
 
-    /**
-     *
-     * @var datamanager
-     */
-    private $dm;
+    private datamanager $dm;
 
     public function __construct(datamanager $dm, string $name = null)
     {

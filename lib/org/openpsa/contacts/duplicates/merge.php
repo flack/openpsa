@@ -13,12 +13,9 @@
  */
 class org_openpsa_contacts_duplicates_merge
 {
-    private $_object_mode = false;
+    private string $_object_mode;
 
-    /**
-     * @var midcom_helper_configuration
-     */
-    private $config;
+    private midcom_helper_configuration $config;
 
     /**
      * @param string $mode governs which objects the instance works on.

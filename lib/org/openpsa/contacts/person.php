@@ -38,7 +38,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         midcom_db_member::class => 'uid'
     ];
 
-    private $_register_prober = false;
+    private bool $_register_prober = false;
 
     public function __construct($identifier = null)
     {

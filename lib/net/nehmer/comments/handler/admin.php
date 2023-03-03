@@ -27,7 +27,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     /**
      * @var net_nehmer_comments_comment[]
      */
-    private $comments;
+    private array $comments;
 
     private $status;
 

@@ -66,11 +66,7 @@ class delete extends dialog
 
     private string $form_identifier = 'confirm-delete';
 
-    /**
-     *
-     * @var \midcom_services_i18n_l10n
-     */
-    private $l10n_midcom;
+    private \midcom_services_i18n_l10n $l10n_midcom;
 
     /**
      * {@inheritdoc}

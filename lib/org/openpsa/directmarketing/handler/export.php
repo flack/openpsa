@@ -22,7 +22,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      */
     private string $membership_mode;
 
-    protected $_schema = 'export';
+    protected string $_schema = 'export';
 
     private org_openpsa_directmarketing_campaign_dba $campaign;
 

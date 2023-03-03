@@ -21,7 +21,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     /**
      * @var midcom_services_indexer_document[]
      */
-    private $results;
+    private array $results;
 
     public function _on_initialize()
     {

@@ -87,7 +87,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var midcom_helper_nav_leaf[]
      */
-    private $_leaves = [];
+    private array $_leaves = [];
 
     /**
      * Node cache. It is an array which contains elements indexed by
@@ -109,7 +109,7 @@ class midcom_helper_nav_backend
      *
      * @var midcom_helper_nav_leaf[]
      */
-    private $_loaded_leaves = [];
+    private array $_loaded_leaves = [];
 
     /**
      * The NAP cache store

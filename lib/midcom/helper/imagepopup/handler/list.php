@@ -20,7 +20,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     /**
      * Search results
      */
-    private $_search_results = [];
+    private array $_search_results = [];
 
     public function _handler_list(Request $request, string $handler_id, string $filetype, array &$data, string $guid = null)
     {

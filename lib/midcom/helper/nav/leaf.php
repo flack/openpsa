@@ -11,10 +11,7 @@
  */
 class midcom_helper_nav_leaf extends midcom_helper_nav_item
 {
-    /**
-     * @var midcom_helper_nav_node
-     */
-    private $node;
+    private midcom_helper_nav_node $node;
 
     private $leafid;
 

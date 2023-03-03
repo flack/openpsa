@@ -19,7 +19,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 {
     use midgard_admin_asgard_handler;
 
-    private $type = '';
+    private string $type = '';
 
     public function _on_initialize()
     {
