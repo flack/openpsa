@@ -53,17 +53,13 @@ class org_openpsa_widgets_contact
 
     /**
      * Whether to show person's groups in a list
-     *
-     * @var boolean
      */
-    public $show_groups = true;
+    public bool $show_groups = true;
 
     /**
      * Whether to generate links to the groups using NAP
-     *
-     * @var boolean
      */
-    var $link_contacts = true;
+    var bool $link_contacts = true;
 
     /**
      * @var string

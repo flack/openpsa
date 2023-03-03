@@ -18,10 +18,7 @@ use midcom\grid\provider;
 class org_openpsa_user_handler_list extends midcom_baseclasses_components_handler
 implements client
 {
-    /**
-     * @var provider
-     */
-    private $_provider;
+    private provider $_provider;
 
     /**
      * @var midcom_db_group

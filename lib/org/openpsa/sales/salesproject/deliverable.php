@@ -51,10 +51,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     const STATE_DELIVERED = 500;
     const STATE_INVOICED = 600;
 
-    /**
-     * @var boolean
-     */
-    private $_update_parent_on_save = false;
+    private bool $_update_parent_on_save = false;
 
     public function _on_creating() : bool
     {

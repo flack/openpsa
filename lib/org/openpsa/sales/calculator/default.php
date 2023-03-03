@@ -13,20 +13,11 @@
  */
 class org_openpsa_sales_calculator_default implements org_openpsa_invoices_interfaces_calculator
 {
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    protected $deliverable;
+    protected org_openpsa_sales_salesproject_deliverable_dba $deliverable;
 
-    /**
-     * @var float
-     */
-    private $_cost = 0;
+    private float $_cost = 0;
 
-    /**
-     * @var float
-     */
-    private $_price = 0;
+    private float $_price = 0;
 
     /**
      * Perform the cost/price calculation

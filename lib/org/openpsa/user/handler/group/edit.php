@@ -16,10 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_db_group
-     */
-    private $group;
+    private midcom_db_group $group;
 
     public function _handler_edit(Request $request, string $guid)
     {

@@ -15,17 +15,13 @@ class org_openpsa_widgets_tree
 {
     /**
      * The tree's root node, if any
-     *
-     * @var int
      */
-    public $root_node = 0;
+    public int $root_node = 0;
 
     /**
      * The object fields to use for link titles
-     *
-     * @var array
      */
-    public $title_fields = ['title'];
+    public array $title_fields = ['title'];
 
     /**
      * Callback for rendering object links. It receives the GUID as parameter
@@ -36,25 +32,14 @@ class org_openpsa_widgets_tree
 
     /**
      * The constraints for the children MC
-     *
-     * @var array
      */
-    public $constraints = [];
+    public array $constraints = [];
 
-    /**
-     * @var string
-     */
-    private $_object_class;
+    private string $_object_class;
 
-    /**
-     * @var string
-     */
-    private $_parent_field;
+    private string $_parent_field;
 
-    /**
-     * @var boolean
-     */
-    private static $_head_elements_added = false;
+    private static bool $_head_elements_added = false;
 
     /**
      * Adds head elements and initializes some variables

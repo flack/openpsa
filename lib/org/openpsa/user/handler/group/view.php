@@ -15,10 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_user_handler_group_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_db_group
-     */
-    private $_group;
+    private midcom_db_group $_group;
 
     /**
      * Loads and prepares the schema database.

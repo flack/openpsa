@@ -20,10 +20,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 {
     use org_openpsa_sales_handler;
 
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    private $_deliverable;
+    private org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
     private function load_controller() : controller
     {

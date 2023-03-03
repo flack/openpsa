@@ -18,20 +18,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_sales_salesproject_dba
-     */
-    private $salesproject;
+    private org_openpsa_sales_salesproject_dba $salesproject;
 
-    /**
-     * @var org_openpsa_sales_interfaces_pdfbuilder
-     */
-    private $client;
+    private org_openpsa_sales_interfaces_pdfbuilder $client;
 
-    /**
-     * @var org_openpsa_sales_salesproject_offer_dba
-     */
-    private $offer;
+    private org_openpsa_sales_salesproject_offer_dba $offer;
 
     private function load_pdf_builder()
     {

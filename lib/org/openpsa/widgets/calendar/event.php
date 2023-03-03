@@ -15,66 +15,48 @@ class org_openpsa_widgets_calendar_event
 {
     /**
      * Event GUID
-     *
-     * @var string
      */
-    public $guid = '';
+    public string $guid = '';
 
     /**
      * Defines the start of an event - this property is required for calendar to work
-     *
-     * @var integer
      */
-    public $start = 0;
+    public int $start = 0;
 
     /**
      * Defines the end of an event
-     *
-     * @var integer
      */
-    public $end = 0;
+    public int $end = 0;
 
     /**
      * Link to the event
-     *
-     * @var string
      */
-    var $link = '';
+    var string $link = '';
 
     /**
      * Attributes for the event
-     *
-     * @var string
      */
-    var $attributes = '';
+    var string $attributes = '';
 
     /**
      * Event title
-     *
-     * @var string
      */
-    var $title = '';
+    var string $title = '';
 
     /**
      * Event description
-     *
-     * @var string
      */
-    public $description = '';
+    public string $description = '';
 
     /**
      * Event location
-     *
-     * @var string
      */
-    public $location = '';
+    public string $location = '';
 
     /**
      * Event CSS class
-     *
-     * @var string
      */
-    public $class = '';
+    public string $class = '';
 
     /**
      * Actual event object

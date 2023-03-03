@@ -15,10 +15,7 @@ use midcom\datamanager\datamanager;
  */
 class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    private $_deliverable;
+    private org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
     /**
      * Simple helper which references all important members to the request data listing

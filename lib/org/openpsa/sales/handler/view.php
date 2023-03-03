@@ -18,15 +18,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_sales_salesproject_dba
-     */
-    private $_salesproject;
+    private org_openpsa_sales_salesproject_dba $_salesproject;
 
-    /**
-     * @var array
-     */
-    private $deliverables = [];
+    private array $deliverables = [];
 
     /**
      * Simple helper which references all important members to the request data listing
