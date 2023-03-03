@@ -26,12 +26,9 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class rcsdir extends Command
 {
-    /**
-     * @var int
-     */
-    private $counter = 0;
+    private int $counter = 0;
 
-    private $orphaned = [];
+    private array $orphaned = [];
 
     protected function configure()
     {

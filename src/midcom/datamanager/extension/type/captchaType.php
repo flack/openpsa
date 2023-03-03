@@ -22,10 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class captchaType extends AbstractType
 {
-    /**
-     * @var \midcom_services_i18n_l10n
-     */
-    private $l10n;
+    private \midcom_services_i18n_l10n $l10n;
 
     public function __construct(\midcom_services_i18n $i18n)
     {

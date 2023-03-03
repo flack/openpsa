@@ -9,17 +9,14 @@ use Symfony\Component\Finder\Finder;
 
 class componentPass implements CompilerPassInterface
 {
-    /**
-     * @var array
-     */
-    private $watches = [
+    private array $watches = [
         \MIDCOM_OPERATION_DBA_CREATE => [],
         \MIDCOM_OPERATION_DBA_UPDATE => [],
         \MIDCOM_OPERATION_DBA_DELETE => [],
         \MIDCOM_OPERATION_DBA_IMPORT => []
     ];
 
-    private $classmap = [];
+    private array $classmap = [];
 
     public function process(ContainerBuilder $container)
     {

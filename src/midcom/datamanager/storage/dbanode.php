@@ -12,15 +12,9 @@ use midcom_core_dbaobject;
  */
 abstract class dbanode implements node
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    protected $object;
+    protected midcom_core_dbaobject $object;
 
-    /**
-     * @var array
-     */
-    protected $config;
+    protected array $config;
 
     public function __construct(midcom_core_dbaobject $object, array $config)
     {

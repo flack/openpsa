@@ -13,10 +13,7 @@ use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
  */
 class loader implements ChoiceLoaderInterface
 {
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
     /**
      * @var ArrayChoiceList

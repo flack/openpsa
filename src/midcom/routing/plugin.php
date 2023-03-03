@@ -83,10 +83,8 @@ class plugin
      *
      * You have to use the viewer's register_plugin_namespace() member function during the
      * _on_initialize event to register plugin namespaces.
-     *
-     * @var array
      */
-    private static $registry = [];
+    private static array $registry = [];
 
     /**
      * Create a new plugin namespace and map the configuration to it.

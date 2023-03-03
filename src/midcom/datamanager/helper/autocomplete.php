@@ -21,10 +21,8 @@ class autocomplete
 {
     /**
      * The request data we're working on
-     *
-     * @var array
      */
-    private $request;
+    private array $request;
 
     public function __construct(array $data)
     {

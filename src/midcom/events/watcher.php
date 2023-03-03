@@ -28,10 +28,7 @@ class watcher implements EventSubscriberInterface
         dbaevent::IMPORT => \MIDCOM_OPERATION_DBA_IMPORT,
     ];
 
-    /**
-     * @var midcom_helper__componentloader
-     */
-    private $loader;
+    private midcom_helper__componentloader $loader;
 
     public function __construct(midcom_helper__componentloader $loader, array $watches)
     {

@@ -35,10 +35,7 @@ class parser
      */
     private $objects = [];
 
-    /**
-     * @var midcom_core_context
-     */
-    private $context;
+    private midcom_core_context $context;
 
     public function __construct(midcom_core_context $context)
     {

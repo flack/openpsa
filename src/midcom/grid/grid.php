@@ -20,60 +20,45 @@ class grid
 {
     /**
      * The grid's ID
-     *
-     * @var string
      */
-    private $_identifier;
+    private string $_identifier;
 
     /**
      * The grid's options (converted for use in JS constructor)
-     *
-     * @var array
      */
-    private $_options = [];
+    private array $_options = [];
 
     /**
      * The grid's options as passed in PHP
-     *
-     * @var array
      */
-    private $_raw_options = [];
+    private array $_raw_options = [];
 
     /**
      * The grid's columns
      *
      * They have the following structure
      *
-     * 'key' => array
-     * (
+     * 'key' => [
      *     'label' => "Some label",
      *     'options' => 'javascript option string'
-     * )
-     *
-     * @var array
+     * ]
      */
-    private $_columns = [];
+    private array $_columns = [];
 
     /**
      * Flag that tracks if JS/CSS files have already been added
-     *
-     * @var boolean
      */
-    private static $_head_elements_added = false;
+    private static bool $_head_elements_added = false;
 
     /**
      * Data for the table footer
-     *
-     * @var array
      */
-    private $_footer_data = [];
+    private array $_footer_data = [];
 
     /**
      * Should formatters be applied to footer row
-     *
-     * @var boolean
      */
-    private $format_footer = true;
+    private bool $format_footer = true;
 
     /**
      * The data provider, if any
@@ -84,10 +69,8 @@ class grid
 
     /**
      * Javascript code that should be prepended to the widget constructor
-     *
-     * @var string
      */
-    private $_prepend_js;
+    private string $_prepend_js = '';
 
     /**
      * Adds the necessary javascript & css files for jqgrid

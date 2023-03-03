@@ -18,10 +18,7 @@ use midcom\datamanager\storage\container\dbacontainer;
  */
 class formExtension extends AbstractTypeExtension
 {
-    /**
-     * @var \midcom_services_auth
-     */
-    private $auth;
+    private \midcom_services_auth $auth;
 
     public function __construct(\midcom_services_auth $auth)
     {

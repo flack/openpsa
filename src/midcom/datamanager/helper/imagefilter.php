@@ -17,20 +17,11 @@ class imagefilter
 {
     use attachment;
 
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
-    /**
-     * @var array
-     */
-    private $images = [];
+    private array $images = [];
 
-    /**
-     * @var boolean
-     */
-    private $save_archival = false;
+    private bool $save_archival = false;
 
     public function __construct(array $config, bool $save_archival = false)
     {

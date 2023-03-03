@@ -16,10 +16,7 @@ use midcom_error;
  */
 class purifySubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
     public function __construct(array $config)
     {

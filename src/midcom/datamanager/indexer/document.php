@@ -90,10 +90,8 @@ class document extends midcom_services_indexer_document_midcom
 {
     /**
      * The datamanager instance of the document we need to index.
-     *
-     * @var datamanager
      */
-    private $datamanager;
+    private datamanager $datamanager;
 
     /**
      * The constructor initializes the member variables and invokes

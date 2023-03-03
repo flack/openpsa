@@ -22,24 +22,18 @@ class schemabuilder
 {
     /**
      * The object we're working with
-     *
-     * @var midcom_core_dbaobject
      */
-    protected $object;
+    protected midcom_core_dbaobject $object;
 
     /**
      * The schema in use
-     *
-     * @var array
      */
-    protected $schema;
+    protected array $schema;
 
     /**
      * Reflector instance for the current object's class.
-     *
-     * @var midcom_helper_reflector
      */
-    protected $reflector;
+    protected midcom_helper_reflector $reflector;
 
     public function __construct(midcom_core_dbaobject $object)
     {

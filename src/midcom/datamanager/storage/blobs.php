@@ -21,7 +21,6 @@ class blobs extends delayed
     use attachment;
 
     /**
-     *
      * @var midcom_db_attachment[]
      */
     protected $map = [];

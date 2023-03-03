@@ -22,19 +22,13 @@ use midcom_db_attachment;
  */
 class blobdir extends Command
 {
-    /**
-     * @var int
-     */
-    private $_file_counter = 0;
+    private int $_file_counter = 0;
 
-    /**
-     * @var string
-     */
-    private $_dir = "";
+    private string $_dir = "";
 
-    private $dry = false;
+    private bool $dry = false;
 
-    private $findings = [
+    private array $findings = [
         'corrupted' => [],
         'orphaned' => []
     ];

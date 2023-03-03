@@ -14,10 +14,7 @@ use midcom;
  */
 abstract class base
 {
-    /**
-     * @var renderer
-     */
-    protected $renderer;
+    protected renderer $renderer;
 
     public function __construct(renderer $renderer)
     {

@@ -19,10 +19,7 @@ use midcom\datamanager\schemadb;
  */
 class dbacollection extends delayed
 {
-    /**
-     * @var schema
-     */
-    private $schema;
+    private schema $schema;
 
     public function __construct(midcom_core_dbaobject $object, array $config)
     {

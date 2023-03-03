@@ -19,10 +19,7 @@ use Symfony\Component\Form\AbstractType;
  */
 class tinymceType extends AbstractType
 {
-    /**
-     * @var \midcom_services_i18n
-     */
-    private $i18n;
+    private \midcom_services_i18n $i18n;
 
     public function __construct(\midcom_services_i18n $i18n)
     {

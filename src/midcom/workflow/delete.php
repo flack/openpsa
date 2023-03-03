@@ -33,10 +33,8 @@ class delete extends dialog
 
     /**
      * The method to call for deletion (delete or delete_tree)
-     *
-     * @var boolean
      */
-    protected $recursive;
+    protected bool $recursive;
 
     /**
      * The URL to redirect to after successful deletion
@@ -51,15 +49,10 @@ class delete extends dialog
      * Disable relocate after execute
      *
      * Returns the uimessage as JSON instead
-     *
-     * @var boolean
      */
-    protected $relocate;
+    protected bool $relocate;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    protected $object;
+    protected midcom_core_dbaobject $object;
 
     /**
      * @var string
@@ -71,7 +64,7 @@ class delete extends dialog
      */
     protected $dialog_text;
 
-    private $form_identifier = 'confirm-delete';
+    private string $form_identifier = 'confirm-delete';
 
     /**
      *

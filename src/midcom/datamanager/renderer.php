@@ -15,15 +15,9 @@ use midcom_services_i18n_l10n;
  */
 class renderer extends FormRenderer
 {
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    protected $l10n;
+    protected midcom_services_i18n_l10n $l10n;
 
-    /**
-     * @var FormView
-     */
-    private $view;
+    private FormView $view;
 
     public function set_l10n(midcom_services_i18n_l10n $l10n)
     {

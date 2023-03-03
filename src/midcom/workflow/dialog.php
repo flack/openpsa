@@ -23,10 +23,7 @@ abstract class dialog
 {
     const INACTIVE = 'inactive';
 
-    /**
-     * @var string
-     */
-    protected $state = self::INACTIVE;
+    protected string $state = self::INACTIVE;
 
     public function __construct(array $options = [])
     {

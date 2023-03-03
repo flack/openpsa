@@ -23,20 +23,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class resolver
 {
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
-    /**
-     * @var parser
-     */
-    private $parser;
+    private parser $parser;
 
-    /**
-     * @var \midcom_core_context
-     */
-    private $context;
+    private \midcom_core_context $context;
 
     public function __construct(Request $request)
     {

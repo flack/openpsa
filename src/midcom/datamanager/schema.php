@@ -18,10 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
  */
 class schema
 {
-    /**
-     * @var array
-     */
-    private $defaults = [
+    private array $defaults = [
         'operations' => ['save' => '', 'cancel' => ''],
         'fields' => [],
         'customdata' => [],
@@ -29,15 +26,9 @@ class schema
         'action' => ''
     ];
 
-    /**
-     * @var array
-     */
-    private $config = [];
+    private array $config = [];
 
-    /**
-     * @var string
-     */
-    private $name = 'default';
+    private string $name = 'default';
 
     public function __construct(array $config)
     {

@@ -19,11 +19,7 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class dbacontainer extends container
 {
-    /**
-     *
-     * @var midcom_core_dbaobject
-     */
-    private $object;
+    private midcom_core_dbaobject $object;
 
     public function __construct(schema $schema, midcom_core_dbaobject $object, array $defaults)
     {

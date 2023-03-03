@@ -26,10 +26,7 @@ class dbaevent extends Event
     const UNAPPROVE = 'midcom:unapprove';
     const PARAMETER = 'midcom:parameter';
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
+    private midcom_core_dbaobject $_object;
 
     public function __construct(midcom_core_dbaobject $object)
     {

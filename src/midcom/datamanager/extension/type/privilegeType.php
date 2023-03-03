@@ -18,15 +18,9 @@ use Symfony\Component\Form\AbstractType;
  */
 class privilegeType extends AbstractType
 {
-    /**
-     * @var \midcom_services_auth
-     */
-    private $auth;
+    private \midcom_services_auth $auth;
 
-    /**
-     * @var \midcom_helper__dbfactory
-     */
-    private $dbfactory;
+    private \midcom_helper__dbfactory $dbfactory;
 
     public function __construct(\midcom_services_auth $auth, \midcom_helper__dbfactory $dbfactory)
     {

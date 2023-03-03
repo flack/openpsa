@@ -24,10 +24,7 @@ use midgard\portable\api\dbobject;
  */
 class repligard extends Command
 {
-    /**
-     * @var PDO
-     */
-    private $db;
+    private PDO $db;
 
     protected function configure()
     {

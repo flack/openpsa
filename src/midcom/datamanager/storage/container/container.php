@@ -14,16 +14,11 @@ use midcom\datamanager\schema;
 abstract class container implements node, \ArrayAccess, \Iterator
 {
     /**
-     *
      * @var node[]
      */
     protected $fields = [];
 
-    /**
-     *
-     * @var schema
-     */
-    protected $schema;
+    protected schema $schema;
 
     /**
      * @var string

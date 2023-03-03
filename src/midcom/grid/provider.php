@@ -22,10 +22,8 @@ class provider
 {
     /**
      * The class responsible for getting and formatting rows
-     *
-     * @var client
      */
-    private $_client;
+    private client $_client;
 
     /**
      * The rows to show
@@ -43,10 +41,8 @@ class provider
 
     /**
      * How many items should be shown per page
-     *
-     * @var int
      */
-    private $_results_per_page = 20;
+    private int $_results_per_page = 20;
 
     /**
      * The current offset
@@ -64,10 +60,8 @@ class provider
 
     /**
      * The direction for sorting (ASC or DESC)
-     *
-     * @var string
      */
-    private $_sort_direction = 'ASC';
+    private string $_sort_direction = 'ASC';
 
     /**
      * The grid we're working with
@@ -78,10 +72,8 @@ class provider
 
     /**
      * The datatype we're working with
-     *
-     * @var string
      */
-    private $_datatype;
+    private string $_datatype;
 
     /**
      * The midcom query object
@@ -92,12 +84,10 @@ class provider
 
     /**
      * Search parameters
-     *
-     * @var array
      */
-    private $_search = [];
+    private array $_search = [];
 
-    public function __construct($source, $datatype = 'json')
+    public function __construct($source, string $datatype = 'json')
     {
         $this->_datatype = $datatype;
         if ($source instanceof client) {

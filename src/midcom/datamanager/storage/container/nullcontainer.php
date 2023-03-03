@@ -14,7 +14,6 @@ use midcom\datamanager\schema;
 class nullcontainer extends container
 {
     /**
-     *
      * @var mixed
      */
     protected $value;

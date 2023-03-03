@@ -34,10 +34,8 @@ class datamanager extends dialog
      * Disable relocate after execute
      *
      * Returns the uimessage as JSON instead
-     *
-     * @var boolean
      */
-    protected $relocate;
+    protected bool $relocate;
 
     /**
      * {@inheritdoc}

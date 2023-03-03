@@ -48,7 +48,7 @@ class loader
      */
     private $directories = [];
 
-    private $theme_root;
+    private string $theme_root;
 
     public function __construct(string $theme_root)
     {

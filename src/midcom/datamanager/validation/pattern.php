@@ -9,8 +9,5 @@ use Symfony\Component\Validator\Constraint;
 
 class pattern extends Constraint
 {
-    /**
-     * @var array
-     */
-    public $forbidden_patterns = [];
+    public array $forbidden_patterns = [];
 }

@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class datamanager
 {
-    private $schemadb;
+    private schemadb $schemadb;
 
     /**
      * @var schema
@@ -35,10 +35,7 @@ class datamanager
      */
     private $storage;
 
-    /**
-     * @var array
-     */
-    private $defaults = [];
+    private array $defaults = [];
 
     /**
      * @var renderer
