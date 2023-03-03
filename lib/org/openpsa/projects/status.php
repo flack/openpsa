@@ -11,15 +11,9 @@
  */
 class org_openpsa_projects_status extends org_openpsa_widgets_status
 {
-    /**
-     * @var org_openpsa_projects_task_dba
-     */
-    private $task;
+    private org_openpsa_projects_task_dba $task;
 
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n;
+    private midcom_services_i18n_l10n $l10n;
 
     public function __construct(org_openpsa_projects_task_dba $task)
     {

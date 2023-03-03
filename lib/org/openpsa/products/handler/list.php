@@ -18,10 +18,7 @@ implements client
 {
     use org_openpsa_products_handler;
 
-    /**
-     * @var provider
-     */
-    private $provider;
+    private provider $provider;
 
     /**
      * @var datamanager

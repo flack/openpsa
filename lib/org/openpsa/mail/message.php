@@ -26,10 +26,7 @@ class org_openpsa_mail_message
     private $_body;
     private $_html_body;
 
-    /**
-     * @var Email
-     */
-    private $_message;
+    private Email $_message;
 
     public function __construct($to, array $headers, string $encoding)
     {

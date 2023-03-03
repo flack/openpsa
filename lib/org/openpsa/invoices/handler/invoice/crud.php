@@ -22,10 +22,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 {
     use org_openpsa_invoices_handler;
 
-    /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $invoice;
+    private org_openpsa_invoices_invoice_dba $invoice;
 
     /**
      * @var org_openpsa_contacts_group_dba

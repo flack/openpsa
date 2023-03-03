@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_products_handler_group_create extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_products_product_group_dba
-     */
-    private $_group;
+    private org_openpsa_products_product_group_dba $_group;
 
     private function load_controller(string $schema, int $up) : controller
     {

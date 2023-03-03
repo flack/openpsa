@@ -17,10 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var org_openpsa_projects_project
-     */
-    private $project;
+    private org_openpsa_projects_project $project;
 
     /**
      * @var string

@@ -17,15 +17,9 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_core_querybuilder
-     */
-    private $qb;
+    private midcom_core_querybuilder $qb;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $object;
+    private midcom_core_dbaobject $object;
 
     private $object_url;
 

@@ -18,10 +18,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
 {
     use org_openpsa_invoices_handler;
 
-    /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $invoice;
+    private org_openpsa_invoices_invoice_dba $invoice;
 
     /**
      * Generates an object view.

@@ -30,15 +30,9 @@ implements client
      */
     private $_deliverable;
 
-    /**
-     * @var string
-     */
-    private $_list_type = 'all';
+    private string $_list_type = 'all';
 
-    /**
-     * @var midcom_services_i18n_formatter
-     */
-    private $formatter;
+    private midcom_services_i18n_formatter $formatter;
 
     public function _on_initialize()
     {

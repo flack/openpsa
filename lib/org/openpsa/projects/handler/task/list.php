@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
 implements client
 {
-    private $status_order = [
+    private array $status_order = [
         'proposed' => 0,
         'current' => 1,
         'pending_accept' => 2,
@@ -29,30 +29,15 @@ implements client
         'closed' => 6
     ];
 
-    /**
-     * @var provider
-     */
-    protected $provider;
+    protected provider $provider;
 
-    /**
-     * @var midcom_core_querybuilder
-     */
-    protected $qb;
+    protected midcom_core_querybuilder $qb;
 
-    /**
-     * @var boolean
-     */
-    protected $show_status_controls = false;
+    protected bool $show_status_controls = false;
 
-    /**
-     * @var boolean
-     */
-    protected $show_customer = true;
+    protected bool $show_customer = true;
 
-    /**
-     * @var boolean
-     */
-    protected $is_single_project = false;
+    protected bool $is_single_project = false;
 
     protected $priority_array;
 

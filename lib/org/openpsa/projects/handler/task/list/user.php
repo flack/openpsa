@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_handler_task_list
 {
-    protected $show_status_controls = true;
+    protected bool $show_status_controls = true;
 
     public function _handler_list(Request $request, array $args)
     {

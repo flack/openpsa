@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_projects_handler_task_list
 {
-    protected $show_customer = false;
+    protected bool $show_customer = false;
 
     public function _handler_list(Request $request, array $args)
     {

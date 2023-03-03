@@ -23,10 +23,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      */
     private $_tasks = [];
 
-    /**
-     * @var array
-     */
-    private $_customers = [];
+    private array $_customers = [];
 
     private function _generate_invoice(ParameterBag $post) : ?org_openpsa_invoices_invoice_dba
     {

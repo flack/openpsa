@@ -49,10 +49,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      * First-level key is the project's own status type
      * Beginning from second level, keys are parsed from top to bottom, and the first match is used
      * Null values mean no change
-     *
-     * @var array
      */
-    private $_status_map = [
+    private array $_status_map = [
         'rejected' => [
             'ongoing' => org_openpsa_projects_task_status_dba::REOPENED, // If there's an ongoing task, the project seems to have resumed
             'not_started' => org_openpsa_projects_task_status_dba::PROPOSED, // There are pending tasks, so maybe the project is back to start

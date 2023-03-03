@@ -15,10 +15,7 @@ class org_openpsa_invoices_scheduler
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    private $_deliverable;
+    private org_openpsa_sales_salesproject_deliverable_dba $_deliverable;
 
     /**
      * The day of month on which subscriptions are invoiced (if none is set, they are invoiced continuously)

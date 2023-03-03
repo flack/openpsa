@@ -14,10 +14,7 @@ use midcom\datamanager\storage\blobs;
  */
 class org_openpsa_invoices_invoice_pdf
 {
-    /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $invoice;
+    private org_openpsa_invoices_invoice_dba $invoice;
 
     public function __construct(org_openpsa_invoices_invoice_dba $invoice)
     {

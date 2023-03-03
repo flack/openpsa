@@ -18,10 +18,7 @@ abstract class org_openpsa_mail_backend
 {
     public $error;
 
-    /**
-     * @var Mailer
-     */
-    protected $mailer;
+    protected Mailer $mailer;
 
     abstract public function __construct(array $params);
 

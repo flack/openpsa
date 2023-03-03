@@ -15,31 +15,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var midcom_core_dbaobject
-     */
-    private $_object;
+    private midcom_core_dbaobject $_object;
 
     /**
      * The mode we're in
-     *
-     * @var string
      */
-    private $_mode;
+    private string $_mode;
 
     /**
      * The sort order
-     *
-     * @var string
      */
-    private $_sort = 'default';
+    private string $_sort = 'default';
 
     /**
      * The link array
-     *
-     * @var array
      */
-    private $_links = [];
+    private array $_links = [];
 
     public function _on_initialize()
     {

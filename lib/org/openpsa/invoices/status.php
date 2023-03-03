@@ -11,20 +11,11 @@
  */
 class org_openpsa_invoices_status extends org_openpsa_widgets_status
 {
-    /**
-     * @var org_openpsa_invoices_invoice_dba
-     */
-    private $invoice;
+    private org_openpsa_invoices_invoice_dba $invoice;
 
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n;
+    private midcom_services_i18n_l10n $l10n;
 
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n_midcom;
+    private midcom_services_i18n_l10n $l10n_midcom;
 
     public function __construct(org_openpsa_invoices_invoice_dba $invoice)
     {

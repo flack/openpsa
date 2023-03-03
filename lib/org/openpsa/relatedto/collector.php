@@ -15,45 +15,33 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 {
     /**
      * The prefix for query constraints concerning the object(s) at hand
-     *
-     * @var string
      */
-    private $_object_prefix = '';
+    private string $_object_prefix = '';
 
     /**
      * The prefix for query constraints concerning the objects we're looking for
-     *
-     * @var string
      */
-    private $_other_prefix = '';
+    private string $_other_prefix = '';
 
     /**
      * The class(es) of the objects we're looking for
-     *
-     * @var array
      */
-    private $_target_classes = [];
+    private array $_target_classes = [];
 
     /**
      * Additional constraints for the QBs used to find the related objects
-     *
-     * @var array
      */
-    private $_object_constraints = [];
+    private array $_object_constraints = [];
 
     /**
      * Limit for the QBs used to find the related objects
-     *
-     * @var integer
      */
-    private $_object_limit = 0;
+    private int $_object_limit = 0;
 
     /**
      * Orders for the QBs used to find the related objects
-     *
-     * @var array
      */
-    private $_object_orders = [];
+    private array $_object_orders = [];
 
     /**
      * Takes one or more object guids and classnames and constructs a collector accordingly.

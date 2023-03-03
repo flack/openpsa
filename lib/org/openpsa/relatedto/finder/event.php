@@ -13,10 +13,7 @@
  */
 class org_openpsa_relatedto_finder_event extends org_openpsa_relatedto_finder
 {
-    /**
-     * @var org_openpsa_calendar_event_dba
-     */
-    private $event;
+    private org_openpsa_calendar_event_dba $event;
 
     public function __construct(org_openpsa_calendar_event_dba $event)
     {

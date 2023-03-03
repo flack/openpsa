@@ -43,17 +43,13 @@ class org_openpsa_mail
 
     /**
      * Text body
-     *
-     * @var string
      */
-    public $body = '';
+    public string $body = '';
 
     /**
      * key is header name, value is header data
-     *
-     * @var array
      */
-    public $headers = [
+    public array $headers = [
         'Subject' => null,
         'From' => null,
         'To' => null,
@@ -63,17 +59,13 @@ class org_openpsa_mail
 
     /**
      * HTML body (of MIME/multipart message)
-     *
-     * @var string
      */
-    public $html_body = '';
+    public string $html_body = '';
 
     /**
      * The parameters to use for the Mail template.
-     *
-     * @var array
      */
-    public $parameters = [];
+    public array $parameters = [];
 
     /**
      * Primary keys are int, secondary keys for decoded array are:
@@ -82,36 +74,25 @@ class org_openpsa_mail
      * 'file'     File path. Alternatively, content can be passed in
      * 'content'  File contents
      * 'mimetype' MIME type
-     *
-     * @var array
      */
-    public $attachments = [];
+    public array $attachments = [];
 
     /**
      * Character encoding in which the texts etc are
-     *
-     * @var string
      */
-    public $encoding;
+    public string $encoding;
 
     /**
      * Allow to send only HTML body
-     *
-     * @var boolean
      */
-    public $allow_only_html = false;
+    public bool $allow_only_html = false;
 
     /**
      * shall embed_images be called by message class?
-     *
-     * @var boolean
      */
-    private $_do_image_embedding = false;
+    private bool $_do_image_embedding = false;
 
-    /**
-     * @var org_openpsa_mail_backend
-     */
-    private $_backend;
+    private org_openpsa_mail_backend $_backend;
 
     public function __construct(string $backend = 'try_default', array $backend_params = [])
     {
