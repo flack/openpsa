@@ -13,7 +13,7 @@
  */
 class midcom_compat_environment
 {
-    private static $_headers = [];
+    private static array $_headers = [];
 
     public static function header(string $string, bool $replace = true, int $http_response_code = 0)
     {

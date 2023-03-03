@@ -20,7 +20,7 @@ class midcom
 
     /**
      * Main application singleton
-     * 
+     *
      * @var midcom_application
      */
     private static $_application;
@@ -28,7 +28,7 @@ class midcom
     /**
      * Mapping of service names to classes implementing the service
      */
-    private static $_service_classes = [];
+    private static array $_service_classes = [];
 
     /**
      * @throws midcom_error

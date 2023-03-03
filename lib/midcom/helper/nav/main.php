@@ -30,7 +30,7 @@ class midcom_helper_nav
     /**
      * @var midcom_helper_nav_backend[]
      */
-    private static $_backends = [];
+    private static array $_backends = [];
 
     private midcom_core_context $context;
 

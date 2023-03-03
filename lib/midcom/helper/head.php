@@ -69,7 +69,7 @@ class midcom_helper_head implements EventSubscriberInterface
 
     const HEAD_PLACEHOLDER = '<!-- MIDCOM_HEAD_ELEMENTS -->';
 
-    private static $placeholder_added = false;
+    private static bool $placeholder_added = false;
 
     private string $cachebusting = '';
 

@@ -20,8 +20,8 @@ use midcom\events\dbaevent;
  */
 trait parameters
 {
-    private static $parameter_cache = [];
-    private static $parameter_all = [];
+    private static array $parameter_cache = [];
+    private static array $parameter_all = [];
 
     /**
      * Return a parameter from the database.

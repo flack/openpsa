@@ -20,7 +20,7 @@ class midcom_helper_reflector extends midgard_reflection_property
 
     public string $mgdschema_class = '';
 
-    private static $_cache = [
+    private static array $_cache = [
         'l10n' => [],
         'instance' => [],
         'title' => [],

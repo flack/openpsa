@@ -14,7 +14,7 @@
  */
 class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
 {
-    public static $mails = [];
+    public static array $mails = [];
     private int $_index;
 
     public function __construct(array $params)

@@ -27,10 +27,8 @@ class midcom_baseclasses_components_configuration
      * are actually handling a request. This data storage area is static to the
      * complete component and shared over all subrequests and therefore suitable
      * to hold default configurations, -schemas and the like.
-     *
-     * @var array
      */
-    private static $_data = [];
+    private static array $_data = [];
 
     public static function get(string $component, string $key = null)
     {

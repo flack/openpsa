@@ -27,10 +27,7 @@ class org_openpsa_core_siteconfig
 
     private midcom_db_snippet $snippet;
 
-    /**
-     * @var org_openpsa_core_siteconfig
-     */
-    private static $instance = null;
+    private static ?org_openpsa_core_siteconfig $instance = null;
 
     public function __construct()
     {

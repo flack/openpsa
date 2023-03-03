@@ -100,7 +100,7 @@ class midcom_helper_nav_backend
      * @todo Update the data structure documentation
      * @var midcom_helper_nav_node[]
      */
-    private static $_nodes = [];
+    private static array $_nodes = [];
 
     /**
      * List of all topics for which the leaves have been loaded.
