@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
-    protected $module;
+    protected string $module;
 
     public function _handler_generator(array $args, array &$data)
     {

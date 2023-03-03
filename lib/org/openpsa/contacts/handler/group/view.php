@@ -22,7 +22,7 @@ implements client
 {
     use org_openpsa_contacts_handler;
 
-    private $group;
+    private org_openpsa_contacts_group_dba $group;
 
     private function _populate_toolbar()
     {

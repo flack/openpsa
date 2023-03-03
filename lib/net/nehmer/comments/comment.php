@@ -34,7 +34,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     const NEW_USER = 5;
     const MODERATED = 6;
 
-    var $_send_notification = false;
+    var bool $_send_notification = false;
 
     /**
      * DBA magic defaults which assign write privileges for all USERS, so that they can

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class attachmentTransformer implements DataTransformerInterface
 {
-    protected $config;
+    protected array $config;
 
     public function __construct(array $config)
     {

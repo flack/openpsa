@@ -43,7 +43,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public array $resources = []; // --''--
     public bool $_skip_acl_refresh = false;
     public bool $_skip_parent_refresh = false;
-    private $_status;
+    private ?array $_status = null;
 
     /**
      * Deny midgard:read by default

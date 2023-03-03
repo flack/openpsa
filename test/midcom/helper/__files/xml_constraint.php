@@ -17,7 +17,7 @@ use PHPUnit\Framework\Constraint\Constraint;
  */
 class xml_comparison extends Constraint
 {
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

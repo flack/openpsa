@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_response_login extends Response
 {
-    private $method;
+    private string $method;
 
     public function __construct(string $method = 'form')
     {

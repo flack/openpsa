@@ -25,7 +25,7 @@ class org_openpsa_user_accounthelper
      */
     private $account;
 
-    public $errstr;
+    public string $errstr;
 
     public function __construct(midcom_db_person $person = null)
     {
@@ -339,7 +339,7 @@ class org_openpsa_user_accounthelper
     {
         $username = $this->get_account()->get_username();
         $email = $this->person->email;
-        
+
         //Resets Password
         $password = $this->generate_safe_password($this->_config->get("min_password_length"));
         $this->set_account($username, $password);

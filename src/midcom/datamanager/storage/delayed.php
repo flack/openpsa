@@ -12,7 +12,7 @@ abstract class delayed extends dbanode
 {
     protected $value;
 
-    protected $initialized;
+    protected bool $initialized = false;
 
     public function set_value($value)
     {

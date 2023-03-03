@@ -212,7 +212,7 @@ class midcom_core_manifest
 
     /**
      * A list of all watches defined by the component.
-     * 
+     *
      * @var array
      */
     public $watches;
@@ -228,7 +228,7 @@ class midcom_core_manifest
     /**
      * the filename the manifest was loaded from
      */
-    public $filename;
+    public string $filename;
 
     /**
      * The constructor loads the manifest indicated by the filename passed to it.

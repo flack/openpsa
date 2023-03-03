@@ -22,7 +22,7 @@ use midcom_error_forbidden;
  */
 class dbloader extends loader
 {
-    private $dbstyle;
+    private int $dbstyle;
 
     private midcom_services_cache_module_content $content_cache;
 

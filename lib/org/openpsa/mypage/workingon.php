@@ -36,7 +36,7 @@ class org_openpsa_mypage_workingon
     /**
      * Person working on the task
      */
-    protected $person;
+    protected midcom_db_person $person;
 
     /**
      * If hour report is invoiceable

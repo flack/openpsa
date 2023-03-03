@@ -29,7 +29,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private array $comments;
 
-    private $status;
+    private string $status;
 
     public function _on_initialize()
     {

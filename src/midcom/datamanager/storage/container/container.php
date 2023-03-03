@@ -20,10 +20,7 @@ abstract class container implements node, \ArrayAccess, \Iterator
 
     protected schema $schema;
 
-    /**
-     * @var string
-     */
-    private $last_operation;
+    private string $last_operation;
 
     /**
      * @return boolean Indicating success

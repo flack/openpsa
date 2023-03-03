@@ -19,7 +19,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         'person' => true,
     ];
 
-    private $raw_results;
+    private array $raw_results;
 
     public function _on_initialize()
     {
