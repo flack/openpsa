@@ -21,7 +21,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
     private midcom_core_dbaobject $object;
 
-    private $object_url;
+    private string $object_url;
 
     public function _on_initialize()
     {
@@ -42,10 +42,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         grid::add_head_elements();
 
         //prepare breadcrumb
-        if ($this->object_url) {
-            $ref = midcom_helper_reflector::get($this->object);
-            $this->add_breadcrumb($this->object_url, $ref->get_object_label($this->object));
-        }
+        $ref = midcom_helper_reflector::get($this->object);
+        $this->add_breadcrumb($this->object_url, $ref->get_object_label($this->object));
         $this->add_breadcrumb(
             $this->router->generate('render', ['guid' => $guid, 'mode' => 'both']),
             $this->_l10n->get('view related information')

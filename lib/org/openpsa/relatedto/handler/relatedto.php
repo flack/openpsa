@@ -60,14 +60,14 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $ref = midcom_helper_reflector::get($this->_object);
         $object_label = $ref->get_object_label($this->_object);
 
-        if ($object_url = midcom::get()->permalinks->create_permalink($this->_object->guid)) {
-            $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $object_url,
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'eject',
-            ]);
-            $this->add_breadcrumb($object_url, $object_label);
-        }
+        $object_url = midcom::get()->permalinks->create_permalink($this->_object->guid);
+        $this->_view_toolbar->add_item([
+            MIDCOM_TOOLBAR_URL => $object_url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
+            MIDCOM_TOOLBAR_GLYPHICON => 'eject',
+        ]);
+        $this->add_breadcrumb($object_url, $object_label);
+
         $this->add_breadcrumb("", $this->_l10n->get('view related information'));
 
         // Load "Create X" buttons for all the related info
