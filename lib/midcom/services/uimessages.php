@@ -52,10 +52,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  */
 class midcom_services_uimessages
 {
-    /**
-     * @var Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
-     */
-    private $_message_stack;
+    private ?FlashBagInterface $_message_stack = null;
 
     private array $_allowed_types = ['info', 'ok', 'warning', 'error', 'debug'];
 

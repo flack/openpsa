@@ -67,7 +67,7 @@ class midcom_core_user
      *
      * @var midcom_core_group[]
      */
-    private $_all_groups;
+    private ?array $_all_groups = null;
 
     /**
      * Lists all groups in which a user is an immediate member.
@@ -81,7 +81,7 @@ class midcom_core_user
      *
      * @var midcom_core_group[]
      */
-    private $_direct_groups;
+    private ?array $_direct_groups = null;
 
     /**
      * All groups the user is a member in, ordered by their inheritance chain.
@@ -93,8 +93,6 @@ class midcom_core_user
      * get_group or using the all_groups listing.
      *
      * This member is populated with $_all_groups.
-     *
-     * @var array
      */
     private array $_inheritance_chains;
 
@@ -104,10 +102,8 @@ class midcom_core_user
      * Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      *
      * It is loaded on demand.
-     *
-     * @var array
      */
-    private $_privileges;
+    private array $_privileges;
 
     /**
      * List of all privileges assigned to that user based on the class he is accessing. It is to
@@ -117,10 +113,8 @@ class midcom_core_user
      * name of the class (or subtype thereof) for which they should apply.
      *
      * It is loaded on demand.
-     *
-     * @var array
      */
-    private $_per_class_privileges;
+    private array $_per_class_privileges;
 
     /**
      * The identification string used to internally identify the user uniquely

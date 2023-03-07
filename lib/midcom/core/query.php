@@ -67,10 +67,8 @@ abstract class midcom_core_query
 
     /**
      * User id for ACL checks. This is set when executing to avoid unnecessary overhead
-     *
-     * @var string
      */
-    private $_user_id;
+    private ?string $_user_id = null;
 
     /**
      * Class resolution into the MidCOM DBA system.

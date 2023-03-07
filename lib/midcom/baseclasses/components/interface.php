@@ -124,10 +124,8 @@ class midcom_baseclasses_components_interface
 
     /**
      * The NAP interface instance from the component, initialized on demand.
-     * 
-     * @var midcom_baseclasses_components_navigation
      */
-    private $_nap_instance;
+    private ?midcom_baseclasses_components_navigation $_nap_instance = null;
 
     /**
      * Class suffix used when constructing the on-site handler class.

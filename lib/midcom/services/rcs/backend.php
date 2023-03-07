@@ -14,10 +14,7 @@ use midcom\datamanager\schemabuilder;
  */
 abstract class midcom_services_rcs_backend
 {
-    /**
-     * @var midcom_services_rcs_history
-     */
-    private $history;
+    private ?midcom_services_rcs_history $history = null;
 
     protected midcom_core_dbaobject $object;
 

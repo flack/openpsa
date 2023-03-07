@@ -58,10 +58,8 @@ class midcom_core_privilege
 
     /**
      * The actual object for this privilege.
-     * 
-     * @var midcom_core_privilege_db
      */
-    private $__privilege_object;
+    private ?midcom_core_privilege_db $__privilege_object = null;
 
     /**
      * GUID of the midcom_core_privilege_db object, used when values are retrieved via collector instead of QB
@@ -70,10 +68,8 @@ class midcom_core_privilege
 
     /**
      * Cached content object, based on $objectguid.
-     * 
-     * @var midcom_core_dbaobject
      */
-    private $__cached_object;
+    private ?midcom_core_dbaobject $__cached_object = null;
 
     /**
      * The Default constructor creates an empty privilege, if you specify

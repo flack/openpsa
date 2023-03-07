@@ -18,7 +18,7 @@ class midcom_helper_reflector_nameresolver
      */
     private $_object;
 
-    public function __construct($object)
+    public function __construct(object $object)
     {
         $this->_object = $object;
     }

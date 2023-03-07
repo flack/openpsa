@@ -35,10 +35,7 @@ abstract class midcom_core_dbaobject
      */
     public mgdobject $__object;
 
-    /**
-     * @var midcom_helper_metadata
-     */
-    private $__metadata;
+    private ?midcom_helper_metadata $__metadata = null;
 
     /**
      * Should the revision control system be enabled for object updates
