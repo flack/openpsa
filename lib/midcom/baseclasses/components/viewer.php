@@ -187,7 +187,7 @@ class midcom_baseclasses_components_viewer
      * '_route' member for backtracking purposes. The variable argument list will be
      * placed into 'args' for performance reasons.
      */
-    private array $parameters;
+    private array $parameters = [];
 
     /**
      * Initializes the class, only basic variable assignment.
