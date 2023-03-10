@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -231,11 +232,18 @@ abstract class openpsa_testcase extends TestCase
             $this->assertEquals([], $controller->get_errors(), 'Form validation failed');
         }
 
-        return $this->get_dialog_url();
+        return $this->get_dialog_url($data);
     }
 
-    public function get_dialog_url() : string
+    public function get_dialog_url(array $data) : string
     {
+        if (   !array_key_exists('__openpsa_testcase_response', $data)
+            || !$data['__openpsa_testcase_response'] instanceof Response) {
+            $this->fail('No response found');
+        }
+        ob_start();
+        $data['__openpsa_testcase_response']->sendContent();
+        ob_end_clean();
         $head_elements = midcom::get()->head->get_jshead_elements();
         foreach (array_reverse($head_elements) as $element) {
             if (   !empty($element['content'])

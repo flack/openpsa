@@ -10,7 +10,7 @@ namespace test\midcom\workflow;
 
 use PHPUnit\Framework\TestCase;
 use midcom\workflow\datamanager;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * OpenPSA testcase
@@ -23,7 +23,10 @@ class dialogTest extends TestCase
     {
         $dialog = new datamanager();
         $response = $dialog->js_response('test');
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertStringContainsString('midcom.workflow/dialog.js', $response->getContent());
+        $this->assertInstanceOf(StreamedResponse::class, $response);
+        ob_start();
+        $response->sendContent();
+        $content = ob_get_clean();
+        $this->assertStringContainsString('midcom.workflow/dialog.js', $content);
     }
 }

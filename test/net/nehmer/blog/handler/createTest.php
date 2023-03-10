@@ -39,14 +39,14 @@ class createTest extends openpsa_testcase
             'content' => '<p>TEST</p>'
         ];
 
-        $this->submit_dm_no_relocate_form('controller', $formdata, self::$_topic, ['create', 'default']);
+        $data = $this->submit_dm_no_relocate_form('controller', $formdata, self::$_topic, ['create', 'default']);
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('title', '=', $formdata['title']);
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertCount(1, $results);
 
-        $url = $this->get_dialog_url();
+        $url = $this->get_dialog_url($data);
         $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();

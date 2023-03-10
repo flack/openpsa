@@ -13,6 +13,7 @@ use midcom;
 use midcom_response_styled;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Workflow base class
@@ -103,10 +104,11 @@ abstract class dialog
 
     public function js_response(string $script) : Response
     {
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
-        midcom::get()->head->add_jscript($script);
-        $content = '<!DOCTYPE html><html><head>' . midcom::get()->head->render() . '</head><body></body></html>';
-        return new Response($content);
+        return new StreamedResponse(function() use ($script) {
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+            midcom::get()->head->add_jscript($script);
+            echo '<!DOCTYPE html><html><head>' . midcom::get()->head->render() . '</head><body></body></html>';
+        });
     }
 
     abstract public function get_button_config() : array;

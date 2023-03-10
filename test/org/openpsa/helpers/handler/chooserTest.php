@@ -43,7 +43,11 @@ class chooserTest extends openpsa_testcase
             'email' => 'test@openpsa2.org'
         ];
         $this->set_dm_formdata($data['controller'], $formdata);
-        $this->run_handler('org.openpsa.sales', $handler_args);
+        $data = $this->run_handler('org.openpsa.sales', $handler_args);
+
+        ob_start();
+        $data['__openpsa_testcase_response']->sendContent();
+        ob_end_clean();
 
         $head_elements = midcom::get()->head->get_jshead_elements();
         $output = $head_elements[count($head_elements) - 1]['content'];

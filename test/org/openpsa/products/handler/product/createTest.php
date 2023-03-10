@@ -45,8 +45,8 @@ class createTest extends openpsa_testcase
             'tags' => 'tag1'
         ];
 
-        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.products', ['product', 'create', 'default']);
-        $url = $this->get_dialog_url();
+        $data = $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.products', ['product', 'create', 'default']);
+        $url = $this->get_dialog_url($data);
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_constraint('productGroup', '=', self::$_group->id);
         $results = $qb->execute();

@@ -63,8 +63,8 @@ class addTest extends openpsa_testcase
             'plannedUnits' => '1',
         ];
         $this->set_dm_formdata($data['controller'], $formdata);
-        $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
-        $url = $this->get_dialog_url();
+        $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
+        $url = $this->get_dialog_url($data);
 
         $this->assertEquals('salesproject/' . $this->_salesproject->guid . '/', $url);
 
@@ -94,8 +94,8 @@ class addTest extends openpsa_testcase
         ];
 
         $this->set_dm_formdata($data['controller'], $formdata);
-        $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
-        $url = $this->get_dialog_url();
+        $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'add', $this->_salesproject->guid]);
+        $url = $this->get_dialog_url($data);
 
         $this->assertEquals('salesproject/' . $this->_salesproject->guid . '/', $url);
 

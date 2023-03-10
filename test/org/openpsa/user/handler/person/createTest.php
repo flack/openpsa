@@ -47,8 +47,8 @@ class createTest extends openpsa_testcase
             'send_welcome_mail' => '1'
         ];
 
-        $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['create']);
-        $url = $this->get_dialog_url();
+        $data = $this->submit_dm_no_relocate_form('controller', $formdata, 'org.openpsa.user', ['create']);
+        $url = $this->get_dialog_url($data);
 
         $tokens = explode('/', trim($url, '/'));
 
