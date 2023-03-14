@@ -47,16 +47,13 @@ class midcom_core_collector extends midcom_core_query
     /**
      * @inheritdoc
      */
-    public function add_order(string $field, string $direction = 'ASC') : bool
+    public function add_order(string $field, string $direction = 'ASC')
     {
-        if ($stat = parent::add_order($field, $direction)) {
-            $this->orders[] = [
-                'field' => $field,
-                'direction' => $direction
-            ];
-        }
-
-        return $stat;
+        parent::add_order($field, $direction);
+        $this->orders[] = [
+            'field' => $field,
+            'direction' => $direction
+        ];
     }
 
     /**
@@ -172,15 +169,11 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->get($key);
     }
 
-    public function add_value_property(string $property) : bool
+    public function add_value_property(string $property)
     {
         if (!$this->_query->add_value_property($property)) {
-            debug_add("Failed to execute add_value_property '{$property}' for {$this->_real_class}.", MIDCOM_LOG_ERROR);
-
-            return false;
+            throw new midcom_error("Failed to execute add_value_property '{$property}' for {$this->_real_class}.");
         }
-
-        return true;
     }
 
     /**

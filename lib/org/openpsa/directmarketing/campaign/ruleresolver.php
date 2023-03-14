@@ -107,7 +107,13 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('rules[type] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
-        return $this->process_classes($rules['classes'], $rules['type']);
+        try {
+            $this->process_classes($rules['classes'], $rules['type']);
+            return true;
+        } catch (midcom_error $e) {
+            $e->log();
+            return false;
+        }
     }
 
     /**
@@ -121,96 +127,80 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return $this->mc->get_rows(['lastname', 'firstname', 'email', 'guid'], 'id');
     }
 
-    private function process_classes(array $classes, string $type) : bool
+    private function process_classes(array $classes, string $type)
     {
-        $stat = true;
         $this->mc->begin_group(strtoupper($type));
         foreach ($classes as $group) {
-            $stat = $this->resolve_rule_group($group);
-            if (!$stat) {
-                break;
-            }
+            $this->resolve_rule_group($group);
         }
         $this->mc->end_group();
-        return $stat;
     }
 
     /**
      * Resolves the rules in a single rule group
      */
-    private function resolve_rule_group(array $group) : bool
+    private function resolve_rule_group(array $group)
     {
         //check if rule is a group
         if (array_key_exists('groups', $group)) {
-            return $this->process_classes($group['classes'], $group['groups']);
+            $this->process_classes($group['classes'], $group['groups']);
+            return;
         }
-        if (!array_key_exists('rules', $group)) {
-            debug_add('group[rules] is not defined', MIDCOM_LOG_ERROR);
-            return false;
+        if (!array_key_exists('rules', $group) || !is_array($group['rules'])) {
+            throw new midcom_error('group[rules] is not an array');
         }
-        if (!is_array($group['rules'])) {
-            debug_add('group[rules] is not an array', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        return $this->add_rules($group['rules'], $group['class']);
+        $this->add_rules($group['rules'], $group['class']);
     }
 
     /**
      * Iterates over passed rules for given class and calls functions
      * to add rules to the querybuilder/collector
      */
-    private function add_rules(array $rules, string $class) : bool
+    private function add_rules(array $rules, string $class)
     {
         if (midcom::get()->dbclassloader->is_midcom_db_object($class)) {
             $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
         }
 
         if ($class == 'midgard_parameter') {
-            return $this->add_parameter_rule($rules);
+            $this->add_parameter_rule($rules);
+        } elseif (in_array($class, [midcom::get()->config->get('person_class'), 'midgard_person', 'org_openpsa_person'])) {
+            $this->apply_rules('person', $rules);
+        } elseif (in_array($class, ['midgard_group', 'org_openpsa_organization'])) {
+            $this->apply_rules('group', $rules);
+        } elseif (in_array($class, ['midgard_member', 'org_openpsa_eventmember'])) {
+            $this->apply_rules('misc', $rules, $class, 'uid');
+        } elseif (in_array($class, ['org_openpsa_campaign_member', 'org_openpsa_campaign_message_receipt', 'org_openpsa_link_log'])) {
+            $this->apply_rules('misc', $rules, $class, 'person');
+        } else {
+            throw new midcom_error("class " . $class . " not supported");
         }
-        if (in_array($class, [midcom::get()->config->get('person_class'), 'midgard_person', 'org_openpsa_person'])) {
-            return $this->apply_rules('person', $rules);
-        }
-        if (in_array($class, ['midgard_group', 'org_openpsa_organization'])) {
-            return $this->apply_rules('group', $rules);
-        }
-        if (in_array($class, ['midgard_member', 'org_openpsa_eventmember'])) {
-            return $this->apply_rules('misc', $rules, $class, 'uid');
-        }
-        if (in_array($class, ['org_openpsa_campaign_member', 'org_openpsa_campaign_message_receipt', 'org_openpsa_link_log'])) {
-            return $this->apply_rules('misc', $rules, $class, 'person');
-        }
-        debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
-        return false;
     }
 
-    private function apply_rules(string $type, array $rules, ...$args) : bool
+    private function apply_rules(string $type, array $rules, ...$args)
     {
         $func = 'add_' . $type . '_rule';
-        $stat = true;
         foreach ($rules as $rule) {
-            $stat = $this->$func($rule, ...$args) && $stat;
+            $this->$func($rule, ...$args);
         }
-
-        return $stat;
     }
 
     /**
      * Adds rule directly to the querybuilder
      */
-    private function add_person_rule(array $rule) : bool
+    private function add_person_rule(array $rule)
     {
         if ($rule['property'] === 'username') {
             midcom_core_account::add_username_constraint($this->mc, $rule['match'], $rule['value']);
-            return true;
+        } else {
+            $this->mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
         }
-        return $this->mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
     }
 
     /**
      * Adds parameter rule to the querybuilder
      */
-    private function add_parameter_rule(array $rules) : bool
+    private function add_parameter_rule(array $rules)
     {
         //get parents of wanted midgard_parameter
         $mc_parameter = new midgard_collector('midgard_parameter');
@@ -226,9 +216,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             //TODO: better solution for constraints leading to zero results
             //build constraint only if on 'LIKE' or '=' should be matched
             if (in_array($rule['match'], ['LIKE', '='])) {
-                return $this->mc->add_constraint('id', '=', -1);
+                $this->mc->add_constraint('id', '=', -1);
             }
-            return true;
+            return;
         }
         //iterate over found parameters & call needed rule-functions
         foreach (array_keys($parameter_keys) as $parameter_key) {
@@ -242,21 +232,22 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             switch (true) {
                 case $parent instanceof midcom_db_person:
                     $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
-                    return $this->add_person_rule($person_rule);
+                    $this->add_person_rule($person_rule);
+                    break;
 
                 case (midcom::get()->dbfactory->is_a($parent, 'midgard_group')):
                     $group_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->id];
-                    return $this->add_group_rule($group_rule);
+                    $this->add_group_rule($group_rule);
+                    break;
 
                 case $parent instanceof org_openpsa_directmarketing_campaign_member_dba:
                 case $parent instanceof org_openpsa_directmarketing_campaign_messagereceipt_dba:
                 case $parent instanceof org_openpsa_directmarketing_link_log_dba:
-                    $person_rule = ['property' => 'id', 'match' => '=', 'value' => $parent->person];
-                    return $this->add_person_rule($person_rule);
+                    $this->add_person_rule(['property' => 'id', 'match' => '=', 'value' => $parent->person]);
+                    break;
 
                 default:
-                    debug_add("parameters for " . get_class($parent) . " -objects not supported (parent guid {$parent->guid}, param guid {$parent->guid})");
-                    return false;
+                    throw new midcom_error("parameters for " . get_class($parent) . " -objects not supported (parent guid {$parent->guid})");
             }
         }
     }
@@ -264,10 +255,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     /**
      * Adds a group-rule to the querybuilder
      */
-    private function add_group_rule(array $rule) : bool
+    private function add_group_rule(array $rule)
     {
         $rule['property'] = 'gid.' . $rule['property'];
-        return $this->add_misc_rule($rule, 'midgard_member', 'uid');
+        $this->add_misc_rule($rule, 'midgard_member', 'uid');
     }
 
     /**
@@ -277,7 +268,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
      */
-    private function add_misc_rule(array $rule, string $class, string $person_property) : bool
+    private function add_misc_rule(array $rule, string $class, string $person_property)
     {
         $persons = [ 0 => -1];
         $match = $rule['match'];
@@ -303,7 +294,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $persons[] = $mc_misc->get_subkey($key, $person_property);
         }
 
-        return $this->mc->add_constraint('id', $constraint_match, $persons);
+        $this->mc->add_constraint('id', $constraint_match, $persons);
     }
 
     public static function build_property_map(midcom_services_i18n_l10n $l10n) : array

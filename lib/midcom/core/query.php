@@ -158,13 +158,12 @@ abstract class midcom_core_query
      * @param mixed $value The value to compare against. It should be of the same type as the
      *     queried property.
      */
-    public function add_constraint(string $field, string $operator, $value) : bool
+    public function add_constraint(string $field, string $operator, $value)
     {
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null) {
-            debug_add("Query: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
-            return false;
+            throw new midcom_error("Cannot add constraint on field '{$field}' with null value.");
         }
         // Deal with empty arrays, which would produce invalid queries
         // This is done here to avoid repetitive code in callers, and because
@@ -172,21 +171,17 @@ abstract class midcom_core_query
         if (   is_array($value)
             && empty($value)) {
             if ($operator == 'NOT IN') {
-                return true;
+                return;
             }
             if ($operator == 'IN') {
-                return $this->add_constraint('id', '=', 0);
+                $this->add_constraint('id', '=', 0);
+                return;
             }
         }
         if (!$this->_query->add_constraint($field, $operator, $value)) {
-            debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
-            debug_print_r('Value:', $value);
-
-            return false;
+            throw new midcom_error("Failed to execute add_constraint.");
         }
-
-        return true;
     }
 
     /**
@@ -197,17 +192,13 @@ abstract class midcom_core_query
      *     wildcard character.
      * @param string $compare_field The field to compare against.
      */
-    public function add_constraint_with_property(string $field, string $operator, string $compare_field) : bool
+    public function add_constraint_with_property(string $field, string $operator, string $compare_field)
     {
         $this->_reset();
         if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field)) {
-            debug_add("Failed to execute add_constraint_with_property.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}', compare_field: '{$compare_field}'");
-
-            return false;
+            throw new midcom_error("Failed to execute add_constraint_with_property.");
         }
-
-        return true;
     }
 
     /**
@@ -224,7 +215,7 @@ abstract class midcom_core_query
     public function begin_group(string $operator)
     {
         if (!$this->_query->begin_group($operator)) {
-            debug_add("Failed to execute begin_group {$operator}", MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to execute begin_group {$operator}");
         }
     }
 
@@ -234,7 +225,7 @@ abstract class midcom_core_query
     public function end_group()
     {
         if (!$this->_query->end_group()) {
-            debug_add("Failed to execute end_group", MIDCOM_LOG_ERROR);
+            throw new midcom_error("Failed to execute end_group");
         }
     }
 
@@ -266,14 +257,11 @@ abstract class midcom_core_query
      * @param string $direction One of 'ASC' or 'DESC' indicating ascending or descending
      *     ordering. The default is 'ASC'.
      */
-    public function add_order(string $field, string $direction = 'ASC') : bool
+    public function add_order(string $field, string $direction = 'ASC')
     {
         if (!$this->_query->add_order($field, $direction)) {
-            debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string());
         }
-
-        return true;
     }
 
     /**
