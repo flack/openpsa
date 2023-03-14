@@ -12,7 +12,7 @@
  */
 class midcom_helper_nav_node extends midcom_helper_nav_item
 {
-    private $topic;
+    private ?midcom_db_topic $topic = null;
 
     private int $topic_id;
 

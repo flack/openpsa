@@ -24,10 +24,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
     /**
      * The NAP node for the component the DBA class is from.
-     *
-     * @var array
      */
-    private $_node;
+    private ?array $_node;
 
     /**
      * The Controller of the document used for creating

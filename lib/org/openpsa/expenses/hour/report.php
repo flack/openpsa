@@ -26,7 +26,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
 
     public bool $_skip_parent_refresh = false;
 
-    private $old_task;
+    private ?int $old_task = null;
 
     public function __set($property, $value)
     {

@@ -27,10 +27,8 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * Current file being edited
-     *
-     * @var midcom_db_attachment
      */
-    private $_file;
+    private ?midcom_db_attachment $_file = null;
 
     public function _on_initialize()
     {

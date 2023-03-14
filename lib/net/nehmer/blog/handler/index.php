@@ -24,7 +24,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     private array $_articles;
 
-    private $category;
+    private string $category;
 
     /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified

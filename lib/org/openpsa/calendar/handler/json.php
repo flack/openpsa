@@ -17,7 +17,7 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
 {
     private org_openpsa_calendar_event_dba $root_event;
 
-    private $filters;
+    private ?array $filters = null;
 
     private array $events = [];
 

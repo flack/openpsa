@@ -15,10 +15,7 @@ class org_openpsa_contacts_mycontacts
 {
     private midcom_db_person $person;
 
-    /**
-     * @var array
-     */
-    private $contacts;
+    private ?array $contacts = null;
 
     public function __construct()
     {

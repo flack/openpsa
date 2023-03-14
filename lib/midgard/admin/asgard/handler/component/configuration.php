@@ -21,10 +21,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private controller $_controller;
 
-    /**
-     * @var midcom_db_topic
-     */
-    private $folder;
+    private ?midcom_db_topic $folder = null;
 
     public function _on_initialize()
     {

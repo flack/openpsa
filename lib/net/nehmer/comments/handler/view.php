@@ -24,10 +24,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 {
     use net_nehmer_comments_handler;
 
-    /**
-     * @var schemadb
-     */
-    private $_schemadb;
+    private ?schemadb $_schemadb = null;
 
     /**
      * @var net_nehmer_comments_comment[]
@@ -40,10 +37,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
     private controller $_post_controller;
 
-    /**
-     * @var datamanager
-     */
-    private $_display_datamanager;
+    private datamanager $_display_datamanager;
 
     /**
      * Prepares the request data
@@ -52,7 +46,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     {
         $this->_request_data['objectguid'] = $this->_objectguid;
         $this->_request_data['post_controller'] = $this->_post_controller;
-        $this->_request_data['display_datamanager'] = $this->_display_datamanager;
     }
 
     /**
@@ -62,6 +55,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     {
         $this->_load_schemadb();
         $this->_display_datamanager = new datamanager($this->_schemadb);
+        $this->_request_data['display_datamanager'] = $this->_display_datamanager;
     }
 
     /**

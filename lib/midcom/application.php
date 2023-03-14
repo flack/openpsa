@@ -52,7 +52,7 @@ class midcom_application extends Kernel
      */
     public bool $skip_page_style = false;
 
-    private $project_dir;
+    private ?string $project_dir = null;
 
     private midcom_config $cfg;
 

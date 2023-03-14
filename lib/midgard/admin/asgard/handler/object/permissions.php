@@ -34,7 +34,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
     private array $_row_labels = [];
 
-    private $additional_assignee;
+    private ?string $additional_assignee = null;
 
     public function _on_initialize()
     {
