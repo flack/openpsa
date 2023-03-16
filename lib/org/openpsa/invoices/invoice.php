@@ -175,7 +175,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
 
-        return $qb->get_result(0) ?: null;
+        return $qb->get_result(0);
     }
 
     /**

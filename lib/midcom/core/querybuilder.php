@@ -218,14 +218,14 @@ class midcom_core_querybuilder extends midcom_core_query
      * Get result by its index
      *
      * @param int $key      Requested index in result set
-     * @return mixed        False on failure (key does not exist), object given to constructor on success
+     * @return mixed        Null on failure (key does not exist), object given to constructor on success
      */
-    public function get_result(int $key)
+    public function get_result(int $key) : ?midcom_core_dbaobject
     {
         $results = $this->execute();
 
         if (!isset($results[$key])) {
-            return false;
+            return null;
         }
 
         return $results[$key];

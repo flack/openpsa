@@ -17,10 +17,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 {
     use net_nehmer_blog_handler;
 
-    /**
-     * @var midcom_db_article
-     */
-    private $_article;
+    private ?midcom_db_article $_article = null;
 
     private datamanager $_datamanager;
 
