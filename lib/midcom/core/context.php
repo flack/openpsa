@@ -21,7 +21,7 @@ class midcom_core_context
     /**
      * @var midcom_core_context[]
      */
-    private static $stack = [];
+    private static array $stack = [];
 
     /**
      * The context's data
@@ -46,10 +46,7 @@ class midcom_core_context
      */
     public int $id;
 
-    /**
-     * @var midcom_db_topic
-     */
-    private static $root_topic;
+    private static ?midcom_db_topic $root_topic = null;
 
     /**
      * Create and prepare a new component context.

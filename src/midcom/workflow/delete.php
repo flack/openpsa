@@ -40,10 +40,8 @@ class delete extends dialog
      * The URL to redirect to after successful deletion
      *
      * Defaults to topic start page
-     *
-     * @var string
      */
-    protected $success_url;
+    protected string $success_url;
 
     /**
      * Disable relocate after execute

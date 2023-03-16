@@ -20,10 +20,8 @@ class midcom
 
     /**
      * Main application singleton
-     *
-     * @var midcom_application
      */
-    private static $_application;
+    private static ?midcom_application $_application = null;
 
     /**
      * Mapping of service names to classes implementing the service

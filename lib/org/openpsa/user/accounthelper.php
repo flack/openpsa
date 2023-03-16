@@ -15,15 +15,9 @@ class org_openpsa_user_accounthelper
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var midcom_db_person
-     */
-    protected $person;
+    protected ?midcom_db_person $person = null;
 
-    /**
-     * @var midcom_core_account
-     */
-    private $account;
+    private ?midcom_core_account $account = null;
 
     public string $errstr;
 
