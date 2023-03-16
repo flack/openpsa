@@ -80,13 +80,12 @@ class midcom_helper_nav
     /**
      * Retrieve the ID of the currently displayed leaf. This is a leaf that is
      * displayed by the handling topic. If no leaf is active, this function
-     * returns false. (Remember to make a type sensitive check, e.g.
-     * nav::get_current_leaf() !== false to distinguish '0' and 'false'.)
+     * returns null. (Remember to make a type sensitive check, e.g.
+     * nav::get_current_leaf() !== null to distinguish '0' and 'null'.)
      *
-     * @return int    The ID of the leaf in question or false on failure.
      * @see midcom_helper_nav_backend::get_current_leaf()
      */
-    public function get_current_leaf()
+    public function get_current_leaf() : ?string
     {
         return $this->_backend->get_current_leaf();
     }
