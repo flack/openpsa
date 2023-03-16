@@ -20,15 +20,9 @@ implements client
 
     private provider $provider;
 
-    /**
-     * @var datamanager
-     */
-    private $datamanager;
+    private ?datamanager $datamanager = null;
 
-    /**
-     * @var org_openpsa_products_product_group_dba
-     */
-    private $group;
+    private ?org_openpsa_products_product_group_dba $group = null;
 
     public function _on_initialize()
     {

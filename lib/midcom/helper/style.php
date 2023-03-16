@@ -43,10 +43,8 @@ class midcom_helper_style
 {
     /**
      * Current topic
-     *
-     * @var midcom_db_topic
      */
-    private $_topic;
+    private ?midcom_db_topic $_topic;
 
     /**
      * Context stack

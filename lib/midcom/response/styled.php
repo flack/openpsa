@@ -51,7 +51,7 @@ class midcom_response_styled extends Response
             || $context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '') {
             // Retrieve Metadata
             $nav = new midcom_helper_nav();
-            if ($nav->get_current_leaf() === false) {
+            if ($nav->get_current_leaf() === null) {
                 $meta = $nav->get_node($nav->get_current_node());
             } else {
                 $meta = $nav->get_leaf($nav->get_current_leaf());

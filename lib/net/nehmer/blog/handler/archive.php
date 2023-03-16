@@ -22,27 +22,11 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * @var midcom_db_article[]
      */
-    private $_articles;
+    private array $_articles;
 
-    /**
-     * @var DateTime
-     */
-    private $_start;
+    private DateTime $_start;
 
-    /**
-     * @var DateTime
-     */
-    private $_end;
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['start'] = $this->_start;
-        $this->_request_data['end'] = $this->_end;
-    }
+    private DateTime $_end;
 
     /**
      * Shows the archive welcome page: A listing of years/months along with total post counts
@@ -53,7 +37,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     public function _handler_welcome()
     {
         $this->_compute_welcome_data();
-        $this->_prepare_request_data();
 
         if ($this->_config->get('archive_in_navigation')) {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
@@ -292,7 +275,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $timeframe = $this->_l10n->get_formatter()->timeframe($this->_start, $this->_end, 'date');
         $this->add_breadcrumb("archive/year/{$args[0]}/", $timeframe);
 
-        $this->_prepare_request_data();
+        $data['start'] = $this->_start;
+        $data['end'] = $this->_end;
 
         if ($this->_config->get('archive_in_navigation')) {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');

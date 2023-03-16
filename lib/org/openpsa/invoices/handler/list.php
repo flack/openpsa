@@ -25,10 +25,7 @@ implements client
      */
     private $_customer;
 
-    /**
-     * @var org_openpsa_sales_salesproject_deliverable_dba
-     */
-    private $_deliverable;
+    private ?org_openpsa_sales_salesproject_deliverable_dba $_deliverable = null;
 
     private string $_list_type = 'all';
 

@@ -85,7 +85,7 @@ class org_openpsa_mail_message
         return $this->_body;
     }
 
-    public function set_body($body)
+    public function set_body(string $body)
     {
         $this->_body = $body;
         $this->_html_body = null;

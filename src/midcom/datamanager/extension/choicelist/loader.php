@@ -15,10 +15,7 @@ class loader implements ChoiceLoaderInterface
 {
     private array $config;
 
-    /**
-     * @var ArrayChoiceList
-     */
-    private $choice_list;
+    private ?ArrayChoiceList $choice_list = null;
 
     public function __construct(array $config)
     {

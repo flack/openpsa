@@ -46,10 +46,7 @@ class midcom_services_session
 {
     private midcom_services__sessioning $_sessioning;
 
-    /**
-     * @var string
-     */
-    private $_domain;
+    private ?string $_domain;
 
     /**
      * Constructs a session object.

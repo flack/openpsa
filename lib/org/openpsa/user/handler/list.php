@@ -20,10 +20,7 @@ implements client
 {
     private provider $_provider;
 
-    /**
-     * @var midcom_db_group
-     */
-    private $_group;
+    private ?midcom_db_group $_group = null;
 
     public function _on_initialize()
     {

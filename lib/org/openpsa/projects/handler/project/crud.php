@@ -19,10 +19,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 {
     private org_openpsa_projects_project $project;
 
-    /**
-     * @var string
-     */
-    private $mode;
+    private string $mode = 'edit';
 
     /**
      * Generates an object creation view.

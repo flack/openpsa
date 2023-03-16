@@ -62,10 +62,8 @@ class grid
 
     /**
      * The data provider, if any
-     *
-     * @var provider
      */
-    private $_provider;
+    private ?provider $_provider = null;
 
     /**
      * Javascript code that should be prepended to the widget constructor

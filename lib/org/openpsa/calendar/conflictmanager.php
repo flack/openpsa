@@ -25,10 +25,7 @@ class org_openpsa_calendar_conflictmanager
 
     private org_openpsa_calendar_event_dba $_event;
 
-    /**
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n;
+    private ?midcom_services_i18n_l10n $l10n;
 
     public function __construct(org_openpsa_calendar_event_dba $event, midcom_services_i18n_l10n $l10n = null)
     {

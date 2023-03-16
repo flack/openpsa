@@ -19,10 +19,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
 {
     private org_openpsa_products_product_dba $_product;
 
-    /**
-     * @var org_openpsa_products_product_group_dba
-     */
-    private $parent;
+    private ?org_openpsa_products_product_group_dba $parent = null;
 
     private function load_controller(string $schema) : controller
     {

@@ -22,10 +22,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
 
     private midcom_db_person $_person;
 
-    /**
-     * @var midcom_db_group
-     */
-    private $_group;
+    private ?midcom_db_group $_group = null;
 
     private function load_controller() : controller
     {

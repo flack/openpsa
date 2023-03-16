@@ -33,7 +33,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         org_openpsa_invoices_invoice_item_dba::class => 'invoice'
     ];
 
-    private $_billing_data;
+    private ?org_openpsa_invoices_billing_data_dba $_billing_data = null;
 
     public function get_status() : string
     {

@@ -17,7 +17,7 @@ class net_nemein_rss_parser_item extends Item
 {
     private bool $_id_missing = true;
 
-    private $_local_guid;
+    private ?string $_local_guid = null;
 
     /**
      * @inheritdoc
@@ -95,7 +95,7 @@ class net_nemein_rss_parser_item extends Item
         return $guid;
     }
 
-    public function get_local_guid()
+    public function get_local_guid() : ?string
     {
         return $this->_local_guid;
     }

@@ -27,17 +27,13 @@ class provider
 
     /**
      * The rows to show
-     *
-     * @var array
      */
-    private $_rows;
+    private ?array $_rows = null;
 
     /**
      * The total number of rows
-     *
-     * @var int
      */
-    private $_total_rows;
+    private ?int $_total_rows = null;
 
     /**
      * How many items should be shown per page
@@ -46,17 +42,13 @@ class provider
 
     /**
      * The current offset
-     *
-     * @var int
      */
-    private $_offset;
+    private int $_offset = 0;
 
     /**
      * The field for sorting
-     *
-     * @var string
      */
-    private $_sort_field;
+    private ?string $_sort_field = null;
 
     /**
      * The direction for sorting (ASC or DESC)
@@ -65,10 +57,8 @@ class provider
 
     /**
      * The grid we're working with
-     *
-     * @var grid
      */
-    private $_grid;
+    private ?grid $_grid = null;
 
     /**
      * The datatype we're working with
@@ -77,10 +67,8 @@ class provider
 
     /**
      * The midcom query object
-     *
-     * @var midcom_core_query
      */
-    private $_query;
+    private ?midcom_core_query $_query = null;
 
     /**
      * Search parameters

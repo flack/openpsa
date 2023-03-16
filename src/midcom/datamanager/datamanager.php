@@ -25,27 +25,15 @@ class datamanager
 {
     private schemadb $schemadb;
 
-    /**
-     * @var schema
-     */
-    private $schema;
+    private ?schema $schema = null;
 
-    /**
-     * @var storage\container\container
-     */
-    private $storage;
+    private ?container $storage = null;
 
     private array $defaults = [];
 
-    /**
-     * @var renderer
-     */
-    private $renderer;
+    private ?renderer $renderer = null;
 
-    /**
-     * @var Form
-     */
-    private $form;
+    private ?Form $form = null;
 
     public function __construct(schemadb $schemadb)
     {

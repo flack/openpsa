@@ -71,10 +71,8 @@ class midcom_helper_nav_backend
 
     /**
      * The GUID of the currently active leaf.
-     *
-     * @var string
      */
-    private $_currentleaf = false;
+    private ?string $_currentleaf = null;
 
     /**
      * Leaf cache. It is an array which contains elements indexed by
@@ -274,7 +272,7 @@ class midcom_helper_nav_backend
     private function load_leaf(string $leaf_id) : bool
     {
         if (!$leaf_id) {
-            debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
+            debug_add("Tried to load an empty leaf id.");
             return false;
         }
 
@@ -433,12 +431,10 @@ class midcom_helper_nav_backend
     /**
      * Retrieve the ID of the currently displayed leaf. This is a leaf that is
      * displayed by the handling topic. If no leaf is active, this function
-     * returns false. (Remember to make a type sensitive check, e.g.
-     * nav::get_current_leaf() !== false to distinguish "0" and "false".)
-     *
-     * @return string    The ID of the leaf in question or false on failure.
+     * returns null. (Remember to make a type sensitive check, e.g.
+     * nav::get_current_leaf() !== null to distinguish "0" and "null".)
      */
-    public function get_current_leaf()
+    public function get_current_leaf() : ?string
     {
         return $this->_currentleaf;
     }

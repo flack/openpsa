@@ -21,10 +21,7 @@ class parser
 {
     public array $argv = [];
 
-    /**
-     * @var midcom_db_topic
-     */
-    private $current;
+    private ?midcom_db_topic $current = null;
 
     private string $url = '';
 

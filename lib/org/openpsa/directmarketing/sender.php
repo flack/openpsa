@@ -40,11 +40,11 @@ class org_openpsa_directmarketing_sender
      */
     private int $_chunk_max_recurse = 15;
 
-    private $from;
+    private string $from;
 
     private string $subject;
 
-    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], $from = '', string $subject = '')
+    public function __construct(org_openpsa_directmarketing_campaign_message_dba $message, array $config = [], string $from = '', string $subject = '')
     {
         $this->_component = 'org.openpsa.directmarketing';
         $this->_message = $message;
