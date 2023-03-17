@@ -172,7 +172,7 @@ class midcom_core_collector extends midcom_core_query
     public function add_value_property(string $property)
     {
         if (!$this->_query->add_value_property($property)) {
-            throw new midcom_error("Failed to execute add_value_property '{$property}' for {$this->_real_class}.");
+            throw new midcom_error("Failed to execute add_value_property '{$property}' for {$this->_real_class}: " . midcom_connection::get_error_string());
         }
     }
 

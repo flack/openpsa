@@ -180,7 +180,7 @@ abstract class midcom_core_query
         }
         if (!$this->_query->add_constraint($field, $operator, $value)) {
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
-            throw new midcom_error("Failed to execute add_constraint.");
+            throw new midcom_error("Failed to execute add_constraint: " . midcom_connection::get_error_string());
         }
     }
 
@@ -197,7 +197,7 @@ abstract class midcom_core_query
         $this->_reset();
         if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field)) {
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}', compare_field: '{$compare_field}'");
-            throw new midcom_error("Failed to execute add_constraint_with_property.");
+            throw new midcom_error("Failed to execute add_constraint_with_property: " . midcom_connection::get_error_string());
         }
     }
 
@@ -260,7 +260,7 @@ abstract class midcom_core_query
     public function add_order(string $field, string $direction = 'ASC')
     {
         if (!$this->_query->add_order($field, $direction)) {
-            throw new midcom_error("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed to execute add_order for column '{$field}': " . midcom_connection::get_error_string());
         }
     }
 
