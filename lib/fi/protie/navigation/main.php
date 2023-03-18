@@ -45,10 +45,8 @@ class fi_protie_navigation
 
     /**
      * ID for the folder to get the navigation
-     *
-     * @var integer
      */
-    public $root_id;
+    public ?int $root_id = null;
 
     /**
      * Number of the parsed level
@@ -93,10 +91,8 @@ class fi_protie_navigation
 
     /**
      * ID of the root level list object
-     *
-     * @var integer
      */
-    public $root_object_id;
+    public ?string $root_object_id = null;
 
     /**
      * CSS class for styling the lists
@@ -337,9 +333,9 @@ class fi_protie_navigation
     /**
      * Set the root element id
      *
-     * @param int $id root ul id
+     * @param string $id root ul id
      */
-    public function set_root_element_id(int $id)
+    public function set_root_element_id(string $id)
     {
         $this->root_object_id = $id;
     }

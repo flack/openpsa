@@ -15,10 +15,7 @@ class midcom_helper_reflector_copy
 {
     use midcom_baseclasses_components_base;
 
-    /**
-     * @var midcom_core_dbaobject
-     */
-    public $target;
+    public ?midcom_core_dbaobject $target = null;
 
     /**
      * List of GUIDs of objects that shall not be copied

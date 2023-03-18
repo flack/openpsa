@@ -212,10 +212,8 @@ class midcom_core_manifest
 
     /**
      * A list of all watches defined by the component.
-     *
-     * @var array
      */
-    public $watches;
+    public ?array $watches = null;
 
     /**
      * Custom place to extend the schema.

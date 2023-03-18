@@ -136,10 +136,8 @@ class midcom_helper_toolbar
     /**
      * The CSS ID-Style rule that should be used for the toolbar.
      * Set to null if none should be used.
-     *
-     * @var string
      */
-    public $id_style;
+    public ?string $id_style;
 
     /**
      * The CSS class-Style rule that should be used for the toolbar.

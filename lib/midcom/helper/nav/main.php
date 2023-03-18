@@ -69,10 +69,9 @@ class midcom_helper_nav
      * Retrieve the ID of the currently displayed node. Defined by the topic of
      * the component that declared able to handle the request.
      *
-     * @return int    The ID of the node in question.
      * @see midcom_helper_nav_backend::get_current_node()
      */
-    public function get_current_node()
+    public function get_current_node() : int
     {
         return $this->_backend->get_current_node();
     }

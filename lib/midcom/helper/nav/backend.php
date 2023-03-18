@@ -420,10 +420,8 @@ class midcom_helper_nav_backend
     /**
      * Retrieve the ID of the currently displayed node. Defined by the topic of
      * the component that declared able to handle the request.
-     *
-     * @return mixed    The ID of the node in question.
      */
-    public function get_current_node()
+    public function get_current_node() : int
     {
         return $this->_current;
     }
@@ -441,10 +439,8 @@ class midcom_helper_nav_backend
 
     /**
      * Retrieve the ID of the upper node of the currently displayed node.
-     *
-     * @return mixed    The ID of the node in question.
      */
-    public function get_current_upper_node()
+    public function get_current_upper_node() : int
     {
         if (count($this->_node_path) > 1) {
             return $this->_node_path[count($this->_node_path) - 2];

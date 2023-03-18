@@ -40,10 +40,8 @@ class midcom_services_auth
     /**
      * The currently authenticated user or null in case of anonymous access.
      * It is to be considered read-only.
-     *
-     * @var midcom_core_user
      */
-    public $user;
+    public ?midcom_core_user $user = null;
 
     /**
      * Admin user level state. This is true if the currently authenticated user is an

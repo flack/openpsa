@@ -32,24 +32,18 @@ class org_openpsa_widgets_contact
 
     /**
      * Optional URI to person details
-     *
-     * @var string
      */
-    public $link;
+    public ?string $link = null;
 
     /**
      * Optional HTML to be placed into the card
-     *
-     * @var string
      */
-    public $extra_html;
+    public ?string $extra_html = null;
 
     /**
      * Optional HTML to be placed into the card (before any other output in the DIV)
-     *
-     * @var string
      */
-    public $prefix_html;
+    public ?string $prefix_html = null;
 
     /**
      * Whether to show person's groups in a list

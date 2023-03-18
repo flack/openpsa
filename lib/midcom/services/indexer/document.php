@@ -128,21 +128,13 @@ class midcom_services_indexer_document
 
     /**
      * The MidgardPerson who created the object.
-     *
-     * This is optional.
-     *
-     * @var midcom_db_person
      */
-    public $creator;
+    public ?midcom_db_person $creator = null;
 
     /**
      * The MidgardPerson who modified the object the last time.
-     *
-     * This is optional.
-     *
-     * @var midcom_db_person
      */
-    public $editor;
+    public ?midcom_db_person $editor = null;
 
     /**
      * The title of the document
