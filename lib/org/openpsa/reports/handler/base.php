@@ -100,11 +100,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
         if (empty($args[1])) {
             debug_add('Filename part not specified in URL, generating');
-            //We do not have filename in URL, generate one and redirect
-            $timestamp = $this->_request_data['query']->metadata->created;
-            if (!$timestamp) {
-                $timestamp = time();
-            }
+            $timestamp = $this->_request_data['query']->metadata->created ?: time();
             $filename = date('Y_m_d', $timestamp);
             $title = $this->_request_data['query']->title ?: $this->module;
             $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($title));

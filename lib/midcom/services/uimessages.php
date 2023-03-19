@@ -63,10 +63,7 @@ class midcom_services_uimessages
 
     private function get_message_stack() : FlashBagInterface
     {
-        if (!$this->_message_stack) {
-            $this->_message_stack = midcom::get()->session->getFlashBag();
-        }
-        return $this->_message_stack;
+        return $this->_message_stack ??= midcom::get()->session->getFlashBag();
     }
 
     /**

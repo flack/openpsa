@@ -24,9 +24,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
      */
     public static function index(datamanager $dm, midcom_services_indexer $indexer, $topic, $config = null)
     {
-        if ($config == null) {
-            $config = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config');
-        }
+        $config ??= midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config');
         $object = $dm->get_storage()->get_value();
 
         $document = $indexer->new_document($dm);

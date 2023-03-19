@@ -31,9 +31,7 @@ class midcom_helper_reflector_nameresolver
      */
     public function get_object_name(string $name_property = null) : ?string
     {
-        if ($name_property === null) {
-            $name_property = midcom_helper_reflector::get_name_property($this->_object);
-        }
+        $name_property ??= midcom_helper_reflector::get_name_property($this->_object);
         if (    empty($name_property)
             || !midcom_helper_reflector::get($this->_object)->property_exists($name_property)) {
             // Could not resolve valid property

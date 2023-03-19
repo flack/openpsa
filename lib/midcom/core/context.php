@@ -136,9 +136,8 @@ class midcom_core_context
             return false;
         }
 
-        if (   $key === MIDCOM_CONTEXT_ROOTTOPIC
-            && $this->_data[$key] === null) {
-            $this->_data[$key] = self::initialize_root_topic();
+        if ($key === MIDCOM_CONTEXT_ROOTTOPIC) {
+            $this->_data[$key] ??= self::initialize_root_topic();
         }
 
         return $this->_data[$key];

@@ -40,9 +40,7 @@ class midcom_services_metadata
      */
     public function get_view_metadata(int $context_id = null) : ?midcom_helper_metadata
     {
-        if ($context_id === null) {
-            $context_id = midcom_core_context::get()->id;
-        }
+        $context_id ??= midcom_core_context::get()->id;
 
         return $this->_metadata[$context_id] ?? null;
     }

@@ -24,11 +24,7 @@ class purifySubscriber implements EventSubscriberInterface
             throw new midcom_error('HTMLPurifier is missing');
         }
 
-        if (empty($config)) {
-            $config = $this->get_from_global_config('html_purify_config');
-        }
-
-        $this->config = $config;
+        $this->config = $config ?: $this->get_from_global_config('html_purify_config');
     }
 
     public static function getSubscribedEvents()

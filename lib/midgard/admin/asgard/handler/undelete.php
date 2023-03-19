@@ -108,10 +108,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     public function show_type(mgdobject $object, int $indent = 0, string $prefix = '', bool $enable_undelete = true)
     {
         static $shown = [];
-        static $url_prefix = '';
-        if (!$url_prefix) {
-            $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        }
+        static $url_prefix = null;
+        $url_prefix ??= midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         if (isset($shown[$object->guid])) {
             return;
@@ -129,10 +127,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             $disabled = ' disabled="disabled"';
         }
 
-        $object_label = $reflector->get_object_label($object);
-        if (empty($object_label)) {
-            $object_label = $object->guid;
-        }
+        $object_label = $reflector->get_object_label($object) ?: $object->guid;
         echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
         echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><a href=\"" . $this->router->generate('object_deleted', ['guid' => $object->guid]) . "\">{$icon} " . $object_label . "</a></td>\n";
         echo "{$prefix}    <td class=\"nowrap\">" . $this->_l10n->get_formatter()->datetime($object->metadata->revised, IntlDateFormatter::SHORT, IntlDateFormatter::MEDIUM) . "</td>\n";

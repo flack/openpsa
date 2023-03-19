@@ -319,9 +319,7 @@ class midcom_services_toolbars
         echo "    <div class=\"items\">\n";
 
         foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar) {
-            if ($toolbar === null) {
-                $toolbar = $this->_get_toolbar($identifier);
-            }
+            $toolbar ??= $this->_get_toolbar($identifier);
             if (!$toolbar->is_rendered()) {
                 $this->show_toolbar($identifier, $toolbar);
             }

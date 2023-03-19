@@ -21,10 +21,7 @@ use Symfony\Component\Config\FileLocator;
  */
 class loader extends base
 {
-    /**
-     * @var YamlFileLoader
-     */
-    private $yaml_loader;
+    private ?YamlFileLoader $yaml_loader = null;
 
     /**
      * {@inheritDoc}
@@ -110,10 +107,7 @@ class loader extends base
 
     private function get_yaml() : YamlFileLoader
     {
-        if (empty($this->yaml_loader)) {
-            $this->yaml_loader = new YamlFileLoader(new FileLocator);
-        }
-        return $this->yaml_loader;
+        return $this->yaml_loader ??= new YamlFileLoader(new FileLocator);
     }
 
     private function get_path(string $component, string $suffix) : string

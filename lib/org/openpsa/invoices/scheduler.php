@@ -265,9 +265,7 @@ class org_openpsa_invoices_scheduler
      */
     public function calculate_cycles(int $months = null, int $start = null) : int
     {
-        if ($start === null) {
-            $start = time();
-        }
+        $start ??= time();
         $cycles = 0;
         $cycle_time = $this->_deliverable->start;
         $end_time = $this->_deliverable->end;

@@ -75,7 +75,7 @@ class midcom_core_privilege
      * The Default constructor creates an empty privilege, if you specify
      * another privilege object in the constructor, a copy is constructed.
      *
-     * @param midcom_core_privilege_db|array $src Object to copy from.
+     * @param midcom_core_privilege_db|array|string $src Object to copy from.
      */
     public function __construct($src = null)
     {
@@ -197,9 +197,7 @@ class midcom_core_privilege
      */
     public function is_magic_assignee(string $assignee = null) : bool
     {
-        if ($assignee === null) {
-            $assignee = $this->assignee;
-        }
+        $assignee ??= $this->assignee;
         return in_array($assignee, ['SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER']);
     }
 

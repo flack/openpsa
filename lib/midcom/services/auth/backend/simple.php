@@ -54,13 +54,9 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
     public function create_session(?string $clientip, midcom_core_user $user) : bool
     {
-        if (empty($clientip)) {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         $this->session = new midcom_services_session($this->_cookie_id);
         $this->session->set('userid', $user->id);
-        $this->session->set('clientip', $clientip);
+        $this->session->set('clientip', $clientip ?? $_SERVER['REMOTE_ADDR']);
         $this->session->set('timestamp', time());
         return midcom::get()->session->migrate();
     }

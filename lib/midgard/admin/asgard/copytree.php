@@ -64,15 +64,8 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
         echo "<li class=\"{$css_class}\">\n";
 
-        $label = htmlspecialchars($ref->get_object_label($object));
-        $icon = $ref->get_object_icon($object);
-        if (empty($label)) {
-            $label = "#{$object->id}";
-        }
-
-        $checked = ($this->copy_tree) ? ' checked="checked"' : '';
-
         if ($this->inputs) {
+            $checked = ($this->copy_tree) ? ' checked="checked"' : '';
             // This value is used for compiling the exclusion list: if the object is found from this list, but not from the selection list,
             // it means that the selection did not include the object GUID
             echo "<input type=\"hidden\" name=\"all_objects[]\" value=\"{$object->guid}\" />\n";
@@ -81,6 +74,8 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
             echo "<input id=\"item_{$object->guid}\" type=\"{$this->input_type}\" name=\"{$this->input_name}\" value=\"{$object->guid}\"{$checked} />\n";
         }
 
+        $label = htmlspecialchars($ref->get_object_label($object)) ?: "#{$object->id}";
+        $icon = $ref->get_object_icon($object);
         echo "<span class=\"title{$span_class}\" title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">{$icon}{$label}</span>\n";
 
         // Show the link to the object

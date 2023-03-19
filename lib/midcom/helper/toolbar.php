@@ -218,9 +218,7 @@ class midcom_helper_toolbar
             $uri .= "#{$anchor}";
         }
 
-        if ($label === null) {
-            $label = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
-        }
+        $label ??= midcom::get()->i18n->get_string('help', 'midcom.admin.help');
 
         $this->add_item([
             MIDCOM_TOOLBAR_URL => $uri,
@@ -298,10 +296,7 @@ class midcom_helper_toolbar
             return false;
         }
 
-        if (empty($this->items[$index][MIDCOM_TOOLBAR_SUBMENU])) {
-            $this->items[$index][MIDCOM_TOOLBAR_SUBMENU] = new midcom_helper_toolbar($this->class_style, $this->id_style);
-        }
-
+        $this->items[$index][MIDCOM_TOOLBAR_SUBMENU] ??= new midcom_helper_toolbar($this->class_style, $this->id_style);
         $this->items[$index][MIDCOM_TOOLBAR_SUBMENU]->items[] = $item;
 
         return true;

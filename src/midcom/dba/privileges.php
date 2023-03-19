@@ -101,13 +101,10 @@ trait privileges
             return false;
         }
 
-        if ($assignee === null) {
-            $assignee = midcom::get()->auth->user ?: 'EVERYONE';
-        }
-
         if ($privilege instanceof midcom_core_privilege) {
             $priv = $privilege;
         } elseif (is_string($privilege)) {
+            $assignee ??= midcom::get()->auth->user ?: 'EVERYONE';
             $priv = $this->get_privilege($privilege, $assignee, $classname);
             if (!$priv) {
                 return false;

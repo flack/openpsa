@@ -47,9 +47,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     public static function generate_file_path(string $help_id, string $component, string $language = null) : ?string
     {
-        if ($language === null) {
-            $language = midcom::get()->i18n->get_current_language();
-        }
+        $language ??= midcom::get()->i18n->get_current_language();
 
         $file = self::get_documentation_dir($component) . "{$help_id}.{$language}.txt";
         if (!file_exists($file)) {

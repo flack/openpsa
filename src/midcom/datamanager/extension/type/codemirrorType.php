@@ -25,9 +25,7 @@ class codemirrorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $map_attr = function (Options $options, $value) {
-            if ($value === null) {
-                $value = [];
-            }
+            $value ??= [];
             $value['class'] = $options['widget_config']['enabled'] ? 'codemirror ' . $options['widget_config']['language'] : 'longtext';
 
             return $value;

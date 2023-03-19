@@ -159,9 +159,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return false;
         }
         // Log who reported it
-        if ($reporter === null) {
-            $reporter = midcom::get()->auth->user->guid ?? 'anonymous';
-        }
+        $reporter ??= midcom::get()->auth->user->guid ?? 'anonymous';
         $browser = str_replace(':', '_', $_SERVER['HTTP_USER_AGENT']);
         $address = str_replace(':', '_', $_SERVER['REMOTE_ADDR']);
 

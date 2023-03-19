@@ -37,12 +37,7 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
         }
         $guid = key($results);
         $url = $mc->get_subkey($guid, 'url');
-        $code = $mc->get_subkey($guid, 'code');
-
-        // Redirection HTTP code
-        if (!$code) {
-            $code = $this->_config->get('redirection_code');
-        }
+        $code = $mc->get_subkey($guid, 'code') ?: $this->_config->get('redirection_code');
 
         return new midcom_response_relocate($url, $code);
     }

@@ -43,9 +43,7 @@ class midcom_services_i18n_formatter
 
     public function datetime($value = null, $dateformat = 'medium', $timeformat = 'short')
     {
-        if ($value === null) {
-            $value = time();
-        }
+        $value ??= time();
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
         return $formatter->format($value);
     }

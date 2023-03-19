@@ -25,9 +25,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      */
     public static function create(object $from_obj, string $from_component, object $to_obj, string $to_component, int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
     {
-        if (!$status) {
-            $status = org_openpsa_relatedto_dba::CONFIRMED;
-        }
+        $status ??= org_openpsa_relatedto_dba::CONFIRMED;
 
         $rel = new org_openpsa_relatedto_dba();
         $rel->fromClass = get_class($from_obj);

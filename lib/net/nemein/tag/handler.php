@@ -25,9 +25,7 @@ class net_nemein_tag_handler
      */
     public static function tag_object($object, array $tags, string $component = null) : bool
     {
-        if ($component === null) {
-            $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        }
+        $component ??= midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $existing_tags = self::get_object_tags($object);
 
         // Determine operations

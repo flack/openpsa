@@ -29,10 +29,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $rss = net_nemein_rss_fetch::raw_fetch($feed_url);
         // TODO: display error on invalid feed
 
-        if (!$feed_title) {
-            // If we didn't get the channel title preset
-            $feed_title = $rss->get_title() ?: '';
-        }
+        // If we didn't get the channel title preset
+        $feed_title ??= $rss->get_title() ?: '';
 
         // Find out if the URL is already subscribed, and update it in that case
         $qb = net_nemein_rss_feed_dba::new_query_builder();

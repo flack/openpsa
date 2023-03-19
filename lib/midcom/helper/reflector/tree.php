@@ -249,11 +249,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function get_root_classes() : array
     {
-        static $root_classes = false;
-        if (empty($root_classes)) {
-            $root_classes = self::_resolve_root_classes();
-        }
-        return $root_classes;
+        static $root_classes = null;
+        return $root_classes ??= self::_resolve_root_classes();
     }
 
     /**

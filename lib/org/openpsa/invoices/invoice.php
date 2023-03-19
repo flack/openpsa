@@ -249,11 +249,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
      */
     public function get_billing_data() : org_openpsa_invoices_billing_data_dba
     {
-        if (!$this->_billing_data) {
-            //checks for billing_data already attached to a customer relocated previous private class to data.php
-            $this->_billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this);
-        }
-        return $this->_billing_data;
+        return $this->_billing_data ??= org_openpsa_invoices_billing_data_dba::get_by_object($this);;
     }
 
     public function get_customer()

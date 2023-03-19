@@ -220,9 +220,7 @@ class provider
     private function _render_json()
     {
         $rows = $this->get_rows();
-        if ($this->_total_rows === null) {
-            $this->_total_rows = count($rows);
-        }
+        $this->_total_rows ??= count($rows);
 
         $response = [
             'total' => ceil($this->_total_rows / $this->_results_per_page),

@@ -31,10 +31,7 @@ class org_openpsa_user_accounthelper
 
     protected function get_account() : midcom_core_account
     {
-        if ($this->account === null) {
-            $this->account = new midcom_core_account($this->person);
-        }
-        return $this->account;
+        return $this->account ??= new midcom_core_account($this->person);
     }
 
     /**

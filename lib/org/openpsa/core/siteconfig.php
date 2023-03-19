@@ -39,11 +39,7 @@ class org_openpsa_core_siteconfig
 
     public static function get_instance() : self
     {
-        if (self::$instance === null) {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
+        return self::$instance ??= new self;
     }
 
     private function initialize_site_structure()

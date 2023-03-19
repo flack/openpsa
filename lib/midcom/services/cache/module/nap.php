@@ -99,9 +99,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     {
         $napobject = null;
         try {
-            if (!$object) {
-                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            }
+            $object ??= midcom::get()->dbfactory->get_object_by_guid($guid);
             $nav = new midcom_helper_nav;
             if ($object instanceof midcom_db_topic) {
                 $napobject = $nav->get_node($object->id);

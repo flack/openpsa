@@ -22,9 +22,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     private function _seek_updated(int $from, int $to = null)
     {
-        if ($to === null) {
-            $to = time();
-        }
+        $to ??= time();
 
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic.component', '=', 'net.nemein.wiki');

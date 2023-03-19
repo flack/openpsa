@@ -292,9 +292,7 @@ class midcom_services_i18n_l10n
      */
     public function get(string $string, $language = null) : string
     {
-        if ($language === null) {
-            $language = $this->_language;
-        }
+        $language ??= $this->_language;
 
         if (!$this->string_exists($string, $language)) {
             // Go for Fallback
