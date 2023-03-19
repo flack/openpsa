@@ -7,6 +7,7 @@
  */
 
 use midcom\datamanager\datamanager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -49,7 +50,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     abstract public function _load_data(string $handler_id, array &$args, array &$data) : array;
 
-    public function _handler_csv(string $handler_id, array $args, array &$data)
+    public function _handler_csv(Request $request, string $handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
         $this->_load_datamanagers($this->_load_schemadbs($handler_id, $args, $data));
@@ -80,7 +81,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $data['filename'] = str_replace('.csv', '', $args[0]);
         }
 
-        $this->_init_csv_variables();
+        $this->_init_csv_variables($request);
 
         $response = new StreamedResponse([$this, 'render_csv']);
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
@@ -199,7 +200,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         fputcsv($output, $row, $this->csv['s'], $this->csv['q']);
     }
 
-    private function _init_csv_variables()
+    private function _init_csv_variables(Request $request)
     {
         // FIXME: Use global configuration
         $this->csv['s'] = $this->_config->get('csv_export_separator') ?: ';';
@@ -210,8 +211,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         if (empty($this->csv['charset'])) {
             // Default to ISO-LATIN-15 (Latin-1 with EURO sign etc)
             $this->csv['charset'] = 'ISO-8859-15';
-            if (   isset($_SERVER['HTTP_USER_AGENT'])
-                && !preg_match('/Windows/i', $_SERVER['HTTP_USER_AGENT'])) {
+            if (   $request->server->has('HTTP_USER_AGENT')
+                && !preg_match('/Windows/i', $request->server->get('HTTP_USER_AGENT'))) {
                 // Except when not on windows, then default to UTF-8
                 $this->csv['charset'] = 'UTF-8';
             }
