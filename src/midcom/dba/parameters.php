@@ -116,14 +116,11 @@ trait parameters
      */
     private function list_parameters_domain(string $domain) : array
     {
-        if (!isset(self::$parameter_cache[$this->guid])) {
-            self::$parameter_cache[$this->guid] = [];
-        }
-
         if (isset(self::$parameter_cache[$this->guid][$domain])) {
             return self::$parameter_cache[$this->guid][$domain];
         }
 
+        self::$parameter_cache[$this->guid] ??= [];
         self::$parameter_cache[$this->guid][$domain] = [];
 
         $mc = midgard_parameter::new_collector('parentguid', $this->guid);
@@ -148,9 +145,7 @@ trait parameters
      */
     private function list_parameters_all() : array
     {
-        if (!isset(self::$parameter_cache[$this->guid])) {
-            self::$parameter_cache[$this->guid] = [];
-        }
+        self::$parameter_cache[$this->guid] ??= [];
 
         if (!isset(self::$parameter_all[$this->guid])) {
             $mc = midgard_parameter::new_collector('parentguid', $this->guid);
@@ -164,10 +159,7 @@ trait parameters
                 $name = $mc->get_subkey($guid, 'name');
                 $domain = $mc->get_subkey($guid, 'domain');
 
-                if (!isset(self::$parameter_cache[$this->guid][$domain])) {
-                    self::$parameter_cache[$this->guid][$domain] = [];
-                }
-
+                self::$parameter_cache[$this->guid][$domain] ??= [];
                 self::$parameter_cache[$this->guid][$domain][$name] = $mc->get_subkey($guid, 'value');
             }
 

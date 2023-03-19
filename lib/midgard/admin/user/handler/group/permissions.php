@@ -47,9 +47,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
         $data['privileges'] = [];
         foreach ($qb->execute() as $privilege) {
             $data['privileges'][$privilege->privilegename] = $this->_i18n->get_string($privilege->privilegename, 'midgard.admin.asgard');
-            if (!isset($data['objects'][$privilege->objectguid])) {
-                $data['objects'][$privilege->objectguid] = [];
-            }
+            $data['objects'][$privilege->objectguid] ??= [];
             $data['objects'][$privilege->objectguid][$privilege->privilegename] = $privilege->value;
         }
 

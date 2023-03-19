@@ -85,9 +85,7 @@ class schemadb
 
                 // This is probably either fields or operations
                 if (is_array($value)) {
-                    if (!isset($extended_schemadb[$extended_schema_name][$key])) {
-                        $extended_schemadb[$extended_schema_name][$key] = [];
-                    }
+                    $extended_schemadb[$extended_schema_name][$key] ??= [];
 
                     foreach ($value as $name => $field) {
                         if (!$field) {

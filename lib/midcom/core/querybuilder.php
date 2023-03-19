@@ -222,13 +222,7 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function get_result(int $key) : ?midcom_core_dbaobject
     {
-        $results = $this->execute();
-
-        if (!isset($results[$key])) {
-            return null;
-        }
-
-        return $results[$key];
+        return $this->execute()[$key] ?? null;
     }
 
     /**

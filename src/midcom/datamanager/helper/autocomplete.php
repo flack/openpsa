@@ -44,12 +44,8 @@ class autocomplete
             throw new midcom_error("Empty query string.");
         }
 
-        if (!isset($this->request['titlefield'])) {
-            $this->request['titlefield'] = null;
-        }
-        if (!isset($this->request['result_headers'])) {
-            $this->request['result_headers'] = [];
-        }
+        $this->request['titlefield'] ??= null;
+        $this->request['result_headers'] ??= [];
     }
 
     private function prepare_qb()

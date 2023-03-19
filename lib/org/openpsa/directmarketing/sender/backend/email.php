@@ -21,13 +21,10 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
     public function __construct(array $config, org_openpsa_directmarketing_campaign_message_dba $message)
     {
-        //Make sure we have some backend and parameters for it defined
-        if (!isset($config['mail_send_backend'])) {
-            $config['mail_send_backend'] = 'try_default';
-        }
-        if (!isset($config['mail_send_backend_params'])) {
-            $config['mail_send_backend_params'] = [];
-        }
+        // Make sure we have some backend and parameters for it defined
+        $config['mail_send_backend'] ??= 'try_default';
+        $config['mail_send_backend_params'] ??= [];
+
         $this->_config = $config;
         $this->_message = $message;
     }

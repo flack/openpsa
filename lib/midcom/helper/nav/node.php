@@ -164,15 +164,8 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         $data[MIDCOM_NAV_SCORE] = $topic->metadata->score;
         $data[MIDCOM_NAV_COMPONENT] = $topic->component;
         $data[MIDCOM_NAV_SORTABLE] = true;
-
-        if (!isset($data[MIDCOM_NAV_CONFIGURATION])) {
-            $data[MIDCOM_NAV_CONFIGURATION] = null;
-        }
-
-        if (empty($data[MIDCOM_NAV_NOENTRY])) {
-            $data[MIDCOM_NAV_NOENTRY] = (bool) $topic->metadata->get('navnoentry');
-        }
         $data[MIDCOM_NAV_OBJECT] = $topic;
+        $data[MIDCOM_NAV_NOENTRY] ??= (bool) $topic->metadata->get('navnoentry');
 
         return $data;
     }

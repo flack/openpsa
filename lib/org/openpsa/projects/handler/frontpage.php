@@ -45,10 +45,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $project_qb->add_order('end');
 
         foreach ($project_qb->execute() as $project) {
-            if (!isset($data['customers'][$project->customer])) {
-                $data['customers'][$project->customer] = [];
-            }
-
+            $data['customers'][$project->customer] ??= [];
             $data['customers'][$project->customer][] = $project;
         }
 

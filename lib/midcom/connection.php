@@ -142,11 +142,7 @@ class midcom_connection
 
     private static function _get(string $key)
     {
-        if (isset(self::$_data[$key])) {
-            return self::$_data[$key];
-        }
-
-        return null;
+        return self::$_data[$key] ?? null;
     }
 
     /**

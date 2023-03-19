@@ -40,9 +40,7 @@ class cachePass implements CompilerPassInterface
             } else {
                 $config = $container->getParameter('midcom.cache_module_content_backend');
                 if (!empty($config['driver'])) {
-                    if (!isset($config['directory'])) {
-                        $config['directory'] = 'content/';
-                    }
+                    $config['directory'] ??= 'content/';
 
                     $this->configure_backend('content', $config['driver'], $config, $container);
                     $this->configure_backend('content_data', $config['driver'], $config, $container);

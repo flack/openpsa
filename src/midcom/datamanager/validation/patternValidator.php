@@ -17,9 +17,7 @@ class patternValidator extends ConstraintValidator
         $value = (string) $value;
 
         foreach ($constraint->forbidden_patterns as $condition) {
-            if (!isset($condition['explanation'])) {
-                $condition['explanation'] = '';
-            }
+            $condition['explanation'] ??= '';
 
             switch ($condition['type']) {
                 case 'text':

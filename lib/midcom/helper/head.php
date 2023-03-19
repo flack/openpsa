@@ -161,13 +161,8 @@ class midcom_helper_head implements EventSubscriberInterface
      */
     public function add_jquery_state_script(string $script, string $state = 'document.ready')
     {
-        $js_call = "\n" . trim($script) . "\n";
-
-        if (!isset($this->_jquery_states[$state])) {
-            $this->_jquery_states[$state] = $js_call;
-        } else {
-            $this->_jquery_states[$state] .= $js_call;
-        }
+        $this->_jquery_states[$state] ??= '';
+        $this->_jquery_states[$state] .= "\n" . trim($script) . "\n";
     }
 
     /**

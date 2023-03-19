@@ -99,17 +99,13 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
                 }
             }
             $customer_cache[$array['task']] = $customer;
-            if (!isset($this->_request_data['customers'][$customer])) {
-                $this->_request_data['customers'][$customer] = $customer_label;
-            }
+            $this->_request_data['customers'][$customer] ??= $customer_label;
         }
 
         $customer = $customer_cache[$array['task']];
         $category = ($array['invoiceable']) ? 'invoiceable' : 'uninvoiceable';
 
-        if (!isset($this->_request_data['hours'][$category][$customer])) {
-            $this->_request_data['hours'][$category][$customer] = 0;
-        }
+        $this->_request_data['hours'][$category][$customer] ??= 0;
         $this->_request_data['hours'][$category][$customer] += $array['hours'];
         $this->_request_data['hours']['total_' . $category] += $array['hours'];
     }

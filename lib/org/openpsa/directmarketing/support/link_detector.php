@@ -36,11 +36,7 @@ if (isset($_GET["link"])) {
     header("Status: 400 Bad request");
     exit(0);
 }
-if (isset($_ENV["logger"])) {
-    $logger = $_ENV["logger"];
-} else {
-    $logger = "";
-}
+$logger = $_ENV["logger"] ?? '';
 if (isset($_ENV["domains"])) {
     $domains = explode(",", $_ENV["domains"]);
 } else {

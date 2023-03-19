@@ -60,9 +60,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     {
         $history_date = date('Y-m-d', $entry['date']);
 
-        if (!isset($this->latest_pages[$history_date])) {
-            $this->latest_pages[$history_date] = [];
-        }
+        $this->latest_pages[$history_date] ??= [];
         $this->latest_pages[$history_date][] = $entry;
         $this->_updated_pages++;
     }

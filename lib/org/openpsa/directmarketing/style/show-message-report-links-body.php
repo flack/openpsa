@@ -1,12 +1,8 @@
 <?php
 $link_data = $data['use_link_data'];
-if (!isset($data['body_title'])) {
-    $data['body_title'] = '';
-}
+$data['body_title'] ??= '';
 $body_title = $data['body_title'];
-if (!isset($data['body_class'])) {
-    $data['body_class'] = '';
-}
+$data['body_class'] ??= '';
 $body_class = " class='{$data['body_class']}'";
 ?>
             <tbody&(body_class);>

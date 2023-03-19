@@ -484,16 +484,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $context = midcom_core_context::get()->id;
         if ($context != 0) {
             // We're in a dynamic_load, register it for that as well
-            if (!isset($this->context_guids[$context])) {
-                $this->context_guids[$context] = [];
-            }
+            $this->context_guids[$context] ??= [];
             $this->context_guids[$context][] = $guid;
         }
 
         // Register all GUIDs also to the root context
-        if (!isset($this->context_guids[0])) {
-            $this->context_guids[0] = [];
-        }
+        $this->context_guids[0] ??= [];
         $this->context_guids[0][] = $guid;
     }
 

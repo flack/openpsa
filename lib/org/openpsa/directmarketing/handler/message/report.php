@@ -121,9 +121,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     $segment = $this->_l10n->get('no segment');
                     $segment_notfound = true;
                 }
-                if (!isset($link_data['segments'][$segment])) {
-                    $link_data['segments'][$segment] = $segment_prototype;
-                }
+                $link_data['segments'][$segment] ??= $segment_prototype;
                 $segment_data =& $link_data['segments'][$segment];
             } else {
                 $segment_data = $segment_prototype;
@@ -134,9 +132,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $this->_calculate_percentages($link_data, $link);
             $this->_calculate_percentages($segment_data, $link);
 
-            if (!isset($link_data['rules'][$link->target])) {
-                $link_data['rules'][$link->target] = $this->_generate_link_rules($link);
-            }
+            $link_data['rules'][$link->target] ??= $this->_generate_link_rules($link);
             if (!isset($segment_data['rules'][$link->target])) {
                 $segment_data['rules'][$link->target] = $link_data['rules'][$link->target];
 
@@ -250,20 +246,13 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _initialize_field(array &$array, org_openpsa_directmarketing_link_log_dba $link)
     {
-        if (!isset($array[$link->target])) {
-            $array[$link->target] = [];
-            $array[$link->target]['total'] = 0;
-        }
-        if (!isset($array[$link->target][$link->token])) {
-            $array[$link->target][$link->token] = 0;
-        }
+        $array[$link->target] ??= ['total' => 0];
+        $array[$link->target][$link->token] ??= 0;
     }
 
     private function _increment_totals(array &$array, org_openpsa_directmarketing_link_log_dba $link)
     {
-        if (!isset($array['tokens'][$link->token])) {
-            $array['tokens'][$link->token] = 0;
-        }
+        $array['tokens'][$link->token] ??= 0;
 
         $this->_initialize_field($array['counts'], $link);
 

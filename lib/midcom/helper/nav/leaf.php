@@ -62,9 +62,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
             }
         }
 
-        if (!isset($this->data[MIDCOM_NAV_SORTABLE])) {
-            $this->data[MIDCOM_NAV_SORTABLE] = true;
-        }
+        $this->data[MIDCOM_NAV_SORTABLE] ??= true;
 
         // Score
         if (!isset($this->data[MIDCOM_NAV_SCORE])) {
@@ -76,9 +74,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         }
 
         // NAV_NOENTRY Flag
-        if (!isset($this->data[MIDCOM_NAV_NOENTRY])) {
-            $this->data[MIDCOM_NAV_NOENTRY] = false;
-        }
+        $this->data[MIDCOM_NAV_NOENTRY] ??= false;
 
         // complete NAV_NAMES where necessary
         if (trim($this->data[MIDCOM_NAV_NAME]) == '') {
@@ -90,9 +86,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         $this->data[MIDCOM_NAV_ID] = "{$this->node->id}-{$this->leafid}";
         $this->data[MIDCOM_NAV_NODEID] = $this->node->id;
         $this->data[MIDCOM_NAV_RELATIVEURL] = $this->node->relativeurl . $this->data[MIDCOM_NAV_URL];
-        if (!array_key_exists(MIDCOM_NAV_ICON, $this->data)) {
-            $this->data[MIDCOM_NAV_ICON] = null;
-        }
+        $this->data[MIDCOM_NAV_ICON] ??= null;
 
         // Save the original Leaf ID so that it is easier to query in topic-specific NAP code
         $this->data[MIDCOM_NAV_LEAFID] = $this->leafid;

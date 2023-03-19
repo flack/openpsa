@@ -247,10 +247,7 @@ class net_nemein_tag_handler
             }
 
             $tagname = $tags_by_id[$tag_id];
-            if (!isset($tags[$tagname])) {
-                $tags[$tagname] = 0;
-            }
-
+            $tags[$tagname] ??= 0;
             $tags[$tagname]++;
         }
         return $tags;

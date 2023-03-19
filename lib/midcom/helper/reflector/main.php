@@ -256,9 +256,8 @@ class midcom_helper_reflector extends midgard_reflection_property
         foreach ($config->get_array($config_key) as $icon => $classes) {
             $icon_map = array_merge($icon_map, array_fill_keys($classes, $icon));
         }
-        if (!isset($icon_map['__default__'])) {
-            $icon_map['__default__'] = $fallback;
-        }
+        $icon_map['__default__'] ??= $fallback;
+
         return $icon_map;
     }
 

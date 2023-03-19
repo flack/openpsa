@@ -168,9 +168,7 @@ abstract class org_openpsa_contacts_duplicates_check
             // we've already examined this combination from the other end
             if ($key2 < $key1) {
                 if (isset($this->p_map[$arr2['guid']][$arr1['guid']])) {
-                    if (!isset($this->p_map[$arr1['guid']])) {
-                        $this->p_map[$arr1['guid']] = [];
-                    }
+                    $this->p_map[$arr1['guid']] ??= [];
                     $this->p_map[$arr1['guid']][$arr2['guid']] = $this->p_map[$arr2['guid']][$arr1['guid']];
                 }
                 continue;
