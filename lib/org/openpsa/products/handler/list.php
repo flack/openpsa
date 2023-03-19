@@ -118,7 +118,7 @@ implements client
             $tmp = $this->update_breadcrumb_line($this->group);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
         }
-        $data['grid'] = $this->provider->get_grid('product_search');
+        $data['grid'] = $this->provider->get_grid('product_list');
         $data['view_title'] = $this->_l10n->get('product database');
 
         $this->_populate_toolbar();

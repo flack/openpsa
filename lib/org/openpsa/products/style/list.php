@@ -21,7 +21,7 @@ $grid->set_option('scroll', 1)
     ->set_option('height', 600)
     ->set_option('viewrecords', true)
     ->set_option('url', $data['data_url'])
-    ->set_option('sortname', 'index_lastname');
+    ->set_option('sortname', 'index_title');
 
 $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 'string')
     ->set_column('title', $data['l10n_midcom']->get('title'), 'classes: "title ui-ellipsis"', 'string')
