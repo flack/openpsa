@@ -29,6 +29,7 @@
  * @property float $price
  * @property float $cost
  * @property integer $closeEst
+ * @property int $status_type
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_project extends midcom_core_dbaobject

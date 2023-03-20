@@ -27,6 +27,9 @@
  * @property integer $priority
  * @property integer $orgOpenpsaAccesstype Shortcut for various ACL scenarios
  * @property string $orgOpenpsaOwnerWg The "owner" workgroup of this object
+ * @property int $status_type
+ * @property int|bool $status_time
+ * @property string $status_comment
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject
