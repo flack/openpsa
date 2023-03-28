@@ -149,7 +149,7 @@ class midcom_exception_handler
         $mail = new org_openpsa_mail();
         $mail->to = $config['email'];
         $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
-        $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
+        $mail->subject = "[{$_SERVER['SERVER_NAME']}] " . str_replace("\n", ' ', $msg);
         $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
 
         $stacktrace = $this->get_function_stack();
