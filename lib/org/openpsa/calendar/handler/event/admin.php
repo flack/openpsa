@@ -31,10 +31,10 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         $event = new org_openpsa_calendar_event_dba($guid);
         $event->require_do('midgard:update');
 
-        $conflictmanager = new org_openpsa_calendar_conflictmanager($event, $this->_l10n);
+        $validator = new org_openpsa_calendar_validator($event, $this->_l10n);
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         foreach ($schemadb->all() as $schema) {
-            $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);
+            $schema->set('validation', [['callback' => [$validator, 'validate']]]);
         }
         $dm = new datamanager($schemadb);
         $data['controller'] = $dm

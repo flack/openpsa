@@ -21,7 +21,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
 {
     private org_openpsa_calendar_event_dba $root_event;
 
-    private function load_controller(ParameterBag $query, org_openpsa_calendar_conflictmanager $conflictmanager, ?string $resource) : controller
+    private function load_controller(ParameterBag $query, org_openpsa_calendar_validator $validator, ?string $resource) : controller
     {
         $resource = $resource ?: midcom::get()->auth->user->guid;
         $event = new org_openpsa_calendar_event_dba();
@@ -47,7 +47,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
         }
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         foreach ($schemadb->all() as $schema) {
-            $schema->set('validation', [['callback' => [$conflictmanager, 'validate_form']]]);
+            $schema->set('validation', [['callback' => [$validator, 'validate']]]);
         }
 
         $dm = new datamanager($schemadb);
@@ -68,9 +68,9 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
         midcom::get()->head->set_pagetitle($this->_l10n->get('create event'));
 
-        $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba, $this->_l10n);
+        $validator = new org_openpsa_calendar_validator(new org_openpsa_calendar_event_dba, $this->_l10n);
         // Load the controller instance
-        $data['controller'] = $this->load_controller($request->query, $conflictmanager, $resource);
+        $data['controller'] = $this->load_controller($request->query, $validator, $resource);
 
         $workflow = $this->get_workflow('datamanager', ['controller' => $data['controller'], 'relocate' => false]);
         $response = $workflow->run($request);

@@ -25,48 +25,9 @@ class org_openpsa_calendar_conflictmanager
 
     private org_openpsa_calendar_event_dba $_event;
 
-    private ?midcom_services_i18n_l10n $l10n;
-
-    public function __construct(org_openpsa_calendar_event_dba $event, midcom_services_i18n_l10n $l10n = null)
+    public function __construct(org_openpsa_calendar_event_dba $event)
     {
         $this->_event = $event;
-        $this->l10n = $l10n;
-    }
-
-    /**
-     * Validate create/edit forms
-     *
-     * @return mixed Array with error message or true on success
-     */
-    public function validate_form(array $input)
-    {
-        $this->_event->busy = $input['busy'];
-        $this->_event->participants = array_flip($input['participants']);
-        $this->_event->start = $input['start'] + 1;
-        $this->_event->end = $input['end'];
-
-        if (!$this->run($this->_event->rob_tentative)) {
-            return [
-                'participants' => $this->l10n->get('event conflict') . "\n" . $this->get_message($this->l10n->get_formatter())
-            ];
-        }
-
-        return true;
-    }
-
-    public function get_message(midcom_services_i18n_formatter $formatter) : string
-    {
-        $message = '<ul>';
-        foreach ($this->busy_members as $uid => $events) {
-            $message .= '<li>' . org_openpsa_widgets_contact::get($uid)->show_inline();
-            $message .= '<ul>';
-            foreach ($events as $event) {
-                $message .= '<li>' . $formatter->timeframe($event->start, $event->end) . ': ' . $event->title . '</li>';
-            }
-            $message .= '</li>';
-            $message .= '</ul>';
-        }
-        return $message . '</ul>';
     }
 
     private function _add_event_constraints(midcom_core_querybuilder $qb, string $fieldname)
