@@ -31,7 +31,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * This call checks whether the two form fields we have created are present, if yes
      * it reads and returns their values.
      *
-     * @return Array A simple associative array with the two indexes 'username' and
+     * @return array A simple associative array with the two indexes 'username' and
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
