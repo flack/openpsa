@@ -27,7 +27,7 @@ class midcom_baseclasses_core_dbobject
     public static function update_pre_checks(midcom_core_dbaobject $object) : bool
     {
         if (!$object->can_do('midgard:update')) {
-            debug_add("Failed to load object, update privilege on the " . get_class($object) . " {$object->id} not granted for the current user.",
+            debug_add("Failed to update object, update privilege on the " . get_class($object) . " {$object->id} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
