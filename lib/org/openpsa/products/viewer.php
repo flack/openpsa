@@ -55,26 +55,24 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_viewer
      */
     private function _populate_node_toolbar()
     {
-        $buttons = [];
         if ($this->_topic->can_do('midgard:update')) {
             if ($this->_topic->can_do('midgard:create')) {
-                $buttons[] = [
+                $this->_node_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $this->router->generate('export_product_csv'),
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'download',
-                ];
+                ]);
             }
             if ($this->_topic->can_do('midcom:component_config')) {
                 $workflow = $this->get_workflow('datamanager');
-                $buttons[] = $workflow->get_button('config/', [
+                $this->_node_toolbar->add_item($workflow->get_button('config/', [
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                     MIDCOM_TOOLBAR_GLYPHICON => 'wrench',
-                ]);
+                ]));
             }
         }
-        $this->_node_toolbar->add_items($buttons);
     }
 
     /**
