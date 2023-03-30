@@ -18,7 +18,7 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
      */
     public function execute()
     {
-        midcom::get()->auth->request_sudo('net.nemein.tag');
+        midcom::get()->auth->request_sudo($this->_component);
         $qb_tags = net_nemein_tag_tag_dba::new_query_builder();
         $tags = $qb_tags->execute_unchecked();
 

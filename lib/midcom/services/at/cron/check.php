@@ -31,7 +31,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
             $qb->set_limit(1);
 
-            midcom::get()->auth->request_sudo('midcom.services.at');
+            midcom::get()->auth->request_sudo($this->_component);
             $qbret = $qb->execute();
             midcom::get()->auth->drop_sudo();
             if (empty($qbret)) {
@@ -46,7 +46,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         debug_add("Processing entry #{$entry->id}\n");
         //Avoid double-execute
         $entry->status = midcom_services_at_entry_dba::RUNNING;
-        midcom::get()->auth->request_sudo('midcom.services.at');
+        midcom::get()->auth->request_sudo($this->_component);
         $entry->update();
         midcom::get()->auth->drop_sudo();
         $args = $entry->arguments;
@@ -64,7 +64,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $error = get_class($interface) . '->' . $method . '(' . json_encode($args) . ", \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
             $this->handle_error($entry, $error, $args);
         } else {
-            midcom::get()->auth->request_sudo('midcom.services.at');
+            midcom::get()->auth->request_sudo($this->_component);
             $entry->delete();
             midcom::get()->auth->drop_sudo();
         }
@@ -75,7 +75,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $this->print_error($error, $args);
         //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
         $entry->status = midcom_services_at_entry_dba::FAILED;
-        midcom::get()->auth->request_sudo('midcom.services.at');
+        midcom::get()->auth->request_sudo($this->_component);
         $entry->update();
         midcom::get()->auth->drop_sudo();
     }

@@ -163,7 +163,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
          * (to avoid stupid one second overlaps)
          */
         $this->start = floor($this->start / 60) * 60 + 1;
-        $this->end = (floor($this->end / 60) * 60);
+        $this->end = floor($this->end / 60) * 60;
 
         if ($this->end < $this->start) {
             debug_add('Event cannot end before it starts, aborting');

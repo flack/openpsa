@@ -30,7 +30,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     public function execute()
     {
-        if (!midcom::get()->auth->request_sudo('org.openpsa.calendar')) {
+        if (!midcom::get()->auth->request_sudo($this->_component)) {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
