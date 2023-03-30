@@ -34,8 +34,7 @@ implements client
     {
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
-            $person = $auth->user->get_storage();
-            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $person->guid]));
+            return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $auth->user->guid]));
         }
 
         $data['provider_url'] = $this->router->generate('user_list_json');

@@ -58,8 +58,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         ];
 
         if (midcom::get()->auth->user) {
-            $user = midcom::get()->auth->user->get_storage();
-            if ($this->_page->get_parameter('net.nemein.wiki:watch', $user->guid)) {
+            if ($this->_page->get_parameter('net.nemein.wiki:watch', midcom::get()->auth->user->guid)) {
                 $action = 'unsubscribe';
             } else {
                 $action = 'subscribe';
@@ -254,8 +253,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
-        $user = midcom::get()->auth->user->get_storage();
-
         if ($request->request->get('target') == 'folder') {
             // We're subscribing to the whole wiki
             $object = $this->_topic;
@@ -267,11 +264,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         if ($request->request->has('subscribe')) {
             // Subscribe to page
-            $object->set_parameter('net.nemein.wiki:watch', $user->guid, time());
+            $object->set_parameter('net.nemein.wiki:watch', midcom::get()->auth->user->guid, time());
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('subscribed to changes in %s'), $target));
         } else {
             // Remove subscription
-            $object->delete_parameter('net.nemein.wiki:watch', $user->guid);
+            $object->delete_parameter('net.nemein.wiki:watch', midcom::get()->auth->user->guid);
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('unsubscribed from changes in %s'), $target));
         }
 

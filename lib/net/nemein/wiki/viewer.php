@@ -28,8 +28,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_viewer
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
         if (midcom::get()->auth->user) {
-            $user = midcom::get()->auth->user->get_storage();
-            if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid)) {
+            if ($this->_topic->get_parameter('net.nemein.wiki:watch', midcom::get()->auth->user->guid)) {
                 $action = 'unsubscribe';
             } else {
                 $action = 'subscribe';
