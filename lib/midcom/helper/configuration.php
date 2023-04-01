@@ -116,8 +116,6 @@ class midcom_helper_configuration
 
         if ($global) {
             $this->_global = $merge ? array_merge($this->_global, $array) : $array;
-            $this->_local = [];
-            $this->_merged = $array;
         }
 
         $this->_check_local_array($array);
