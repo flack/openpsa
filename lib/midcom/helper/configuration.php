@@ -77,18 +77,18 @@ class midcom_helper_configuration
      * domain. It will then use the contents of this domain as global
      * configuration.
      *
-     * @param mixed $param1        Either an associative array or a Midgard object.
-     * @param mixed $param2        Either null or the name of a Parameter domain.
+     * @param mixed $source      Either an associative array or a Midgard object.
+     * @param string $path       Either null or the name of a Parameter domain.
      */
-    public function __construct($param1, $param2 = null)
+    public function __construct($source, string $path = null)
     {
-        if ($param2 !== null) {
-            $this->_object = $param1;
-            $this->_path = $param2;
+        if ($path !== null) {
+            $this->_object = $source;
+            $this->_path = $path;
             $this->_store_from_object(true);
-        } elseif ($param1 !== null) {
-            $this->_global = $param1;
-            $this->_merged = $param1;
+        } else {
+            $this->_global = $source;
+            $this->_merged = $source;
         }
     }
 
@@ -115,13 +115,13 @@ class midcom_helper_configuration
         $array = $this->_object->list_parameters($this->_path);
 
         if ($global) {
-            $this->_global = ($merge) ? array_merge($this->_global, $array) : $array;
+            $this->_global = $merge ? array_merge($this->_global, $array) : $array;
             $this->_local = [];
             $this->_merged = $array;
         }
 
         $this->_check_local_array($array);
-        $this->_local = ($merge) ? array_merge($this->_local, $array) : $array;
+        $this->_local = $merge ? array_merge($this->_local, $array) : $array;
         $this->_update_cache();
     }
 
@@ -130,10 +130,7 @@ class midcom_helper_configuration
      */
     private function _update_cache()
     {
-        $this->_merged = $this->_global;
-        if (!empty($this->_local)) {
-            $this->_merged = array_merge($this->_merged, $this->_local);
-        }
+        $this->_merged = array_merge($this->_global, $this->_local);
     }
 
     /**
@@ -227,13 +224,11 @@ class midcom_helper_configuration
 
     public function get_array(string $key) : array
     {
-        if ($value = $this->get($key)) {
-            if (!is_array($value)) {
-                throw new midcom_error('Config key "' . $key . '" is not an array');
-            }
-            return $value;
+        $value = $this->get($key) ?: [];
+        if (!is_array($value)) {
+            throw new midcom_error('Config key "' . $key . '" is not an array');
         }
-        return [];
+        return $value;
     }
 
     /**
