@@ -125,39 +125,22 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _add_virtual_files(array $files, string $component) : array
     {
-        // Schemas
-        $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
-        if (!empty($this->_request_data['mgdschemas'])) {
-            $files['mgdschemas'] = [
-                'path' => '/mgdschemas',
-                'subject' => $this->_l10n->get('help_mgdschemas'),
-                'lang' => 'en',
-            ];
+        $options = [
+            'mgdschemas' => midcom::get()->dbclassloader->get_component_classes($component),
+            'urlmethods' => $this->read_url_methods($component)
+        ];
+        if ($component != 'midcom') {
+            $options['handlers'] = $this->read_component_handlers($component);
         }
-
-        // URL Methods
-        $this->_request_data['urlmethods'] = $this->read_url_methods($component);
-        if (!empty($this->_request_data['urlmethods'])) {
-            $files['urlmethods'] = [
-                'path' => '/urlmethods',
-                'subject' => $this->_l10n->get('help_urlmethods'),
-                'lang' => 'en',
-            ];
-        }
-
-        // Break if dealing with MidCOM Core docs
-        if ($component == 'midcom') {
-            return $files;
-        }
-
-        // handlers
-        $this->_request_data['request_switch_info'] = $this->read_component_handlers($component);
-        if (!empty($this->_request_data['request_switch_info'])) {
-            $files['handlers'] = [
-                'path' => '/handlers',
-                'subject' => $this->_l10n->get('help_handlers'),
-                'lang' => 'en',
-            ];
+        foreach ($options as $key => $values) {
+            if (!empty($values)) {
+                $files[$key] = [
+                    'path' => '/' . $key,
+                    'subject' => $this->_l10n->get('help_' . $key),
+                    'lang' => 'en',
+                ];
+            }
+            $this->_request_data[$key] = $values;
         }
 
         return $files;
