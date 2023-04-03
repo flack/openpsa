@@ -38,11 +38,6 @@ services:
         arguments: ['@i18n']
         tags: ['form.type']
 
-    form.type.toolbar:
-        class: midcom\datamanager\extension\type\toolbarType
-        arguments: ['@i18n']
-        tags: ['form.type']
-
     form.property_accessor:
         class: Symfony\Component\PropertyAccess\PropertyAccessorInterface
         factory: [Symfony\Component\PropertyAccess\PropertyAccess, 'createPropertyAccessor']

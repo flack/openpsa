@@ -5,6 +5,9 @@
 
 namespace midcom\datamanager\extension\type;
 
+use midcom\datamanager\storage\container\dbacontainer;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
@@ -16,13 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
  */
 class toolbarType extends AbstractType
 {
-    private \midcom_services_i18n_l10n $l10n;
-
-    public function __construct(\midcom_services_i18n $i18n)
-    {
-        $this->l10n = $i18n->get_l10n('midcom.datamanager');
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -30,8 +26,7 @@ class toolbarType extends AbstractType
     {
         $resolver->setDefaults([
             'operations' => [],
-            'mapped' => false,
-            'is_create' => false
+            'mapped' => false
         ]);
     }
 
@@ -42,16 +37,9 @@ class toolbarType extends AbstractType
     {
         foreach ($options['operations'] as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
-                if ($label == '') {
-                    if ($operation == 'save' && $options['is_create']) {
-                        $label = 'create';
-                    } else {
-                        $label = "form submit: {$operation}";
-                    }
-                }
                 $attributes = [
                     'operation' => $operation,
-                    'label' => $this->l10n->get($label),
+                    'label' => $label,
                     'attr' => ['class' => 'submit ' . $operation]
                 ];
                 if ($operation == controller::SAVE) {
@@ -66,6 +54,27 @@ class toolbarType extends AbstractType
 
                 $builder->add($operation . $key, SubmitType::class, $attributes);
             }
+        }
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['button-labels'] = [];
+        foreach ($form->all() as $key => $button) {
+            $label = $button->getConfig()->getOption('label');
+            if (!$label) {
+                $operation = $button->getConfig()->getOption('operation');
+                $storage = $view->parent->vars['value'];
+
+                if (   $operation == controller::SAVE
+                    && $storage instanceof dbacontainer
+                    && empty($storage->get_value()->id)) {
+                    $label = 'create';
+                } else {
+                    $label = "form submit: {$operation}";
+                }
+            }
+            $view->vars['button-labels'][$key] = $label;
         }
     }
 

@@ -127,8 +127,9 @@ class form extends base
     public function toolbar_row(FormView $view, array $data)
     {
         $string = '<div class="form_toolbar">';
-        foreach ($view as $child) {
-            $string .= $this->renderer->widget($child);
+        foreach ($view as $key => $child) {
+            $label = $this->renderer->humanize($view->vars['button-labels'][$key]);
+            $string .= $this->renderer->widget($child, ['label' => $label]);
         }
         return $string . '</div>';
     }

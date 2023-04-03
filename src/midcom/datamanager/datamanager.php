@@ -161,22 +161,18 @@ class datamanager
         $config = [
             'schema' => $this->get_schema()
         ];
-        return self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, null, $config);
+        $builder = self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, null, $config);
+        $builder->add('form_toolbar', toolbarType::class, [
+            'operations' => $this->schema->get('operations'),
+            'index_method' => 'noindex'
+        ]);
+        return $builder;
     }
 
     public function build_form(FormBuilderInterface $builder) : self
     {
-        $storage = $this->get_storage();
-
-        $config = [
-            'operations' => $this->schema->get('operations'),
-            'index_method' => 'noindex',
-            'is_create' => $storage instanceof dbacontainer && empty($storage->get_value()->id)
-        ];
-        $builder->add('form_toolbar', toolbarType::class, $config);
-
         $this->form = $builder->getForm()
-            ->setData($storage);
+            ->setData($this->get_storage());
 
         return $this;
     }
