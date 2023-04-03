@@ -1,10 +1,10 @@
 <?php
 echo "<h1>" . $data['l10n']->get('handlers') . "</h1>\n";
-if (!empty($data['request_switch_info'])) {
+if (!empty($data['handlers'])) {
     echo "<p>" . $data['l10n']->get('available urls') . "</p>\n";
 
     echo "<dl>\n";
-    foreach ($data['request_switch_info'] as $request_id => $request_info) {
+    foreach ($data['handlers'] as $request_id => $request_info) {
         echo "<dt id=\"{$request_id}\">{$request_info['route']}</dt>\n";
         echo "<dd>\n";
         echo "    <table>\n";
