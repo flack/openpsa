@@ -6,7 +6,7 @@ if (empty($_GET['identifier'])) {
 }
 $path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . $_GET['identifier'];
 
-if (!file_exists($path) || !is_readable($path)) {
+if (!is_readable($path)) {
     throw new midcom_error_notfound('File not found');
 }
 
