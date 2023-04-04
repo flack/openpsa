@@ -12,6 +12,8 @@ use midcom_helper_misc;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
+use midcom_helper__componentloader;
+use midcom_services_i18n;
 use Symfony\Component\Form\AbstractType;
 
 /**
@@ -19,11 +21,14 @@ use Symfony\Component\Form\AbstractType;
  */
 class tinymceType extends AbstractType
 {
-    private \midcom_services_i18n $i18n;
+    private midcom_services_i18n $i18n;
 
-    public function __construct(\midcom_services_i18n $i18n)
+    private midcom_helper__componentloader $componentloader;
+
+    public function __construct(midcom_services_i18n $i18n, midcom_helper__componentloader $loader)
     {
         $this->i18n = $i18n;
+        $this->componentloader = $loader;
     }
 
     /**
@@ -42,7 +47,7 @@ class tinymceType extends AbstractType
                 'mode' => 'exact',
                 'theme' => $options['config']->get('tinymce_default_theme'),
                 'local_config' => '',
-                'use_imagepopup' => \midcom::get()->componentloader->is_installed('midcom.helper.imagepopup'),
+                'use_imagepopup' => $this->componentloader->is_installed('midcom.helper.imagepopup'),
                 'mce_config_snippet' => null
             ];
             return helper::normalize($widget_defaults, $value);

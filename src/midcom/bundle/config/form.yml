@@ -35,7 +35,7 @@ services:
 
     form.type.tinymce:
         class: midcom\datamanager\extension\type\tinymceType
-        arguments: ['@i18n']
+        arguments: ['@i18n', '@componentloader']
         tags: ['form.type']
 
     form.property_accessor:
