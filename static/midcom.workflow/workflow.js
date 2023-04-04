@@ -100,7 +100,11 @@ $(document).ready(function() {
 
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
-        if (!$(this).hasClass('active')) {
+        let url;
+        if ($('.midcom-workflow-dialog iframe').length > 0) {
+            url = $('.midcom-workflow-dialog iframe')[0].contentWindow.location.href;
+        }
+        if (url != this.href) {
             create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, this.getAttribute('href'));
         }
     });
