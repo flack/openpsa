@@ -85,7 +85,7 @@ class imagefilterTest extends openpsa_testcase
 
     private function _testDimensions($filename, $expected_width, $expected_height)
     {
-        list($width, $height) = getimagesize($filename);
+        [$width, $height] = getimagesize($filename);
         $this->assertEquals($expected_width, $width);
         $this->assertEquals($expected_height, $height);
     }
