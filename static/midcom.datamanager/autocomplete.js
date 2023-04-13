@@ -50,6 +50,7 @@ window.midcom_helper_datamanager2_autocomplete = {
         }
 
         query_options.term = term;
+        $('.ui-autocomplete-loading').removeClass('ui-autocomplete-error')
 
         $.ajax({
             url: query_options.handler_url,
