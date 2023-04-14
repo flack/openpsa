@@ -84,9 +84,7 @@ class midcom_helper_misc
         if (!$snippet->get_by_path($path)) {
             return null;
         }
-        if (isset(midcom::get()->cache->content)) {
-            midcom::get()->cache->content->register($snippet->guid);
-        }
+        midcom::get()->cache->content->register($snippet->guid);
         return $snippet->code;
     }
 

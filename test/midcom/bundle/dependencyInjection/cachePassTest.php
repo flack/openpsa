@@ -35,15 +35,15 @@ class cachePassTest extends TestCase
             ->getMock();
 
         $container
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(7))
             ->method('getParameter')
-            ->with($this->logicalOr('midcom.cache_autoload_queue', 'midcom.cache_module_memcache_backend', 'midcom.cache_module_memcache_backend_config', 'kernel.cache_dir'))
+            ->with($this->logicalOr('midcom.cache_module_content_backend', 'midcom.cache_module_memcache_backend', 'midcom.cache_module_memcache_backend_config', 'kernel.cache_dir'))
             ->will($this->returnCallback([$this, 'get_config']));
 
         $container
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(5))
             ->method('getDefinition')
-            ->with($this->logicalOr('cache', 'cache.module.nap.backend'))
+            ->with($this->logicalOr('cache', 'cache.module.memcache.backend', 'cache.module.nap.backend'))
             ->will($this->returnCallback([$this, 'get_definition_mock']));
 
         (new cachePass)->process($container);
@@ -52,9 +52,6 @@ class cachePassTest extends TestCase
     public function get_config(string $identifier) {
         if ($identifier === 'kernel.cache_dir') {
             return OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest';
-        }
-        if ($identifier === 'midcom.cache_autoload_queue') {
-            return ['nap'];
         }
         if ($identifier === 'midcom.cache_module_memcache_backend') {
             return 'apc';
@@ -71,8 +68,7 @@ class cachePassTest extends TestCase
                 ->getMock();
             $cache
                 ->expects($this->once())
-                ->method('addMethodCall')
-                ->with('add_module', ['nap', new Reference('cache.module.nap')]);
+                ->method('addMethodCall');
 
             return $cache;
         }
@@ -82,8 +78,7 @@ class cachePassTest extends TestCase
             ->getMock();
         $backend
             ->expects($this->once())
-            ->method('setArguments')
-            ->with(['nap', ApcuAdapter::class, cachePass::NS_PLACEHOLDER]);
+            ->method('setArguments');
 
         return $backend;
     }
@@ -95,10 +90,7 @@ class cachePassTest extends TestCase
         }
 
         $container = $this->prepare_container();
-        $container->register('cache.module.content.backend', NullAdapter::class);
-        $container->register('cache.module.content_data.backend', NullAdapter::class);
-        $container->setParameter('midcom.cache_autoload_queue', ['content']);
-        $container->setParameter('midcom.cache_module_content_backend', ['driver' => 'memcached']);
+        $container->setParameter('midcom.cache_module_memcache_backend', 'flatfile');
 
         (new cachePass)->process($container);
 
@@ -108,9 +100,8 @@ class cachePassTest extends TestCase
     public function test_process_memcache_flatfile()
     {
         $container = $this->prepare_container();
-        $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
         $container->setParameter('midcom.cache_module_memcache_backend', 'flatfile');
-        $backend = $container->register('cache.module.memcache.backend', NullAdapter::class);
+        $backend = $container->getDefinition('cache.module.memcache.backend');
 
         (new cachePass)->process($container);
 
@@ -120,9 +111,8 @@ class cachePassTest extends TestCase
     public function test_process_memcache_sqlite()
     {
         $container = $this->prepare_container();
-        $container->setParameter('midcom.cache_autoload_queue', ['memcache']);
         $container->setParameter('midcom.cache_module_memcache_backend', 'sqlite');
-        $backend = $container->register('cache.module.memcache.backend', NullAdapter::class);
+        $backend = $container->getDefinition('cache.module.memcache.backend');
 
         (new cachePass)->process($container);
 
@@ -133,8 +123,15 @@ class cachePassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->register('cache', midcom_services_cache::class);
+        $container->register('cache.module.content.backend', NullAdapter::class);
+        $container->register('cache.module.content_data.backend', NullAdapter::class);
+        $container->register('cache.module.memcache.backend', NullAdapter::class);
+        $container->register('cache.module.nap.backend', NullAdapter::class);
+
         $container->setParameter('kernel.cache_dir', OPENPSA2_UNITTEST_OUTPUT_DIR . '/cachetest');
         $container->setParameter('midcom.cache_module_memcache_backend_config', []);
+        $container->setParameter('midcom.cache_module_content_backend', ['driver' => 'memcached']);
+
 
         return $container;
     }

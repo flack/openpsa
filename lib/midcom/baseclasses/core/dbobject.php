@@ -406,9 +406,7 @@ class midcom_baseclasses_core_dbobject
         $object->_on_loaded();
 
         // Register the GUID as loaded in this request
-        if (isset(midcom::get()->cache->content)) {
-            midcom::get()->cache->content->register($object->guid);
-        }
+        midcom::get()->cache->content->register($object->guid);
     }
 
     /**

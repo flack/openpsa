@@ -28,7 +28,7 @@ class cachePass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->getParameter('midcom.cache_autoload_queue') as $name) {
+        foreach (['content', 'nap', 'memcache'] as $name) {
             $container->getDefinition('cache')
                 ->addMethodCall('add_module', [$name, new Reference('cache.module.' . $name)]);
 

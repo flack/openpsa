@@ -77,10 +77,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * <b>Cache configuration</b>
  *
- * - <b>array cache_autoload_queue:</b> The cache module loading queue during startup, you
- *   should normally have no need to change this (unless you want to add your own caching modules,
- *   in which case you have to ensure that the loading queue of MidCOM itself (as seen in this
- *   file) is not changed.
  * - <b>string cache_base_directory:</b> The directory where to place cache files for MidCOM.
  *      This defaults to {project_dir}/var/cache
  *
@@ -269,7 +265,6 @@ class midcom_config implements ArrayAccess
 
         // Cache configuration
         'cache_base_directory' => '',
-        'cache_autoload_queue' => ['content', 'nap', 'memcache'],
 
         //Memory Caching Daemon
         'cache_module_memcache_backend' => 'flatfile',
