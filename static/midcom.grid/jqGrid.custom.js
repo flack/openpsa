@@ -691,12 +691,36 @@ const midcom_grid_batch_processing = {
 
         //hook action select into grid so that it'll get shown when necessary
         $('#' + config.id).jqGrid('setGridParam', {
-            onSelectRow: function(id) {
+            onSelectRow: function(id, selected, event) {
                 if ($('#' + config.id).jqGrid('getGridParam', 'selarrrow').length === 0) {
                     $('#' + config.id + '_batch').parent().hide();
                 } else {
                     $('#' + config.id + '_batch').parent().show();
                 }
+
+                if (selected && event.hasOwnProperty('originalEvent') && event.originalEvent.shiftKey) {
+
+                    function shift_select(rows) {
+                        let started = false;
+                        rows.get().reverse().forEach(function(row) {
+                            if (started) {
+                                if (!$(row).hasClass('ui-state-highlight')) {
+                                    $(row).find('td.td_cbox input').trigger('click');
+                                }
+                            } else {
+                                started = $(row).hasClass('ui-state-highlight');
+                            }
+                        });
+                    }
+
+                    let clicked_row = $('#' + config.id + ' tr#' + id);
+                    if (clicked_row.prevAll('.ui-state-highlight').length > 0) {
+                        shift_select(clicked_row.prevAll(':not(.jqgroup)'));
+                    } else if (clicked_row.nextAll('.ui-state-highlight').length > 0) {
+                        shift_select(clicked_row.nextAll(':not(.jqgroup)'));
+                    }
+                }
+
                 $(window).trigger('resize');
             },
             onSelectAll: function(rowids, status) {
