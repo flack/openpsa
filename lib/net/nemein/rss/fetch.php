@@ -195,12 +195,13 @@ class net_nemein_rss_fetch
         }
 
         // Try to figure out item publication date
-        $article_date = $item->get_date('U');
-
-        $article_data_tweaked = false;
-        if (!$article_date) {
+        if ($article_date = $item->get_date('U')) {
+            $meta_values['published'] = $article_date;
+        } else {
             $article_date = time();
-            $article_data_tweaked = true;
+            if (!$article->id) {
+                $meta_values['published'] = $article_date;
+            }
         }
 
         if ($article_date > $this->_feed->latestupdate) {
@@ -211,10 +212,6 @@ class net_nemein_rss_fetch
         }
 
         if ($article->id) {
-            if (!$article_data_tweaked) {
-                $meta_values['published'] = $article_date;
-            }
-
             if (   $this->apply_values($article, $values, $meta_values)
                 && !$article->update()) {
                 return null;
