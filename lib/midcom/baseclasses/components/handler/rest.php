@@ -33,7 +33,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     protected int $_responseStatus = Response::HTTP_INTERNAL_SERVER_ERROR;
 
-    protected midcom_core_dbaobject $_object;
+    protected ?midcom_core_dbaobject $_object = null;
 
     /**
      * the request mode (get, create, update, delete)
