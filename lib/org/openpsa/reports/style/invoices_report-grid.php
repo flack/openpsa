@@ -150,6 +150,12 @@ echo '</select>';
    <?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>
 </button>
 
+<button id="&(grid_id);-chart">
+   <i class="fa fa-bar-chart"></i>
+   <span class="show"><?php echo $data['l10n']->get('show chart'); ?></span>
+   <span class="hide"><?php echo $data['l10n']->get('hide chart'); ?></span>
+</button>
+
 </div>
 
 <div class="report org_openpsa_invoices full-width fill-height">

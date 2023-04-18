@@ -1,0 +1,16 @@
+.org_openpsa_invoices canvas {
+    max-height: 70vh;
+}
+body:not(.chart-shown) .org_openpsa_invoices canvas {
+    display: none !important;
+}
+
+.org_openpsa_invoices button .show,
+body.chart-shown .org_openpsa_invoices button .hide {
+        display: inline;
+}
+
+.org_openpsa_invoices button .hide,
+body.chart-shown .org_openpsa_invoices button .show {
+        display: none;
+}

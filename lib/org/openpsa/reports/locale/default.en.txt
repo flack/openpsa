@@ -122,6 +122,14 @@ Save query for future
 Scope
 ---STRINGEND
 
+---STRING show chart
+Show chart
+---STRINGEND
+
+---STRING hide chart
+Hide chart
+---STRINGEND
+
 ---STRING show invoiceable
 Show billable
 ---STRINGEND

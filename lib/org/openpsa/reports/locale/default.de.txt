@@ -118,6 +118,14 @@ Report speichern
 Eingrenzung
 ---STRINGEND
 
+---STRING show chart
+Chart anzeigen
+---STRINGEND
+
+---STRING hide chart
+Chart ausblenden
+---STRINGEND
+
 ---STRING show invoiceable
 Abrechenbare anzeigen
 ---STRINGEND

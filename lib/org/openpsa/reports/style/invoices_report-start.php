@@ -11,6 +11,7 @@ if (empty($data['title'])) {
         <title>OpenPSA - &(data['title']);</title>
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.invoices/invoices.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/invoices.css" />
         <?php midcom::get()->head->print_head_elements(); ?>
     </head>
     <body>

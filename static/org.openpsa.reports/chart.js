@@ -1,9 +1,11 @@
 function init_chart(grid_id) {
 
     const ctx = document.getElementById('chart-' + grid_id);
-    var chart;
+    var chart,
+        chart_shown = false,
+        chart_toggle = $('#' + grid_id + '-chart');
 
-    function render_grid() {
+    function render_chart() {
         let group_data = $('#' + grid_id).jqGrid('getGridParam', 'groupingView'),
             chart_labels = [],
             chart_data = [],
@@ -71,7 +73,24 @@ function init_chart(grid_id) {
             chart.destroy();
         }
         if ($('#' + grid_id).jqGrid('getGridParam', 'grouping')) {
-            render_grid();
+            $(ctx).show();
+            render_chart();
+            chart_toggle.prop('disabled', false);
+        } else {
+            $(ctx).hide();
+            chart_toggle.prop('disabled', true);
+            $(window).trigger('resize');
         }
     }).trigger('change');
+
+    chart_toggle.on('click', function() {
+        chart_shown = !chart_shown && !chart_toggle.prop('disabled');
+
+        if (chart_shown) {
+            $('body').addClass('chart-shown');
+        } else {
+            $('body').removeClass('chart-shown');
+        }
+        $(window).trigger('resize');
+    }).trigger('click');
 }
