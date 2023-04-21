@@ -290,7 +290,6 @@ class midcom_config implements ArrayAccess
         'cron_hour_minutes' => 30,
 
         // I18n Subsystem configuration
-        'i18n_available_languages' => null,
         'i18n_fallback_language' => 'en',
 
         // Indexer Configuration
@@ -365,7 +364,6 @@ class midcom_config implements ArrayAccess
         'metadata_approval' => false,
         'metadata_scheduling' => false,
         'metadata_lock_timeout' => 60,    // Time in minutes
-        'staging2live_staging' => false,
 
         // Set the datamanager schema used by the Metadata Service
         'metadata_schema' => 'file:/midcom/config/metadata_default.inc',
@@ -396,13 +394,6 @@ class midcom_config implements ArrayAccess
         'jquery_ui_version' => '1.12.1',
         'jquery_ui_theme' => null,
         'jquery_load_from_google' => false,
-
-        /**
-         * Sessioning service, disabling the service will help with external caches.
-         * The second option is to allow logged in users to benefit from the service
-         */
-        'sessioning_service_enable' => true,
-        'sessioning_service_always_enable_for_users' => true,
 
         /**
          * Trash cleanup, purge deleted objects after X days
