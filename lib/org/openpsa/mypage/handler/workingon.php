@@ -112,20 +112,10 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
     public function _handler_set(Request $request)
     {
-        $task = $request->request->get('task');
-        if (!$task) {
-            throw new midcom_error('No task specified.');
-        }
-
-        // Handle "not working on anything"
-        if ($request->request->get('action') == 'stop') {
-            $task = '';
-        }
-
         // Set the "now working on" status
         $workingon = new org_openpsa_mypage_workingon();
-        if (!$workingon->set($task)) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'), 'Failed to set "working on" parameter to "' . $task . '", reason ' . midcom_connection::get_error_string(), 'error');
+        if (!$workingon->set($request->request)) {
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'), 'Failed to set "working on" parameter, reason ' . midcom_connection::get_error_string(), 'error');
         }
 
         $relocate = $request->request->get('url', '');

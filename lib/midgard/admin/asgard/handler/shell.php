@@ -18,6 +18,8 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
 {
     use midgard_admin_asgard_handler;
 
+    private bool $ajax;
+
     public function _handler_shell(Request $request, array &$data)
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -46,6 +48,7 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
         // Set the breadcrumb data
         $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('shell'), $data['view_title']);
+        $this->ajax = $request->query->has('ajax');
         return $this->get_response();
     }
 
@@ -78,7 +81,7 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
 
     public function _show_shell(string $handler_id, array &$data)
     {
-        if (!isset($_GET['ajax'])) {
+        if (!$this->ajax) {
             midcom_show_style('midgard_admin_asgard_shell');
         } else {
             midcom::get()->cache->content->enable_live_mode();

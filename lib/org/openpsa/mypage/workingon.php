@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\InputBag;
+
 /**
  * org.openpsa.mypage "now working on" handler
  *
@@ -67,10 +69,15 @@ class org_openpsa_mypage_workingon
     /**
      * Set a task the user works on. If user was previously working on something else hours will be reported automatically.
      */
-    public function set(string $task_guid) : bool
+    public function set(InputBag $post) : bool
     {
-        $description = trim($_POST['description']);
-        $invoiceable = isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true';
+        $task_guid = $post->get('task');
+        if (!$task_guid) {
+            throw new midcom_error('No task specified.');
+        }
+
+        $description = trim($post->get('description'));
+        $invoiceable = $post->getBoolean('invoiceable');
         midcom::get()->auth->request_sudo('org.openpsa.mypage');
         if ($this->task) {
             // We were previously working on another task. Report hours
@@ -84,7 +91,7 @@ class org_openpsa_mypage_workingon
             // Do the actual report
             $this->_report_hours($description, $invoiceable);
         }
-        if (!$task_guid) {
+        if ($post->get('action') == 'stop') {
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
         } else {
