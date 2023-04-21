@@ -65,8 +65,7 @@ abstract class container implements node, \ArrayAccess, \Iterator
         return $this->__get($offset);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->__set($offset, $value);
     }

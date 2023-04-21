@@ -475,8 +475,7 @@ class midcom_config implements ArrayAccess
         $this->_merged_config[$key] = $value;
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         $this->set($offset, $value);
     }
