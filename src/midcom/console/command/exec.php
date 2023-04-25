@@ -76,7 +76,6 @@ class exec extends Command
         }
 
         midcom::get()->auth->request_sudo('midcom.exec');
-        midcom::get()->cache->content->enable_live_mode();
 
         try {
             require $basedir . $file;
@@ -86,7 +85,7 @@ class exec extends Command
             require $basedir . $file;
         }
 
-        midcom::get()->auth->drop_sudo();#
+        midcom::get()->auth->drop_sudo();
         return 0;
     }
 
