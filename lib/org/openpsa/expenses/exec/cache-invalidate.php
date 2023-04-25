@@ -9,7 +9,7 @@ $qb = org_openpsa_projects_task_dba::new_query_builder();
 foreach ($qb->execute() as $task) {
     $start = microtime(true);
     echo "Invalidating cache for task #{$task->id} {$task->title}... \n";
-    if ($task->update_cache()) {
+    if (org_openpsa_expenses_hour_report_dba::update_cache($task)) {
         $time_consumed = round(microtime(true) - $start, 2);
         echo "OK ({$time_consumed} secs, task has {$task->reportedHours}h reported)";
     } else {
