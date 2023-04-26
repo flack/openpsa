@@ -32,8 +32,7 @@ implements midcom_services_permalinks_resolver
     {
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
-        if ($real_config->get('root_group')) {
-            $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
+        if ($root_group = $this->get_root_group($real_config)) {
             if ($root_group->id != $product_group->id) {
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
@@ -45,6 +44,14 @@ implements midcom_services_permalinks_resolver
             }
         }
         return "{$product_group->guid}/";
+    }
+
+    private function get_root_group(midcom_helper_configuration $config, bool $fallback = false) : ?org_openpsa_products_product_group_dba
+    {
+        if ($root_group_guid = $config->get('root_group')) {
+            return new org_openpsa_products_product_group_dba($root_group_guid);
+        }
+        return $fallback ? new org_openpsa_products_product_group_dba : null;
     }
 
     /**
@@ -61,12 +68,7 @@ implements midcom_services_permalinks_resolver
             'group' => datamanager::from_schemadb($config->get('schemadb_group')),
             'product' => datamanager::from_schemadb($config->get('schemadb_product'))
         ];
-        $topic_root_group_guid = $topic->get_parameter('org.openpsa.products', 'root_group');
-        if (!mgd_is_guid($topic_root_group_guid)) {
-            $root_group = new org_openpsa_products_product_group_dba;
-        } else {
-            $root_group = new org_openpsa_products_product_group_dba($topic_root_group_guid);
-        }
+        $root_group = $this->get_root_group($config, true);
         $this->reindex_tree_iterator($indexer, $dms, $topic, $root_group, $config);
 
         return true;

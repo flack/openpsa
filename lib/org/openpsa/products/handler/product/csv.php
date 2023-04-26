@@ -15,8 +15,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
     {
         if (isset($args[0])) {
             $group_name_to_filename = '';
-            if ($root_group_guid = $this->_config->get('root_group')) {
-                $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
+            if ($root_group = $this->get_root_group()) {
                 $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
             }
             $schemadb_to_use = str_replace('.csv', '', $args[0]);
@@ -34,14 +33,21 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         return [$schemadb];
     }
 
+    private function get_root_group() : ?org_openpsa_products_product_group_dba
+    {
+        if ($root_group_guid = $this->_config->get('root_group')) {
+            return org_openpsa_products_product_group_dba::get_cached($root_group_guid);
+        }
+        return null;
+    }
+
     public function _load_data(string $handler_id, array &$args, array &$data) : array
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
         $qb->add_order('code');
         $qb->add_order('title');
 
-        if ($root_group_guid = $this->_config->get('root_group')) {
-            $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
+        if ($root_group = $this->get_root_group()) {
             $qb->add_constraint('productGroup', '=', $root_group->id);
         }
         $products = [];

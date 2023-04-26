@@ -51,12 +51,13 @@ implements midcom_services_permalinks_resolver
         if (!($object instanceof midcom_db_article)) {
             return null;
         }
-        $config = $this->get_config_for_topic($topic);
-        if ($config->get('disable_permalinks')) {
+
+        if ($object->topic != $topic->id) {
             return null;
         }
 
-        if ($object->topic != $topic->id) {
+        $config = $this->get_config_for_topic($topic);
+        if ($config->get('disable_permalinks')) {
             return null;
         }
 
