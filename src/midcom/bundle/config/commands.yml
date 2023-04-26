@@ -1,0 +1,50 @@
+services:
+    command.midcom.exec:
+        class: midcom\console\command\exec
+        tags:
+            - {name: 'console.command', command: 'midcom:exec'}
+
+    command.midcom.purgedeleted:
+        class: midcom\console\command\purgedeleted
+        tags:
+            - {name: 'console.command', command: 'midcom:purgedeleted'}
+
+    command.midcom.repligard:
+        class: midcom\console\command\repligard
+        tags:
+            - {name: 'console.command', command: 'midcom:repligard'}
+
+    command.midcom.cleanup.blobdir:
+        class: midcom\console\command\cleanup\blobdir
+        tags:
+            - {name: 'console.command', command: 'midcom:cleanup:blobdir'}
+
+    command.midcom.cleanup.parameters:
+        class: midcom\console\command\cleanup\parameters
+        tags:
+            - {name: 'console.command', command: 'midcom:cleanup:parameters'}
+
+    command.midcom.cleanup.privileges:
+        class: midcom\console\command\cleanup\privileges
+        tags:
+            - {name: 'console.command', command: 'midcom:cleanup:privileges'}
+
+    command.midcom.cleanup.rcsdir:
+        class: midcom\console\command\cleanup\rcsdir
+        tags:
+            - {name: 'console.command', command: 'midcom:cleanup:rcsdir'}
+
+    command.midcom.reindex:
+        class: midcom\console\command\reindex
+        tags:
+            - {name: 'console.command', command: 'midcom:reindex'}
+
+    command.midcom.cron:
+        class: midcom\console\command\cron
+        tags:
+            - {name: 'console.command', command: 'midcom:cron'}
+
+    command.midcom.cacheinvalidate:
+        class: midcom\console\command\cacheinvalidate
+        tags:
+            - {name: 'console.command', command: 'midcom:cache-invalidate'}

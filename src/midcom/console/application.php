@@ -33,16 +33,22 @@ class application extends base_application
         $this->getDefinition()
             ->addOption(new InputOption('--port', '-p', InputOption::VALUE_REQUIRED, 'HTTP server port', '80'));
 
-        $this->add(new command\exec);
-        $this->add(new command\purgedeleted);
-        $this->add(new command\repligard);
-        $this->add(new command\cleanup\blobdir);
-        $this->add(new command\cleanup\parameters);
-        $this->add(new command\cleanup\privileges);
-        $this->add(new command\cleanup\rcsdir);
-        $this->add(new command\reindex);
-        $this->add(new command\cron);
-        $this->add(new command\cacheinvalidate);
+        $this->add_commands();
+    }
+
+    private function add_commands()
+    {
+        midcom::get()->boot();
+        $container = midcom::get()->getContainer();
+        if ($container->has('console.command_loader')) {
+            $this->setCommandLoader($container->get('console.command_loader'));
+        }
+
+        if ($container->hasParameter('console.command.ids')) {
+            foreach ($container->getParameter('console.command.ids') as $id) {
+                $this->add($container->get($id));
+            }
+        }
     }
 
     /**
@@ -71,9 +77,6 @@ class application extends base_application
         if ($_SERVER['SERVER_PORT'] == 443) {
             $_SERVER['HTTPS'] = 'on';
         }
-
-        // This makes sure that existing auth and cache instances get overridden
-        midcom::init();
 
         parent::doRun($input, $output);
     }

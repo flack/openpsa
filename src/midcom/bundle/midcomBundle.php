@@ -5,6 +5,7 @@
 
 namespace midcom\bundle;
 
+use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Form\DependencyInjection\FormPass;
@@ -27,6 +28,7 @@ class midcomBundle extends Bundle
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/config'));
         $loader->load('services.yml');
         $loader->load('form.yml');
+        $loader->load('commands.yml');
         $container->addCompilerPass(new authPass);
         $container->addCompilerPass(new loggerPass);
         $container->addCompilerPass(new componentPass);
@@ -34,5 +36,6 @@ class midcomBundle extends Bundle
         $container->addCompilerPass(new indexerPass);
         $container->addCompilerPass(new FormPass);
         $container->addCompilerPass(new datamanagerPass);
+        $container->addCompilerPass(new AddConsoleCommandPass);
     }
 }
