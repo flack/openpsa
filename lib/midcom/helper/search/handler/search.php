@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -22,18 +23,18 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_searchform(Request $request, string $handler_id)
     {
-        $this->prepare_formdata($handler_id);
+        $this->prepare_formdata($handler_id, $request);
         $this->populate_toolbar($request);
         return $this->show('search_form');
     }
 
-    private function prepare_formdata(string $handler_id)
+    private function prepare_formdata(string $handler_id, Request $request)
     {
-        $this->_request_data['query'] = $_REQUEST['query'] ?? '';
+        $this->_request_data['query'] = $this->fetch($request, 'query', '');
         if ($handler_id === 'advanced') {
-            $this->_request_data['request_topic'] = $_REQUEST['topic'] ?? '';
-            $this->_request_data['component'] = $_REQUEST['component'] ?? '';
-            $this->_request_data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
+            $this->_request_data['request_topic'] = trim($this->fetch($request, 'topic', ''));
+            $this->_request_data['component'] = trim($this->fetch($request, 'component', ''));
+            $this->_request_data['lastmodified'] = (int) trim($this->fetch($request, 'lastmodified', '0'));
 
             $this->_request_data['topics'] = ['' => $this->_l10n->get('search anywhere')];
             $this->_request_data['components'] = ['' => $this->_l10n->get('search all content types')];
@@ -42,6 +43,14 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->search_nodes($nap->get_node($nap->get_root_node()), $nap, '');
         }
         $this->_request_data['type'] = $handler_id;
+    }
+
+    private function fetch(Request $request, string $field, $default = null)
+    {
+        if ($request->request->has($field)) {
+            return $request->request->get($field);
+        }
+        return $request->query->get($field, $default);
     }
 
     /**
@@ -89,14 +98,13 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_result(Request $request, array &$data)
     {
-        $this->prepare_query_data();
+        $type = $this->fetch($request, 'type', 'basic');
         // If we don't have a query string, relocate to empty search form
-        if (!isset($_REQUEST['query'])) {
+        if (!$request->request->has('query') && !$request->query->has('query')) {
             debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
-            $url = ($_REQUEST['type'] == 'basic') ? '' : 'advanced/';
-            return new midcom_response_relocate($url);
+            return new midcom_response_relocate($this->router->generate($type));
         }
-        $this->prepare_formdata($_REQUEST['type']);
+        $this->prepare_formdata($type, $request);
 
         if (   count(explode(' ', $data['query'])) == 1
             && !str_contains($data['query'], '*')
@@ -105,18 +113,18 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $data['query'] .= '*';
         }
 
-        if ($data['type'] == 'basic') {
+        if ($type == 'basic') {
             $indexer = midcom::get()->indexer;
             $final_query = $data['query'];
             debug_add("Final query: {$final_query}");
             $result = $indexer->query($final_query);
-        } elseif ($data['type'] == 'advanced') {
-            $result = $this->do_advanced_query($data);
+        } elseif ($type == 'advanced') {
+            $result = $this->do_advanced_query($data, $this->fetch($request, 'append_terms'));
         } else {
             throw new midcom_error_notfound('unknown query type');
         }
 
-        $this->process_results($result);
+        $this->process_results($result, (int) $this->fetch($request, 'page', 1));
         $this->populate_toolbar($request);
 
         if ($data['document_count'] > 0) {
@@ -146,7 +154,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         ]);
     }
 
-    private function process_results(array $result)
+    private function process_results(array $result, int $page)
     {
         $count = count($result);
         $this->_request_data['document_count'] = $count;
@@ -158,7 +166,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         if ($count > 0) {
             $results_per_page = $this->_config->get('results_per_page');
             $max_pages = ceil($count / $results_per_page);
-            $page = min($_REQUEST['page'], $max_pages);
+            $page = min($page, $max_pages);
             $first_document_id = ($page - 1) * $results_per_page;
             $last_document_id = min(($count - 1), (($page * $results_per_page) - 1));
 
@@ -181,27 +189,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
     }
 
-    /**
-     * Sane defaults for REQUEST vars
-     */
-    private function prepare_query_data()
-    {
-        $defaults = [
-            'type' => 'basic',
-            'page' => 1,
-            'component' => '',
-            'topic' => '',
-            'lastmodified' => 0
-        ];
 
-        $_REQUEST = array_merge($defaults, $_REQUEST);
-    }
-
-    private function do_advanced_query(array &$data) : array
+    private function do_advanced_query(array &$data, $append_terms) : array
     {
-        $data['request_topic'] = trim($_REQUEST['topic']);
-        $data['component'] = trim($_REQUEST['component']);
-        $data['lastmodified'] = (integer) trim($_REQUEST['lastmodified']);
         $filter = new midcom_services_indexer_filter_chained;
         if ($data['lastmodified'] > 0) {
             $filter->add_filter(new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0));
@@ -221,8 +211,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         // Way to add very custom terms
-        if (isset($_REQUEST['append_terms'])) {
-            $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
+        if ($append_terms) {
+            $this->append_terms_recursive($final_query, $append_terms);
         }
 
         debug_add("Final query: {$final_query}");
