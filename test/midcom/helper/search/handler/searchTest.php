@@ -42,7 +42,7 @@ class searchTest extends openpsa_testcase
      */
     public function testHandler_result($options)
     {
-        $_REQUEST = $options;
+        $_GET = $options;
         $data = $this->run_handler(self::$_topic, ['result']);
 
         $this->assertEquals('result', $data['handler_id']);
