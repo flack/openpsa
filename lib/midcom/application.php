@@ -38,7 +38,7 @@ use midcom\bundle\midcomBundle;
  */
 class midcom_application extends Kernel
 {
-    private Request $request;
+    private ?Request $request = null;
 
     /**
      * Set this variable to true during the handle phase of your component to
@@ -58,9 +58,16 @@ class midcom_application extends Kernel
 
     public function __construct(string $environment, bool $debug)
     {
-        $this->request = Request::createFromGlobals();
         $this->cfg = new midcom_config;
         parent::__construct($environment, $debug);
+    }
+
+    private function get_request() : Request
+    {
+        if (!$this->request) {
+            $this->request = Request::createFromGlobals();
+        }
+        return $this->request;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -149,10 +156,11 @@ class midcom_application extends Kernel
      */
     public function codeinit()
     {
+        $request = $this->get_request();
         try {
-            $response = $this->handle($this->request);
+            $response = $this->handle($request);
             $response->send();
-            $this->terminate($this->request, $response);
+            $this->terminate($request, $response);
         } catch (Error $e) {
             $this->getHttpKernel()->terminateWithException($e);
         }
@@ -196,7 +204,7 @@ class midcom_application extends Kernel
             $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $substyle);
         }
 
-        $request = $this->request->duplicate([], null, []);
+        $request = $this->get_request()->duplicate([], null, []);
         $request->attributes->set('context', $context);
 
         $cached = $this->cache->content->check_dl_hit($request);
@@ -247,7 +255,7 @@ class midcom_application extends Kernel
      */
     function get_host_name() : string
     {
-        return $this->request->getSchemeAndHttpHost();
+        return $this->get_request()->getSchemeAndHttpHost();
     }
 
     /**
