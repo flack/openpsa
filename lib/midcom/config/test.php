@@ -185,7 +185,7 @@ class midcom_config_test
 
         $this->check_for_utility('jpegtran', self::WARNING, 'The jpegtran utility is used for lossless JPEG operations, even though ImageMagick can do the same conversions, the lossless features provided by this utility are used where appropriate, so its installation is recommended unless it is known to cause problems.', 'The jpegtran utility is used for lossless rotations of JPEG images. If there are problems with image rotations, disabling jpegtran, which will cause ImageMagick to be used instead, probably helps.');
 
-        if (midcom::get()->config->get('indexer_backend')) {
+        if (midcom::get()->indexer->enabled()) {
             $this->check_for_utility('catdoc', self::ERROR, 'Catdoc is required to properly index Microsoft Word documents. It is strongly recommended to install it, otherwise Word documents will be indexed as binary files.');
             $this->check_for_utility('pdftotext', self::ERROR, 'pdftotext is required to properly index Adobe PDF documents. It is strongly recommended to install it, otherwise PDF documents will be indexed as binary files.');
             $this->check_for_utility('unrtf', self::ERROR, 'unrtf is required to properly index Rich Text Format documents. It is strongly recommended to install it, otherwise RTF documents will be indexed as binary files.');

@@ -45,7 +45,7 @@
                 'name' => "do_not_index",
             ],
             'widget' => 'checkbox',
-            'hidden' => !midcom::get()->config->get('indexer_backend'),
+            'hidden' => !midcom::get()->indexer->enabled(),
         ],
         'schedulestart' => [
             'hidden' => !midcom::get()->config->get('metadata_scheduling'),

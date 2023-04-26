@@ -39,7 +39,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         parent::__construct();
 
-        if (!midcom::get()->config->get('indexer_backend')) {
+        if (!midcom::get()->indexer->enabled()) {
             return;
         }
 

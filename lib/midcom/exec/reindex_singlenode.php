@@ -12,7 +12,9 @@
 
 $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
-if (midcom::get()->config->get('indexer_backend') === false) {
+$indexer = midcom::get()->indexer;
+
+if (!$indexer->enabled()) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
@@ -30,7 +32,6 @@ ignore_user_abort(true);
 midcom::get()->disable_limits();
 
 $loader = midcom::get()->componentloader;
-$indexer = midcom::get()->indexer;
 
 $nap = new midcom_helper_nav();
 $nodeid = (int) $_GET['nodeid'];

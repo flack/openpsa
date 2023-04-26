@@ -12,7 +12,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-if (midcom::get()->config->get('indexer_backend') === false) {
+if (!midcom::get()->indexer->enabled()) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 

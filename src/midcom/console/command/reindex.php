@@ -44,7 +44,7 @@ class reindex extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        if (midcom::get()->config->get('indexer_backend') === false) {
+        if (!midcom::get()->indexer->enabled()) {
             throw new midcom_error('No indexer backend has been defined. Aborting.');
         }
 
