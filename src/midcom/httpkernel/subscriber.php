@@ -95,6 +95,7 @@ class subscriber implements EventSubscriberInterface
             $attributes['__viewer']->prepare_handler($controller[0], $attributes);
             unset($attributes['__viewer']);
             $request->attributes->set('handler_id', $attributes['_route']);
+            $request->attributes->set('__handler', $controller);
         }
     }
 
@@ -112,7 +113,7 @@ class subscriber implements EventSubscriberInterface
     public function on_view(ViewEvent $event)
     {
         $attributes = $event->getRequest()->attributes;
-        $controller = $attributes->get('_controller');
+        $controller = $attributes->get('__handler');
         if ($controller[0] instanceof midcom_baseclasses_components_handler) {
             $controller[0]->populate_breadcrumb_line();
         }
