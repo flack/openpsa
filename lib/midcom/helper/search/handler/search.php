@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -188,7 +187,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             reset($this->_request_data['result']);
         }
     }
-
 
     private function do_advanced_query(array &$data, $append_terms) : array
     {
