@@ -108,6 +108,6 @@ class org_openpsa_relatedto_finder_event extends org_openpsa_relatedto_finder
         $qb->end_group();
 
         $defaults = $this->suspect_defaults($this->event, 'org.openpsa.calendar', 'incoming');
-        $this->prepare_links($qb, 'org.openpsa.sales', $defaults);
+        return $this->prepare_links($qb, 'org.openpsa.sales', $defaults);
     }
 }
