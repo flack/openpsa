@@ -25,7 +25,7 @@ class property extends dbanode
             return;
         }
         $value = $this->object->{$this->config['storage']['location']};
-        if ($value === 0) {
+        if (in_array($value, [0, ''], true)) {
             $reflector = new midgard_reflection_property($this->object->__mgdschema_class_name__);
             if ($reflector->is_link($this->config['storage']['location'])) {
                 return;
