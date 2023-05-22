@@ -11,7 +11,7 @@ namespace midcom\console\command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use midcom;
+use midcom_services_cache;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -22,6 +22,17 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class cacheinvalidate extends Command
 {
+    private midcom_services_cache $cache;
+
+    private string $cachedir;
+
+    public function __construct(midcom_services_cache $cache, string $cachedir)
+    {
+        $this->cache = $cache;
+        $this->cachedir = $cachedir;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('midcom:cache-invalidate')
@@ -32,12 +43,13 @@ class cacheinvalidate extends Command
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         try {
-            midcom::get()->cache->invalidate_all();
+            $this->cache->invalidate_all();
         } catch (\Throwable $e) {
             $output->writeln($e->getMessage());
         }
+
         $fs = new Filesystem;
-        $fs->remove([midcom::get()->getCacheDir()]);
+        $fs->remove([$this->cachedir]);
         return 0;
     }
 }

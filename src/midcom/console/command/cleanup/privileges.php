@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
+use midcom_services_auth;
 
 /**
  * Cleanup dangling privileges
@@ -21,6 +22,14 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class privileges extends Command
 {
+    private midcom_services_auth $auth;
+
+    public function __construct(midcom_services_auth $auth)
+    {
+        $this->auth = $auth;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('midcom:cleanup:privileges')
@@ -59,7 +68,7 @@ class privileges extends Command
             }
             if (!$checker->is_magic_assignee($priv->assignee)) {
                 if (!array_key_exists($priv->assignee, $seen_assignees)) {
-                    $seen_assignees[$priv->assignee] = (bool) \midcom::get()->auth->get_assignee($priv->assignee);
+                    $seen_assignees[$priv->assignee] = (bool) $this->auth->get_assignee($priv->assignee);
                 }
                 if (!$seen_assignees[$priv->assignee]) {
                     $to_delete[$priv->guid] = $priv;

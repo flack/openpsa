@@ -11,7 +11,8 @@ namespace midcom\console\command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use midcom;
+use midcom_services_auth;
+use midcom_helper__componentloader;
 use midcom_error;
 use midcom_services_cron;
 use Symfony\Component\Console\Input\InputArgument;
@@ -46,6 +47,17 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class cron extends Command
 {
+    private midcom_services_auth $auth;
+
+    private midcom_helper__componentloader $loader;
+
+    public function __construct(midcom_services_auth $auth, midcom_helper__componentloader $loader)
+    {
+        $this->auth = $auth;
+        $this->loader = $loader;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('midcom:cron')
@@ -57,7 +69,7 @@ class cron extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        if (!midcom::get()->auth->request_sudo('midcom.services.cron')) {
+        if (!$this->auth->request_sudo('midcom.services.cron')) {
             throw new midcom_error('Failed to get sudo');
         }
 
@@ -74,13 +86,13 @@ class cron extends Command
         } else {
             // Instantiate cron service and run
             $cron = new midcom_services_cron(constant($recurrence));
-            $data = midcom::get()->componentloader->get_all_manifest_customdata('midcom.services.cron');
+            $data = $this->loader->get_all_manifest_customdata('midcom.services.cron');
 
             foreach ($cron->load_jobs($data) as $job) {
                 $this->run_job($job['handler'], $output);
             }
         }
-        midcom::get()->auth->drop_sudo();
+        $this->auth->drop_sudo();
         return 0;
     }
 

@@ -11,7 +11,8 @@ namespace midcom\console\command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use midcom;
+use midcom_services_indexer;
+use midcom_helper__componentloader;
 use midcom_error;
 use midcom_helper_nav;
 use midcom_services_indexer_client;
@@ -34,6 +35,17 @@ class reindex extends Command
 {
     use loginhelper;
 
+    private midcom_services_indexer $indexer;
+
+    private midcom_helper__componentloader $loader;
+
+    public function __construct(midcom_services_indexer $indexer, midcom_helper__componentloader $loader)
+    {
+        $this->indexer = $indexer;
+        $this->loader = $loader;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('midcom:reindex')
@@ -44,7 +56,7 @@ class reindex extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        if (!midcom::get()->indexer->enabled()) {
+        if (!$this->indexer->enabled()) {
             throw new midcom_error('No indexer backend has been defined. Aborting.');
         }
 
@@ -65,10 +77,10 @@ class reindex extends Command
         while ($node !== null) {
             // Reindex the node...
             $output->write("Processing Node #{$node[MIDCOM_NAV_ID]}, {$node[MIDCOM_NAV_FULLURL]}...");
-            if (!midcom::get()->indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
+            if (!$this->indexer->delete_all("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}")) {
                 $output->writeln("\n<error>Failed to remove documents from index.</error>");
             }
-            $interface = midcom::get()->componentloader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
+            $interface = $this->loader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
             $stat = $interface->reindex($node[MIDCOM_NAV_OBJECT]);
             if ($stat instanceof midcom_services_indexer_client) {
                 try {

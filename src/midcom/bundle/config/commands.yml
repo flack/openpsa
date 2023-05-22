@@ -1,6 +1,7 @@
 services:
     command.midcom.exec:
         class: midcom\console\command\exec
+        arguments: ['@auth', '@componentloader', '%kernel.project_dir%']
         tags:
             - {name: 'console.command', command: 'midcom:exec'}
 
@@ -26,25 +27,30 @@ services:
 
     command.midcom.cleanup.privileges:
         class: midcom\console\command\cleanup\privileges
+        arguments: ['@auth']
         tags:
             - {name: 'console.command', command: 'midcom:cleanup:privileges'}
 
     command.midcom.cleanup.rcsdir:
         class: midcom\console\command\cleanup\rcsdir
+        arguments: ['@config']
         tags:
             - {name: 'console.command', command: 'midcom:cleanup:rcsdir'}
 
     command.midcom.reindex:
         class: midcom\console\command\reindex
+        arguments: ['@indexer', '@componentloader']
         tags:
             - {name: 'console.command', command: 'midcom:reindex'}
 
     command.midcom.cron:
         class: midcom\console\command\cron
+        arguments: ['@auth', '@componentloader']
         tags:
             - {name: 'console.command', command: 'midcom:cron'}
 
     command.midcom.cacheinvalidate:
         class: midcom\console\command\cacheinvalidate
+        arguments: ['@cache', '%kernel.cache_dir%']
         tags:
             - {name: 'console.command', command: 'midcom:cache-invalidate'}

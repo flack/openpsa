@@ -14,7 +14,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\loginhelper;
-use midcom;
+use midcom_services_auth;
+use midcom_helper__componentloader;
 
 /**
  * CLI wrapper for midcom-exec calls
@@ -24,6 +25,20 @@ use midcom;
 class exec extends Command
 {
     use loginhelper;
+
+    private midcom_services_auth $auth;
+
+    private midcom_helper__componentloader $loader;
+
+    private string $projectdir;
+
+    public function __construct(midcom_services_auth $auth, midcom_helper__componentloader $loader, string $projectdir)
+    {
+        $this->auth = $auth;
+        $this->loader = $loader;
+        $this->projectdir = $projectdir;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -66,7 +81,7 @@ class exec extends Command
             return 0;
         }
 
-        $basedir = midcom::get()->getProjectDir() . '/';
+        $basedir = $this->projectdir . '/';
         if (!file_exists($basedir . $file)) {
             throw new \midcom_error('File not found');
         }
@@ -75,7 +90,7 @@ class exec extends Command
             $output->writeln('Running ' . $file);
         }
 
-        midcom::get()->auth->request_sudo('midcom.exec');
+        $this->auth->request_sudo('midcom.exec');
 
         try {
             require $basedir . $file;
@@ -85,7 +100,7 @@ class exec extends Command
             require $basedir . $file;
         }
 
-        midcom::get()->auth->drop_sudo();
+        $this->auth->drop_sudo();
         return 0;
     }
 
@@ -93,13 +108,12 @@ class exec extends Command
     {
         $output->writeln("\n<comment>Available exec files:</comment>\n");
 
-        $loader = midcom::get()->componentloader;
-        foreach ($loader->get_manifests() as $manifest) {
-            $exec_dir = $loader->path_to_snippetpath($manifest->name) . '/exec';
+        foreach ($this->loader->get_manifests() as $manifest) {
+            $exec_dir = $this->loader->path_to_snippetpath($manifest->name) . '/exec';
 
             if (is_dir($exec_dir)) {
                 foreach (glob($exec_dir . '/*.php') as $file) {
-                    $path = preg_replace('/^' . preg_quote(midcom::get()->getProjectDir(), '/') . '/', '', $file);
+                    $path = preg_replace('/^' . preg_quote($this->projectdir, '/') . '/', '', $file);
                     $parts = pathinfo($path);
                     $path = '  <info>' . $parts['dirname'] . '/</info>' . $parts['filename'] . '<info>.' . $parts['extension'] . '</info>';
 

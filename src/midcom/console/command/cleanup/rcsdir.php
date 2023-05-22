@@ -12,7 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use midcom;
+use midcom_config;
 use midcom_services_rcs_config;
 use midgard\portable\storage\connection;
 use Symfony\Component\Console\Output\Output;
@@ -29,6 +29,14 @@ class rcsdir extends Command
     private int $counter = 0;
 
     private array $orphaned = [];
+
+    private midcom_config $config;
+
+    public function __construct(midcom_config $config)
+    {
+        $this->config = $config;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -80,7 +88,7 @@ class rcsdir extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        $config = new midcom_services_rcs_config(midcom::get()->config);
+        $config = new midcom_services_rcs_config($this->config);
         $dir = $config->get_rootdir();
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect RCS dir</comment> $dir");
