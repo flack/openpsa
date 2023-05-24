@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class midcom_error extends Exception
 {
-    public function __construct(string $message, int $code = Response::HTTP_INTERNAL_SERVER_ERROR)
+    public function __construct(string $message, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, ?Throwable $previous = null)
     {
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
     }
 
     public function log(int $loglevel = MIDCOM_LOG_ERROR)

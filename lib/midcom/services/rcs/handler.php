@@ -34,12 +34,17 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         return midcom_helper_reflector::get($this->object)->get_object_label($this->object);
     }
 
+    protected function load_object(string $guid) : midcom_core_dbaobject
+    {
+        return midcom::get()->dbfactory->get_object_by_guid($guid);
+    }
+
     /**
      * Load the object and the rcs backend
      */
-    private function load_object(string $guid)
+    private function prepare_backend(string $guid)
     {
-        $this->object = midcom::get()->dbfactory->get_object_by_guid($guid);
+        $this->object = $this->load_object($guid);
 
         if (   !midcom::get()->config->get('midcom_services_rcs_enable')
             || !$this->object->_use_rcs) {
@@ -174,7 +179,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             return new midcom_response_relocate($this->url_prefix . "diff/{$args[0]}/{$first}/{$last}/");
         }
 
-        $this->load_object($args[0]);
+        $this->prepare_backend($args[0]);
         $view_title = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
 
         $this->prepare_request_data($view_title);
@@ -188,7 +193,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
      */
     public function _handler_diff(array $args, array &$data)
     {
-        $this->load_object($args[0]);
+        $this->prepare_backend($args[0]);
         $history = $this->backend->get_history();
 
         $compare_revision = $history->get($args[1]);
@@ -246,7 +251,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $revision = $args[1];
         $data['latest_revision'] = $revision;
         $data['guid'] = $args[0];
-        $this->load_object($args[0]);
+        $this->prepare_backend($args[0]);
         $metadata = $this->backend->get_history()->get($args[1]);
         if (!$metadata) {
             throw new midcom_error_notfound("Revision {$args[1]} does not exist.");
@@ -277,7 +282,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
      */
     public function _handler_restore(array $args)
     {
-        $this->load_object($args[0]);
+        $this->prepare_backend($args[0]);
 
         $this->object->require_do('midgard:update');
         // TODO: set another privilege for restoring?

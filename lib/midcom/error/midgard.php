@@ -35,7 +35,7 @@ class midcom_error_midgard extends midcom_error
             $code = Response::HTTP_INTERNAL_SERVER_ERROR;
             $message = $e->getMessage();
         }
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $e);
     }
 
     public function log(int $loglevel = MIDCOM_LOG_WARN)

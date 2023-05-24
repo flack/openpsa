@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Response;
+use midgard\portable\api\error\exception as mgd_exception;
 
 /**
  * Simple styling class to make html out of diffs and get a simple way
@@ -21,6 +22,20 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
     protected string $style_prefix = 'midgard_admin_asgard_rcs_';
 
     protected string $url_prefix = '__mfa/asgard/object/rcs/';
+
+    protected function load_object(string $guid) : midcom_core_dbaobject
+    {
+        try {
+            return parent::load_object($guid);
+        } catch (midcom_error_midgard $e) {
+            $mgd_exception = $e->getPrevious();
+            if (   $mgd_exception
+                && $mgd_exception->getCode() == mgd_exception::OBJECT_DELETED) {
+                return $this->load_deleted($guid);
+            }
+            throw $e;
+        }
+    }
 
     protected function get_object_url() : string
     {

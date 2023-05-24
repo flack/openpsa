@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\portable\storage\connection;
 use midcom\datamanager\datamanager;
 
 /**
@@ -41,22 +40,11 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
     private function prepare_admin_view(string $guid) : midcom_core_dbaobject
     {
-        $type = connection::get_em()
-            ->createQuery('SELECT r.typename from midgard_repligard r WHERE r.guid = ?1')
-            ->setParameter(1, $guid)
-            ->getSingleScalarResult();
-
-        $dba_type = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
-
-        $qb = midcom::get()->dbfactory->new_query_builder($dba_type);
-        $qb->include_deleted();
-        $qb->add_constraint('guid', '=', $guid);
-
-        $object = $qb->get_result(0);
+        $object = $this->load_deleted($guid);
         $this->prepare_dm($object);
 
         $this->_request_data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $object->__mgdschema_class_name__]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('undelete'),
             MIDCOM_TOOLBAR_GLYPHICON => 'recycle',
             MIDCOM_TOOLBAR_POST => true,
@@ -65,7 +53,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
             ]
         ]);
         $this->_request_data['asgard_toolbar']->add_item([
-            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $type]),
+            MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $object->__mgdschema_class_name__]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('purge'),
             MIDCOM_TOOLBAR_GLYPHICON => 'trash',
             MIDCOM_TOOLBAR_POST => true,
@@ -74,8 +62,19 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
                 'purge' => true
             ]
         ]);
+        if (   midcom::get()->config->get('midcom_services_rcs_enable')
+            && $object->can_do('midgard:update')
+            && $object->_use_rcs) {
+            $this->_request_data['asgard_toolbar']->add_item([
+                MIDCOM_TOOLBAR_URL => $this->router->generate('object_rcs_history', ['guid' => $object->guid]),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midcom.admin.rcs'),
+                MIDCOM_TOOLBAR_GLYPHICON => 'history',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'h',
+            ]);
+        }
+
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
-        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $type]), midgard_admin_asgard_plugin::get_type_label($dba_type));
+        $this->add_breadcrumb($this->router->generate('trash_type', ['type' => $object->__mgdschema_class_name__]), midgard_admin_asgard_plugin::get_type_label($object->__midcom_class_name__));
         $label = midcom_helper_reflector::get($object)->get_object_label($object);
         $this->add_breadcrumb('', $label);
         return $object;
