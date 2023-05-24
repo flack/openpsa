@@ -101,7 +101,7 @@ $(document).ready(function() {
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
         let url;
-        if ($('.midcom-workflow-dialog iframe').length > 0) {
+        if ($('.midcom-workflow-dialog').is(':visible') && $('.midcom-workflow-dialog iframe').length > 0) {
             url = $('.midcom-workflow-dialog iframe')[0].contentWindow.location.href;
         }
         if (url != this.href) {
