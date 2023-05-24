@@ -57,7 +57,7 @@ table.DifferencesSideBySide:not(.heading) thead
     display: none;
 }
 
-table.DifferencesSideBySide.heading th span
+table.DifferencesSideBySide.heading th > span
 {
     font-weight: normal;
     display: block;

@@ -237,8 +237,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         } else {
             $output .= $this->_l10n_midcom->get('unknown user');
         }
-
-        $output .= ', ' . $this->_l10n->get_formatter()->datetime($metadata['date']) . '</span>';
+        $longdate = $this->_l10n->get_formatter()->datetime($metadata['date'], IntlDateFormatter::MEDIUM, IntlDateFormatter::LONG);
+        $output .= ', <span title="' . $longdate . '">' . $this->_l10n->get_formatter()->datetime($metadata['date']) . '</span></span>';
 
         return $output;
     }
