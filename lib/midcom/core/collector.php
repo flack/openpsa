@@ -108,7 +108,7 @@ class midcom_core_collector extends midcom_core_query
                 $index = $values[$indexed_by];
             }
             if ($single_value) {
-                $values = $values[$fields[0]];
+                $values = reset($values);
             }
             $results[$index] = $values;
         }
