@@ -102,7 +102,7 @@ class midcom_core_collector extends midcom_core_query
         $results = [];
         $keys = $this->list_keys();
         foreach ($keys as $guid => $values) {
-            $values = $this->get($guid);
+            $values = $this->_query->get($guid);
             $index = $guid;
             if ($indexed_by !== 'guid') {
                 $index = $values[$indexed_by];
