@@ -204,34 +204,6 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Add a help item to the toolbar.
-     */
-    public function add_help_item(string $help_id, string $component = null, string $label = null, string $anchor = null, $before = -1)
-    {
-        $uri = "__ais/help/";
-        if ($component !== null) {
-            $uri .= $component . '/';
-        }
-        $uri .= $help_id . '/';
-
-        if ($anchor !== null) {
-            $uri .= "#{$anchor}";
-        }
-
-        $label ??= midcom::get()->i18n->get_string('help', 'midcom.admin.help');
-
-        $this->add_item([
-            MIDCOM_TOOLBAR_URL => $uri,
-            MIDCOM_TOOLBAR_LABEL => $label,
-            MIDCOM_TOOLBAR_GLYPHICON => 'question',
-            MIDCOM_TOOLBAR_OPTIONS => [
-                'target' => '_blank',
-            ]],
-            $before
-        );
-    }
-
-    /**
      * Add an item to the toolbar.
      *
      * Set before to the index of the element before which you want to insert
