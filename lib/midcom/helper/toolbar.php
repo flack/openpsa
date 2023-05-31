@@ -456,6 +456,9 @@ class midcom_helper_toolbar
             } else {
                 $output .= $this->_render_link_item($item);
             }
+            if (!empty($item[MIDCOM_TOOLBAR_SUBMENU])) {
+                $output .= $item[MIDCOM_TOOLBAR_SUBMENU]->render();
+            }
 
             $output .= '</li>';
         }
@@ -511,22 +514,22 @@ class midcom_helper_toolbar
         }
         $output .= '>';
 
+        $output .= $this->render_icon($item);
+        $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>";
+        return $output . '</' . $tagname . '>';
+    }
+
+    private function render_icon(array $item) : string
+    {
         if ($item[MIDCOM_TOOLBAR_GLYPHICON] !== null) {
             $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
-            $output .= "<i class='{$class}'></i>";
-        } elseif ($item[MIDCOM_TOOLBAR_ICON] !== null) {
+            return "<i class='{$class}'></i>";
+        }
+        if ($item[MIDCOM_TOOLBAR_ICON] !== null) {
             $url = MIDCOM_STATIC_URL . '/' . $item[MIDCOM_TOOLBAR_ICON];
-            $output .= "<img src='{$url}' alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
+            return "<img src='{$url}' alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
         }
-
-        $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>";
-        $output .= '</' . $tagname . '>';
-
-        if (!empty($item[MIDCOM_TOOLBAR_SUBMENU])) {
-            $output .= $item[MIDCOM_TOOLBAR_SUBMENU]->render();
-        }
-
-        return $output;
+        return '';
     }
 
     private function get_item_attributes(array $item) : array
@@ -562,16 +565,8 @@ class midcom_helper_toolbar
             $output .= '>';
         }
 
-        if ($item[MIDCOM_TOOLBAR_GLYPHICON] !== null) {
-            $class = 'fa fa-' . $item[MIDCOM_TOOLBAR_GLYPHICON];
-            $output .= "<i class='{$class}'></i>";
-        } elseif ($item[MIDCOM_TOOLBAR_ICON]) {
-            $url = MIDCOM_STATIC_URL . "/{$item[MIDCOM_TOOLBAR_ICON]}";
-            $output .= "<img src=\"{$url}\" alt=\"{$item[MIDCOM_TOOLBAR_HELPTEXT]}\" />";
-        }
-
-        $label = $this->_generate_item_label($item);
-        $output .= " {$label}";
+        $output .= $this->render_icon($item);
+        $output .= ' ' . $this->_generate_item_label($item);
 
         if ($item[MIDCOM_TOOLBAR_ENABLED]) {
             $output .= '</button>';
@@ -581,10 +576,6 @@ class midcom_helper_toolbar
                 $output .= "<input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>";
             }
             $output .= '</div></form>';
-        }
-
-        if (!empty($item[MIDCOM_TOOLBAR_SUBMENU])) {
-            $output .= $item[MIDCOM_TOOLBAR_SUBMENU]->render();
         }
 
         return $output;
