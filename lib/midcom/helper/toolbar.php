@@ -257,24 +257,6 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Add an item to another item by either adding the item to the MIDCOM_TOOLBAR_SUBMENU
-     * or creating a new subtoolbar and adding the item there.
-     */
-    public function add_item_to_index(array $item, int $index) : bool
-    {
-        $item = $this->clean_item($item);
-        if (!array_key_exists($index, $this->items)) {
-            debug_add("Insert of item {$item[MIDCOM_TOOLBAR_LABEL]} into index $index failed");
-            return false;
-        }
-
-        $this->items[$index][MIDCOM_TOOLBAR_SUBMENU] ??= new midcom_helper_toolbar($this->class_style, $this->id_style);
-        $this->items[$index][MIDCOM_TOOLBAR_SUBMENU]->items[] = $item;
-
-        return true;
-    }
-
-    /**
      * Clean up an item that is added, making sure that the item has all the
      * needed options and indexes.
      */
@@ -361,44 +343,6 @@ class midcom_helper_toolbar
     public function remove_all_items()
     {
         $this->items = [];
-    }
-
-    /**
-     * Moves an item on place upwards in the list.
-     *
-     * This will only work, of course, if you are not working with the top element.
-     *
-     * @param mixed $index The integer index or URL of the item to move upwards.
-     */
-    public function move_item_up($index)
-    {
-        if ($index == 0) {
-            throw new midcom_error('Cannot move the top element upwards.');
-        }
-        $index = $this->_check_index($index);
-
-        $tmp = $this->items[$index];
-        $this->items[$index] = $this->items[$index - 1];
-        $this->items[$index - 1] = $tmp;
-    }
-
-    /**
-     * Moves an item on place downwards in the list.
-     *
-     * This will only work, of course, if you are not working with the bottom element.
-     *
-     * @param mixed $index The integer index or URL of the item to move downwards.
-     */
-    public function move_item_down($index)
-    {
-        if ($index == (count($this->items) - 1)) {
-            throw new midcom_error('Cannot move the bottom element downwards.');
-        }
-        $index = $this->_check_index($index);
-
-        $tmp = $this->items[$index];
-        $this->items[$index] = $this->items[$index + 1];
-        $this->items[$index + 1] = $tmp;
     }
 
     /**
