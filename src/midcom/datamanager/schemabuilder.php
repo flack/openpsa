@@ -46,7 +46,7 @@ class schemabuilder
      *
      * The operations are done on all available schemas within the DB.
      */
-    public function create($include_fields) : schemadb
+    public function create(?array $include_fields = null) : schemadb
     {
         $type = get_class($this->object);
         $type_fields = $this->object->get_properties();
@@ -60,9 +60,9 @@ class schemabuilder
             $this->schema['l10n_db'] = $component;
         }
 
-        if (!empty($include_fields)) {
+        if ($include_fields) {
             // Skip the fields that aren't requested, if inclusion list has been defined
-            $type_fields = array_intersect($type_fields, (array) $include_fields);
+            $type_fields = array_intersect($type_fields, $include_fields);
         }
         $type_fields = array_filter($type_fields, [$this, '_filter_schema_fields']);
 
