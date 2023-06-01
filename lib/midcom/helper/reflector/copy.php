@@ -23,12 +23,6 @@ class midcom_helper_reflector_copy
     public array $exclude = [];
 
     /**
-     * Override properties of the new root object. This feature is
-     * directed for overriding e.g. parent information.
-     */
-    public array $root_object_values = [];
-
-    /**
      * Switch for attachments
      */
     public bool $attachments = true;
@@ -65,12 +59,6 @@ class midcom_helper_reflector_copy
         'hidden',
         'score',
     ];
-
-    /**
-     * Switch for halt on error. If this is set to false, errors will be
-     * reported, but will not stop executing
-     */
-    public bool $halt_on_errors = true;
 
     /**
      * Encountered errors
@@ -153,14 +141,6 @@ class midcom_helper_reflector_copy
             }
         }
 
-        // Override requested root object properties
-        if (   !empty($this->target->guid)
-            && $target->guid === $this->target->guid) {
-            foreach ($this->root_object_values as $name => $value) {
-                $target->$name = $value;
-            }
-        }
-
         // Override with defaults
         foreach ($defaults as $name => $value) {
             $target->$name = $value;
@@ -207,8 +187,7 @@ class midcom_helper_reflector_copy
     {
         if ($this->$type) {
             $method = 'copy_' . $type;
-            if (   !$this->$method($source, $target)
-                && $this->halt_on_errors) {
+            if (!$this->$method($source, $target)) {
                 $this->errors[] = $this->_l10n->get('failed to copy ' . $type);
                 return false;
             }
@@ -227,10 +206,7 @@ class midcom_helper_reflector_copy
             foreach ($parameters as $name => $value) {
                 if (!$target->set_parameter($domain, $name, $value)) {
                     $this->errors[] = sprintf($this->_l10n->get('failed to copy parameters from %s to %s'), $source->guid, $target->guid);
-
-                    if ($this->halt_on_errors) {
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
