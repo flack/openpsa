@@ -80,11 +80,6 @@ class fi_protie_navigation
     public bool $follow_all = false;
 
     /**
-     * Switch to determine if navigation should show only the information of the currently selected node.
-     */
-    public bool $show_only_current = false;
-
-    /**
      * Restrict the amount of levels listed.
      */
     public int $list_levels = 0;
@@ -291,7 +286,6 @@ class fi_protie_navigation
         // If either of the follow nodes switches is on, follow all the nodes
 
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
-            && !$this->show_only_current
             && (   $this->list_levels === 0
                 || $this->_level < $this->list_levels)) {
             if (   $this->follow_all
@@ -321,10 +315,6 @@ class fi_protie_navigation
             }
 
             $this->root_id = $this->node_path[$this->skip_levels];
-        }
-
-        if ($this->show_only_current) {
-            $this->root_id = $this->_nap->get_current_node();
         }
 
         $this->_list_child_elements($this->root_id);
