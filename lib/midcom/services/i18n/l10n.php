@@ -273,7 +273,7 @@ class midcom_services_i18n_l10n
      * result is returned by get. This is helpful especially if you want to
      * "catch" cases where a string might translate to itself in some languages.
      */
-    function string_available(string $string)
+    public function string_available(string $string) : bool
     {
         return $this->string_exists($string, $this->_language)
             || $this->string_exists($string, $this->_fallback_language);

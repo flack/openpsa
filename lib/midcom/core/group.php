@@ -154,7 +154,7 @@ class midcom_core_group
     /**
      * Returns the parent group.
      */
-    function get_parent_group() : ?midcom_core_group
+    public function get_parent_group() : ?midcom_core_group
     {
         if ($this->_storage->owner == 0) {
             return null;

@@ -161,12 +161,9 @@ class midcom_db_person extends midcom_core_dbaobject
      * Adds a user to a given Midgard Group. Caller must ensure access permissions
      * are right.
      *
-     * @param string $name The name of the group we should be added to.
-     * @return boolean Indicating success.
-     *
      * @todo Check if user is already assigned to the group.
      */
-    function add_to_group($name)
+    public function add_to_group(string $name) : bool
     {
         $group = midcom::get()->auth->get_midgard_group_by_name($name);
         if (!$group) {

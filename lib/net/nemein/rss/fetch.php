@@ -69,7 +69,7 @@ class net_nemein_rss_fetch
      *
      * @return net_nemein_rss_parser_item[] Array of normalized feed items
      */
-    function fetch() : array
+    private function fetch() : array
     {
         $parser = self::raw_fetch($this->_feed->url);
         if ($parser->error()) {
