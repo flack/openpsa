@@ -468,35 +468,4 @@ class midcom_helper_nav_backend
     {
         return $this->_node_path;
     }
-
-    /**
-     * Returns the ID of the node to which $leaf_id is associated to, false
-     * on failure.
-     *
-     * @return mixed             The ID of the Node for which we have a match, or false on failure.
-     */
-    function get_leaf_uplink(string $leaf_id)
-    {
-        if (!$this->load_leaf($leaf_id)) {
-            debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        return $this->_leaves[$leaf_id]->nodeid;
-    }
-
-    /**
-     * Returns the ID of the node to which $node_id is associated to, false
-     * on failure. The root node's uplink is -1.
-     *
-     * @return mixed             The ID of the node for which we have a match, -1 for the root node, or false on failure.
-     */
-    public function get_node_uplink($node_id)
-    {
-        if (!$this->load_node($node_id)) {
-            return false;
-        }
-
-        return self::$_nodes[$node_id]->nodeid;
-    }
 }

@@ -178,7 +178,7 @@ class net_nemein_wiki_resolver
         $root_folder = $folder;
         $max = 100;
         while (   $folder[MIDCOM_NAV_COMPONENT] == 'net.nemein.wiki'
-               && (($parent = $nap->get_node_uplink($folder[MIDCOM_NAV_ID])) != -1)
+               && (($parent = $folder[MIDCOM_NAV_NODEID]) != -1)
                && $max > 0) {
             $root_folder = $folder;
             if ($force_as_root) {

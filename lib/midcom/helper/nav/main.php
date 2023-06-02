@@ -153,32 +153,6 @@ class midcom_helper_nav
     }
 
     /**
-     * Returns the ID of the node to which $leaf_id is associated to, false
-     * on failure.
-     *
-     * @param string $leaf_id    The Leaf-ID to search an uplink for.
-     * @return int             The ID of the Node for which we have a match, or false on failure.
-     * @see midcom_helper_nav_backend::get_leaf_uplink()
-     */
-    function get_leaf_uplink($leaf_id)
-    {
-        return $this->_backend->get_leaf_uplink($leaf_id);
-    }
-
-    /**
-     * Returns the ID of the node to which $node_id is associated to, false
-     * on failure. The root node's uplink is -1.
-     *
-     * @param int $node_id    The Leaf-ID to search an uplink for.
-     * @return int             The ID of the Node for which we have a match, -1 for the root node, or false on failure.
-     * @see midcom_helper_nav_backend::get_node_uplink()
-     */
-    public function get_node_uplink($node_id)
-    {
-        return $this->_backend->get_node_uplink($node_id);
-    }
-
-    /**
      * Checks if the given node is within the tree of another node.
      *
      * @param int    $node_id    The node in question.
@@ -189,11 +163,8 @@ class midcom_helper_nav
         if ($node_id == $root_id) {
             return true;
         }
-        $uplink = $this->get_node_uplink($node_id);
+        $uplink = $this->get_node($node_id)[MIDCOM_NAV_NODEID] ?? false;
 
-        if ($uplink == $root_id) {
-            return true;
-        }
         if (in_array($uplink, [false, -1])) {
             return false;
         }

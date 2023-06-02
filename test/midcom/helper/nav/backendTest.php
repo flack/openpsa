@@ -32,8 +32,8 @@ class backendTest extends openpsa_testcase
         $this->assertEquals($root_topic->id, $backend->get_root_node());
         $this->assertEquals($root_topic->id, $backend->get_current_node());
         $this->assertEquals([$root_topic->id], $backend->get_node_path());
-        $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
         $node = $backend->get_node($backend->get_current_node());
+        $this->assertEquals(-1, $node[MIDCOM_NAV_NODEID]);
         $this->assertEquals('', $node[MIDCOM_NAV_RELATIVEURL]);
         $this->assertEquals('/', $node[MIDCOM_NAV_ABSOLUTEURL]);
     }
@@ -46,8 +46,8 @@ class backendTest extends openpsa_testcase
         $this->assertEquals($root_topic->id, $backend->get_root_node());
         $this->assertEquals($root_topic->id, $backend->get_current_node());
         $this->assertEquals([$root_topic->id], $backend->get_node_path());
-        $this->assertEquals(-1, $backend->get_node_uplink($root_topic->id));
         $node = $backend->get_node($backend->get_current_node());
+        $this->assertEquals(-1, $node[MIDCOM_NAV_NODEID]);
         $this->assertEquals('', $node[MIDCOM_NAV_RELATIVEURL]);
         $this->assertEquals('/', $node[MIDCOM_NAV_ABSOLUTEURL]);
     }
@@ -87,7 +87,7 @@ class backendTest extends openpsa_testcase
         $this->assertEquals($root_topic->id, $backend->get_root_node());
         $this->assertEquals($child_topic->id, $backend->get_current_node());
         $this->assertEquals($root_topic->id, $backend->get_current_upper_node());
-        $this->assertEquals($root_topic->id, $backend->get_node_uplink($child_topic->id));
+        $this->assertEquals($root_topic->id, $backend->get_node($child_topic->id)[MIDCOM_NAV_NODEID]);
         $this->assertEquals([$root_topic->id, $child_topic->id], $backend->get_node_path());
         $this->assertEquals([$child_topic->id], $backend->list_nodes($root_topic->id, true));
 
@@ -117,7 +117,6 @@ class backendTest extends openpsa_testcase
             $this->assertEquals($value, $actual[$key]);
         }
 
-        $this->assertEquals($child_topic->id, $backend->get_leaf_uplink($leaf_id));
         $this->assertEquals($leaf_id, $backend->get_current_leaf());
     }
 }
