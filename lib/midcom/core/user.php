@@ -327,18 +327,10 @@ class midcom_core_user
         foreach ($this->_direct_groups as $id => $group) {
             $this->_all_groups[$id] =& $this->_direct_groups[$id];
             $inheritance_chain = [$group->id];
-            /**
-             * FIXME: Parent group members should inherit permissions from
-             * the child groups, not the other way around!!!
-            $parent = $group->get_parent_group();
-            while ($parent !== null)
-            {
+            while ($parent = $group->get_parent_group()) {
                 $this->_all_groups[$parent->id] = $parent;
                 array_unshift($inheritance_chain, $parent->id);
-
-                $parent = $parent->get_parent_group();
             }
-            */
             $this->_inheritance_chains[$id] = $inheritance_chain;
         }
     }
