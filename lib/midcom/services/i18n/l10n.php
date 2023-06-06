@@ -149,13 +149,6 @@ class midcom_services_i18n_l10n
                 if ($string == '') {
                     continue;
                 }
-                if (!str_starts_with($string, '---')) {
-                    throw $this->error("Invalid line", $filename, $line);
-                }
-                // this is a command
-                if (strlen($string) < 4) {
-                    throw $this->error("An incorrect command was detected", $filename, $line);
-                }
 
                 $command = preg_replace('/^---(.+?) .+/', '$1', $string);
 
