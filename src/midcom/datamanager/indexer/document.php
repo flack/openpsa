@@ -145,10 +145,7 @@ class document extends midcom_services_indexer_document_midcom
     {
         $renderer = $this->datamanager->get_renderer('view');
         foreach ($renderer->get_view() as $name => $field) {
-            $method = $field->vars['index_method'];
-            if ($method == 'auto') {
-                $method = $this->resolve_auto_method($field->vars['name']);
-            }
+            $method = $this->resolve_method($field->vars);
 
             switch ($method) {
                 case 'abstract':
@@ -243,11 +240,14 @@ class document extends midcom_services_indexer_document_midcom
         $this->add_date_pair($field->vars['name'], $timestamp);
     }
 
-    private function resolve_auto_method(string $name) : string
+    private function resolve_method(array $vars) : string
     {
-        if (in_array($name, ['abstract', 'title', 'author'])) {
-            return $name;
+        if ($vars['index_method'] == 'auto') {
+            if (in_array($vars['name'], ['abstract', 'title', 'author'])) {
+                return $vars['name'];
+            }
+            return 'content';
         }
-        return 'content';
+        return $vars['index_method'];
     }
 }
