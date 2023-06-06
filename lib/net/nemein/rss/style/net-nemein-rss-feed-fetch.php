@@ -25,11 +25,10 @@ if (empty($data['items'])) {
     $formatter = $data['l10n']->get_formatter();
     foreach ($data['items'] as $item) {
         echo "<tr>\n";
-        $date = (int)$item->get_date('U');
-        if ($date == 0) {
-            echo "    <td>" . $data['l10n']->get('n/a') . "</td>\n";
-        } else {
+        if ($date = (int) $item->get_date('U')) {
             echo "    <td>" . $formatter->datetime($date) . "</td>\n";
+        } else {
+            echo "    <td>" . $data['l10n']->get('n/a') . "</td>\n";
         }
         echo '    <td><a href="' . $item->get_link() . '">' . $item->get_title() . "</a></td>\n";
 

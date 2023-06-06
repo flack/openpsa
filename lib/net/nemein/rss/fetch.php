@@ -266,8 +266,7 @@ class net_nemein_rss_fetch
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_feed->node);
         $qb->add_constraint($this->_guid_property, '=', substr($guid, 0, 255));
-        $articles = $qb->execute();
-        if (!empty($articles)) {
+        if ($articles = $qb->execute()) {
             // This item has been imported already earlier. Update
             return $articles[0];
         }
@@ -353,13 +352,12 @@ class net_nemein_rss_fetch
 
         // First try dig up any information about the author possible
         if ($author = $item->get_author()) {
-            $name = $author->get_name();
-            $email = $author->get_email();
-            if (!empty($name)) {
+            if ($name = $author->get_name()) {
                 $name = html_entity_decode($name, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
                 // Atom feed, the value can be either full name or username
                 $author_info['user_or_full'] = $name;
             } else {
+                $email = $author->get_email();
                 $name = html_entity_decode($email, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
             }
 
@@ -407,8 +405,7 @@ class net_nemein_rss_fetch
             // Email is a pretty good identifier, start with it
             $person_qb = midcom_db_person::new_query_builder();
             $person_qb->add_constraint('email', '=', $author_info['email']);
-            $persons = $person_qb->execute();
-            if (!empty($persons)) {
+            if ($persons = $person_qb->execute()) {
                 return $persons[0];
             }
         }
@@ -428,8 +425,7 @@ class net_nemein_rss_fetch
                 $person_qb = midcom_db_person::new_query_builder();
                 $person_qb->add_constraint('firstname', '=', $firstname);
                 $person_qb->add_constraint('lastname', '=', $lastname);
-                $persons = $person_qb->execute();
-                if (!empty($persons)) {
+                if ($persons = $person_qb->execute()) {
                     return $persons[0];
                 }
             }

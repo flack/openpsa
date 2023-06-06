@@ -28,12 +28,10 @@ class net_nemein_rss_parser_item extends Item
         if (empty($title)) {
             $l10n = midcom::get()->i18n->get_l10n('net.nemein.rss');
             $title = $l10n->get('untitled');
-            $description = $this->get_description();
-            $date = $this->get_date('U');
-            if (!empty($description)) {
+            if ($description = $this->get_description()) {
                 // Use 20 first characters from the description as title
                 $title = mb_substr(strip_tags($this->_decode($description)), 0, 20) . '...';
-            } elseif (!empty($date)) {
+            } elseif ($date = $this->get_date('U')) {
                 // Use publication date as title
                 $title = $l10n->get_formatter()->date($date);
             }
