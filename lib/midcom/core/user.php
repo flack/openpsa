@@ -325,12 +325,11 @@ class midcom_core_user
         $this->_inheritance_chains = [];
 
         foreach ($this->_direct_groups as $id => $group) {
-            $this->_all_groups[$id] =& $this->_direct_groups[$id];
-            $inheritance_chain = [$group->id];
-            while ($parent = $group->get_parent_group()) {
-                $this->_all_groups[$parent->id] = $parent;
-                array_unshift($inheritance_chain, $parent->id);
-            }
+            $inheritance_chain = [];
+            do {
+                $this->_all_groups[$group->id] = $group;
+                array_unshift($inheritance_chain, $group->id);
+            } while ($group = $group->get_parent_group());
             $this->_inheritance_chains[$id] = $inheritance_chain;
         }
     }
