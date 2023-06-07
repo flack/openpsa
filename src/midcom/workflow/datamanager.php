@@ -77,7 +77,7 @@ class datamanager extends dialog
         $context = midcom_core_context::get();
         if ($style = $this->style) {
             $callback = function() use ($style) {
-                midcom::get()->style->show($style, 'POPUP');
+                midcom::get()->style->show($style);
             };
         } else {
             $callback = [$this->controller, 'display_form'];
