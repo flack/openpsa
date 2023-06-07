@@ -37,6 +37,8 @@ class datamanager extends dialog
      */
     protected bool $relocate;
 
+    protected ?string $style = null;
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +48,8 @@ class datamanager extends dialog
             ->setDefaults([
                 'controller' => null,
                 'save_callback' => null,
-                'relocate' => true
+                'relocate' => true,
+                'style' => null
             ])
             ->setAllowedTypes('controller', ['null', controller::class]);
     }
@@ -72,7 +75,14 @@ class datamanager extends dialog
             return $this->js_response($script);
         }
         $context = midcom_core_context::get();
-        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$this->controller, 'display_form']);
+        if ($style = $this->style) {
+            $callback = function() use ($style) {
+                midcom::get()->style->show($style, 'POPUP');
+            };
+        } else {
+            $callback = [$this->controller, 'display_form'];
+        }
+        $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, $callback);
         return $this->response($context);
     }
 
