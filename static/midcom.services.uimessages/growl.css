@@ -79,6 +79,7 @@
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages h3
 {
   font-size: 100%;
+  line-height: inherit;
   margin: 0 0 6px;
   color: #333;
 }
@@ -90,8 +91,6 @@
 
 #midcom_services_uimessages_wrapper div.error h3
 {
-  font-size: 100%;
-  margin: 0 0 6px;
   color: #ff3333;
 }
 

@@ -35,6 +35,8 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
     public function _handler_today(array &$data, string $date = 'now')
     {
+        midcom::get()->uimessages->add('FFUCCC', 'SSSS', 'error');
+
         $data['requested_time'] = new DateTime($date);
 
         $this->prepare_timestamps($data['requested_time']);
