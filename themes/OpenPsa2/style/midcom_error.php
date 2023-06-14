@@ -2,7 +2,6 @@
 $head = midcom::get()->head;
 $message = $this->data['error_message'];
 $title = $this->data['error_title'];
-$exception = $this->data['error_exception'];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">

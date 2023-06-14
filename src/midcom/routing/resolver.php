@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_error_forbidden;
 use midcom_error_notfound;
-use midcom_baseclasses_components_viewer;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;

@@ -15,7 +15,6 @@ use midcom\datamanager\storage\recreateable;
 use midcom\datamanager\extension\type\schemaType;
 use midcom\datamanager\extension\type\toolbarType;
 use midcom\datamanager\storage\container\container;
-use midcom\datamanager\storage\container\dbacontainer;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
