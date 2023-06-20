@@ -230,19 +230,6 @@ const MIDCOM_PRIVILEGE_DENY = 2;
 const MIDCOM_PRIVILEGE_INHERIT = 3;
 
 /**
- * Privilege array name entry
- */
-const MIDCOM_PRIVILEGE_NAME = 100;
-/**
- * Privilege array assignee entry
- */
-const MIDCOM_PRIVILEGE_ASSIGNEE = 101;
-/**
- * Privilege array value entry
- */
-const MIDCOM_PRIVILEGE_VALUE = 102;
-
-/**
  * Magic scope value for privileges assigned to EVERYONE
  */
 const MIDCOM_PRIVILEGE_SCOPE_EVERYONE = 0;
