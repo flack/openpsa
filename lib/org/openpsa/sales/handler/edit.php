@@ -25,7 +25,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_salesproject->require_do('midgard:update');
 
         $schemadb = schemadb::from_path($this->_config->get('schemadb_salesproject'));
-        $schemadb->get('default')->get_field('customer')['type_config']['options'] = $this->list_groups($this->_salesproject);
+        $schemadb->get('default')->get_field('customer')['type_config']['options'] = $this->list_groups();
         $dm = new datamanager($schemadb);
         $dm->set_storage($this->_salesproject);
 
@@ -47,7 +47,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         ];
         $schemadb = schemadb::from_path($this->_config->get('schemadb_salesproject'));
 
-        if (!empty($guid)) {
+        if ($guid) {
             $field =& $schemadb->get('default')->get_field('customer');
             try {
                 $customer = new org_openpsa_contacts_group_dba($guid);
@@ -57,7 +57,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             } catch (midcom_error $e) {
                 $customer = new org_openpsa_contacts_person_dba($guid);
                 $defaults['customerContact'] = $customer->id;
-                $field['type_config']['options'] = $this->list_groups(new org_openpsa_sales_salesproject_dba, [$customer->id => true]);
+                $field['type_config']['options'] = $this->list_groups([$customer->id => true]);
             }
             $this->add_breadcrumb($this->router->generate('list_customer', ['guid' => $customer->guid]),
                 sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
@@ -85,20 +85,20 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      *
      * @param array $contacts Default contacts for nonpersistent objects
      */
-    private function list_groups(org_openpsa_sales_salesproject_dba $salesproject, array $contacts = []) : array
+    private function list_groups(array $contacts = []) : array
     {
         $ret = [0 => ''];
 
         // Make sure the currently selected customer (if any) is listed
-        if ($salesproject->customer > 0) {
+        if ($this->_salesproject->customer > 0) {
             // Make sure we can read the current customer for the name
             midcom::get()->auth->request_sudo('org.openpsa.helpers');
-            $this->load_group($ret, $salesproject->customer);
+            $this->load_group($ret, $this->_salesproject->customer);
             midcom::get()->auth->drop_sudo();
         }
         if (empty($contacts)) {
-            $salesproject->get_members();
-            $contacts = $salesproject->contacts;
+            $this->_salesproject->get_members();
+            $contacts = $this->_salesproject->contacts;
 
             if (empty($contacts)) {
                 return $ret;
@@ -124,7 +124,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         if (!array_key_exists($company_id, $ret)) {
             try {
-                $company = org_openpsa_contacts_group_dba::get_cached($company_id);
+                $company = new org_openpsa_contacts_group_dba($company_id);
                 $ret[$company->id] = $company->get_label();
             } catch (midcom_error $e) {
                 $e->log();
