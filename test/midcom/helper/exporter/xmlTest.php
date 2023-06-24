@@ -8,10 +8,11 @@
 
 namespace test\midcom\helper\exporter;
 
-use PHPUnit\Framework\TestCase;
+use openpsa_testcase;
 use midcom_helper_exporter_xml;
 use org_openpsa_projects_task_dba;
 use midcom_db_element;
+use org_openpsa_projects_project;
 use xml_comparison;
 
 /**
@@ -19,7 +20,7 @@ use xml_comparison;
  *
  * @package openpsa.test
  */
-class xmlTest extends TestCase
+class xmlTest extends openpsa_testcase
 {
     public function test_data2array()
     {
@@ -32,13 +33,14 @@ class xmlTest extends TestCase
 
     public function test_data2object()
     {
-        $data = $this->_get_data_array();
+        $project = self::create_class_object(org_openpsa_projects_project::class);
+        $data = $this->_get_data_array($project);
         $mapper = new midcom_helper_exporter_xml();
         $object = new org_openpsa_projects_task_dba;
         $object = $mapper->data2object($data, $object);
         $this->assertInstanceOf(org_openpsa_projects_task_dba::class, $object);
         $this->assertEquals("test\n\nÜmläüt", $object->description);
-        $this->assertEquals(32, $object->project);
+        $this->assertEquals($project->id, $object->project);
     }
 
     public function test_object2data()
@@ -97,7 +99,7 @@ EOX;
         self::assertThat($actual, $constraint);
     }
 
-    private function _get_data_array()
+    private function _get_data_array(org_openpsa_projects_project $project = null)
     {
         return [
             'midcom_helper_metadata' => [
@@ -115,7 +117,7 @@ EOX;
             'approvedHours' => '',
             'plannedHours' => '1',
             'description' => "test\n\nÜmläüt",
-            'project' => '32',
+            'project' => $project->id ?? '32',
             'id' => '352',
             'manager' => '',
             'title' => 'Test entry *.* 1',
