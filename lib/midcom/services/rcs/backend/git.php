@@ -15,19 +15,16 @@ class midcom_services_rcs_backend_git extends midcom_services_rcs_backend
      */
     public function update(string $user_id, string $updatemessage = '')
     {
-        $author = $user_id . ' <' . $user_id . '@' . $_SERVER['REMOTE_ADDR'] . '>';
-        $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
-            ' --author ' . escapeshellarg($author);
-
         $filename = $this->generate_filename();
         $relative_path = $this->relative_path($filename);
+        $author = $user_id . ' <' . $user_id . '@' . $_SERVER['REMOTE_ADDR'] . '>';
+        $command = 'commit -q --allow-empty --allow-empty-message -m ' . escapeshellarg($updatemessage) .
+            ' --author ' . escapeshellarg($author) . ' ' . $relative_path;
+
+        $this->write_object($filename);
         // avoid the separate add cmd where possible to mitigate concurrency issues
-        if (!file_exists($filename)) {
-            $this->write_object($filename);
+        if (!$this->read_handle('ls-files ' . $filename)[0]) {
             $this->exec('add ' . $relative_path);
-        } else {
-            $this->write_object($filename);
-            $command .= ' ' . $relative_path;
         }
 
         $this->exec($command);
