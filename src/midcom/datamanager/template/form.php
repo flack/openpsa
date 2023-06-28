@@ -430,7 +430,7 @@ class form extends base
                 }
 
                 $string .= '<option ' . $this->attributes($choice->attr);
-                $string .= '>' . $this->renderer->humanize($choice->label) . '</option>';
+                $string .= '>' . $this->escape($this->renderer->humanize($choice->label)) . '</option>';
             }
         }
         return $string;

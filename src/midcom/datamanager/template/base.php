@@ -127,7 +127,7 @@ abstract class base
             if ($autoescape) {
                 $value = $this->escape($value);
             }
-            $rendered[] = sprintf('%s="%s"', $name, $value);
+            $rendered[] = sprintf('%s="%s"', $name, str_replace('"', '&quot;', $value));
         }
         return implode(' ', $rendered);
     }
