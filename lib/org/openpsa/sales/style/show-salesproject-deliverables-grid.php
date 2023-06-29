@@ -43,8 +43,8 @@ $grid->set_option('caption', $data['l10n']->get($data['state']));
 $grid->set_column('created', $data['l10n']->get('created'), 'width: 80, fixed: true, align: "center", formatter: "date"');
 $grid->set_column('title', $data['l10n']->get('title'), 'width: 120, classes: "multiline", editable: true, edittype: "textarea", formatter: viewlink, unformat: extractlabel');
 if ($data['state'] == 'proposed') {
-    $grid->set_column('pricePerUnit', $data['l10n']->get('price per unit'), 'width: 80, fixed: true, formatter: "number", align: "right", title: false, classes: "sum", editable: true');
-    $grid->set_column('plannedUnits', $data['l10n']->get('units'), 'width: 80, fixed: true, formatter: "number", align: "right", title: false, classes: "sum", editable: true');
+    $grid->set_column('pricePerUnit', $data['l10n']->get('price per unit'), 'width: 70, fixed: true, formatter: "number", align: "right", title: false, classes: "sum", editable: true');
+    $grid->set_column('plannedUnits', $data['l10n']->get('units'), 'width: 50, fixed: true, formatter: "number", align: "right", title: false, classes: "sum", editable: true');
     $grid->set_column('price', $data['l10n']->get('price'), 'width: 80, fixed: true, formatter: "number", align: "right", title: false, classes: "sum"', 'number');
     $grid->set_option('editurl', $data['router']->generate('salesproject_itemedit'));
 } else {
