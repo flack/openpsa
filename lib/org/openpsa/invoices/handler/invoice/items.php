@@ -10,6 +10,7 @@ use midcom\grid\grid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use midcom\grid\editor;
 
 /**
  * Invoice item handler
@@ -96,49 +97,39 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
     public function _handler_itemedit(Request $request, string $guid)
     {
-        $this->_verify_post_data($request->request);
-
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
+        $editor = new editor($request->request, ['description', 'price', 'quantity']);
 
-        if ($request->request->get('oper') == 'edit') {
-            if (str_starts_with($request->request->get('id'), 'new_')) {
+        $id = $editor->get_id();
+        if ($editor->is_delete()) {
+            $item = new org_openpsa_invoices_invoice_item_dba($id);
+            if (!$item->delete()) {
+                throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
+            }
+        } else {
+            if (!$id) {
                 $item = new org_openpsa_invoices_invoice_item_dba();
                 $item->invoice = $invoice->id;
                 $item->create();
             } else {
-                $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
+                $item = new org_openpsa_invoices_invoice_item_dba($id);
             }
-            $item->units = (float) str_replace(',', '.', $request->request->get('quantity'));
-            $item->pricePerUnit = (float) str_replace(',', '.', $request->request->get('price'));
-            $item->description = $request->request->get('description');
+            $data = $editor->get_data();
+            $item->units = (float) str_replace(',', '.', $data['quantity']);
+            $item->pricePerUnit = (float) str_replace(',', '.', $data['price']);
+            $item->description = $data['description'];
 
             if (!$item->update()) {
                 throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
             }
-        } else {
-            $item = new org_openpsa_invoices_invoice_item_dba($request->request->getInt('id'));
-            if (!$item->delete()) {
-                throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
-            }
         }
-        return new JsonResponse([
+        return $editor->get_response([
             'id' => $item->id,
             'quantity' => $item->units,
             'price' => $item->pricePerUnit,
             'description' => $item->description,
             'position' => $item->position,
-            'oldid' => $request->request->get('id')
         ]);
-    }
-
-    private function _verify_post_data(ParameterBag $post)
-    {
-        if (!in_array($post->get('oper'), ['edit', 'del'])) {
-            throw new midcom_error('Invalid operation "' . $post->get('oper') . '"');
-        }
-        if (!$post->has('id') || !$post->has('description') || !$post->has('price') || !$post->has('quantity')) {
-            throw new midcom_error('Incomplete POST data');
-        }
     }
 
     public function _handler_itemposition(Request $request)
