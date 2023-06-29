@@ -10,6 +10,7 @@ use midcom\datamanager\datamanager;
 use midcom\datamanager\helper\autocomplete;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use midcom\grid\editor;
 
 /**
  * Salesproject display class
@@ -254,6 +255,34 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             'old_status' => $old_state,
             'messages' => $messages,
             'updated' => []
+        ]);
+    }
+
+    public function _handler_itemedit(Request $request)
+    {
+        $editor = new editor($request->request, ['title', 'plannedUnits', 'pricePerUnit']);
+
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($editor->get_id());
+        if ($editor->is_delete()) {
+            if (!$deliverable->delete()) {
+                throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
+            }
+        } else {
+            $data = $editor->get_data();
+            $deliverable->plannedUnits = (float) str_replace(',', '.', $data['plannedUnits']);
+            $deliverable->pricePerUnit = (float) str_replace(',', '.', $data['pricePerUnit']);
+            $deliverable->title = $data['title'];
+
+            if (!$deliverable->update()) {
+                throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
+            }
+        }
+        return $editor->get_response([
+            'id' => $deliverable->id,
+            'pricePerUnit' => $deliverable->pricePerUnit,
+            'plannedUnits' => $deliverable->plannedUnits,
+            'price' => $deliverable->price,
+            'title' => $deliverable->title,
         ]);
     }
 }

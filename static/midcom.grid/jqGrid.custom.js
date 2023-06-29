@@ -288,7 +288,8 @@ const midcom_grid_editable = {
             var return_values = JSON.parse(data.responseText);
             return [true, return_values, return_values.id];
         },
-        enable_sorting: false
+        enable_sorting: false,
+        enable_create: true
     },
     toggle: function(id, edit_mode) {
         $("#" + id).find(".row_edit, .row_delete").toggleClass('hidden', edit_mode);
@@ -316,25 +317,28 @@ const midcom_grid_editable = {
         });
 
         self.add_inline_controls();
-        var create_button_parameters = {
-            caption: self.options.button_label || "",
-            buttonicon: "fa-plus",
-            onClickButton: function() {
-                var new_id = 'new_' + self.last_added_row++,
-                    params = {};
-
-                if (self.options.enable_sorting) {
-                    params.position = $('#' + grid_id + ' td[aria-describedby="invoice_items_position"]').length + 1;
+        
+        if (self.options.enable_create) {            
+            var create_button_parameters = {
+                caption: self.options.button_label || "",
+                buttonicon: "fa-plus",
+                onClickButton: function() {
+                    var new_id = 'new_' + self.last_added_row++,
+                        params = {};
+    
+                    if (self.options.enable_sorting) {
+                        params.position = $('#' + grid_id + ' td[aria-describedby="invoice_items_position"]').length + 1;
+                    }
+                    //create new row; now with a position-value
+                    $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
+    
+                    self.render_buttons(new_id);
                 }
-                //create new row; now with a position-value
-                $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
-
-                self.render_buttons(new_id);
-            }
-        };
-        $('#' + grid_id)
-            .jqGrid('navGrid', "#p_" + grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
-            .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
+            };
+            $('#' + grid_id)
+                .jqGrid('navGrid', "#p_" + grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
+                .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
+        }
 
         if (self.options.enable_sorting) {
             $('#' + grid_id)
