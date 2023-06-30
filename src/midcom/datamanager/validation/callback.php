@@ -24,26 +24,24 @@ class callback
                 $form = $context->getObject();
                 $result = $entry['callback']($this->to_array($form->getData()));
                 if (is_array($result)) {
-                    foreach ($result as $field => $message) {
-                        $this->add_violation([$field], $context, $message);
-                    }
+                    $this->process_result($context, $result);
                 }
             }
         }
     }
 
-    private function add_violation(array $path, ExecutionContextInterface $context, $data)
+    private function process_result(ExecutionContextInterface $context, $result, array $path = [])
     {
-        if (is_string($data)) {
+        if (is_string($result)) {
             $context
-                ->buildViolation($data)
+                ->buildViolation($result)
                 ->atPath('[' . implode('][', $path) . ']')
                 ->addViolation();
         } else {
-            foreach ($data as $field => $message) {
+            foreach ($result as $field => $message) {
                 $childpath = $path;
                 $childpath[] = $field;
-                $this->add_violation($childpath, $context, $message);
+                $this->process_result($context, $message, $childpath);
             }
         }
     }
