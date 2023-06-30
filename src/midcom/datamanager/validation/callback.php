@@ -36,8 +36,8 @@ class callback
     {
         if (is_string($data)) {
             $context
-                ->buildViolation('[' . implode('][', $path) . ']')
-                ->atPath($path)
+                ->buildViolation($data)
+                ->atPath('[' . implode('][', $path) . ']')
                 ->addViolation();
         } else {
             foreach ($data as $field => $message) {
