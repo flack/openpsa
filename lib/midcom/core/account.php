@@ -7,6 +7,7 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Helper class for account management
@@ -132,8 +133,8 @@ class midcom_core_account
     public static function add_username_constraint(midcom_core_query $query, string $operator, $value)
     {
         $qb = $query->get_doctrine();
-        $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
-        $query->get_current_group()->add('u.login ' . $operator . ' :value AND u.authtype = :authtype');
+        self::add_join($qb);
+        $query->get_current_group()->add('_un.login ' . $operator . ' :value AND _un.authtype = :authtype');
         $qb->setParameter('value', $value);
         $qb->setParameter('authtype', midcom::get()->config->get('auth_type'));
     }
@@ -144,8 +145,23 @@ class midcom_core_account
     public static function add_username_order(midcom_core_query $query, string $direction)
     {
         $qb = $query->get_doctrine();
-        $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
-        $qb->addOrderBy('u.login', $direction);
+        self::add_join($qb);
+        $qb->addOrderBy('_un.login', $direction);
+    }
+
+    private static function add_join(QueryBuilder $qb)
+    {
+        if (in_array('_un', $qb->getAllAliases())) {
+            foreach ($qb->getDQLPart('join') as $joins) {
+                foreach ($joins as $join) {
+                    if ($join->getAlias() == '_un' && $join->getJoin() == 'midgard_user') {
+                        return;
+                    }
+                }
+            }
+            throw new midcom_error('Alias "_un" already taken');
+        }
+        $qb->leftJoin('midgard_user', '_un', Join::WITH, '_un.person = c.guid');
     }
 
     public function is_admin() : bool
