@@ -28,7 +28,7 @@
         "michelf/php-markdown": "^1.9.0",
         "monolog/monolog": "^1.15 || ^2.0",
         "openpsa/installer": "^1.0",
-        "openpsa/midgard-portable": "^1.4.0",
+        "openpsa/midgard-portable": "^1.10.0",
         "openpsa/ranger": ">=0.3.0",
         "openpsa/universalfeedcreator": "^1.8.2",
         "phpspec/php-diff": "^1.1.0",
