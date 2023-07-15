@@ -187,13 +187,7 @@ class midcom_helper__dbfactory
 
     private function get_parent_data_cached(string $guid, callable $callback) : array
     {
-        static $cached_parent_data = [];
-
         if (mgd_is_guid($guid)) {
-            if (array_key_exists($guid, $cached_parent_data)) {
-                // We already got this either via query or memcache
-                return $cached_parent_data[$guid];
-            }
             $parent_data = $this->memcache->lookup_parent_data($guid);
         }
 
@@ -209,9 +203,6 @@ class midcom_helper__dbfactory
                 $this->memcache->update_parent_data($guid, $parent_data);
             }
         }
-
-        // Remember this so we don't need to get it again
-        $cached_parent_data[$guid] = $parent_data;
 
         return $parent_data;
     }
