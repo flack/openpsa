@@ -54,8 +54,8 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     public function get_label() : string
     {
         $label = $this->description;
-        if (strlen($label) > 100) {
-            $label = substr($label, 0, 97) . '...';
+        if (mb_strlen($label) > 100) {
+            $label = mb_substr($label, 0, 97) . '...';
         }
         return $label;
     }
