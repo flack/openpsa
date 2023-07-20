@@ -117,7 +117,7 @@ class blobdir extends Command
         $dir = \midgard_connection::get_instance()->config->blobdir;
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect blobdir</comment>");
-            return 1;
+            return Command::FAILURE;
         }
         $this->_dir = $dir;
         $this->dry = $input->getOption("dry");
@@ -140,6 +140,6 @@ class blobdir extends Command
         }
 
         $output->writeln("<comment>Done</comment>");
-        return 0;
+        return Command::SUCCESS;
     }
 }

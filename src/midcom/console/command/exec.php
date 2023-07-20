@@ -78,7 +78,7 @@ class exec extends Command
 
         if (empty($file)) {
             $this->list_files($output);
-            return 0;
+            return Command::SUCCESS;
         }
 
         $basedir = $this->projectdir . '/';
@@ -101,7 +101,7 @@ class exec extends Command
         }
 
         $this->auth->drop_sudo();
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function list_files(OutputInterface $output)

@@ -62,6 +62,6 @@ class purgedeleted extends Command
         }
         $elapsed = round(microtime(true) - $start, 2);
         $output->writeln("\n\nPurged <info>{$total_purged}</info> deleted objects in {$elapsed}s, <comment>" . $total_errors . " failures</comment>");
-        return 0;
+        return Command::SUCCESS;
     }
 }

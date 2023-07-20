@@ -75,6 +75,6 @@ class parameters extends Command
         }
 
         $output->writeln("\nDone");
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -92,7 +92,7 @@ class rcsdir extends Command
         $dir = $config->get_rootdir();
         if (!is_dir($dir)) {
             $output->writeln("<comment>Unable to detect RCS dir</comment> $dir");
-            return 1;
+            return Command::FAILURE;
         }
         if ($dry = $input->getOption("dry")) {
             $output->writeln("<comment>Running in dry mode!</comment>");
@@ -117,6 +117,6 @@ class rcsdir extends Command
         }
 
         $output->writeln("\n<comment>Done</comment>");
-        return 0;
+        return Command::SUCCESS;
     }
 }

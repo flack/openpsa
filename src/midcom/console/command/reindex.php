@@ -105,6 +105,6 @@ class reindex extends Command
         }
 
         $output->writeln('Reindex complete');
-        return 0;
+        return Command::SUCCESS;
     }
 }

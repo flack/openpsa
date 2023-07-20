@@ -93,7 +93,7 @@ class cron extends Command
             }
         }
         $this->auth->drop_sudo();
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function run_job(string $classname, OutputInterface $output)

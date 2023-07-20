@@ -50,6 +50,6 @@ class cacheinvalidate extends Command
 
         $fs = new Filesystem;
         $fs->remove([$this->cachedir]);
-        return 0;
+        return Command::SUCCESS;
     }
 }
