@@ -36,12 +36,12 @@ class repligard extends Command
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         try {
-            $this->db = connection::get_em()->getConnection()->getWrappedConnection();
+            $this->db = connection::get_em()->getConnection()->getNativeConnection();
         } catch (\Exception $e) {
             $this->db = $this->create_connection($input, $output);
         }
 
-        $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE object_action=2')->fetchOne();
+        $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE object_action=2')->fetchColumn();
         if ($result > 0) {
             $output->writeln('Found <info>' . $result . '</info> entries for purged objects');
             if ($this->_confirm($input, $output)) {
@@ -51,10 +51,10 @@ class repligard extends Command
         }
 
         $result = $this->_run('SELECT DISTINCT typename FROM repligard');
-        foreach ($result->fetchFirstColumn() as $typename) {
+        foreach ($result->fetchAll(PDO::FETCH_COLUMN, 0) as $typename) {
             if (!is_a($typename, dbobject::class, true)) {
                 $result = $this->_run('SELECT COUNT(guid) FROM repligard WHERE typename="' . $typename . '"');
-                $output->writeln('Found <info>' . $result->fetchOne() . '</info> entries for nonexistent type <comment>' . $typename . '</comment>');
+                $output->writeln('Found <info>' . $result->fetchColumn() . '</info> entries for nonexistent type <comment>' . $typename . '</comment>');
                 if ($this->_confirm($input, $output)) {
                     $result = $this->_run('DELETE FROM repligard WHERE typename="' . $typename . '"', 'exec');
                     $output->writeln('Deleted <comment>' . $result . '</comment> rows');
