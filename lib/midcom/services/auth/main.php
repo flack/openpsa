@@ -93,7 +93,7 @@ class midcom_services_auth
      * Checks if the current authentication fronted has new credentials
      * ready. If yes, it processes the login accordingly. Otherwise look for existing session
      */
-    public function check_for_login_session(Request $request)
+    public function check_for_login_session(Request $request) : ?midcom_response_relocate
     {
         // Try to start up a new session, this will authenticate as well.
         if ($credentials = $this->frontend->read_login_data($request)) {
@@ -103,7 +103,7 @@ class midcom_services_auth
                     // Calling the failure function with the username as a parameter. No password sent to the user function for security reasons
                     call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
                 }
-                return;
+                return null;
             }
             debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
 
@@ -132,6 +132,7 @@ class midcom_services_auth
         elseif ($user = $this->backend->check_for_active_login_session($request)) {
             $this->set_user($user);
         }
+        return null;
     }
 
     private function set_user(midcom_core_user $user)

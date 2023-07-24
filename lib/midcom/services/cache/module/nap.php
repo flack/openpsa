@@ -97,20 +97,20 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
     private function _load_from_guid(string $guid, ?midcom_core_dbaobject $object) : ?array
     {
-        $napobject = null;
         try {
             $object ??= midcom::get()->dbfactory->get_object_by_guid($guid);
             $nav = new midcom_helper_nav;
             if ($object instanceof midcom_db_topic) {
-                $napobject = $nav->get_node($object->id);
-            } elseif (   ($node = $nav->find_closest_topic($object))
-                      && $nodeobject = $nav->get_node($node->id)) {
-                $napobject = $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);
+                return $nav->get_node($object->id);
+            }
+            if (   ($node = $nav->find_closest_topic($object))
+                && $nodeobject = $nav->get_node($node->id)) {
+                return $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);
             }
         } catch (midcom_error $e) {
             $e->log();
         }
-        return $napobject;
+        return null;
     }
 
     /**

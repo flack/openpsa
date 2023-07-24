@@ -55,13 +55,8 @@ class midcom_core_context
      */
     public function __construct(midcom_db_topic $node = null)
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
-        }
-        if ($node) {
-            $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
-        }
-
+        $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'] ?? '';
+        $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         $this->id = self::$counter++;
     }
 
