@@ -94,12 +94,8 @@ const openpsa_calendar_widget = {
         $('body').data('title', document.title);
 
         var defaults = {
-            theme: true,
             initialView: "dayGridMonth",
             weekNumbers: true,
-            weekMode: 'liquid',
-            firstHour: 8,
-            ignoreTimezone: false,
             nowIndicator: true,
             editable: true,
             navLinks: true,
@@ -144,7 +140,6 @@ const openpsa_calendar_widget = {
                 create_dialog($(info.jsEvent.target), '', prefix + 'event/' + info.event.id + '/');
             },
             selectable: true,
-            selectHelper: true,
             select: function(info) {
                 var url = prefix + 'event/new/?start=',
                     start = window.openpsa_calendar_instance.formatIso(info.start),

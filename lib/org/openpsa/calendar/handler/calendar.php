@@ -11,7 +11,7 @@
  */
 class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
-    private string $prefix = '/org.openpsa.calendar/fullcalendar-5.11.0/';
+    private string $prefix = '/org.openpsa.calendar/fullcalendar-6.1.8/';
 
     /**
      * Initialization of the handler class
@@ -112,25 +112,23 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     private function add_head_elements()
     {
         $head = midcom::get()->head;
-        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'lib/main.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'index.global.min.js');
         if ($lang = $this->get_lang()) {
-            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "lib/locales/{$lang}.js");
+            $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "locales/{$lang}.global.js");
         }
 
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'lib/main.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
-
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
     }
 
     private function get_lang() : ?string
     {
         $lang = $this->_i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "lib/locales/{$lang}.js")) {
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "locales/{$lang}.global.js")) {
             return $lang;
         }
         $lang = $this->_i18n->get_fallback_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "lib/locales/{$lang}.js")) {
+        if (file_exists(MIDCOM_STATIC_ROOT . $this->prefix . "locales/{$lang}.global.js")) {
             return $lang;
         }
         return null;
