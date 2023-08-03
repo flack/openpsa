@@ -15,7 +15,7 @@ class form extends base
         midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/default.css');
     }
 
-    private function get_view_renderer() : view
+    protected function get_view_renderer() : view
     {
         return new view($this->renderer);
     }
@@ -230,7 +230,7 @@ class form extends base
             $data['label'] = $data['name'];
         }
 
-        return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes') . '>' . $this->renderer->humanize($data['label']) . '</button>';
+        return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes', $data) . '>' . $this->renderer->humanize($data['label']) . '</button>';
     }
 
     public function hidden_widget(FormView $view, array $data)
