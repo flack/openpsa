@@ -284,11 +284,6 @@ class midcom_config implements ArrayAccess
         // Valid options are 'user' (default), 'memberships' and 'public'
         'cache_module_content_caching_strategy' => 'user',
 
-        // CRON Service configuration
-        'cron_day_hours' => 0,
-        'cron_day_minutes' => 0,
-        'cron_hour_minutes' => 30,
-
         // I18n Subsystem configuration
         'i18n_fallback_language' => 'en',
 
