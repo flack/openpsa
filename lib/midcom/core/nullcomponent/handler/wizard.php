@@ -71,14 +71,17 @@ class midcom_core_nullcomponent_handler_wizard extends midcom_baseclasses_compon
         } else {
             return;
         }
-        $conf = '<?php' . "\n";
-        $conf .= "//AUTO-GENERATED on " . date('r') . "\n";
-        $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $guid . '";' . "\n";
 
-        $project_dir = dirname(__DIR__, 5);
-        if (str_contains($project_dir, '/vendor/')) {
-            $project_dir = dirname($project_dir, 3);
+        $project_dir = midcom::get()->getProjectDir();
+
+        if (!file_exists($project_dir . '/config.inc.php')) {
+            $conf = '<?php' . "\n";
+            $conf .= "//AUTO-GENERATED on " . date('r');
+        } else {
+            $conf = file_get_contents($project_dir . '/config.inc.php');
         }
+
+        $conf .= "\n" . '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $guid . '";' . "\n";
 
         if (!@file_put_contents($project_dir . '/config.inc.php', $conf)) {
             $this->_request_data['project_dir'] = $project_dir;
