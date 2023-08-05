@@ -79,13 +79,13 @@
                 'master_fieldname' => 'uid',
                 'member_fieldname' => 'gid',
                 'master_is_id' => true,
-                'constraints' => [
+                'constraints' => midcom::get()->componentloader->is_installed('org.openpsa.contacts') ? [
                 	[
                         'field' => 'orgOpenpsaObtype',
                         'op'    => '<',
-                        'value' => 1000, // org_openpsa_contacts_group_dba::ORGANIZATION
+                        'value' => org_openpsa_contacts_group_dba::ORGANIZATION
                     ],
-                ],
+                ] : [],
             ],
             'widget' => 'autocomplete',
             'widget_config' => [
