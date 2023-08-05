@@ -4,7 +4,7 @@ $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="wide">
     <?php
-    $data['event_dm']->display_view();
+    $data['event_dm']->display_view(true);
 
     if ($data['event']->can_do('org.openpsa.calendar:read')) {
         echo "<div style=\"clear: both;\"></div>\n";

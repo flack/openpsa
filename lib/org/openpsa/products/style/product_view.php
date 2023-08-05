@@ -5,7 +5,7 @@ $view = $data['view_product'];
     <div class="main">
         <h1>&(view['code']:h); &(view['title']:h);</h1>
         <?php
-        $data['datamanager']->display_view();
+        $data['datamanager']->display_view(true);
 
         $tabs = [];
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

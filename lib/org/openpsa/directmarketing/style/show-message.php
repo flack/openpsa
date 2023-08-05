@@ -4,7 +4,7 @@ $link = $data['router']->generate('view_campaign', ['guid' => $data['campaign']-
 ?>
 <div class="content-with-sidebar">
     <div class="main">
-        <?php $message_dm->display_view(); ?>
+        <?php $message_dm->display_view(true); ?>
     </div>
     <aside>
         <div class="area">
