@@ -96,7 +96,7 @@ class view extends base
     public function form_row(FormView $view, array $data)
     {
         $content = $this->renderer->widget($view);
-        if ($this->skip_empty && $content === '') {
+        if ($this->skip_empty && trim($content) === '') {
             return '';
         }
 
