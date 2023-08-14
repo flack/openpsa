@@ -134,6 +134,13 @@ class resolver
         $result['__viewer'] = $viewer;
         $result['_controller'] = str_replace('::', '::_handler_', $result['_controller']);
 
+        if (!empty($result['component'])) {
+            $this->context->set_key(MIDCOM_CONTEXT_COMPONENT, $result['component']);
+            $topic = new \midcom_db_topic();
+            $topic->component = $result['component'];
+            $this->context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
+        }
+
         $this->request->attributes->add($result);
         $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
     }
