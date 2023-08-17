@@ -111,7 +111,7 @@ abstract class base
 
     public function escape(string $input) : string
     {
-        return htmlentities($input, ENT_COMPAT, 'utf-8');
+        return htmlentities($input, ENT_COMPAT, 'utf-8', false);
     }
 
     public function attributes(array $attributes, bool $autoescape = false) : string
