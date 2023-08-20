@@ -146,10 +146,9 @@ class datamanager
         if ($reset) {
             $this->form = null;
         }
-        $name = $this->get_name($name);
 
         if (   $this->form === null
-            || $this->form->getName() != $name) {
+            || ($name && $this->form->getName() != $name)) {
             $this->build_form($this->get_builder($name));
         }
         return $this->form;
