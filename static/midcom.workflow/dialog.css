@@ -7,6 +7,7 @@ body
     font-family: "Verdana", "Arial", "Helvetica", sans-serif;
     background-color: white;
     color: #333;
+    padding: .5em 1em;
 }
 body, table
 {

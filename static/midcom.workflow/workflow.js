@@ -243,7 +243,7 @@ function create_dialog(control, title, url) {
                this.style.visibility = 'visible';
            });
 
-        dialog = $('<div id="midcom-dialog"></div>')
+        dialog = $('<div id="midcom-dialog" class="has-iframe"></div>')
             .append(spinner)
             .append(iframe)
             .on('dialogcreate', function() {

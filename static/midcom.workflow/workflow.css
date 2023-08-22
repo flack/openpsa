@@ -13,6 +13,10 @@
     overflow: hidden;
 }
 
+.midcom-workflow-dialog .ui-dialog-content.has-iframe {
+    padding: 0;
+}
+
 .midcom-workflow-dialog .ui-widget-header.ui-dialog-titlebar {
     background-color: transparent;
     border-color: transparent;
