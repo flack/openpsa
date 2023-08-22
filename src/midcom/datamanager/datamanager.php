@@ -119,7 +119,7 @@ class datamanager
     {
         if ($this->renderer === null) {
             $this->renderer = new renderer(new engine);
-            $this->renderer->set_l10n($this->schema->get_l10n());
+            $this->renderer->set_l10n($this->get_schema()->get_l10n());
         }
         if ($template) {
             if (is_string($template)) {
