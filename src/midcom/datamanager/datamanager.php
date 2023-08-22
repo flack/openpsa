@@ -154,6 +154,11 @@ class datamanager
         return $this->form;
     }
 
+    /**
+     * Get FormBuilder for manipulating the form before it gets locked by setData().
+     * The builder instance needs to be passed back to build_form() for the modifications
+     * to have a consistent effect.
+     */
     public function get_builder(string $name = null) : FormBuilderInterface
     {
         $config = [
