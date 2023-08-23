@@ -22,7 +22,7 @@ class urlnameValidator extends ConstraintValidator
 
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
 
-        $data = $this->context->getRoot()->getData();
+        $data = $this->context->getObject()->getParent()->getData();
         if (!$data instanceof dbacontainer) {
             throw new \midcom_error('invalid storage, can only validate DBA objects');
         }

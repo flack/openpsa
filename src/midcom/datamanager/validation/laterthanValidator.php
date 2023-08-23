@@ -12,7 +12,7 @@ class laterthanValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        $element = $this->context->getRoot()->get($constraint->value);
+        $element = $this->context->getObject()->getParent()->get($constraint->value);
         $compare = $element->getData();
         if ($compare !== null && $value <= $compare) {
             $label = $element->getConfig()->getOption('label');
