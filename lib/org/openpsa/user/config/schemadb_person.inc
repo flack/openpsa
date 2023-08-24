@@ -7,10 +7,6 @@
             'storage'  => 'firstname',
             'type'     => 'text',
             'widget'   => 'text',
-            'start_fieldset' => [
-                'title' => 'person_fieldset',
-                'css_group' => 'area meta',
-            ],
         ],
         'lastname' => [
             'title'    => 'lastname',
@@ -68,7 +64,6 @@
             'storage'  => 'homephone',
             'type'     => 'text',
             'widget'   => 'text',
-            'end_fieldset' => '',
         ],
         'groups' => [
             'title' => 'groups',
@@ -105,11 +100,6 @@
                 ],
                 'id_field' => 'id',
             ],
-            'start_fieldset' => [
-                'title' => 'groups_fieldset',
-                'css_group' => 'area meta',
-            ],
-            'end_fieldset' => '',
         ],
     ]
 ],

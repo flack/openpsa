@@ -110,10 +110,6 @@ Darf Wiki-Seiten bearbeiten, die von anderen erstellt wurden
 Passwort automatisch erzeugen
 ---STRINGEND
 
----STRING groups_fieldset
-Gruppen-Informationen
----STRINGEND
-
 ---STRING last login
 Letzter Login
 ---STRINGEND
@@ -168,10 +164,6 @@ Ihr Passwort ist abgelaufen, bitte erstellen Sie ein neues.
 
 ---STRING permissions
 Berechtigungen
----STRINGEND
-
----STRING person_fieldset
-Personendaten
 ---STRINGEND
 
 ---STRING edit account

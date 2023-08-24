@@ -110,10 +110,6 @@ Enable editing wiki pages created by others
 Generate Password
 ---STRINGEND
 
----STRING groups_fieldset
-Group Information
----STRINGEND
-
 ---STRING last login
 Last login
 ---STRINGEND
@@ -168,10 +164,6 @@ Password strength is too weak
 
 ---STRING permissions
 Permissions
----STRINGEND
-
----STRING person_fieldset
-Person
 ---STRINGEND
 
 ---STRING edit account
