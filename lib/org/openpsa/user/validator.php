@@ -47,7 +47,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         $result = $this->is_username_available($fields);
 
         $accounthelper = new org_openpsa_user_accounthelper();
-        if ($fields['password']['switch'] && !$accounthelper->check_password_strength($fields['password']['password'])){
+        if ($fields['password']['switch'] && !$accounthelper->check_password_strength((string) $fields['password']['password'])){
             $result = ['password' => midcom::get()->i18n->get_string('password weak', 'org.openpsa.user')];
         }
 
