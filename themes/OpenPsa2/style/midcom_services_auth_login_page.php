@@ -58,7 +58,11 @@ if (isset($this->data['midcom_services_auth_access_denied_message'])) {
   } ?>
   </div>
   <script type="text/javascript">
-    document.getElementById('username').focus();
+    if (!navigator.cookieEnabled) {
+        document.getElementById('cookie_warning').style.display = 'block';
+    } else {
+        document.getElementById('username').focus();
+    }
   </script>
   <div class="org_openpsa_softwareinfo">
       <a href="https://openpsa2.org/">OpenPSA <?php
@@ -67,11 +71,5 @@ if (isset($this->data['midcom_services_auth_access_denied_message'])) {
       <a href="http://www.midgard-project.org/">Midgard <?php echo mgd_version(); ?></a>
   </div>
  </div>
-<script type="text/javascript">
-if (!navigator.cookieEnabled) {
-    document.getElementById('cookie_warning').style.display = 'block';
-}
-</script>
-
 </body>
 </html>
