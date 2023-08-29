@@ -14,6 +14,7 @@ $(document).ready(function() {
                 maxHeight: $(window).height(),
                 buttons: [{
                     text: button.text().trim() || this.dataset.dialogHeading,
+                    dialogClass: 'midcom-workflow-dialog',
                     click: function() {
                         if (relocate) {
                             $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
