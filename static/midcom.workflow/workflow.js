@@ -9,12 +9,12 @@ $(document).ready(function() {
             action = this.getAttribute('href') || this.dataset.action,
             options = {
                 title:  this.dataset.dialogHeading,
+                dialogClass: 'midcom-workflow-dialog',
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
                 buttons: [{
                     text: button.text().trim() || this.dataset.dialogHeading,
-                    dialogClass: 'midcom-workflow-dialog',
                     click: function() {
                         if (relocate) {
                             $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
