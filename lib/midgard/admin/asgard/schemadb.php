@@ -83,7 +83,9 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         }
 
         // Enable generating the name from the title property
-        $type_urlname_config['title_field'] = midcom_helper_reflector::get_title_property($name_obj);
+        if ($title_field = midcom_helper_reflector::get_title_property($name_obj)) {
+            $type_urlname_config['title_field'] = $title_field;
+        }
 
         $this->schema['fields'][$key] = [
             'title'       => $key,
