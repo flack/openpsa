@@ -44,9 +44,6 @@ $(document).ready(function() {
                 }, {
                     text: this.dataset.dialogCancelLabel,
                     click: function() {
-                        button.parent()
-                            .find('.ui-state-disabled')
-                            .removeClass('ui-state-disabled');
                         $(this).dialog("close");
                     }
                 }]
@@ -97,6 +94,11 @@ $(document).ready(function() {
             .appendTo($('body'));
 
         make_dialog(dialog, options);
+        dialog.on( "dialogclose", function() {
+            button.parent()
+                .find('.ui-state-disabled')
+                .removeClass('ui-state-disabled');
+        });
     });
 
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
