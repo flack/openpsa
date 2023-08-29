@@ -81,7 +81,7 @@ abstract class base
         if (!empty($data['id'])) {
             $attr['id'] = $data['id'];
         }
-        if (!$view->parent) {
+        if (!$view->parent && empty($attr['class'])) {
             unset($attr['id']);
             $attr['class'] = 'form';
         }
