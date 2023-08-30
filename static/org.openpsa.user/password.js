@@ -24,9 +24,11 @@
             .on('change', function() {
                 if ($('input[name="org_openpsa_user[password][switch]"]:checked').val() == 0) {
                     password_field.hide();
+                    password_field.removeAttr('required');
                 }
                 else {
                     password_field.show();
+                    password_field.attr('required', 'required');
                 }
             })
             .trigger('change');
