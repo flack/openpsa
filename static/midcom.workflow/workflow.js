@@ -162,7 +162,7 @@ $(document).ready(function() {
 });
 
 function create_dialog(control, title, url) {
-    if ($('.midcom-workflow-dialog').length > 0) {
+    if ($('.midcom-workflow-dialog').is(':visible')) {
         $('body').addClass('midcom-workflow-switching');
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
