@@ -9,7 +9,7 @@ $(document).ready(function() {
             action = this.getAttribute('href') || this.dataset.action,
             options = {
                 title:  this.dataset.dialogHeading,
-                dialogClass: 'midcom-workflow-dialog',
+                dialogClass: 'midcom-workflow-dialog midcom-workflow-dialog-delete',
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
