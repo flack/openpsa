@@ -91,6 +91,7 @@ abstract class dialog
 
     public function render_attributes() : string
     {
+        static::add_head_elements();
         $button_config = $this->get_button_config();
 
         $output = ' title="' . htmlspecialchars($button_config[MIDCOM_TOOLBAR_LABEL]) . '"';
