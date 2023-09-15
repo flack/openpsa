@@ -53,14 +53,14 @@
     margin: 0.5em 0 0.5em 0.4em
 }
 
-.midcom-workflow-dialog .ui-dialog-content > i,
+.midcom-workflow-dialog .ui-dialog-content > .spinner i,
 .midcom-delete-dialog > .spinner i
 {
     font-size: 32px;
     color: orange;
 }
 
-.midcom-workflow-dialog .ui-dialog-content > i
+.midcom-workflow-dialog .ui-dialog-content > .spinner i
 {
     position: absolute;
     top: calc(50% - 16px);

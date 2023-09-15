@@ -150,7 +150,7 @@ function attach_to_parent_dialog(dialog) {
 
 window.addEventListener('DOMContentLoaded', function() {
     if (dialog) {
-        dialog.find(' > .fa-spinner').hide();
+        dialog.find(' > .spinner').hide();
         if (window.hasOwnProperty('$')) {
             $('body').on('submit', '.midcom-dialog-delete-form', function(e) {
                 e.preventDefault();

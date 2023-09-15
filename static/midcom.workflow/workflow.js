@@ -3,7 +3,7 @@ $(document).ready(function() {
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
-            spinner = $('<div class="spinner"><i class="fa fa-pulse fa-spinner"></i></div>'),
+            spinner = $('<div class="spinner">' + get_spinner_template() + '</div>'),
             text = this.dataset.dialogText,
             relocate = $(this).data('relocate'),
             action = this.getAttribute('href') || this.dataset.action,
@@ -161,6 +161,10 @@ $(document).ready(function() {
     });
 });
 
+function get_spinner_template() {
+    return typeof WORKFLOW_SPINNER_TEMPLATE != 'undefined' ? WORKFLOW_SPINNER_TEMPLATE : '<i class="fa fa-pulse fa-spinner"></i>';
+}
+
 function create_dialog(control, title, url) {
     if ($('.midcom-workflow-dialog').is(':visible')) {
         $('body').addClass('midcom-workflow-switching');
@@ -226,7 +230,7 @@ function create_dialog(control, title, url) {
     if ($('#midcom-dialog').length > 0) {
         dialog = $('#midcom-dialog');
         iframe = dialog.find('> iframe');
-        spinner = dialog.find('> i').show();
+        spinner = dialog.find('> .spinner').show();
         config.height = dialog.dialog('option', 'height');
         config.width = dialog.dialog('option', 'width');
         if (   config.width > window.innerWidth
@@ -234,7 +238,7 @@ function create_dialog(control, title, url) {
             config.position = { my: "center", at: "center", of: window, collision: 'flipfit' };
         }
     } else {
-        spinner = $('<i class="fa fa-pulse fa-spinner"></i>');
+        spinner = $('<span class="spinner">' + get_spinner_template() + '</span>');
         iframe = $('<iframe name="datamanager-dialog"'
                    + ' frameborder="0"'
                    + ' width="100%"'
