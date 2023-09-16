@@ -418,7 +418,7 @@ class form extends base
         $string = '';
         foreach ($data['choices'] as $index => $choice) {
             if (is_array($choice) || $choice instanceof ChoiceGroupView) {
-                $string .= '<optgroup ' . $this->attributes(['label' => $index]) . '>';
+                $string .= '<optgroup ' . $this->attributes(['label' => $this->renderer->humanize($index)]) . '>';
                 $string .= $this->renderer->block($view, 'choice_widget_options', ['choices' => $choice]);
                 $string .= '</optgroup>';
             } else {
