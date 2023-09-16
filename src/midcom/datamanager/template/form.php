@@ -353,7 +353,7 @@ class form extends base
                 && "0" !== $data['value']) {
                 $string .= ' selected="selected"';
             }
-            $string .= '>' . $data['placeholder'] . '</option>';
+            $string .= '>' . $this->renderer->humanize($data['placeholder']) . '</option>';
         }
         $available_values = [];
         if (count($data['preferred_choices']) > 0) {
