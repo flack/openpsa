@@ -268,8 +268,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
             ->set_defaults($data['preview'])
             ->set_storage(new $this->object->__midcom_class_name__);
 
-        $this->_view_toolbar->hide_item($this->url_prefix . "preview/{$this->object->guid}/{$revision}/");
-
         $view_title = sprintf($this->_l10n->get('viewing version %s from %s'), $metadata['version'], $this->_l10n->get_formatter()->datetime($metadata['date']));
         // Load the toolbars
         $this->rcs_toolbar($metadata);
