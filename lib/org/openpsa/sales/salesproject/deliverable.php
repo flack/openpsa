@@ -148,7 +148,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     }
 
     /**
-     * Recalculate the deliverable's unit trackers based on data form a (recently updated) task
+     * Recalculate the deliverable's unit trackers based on data from (recently updated) tasks
      */
     public function update_units()
     {
@@ -162,13 +162,13 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         // List hours from tasks of the agreement
         $mc = org_openpsa_projects_task_dba::new_collector('agreement', $this->id);
-        $other_tasks = $mc->get_rows(['reportedHours', 'invoicedHours', 'invoiceableHours']);
+        $tasks = $mc->get_rows(['reportedHours', 'invoicedHours', 'invoiceableHours']);
 
-        foreach ($other_tasks as $other_task) {
-            // Add the hours of the other tasks to agreement's totals
-            $hours['reported'] += $other_task['reportedHours'];
-            $hours['invoiced'] += $other_task['invoicedHours'];
-            $hours['invoiceable'] += $other_task['invoiceableHours'];
+        foreach ($tasks as $task) {
+            // Add the hours of the tasks to agreement's totals
+            $hours['reported'] += $task['reportedHours'];
+            $hours['invoiced'] += $task['invoicedHours'];
+            $hours['invoiceable'] += $task['invoiceableHours'];
         }
 
         // Update units on the agreement with invoiceable hours
