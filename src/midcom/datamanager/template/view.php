@@ -273,18 +273,19 @@ class view extends base
         } else {
             $selection = (string) $data['data'];
         }
+        $selected = [];
         foreach ($data['choices'] as $choice) {
             if ($choice instanceof ChoiceGroupView) {
                 foreach ($choice->choices as $option) {
                     if ($data['is_selected']($option->value, $selection)) {
-                        return $this->renderer->humanize($option->label);
+                        $selected[] = $this->renderer->humanize($option->label);
                     }
                 }
             } elseif ($data['is_selected']($choice->value, $selection)) {
-                return $this->renderer->humanize($choice->label);
+                $selected[] = $this->renderer->humanize($choice->label);
             }
         }
-        return '';
+        return implode(', ', $selected);
     }
 
     public function checkbox_widget(FormView $view, array $data)
