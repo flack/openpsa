@@ -250,11 +250,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         return new JsonResponse([
             'success' => $success,
-            'action' => $this->render_actions($deliverable),
             'new_status' => $deliverable->get_state(),
             'old_status' => $old_state,
             'messages' => $messages,
-            'updated' => []
+            'updated' => [
+                ['workflow', $this->render_actions($deliverable)],
+            ]
         ]);
     }
 
