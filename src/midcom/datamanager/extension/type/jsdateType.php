@@ -72,7 +72,10 @@ class jsdateType extends AbstractType
     {
         $builder->addModelTransformer(new jsdateTransformer($options));
 
-        $input_options = ['attr' => ['size' => 10]];
+        $input_options = ['attr' => [
+            'size' => 10,
+            'autocomplete' => 'off'
+        ]];
         $date_options = ['widget' => 'single_text'];
         if ($options['required']) {
             $input_options['attr']['required'] = true;
