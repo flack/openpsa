@@ -123,8 +123,7 @@ class datamanager
         }
         if ($template) {
             if (is_string($template)) {
-                $config = \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
-                $templates = $config->get_array('templates');
+                $templates = $this->get_schema()->get('templates');
                 if (!array_key_exists($template, $templates)) {
                     throw new \midcom_error('Template ' . $template . ' not found in config');
                 }

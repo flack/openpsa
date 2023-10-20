@@ -47,6 +47,8 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         if (empty($this->schema['l10n_db'])) {
             $this->schema['l10n_db'] = 'midgard.admin.asgard';
         }
+        $this->schema['templates']['view'] = \midcom\datamanager\template\view::class;
+        $this->schema['templates']['form'] = \midcom\datamanager\template\form::class;
     }
 
     protected function add_string_field(string $key, string $type)

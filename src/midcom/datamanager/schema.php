@@ -32,7 +32,9 @@ class schema
 
     public function __construct(array $config)
     {
-        $this->config = array_merge($this->defaults, $config);
+        $this->config = array_merge($this->defaults, [
+            'templates' => \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config')->get_array('templates')
+        ], $config);
         $this->complete_fields();
     }
 
