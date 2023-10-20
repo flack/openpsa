@@ -115,7 +115,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
             $task = new org_openpsa_projects_task_dba($this->task);
             $time_slot = (float)$task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
             if (empty($time_slot)) {
-                $time_slot = (float) midcom_baseclasses_components_configuration::get('org.openpsa.projects', 'config')->get('default_minimum_time_slot');
+                $time_slot = (float) midcom_baseclasses_components_configuration::get('org.openpsa.expenses', 'config')->get('default_minimum_time_slot');
                 if (empty($time_slot)) {
                     $time_slot = 1;
                 }
