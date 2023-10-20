@@ -6,6 +6,12 @@
             'callback' => [new midgard_admin_user_validator, 'is_username_available'],
         ],
     ],
+    'templates' => [
+        'view' => '\midcom\datamanager\template\view',
+        'form' => '\midcom\datamanager\template\form',
+        'plaintext' => '\midcom\datamanager\template\plaintext',
+        'csv' => '\midcom\datamanager\template\csv',
+    ],
     'fields' => [
         'usertype' => [
             'title' => 'user type',

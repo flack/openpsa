@@ -2,6 +2,12 @@
 'default' => [
     'description' => 'group',
     'l10n_db' => 'midgard.admin.user',
+    'templates' => [
+        'view' => '\midcom\datamanager\template\view',
+        'form' => '\midcom\datamanager\template\form',
+        'plaintext' => '\midcom\datamanager\template\plaintext',
+        'csv' => '\midcom\datamanager\template\csv',
+    ],
     'fields'      => [
         'name' => [
             // COMPONENT-REQUIRED
