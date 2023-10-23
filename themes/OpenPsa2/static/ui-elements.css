@@ -1078,3 +1078,7 @@ ul.fancytree-container span.fancytree-folder a
 .midcom-workflow-dialog .ui-dialog-content {
     padding: 0;
 }
+
+.midcom-delete-dialog {
+    padding: 0 1em !important;
+}
