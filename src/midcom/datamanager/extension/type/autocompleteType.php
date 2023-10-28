@@ -108,7 +108,8 @@ class autocompleteType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $preset = [];
-        if (!empty($view->children['selection']->vars['data'])) {
+        if (   !empty($view->children['selection']->vars['data'])
+            && !empty($options['widget_config']['class'])) {
             foreach (array_filter((array) $view->children['selection']->vars['data']) as $identifier) {
                 if ($options['widget_config']['id_field'] == 'id') {
                     $identifier = (int) $identifier;
