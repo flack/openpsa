@@ -53,8 +53,12 @@ class multipleTransformer implements DataTransformerInterface
                 if (!is_string($input) || substr($input, 1, -1) == '') {
                     return [];
                 }
-
-                return explode($this->multiple_separator, substr($input, 1, -1));
+                $results = explode($this->multiple_separator, substr($input, 1, -1));
+                if (   !empty($this->config['widget_config']['id_field'])
+                    && $this->config['widget_config']['id_field'] == 'id') {
+                    $results = array_map('intval', $results);
+                }
+                return $results;
 
             default:
                 throw new midcom_error("The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
