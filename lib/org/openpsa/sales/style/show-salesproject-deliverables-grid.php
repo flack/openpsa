@@ -85,9 +85,8 @@ midcom_grid_row_actions.init({
 
 <?php if ($data['state'] == 'proposed') { ?>
 <script>
-
-    jQuery("#<?= $grid_id ?>")
-        .on("keyup", '[aria-describedby="<?= $grid_id ?>_pricePerUnit"] input, [aria-describedby="<?= $grid_id ?>_units"] input', function() {
+    $("#<?= $grid_id ?>")
+        .on("keyup", '.sum input', function() {
             var rowid = $(this).closest('tr').attr('id'),
                 grid = jQuery("#<?= $grid_id ?>"),
                 price = grid.jqGrid('getCell', rowid, 3),
