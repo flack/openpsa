@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * MidCOM URL methods.
@@ -119,6 +120,14 @@ class midcom_core_urlmethods
             return $this->redirect($request, $url);
         }
         return new midcom_response_login;
+    }
+
+    public function process_unlock(string $guid) : Response
+    {
+        $object = midcom::get()->dbfactory->get_object_by_guid($guid);
+        return new JsonResponse([
+            'success' => $object->unlock()
+        ]);
     }
 
     private function redirect(Request $request, string $redirect_to) : Response

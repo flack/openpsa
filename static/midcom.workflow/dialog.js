@@ -150,6 +150,19 @@ function attach_to_parent_dialog(dialog) {
 
 window.addEventListener('DOMContentLoaded', function() {
     if (dialog) {
+        
+        if (window.hasOwnProperty('DM_OBJECT_GUID') && DM_OBJECT_GUID) {
+            let unlocker = function() {
+                window.parent.$.get(MIDCOM_PAGE_PREFIX + 'midcom-unlock-' + DM_OBJECT_GUID);
+                dialog.off('dialogclose', unlocker);
+            };
+            window.addEventListener("unload", function () {
+                dialog.off('dialogclose', unlocker);
+            });
+            dialog.on('dialogclose', unlocker);
+        }
+
+        
         dialog.find(' > .spinner').hide();
         if (window.hasOwnProperty('$')) {
             $('body').on('submit', '.midcom-dialog-delete-form', function(e) {

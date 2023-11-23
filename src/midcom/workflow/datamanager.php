@@ -14,6 +14,7 @@ use midcom;
 use midcom\datamanager\controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use midcom\datamanager\storage\container\dbacontainer;
 
 /**
  * @package midcom.workflow
@@ -80,6 +81,10 @@ class datamanager extends dialog
                 midcom::get()->style->show($style);
             };
         } else {
+            $storage = $this->controller->get_datamanager()->get_storage();
+            if ($storage instanceof dbacontainer) {
+                midcom::get()->head->add_jscript('var DM_OBJECT_GUID = "' . $storage->get_value()->guid . '";');
+            }
             $callback = [$this->controller, 'display_form'];
         }
         $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, $callback);

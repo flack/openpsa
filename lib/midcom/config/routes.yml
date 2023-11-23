@@ -10,6 +10,10 @@ resolve_permalink:
     path: /midcom-permalink-{guid}
     defaults: { _controller: 'midcom_core_urlmethods::process_permalink' }
 
+unlock:
+    path: /midcom-unlock-{guid}
+    defaults: { _controller: 'midcom_core_urlmethods::process_unlock' }
+
 cache:
     path: /midcom-cache-invalidate
     defaults: { _controller: 'midcom_core_urlmethods::invalidate_cache' }
