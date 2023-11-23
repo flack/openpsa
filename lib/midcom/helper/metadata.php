@@ -454,7 +454,8 @@ class midcom_helper_metadata
      */
     public function can_unlock() : bool
     {
-        return (   $this->__object->can_do('midcom:unlock')
+        return (  (midcom::get()->auth->user && midcom::get()->auth->user->guid == $this->__object->metadata->locker)
+                || $this->__object->can_do('midcom:unlock')
                 || midcom::get()->auth->can_user_do('midcom:unlock', null, midcom_services_auth::class));
     }
 
