@@ -1,6 +1,9 @@
 'default' => [
     'description' => 'user preferences',
     'l10n_db' => 'midgard.admin.asgard',
+    'templates' => [
+        'form' => \midcom\datamanager\template\form::class
+    ],
     'fields' => [
         'tinymce_enabled' => [
             'title' => 'use tinymce editor for editing content',

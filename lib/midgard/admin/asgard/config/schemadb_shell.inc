@@ -4,6 +4,9 @@
     'operations' => [
         'save' => 'run'
     ],
+    'templates' => [
+        'form' => \midcom\datamanager\template\form::class
+    ],
     'fields'      => [
         'code' => [
             'title'       => 'code',
