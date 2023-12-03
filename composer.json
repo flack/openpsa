@@ -35,7 +35,7 @@
         "sabre/vobject" : "^4.3.0",
         "simplepie/simplepie": "^1.7.0",
         "studio-42/elfinder": ">=2.1.59",
-        "symfony/config": ">=5.4",
+        "symfony/config": ">=5.4 <7.0",
         "symfony/console" : ">=5.4",
         "symfony/cache": ">=5.4",
         "symfony/css-selector": ">=5.4",
