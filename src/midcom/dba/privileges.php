@@ -175,9 +175,7 @@ trait privileges
             throw new midcom_error('Could not create a new privilege, permission denied.');
         }
 
-        if ($assignee === null) {
-            $assignee = midcom::get()->auth->user ?: 'EVERYONE';
-        }
+        $assignee ??= midcom::get()->auth->user ?: 'EVERYONE';
 
         $privilege = new midcom_core_privilege();
         if (!$privilege->set_assignee($assignee)) {

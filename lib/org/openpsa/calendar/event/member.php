@@ -64,9 +64,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             return false;
         }
 
-        if (null === $event) {
-            $event = new org_openpsa_calendar_event_dba($this->eid);
-        }
+        $event ??= new org_openpsa_calendar_event_dba($this->eid);
 
         if (    $recipient->id == midcom_connection::get_user()
              && !$event->send_notify_me) {

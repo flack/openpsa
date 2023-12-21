@@ -202,9 +202,7 @@ class midcom_helper_reflector extends midgard_reflection_property
      */
     private static function get_icon(string $object_class, string $object_baseclass, string $mode) : string
     {
-        if (null === self::$_cache[$mode . '_map']) {
-            self::$_cache[$mode . '_map'] = self::_get_icon_map($mode . '_magic', $mode === 'create_type' ? 'file-o' : 'file');
-        }
+        self::$_cache[$mode . '_map'] ??= self::_get_icon_map($mode . '_magic', $mode === 'create_type' ? 'file-o' : 'file');
         $map = self::$_cache[$mode . '_map'];
 
         switch (true) {

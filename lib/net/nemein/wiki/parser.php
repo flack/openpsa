@@ -233,9 +233,7 @@ class net_nemein_wiki_parser
 
     public function render_link(string $wikilink, string $text = null) : string
     {
-        if (null === $text) {
-            $text = $wikilink;
-        }
+        $text ??= $wikilink;
         // Don't choke on links with anchors
         $parts = explode('#', $wikilink, 2);
         $page_anchor = null;
@@ -247,10 +245,7 @@ class net_nemein_wiki_parser
         $wikipage_match = $resolver->path_to_wikipage($wikilink);
         if ($wikipage_match['wikipage'] === null) {
             // No page matched, link to creation
-            $folder = $wikipage_match['folder'];
-            if ($wikipage_match['folder'] === null) {
-                $folder = $wikipage_match['latest_parent'];
-            }
+            $folder = $wikipage_match['folder'] ?? $wikipage_match['latest_parent'];
 
             if (   isset($folder[MIDCOM_NAV_OBJECT])
                 && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create')) {

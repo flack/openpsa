@@ -79,16 +79,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     private function _load_file(string $help_id, string $component) : ?string
     {
         // Try loading the file
-        $file = self::generate_file_path($help_id, $component);
-        if (!$file) {
-            return null;
+        if ($file = self::generate_file_path($help_id, $component)) {
+            // Load the contents
+            $help_contents = file_get_contents($file);
+
+            // Replace static URLs (URLs for screenshots etc)
+            return str_replace('MIDCOM_STATIC_URL', MIDCOM_STATIC_URL, $help_contents);
         }
-
-        // Load the contents
-        $help_contents = file_get_contents($file);
-
-        // Replace static URLs (URLs for screenshots etc)
-        return str_replace('MIDCOM_STATIC_URL', MIDCOM_STATIC_URL, $help_contents);
+        return null;
     }
 
     /**
@@ -96,11 +94,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function get_help_contents(string $help_id, string $component) : ?string
     {
-        $text = $this->_load_file($help_id, $component);
-        if (!$text) {
-            return null;
+        if ($text = $this->_load_file($help_id, $component)) {
+            return MarkdownExtra::defaultTransform($text);
         }
-        return MarkdownExtra::defaultTransform($text);
+        return null;
     }
 
     public function list_files(string $component, bool $with_index = false) : array

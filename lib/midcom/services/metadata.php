@@ -305,9 +305,7 @@ class midcom_services_metadata
      */
     public function get_request_metadata(midcom_core_context $context = null) : array
     {
-        if ($context === null) {
-            $context = midcom_core_context::get();
-        }
+        $context ??= midcom_core_context::get();
         return [
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),

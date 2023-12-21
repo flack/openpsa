@@ -64,9 +64,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
     public function show_tree(midcom_db_topic $folder = null, bool $tree_disabled = false)
     {
-        if (null === $folder) {
-            $folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-        }
+        $folder ??= midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
 
         if (   $this->_object instanceof midcom_db_topic
             && $folder->up == $this->_object->id) {

@@ -159,10 +159,7 @@ class provider
 
     public function count_rows() : int
     {
-        if ($this->_total_rows === null) {
-            $qb = $this->_prepare_query();
-            $this->_total_rows = $qb->count();
-        }
+        $this->_total_rows ??= $this->_prepare_query()->count();
         return $this->_total_rows;
     }
 
@@ -258,9 +255,7 @@ class provider
 
     private function _prepare_query() : midcom_core_query
     {
-        if ($this->_query === null) {
-            $this->_query = $this->get_query();
-        }
+        $this->_query ??= $this->get_query();
         return $this->_query;
     }
 

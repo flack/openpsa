@@ -23,9 +23,7 @@ class textareaExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $map_attr = function (Options $options, $value) {
-            if ($value === null) {
-                $value = [];
-            }
+            $value ??= [];
             $value['rows'] = $options['widget_config']['height'];
             $value['cols'] = $options['widget_config']['width'];
 

@@ -100,7 +100,7 @@ class org_openpsa_directmarketing_sender
         $batch = $this->_chunk_num + 1;
         if ($results === null) {
             $status = true; //All should be ok
-        } elseif ($status = $this->process_results($results, $content)) {
+        } elseif ($this->process_results($results, $content)) {
             //register next batch
             return $this->register_send_job($batch + 1, $url_base);
         }
