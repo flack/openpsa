@@ -296,8 +296,7 @@ class midcom_core_user
         $mc->set_key_property('gid');
         $mc->set_limit(1);
         $mc->execute();
-        $result = $mc->list_keys();
-        if (!empty($result)) {
+        if ($result = $mc->list_keys()) {
             if ($group = midcom::get()->auth->get_group(key($result))) {
                 return $group->get_storage()->guid;
             }

@@ -11,6 +11,5 @@ if ($data['config']->get('enable_folder_code_execution')) {
     ?>
     &(node.code:p);
     <?php
-
 }
 ?>

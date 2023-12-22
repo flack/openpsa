@@ -160,9 +160,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         if ($count == 0) {
             midcom::get()->cache->content->uncached();
-        }
-
-        if ($count > 0) {
+        } else {
             $results_per_page = $this->_config->get('results_per_page');
             $max_pages = ceil($count / $results_per_page);
             $page = min($page, $max_pages);

@@ -29,10 +29,7 @@ class midcom_response_relocate extends RedirectResponse
     {
         if (   !str_starts_with($url, "/")
             && !preg_match('|^https?://|', $url)) {
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            if ($prefix == '') {
-                $prefix = '/';
-            }
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) ?: '/';
             $url = $prefix . $url;
             debug_add("This is a relative URL from the local site, prepending anchor prefix: {$url}");
         }

@@ -62,7 +62,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         if ($this->_open_handle !== null) {
-            debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
+            debug_add("Warning, the attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
             $this->close();
         }
 

@@ -150,8 +150,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $qb = new midgard_query_builder($this->type);
             $qb->include_deleted();
             $qb->add_constraint('metadata.deleted', '=', true);
-            $deleted = $qb->count();
-            if ($deleted > 0) {
+            if ($deleted = $qb->count()) {
                 $buttons[] = [
                     MIDCOM_TOOLBAR_URL => $this->router->generate('trash_type', ['type' => $this->type]),
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('%s deleted items'), $deleted),

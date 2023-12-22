@@ -24,7 +24,7 @@ class midcom_core_nullcomponent_handler_index extends midcom_baseclasses_compone
         midcom::get()->metadata->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
         $data['node'] = $this->_topic;
 
-        if ($this->_topic->id == midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id
+        if (   $this->_topic->id == midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id
             && !midcom::get()->config->get('midcom_root_component')) {
             // if we have an ad hoc root topic, give user some options to do the initial setup
             return new midcom_response_relocate($this->router->generate('wizard'));
