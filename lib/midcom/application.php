@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use midcom\bundle\midcomBundle;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Main controlling instance of the MidCOM Framework
@@ -315,7 +316,7 @@ class midcom_application extends Kernel
      * midcom_finish and exit, so it will never return. If the headers have already
      * been sent, this will leave you with a partially completed page, so beware.
      */
-    public function relocate(string $url, int $response_code = 302)
+    public function relocate(string $url, int $response_code = Response::HTTP_FOUND)
     {
         $response = new midcom_response_relocate($url, $response_code);
         $response->send();

@@ -8,6 +8,7 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Wikipage view handler
@@ -116,7 +117,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $result = $qb->execute();
             if (!empty($result)) {
                 // This wiki page actually exists, so go there as "Permanent Redirect"
-                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]), 301);
+                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]), Response::HTTP_MOVED_PERMANENTLY);
             }
         }
         if ($autocreate) {

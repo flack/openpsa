@@ -24,7 +24,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $result = $qb->execute();
         if (!empty($result)) {
             // This wiki page actually exists, so go there as "Permanent Redirect"
-            return new midcom_response_relocate("{$result[0]->name}/", 301);
+            return new midcom_response_relocate("{$result[0]->name}/", Response::HTTP_MOVED_PERMANENTLY);
         }
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('"%s" not found'), $wikiword));

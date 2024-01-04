@@ -77,7 +77,7 @@ class midcom_core_urlmethods
         }
 
         // We use "302 Found" here so that search engines and others will keep using the PermaLink instead of the temporary
-        return new midcom_response_relocate($destination, 302);
+        return new midcom_response_relocate($destination, Response::HTTP_FOUND);
     }
 
     /**
