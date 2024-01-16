@@ -78,10 +78,10 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
     {
         $data = $controller->get_form_values();
 
-        if (trim($data['username']) !== '') {
+        if (trim((string) $data['username']) !== '') {
             $this->account->set_username($data['username']);
         }
-        if (trim($data['password']) !== '') {
+        if (trim((string) $data['password']) !== '') {
             $this->account->set_password($data['password']);
         }
         $this->account->set_usertype($data['usertype']);
