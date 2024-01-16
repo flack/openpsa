@@ -58,7 +58,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     private function _parse_query(ParameterBag $query)
     {
         $this->_query_mode = $query->getAlnum('query_mode', $this->_query_mode);
-        $this->_query_string = trim($query->getAlnum('query'));
+        $this->_query_string = trim($query->get('query', ''));
         if (!$this->_query_string) {
             return;
         }
