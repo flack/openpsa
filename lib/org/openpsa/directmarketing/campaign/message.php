@@ -39,10 +39,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     public function _on_loaded()
     {
-        $this->title = trim($this->title);
-        if (empty($this->title)) {
-            $this->title = 'untitled';
-        }
+        $this->title = trim($this->title) ?: 'untitled';
     }
 
     public function get_css_class() : string
