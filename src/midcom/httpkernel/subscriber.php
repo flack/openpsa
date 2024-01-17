@@ -29,8 +29,6 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
  */
 class subscriber implements EventSubscriberInterface
 {
-    private bool $initialized = false;
-
     public static function getSubscribedEvents()
     {
         return [
@@ -52,12 +50,10 @@ class subscriber implements EventSubscriberInterface
             return $response;
         }
 
-        // This checks for the unittest case
-        if (!$request->attributes->has('context')) {
-            // Initialize Context Storage
-            $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
-            $request->attributes->set('context', $context);
-        }
+        // Initialize Context Storage
+        $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
+        $request->attributes->set('context', $context);
+
         // Initialize the UI message stack from session
         $midcom->uimessages->initialize($request);
 
@@ -68,16 +64,13 @@ class subscriber implements EventSubscriberInterface
     public function on_request(RequestEvent $event)
     {
         $request = $event->getRequest();
-        if (!$this->initialized) {
-            $this->initialized = true;
-            if ($response = $this->initialize($request)) {
-                $event->setResponse($response);
-                return;
-            }
+        if (   $event->isMainRequest()
+            && $response = $this->initialize($request)) {
+            $event->setResponse($response);
+            return;
         }
 
         $resolver = new resolver($request);
-
         if ($resolver->process_midcom()) {
             return;
         }
