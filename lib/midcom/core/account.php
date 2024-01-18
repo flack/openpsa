@@ -194,9 +194,7 @@ class midcom_core_account
 
         if (   !empty($this->_old_username)
             && $this->_old_username !== $new_username) {
-            if (!$history = @unserialize($this->_person->get_parameter('midcom', 'username_history'))) {
-                $history = [];
-            }
+            $history = @unserialize($this->_person->get_parameter('midcom', 'username_history')) ?: [];
             $history[time()] = ['old' => $this->_old_username, 'new' => $new_username];
             $this->_person->set_parameter('midcom', 'username_history', serialize($history));
         }

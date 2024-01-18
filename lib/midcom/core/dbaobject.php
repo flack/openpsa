@@ -299,17 +299,11 @@ abstract class midcom_core_dbaobject
     }
     public function lock() : bool
     {
-        if ($this->__object->is_locked()) {
-            return true;
-        }
-        return $this->__object->lock();
+        return $this->__object->is_locked() || $this->__object->lock();
     }
     public function unlock() : bool
     {
-        if (!$this->__object->is_locked()) {
-            return true;
-        }
-        return $this->__object->unlock();
+        return !$this->__object->is_locked() || $this->__object->unlock();
     }
     public function is_approved() : bool
     {
