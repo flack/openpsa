@@ -2,8 +2,9 @@
 $time = $data['week_start'];
 $date_columns = [];
 
-$data['grid']->set_column('task', $data['l10n']->get('task'), '', 'string')
-->set_column('person', $data['l10n']->get('person'), '', 'string');
+$data['grid']
+    ->set_column('task', $data['l10n']->get('task'), '', 'string')
+    ->set_column('person', $data['l10n']->get('person'), '', 'string');
 
 $formatter = $data['l10n']->get_formatter();
 while ($time < $data['week_end']) {
@@ -47,9 +48,10 @@ function calculate_subtotal(val, name, record)
 midcom_grid_helper.bind_grouping_switch('&(grid_id);');
 
 var grid = $("#&(grid_id);"),
-date_columns = <?php echo json_encode($date_columns); ?>,
-totals = {},
-day_total;
+    date_columns = <?php echo json_encode($date_columns); ?>,
+    totals = {},
+    day_total;
+
 date_columns.forEach(function(name) {
     day_total = 0;
     grid.jqGrid('getCol', 'index_' + name).forEach(function(value) {
@@ -58,4 +60,9 @@ date_columns.forEach(function(name) {
     totals[name] = Math.round(day_total * 100) / 100;
 });
 grid.jqGrid('footerData', 'set', totals);
+
+$('body')
+   .on('dialogsaved, dialogdeleted', '#midcom-dialog', function() {
+       location.href = location.href;
+   });
 </script>
