@@ -1,10 +1,13 @@
 <?php
 use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
+use Symfony\Component\HttpFoundation\Request;
 
-if (empty($_GET['identifier'])) {
+$identifier = Request::createFromGlobals()->query->getAlnum('identifier');
+
+if (empty($identifier)) {
     throw new midcom_error_notfound('Identifier missing');
 }
-$path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . $_GET['identifier'];
+$path = midcom::get()->config->get('midcom_tempdir') . '/tmpfile-' . $identifier;
 
 if (!is_readable($path)) {
     throw new midcom_error_notfound('File not found');

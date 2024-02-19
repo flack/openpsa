@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Reindex script for single node.
  *
@@ -18,13 +20,15 @@ if (!$indexer->enabled()) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
-if (empty($_GET['nodeid'])) {
+$query = Request::createFromGlobals()->query;
+$nodeid = $query->getInt('nodeid');
+if (!$nodeid) {
     throw new midcom_error("\$_GET['nodeid'] must be set to valid node ID");
 }
 
 //check if language is passed & set language if needed
-if (isset($_GET['language'])) {
-    midcom::get()->i18n->set_language($_GET['language']);
+if ($language = $query->getInt('language')) {
+    midcom::get()->i18n->set_language($language);
 }
 
 debug_add('Disabling script abort through client.');
@@ -34,10 +38,9 @@ midcom::get()->disable_limits();
 $loader = midcom::get()->componentloader;
 
 $nap = new midcom_helper_nav();
-$nodeid = (int) $_GET['nodeid'];
 $node = $nap->get_node($nodeid);
 if (!$node) {
-    throw new midcom_error("Could not get node {$_GET['nodeid']}");
+    throw new midcom_error("Could not get node {$nodeid}");
 }
 
 echo "<pre>\n";
