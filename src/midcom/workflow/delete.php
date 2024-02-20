@@ -72,9 +72,6 @@ class delete extends dialog
     public function configure(OptionsResolver $resolver)
     {
         $this->l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
-        if (!empty($_POST[$this->form_identifier])) {
-            $this->state = static::CONFIRMED;
-        }
 
         $resolver
             ->setDefaults([
@@ -117,11 +114,17 @@ class delete extends dialog
         ];
     }
 
+    public function is_confirmed(Request $request) : bool
+    {
+        return (bool) $request->request->get($this->form_identifier);
+    }
+
     public function run(Request $request) : Response
     {
         $this->object->require_do('midgard:delete');
         $url = $request->request->get('referrer', $this->success_url);
-        if ($this->get_state() === static::CONFIRMED) {
+
+        if ($this->is_confirmed($request)) {
             $method = $this->recursive ? 'delete_tree' : 'delete';
             $message = ['title' => $this->l10n_midcom->get('midcom'), 'type' => 'info'];
             if ($this->object->{$method}()) {

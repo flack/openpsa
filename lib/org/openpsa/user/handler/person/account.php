@@ -152,7 +152,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         return (bool) $this->account->get_username();
     }
 
-    public function _handler_delete(string $guid)
+    public function _handler_delete(Request $request, string $guid)
     {
         if (!$this->load_person($guid)) {
             // Account needs to be created first, relocate
@@ -160,7 +160,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         }
 
         $workflow = new delete(['object' => $this->person]);
-        if ($workflow->get_state() == delete::CONFIRMED) {
+        if ($workflow->is_confirmed($request)) {
             if (!$this->account->delete()) {
                 throw new midcom_error("Failed to delete account for {$this->person->guid}, last Midgard error was: " . midcom_connection::get_error_string());
             }
