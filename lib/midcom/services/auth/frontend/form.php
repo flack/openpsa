@@ -22,6 +22,8 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      */
     private bool $auth_credentials_found = false;
 
+    private array $form_data = [];
+
     public function has_login_data() : bool
     {
         return $this->auth_credentials_found;
@@ -37,6 +39,13 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      */
     public function read_login_data(Request $request) : ?array
     {
+        // Store the submitted form if the session expired, but user wants to save the data
+        foreach ($request->request->all() as $key => $value) {
+            if (!preg_match('/(username|password|frontend_form_submit)/', $key)) {
+                $this->form_data[$key] = base64_encode(json_encode($value));
+            }
+        }
+
         if (   !$request->request->has('midcom_services_auth_frontend_form_submit')
             || !$request->request->has('username')
             || !$request->request->has('password')) {
@@ -71,19 +80,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      */
     public function show_login_form()
     {
-        // Store the submitted form if the session expired, but user wants to save the data
-        if (!empty($_POST)) {
-            $restored_form_data = [];
-
-            foreach ($_POST as $key => $value) {
-                if (preg_match('/(username|password|frontend_form_submit)/', $key)) {
-                    continue;
-                }
-
-                $restored_form_data[$key] = base64_encode(json_encode($value));
-            }
-            midcom::get()->style->data['restored_form_data'] = $restored_form_data;
-        }
+        midcom::get()->style->data['restored_form_data'] = $this->form_data;
 
         echo "<div id='midcom_login_form'>\n";
         midcom::get()->style->show_midcom('midcom_services_auth_frontend_form');
