@@ -86,10 +86,6 @@ Vorherige Version
 Bewertung: %d%%
 ---STRINGEND
 
----STRING search
-Suchen
----STRINGEND
-
 ---STRING text/plain
 Einfacher Text
 ---STRINGEND

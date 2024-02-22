@@ -42,10 +42,6 @@ Régebbi verzió
 Dokumentumkezelés
 ---STRINGEND
 
----STRING search
-Keresés
----STRINGEND
-
 ---STRING text/plain
 Szöveg
 ---STRINGEND

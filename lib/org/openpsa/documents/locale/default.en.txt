@@ -90,10 +90,6 @@ Review
 Score: %d%%
 ---STRINGEND
 
----STRING search
-Search
----STRINGEND
-
 ---STRING text/plain
 Plain text
 ---STRINGEND

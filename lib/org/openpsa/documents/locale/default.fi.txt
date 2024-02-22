@@ -74,10 +74,6 @@ Dokumenttien hallinta
 Esikatselu
 ---STRINGEND
 
----STRING search
-Hae
----STRINGEND
-
 ---STRING text/plain
 Teksti
 ---STRINGEND
