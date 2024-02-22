@@ -1,8 +1,11 @@
 <?php
-midcom::get()->auth->require_admin_user();
+use Symfony\Component\HttpFoundation\Request;
 
-if (   empty($_POST['to'])
-    || empty($_POST['from'])) {
+midcom::get()->auth->require_admin_user();
+$post = Request::createFromGlobals()->request;
+
+if (   !$post->get('to')
+    || !$post->get('from')) {
     ?>
     <h2>Send test email</h2>
     <form method="post">
@@ -40,11 +43,11 @@ if (   empty($_POST['to'])
 <?php
 
 } else {
-    $mail = new org_openpsa_mail($_POST['backend']);
-    $mail->to = $_POST['to'];
-    $mail->from = $_POST['from'];
-    $mail->subject = $_POST['subject'];
-    $mail->html_body = $_POST['html_body'];
+    $mail = new org_openpsa_mail($post->get('backend'));
+    $mail->to = $post->get('to');
+    $mail->from = $post->get('from');
+    $mail->subject = $post->get('subject');
+    $mail->html_body = $post->get('html_body');
     $mail->embed_images();
     $ret = $mail->send();
     echo "<p>mail->send returned {$ret}<br>\n";
