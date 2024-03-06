@@ -1,4 +1,4 @@
-<?php if (array_key_exists('base_ajax_comments_url', $data)): ?>
+<?php if (array_key_exists('base_ajax_comments_url', $data)) { ?>
 <script type="text/javascript" charset="utf-8">
 var base_ajax_comments_url = MIDCOM_PAGE_PREFIX + '<?php echo $data['base_ajax_comments_url']; ?>';
 function showAjaxComments(element, guid)
@@ -11,7 +11,7 @@ function showAjaxComments(element, guid)
     }
 }
 </script>
-<?php endif; ?>
+<?php } ?>
 
 <h1><?php echo $data['page_title']; ?></h1>
 
