@@ -414,6 +414,10 @@ Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich er
 PDF erzeugen
 ---STRINGEND
 
+---STRING create_reminder
+Mahnung erzeugen
+---STRINGEND
+
 ---STRING pdf created
 PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND

@@ -30,7 +30,7 @@ class org_openpsa_invoices_invoice_pdf
         if (!$autocreate) {
             return null;
         }
-        return $this->render_and_attach();
+        return $this->render_and_attach('bill');
     }
 
     public function get_button_options() : array
@@ -63,9 +63,14 @@ class org_openpsa_invoices_invoice_pdf
         ];
     }
 
-    public function render_and_attach() : midcom_db_attachment
+    public function render_and_attach($kind) : midcom_db_attachment
     {
-        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+        if($kind == 'bill') {
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class_bill');
+        }else {
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class_reminder');
+        }
+        
         if (!class_exists($client_class)) {
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }

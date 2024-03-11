@@ -123,12 +123,23 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     {
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
         try {
-            $pdf_helper->render_and_attach();
+            $pdf_helper->render_and_attach('bill');
             return $this->reply(true, $this->_l10n->get('pdf created'));
         } catch (midcom_error $e) {
             return $this->reply(false, $this->_l10n->get('pdf creation failed') . ': ' . $e->getMessage());
         }
     }
+
+    public function _handler_create_pdf_reminder()
+    {
+        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
+        try {
+            $pdf_helper->render_and_attach('reminder');
+            return $this->reply(true, $this->_l10n->get('pdf created'));
+        } catch (midcom_error $e) {
+            return $this->reply(false, $this->_l10n->get('pdf creation failed') . ': ' . $e->getMessage());
+        }
+    }    
 
     public function _handler_send_by_mail()
     {

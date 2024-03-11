@@ -46,6 +46,10 @@ Billing data
 Create invoice
 ---STRINGEND
 
+---STRING create_reminder
+Create reminder
+---STRINGEND
+
 ---STRING customer
 Customer
 ---STRINGEND
