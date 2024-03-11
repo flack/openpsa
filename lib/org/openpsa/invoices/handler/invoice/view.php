@@ -84,7 +84,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             $buttons[] = $this->build_button('mark_paid', 'check');
         }
 
-        if ($this->_config->get('invoice_pdfbuilder_class_bill')) {
+        if ($this->_config->get('invoice_pdfbuilder_class')) {
             $button = $this->build_button('create_pdf', 'file-pdf-o');
             $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
             $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
@@ -109,7 +109,6 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
 
         $this->_view_toolbar->add_items($buttons);
         $this->add_next_previous($this->invoice, 'invoice/');
-
     }
 
     private function build_button(string $action, string $icon) : array
