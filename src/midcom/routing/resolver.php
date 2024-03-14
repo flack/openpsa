@@ -127,7 +127,7 @@ class resolver
             throw new midcom_error_forbidden($e->getMessage(), Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
-        $result['args'] = array_values(array_filter($result, function($name) {
+        $result['args'] = array_values(array_filter($result, function(string $name) {
             return !str_starts_with($name, '_');
         }, ARRAY_FILTER_USE_KEY));
 

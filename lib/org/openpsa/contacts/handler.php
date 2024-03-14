@@ -27,7 +27,7 @@ trait org_openpsa_contacts_handler
         $prefix = $nap->get_node($this->_topic->id)[MIDCOM_NAV_ABSOLUTEURL];
 
         $tree = new org_openpsa_widgets_tree(org_openpsa_contacts_group_dba::class, 'owner');
-        $tree->link_callback = function ($guid) use ($prefix) {
+        $tree->link_callback = function (string $guid) use ($prefix) {
             return $prefix . 'group/' . $guid . '/';
         };
         $tree->constraints[] = ['orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::ORGANIZATION];

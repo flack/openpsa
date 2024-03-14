@@ -32,7 +32,7 @@ class engine extends AbstractRendererEngine
     /**
      * {@inheritdoc}
      */
-    protected function loadResourceForBlockName($cacheKey, FormView $view, $blockName)
+    protected function loadResourceForBlockName(string $cacheKey, FormView $view, string $blockName)
     {
         // Check each theme whether it contains the searched block
         if (isset($this->themes[$cacheKey])) {

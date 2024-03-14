@@ -88,7 +88,7 @@ class loader extends base
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, ?string $type = null)
     {
         if (is_string($resource)) {
             if (!$this->is_legacy($resource)) {

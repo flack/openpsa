@@ -62,7 +62,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
     {
         $entries = array_merge($this->get_status_entries(), $this->get_journal_entries());
 
-        usort($entries, function ($a, $b) {
+        usort($entries, function (array $a, array $b) {
             if ($a['timestamp'] == $b['timestamp']) {
                 return $b['order'] <=> $a['order'];
             }

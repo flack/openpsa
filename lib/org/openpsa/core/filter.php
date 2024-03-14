@@ -36,7 +36,7 @@ abstract class org_openpsa_core_filter
      */
     abstract public function render();
 
-    public function set_label($label)
+    public function set_label(string $label)
     {
         $this->_label = $label;
     }

@@ -60,7 +60,7 @@ class org_openpsa_contacts_duplicates_merge
         }
     }
 
-    private function process_dba_classes($obj1, $obj2, array $config)
+    private function process_dba_classes(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2, array $config)
     {
         foreach (array_filter($config) as $classname => $fieldconfig) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);

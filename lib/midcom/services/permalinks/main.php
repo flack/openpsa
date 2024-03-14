@@ -56,7 +56,7 @@ class midcom_services_permalinks
      * @param string $guid The GUID to resolve.
      * @return ?string The full HTTP relocation'able URL to the GUID.
      */
-    public function resolve_permalink($guid) : ?string
+    public function resolve_permalink(string $guid) : ?string
     {
         // resolves a guid into a fully qualified url, uses some heuristics for that, mainly replaces
         // the nap permalink resolver, with the difference that it will be based on the
@@ -183,11 +183,8 @@ class midcom_services_permalinks
     /**
      * Create Permalink URLs for attachments.
      * They always point to the live site (given correct system configuration).
-     *
-     * @param string $guid The GUID to link to.
-     * @param string $filename The attachment's filename
      */
-    public function create_attachment_link($guid, $filename) : string
+    public function create_attachment_link(string $guid, string $filename) : string
     {
         return midcom::get()->config->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }

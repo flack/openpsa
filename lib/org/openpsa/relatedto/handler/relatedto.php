@@ -172,7 +172,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Code to sort array by key 'sort_time', from smallest to greatest
      */
-    private function _sort_by_time($a, $b)
+    private function _sort_by_time(array $a, array $b)
     {
         $ap = $a['sort_time'];
         $bp = $b['sort_time'];

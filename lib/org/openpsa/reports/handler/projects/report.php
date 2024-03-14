@@ -88,7 +88,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
     }
 
-    private function _sort_by_key($a, $b) : int
+    private function _sort_by_key(array $a, array $b) : int
     {
         $ap = $a['sort'];
         $bp = $b['sort'];

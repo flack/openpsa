@@ -139,7 +139,7 @@ class blobs extends delayed
     protected function save_attachment_list() : bool
     {
         if (!empty($this->config['widget_config']['sortable'])) {
-            uasort($this->map, function ($a, $b) {
+            uasort($this->map, function (midcom_db_attachment $a, midcom_db_attachment $b) {
                 if ($a->metadata->score == $b->metadata->score) {
                     return strnatcasecmp($a->name, $b->name);
                 }

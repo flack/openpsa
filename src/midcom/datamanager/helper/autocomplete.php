@@ -196,7 +196,7 @@ class autocomplete
         return $items;
     }
 
-    public static function sort_items($a, $b) : int
+    public static function sort_items(array $a, array $b) : int
     {
         if (isset($a['category'])) {
             $cmp = strnatcasecmp($a['category'], $b['category']);

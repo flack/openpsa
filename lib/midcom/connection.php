@@ -153,7 +153,7 @@ class midcom_connection
         if (!isset(self::$_data['schema_types'])) {
             $classnames = connection::get_em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 
-            self::$_data['schema_types'] = array_filter($classnames, function($input) {
+            self::$_data['schema_types'] = array_filter($classnames, function(string $input) {
                 return is_subclass_of($input, mgdobject::class);
             });
         }
