@@ -34,11 +34,11 @@ abstract class org_openpsa_widgets_status
         echo '</div>';
     }
 
-    abstract public function get_button();
+    abstract public function get_button() : string;
 
-    abstract public function get_current_status();
+    abstract public function get_current_status() : string;
 
-    abstract public function get_status_class();
+    abstract public function get_status_class() : string;
 
-    abstract public function get_history();
+    abstract public function get_history() : array;
 }
