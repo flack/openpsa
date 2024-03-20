@@ -127,7 +127,7 @@ Invoice data
 ---STRINGEND
 
 ---STRING invoice has already been sent. should it be replaced?
-This invoice has already been sent. Should the file be regenerated anyways?
+This invoice has already been sent. Should the file be regenerated anyway?
 ---STRINGEND
 
 ---STRING invoice items
