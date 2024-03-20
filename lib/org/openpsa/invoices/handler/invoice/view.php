@@ -55,7 +55,6 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
 
         if ($this->_config->get('invoice_pdfbuilder_class')) {
             $schemadb->get('default')->get_field('pdf_file')['hidden'] = false;
-            $schemadb->get('default')->get_field('pdf_file_reminder')['hidden'] = false;
         }
 
         $dm = new datamanager($schemadb);
