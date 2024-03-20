@@ -48,7 +48,7 @@ class accounthelperTest extends openpsa_testcase
 
         // test with no password given
         $person = self::create_class_object(midcom_db_person::class, []);
-        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), "", "", false, false), $helper->errstr);
+        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), "", "", false), $helper->errstr);
 
         // this should work, so creating an account again should fail
         $this->assertFalse($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Alice"), ""));
@@ -58,7 +58,7 @@ class accounthelperTest extends openpsa_testcase
         $helper = new org_openpsa_user_accounthelper();
         $password = $helper->generate_safe_password();
 
-        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "bob@nowhere.cc", $password, false, false), $helper->errstr);
+        $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "bob@nowhere.cc", $password, false), $helper->errstr);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -324,7 +324,7 @@ class accounthelperTest extends openpsa_testcase
     }
 
     /**
-     * 
+     *
      */
     public function testWelcome_email()
     {
@@ -333,5 +333,5 @@ class accounthelperTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.user');
         $this->assertTrue($accounthelper->welcome_email());
         midcom::get()->auth->drop_sudo();
-    }    
+    }
 }

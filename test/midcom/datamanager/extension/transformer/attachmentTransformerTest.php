@@ -56,7 +56,7 @@ class attachmentTransformerTest extends openpsa_testcase
         $time = filemtime($att->get_path());
         $att->close();
 
-        midcom::get()->auth->drop_sudo('midcom.datamanager');
+        midcom::get()->auth->drop_sudo();
 
         return [
            [null, null],
