@@ -100,7 +100,7 @@ class org_openpsa_invoices_invoice_pdf
 
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);
-        $attachment = $this->get_attachment(false, $kind); //sucht nach 'pdf_file'
+        $attachment = $this->get_attachment(false, $kind);
         if ($attachment) {
             $attachment->name = $filename;
             $attachment->title = $this->invoice->get_label();
