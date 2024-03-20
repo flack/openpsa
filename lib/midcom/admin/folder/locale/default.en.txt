@@ -426,6 +426,3 @@ Could not create PDF
 Position
 ---STRINGEND
 
----STRING create_reminder
-create reminder
----STRINGEND
