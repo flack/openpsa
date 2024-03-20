@@ -2,222 +2,430 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
----STRING author
-Verfasser
+---STRING account data
+Kontodaten
 ---STRINGEND
 
----STRING authors
-Verfasser
+---STRING account number
+Konto-Nummer
 ---STRINGEND
 
----STRING by score
-von Hand sortiert
+---STRING add new invoice item
+Neue Rechnungsposition hinzufügen
 ---STRINGEND
 
----STRING cancelled
-Abgebrochen
+---STRING all invoices
+Alle Rechnungen
 ---STRINGEND
 
----STRING could not save folder: %s
-Ordner konnte nicht gespeichert werden. Ursache: %s
+---STRING all invoices for customer %s
+Rechnungen des Kunden %s
 ---STRINGEND
 
----STRING create folder
-Ordner anlegen
+---STRING all invoices for deliverable %s
+Rechnungen zur Bestellung %s
 ---STRINGEND
 
----STRING create subfolder
-Unterordner anlegen
+---STRING amount
+Betrag
 ---STRINGEND
 
----STRING created
-Erstellungszeit
+---STRING bank code
+BLZ
 ---STRINGEND
 
----STRING creator
-Ersteller
+---STRING basic information
+Basisdaten
 ---STRINGEND
 
----STRING default
-Standard
+---STRING billing data
+Rechnungsdaten
 ---STRINGEND
 
----STRING default sort order
-Standard-Sortierreihenfolge
+---STRING canceled
+Storniert
 ---STRINGEND
 
----STRING delete folder
-Ordner löschen
+---STRING create invoice
+Rechnung erstellen
 ---STRINGEND
 
----STRING edit folder
-Ordner bearbeiten
+---STRING customer
+Kunde
 ---STRINGEND
 
----STRING edit folder %s
-Ordner "%s" bearbeiten
+---STRING customer contact
+Kundenkontakt
 ---STRINGEND
 
----STRING edit folder metadata
-Metadaten des Ordners bearbeiten
+---STRING dashboard
+Übersicht
 ---STRINGEND
 
----STRING edit layout template
-Layout-Vorlage bearbeiten
+---STRING due
+Fällig
 ---STRINGEND
 
----STRING edit metadata
-Metadaten bearbeiten
+---STRING due date
+Fälligkeitsdatum
 ---STRINGEND
 
----STRING edit metadata of %s
-Metadaten von '%s' bearbeiten
+---STRING due on %s
+Fällig am %s
 ---STRINGEND
 
----STRING exported
-Exportiert
+---STRING edit invoice items
+Rechnungspositionen bearbeiten
 ---STRINGEND
 
----STRING failed to create a new style template: %s
-Neue Stilvorlage konnte nicht erstellt werden: %s
+---STRING failed to create invoice, reason
+Rechnung konnte nicht erstellt werden. Ursache:
 ---STRINGEND
 
----STRING folder created
-Ordner erstellt
+---STRING files
+Dateien
 ---STRINGEND
 
----STRING folder page class
-Ordner-Klasse
+---STRING go to customer
+Kunden anzeigen
 ---STRINGEND
 
----STRING folder saved
-Ordner gespeichert
+---STRING go to deliverable
+Bestellung anzeigen
 ---STRINGEND
 
----STRING folder type
-Ordner-Typ
+---STRING invoice
+Rechnung
 ---STRINGEND
 
----STRING folders first
-Ordner zuerst
+---STRING invoices
+Rechnungen
 ---STRINGEND
 
----STRING hide from navigation
-In der Navigation unsichtbar
+---STRING invoice address
+Rechnungsadresse
 ---STRINGEND
 
----STRING imported
-Importiert
+---STRING invoice date
+Rechnungsdatum
 ---STRINGEND
 
----STRING inherit style
-Stilvorlage an Unterordner vererben
+---STRING invoice delivery date
+Lieferdatum
 ---STRINGEND
 
----STRING midcom.admin.folder
-Ordnerverwaltung
+---STRING invoice %s created
+Rechnung %s wurde erstellt
 ---STRINGEND
 
----STRING move
-Verschieben
+---STRING invoice data
+Rechnungsdaten
 ---STRINGEND
 
----STRING move %s
-Verschiebe %s
+---STRING invoice has already been sent. should it be replaced?
+Diese Rechnung wurde bereits verschickt. Soll die Datei trotzdem neu erzeugt werden?
 ---STRINGEND
 
----STRING moved %s to %s
-%s wurde nach %s verschoben
+---STRING invoice items
+Rechnungspositionen
 ---STRINGEND
 
----STRING nav order
-Reihenfolge der Navigationselemente
+---STRING invoice number
+Rechnungsnummer
 ---STRINGEND
 
----STRING new layout template
-[Neue Stilvorlage]
+---STRING invoiceable reports
+Abrechenbare Stundenberichte
 ---STRINGEND
 
----STRING new style created
-Neue Stilvorlage wurde erstellt
+---STRING invoicing information
+Rechnungsdaten
 ---STRINGEND
 
----STRING no sortable elements found
-keine sortierbaren Elemente gefunden
+---STRING cancelation invoice
+Stornorechnung
 ---STRINGEND
 
----STRING order navigation
-Navigationselemente anordnen
+---STRING cancelation invoice for
+Stornorechnung zu
 ---STRINGEND
 
----STRING order navigation in folder %s
-Navigationselemente im Ordner "%s" anordnen
+---STRING canceled by
+Storniert durch
 ---STRINGEND
 
----STRING owner
-Besitzer
+---STRING invoice got canceled by %s
+Rechnung wurde storniert durch %s
 ---STRINGEND
 
----STRING pages first
-Seiten zuerst
+---STRING invoice canceled on %s
+Storniert am %s
 ---STRINGEND
 
----STRING prevent entering
-Zugriff verhindern
+---STRING create_cancelation
+stornieren
 ---STRINGEND
 
----STRING privilege template_management
-Stilvorlagen-Verwaltung
+---STRING cancelation for invoice %s already exists
+Für Rechnung %s liegt bereits eine Stornorechnung vor
 ---STRINGEND
 
----STRING privilege topic_management
-Ordner-Verwaltung
+---STRING could not create cancelation for invoice %s
+Für Rechnung %s konnte keine Stornorechnung erzeugt werden
 ---STRINGEND
 
----STRING published
-Veröffentlicht
+---STRING cancelation for invoice %s, item %s
+Storno zur Rechnung %s, Position %s
 ---STRINGEND
 
----STRING revised
-Letzte Bearbeitung
+---STRING mark_paid
+bezahlt
 ---STRINGEND
 
----STRING revision
-Revision
+---STRING mark_sent
+verschickt
 ---STRINGEND
 
----STRING revisor
-Revisor
+---STRING send_by_mail
+Mail versenden
 ---STRINGEND
 
----STRING schedule end
-Anzeigen bis (für unbegrenzte Anzeige frei lassen)
+---STRING marked invoice %s paid
+Rechnung %s wurde als bezahlt markiert
 ---STRINGEND
 
----STRING schedule start
-Veröffentlichen am (für sofortige Veröffentlichung frei lassen)
+---STRING marked invoice %s sent
+Rechnung %s wurde als verschickt markiert
 ---STRINGEND
 
----STRING scheduling
-Zeitgesteuerte Veröffentlichung
+---STRING marked invoice %s sent per mail
+Rechnung %s wurde per E-Mail versendet
 ---STRINGEND
 
----STRING select the ordering method first to sort the pages
-Wählen Sie eine Sortiermethode, um die Seiten anzuordnen
+---STRING marked task "%s" finished
+Aufgabe "%s" wurde als fertiggestellt markiert
 ---STRINGEND
 
----STRING size
-Größe
+---STRING name of bank
+Name des Geldinstituts
 ---STRINGEND
 
----STRING style
-Stilvorlage
+---STRING next action
+Nächste Aktion
 ---STRINGEND
 
----STRING style template
-Stilvorlage
+---STRING no customer
+Kein Kunde
 ---STRINGEND
 
----STRING objects with no navigation entry are still accessible on-site if the url is known
-Objekte ohne Navigationseintrag sind weiterhin verfügbar, insofern die URL bekannt ist
+---STRING not paid
+Nicht bezahlt
+---STRINGEND
+
+---STRING open
+Offen
+---STRINGEND
+
+---STRING open invoices
+Offene Rechnungen
+---STRINGEND
+
+---STRING org.openpsa.invoices
+Rechnungs-Tracking
+---STRINGEND
+
+---STRING overdue
+Überfällig
+---STRINGEND
+
+---STRING overdue invoices
+Überfällige Rechnungen
+---STRINGEND
+
+---STRING overdue since %s
+Überfällig seit %s
+---STRINGEND
+
+---STRING paid
+Bezahlt
+---STRINGEND
+
+---STRING paid date
+Zahlungsdatum
+---STRINGEND
+
+---STRING paid invoices
+Bezahlte Rechnungen
+---STRINGEND
+
+---STRING paid on %s
+Bezahlt am %s
+---STRINGEND
+
+---STRING pdf file
+PDF-Datei
+---STRINGEND
+
+---STRING price
+Preis
+---STRINGEND
+
+---STRING project invoicing
+Projekt-Abrechnung
+---STRINGEND
+
+---STRING remarks
+Anmerkungen
+---STRINGEND
+
+---STRING quantity
+Menge
+---STRINGEND
+
+---STRING recipient
+Empfänger
+---STRINGEND
+
+---STRING recently paid invoices
+Neueste Zahlungseingänge
+---STRINGEND
+
+---STRING scheduled
+Geplant
+---STRINGEND
+
+---STRING scheduled invoices
+Geplante Rechnungsläufe
+---STRINGEND
+
+---STRING sent
+Versanddatum
+---STRINGEND
+
+---STRING sent date
+Versanddatum
+---STRINGEND
+
+---STRING sum
+Summe
+---STRINGEND
+
+---STRING sum including vat
+Betrag inkl. MwSt
+---STRINGEND
+
+---STRING sum excluding vat
+Netto-Betrag
+---STRINGEND
+
+---STRING totals
+Gesamtsumme
+---STRINGEND
+
+---STRING unable to deliver mail: %s
+E-Mail konnte nicht verschickt werden: %s
+---STRINGEND
+
+---STRING unsent
+Unverschickt
+---STRINGEND
+
+---STRING unsent invoices
+Unverschickte Rechnungen
+---STRINGEND
+
+---STRING vat
+MwSt-Satz
+---STRINGEND
+
+---STRING vat reg no
+USt-ID.
+---STRINGEND
+
+---STRING vat sum
+MwSt-Betrag
+---STRINGEND
+
+---STRING sending option
+Versandmethode
+---STRINGEND
+
+---STRING send per email
+Per E-Mail
+---STRINGEND
+
+---STRING send manually
+Manuell
+---STRINGEND
+
+---STRING tax identification number
+Steuernummer
+---STRINGEND
+
+---STRING payment target
+Zahlungsziel (in Tagen)
+---STRINGEND
+
+---STRING there is no invoice with number %s
+Es gibt keine Rechnung mit der Nummer %s
+---STRINGEND
+
+---STRING invoice was not found
+Die Rechnung wurde nicht gefunden
+---STRINGEND
+
+---STRING search title
+Zeige Rechnung Nummer
+---STRINGEND
+
+---STRING search
+Suche
+---STRINGEND
+
+---STRING goto
+Zeige
+---STRINGEND
+
+---STRING no invoice number was handed over
+Es wurde keine Nummer zu einer Rechnung übergeben
+---STRINGEND
+
+---STRING recalculate_by_reports
+Neuberechnung mittels Stundenberichten
+---STRINGEND
+
+---STRING price per unit
+Stückpreis
+---STRINGEND
+
+---STRING units
+Stückzahl
+---STRINGEND
+
+---STRING use contact address
+Adresse aus Kontaktdaten benutzen
+---STRINGEND
+
+---STRING current pdf file was manually uploaded shall it be replaced ?
+Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
+---STRINGEND
+
+---STRING create_pdf
+PDF erzeugen
+---STRINGEND
+
+---STRING create_reminder
+Mahnung erzeugen
+---STRINGEND
+
+---STRING pdf created
+PDF-Datei wurde erfolgreich erzeugt
+---STRINGEND
+
+---STRING pdf creation failed
+PDF-Datei konnte nicht erzeugt werden
+---STRINGEND
+
+---STRING position
+Position
 ---STRINGEND
