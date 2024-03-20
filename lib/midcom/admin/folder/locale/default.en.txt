@@ -2,427 +2,222 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING account data
-Account data
+---STRING author
+Author
 ---STRINGEND
 
----STRING account number
-Account number
+---STRING authors
+Authors
 ---STRINGEND
 
----STRING add new invoice item
-Add a new invoice item
+---STRING by score
+Manually ordered
 ---STRINGEND
 
----STRING all invoices
-All invoices
+---STRING cancelled
+Cancelled
 ---STRINGEND
 
----STRING all invoices for customer %s
-All invoices for customer %s
+---STRING could not save folder: %s
+Could not save folder. Reason: %s
 ---STRINGEND
 
----STRING all invoices for deliverable %s
-All invoices for deliverable %s
+---STRING create folder
+Create folder
 ---STRINGEND
 
----STRING amount
-Amount
+---STRING create subfolder
+Create subfolder
 ---STRINGEND
 
----STRING bank code
-Bankcode
+---STRING created
+Created
 ---STRINGEND
 
----STRING basic information
-Basic information
+---STRING creator
+Creator
 ---STRINGEND
 
----STRING billing data
-Billing data
+---STRING default
+Default
 ---STRINGEND
 
----STRING create invoice
-Create invoice
+---STRING default sort order
+Default sort order
 ---STRINGEND
 
----STRING customer
-Customer
+---STRING delete folder
+Delete folder
 ---STRINGEND
 
----STRING customer contact
-Customer contact
+---STRING edit folder
+Edit folder
 ---STRINGEND
 
----STRING dashboard
-Dashboard
+---STRING edit folder %s
+Edit folder "%s"
 ---STRINGEND
 
----STRING due
-Due date
+---STRING edit folder metadata
+Edit folder metadata
 ---STRINGEND
 
----STRING due date
-Due date
+---STRING edit layout template
+Edit layout template
 ---STRINGEND
 
----STRING due on %s
-Due on %s
+---STRING edit metadata
+Edit metadata
 ---STRINGEND
 
----STRING edit invoice items
-Edit invoice items
+---STRING edit metadata of %s
+Edit metadata of '%s'
 ---STRINGEND
 
----STRING failed to create invoice, reason
-Failed to create invoice, reason
+---STRING exported
+Exported
 ---STRINGEND
 
----STRING files
-Files
+---STRING failed to create a new style template: %s
+Failed to create a new style template: %s
 ---STRINGEND
 
----STRING go to customer
-Go to customer
+---STRING folder created
+Folder created
 ---STRINGEND
 
----STRING go to deliverable
-Go to deliverable
+---STRING folder page class
+Folder's class
 ---STRINGEND
 
----STRING search title
-Go to invoice number
+---STRING folder saved
+Folder saved
 ---STRINGEND
 
----STRING goto
-goto
+---STRING folder type
+Folder type
 ---STRINGEND
 
----STRING invoice
-Invoice
+---STRING folders first
+Folder first
 ---STRINGEND
 
----STRING invoices
-Invoices
+---STRING hide from navigation
+Hide from navigation
 ---STRINGEND
 
----STRING invoice address
-Invoice address
+---STRING imported
+Imported
 ---STRINGEND
 
----STRING invoice date
-Invoice date
+---STRING inherit style
+Inherit template to subfolders
 ---STRINGEND
 
----STRING invoice delivery date
-Delivery date
+---STRING midcom.admin.folder
+Folder management
 ---STRINGEND
 
----STRING invoice %s created
-Invoice %s created
+---STRING move
+Move
 ---STRINGEND
 
----STRING invoice data
-Invoice data
+---STRING move %s
+Move %s
 ---STRINGEND
 
----STRING invoice has already been sent. should it be replaced?
-This invoice has already been sent. Should the file be regenerated anyways?
+---STRING moved %s to %s
+moved %s to %s
 ---STRINGEND
 
----STRING invoice items
-Invoice items
+---STRING nav order
+Order of navigation items
 ---STRINGEND
 
----STRING invoice number
-Invoice number
+---STRING new layout template
+[New layout template]
 ---STRINGEND
 
----STRING invoice was not found
-The invoice was not found
+---STRING new style created
+New style created
 ---STRINGEND
 
----STRING invoiceable reports
-Billable Reports
+---STRING no sortable elements found
+No sortable elements found
 ---STRINGEND
 
----STRING invoicing information
-Invoicing information
+---STRING order navigation
+Arrange navigation items
 ---STRINGEND
 
----STRING canceled
-Canceled
+---STRING order navigation in folder %s
+Arrange navigation under folder "%s"
 ---STRINGEND
 
----STRING cancelation invoice
-Cancelation invoice
+---STRING owner
+Owner
 ---STRINGEND
 
----STRING cancelation invoice for
-This is the cancelation for
+---STRING pages first
+Pages first
 ---STRINGEND
 
----STRING create_cancelation
-Create cancelation
+---STRING prevent entering
+Prevent entering
 ---STRINGEND
 
----STRING cancelation for invoice %s already exists
-Invoice %s has already been canceled
+---STRING privilege template_management
+Layout template management
 ---STRINGEND
 
----STRING could not create cancelation for invoice %s
-Failed to create cancelation for invoice %s
+---STRING privilege topic_management
+Folder management
 ---STRINGEND
 
----STRING cancelation for invoice %s, item %s
-Cancelation for invoice %s, item %s
+---STRING published
+Published
 ---STRINGEND
 
----STRING canceled by
-Canceled by
+---STRING revised
+Revised
 ---STRINGEND
 
----STRING invoice got canceled by %s
-Invoice was canceled by %s
+---STRING revision
+Revision
 ---STRINGEND
 
----STRING mark_paid
-Mark paid
+---STRING revisor
+Revisor
 ---STRINGEND
 
----STRING mark_sent
-Mark sent
+---STRING schedule end
+Display until (leave empty for unlimited display)
 ---STRINGEND
 
----STRING send_by_mail
-send by mail
+---STRING schedule start
+Publish at (leave empty for immediate publication)
 ---STRINGEND
 
----STRING marked invoice %s paid
-Marked invoice %s as paid
+---STRING scheduling
+Scheduling
 ---STRINGEND
 
----STRING marked invoice %s sent
-Marked invoice %s as sent
+---STRING select the ordering method first to sort the pages
+Select the ordering method first to sort the pages
 ---STRINGEND
 
----STRING marked invoice %s sent per mail
-Sent invoice %s per mail
+---STRING size
+Size
 ---STRINGEND
 
----STRING marked task "%s" finished
-Marked task "%s" as finished
+---STRING style
+Style template
 ---STRINGEND
 
----STRING name of bank
-Name of institute
+---STRING style template
+Style template
 ---STRINGEND
 
----STRING next action
-Next Action
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+Objects that are hidden from navigation are still accessible on-site if the URL is known
 ---STRINGEND
-
----STRING no customer
-No customer
----STRINGEND
-
----STRING no invoice number was handed over
-No invoice number was handed over
----STRINGEND
-
----STRING not paid
-Not paid
----STRINGEND
-
----STRING open
-Open
----STRINGEND
-
----STRING open invoices
-Open invoices
----STRINGEND
-
----STRING org.openpsa.invoices
-Invoice tracking
----STRINGEND
-
----STRING overdue
-Overdue
----STRINGEND
-
----STRING overdue invoices
-Overdue invoices
----STRINGEND
-
----STRING overdue since %s
-Overdue since %s
----STRINGEND
-
----STRING recipient
-Recipient
----STRINGEND
-
----STRING paid
-paid
----STRINGEND
-
----STRING paid date
-Paid date
----STRINGEND
-
----STRING paid invoices
-Paid invoices
----STRINGEND
-
----STRING paid on %s
-Paid on %s
----STRINGEND
-
----STRING pdf file
-PDF file
----STRINGEND
-
----STRING price
-Price
----STRINGEND
-
----STRING project invoicing
-Project invoicing
----STRINGEND
-
----STRING quantity
-Quantity
----STRINGEND
-
----STRING recently paid invoices
-Recently paid invoices
----STRINGEND
-
----STRING remarks
-Remarks
----STRINGEND
-
----STRING scheduled
-Scheduled
----STRINGEND
-
----STRING scheduled invoices
-Scheduled invoices
----STRINGEND
-
----STRING search
-search
----STRINGEND
-
----STRING sent
-Sending date
----STRINGEND
-
----STRING sent date
-Sent date
----STRINGEND
-
----STRING sum
-Sum
----STRINGEND
-
----STRING sum including vat
-Sum including VAT
----STRINGEND
-
----STRING sum excluding vat
-Sum (excl. VAT)
----STRINGEND
-
----STRING tax identification number
-Taxpayer identification number
----STRINGEND
-
----STRING payment target
-Payment target (in days)
----STRINGEND
-
----STRING there is no invoice with number %s
-There is no invoice with number %s
----STRINGEND
-
----STRING totals
-Totals
----STRINGEND
-
----STRING unable to deliver mail: %s
-Unable to deliver mail: %s
----STRINGEND
-
----STRING unsent
-Unsent
----STRINGEND
-
----STRING unsent invoices
-Unsent invoices
----STRINGEND
-
----STRING vat
-VAT
----STRINGEND
-
----STRING vat reg no
-VAT registration number
----STRINGEND
-
----STRING vat sum
-VAT amount
----STRINGEND
-
----STRING sending option
-How to send?
----STRINGEND
-
----STRING send per email
-By email
----STRINGEND
-
----STRING send manually
-Manually
----STRINGEND
-
----STRING recalculate_by_reports
-Recalculate by hour-reports
----STRINGEND
-
----STRING invoice canceled on %s
-Canceled on %s
----STRINGEND
-
----STRING price per unit
-Price per unit
----STRINGEND
-
----STRING units
-Units
----STRINGEND
-
----STRING use contact address
-Use the address given in contact
----STRINGEND
-
----STRING current pdf file was manually uploaded shall it be replaced ?
-The current PDF file was manually uploaded. So shall it really be replaced ?
----STRINGEND
-
----STRING create_pdf
-Create PDF
----STRINGEND
-
----STRING pdf created
-PDF file created successfully
----STRINGEND
-
----STRING pdf creation failed
-Could not create PDF
----STRINGEND
-
----STRING position
-Position
----STRINGEND
-
