@@ -78,6 +78,6 @@ class application extends base_application
             $_SERVER['HTTPS'] = 'on';
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 }
