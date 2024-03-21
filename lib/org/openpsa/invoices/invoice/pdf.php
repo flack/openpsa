@@ -21,7 +21,7 @@ class org_openpsa_invoices_invoice_pdf
         $this->invoice = $invoice;
     }
 
-    public function get_attachment(bool $autocreate = false, $kind = null) : ?midcom_db_attachment
+    public function get_attachment(bool $autocreate = false, string $kind = null) : ?midcom_db_attachment
     {
         if ($kind == 'reminder') {
             $pdf_files = blobs::get_attachments($this->invoice, "pdf_file_reminder");
