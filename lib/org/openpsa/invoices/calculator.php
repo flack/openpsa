@@ -17,7 +17,7 @@ class org_openpsa_invoices_calculator
 
     private org_openpsa_invoices_invoice_dba $_invoice;
 
-    public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $cycle_number = null)
+    public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, int $cycle_number = null)
     {
         $this->_deliverable = $deliverable;
         // Recalculate price to catch possible unit changes
@@ -68,7 +68,7 @@ class org_openpsa_invoices_calculator
      * as deliverables) for different types of work. Instead of sending the customer
      * one invoice per hourly rate per month, one composite invoice for all fees is generated
      */
-    private function _probe_invoice($cycle_number) : org_openpsa_invoices_invoice_dba
+    private function _probe_invoice(?int $cycle_number) : org_openpsa_invoices_invoice_dba
     {
         $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable.salesproject', $this->_deliverable->salesproject);
         $item_mc->add_constraint('invoice.sent', '=', 0);
@@ -91,7 +91,7 @@ class org_openpsa_invoices_calculator
         return $this->_create_invoice($cycle_number);
     }
 
-    private function _create_invoice($cycle_number) : org_openpsa_invoices_invoice_dba
+    private function _create_invoice(?int $cycle_number) : org_openpsa_invoices_invoice_dba
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
         $invoice = new org_openpsa_invoices_invoice_dba();

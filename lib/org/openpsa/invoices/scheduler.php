@@ -37,7 +37,7 @@ class org_openpsa_invoices_scheduler
      * The subscription cycles rely on midcom.services.at. I'm not sure if it is wise to rely on it for such
      * a totally mission critical part of OpenPSA. Some safeguards might be wise to add.
      */
-    public function run_cycle($cycle_number, bool $send_invoice = true) : bool
+    public function run_cycle(int $cycle_number, bool $send_invoice = true) : bool
     {
         if (time() < $this->_deliverable->start) {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
@@ -114,7 +114,7 @@ class org_openpsa_invoices_scheduler
         return true;
     }
 
-    private function _create_at_entry($cycle_number, int $start) : bool
+    private function _create_at_entry(int $cycle_number, int $start) : bool
     {
         $args = [
             'deliverable' => $this->_deliverable->guid,
@@ -355,7 +355,7 @@ class org_openpsa_invoices_scheduler
         return $new_date;
     }
 
-    public function get_cycle_start($cycle_number, int $time)
+    public function get_cycle_start(int $cycle_number, int $time)
     {
         if ($cycle_number == 1) {
             if ($this->subscription_day) {
