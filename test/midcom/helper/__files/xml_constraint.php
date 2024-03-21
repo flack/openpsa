@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use PHPUnit\Util\InvalidArgumentHelper;
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\InvalidArgumentException;
 
 /**
  * Constraint for comparing XML strings produced by objectmapper. It removes
@@ -24,12 +24,12 @@ class xml_comparison extends Constraint
         $this->value = $this->_normalize_string($value, 2);
     }
 
-    private function _normalize_string($string, $argument = 1)
+    private function _normalize_string($string, int $argument = 1)
     {
         $doc = new DOMDocument;
 
         if (!$doc->loadXML($string)) {
-            throw InvalidArgumentHelper::factory($argument, 'valid XML');
+            throw InvalidArgumentException::create($argument, 'valid XML');
         }
 
         $xpath = new DOMXPath($doc);
@@ -76,7 +76,7 @@ class xml_comparison extends Constraint
     public function evaluate($other, $description = '', $returnResult = false) : ?bool
     {
         if (!is_string($other)) {
-            throw InvalidArgumentHelper::factory(1, 'string');
+            throw InvalidArgumentException::create(1, 'string');
         }
 
         return parent::evaluate($this->_normalize_string($other), $description, $returnResult);
