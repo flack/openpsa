@@ -67,7 +67,7 @@ class loader
     /**
      * Gets the component styledir associated with the topic's component.
      *
-     * @return mixed the path to the component's style directory.
+     * @return ?string the path to the component's style directory.
      */
     private function get_component_snippetdir(?midcom_db_topic $topic) : ?string
     {
