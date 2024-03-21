@@ -72,7 +72,7 @@ class org_openpsa_invoices_invoice_pdf
         if($kind == null) {
             $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
         }else {
-            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class_reminder');
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class_' . $kind);
         }
         
         if (!class_exists($client_class)) {
