@@ -69,9 +69,9 @@ class org_openpsa_invoices_invoice_pdf
 
     public function render_and_attach(string $kind = null) : midcom_db_attachment
     {
-        if($kind == null) {
+        if ($kind == null) {
             $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
-        }else {
+        } else {
             $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class_' . $kind);
         }
         
