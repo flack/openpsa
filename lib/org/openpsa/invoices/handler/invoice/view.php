@@ -96,7 +96,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
                  && intval($billing_data->sendingoption) == 2) {
                 $buttons[] = $this->build_button('send_by_mail', 'paper-plane');
             }
-            if ($invoice->due > date("Y-m-d") ) {
+            if ((new datetime(date($this->_l10n_midcom->get('short date'), $invoice->deliverydate)))->modify("+14 days") > date("Y-m-d") ) {
                 $button = $this->build_button('create_reminder', 'file-pdf-o');
                 $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
                 $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
