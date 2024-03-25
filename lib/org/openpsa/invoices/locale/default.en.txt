@@ -46,10 +46,6 @@ Billing data
 Create invoice
 ---STRINGEND
 
----STRING create_reminder
-Create reminder
----STRINGEND
-
 ---STRING customer
 Customer
 ---STRINGEND
@@ -132,6 +128,10 @@ Invoice data
 
 ---STRING invoice has already been sent. should it be replaced?
 This invoice has already been sent. Should the file be regenerated anyways?
+---STRINGEND
+
+---STRING reminder has already been sent. should it be replaced?
+This reminder has already been sent. Should the file be regenerated anyways?
 ---STRINGEND
 
 ---STRING invoice items
@@ -428,4 +428,8 @@ Could not create PDF
 
 ---STRING position
 Position
+---STRINGEND
+
+---STRING create_reminder
+create reminder
 ---STRINGEND
