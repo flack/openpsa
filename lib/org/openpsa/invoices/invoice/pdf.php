@@ -37,15 +37,11 @@ class org_openpsa_invoices_invoice_pdf
         return $this->render_and_attach();
     }
 
-    public function get_button_options(string $kind = null) : array
+    public function get_button_options(string $kind = 'invoice') : array
     {
         if ($attachment = $this->get_attachment()) {
             if ($this->invoice->sent) {
-                if ($kind == 'reminder') {
-                    $message = 'reminder has already been sent. should it be replaced?';
-                } else {
-                    $message = 'invoice has already been sent. should it be replaced?';
-                }
+                $message = $kind . ' has already been sent. should it be replaced?';
             }
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
