@@ -422,8 +422,16 @@ Mahnung erzeugen
 PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
+---STRING reminder pdf created
+Mahnungs PDF-Datei wurde erfolgreich erzeugt
+---STRINGEND
+
 ---STRING pdf creation failed
 PDF-Datei konnte nicht erzeugt werden
+---STRINGEND
+
+---STRING reminder pdf creation failed
+Mahnungs PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 
 ---STRING position
