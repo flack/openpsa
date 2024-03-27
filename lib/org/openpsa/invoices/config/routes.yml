@@ -58,6 +58,10 @@ create_pdf:
     path: /invoice/action/create_pdf/
     defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_pdf' }
 
+create_reminder:
+    path: /invoice/action/create_reminder/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_pdf_reminder' }
+
 recalc_invoice:
     path: /invoice/recalculation/{guid}/
     defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::recalculation' }

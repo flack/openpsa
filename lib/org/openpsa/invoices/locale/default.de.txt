@@ -126,6 +126,10 @@ Rechnungsdaten
 Diese Rechnung wurde bereits verschickt. Soll die Datei trotzdem neu erzeugt werden?
 ---STRINGEND
 
+---STRING reminder has already been sent. should it be replaced?
+Diese Mahnung wurde bereits verschickt. Soll die Datei trotzdem neu erzeugt werden?
+---STRINGEND
+
 ---STRING invoice items
 Rechnungspositionen
 ---STRINGEND
@@ -414,12 +418,24 @@ Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich er
 PDF erzeugen
 ---STRINGEND
 
+---STRING create_reminder
+Mahnung erzeugen
+---STRINGEND
+
 ---STRING pdf created
 PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
+---STRING reminder pdf created
+Mahnungs PDF-Datei wurde erfolgreich erzeugt
+---STRINGEND
+
 ---STRING pdf creation failed
 PDF-Datei konnte nicht erzeugt werden
+---STRINGEND
+
+---STRING reminder pdf creation failed
+Mahnungs PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 
 ---STRING position
