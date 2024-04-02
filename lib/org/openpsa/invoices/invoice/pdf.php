@@ -40,7 +40,7 @@ class org_openpsa_invoices_invoice_pdf
     public function get_button_options(string $kind = 'invoice') : array
     {
         if ($attachment = $this->get_attachment()) {
-            if ($this->invoice->sent && (!($kind == 'reminder'))) {
+            if ($this->invoice->sent && !($kind == 'reminder')) {
                 $message = 'invoice has already been sent. should it be replaced?';
             }
             // check if auto generated parameter is same as md5 in current-file
