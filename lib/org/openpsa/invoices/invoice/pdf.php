@@ -40,14 +40,14 @@ class org_openpsa_invoices_invoice_pdf
     public function get_button_options(string $kind = 'invoice') : array
     {
         if ($attachment = $this->get_attachment()) {
-            if ($this->invoice->sent && (!($kind == 'reminder' && $this->invoice->get_status() == 'overdue'))) {
-                $message = $kind . ' has already been sent. should it be replaced?';
+            if ($this->invoice->sent && (!($kind == 'reminder'))) {
+                $message = 'invoice has already been sent. should it be replaced?';
             }
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
             elseif ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated')) {
                 if ($checksum !== md5_file($attachment->get_path())) {
-                        $message = 'current pdf file was manually uploaded shall it be replaced ?';
+                    $message = 'current pdf file was manually uploaded shall it be replaced ?';
                 }
             }
         }

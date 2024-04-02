@@ -32,7 +32,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
         $data['object_view'] = $dm->get_content_html();
         $data['invoice_items'] = $this->invoice->get_invoice_items();
 
-        $this->populate_toolbar($this->invoice);
+        $this->populate_toolbar();
         $this->update_breadcrumb();
 
         midcom::get()->metadata->set_request_metadata($this->invoice->metadata->revised, $guid);

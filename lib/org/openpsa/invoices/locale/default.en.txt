@@ -130,10 +130,6 @@ Invoice data
 This invoice has already been sent. Should the file be regenerated anyways?
 ---STRINGEND
 
----STRING reminder has already been sent. should it be replaced?
-This reminder has already been sent. Should the file be regenerated anyways?
----STRINGEND
-
 ---STRING invoice items
 Invoice items
 ---STRINGEND
