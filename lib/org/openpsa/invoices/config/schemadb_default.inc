@@ -164,7 +164,7 @@
             'hidden' => true,
         ],
         'pdf_file_reminder' => [
-            'title' => 'pdf file',
+            'title' => 'reminder',
             'type'    => 'blobs',
             'widget' => 'downloads',
             'type_config' => [

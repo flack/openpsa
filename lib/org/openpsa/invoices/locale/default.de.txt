@@ -415,7 +415,7 @@ PDF erzeugen
 ---STRINGEND
 
 ---STRING reminder
-mahnung
+Mahnung
 ---STRINGEND
 
 ---STRING create_reminder
