@@ -90,7 +90,7 @@ class org_openpsa_invoices_invoice_pdf
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
         if ($kind == 'reminder') {
             $name = "guids_pdf_file_reminder";
-            $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '_' . $l10n->get('reminder') . '.pdf';
+            $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '_' . lcfirst($l10n->get('reminder')) . '.pdf';
         } else {
             $name = "guids_pdf_file";
             $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '.pdf';
