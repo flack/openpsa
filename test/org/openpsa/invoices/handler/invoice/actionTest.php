@@ -101,6 +101,23 @@ class actionTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testHandler_create_reminder()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.invoices']);
+        $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_reminder_class', 'nonexistent');
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = [
+            'id' => self::$_invoice->id,
+            'relocate' => true
+        ];
+        $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_reminder']);
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_mark_sent()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
