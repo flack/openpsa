@@ -124,6 +124,10 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
         <?php echo org_openpsa_helpers_fileinfo::render($invoice, 'pdf_file');
     }
+    if ($view['pdf_file_reminder'] != "") { ?>
+        <p><strong><?php echo $data['l10n']->get('reminder'); ?></strong></p>
+        <?php echo org_openpsa_helpers_fileinfo::render($invoice, 'pdf_file_reminder');
+    }
 
     $tabs = [];
     if ($expenses_url) {

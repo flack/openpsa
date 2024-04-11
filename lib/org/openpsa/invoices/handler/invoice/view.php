@@ -98,6 +98,13 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             }
         }
 
+        if ($this->_config->get('invoice_pdfbuilder_reminder_class') && $this->invoice->get_status() == 'overdue') {
+            $button = $this->build_button('create_reminder', 'file-pdf-o');
+            $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
+            $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options('reminder');
+            $buttons[] = $button;
+        }
+
         if ($this->invoice->is_cancelable()) {
             $buttons[] = $this->build_button('create_cancelation', 'ban');
         }

@@ -163,6 +163,17 @@
             'index_method' => 'attachment',
             'hidden' => true,
         ],
+        'pdf_file_reminder' => [
+            'title' => 'reminder',
+            'type'    => 'blobs',
+            'widget' => 'downloads',
+            'type_config' => [
+                'sortable' => false,
+                'max_count' => 1,
+            ],
+            'index_method' => 'attachment',
+            'hidden' => true,
+        ],
         'files' => [
             'title' => 'Files',
             'type'    => 'blobs',

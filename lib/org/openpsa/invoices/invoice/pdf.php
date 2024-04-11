@@ -21,9 +21,13 @@ class org_openpsa_invoices_invoice_pdf
         $this->invoice = $invoice;
     }
 
-    public function get_attachment(bool $autocreate = false) : ?midcom_db_attachment
+    public function get_attachment(bool $autocreate = false, string $kind = null) : ?midcom_db_attachment
     {
-        $pdf_files = blobs::get_attachments($this->invoice, "pdf_file");
+        if ($kind == 'reminder') {
+            $pdf_files = blobs::get_attachments($this->invoice, "pdf_file_reminder");
+        } else {
+            $pdf_files = blobs::get_attachments($this->invoice, "pdf_file");
+        }
         if (!empty($pdf_files)) {
             return reset($pdf_files);
         }
@@ -33,10 +37,10 @@ class org_openpsa_invoices_invoice_pdf
         return $this->render_and_attach();
     }
 
-    public function get_button_options() : array
+    public function get_button_options(string $kind = 'invoice') : array
     {
         if ($attachment = $this->get_attachment()) {
-            if ($this->invoice->sent) {
+            if ($this->invoice->sent && $kind != 'reminder') {
                 $message = 'invoice has already been sent. should it be replaced?';
             }
             // check if auto generated parameter is same as md5 in current-file
@@ -63,9 +67,14 @@ class org_openpsa_invoices_invoice_pdf
         ];
     }
 
-    public function render_and_attach() : midcom_db_attachment
+    public function render_and_attach(string $kind = null) : midcom_db_attachment
     {
-        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+        if ($kind == null) {
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+        } else {
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_' . $kind . '_class');
+        }
+        
         if (!class_exists($client_class)) {
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
@@ -78,15 +87,21 @@ class org_openpsa_invoices_invoice_pdf
         }
         // renders the pdf and attaches it to the invoice
         $pdf_builder = new $client_class($this->invoice);
-        $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '.pdf';
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
+        if ($kind == 'reminder') {
+            $name = "guids_pdf_file_reminder";
+            $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '_' . lcfirst($l10n->get('reminder')) . '.pdf';
+        } else {
+            $name = "guids_pdf_file";
+            $filename = midcom_helper_misc::urlize($this->invoice->get_label()) . '.pdf';
+        }
 
         // tmp filename
         $tmp_file = midcom::get()->config->get('midcom_tempdir') . "/" . $filename;
 
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);
-
-        $attachment = $this->get_attachment();
+        $attachment = $this->get_attachment(false, $kind);
         if ($attachment) {
             $attachment->name = $filename;
             $attachment->title = $this->invoice->get_label();
@@ -95,7 +110,7 @@ class org_openpsa_invoices_invoice_pdf
         } else {
             $attachment = $this->invoice->create_attachment($filename, $this->invoice->get_label(), "application/pdf");
             if (   !$attachment
-                || !$this->invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid)) {
+                || !$this->invoice->set_parameter("midcom.helper.datamanager2.type.blobs", $name, $attachment->guid . ":" . $attachment->guid)) {
                 throw new midcom_error("Failed to create invoice attachment for pdf: " . midcom_connection::get_error_string());
             }
         }
