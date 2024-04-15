@@ -13,7 +13,7 @@
  */
 class org_openpsa_user_validator extends midgard_admin_user_validator
 {
-    private midcom_services_i18n_l10n $l10n;
+    protected midcom_services_i18n_l10n $l10n;
 
     public function __construct()
     {
