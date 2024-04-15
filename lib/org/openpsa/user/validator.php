@@ -60,7 +60,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
 
         if (   $fields['password']['switch']
             && !$this->get_accounthelper()->check_password_strength((string) $fields['password']['password'])) {
-            $result = ['password' => $this->_l10n->get('password weak')];
+            $result = ['password' => $this->l10n->get('password weak')];
         }
 
         if (is_array($result)) {
