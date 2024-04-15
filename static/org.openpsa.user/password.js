@@ -9,20 +9,21 @@
 
     $.fn.password_widget = function(options) {
         var defaults = {
-                baseStyle:      		"testresult",   //optional
-                password_switch_id: 	"",	//optional
-                messageloc:     		1       //before == 0 or after == 1
+                baseStyle:              "testresult",   //optional
+                password_switch_id:     "", //optional
+                messageloc:             1       //before == 0 or after == 1
             },
             opts = $.extend({}, defaults, options || {}),
-            password_field = $(this);
+            password_field = $(this),
+            form_prefix = $(this).closest('form')[0].name;
 
         opts.passwordid = 'input[name="' + $(this).attr("name") + '"]';
-        opts.userid = 'input[name="org_openpsa_user[username]"]';
+        opts.userid = 'input[name="' + form_prefix + '[username]"]';
         opts.submit_button = 'button.save';
 
-        $('input[name="org_openpsa_user[password][switch]"]')
+        $('input[name="' + form_prefix + '[password][switch]"]')
             .on('change', function() {
-                if ($('input[name="org_openpsa_user[password][switch]"]:checked').val() == 0) {
+                if ($('input[name="' + form_prefix + '[password][switch]"]:checked').val() == 0) {
                     password_field.hide();
                     password_field.removeAttr('required');
                 }
@@ -62,16 +63,16 @@
     var teststrength = function(password, option) {
         //password <
         if (password.length < option.min_length) {
-    	    resultStyle = classes.shortPass;
-    	    return option.strings.shortPass;
+            resultStyle = classes.shortPass;
+            return option.strings.shortPass;
         }
 
         if ($(option.userid).length > 0) {
             var username = $(option.userid).val();
             //password == user name
             if (password.toLowerCase() == username.toLowerCase()) {
-    	        resultStyle = classes.badPass;
-    	        return option.strings.samePassword;
+                resultStyle = classes.badPass;
+                return option.strings.samePassword;
             }
         }
 
@@ -90,13 +91,13 @@
         score = Math.min(100, Math.max(0, score));
 
         if (score < option.min_score) {
-    	    resultStyle = classes.badPass;
-    	    return option.strings.badPass;
+            resultStyle = classes.badPass;
+            return option.strings.badPass;
         }
 
         if (score >= option.min_score) {
-    	    resultStyle = classes.goodPass;
-    	    return option.strings.goodPass;
+            resultStyle = classes.goodPass;
+            return option.strings.goodPass;
         }
 
         resultStyle = classes.strongPass;
