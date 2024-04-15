@@ -13,6 +13,18 @@
  */
 class org_openpsa_user_validator extends midgard_admin_user_validator
 {
+    private midcom_services_i18n_l10n $l10n;
+
+    public function __construct()
+    {
+        $this->l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');
+    }
+
+    protected function get_accounthelper(midcom_db_person $person = null) : org_openpsa_user_accounthelper
+    {
+        return new org_openpsa_user_accounthelper($person);
+    }
+
     /**
      * Validation rules for edit forms
      *
@@ -46,9 +58,9 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     {
         $result = $this->is_username_available($fields);
 
-        $accounthelper = new org_openpsa_user_accounthelper();
-        if ($fields['password']['switch'] && !$accounthelper->check_password_strength((string) $fields['password']['password'])){
-            $result = ['password' => midcom::get()->i18n->get_string('password weak', 'org.openpsa.user')];
+        if (   $fields['password']['switch']
+            && !$this->get_accounthelper()->check_password_strength((string) $fields['password']['password'])) {
+            $result = ['password' => $this->_l10n->get('password weak')];
         }
 
         if (is_array($result)) {
@@ -74,7 +86,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
             $account = new midcom_core_account($user->get_storage());
             if (!midcom_connection::verify_password($fields["current_password"], $account->get_password())) {
                 return [
-                    'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
+                    'current_password' => $this->l10n->get("wrong current password")
                 ];
             }
         }
@@ -90,7 +102,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     public function username_exists(array $fields)
     {
         if ($this->is_username_available(['username' => $fields['username']]) === true) {
-            return ["username" => midcom::get()->i18n->get_string("unknown username", "org.openpsa.user")];
+            return ["username" => $this->l10n->get("unknown username")];
         }
         return true;
     }
@@ -108,9 +120,9 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         $qb->add_constraint('email', '=', $fields["email"]);
         $count = $qb->count();
         if ($count == 0) {
-            $result["email"] = midcom::get()->i18n->get_string("unknown email address", "org.openpsa.user");
+            $result["email"] = $this->l10n->get("unknown email address");
         } elseif ($count > 1) {
-            $result["email"] = midcom::get()->i18n->get_string("multiple entries found, cannot continue", "org.openpsa.user");
+            $result["email"] = $this->l10n->get("multiple entries found, cannot continue");
         }
 
         return $result ?: true;
@@ -127,13 +139,13 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         $result = [];
         $user = midcom::get()->auth->get_user_by_name($fields["username"]);
         if (!$user) {
-            $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
+            $result["username"] = $this->l10n->get("no user found with this username and email address");
         } else {
             $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
             $qb->add_constraint('email', '=', $fields["email"]);
             $qb->add_constraint('guid', '=', $user->guid);
             if ($qb->count() == 0) {
-                $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
+                $result["username"] = $this->l10n->get("no user found with this username and email address");
             }
         }
         return $result ?: true;
@@ -149,14 +161,12 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     {
         $result = [];
 
-        $user = new midcom_db_person($fields["person"]);
-
-        $accounthelper = new org_openpsa_user_accounthelper($user);
+        $accounthelper = $this->get_accounthelper(new midcom_db_person($fields["person"]));
         if (!$accounthelper->check_password_reuse($fields['new_password'])){
-            $result['password'] = midcom::get()->i18n->get_string('password was already used', 'org.openpsa.user');
+            $result['password'] = $this->l10n->get('password was already used');
         }
         if (!$accounthelper->check_password_strength($fields['new_password'])){
-            $result['password'] = midcom::get()->i18n->get_string('password weak', 'org.openpsa.user');
+            $result['password'] = $this->l10n->get('password weak');
         }
         return $result ?: true;
     }
