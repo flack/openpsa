@@ -70,7 +70,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $handle = $blob->get_handler($mode);
 
         if (!$handle) {
-            debug_add("Failed to open attachment with mode {$mode}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("Failed to open attachment with mode {$mode}, last PHP error was: ", MIDCOM_LOG_WARN);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
 
@@ -335,16 +336,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function copy_from_memory($source) : bool
     {
-        $dest = $this->open();
-        if (!$dest) {
-            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            return false;
+        if ($dest = $this->open()) {
+            fwrite($dest, $source);
+            $this->close();
+            return true;
         }
-
-        fwrite($dest, $source);
-
-        $this->close();
-        return true;
+        return false;
     }
 
     /**
@@ -355,16 +352,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function copy_from_handle($source) : bool
     {
-        $dest = $this->open();
-        if (!$dest) {
-            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            return false;
+        if ($dest = $this->open()) {
+            stream_copy_to_stream($source, $dest);
+            $this->close();
+            return true;
         }
-
-        stream_copy_to_stream($source, $dest);
-
-        $this->close();
-        return true;
+        return false;
     }
 
     /**
