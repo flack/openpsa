@@ -209,7 +209,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _show_welcome(string $handler_id, array &$data)
     {
-        if (midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin')) {
+        if (midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin')) {
             midcom_show_style('midgard_admin_asgard_welcome');
         }
     }

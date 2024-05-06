@@ -253,7 +253,7 @@ implements client
         }
         $data['customer'] = $this->_customer;
         $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_invoices_invoice_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
             $buttons[] = $workflow->get_button($this->router->generate('invoice_new', ['company' => $guid]), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),

@@ -36,7 +36,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     public function _on_initialize()
     {
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin');
     }
 
     /**
@@ -147,7 +147,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $new_object = new $create_type();
 
         if (in_array($handler_id, ['object_create_toplevel', 'object_create_chooser'])) {
-            midcom::get()->auth->require_user_do('midgard:create', null, $create_type);
+            midcom::get()->auth->require_user_do('midgard:create', class: $create_type);
 
             $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['current_type']));
         } else {

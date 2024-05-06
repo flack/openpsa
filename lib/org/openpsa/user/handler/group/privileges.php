@@ -38,7 +38,7 @@ class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_compo
 
     public function _handler_privileges(Request $request, string $guid)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
 
         // Check if we get the group
         $group = new midcom_db_group($guid);

@@ -231,8 +231,8 @@ class net_nemein_rss_fetch
         $this->_parse_parameters($article, $item);
 
         // store <link rel="replies"> url in parameter
-        if ($item->get_link(0, 'replies')) {
-            $article->set_parameter('net.nemein.rss', 'replies_url', $item->get_link(0, 'replies'));
+        if ($link = $item->get_link(rel: 'replies')) {
+            $article->set_parameter('net.nemein.rss', 'replies_url', $link);
         }
 
         return $article->guid;

@@ -266,7 +266,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $max_tries = 500;
 
         for ($i = 0; $i < $max_tries; $i++) {
-            $name = strtolower(md5(uniqid('', true)));
+            $name = strtolower(md5(uniqid(more_entropy: true)));
             $location = strtoupper($name[0] . '/' . $name[1]) . '/' . $name;
 
             // Check uniqueness

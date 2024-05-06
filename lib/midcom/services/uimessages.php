@@ -134,7 +134,7 @@ class midcom_services_uimessages
     public function show(bool $show_simple = false)
     {
         if (   $show_simple
-            || !midcom::get()->auth->can_user_do('midcom:ajax', null, static::class)) {
+            || !midcom::get()->auth->can_user_do('midcom:ajax', class: static::class)) {
             $this->show_simple();
             return;
         }

@@ -19,7 +19,7 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
     {
         $person = new midcom_db_person($guid);
         if ($person->guid != midcom::get()->auth->user->guid) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
         }
 
         $workflow = $this->get_workflow('delete', ['object' => $person]);

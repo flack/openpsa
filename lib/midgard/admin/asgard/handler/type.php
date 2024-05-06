@@ -107,7 +107,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     public function _handler_type(Request $request, string $type, array &$data)
     {
         $this->type = $type;
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin');
         if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)) {
             throw new midcom_error_notfound("MgdSchema type '{$type}' not installed.");
         }
@@ -138,7 +138,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     private function _prepare_toolbar(array $data)
     {
         $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: $this->type)) {
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('object_create_toplevel', ['type' => $this->type]),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($this->type)),

@@ -25,7 +25,7 @@ class org_openpsa_user_handler_lostpassword extends midcom_baseclasses_component
         }
 
         $data['controller'] = datamanager::from_schemadb($this->_config->get('schemadb_lostpassword'))
-            ->set_storage(null, $mode)
+            ->set_storage(schemaname: $mode)
             ->get_controller();
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('lost password'));

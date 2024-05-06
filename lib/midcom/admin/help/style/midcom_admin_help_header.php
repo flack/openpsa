@@ -26,6 +26,6 @@
         <div id="breadcrumb">
             <?php
             $nap = new midcom_helper_nav();
-            echo $nap->get_breadcrumb_line(" &gt; ", null, 1);
+            echo $nap->get_breadcrumb_line(" &gt; ", skip_levels: 1);
             ?>
         </div>

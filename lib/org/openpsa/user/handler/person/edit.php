@@ -23,7 +23,7 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
         $this->person = new midcom_db_person($guid);
 
         if ($this->person->guid != midcom::get()->auth->user->guid) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
         }
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->person->get_label()));

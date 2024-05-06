@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
         $object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $object->require_do('midgard:update');
         $object->require_do('midgard:parameters');
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin');
 
         // List all parameters for display
         $qb = midcom_db_parameter::new_query_builder();

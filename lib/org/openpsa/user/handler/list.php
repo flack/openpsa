@@ -33,7 +33,7 @@ implements client
     public function _handler_list(array &$data, string $guid = null)
     {
         $auth = midcom::get()->auth;
-        if (!$auth->can_user_do('org.openpsa.user:access', null, org_openpsa_user_interface::class)) {
+        if (!$auth->can_user_do('org.openpsa.user:access', class: org_openpsa_user_interface::class)) {
             return new midcom_response_relocate($this->router->generate('user_view', ['guid' => $auth->user->guid]));
         }
 
@@ -49,14 +49,14 @@ implements client
         $data['grid'] = $this->_provider->get_grid($grid_id);
 
         $workflow = $this->get_workflow('datamanager');
-        if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_person::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: midcom_db_person::class)) {
             $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('user_create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user',
             ]));
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, midcom_db_group::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: midcom_db_group::class)) {
             $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('group_create'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',

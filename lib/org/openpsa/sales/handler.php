@@ -35,7 +35,7 @@ trait org_openpsa_sales_handler
                 $at_entry->arguments = ['deliverable' => $deliverable->guid];
                 $at_entry->create();
                 //relatedto from notification to deliverable
-                org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', null, ['toExtra' => 'notify_at_entry']);
+                org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', extra: ['toExtra' => 'notify_at_entry']);
             } else {
                 $at_entry = end($at_entries);
             }

@@ -74,7 +74,7 @@ class org_openpsa_invoices_invoice_pdf
         } else {
             $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_' . $kind . '_class');
         }
-        
+
         if (!class_exists($client_class)) {
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
@@ -101,7 +101,7 @@ class org_openpsa_invoices_invoice_pdf
 
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);
-        $attachment = $this->get_attachment(false, $kind);
+        $attachment = $this->get_attachment(kind: $kind);
         if ($attachment) {
             $attachment->name = $filename;
             $attachment->title = $this->invoice->get_label();

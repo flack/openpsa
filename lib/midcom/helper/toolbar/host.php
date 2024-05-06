@@ -38,7 +38,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
             MIDCOM_TOOLBAR_GLYPHICON => 'server',
             MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-            MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin'),
+            MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', class: 'midgard_admin_asgard_plugin'),
         ];
 
         if (midcom::get()->auth->admin) {

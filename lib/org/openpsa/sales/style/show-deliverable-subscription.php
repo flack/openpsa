@@ -173,7 +173,7 @@ if (   $data['product']
             echo "    </tbody>\n";
             echo "</table>\n";
             if (   $at_entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
-                && midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class)) {
+                && midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_invoices_invoice_dba::class)) {
                 $label = $data['l10n']->get('generate now');
                 $process_link = $data['router']->generate('deliverable_run_cycle', ['guid' => $data['deliverable']->guid]);
                 ?>

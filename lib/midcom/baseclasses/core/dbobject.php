@@ -127,13 +127,13 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             } elseif (   !$parent->can_do('midgard:create')
-                      && !midcom::get()->auth->can_user_do('midgard:create', null, get_class($object))) {
+                      && !midcom::get()->auth->can_user_do('midgard:create', class: get_class($object))) {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
             }
-        } elseif (!midcom::get()->auth->can_user_do('midgard:create', null, get_class($object))) {
+        } elseif (!midcom::get()->auth->can_user_do('midgard:create', class: get_class($object))) {
             debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;

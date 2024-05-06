@@ -58,7 +58,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
             $this->_parent_group->require_do('midgard:create');
         } else {
             // This is a root level organization, require creation permissions under the component root group
-            midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class);
+            midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_contacts_group_dba::class);
         }
 
         $this->_group = new org_openpsa_contacts_group_dba();

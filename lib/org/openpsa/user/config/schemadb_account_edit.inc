@@ -23,8 +23,8 @@
                 'hideinput' => true
             ],
             'storage' => null,
-            'hidden' => (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')),
-            'required' => (!midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')),
+            'hidden' => (midcom::get()->auth->can_user_do('org.openpsa.user:manage', class: 'org_openpsa_user_interface')),
+            'required' => (!midcom::get()->auth->can_user_do('org.openpsa.user:manage', class: 'org_openpsa_user_interface')),
         ],
 
         'new_password' => [

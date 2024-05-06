@@ -15,7 +15,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:access', class: 'midgard_admin_asgard_plugin');
         // Disable content caching
         midcom::get()->cache->content->no_cache();
 
@@ -39,7 +39,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function prepare_plugin(string $title, array &$data)
     {
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:access', class: 'midgard_admin_asgard_plugin');
         // Disable content caching
         midcom::get()->cache->content->no_cache();
         $data['view_title'] = $title;

@@ -202,7 +202,7 @@ class midcom_application extends Kernel
             $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $substyle);
         }
 
-        $request = $this->get_request()->duplicate([], null, []);
+        $request = $this->get_request()->duplicate([], attributes: []);
         $request->attributes->set('context', $context);
 
         $cached = $this->cache->content->check_dl_hit($request);
@@ -306,7 +306,7 @@ class midcom_application extends Kernel
     public function header(string $header, int $response_code = 0)
     {
         $this->cache->content->register_sent_header($header);
-        midcom_compat_environment::header($header, true, $response_code);
+        midcom_compat_environment::header($header, http_response_code: $response_code);
     }
 
     /**

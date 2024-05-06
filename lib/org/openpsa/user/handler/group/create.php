@@ -20,7 +20,7 @@ class org_openpsa_user_handler_group_create extends midcom_baseclasses_component
 
     public function _handler_create(Request $request)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
         $this->group = new midcom_db_group();
         midcom::get()->head->set_pagetitle($this->_l10n->get('create group'));
 

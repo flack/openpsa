@@ -3,8 +3,8 @@ $time = $data['week_start'];
 $date_columns = [];
 
 $data['grid']
-    ->set_column('task', $data['l10n']->get('task'), '', 'string')
-    ->set_column('person', $data['l10n']->get('person'), '', 'string');
+    ->set_column('task', $data['l10n']->get('task'), separate_index: 'string')
+    ->set_column('person', $data['l10n']->get('person'), separate_index: 'string');
 
 $formatter = $data['l10n']->get_formatter();
 while ($time < $data['week_end']) {

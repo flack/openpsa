@@ -3,7 +3,7 @@ use midcom\grid\grid;
 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.relatedto');
 
 $grid = new grid('journalgrid', 'xml');
-$grid->set_column('name', $l10n->get('entry title'), '', 'string')
+$grid->set_column('name', $l10n->get('entry title'), separate_index: 'string')
     ->set_column('description', $l10n->get('entry text'))
     ->set_column('remind_date', $l10n->get('followup'), 'fixed: true, align: "right", formatter: "date", width:140')
     ->set_column('object', $l10n->get('linked object'), 'width: 120', 'string')

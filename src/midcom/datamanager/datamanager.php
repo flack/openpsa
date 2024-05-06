@@ -163,7 +163,7 @@ class datamanager
         $config = [
             'schema' => $this->get_schema()
         ];
-        $builder = self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, null, $config);
+        $builder = self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, options: $config);
         $builder->add('form_toolbar', toolbarType::class, [
             'operations' => $this->schema->get('operations'),
             'index_method' => 'noindex'

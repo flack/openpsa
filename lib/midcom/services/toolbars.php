@@ -274,10 +274,10 @@ class midcom_services_toolbars
     {
         if (   !midcom::get()->auth->user
             || !midcom::get()->config->get('toolbars_enable_centralized')
-            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, __CLASS__)) {
+            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', class: __CLASS__)) {
             return false;
         }
-        if ($centralized && midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
+        if ($centralized && midcom::get()->auth->can_user_do('midcom:ajax', class: $this)) {
             $this->_centralized_mode = true;
             midcom::get()->head->enable_jquery_ui(['mouse', 'draggable']);
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
@@ -307,7 +307,7 @@ class midcom_services_toolbars
         $toolbar_style = "";
         $toolbar_class = "midcom_services_toolbars_simple";
 
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, __CLASS__)) {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', class: __CLASS__)) {
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";
             $toolbar_style = "display: none;";

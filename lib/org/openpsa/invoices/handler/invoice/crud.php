@@ -36,7 +36,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     public function _handler_create(Request $request, string $company = null)
     {
         $this->mode = 'create';
-        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_invoices_invoice_dba::class);
+        midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_invoices_invoice_dba::class);
 
         if ($company !== null) {
             // We're creating invoice for chosen customer

@@ -110,7 +110,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
             $ret['org_openpsa_relatedto'][] = $entry;
         }
-        return http_build_query($ret, '', '&');
+        return http_build_query($ret, arg_separator: '&');
     }
 
     public static function add_button(midcom_helper_toolbar $toolbar, string $guid)
@@ -202,7 +202,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     $toolbar_buttons[] = org_openpsa_calendar_interface::get_create_button($data['node'], '?' . self::relatedto2get([$related_to]));
                     break;
                 case 'task':
-                    if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
+                    if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_task_dba::class)) {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get([$related_to]), [
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',

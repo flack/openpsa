@@ -65,7 +65,7 @@ implements client
     {
         midcom::get()->auth->require_valid_user();
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_directmarketing_campaign_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_directmarketing_campaign_dba::class)) {
             $workflow = $this->get_workflow('datamanager');
             $schemadb = schemadb::from_path($this->_config->get('schemadb_campaign'));
             foreach ($schemadb->all() as $name => $schema) {

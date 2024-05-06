@@ -162,7 +162,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     private function prepare_object(string $guid)
     {
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin');
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');

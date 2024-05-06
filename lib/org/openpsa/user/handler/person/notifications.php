@@ -17,7 +17,7 @@ class org_openpsa_user_handler_person_notifications extends midcom_baseclasses_c
 {
     public function _handler_notifications(Request $request, string $guid)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
 
         $person = new midcom_db_person($guid);
         $person->require_do('midgard:update');

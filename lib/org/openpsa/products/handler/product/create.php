@@ -86,7 +86,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
         }
 
         if (!$this->parent) {
-            midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_products_product_dba::class);
+            midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_products_product_dba::class);
         } else {
             $this->parent->require_do('midgard:create');
         }

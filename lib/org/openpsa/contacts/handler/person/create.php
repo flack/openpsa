@@ -21,7 +21,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
 
     public function _handler_create(Request $request, string $guid = null)
     {
-        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class);
+        midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_contacts_person_dba::class);
 
         $defaults = [];
         if (!empty($guid)) {

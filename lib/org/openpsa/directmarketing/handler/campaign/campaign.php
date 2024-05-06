@@ -131,7 +131,7 @@ implements client
                 MIDCOM_TOOLBAR_URL => $this->router->generate('import_main', ['guid' => $this->_campaign->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'upload',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_contacts_person_dba::class),
             ];
         }
         $buttons[] = [

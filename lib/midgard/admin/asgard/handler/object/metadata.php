@@ -26,7 +26,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
     {
         $object = midcom::get()->dbfactory->get_object_by_guid($guid);
         $object->require_do('midgard:update');
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', class: 'midgard_admin_asgard_plugin');
 
         if ($object instanceof midcom_db_topic) {
             // This is a topic

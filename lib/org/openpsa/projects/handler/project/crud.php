@@ -27,7 +27,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     public function _handler_create(Request $request)
     {
         $this->mode = 'create';
-        midcom::get()->auth->require_user_do('midgard:create', null, org_openpsa_projects_project::class);
+        midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_projects_project::class);
         $this->project = new org_openpsa_projects_project();
 
         $defaults = [

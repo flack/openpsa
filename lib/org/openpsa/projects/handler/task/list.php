@@ -280,13 +280,13 @@ implements client
     {
         $workflow = $this->get_workflow('datamanager');
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_project::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_project::class)) {
             $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('project-new'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
             ]));
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_projects_task_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_task_dba::class)) {
             $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('task-new'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',

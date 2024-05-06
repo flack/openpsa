@@ -17,7 +17,7 @@ class org_openpsa_mail_backend_mail_smtp extends org_openpsa_mail_backend
 {
     public function __construct(array $params)
     {
-        $transport = new EsmtpTransport($params['host'], (int) $params['port'], null, midcom::get()->dispatcher);
+        $transport = new EsmtpTransport($params['host'], (int) $params['port'], dispatcher: midcom::get()->dispatcher);
 
         if (!empty($params['username'])) {
             $transport->setUsername($params['username']);

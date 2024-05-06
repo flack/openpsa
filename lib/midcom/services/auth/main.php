@@ -338,7 +338,7 @@ class midcom_services_auth
      */
     public function require_user_do(string $privilege, string $message = null, string $class = null)
     {
-        if (!$this->can_user_do($privilege, null, $class)) {
+        if (!$this->can_user_do($privilege, class: $class)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
         }
     }
@@ -426,7 +426,7 @@ class midcom_services_auth
             $this->_http_basic_auth();
         }
         if (!$this->is_valid_user()) {
-            throw new midcom_error_forbidden(null, Response::HTTP_UNAUTHORIZED, $method);
+            throw new midcom_error_forbidden(code: Response::HTTP_UNAUTHORIZED, method: $method);
         }
     }
 
@@ -561,7 +561,7 @@ class midcom_services_auth
             return false;
         }
 
-        if ($user = $this->backend->login($username, '', null, true)) {
+        if ($user = $this->backend->login($username, '', trusted: true)) {
             $this->set_user($user);
             return true;
         }

@@ -20,7 +20,7 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
 
     public function _handler_edit(Request $request, string $guid)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
         $this->group = new midcom_db_group($guid);
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->group->get_label()));

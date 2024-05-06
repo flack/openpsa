@@ -132,8 +132,8 @@ implements client
 
     private function _populate_toolbar()
     {
-        $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_products_product_group_dba::class);
-        $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_products_product_dba::class);
+        $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_products_product_group_dba::class);
+        $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_products_product_dba::class);
 
         if (!empty($this->group)) {
             $workflow = $this->get_workflow('datamanager');

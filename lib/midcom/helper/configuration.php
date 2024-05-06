@@ -187,7 +187,7 @@ class midcom_helper_configuration
     {
         $this->_object = $object;
         $this->_path = $path;
-        $this->_store_from_object(false, $merge);
+        $this->_store_from_object(merge: $merge);
     }
 
     /**

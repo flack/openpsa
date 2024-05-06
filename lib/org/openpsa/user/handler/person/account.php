@@ -26,7 +26,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
 
     public function _handler_create(Request $request, string $guid, array &$data)
     {
-        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
 
         // Check if we get the person
         $this->person = new midcom_db_person($guid);
@@ -145,7 +145,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         $this->person = new midcom_db_person($identifier);
         $this->person->require_do('midgard:update');
         if ($this->person->guid != midcom::get()->auth->user->guid) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, org_openpsa_user_interface::class);
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', class: org_openpsa_user_interface::class);
         }
 
         $this->account = new midcom_core_account($this->person);

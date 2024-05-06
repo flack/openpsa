@@ -146,13 +146,13 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         $workflow = $this->get_workflow('datamanager');
         $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_person_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_contacts_person_dba::class)) {
             $buttons[] = $workflow->get_button($this->router->generate('person_new'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
             ]);
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, org_openpsa_contacts_group_dba::class)) {
+        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_contacts_group_dba::class)) {
             $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'organization']), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'group',
