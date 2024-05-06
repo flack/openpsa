@@ -34,31 +34,30 @@ class midcom_core_user
     protected $_storage;
 
     /**
-     * Username of the current user, it is to be considered read-only.
+     * Username of the current user
      */
-    public string $username;
+    public readonly string $username;
 
     /**
      * The full name of the current user.
      *
      * Built from the first and last name of the user record, falling back
-     * to the username if both are unset. It is to be considered read-only.
+     * to the username if both are unset.
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * The full reversed name of the current user.
      *
      * Built from the first and last name of the user record, falling back
-     * to the username if both are unset. It is to be considered read-only.
+     * to the username if both are unset.
      */
-    public string $rname;
+    public readonly string $rname;
 
     /**
      * Lists all groups in which a user is a member, both directly and indirectly.
      *
      * There is no hierarchy, just a plain listing of midcom_core_group objects.
-     * It is to be considered read-only.
      *
      * The array is indexed by the group identifiers, which are used to perform
      * in_group checks.
@@ -71,8 +70,6 @@ class midcom_core_user
 
     /**
      * Lists all groups in which a user is an immediate member.
-     *
-     * It is to be considered read-only.
      *
      * The array is indexed by the group identifiers, which are used to perform
      * in_group checks.
@@ -97,7 +94,7 @@ class midcom_core_user
     private array $_inheritance_chains;
 
     /**
-     * List of all privileges assigned to that user. It is to be considered read-only.
+     * List of all privileges assigned to that user.
      *
      * Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      *
@@ -106,8 +103,7 @@ class midcom_core_user
     private array $_privileges;
 
     /**
-     * List of all privileges assigned to that user based on the class he is accessing. It is to
-     * be considered read-only.
+     * List of all privileges assigned to that user based on the class he is accessing.
      *
      * This is a multi level array. It holds regular privilege name/state arrays indexed by the
      * name of the class (or subtype thereof) for which they should apply.
@@ -122,12 +118,12 @@ class midcom_core_user
      *
      * This is usually some kind of user:$guid string combination.
      */
-    public string $id;
+    public readonly string $id;
 
     /**
      * The GUID identifying this user, made directly available for easier linking.
      */
-    public string $guid;
+    public readonly string $guid;
 
     /**
      * The scope value, which must be set during the _load callback, indicates the
@@ -184,12 +180,8 @@ class midcom_core_user
         $account = new midcom_core_account($this->_storage);
 
         $this->username = $account->get_username();
-        $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
-        $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}");
-        if (empty($this->name)) {
-            $this->name = $this->username;
-            $this->rname = $this->username;
-        }
+        $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}") ?: $this->username;
+        $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}", ' ,') ?: $this->username;
         $this->id = "user:{$this->_storage->guid}";
         $this->guid = $this->_storage->guid;
     }

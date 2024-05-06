@@ -27,18 +27,14 @@ class midcom_core_group
 
     /**
      * Name of the group
-     *
-     * The variable is considered to be read-only.
      */
-    public string $name = '';
+    public readonly string $name;
 
     /**
      * The identification string used to internally identify the group uniquely
      * in the system. This is usually some kind of group:$guid string combination.
-     *
-     * The variable is considered to be read-only.
      */
-    public string $id = '';
+    public readonly string $id;
 
     /**
      * The scope value, which must be set during the _load callback, indicates the "depth" of the
