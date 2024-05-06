@@ -65,7 +65,7 @@ class midcom_application extends Kernel
 
     private function get_request() : Request
     {
-        return $this->request ?? Request::createFromGlobals();
+        return $this->request ??= Request::createFromGlobals();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
