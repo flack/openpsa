@@ -47,7 +47,7 @@ class parserTest extends openpsa_testcase
         $this->assertEquals($result, $links);
     }
 
-    public function provider_find_links_in_content()
+    public static function provider_find_links_in_content()
     {
         return [
             '1' => [

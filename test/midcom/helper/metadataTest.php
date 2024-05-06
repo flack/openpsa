@@ -29,7 +29,7 @@ class metadataTest extends openpsa_testcase
         $this->assertEmpty($topic->metadata->$name);
     }
 
-    public function providerEmptyProperties()
+    public static function providerEmptyProperties()
     {
         return [
             ['schedulestart'],
@@ -78,7 +78,7 @@ class metadataTest extends openpsa_testcase
         $this->assertEquals($value, $topic->metadata->$field);
     }
 
-    public function providerSetEmptyObjectProperties()
+    public static function providerSetEmptyObjectProperties()
     {
         return [
             ['schedulestart', 1329255039],
@@ -102,7 +102,7 @@ class metadataTest extends openpsa_testcase
         $this->assertEquals($expected, $topic->metadata->$field);
     }
 
-    public function providerSetDBObjectProperties()
+    public static function providerSetDBObjectProperties()
     {
         return [
             ['schedulestart', 1329255039],

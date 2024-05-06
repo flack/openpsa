@@ -99,7 +99,7 @@
         "classmap": ["test"]
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^10.5.10"
     },
     "config": {
         "allow-plugins": {

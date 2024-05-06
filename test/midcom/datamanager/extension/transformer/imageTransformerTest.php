@@ -45,9 +45,9 @@ class imageTransformerTest extends openpsa_testcase
         $this->assertEquals($expected, $transformer->reverseTransform($input));
     }
 
-    public function provider_transform()
+    public static function provider_transform()
     {
-        $topic = $this->create_object(\midcom_db_topic::class);
+        $topic = self::create_class_object(\midcom_db_topic::class);
         midcom::get()->auth->request_sudo('midcom.datamanager');
         $att = $topic->create_attachment('test', 'test', 'text/plain');
         $handle = $att->open('w');

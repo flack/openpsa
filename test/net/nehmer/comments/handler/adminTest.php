@@ -43,7 +43,7 @@ class adminTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function provider_moderate()
+    public static function provider_moderate()
     {
         return [
             ['abuse'],

@@ -37,7 +37,7 @@ class i18nTest extends TestCase
         $this->assertEquals($expected, $i18n->get_current_language());
     }
 
-    public function provider_read_http_negotiation()
+    public static function provider_read_http_negotiation()
     {
         return [
             [

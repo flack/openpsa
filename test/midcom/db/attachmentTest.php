@@ -107,7 +107,7 @@ class attachmentTest extends openpsa_testcase
         $this->assertEquals($converted, $output);
     }
 
-    public function provider_safe_filename()
+    public static function provider_safe_filename()
     {
         return [
             ['Minä olen huono tiedosto.foo.jpg', 'minae-olen-huono-tiedosto-foo.jpg'],

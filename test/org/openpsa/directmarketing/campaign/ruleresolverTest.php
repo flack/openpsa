@@ -27,7 +27,7 @@ class ruleresolverTest extends TestCase
         $this->assertSame($result, $resolver->resolve($rules));
     }
 
-    public function provider_resolve()
+    public static function provider_resolve()
     {
         return [
             0 => [

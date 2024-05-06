@@ -265,7 +265,7 @@ class schedulerRunTest extends openpsa_testcase
         }
     }
 
-    private function _generate_unixtime($month, $day, $year)
+    private static function generate_unixtime($month, $day, $year)
     {
         do {
             $unixtime = gmmktime(0, 0, 0, $month, $day, $year);
@@ -273,7 +273,7 @@ class schedulerRunTest extends openpsa_testcase
         return $unixtime;
     }
 
-    public function providerRun_cycle()
+    public static function providerRun_cycle()
     {
         $now = time();
         $this_month = gmdate('n', $now);
@@ -310,10 +310,10 @@ class schedulerRunTest extends openpsa_testcase
             $two_month_past_year--;
         }
 
-        $past_two_month = $this->_generate_unixtime($two_month_past, $this_day, $two_month_past_year);
-        $past_one_month = $this->_generate_unixtime($one_month_past, $this_day, $one_month_past_year);
-        $future_one_month = $this->_generate_unixtime($one_month_future, $this_day, $one_month_future_year);
-        $future_two_month = $this->_generate_unixtime($two_month_future, $this_day, $two_month_future_year);
+        $past_two_month = self::generate_unixtime($two_month_past, $this_day, $two_month_past_year);
+        $past_one_month = self::generate_unixtime($one_month_past, $this_day, $one_month_past_year);
+        $future_one_month = self::generate_unixtime($one_month_future, $this_day, $one_month_future_year);
+        $future_two_month = self::generate_unixtime($two_month_future, $this_day, $two_month_future_year);
 
         //If one of our dates is at the end of the month, align the others to be at the end of the month as well
         if (    gmdate('t', $past_two_month) == gmdate('j', $past_two_month)
@@ -328,24 +328,24 @@ class schedulerRunTest extends openpsa_testcase
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
         //@todo These two aren't properly cleaned up after the test
-        $customer = $this->create_object(org_openpsa_contacts_group_dba::class);
-        $customer_contact = $this->create_object(org_openpsa_contacts_person_dba::class);
+        $customer = self::create_class_object(org_openpsa_contacts_group_dba::class);
+        $customer_contact = self::create_class_object(org_openpsa_contacts_person_dba::class);
 
         return [
             //SET 0: Deliverable not yet started
             [
-                [
+                'params' => [
                     'cycle_number' => 1,
                     'send_invoice' => true,
                 ],
-                [
+                'input' => [
                     '_deliverable' => [
                         'start' => $future_one_month,
                         'end' => $future_two_month,
                         'unit' => 'm',
                     ]
                 ],
-                [
+                'result' => [
                     'at_entry' => [
                         'start' => $future_one_month
                     ],
@@ -358,18 +358,18 @@ class schedulerRunTest extends openpsa_testcase
 
             //SET 1: First deliverable cycle, no invoice yet
             [
-                [
+                'params' => [
                     'cycle_number' => 1,
                     'send_invoice' => true,
                 ],
-                [
+                'input' => [
                     '_deliverable' => [
                         'start' => $past_one_month,
                         'end' => $future_two_month,
                         'unit' => 'm',
                     ],
                 ],
-                [
+                'result' => [
                     'at_entry' => [
                         'start' => $midnight_today
                     ],
@@ -382,11 +382,11 @@ class schedulerRunTest extends openpsa_testcase
 
             //SET 2: First deliverable cycle, invoice by planned units, customer is set
             [
-                [
+                'params' => [
                     'cycle_number' => 1,
                     'send_invoice' => true,
                 ],
-                [
+                'input' => [
                     '_salesproject' => [
                         'customer' => $customer->id,
                     ],
@@ -403,7 +403,7 @@ class schedulerRunTest extends openpsa_testcase
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                     ]
                 ],
-                [
+                'result' => [
                     'at_entry' => [
                         'start' => $beginning_mar
                     ],
@@ -420,11 +420,11 @@ class schedulerRunTest extends openpsa_testcase
 
             //SET 3: second deliverable cycle, invoice by actual units, customerContact is set
             [
-                [
+                'params' => [
                     'cycle_number' => 2,
                     'send_invoice' => true,
                 ],
-                [
+                'input' => [
                     '_salesproject' => [
                         'customerContact' => $customer_contact->id
                     ],
@@ -448,7 +448,7 @@ class schedulerRunTest extends openpsa_testcase
                         'invoiceable' => true
                     ]
                 ],
-                [
+                'result' => [
                     '_deliverable' => [
                         'invoiced' => 130,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
@@ -496,7 +496,7 @@ class schedulerRunTest extends openpsa_testcase
                         'invoiceable' => false
                     ]
                 ],
-                'output' => [
+                'result' => [
                     '_deliverable' => [
                         'invoiced' => 140,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
@@ -534,7 +534,7 @@ class schedulerRunTest extends openpsa_testcase
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS
                     ]
                 ],
-                'output' => [
+                'result' => [
                     '_deliverable' => [
                         'invoiced' => 280,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED

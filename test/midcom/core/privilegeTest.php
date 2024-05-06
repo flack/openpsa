@@ -52,7 +52,7 @@ class privilegeTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function providerStoreArray()
+    public static function providerStoreArray()
     {
         return [
             1 => [

@@ -23,7 +23,7 @@ use midcom_db_person;
  */
 class fetchTest extends openpsa_testcase
 {
-    private function _get_items($source, $raw = false)
+    private static function get_items($source, $raw = false)
     {
         $string = file_get_contents($source);
         $feed = net_nemein_rss_fetch::get_parser();
@@ -42,7 +42,7 @@ class fetchTest extends openpsa_testcase
         $feed = $this->create_object(net_nemein_rss_feed_dba::class, $attributes);
         $fetcher = new net_nemein_rss_fetch($feed);
 
-        $items = $this->_get_items(__DIR__ . '/__files/article.xml');
+        $items = self::get_items(__DIR__ . '/__files/article.xml');
 
         midcom::get()->auth->request_sudo('net.nemein.rss');
         $guid = $fetcher->import_item($items[0]);
@@ -65,7 +65,7 @@ class fetchTest extends openpsa_testcase
         $this->assertEquals(1362342210, $feed->latestupdate);
 
         //Now for the update
-        $update_items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
+        $update_items = self::get_items(__DIR__ . '/__files/article_update.xml');
 
         midcom::get()->auth->request_sudo('net.nemein.rss');
         $guid2 = $fetcher->import_item($update_items[0]);
@@ -135,9 +135,9 @@ class fetchTest extends openpsa_testcase
         }
     }
 
-    public function provider_normalize_item()
+    public static function provider_normalize_item()
     {
-        $items = $this->_get_items(__DIR__ . '/__files/normalize.xml', true);
+        $items = self::get_items(__DIR__ . '/__files/normalize.xml', true);
         return [
             [
                 $items[0],

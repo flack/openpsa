@@ -32,7 +32,7 @@ class debugTest extends TestCase
         ]], $caller);
     }
 
-    public function provider_get_caller() : array
+    public static function provider_get_caller() : array
     {
         return [
             // midcom_error::log in handler

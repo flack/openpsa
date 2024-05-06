@@ -70,7 +70,7 @@ class personTest extends openpsa_testcase
         }
     }
 
-    public function providerUpdate_computed_members()
+    public static function providerUpdate_computed_members()
     {
         return [
             [

@@ -29,7 +29,7 @@ class handlerTest extends openpsa_testcase
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_tagname($input));
     }
 
-    public function provider_resolve_tagname()
+    public static function provider_resolve_tagname()
     {
         return [
             [
@@ -59,7 +59,7 @@ class handlerTest extends openpsa_testcase
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_value($input));
     }
 
-    public function provider_resolve_value()
+    public static function provider_resolve_value()
     {
         return [
             [
@@ -89,7 +89,7 @@ class handlerTest extends openpsa_testcase
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_context($input));
     }
 
-    public function provider_resolve_context()
+    public static function provider_resolve_context()
     {
         return [
             [
@@ -119,7 +119,7 @@ class handlerTest extends openpsa_testcase
         $this->assertEquals($expected, net_nemein_tag_handler::string2tag_array($input));
     }
 
-    public function provider_string2tag_array()
+    public static function provider_string2tag_array()
     {
         return [
             [

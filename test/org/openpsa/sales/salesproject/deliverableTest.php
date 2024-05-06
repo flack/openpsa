@@ -110,7 +110,7 @@ class deliverableTest extends openpsa_testcase
         }
     }
 
-    public function providerOrder()
+    public static function providerOrder()
     {
         return [
             0 => [
@@ -216,19 +216,19 @@ class deliverableTest extends openpsa_testcase
      */
     public function testCalculate_price($attributes, $results)
     {
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        $attributes['salesproject'] = $salesproject->id;
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
         foreach ($results as $key => $value) {
             $this->assertEquals($value, $deliverable->$key, $key . ' test failed');
         }
     }
 
-    public function providerCalculate_price()
+    public static function providerCalculate_price()
     {
-        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
         return [
             [
                 [
-                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 1,
                     'units' => 1,
@@ -243,7 +243,6 @@ class deliverableTest extends openpsa_testcase
             ],
             [
                 [
-                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => false,
                     'plannedUnits' => 2,
                     'units' => 1,
@@ -258,7 +257,6 @@ class deliverableTest extends openpsa_testcase
             ],
             [
                 [
-                    'salesproject' => $salesproject->id,
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 0,
                     'units' => 2,
@@ -284,7 +282,7 @@ class deliverableTest extends openpsa_testcase
         $this->assertEquals($identifier, $output);
     }
 
-    public function providerGet_cycle_identifier()
+    public static function providerGet_cycle_identifier()
     {
         return [
             [

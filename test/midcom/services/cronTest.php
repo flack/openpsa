@@ -30,7 +30,7 @@ class cronTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function provider_load_jobs()
+    public static function provider_load_jobs()
     {
         return [
             [

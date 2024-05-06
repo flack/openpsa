@@ -28,7 +28,7 @@ class documentTest extends TestCase
         $this->assertEquals($out, $document->html2text($in));
     }
 
-    public function provider_html2text()
+    public static function provider_html2text()
     {
         return [
             ['some string', 'some string'],

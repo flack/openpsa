@@ -43,7 +43,7 @@ class multipleTransformerTest extends TestCase
         $this->assertEquals($expected, $transformer->reverseTransform($input));
     }
 
-    public function provider_transform()
+    public static function provider_transform()
     {
         return [
             ['serialized', null, []],

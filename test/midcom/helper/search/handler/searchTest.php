@@ -48,7 +48,7 @@ class searchTest extends openpsa_testcase
         $this->assertEquals('result', $data['handler_id']);
     }
 
-    public function provider_result()
+    public static function provider_result()
     {
         return [
             1 => [

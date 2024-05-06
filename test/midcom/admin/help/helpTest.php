@@ -43,7 +43,7 @@ class helpTest extends openpsa_testcase
         $this->assertEquals($expected, $handler->list_files($component, $index));
     }
 
-    public function provider_list_files()
+    public static function provider_list_files()
     {
         return [
             [

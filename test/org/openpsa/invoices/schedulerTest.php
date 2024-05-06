@@ -49,7 +49,7 @@ class schedulerTest extends openpsa_testcase
         $this->assertEquals($result, $next_cycle, 'Wrong value for unit ' . $unit . ', start value: ' . $start);
     }
 
-    public function providerCalculate_cycle_next()
+    public static function providerCalculate_cycle_next()
     {
         return [
             [
@@ -109,7 +109,7 @@ class schedulerTest extends openpsa_testcase
         $this->assertEquals($result, $cycles, 'Wrong value for unit ' . $deliverable->unit);
     }
 
-    public function providerCalculate_cycles()
+    public static function providerCalculate_cycles()
     {
         return [
             [
@@ -251,7 +251,7 @@ class schedulerTest extends openpsa_testcase
         $this->assertEquals($expected, $actual, "Cycle start doesn't match");
     }
 
-    public function providerCycle_start()
+    public static function providerCycle_start()
     {
         return [
             [gmmktime(0, 0, 0, 4, 21, 2012), '2012-05-01'],

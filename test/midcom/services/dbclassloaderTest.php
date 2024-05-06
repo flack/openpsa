@@ -34,7 +34,7 @@ class dbclassloaderTest extends TestCase
         $this->assertEquals($result, $classes);
     }
 
-    public function providerGet_component_classes()
+    public static function providerGet_component_classes()
     {
         return [
             [
@@ -69,7 +69,7 @@ class dbclassloaderTest extends TestCase
         $this->assertEquals($midcom, $result);
     }
 
-    public function provider_class_conversion()
+    public static function provider_class_conversion()
     {
         return [
             [
@@ -92,7 +92,7 @@ class dbclassloaderTest extends TestCase
         $this->assertEquals($result, $component);
     }
 
-    public function providerGet_midcom_class_name_for_mgdschema_object()
+    public static function providerGet_midcom_class_name_for_mgdschema_object()
     {
         $ret = [
             [

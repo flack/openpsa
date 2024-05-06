@@ -38,7 +38,7 @@ class schemadbTest extends TestCase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function provider_sort()
+    public static function provider_sort()
     {
         return [
             [

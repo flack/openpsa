@@ -40,7 +40,7 @@ class reflectorTest extends openpsa_testcase
         }
     }
 
-    public function provider_property_exists()
+    public static function provider_property_exists()
     {
         return [
             1 => [new midgard_article],
@@ -63,7 +63,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($label, $reflector->get_class_label());
     }
 
-    public function providerGet_class_label()
+    public static function providerGet_class_label()
     {
         return [
             1 => ['org_openpsa_projects_project', 'Projects Project'],
@@ -82,7 +82,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($property, $reflector->get_label_property());
     }
 
-    public function providerGet_label_property()
+    public static function providerGet_label_property()
     {
         return [
             1 => ['org_openpsa_projects_project', 'title'],
@@ -109,7 +109,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($label, $reflector->get_object_label($object));
     }
 
-    public function providerGet_object_label()
+    public static function providerGet_object_label()
     {
         return [
             1 => ['org_openpsa_projects_project', ['title' => 'Project Title'], 'Project Title'],
@@ -134,7 +134,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($label, midcom_helper_reflector::get_object_title($object));
     }
 
-    public function providerGet_object_title()
+    public static function providerGet_object_title()
     {
         return [
             1 => ['org_openpsa_projects_project', ['title' => 'Project Title'], 'Project Title'],
@@ -153,7 +153,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($property, midcom_helper_reflector::get_title_property($object));
     }
 
-    public function providerGet_title_property()
+    public static function providerGet_title_property()
     {
         return [
             1 => ['org_openpsa_projects_project', 'title'],
@@ -173,7 +173,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($property, midcom_helper_reflector::get_name_property($object));
     }
 
-    public function providerGet_name_property()
+    public static function providerGet_name_property()
     {
         return [
             1 => ['midcom_db_article', 'name'],
@@ -193,7 +193,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($icon, $reflector->get_create_icon($classname));
     }
 
-    public function providerGet_create_icon()
+    public static function providerGet_create_icon()
     {
         return [
             1 => ['midcom_db_article', 'plus'],
@@ -215,7 +215,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($icon, midcom_helper_reflector::get_object_icon($object));
     }
 
-    public function providerGet_object_icon()
+    public static function providerGet_object_icon()
     {
         return [
             1 => ['midcom_db_article', 'file-o'],
@@ -249,7 +249,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($properties, $search_properties);
     }
 
-    public function providerGet_search_properties()
+    public static function providerGet_search_properties()
     {
         return [
             1 => ['midcom_db_article', ['name', 'title']],
@@ -269,7 +269,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($result, midcom_helper_reflector::is_same_class($classname1, $classname2));
     }
 
-    public function providerIs_same_class()
+    public static function providerIs_same_class()
     {
         return [
             1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event', true],
@@ -286,7 +286,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($result, midcom_helper_reflector::resolve_baseclass($classname1));
     }
 
-    public function providerResolve_baseclass()
+    public static function providerResolve_baseclass()
     {
         return [
             1 => ['org_openpsa_calendar_event_dba', 'org_openpsa_event'],
@@ -305,7 +305,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($properties, $reflector->get_link_properties());
     }
 
-    public function providerGet_link_properties()
+    public static function providerGet_link_properties()
     {
         return [
             1 => ['midcom_db_article', [
