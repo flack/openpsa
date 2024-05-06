@@ -204,30 +204,23 @@ class midcom_helper_reflector extends midgard_reflection_property
         self::$_cache[$mode . '_map'] ??= self::_get_icon_map($mode . '_magic', $mode === 'create_type' ? 'file-o' : 'file');
         $map = self::$_cache[$mode . '_map'];
 
-        switch (true) {
-            case (isset($map[$object_class])):
-                return $map[$object_class];
+        return match (true) {
+            isset($map[$object_class]) => $map[$object_class],
 
-            case (isset($map[$object_baseclass])):
-                return $map[$object_baseclass];
+            isset($map[$object_baseclass]) => $map[$object_baseclass],
 
-            case (str_contains($object_class, 'person')):
-                return $mode === 'create_type' ? 'user-o' : 'user';
+            str_contains($object_class, 'person') => $mode === 'create_type' ? 'user-o' : 'user',
 
-            case (str_contains($object_class, 'event')):
-                return 'calendar-o';
+            str_contains($object_class, 'event') => 'calendar-o',
 
-            case (str_contains($object_class, 'member')):
-            case (str_contains($object_class, 'organization')):
-            case (str_contains($object_class, 'group')):
-                return 'users';
+            str_contains($object_class, 'member'),
+            str_contains($object_class, 'organization'),
+            str_contains($object_class, 'group') => 'users',
 
-            case (str_contains($object_class, 'element')):
-                return 'file-code-o';
+            str_contains($object_class, 'element') => 'file-code-o',
 
-            default:
-                return $map['__default__'];
-        }
+            default => $map['__default__']
+        };
     }
 
     /**

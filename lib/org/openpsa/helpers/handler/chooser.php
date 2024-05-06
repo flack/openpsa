@@ -92,16 +92,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
             throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
         }
 
-        switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
-                $title = 'person';
-                break;
-            case 'org_openpsa_products_product_group_dba':
-                $title = 'product group';
-                break;
-            default:
-                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
-        }
+        $title = match ($this->_dbaclass) {
+            'org_openpsa_contacts_person_dba' => 'person',
+            'org_openpsa_products_product_group_dba' => 'product group'
+        };
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
         midcom::get()->head->set_pagetitle($title);
     }
@@ -111,18 +105,10 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private function _get_schemadb_snippet() : string
     {
-        $config_key = 'schemadb';
-
-        switch ($this->_dbaclass) {
-            case 'org_openpsa_contacts_person_dba':
-                $config_key .= '_person';
-                break;
-            case 'org_openpsa_products_product_group_dba':
-                $config_key .= '_group';
-                break;
-            default:
-                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
-        }
+        $config_key = 'schemadb' . match ($this->_dbaclass) {
+            'org_openpsa_contacts_person_dba' => '_person',
+            'org_openpsa_products_product_group_dba' => '_group'
+        };
 
         return $this->_node[MIDCOM_NAV_CONFIGURATION]->get($config_key);
     }

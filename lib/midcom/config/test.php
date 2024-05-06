@@ -228,23 +228,11 @@ class midcom_config_test
 
         foreach ($messages as $testname => $data) {
             echo "  <tr class=\"test\">\n    <th>\n";
-            switch ($data['result']) {
-                case self::OK:
-                    echo "    <i class='fa fa-check' style='color: green;' title='OK'></i>";
-                    break;
-
-                case self::WARNING:
-                    echo "    <i class='fa fa-exclamation-triangle' style='color: orange;' title='WARNING'></i>";
-                    break;
-
-                case self::ERROR:
-                    echo "    <i class='fa fa-exclamation-circle' style='color: red;' title='ERROR'></i>";
-                    break;
-
-                default:
-                    throw new midcom_error("Unknown error code {$data['result']}.");
-            }
-
+            echo match ($data['result']) {
+                self::OK => "    <i class='fa fa-check' style='color: green;' title='OK'></i>",
+                self::WARNING => "    <i class='fa fa-exclamation-triangle' style='color: orange;' title='WARNING'></i>",
+                self::ERROR => "    <i class='fa fa-exclamation-circle' style='color: red;' title='ERROR'></i>"
+            };
             echo " {$testname}</th>\n";
             echo "    <td>{$data['message']}</td>\n";
             echo "  </tr>\n";

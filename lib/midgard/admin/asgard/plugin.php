@@ -89,36 +89,19 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
     public static function set_pagetitle($object, string $handler_id, array &$data)
     {
+        $l10n = midcom::get()->i18n->get_l10n('midgard.admin.asgard');
         // Figure out correct title and language handling
-        switch ($handler_id) {
-            case 'object_edit':
-                $title_string = midcom::get()->i18n->get_string('edit %s %s', 'midgard.admin.asgard');
-                break;
-            case 'object_metadata':
-                $title_string = midcom::get()->i18n->get_string('metadata of %s %s', 'midgard.admin.asgard');
-                break;
-            case 'object_attachments':
-            case 'object_attachments_edit':
-                $title_string = midcom::get()->i18n->get_string('attachments of %s %s', 'midgard.admin.asgard');
-                break;
-            case 'object_parameters':
-                $title_string = midcom::get()->i18n->get_string('parameters of %s %s', 'midgard.admin.asgard');
-                break;
-            case 'object_permissions':
-                // Figure out label for the object's class
-                $type = $data['object_reflector']->get_class_label();
-                $title_string = sprintf(midcom::get()->i18n->get_string('permissions for %s %s', 'midgard.admin.asgard'), $type, $data['object_reflector']->get_object_label($object));
-                break;
-            case 'object_create':
-                $title_string = sprintf(midcom::get()->i18n->get_string('create %s under %s', 'midgard.admin.asgard'), self::get_type_label($data['current_type']), '%s %s');
-                break;
-            case 'object_delete':
-                $title_string = midcom::get()->i18n->get_string('delete %s %s', 'midgard.admin.asgard');
-                break;
-            default:
-                $title_string = midcom::get()->i18n->get_string('%s %s', 'midgard.admin.asgard');
-                break;
-        }
+        $title_string = match ($handler_id) {
+            'object_edit' => $l10n->get('edit %s %s'),
+            'object_metadata' => $l10n->get('metadata of %s %s'),
+            'object_attachments',
+            'object_attachments_edit' => $l10n->get('attachments of %s %s'),
+            'object_parameters' => $l10n->get('parameters of %s %s'),
+            'object_permissions' => $l10n->get('permissions for %s %s'),
+            'object_create' => sprintf($l10n->get('create %s under %s'), self::get_type_label($data['current_type']), '%s %s'),
+            'object_delete' => $l10n->get('delete %s %s'),
+            default => $l10n->get('%s %s')
+        };
 
         $label = $data['object_reflector']->get_object_label($object);
         $type_label = self::get_type_label(get_class($object));

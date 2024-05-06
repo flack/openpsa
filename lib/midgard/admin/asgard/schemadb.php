@@ -216,25 +216,16 @@ class midgard_admin_asgard_schemadb extends schemabuilder
         $address_fields = $this->_config->get_array('object_address_fields');
         $location_fields = $this->_config->get_array('object_location_fields');
 
-        $score = 7;
-
-        if ($this->reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT) {
-            $score = 1;
-        } elseif (in_array($field, $preferred_fields)) {
-            $score = 0;
-        } elseif ($this->reflector->is_link($field)) {
-            $score = 2;
-        } elseif (in_array($field, $timerange_fields)) {
-            $score = 3;
-        } elseif (in_array($field, $phone_fields)) {
-            $score = 4;
-        } elseif (in_array($field, $address_fields)) {
-            $score = 5;
-        } elseif (in_array($field, $location_fields)) {
-            $score = 6;
-        }
-
-        return $score;
+        return match (true) {
+            $this->reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT => 1,
+            in_array($field, $preferred_fields) => 0,
+            $this->reflector->is_link($field) => 2,
+            in_array($field, $timerange_fields) => 3,
+            in_array($field, $phone_fields) => 4,
+            in_array($field, $address_fields) => 5,
+            in_array($field, $location_fields) => 6,
+            default => 7
+        };
     }
 
     public function sort_schema_fields(string $first, string $second) : int
@@ -251,20 +242,12 @@ class midgard_admin_asgard_schemadb extends schemabuilder
             || $score1 > 6) {
             return strnatcmp($first, $second);
         }
-        switch ($score1) {
-            case 3:
-                $type = 'timerange';
-                break;
-            case 4:
-                $type = 'phone';
-                break;
-            case 5:
-                $type = 'address';
-                break;
-            case 6:
-                $type = 'location';
-                break;
-        }
+        $type = match ($score1) {
+            3 => 'timerange',
+            4 => 'phone',
+            5 => 'address',
+            6 => 'location'
+        };
         $fields = $this->_config->get_array('object_' . $type . '_fields');
         return array_search($first, $fields) <=> array_search($second, $fields);
     }

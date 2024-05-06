@@ -101,21 +101,15 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function get_state() : string
     {
-        switch ($this->state) {
-            case self::STATE_NEW:
-                return 'proposed';
-            case self::STATE_DECLINED:
-                return 'declined';
-            case self::STATE_ORDERED:
-                return 'ordered';
-            case self::STATE_STARTED:
-                return 'started';
-            case self::STATE_DELIVERED:
-                return 'delivered';
-            case self::STATE_INVOICED:
-                return 'invoiced';
-        }
-        return '';
+        return match ($this->state) {
+            self::STATE_NEW => 'proposed',
+            self::STATE_DECLINED => 'declined',
+            self::STATE_ORDERED => 'ordered',
+            self::STATE_STARTED => 'started',
+            self::STATE_DELIVERED => 'delivered',
+            self::STATE_INVOICED => 'invoiced',
+            default => ''
+        };
     }
 
     /**

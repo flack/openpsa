@@ -128,13 +128,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _get_object_links_sort_time(midcom_core_dbaobject $obj)
     {
-        switch (true) {
-            case $obj instanceof org_openpsa_calendar_event_dba:
-            case $obj instanceof org_openpsa_projects_task_dba:
-                return $obj->start;
-            default:
-                return $obj->metadata->created;
-        }
+        return match (true) {
+            $obj instanceof org_openpsa_calendar_event_dba,
+            $obj instanceof org_openpsa_projects_task_dba => $obj->start,
+            default => $obj->metadata->created
+        };
     }
 
     /**
@@ -197,30 +195,16 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $other_obj = new $link['class']($other_obj);
         }
 
-        switch ($link['class']) {
-            case net_nemein_wiki_wikipage::class:
-                $this->_render_line_wikipage($other_obj);
-                break;
-            case org_openpsa_calendar_event_dba::class:
-                $this->_render_line_event($other_obj);
-                break;
-            case org_openpsa_projects_task_dba::class:
-            case org_openpsa_projects_project::class:
-                $this->_render_line_task($other_obj);
-                break;
-            case org_openpsa_documents_document_dba::class:
-                $this->_render_line_document($other_obj);
-                break;
-            case org_openpsa_sales_salesproject_dba::class:
-                $this->_render_line_salesproject($other_obj);
-                break;
-            case org_openpsa_invoices_invoice_dba::class:
-                $this->_render_line_invoice($other_obj);
-                break;
-            default:
-                $this->_render_line_default($link, $other_obj);
-                break;
-        }
+        match ($link['class']) {
+            net_nemein_wiki_wikipage::class => $this->_render_line_wikipage($other_obj),
+            org_openpsa_calendar_event_dba::class => $this->_render_line_event($other_obj),
+            org_openpsa_projects_task_dba::class,
+            org_openpsa_projects_project::class => $this->_render_line_task($other_obj),
+            org_openpsa_documents_document_dba::class => $this->_render_line_document($other_obj),
+            org_openpsa_sales_salesproject_dba::class => $this->_render_line_salesproject($other_obj),
+            org_openpsa_invoices_invoice_dba::class => $this->_render_line_invoice($other_obj),
+            default => $this->_render_line_default($link, $other_obj)
+        };
     }
 
     private function get_node_url(string $component)

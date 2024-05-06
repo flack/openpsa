@@ -188,17 +188,10 @@ class provider
 
     public function render()
     {
-        switch ($this->_datatype) {
-            case 'json':
-                $this->_render_json();
-                break;
-            case 'local':
-                $this->get_grid()->render();
-                break;
-            default:
-                debug_add('Datatype ' . $this->_get_grid_option('datatype', 'json') . ' is not supported', MIDCOM_LOG_ERROR);
-                throw new midcom_error('Unsupported datatype');
-        }
+        match ($this->_datatype) {
+            'json' => $this->_render_json(),
+            'local' => $this->get_grid()->render()
+        };
     }
 
     private function _get_grid_option(string $key, $default = null)

@@ -107,26 +107,17 @@ implements client
 
     private function get_status_type(org_openpsa_projects_task_dba $task) : string
     {
-        $type = 'closed';
         $is_manager = $task->manager == midcom_connection::get_user();
-        switch ($task->status) {
-            case org_openpsa_projects_task_status_dba::PROPOSED:
-                $type = ($is_manager) ? 'pending_accept' : 'proposed';
-                break;
-            case org_openpsa_projects_task_status_dba::STARTED:
-            case org_openpsa_projects_task_status_dba::REOPENED:
-            case org_openpsa_projects_task_status_dba::ACCEPTED:
-                $type = 'current';
-                break;
-            case org_openpsa_projects_task_status_dba::DECLINED:
-                $type = 'declined';
-                break;
-            case org_openpsa_projects_task_status_dba::COMPLETED:
-                $type = ($is_manager) ? 'pending_approve' : 'completed';
-                break;
-        }
 
-        return $type;
+        return match ($task->status) {
+            org_openpsa_projects_task_status_dba::PROPOSED => ($is_manager) ? 'pending_accept' : 'proposed',
+            org_openpsa_projects_task_status_dba::STARTED,
+            org_openpsa_projects_task_status_dba::REOPENED,
+            org_openpsa_projects_task_status_dba::ACCEPTED => 'current',
+            org_openpsa_projects_task_status_dba::DECLINED => 'declined',
+            org_openpsa_projects_task_status_dba::COMPLETED => ($is_manager) ? 'pending_approve' : 'completed',
+            default => 'closed'
+        };
     }
 
     private function render_workflow_controls(org_openpsa_projects_task_dba $task) : string

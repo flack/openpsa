@@ -227,23 +227,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $data['attachment_text_types'] = $this->_config->get_array('attachment_text_types');
         if (array_key_exists($this->_file->mimetype, $data['attachment_text_types'])) {
             // Figure out correct syntax from MIME type
-            switch (preg_replace('/.+?\//', '', $this->_file->mimetype)) {
-                case 'css':
-                    $data['file_syntax'] = 'css';
-                    break;
-
-                case 'html':
-                    $data['file_syntax'] = 'html';
-                    break;
-
-                case 'x-javascript':
-                case 'javascript':
-                    $data['file_syntax'] = 'javascript';
-                    break;
-
-                default:
-                    $data['file_syntax'] = 'text';
-            }
+            $data['file_syntax'] = match (preg_replace('/.+?\//', '', $this->_file->mimetype)) {
+                'css' => 'css',
+                'html' => 'html',
+                'x-javascript', 'javascript' => 'javascript',
+                default => 'text'
+            };
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);

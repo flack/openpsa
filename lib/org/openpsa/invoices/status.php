@@ -26,22 +26,13 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
 
     public function get_current_status() : string
     {
-        switch ($this->invoice->get_status()) {
-            case 'unsent':
-                return $this->l10n->get('unsent');
-
-            case 'open':
-                return sprintf($this->l10n->get('due on %s'), $this->l10n->get_formatter()->date($this->invoice->due));
-
-            case 'overdue':
-                return '<span class="bad">' . sprintf($this->l10n->get('overdue since %s'), $this->l10n->get_formatter()->date($this->invoice->due)) . '</span>';
-
-            case 'paid':
-                return sprintf($this->l10n->get('paid on %s'), $this->l10n->get_formatter()->date($this->invoice->paid));
-
-            case 'canceled':
-                return sprintf($this->l10n->get('invoice canceled on %s'), $this->l10n->get_formatter()->date($this->invoice->paid));
-        }
+        return match ($this->invoice->get_status()) {
+            'unsent' => $this->l10n->get('unsent'),
+            'open' => sprintf($this->l10n->get('due on %s'), $this->l10n->get_formatter()->date($this->invoice->due)),
+            'overdue' => '<span class="bad">' . sprintf($this->l10n->get('overdue since %s'), $this->l10n->get_formatter()->date($this->invoice->due)) . '</span>',
+            'paid' => sprintf($this->l10n->get('paid on %s'), $this->l10n->get_formatter()->date($this->invoice->paid)),
+            'canceled' => sprintf($this->l10n->get('invoice canceled on %s'), $this->l10n->get_formatter()->date($this->invoice->paid))
+        };
     }
 
     public function get_status_class() : string
