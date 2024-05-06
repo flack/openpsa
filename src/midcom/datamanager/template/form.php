@@ -570,13 +570,13 @@ class form extends base
 
     public function submit_widget(FormView $view, array $data)
     {
-        $data['type'] = $data['type'] ?? 'submit';
+        $data['type'] ??= 'submit';
         return $this->renderer->block($view, 'button_widget', $data);
     }
 
     public function delete_widget(FormView $view, array $data)
     {
-        $data['type'] = $data['type'] ?? 'delete';
+        $data['type'] ??= 'delete';
         return $this->renderer->block($view, 'button_widget', $data);
     }
 
