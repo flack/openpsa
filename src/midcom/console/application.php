@@ -54,7 +54,7 @@ class application extends base_application
     /**
      * @inheritDoc
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output) : int
     {
         $GLOBALS['midcom_config_local']['cache_module_content_uncached'] = true;
 
