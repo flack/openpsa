@@ -21,14 +21,12 @@ class midcom_core_dbaproxy
 
     /**
      * MidCOM DBA object identifier, can be ID or GUID
-     *
-     * @var mixed
      */
-    private $__identifier;
+    private string|int $__identifier;
 
     private bool $__tried_to_load = false;
 
-    public function __construct($identifier, string $classname)
+    public function __construct(string|int $identifier, string $classname)
     {
         $this->__midcom_class_name__ = $classname;
         $this->__identifier = $identifier;

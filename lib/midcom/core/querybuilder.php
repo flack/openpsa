@@ -216,9 +216,6 @@ class midcom_core_querybuilder extends midcom_core_query
 
     /**
      * Get result by its index
-     *
-     * @param int $key      Requested index in result set
-     * @return mixed        Null on failure (key does not exist), object given to constructor on success
      */
     public function get_result(int $key) : ?midcom_core_dbaobject
     {

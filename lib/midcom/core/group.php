@@ -58,18 +58,10 @@ class midcom_core_group
      * $storage, $name and $id members accordingly.
      *
      * Any error will trigger midcom_error.
-     *
-     * @param mixed $id This is a valid identifier for the group to be loaded. Usually this is either
-     *     a database ID or GUID for Midgard Groups or a valid complete MidCOM group identifier, which
-     *     will work for all subclasses.
      */
-    public function __construct($id)
+    public function __construct(string|int|midcom_db_group|midgard_group $id)
     {
-        if ($id === null) {
-            throw new midcom_error('The class midcom_core_group is not default constructible.');
-        }
-
-        if (is_a($id, midcom_db_group::class) || is_a($id, 'midgard_group')) {
+        if (is_object($id)) {
             $this->_storage = $id;
         } else {
             if (is_string($id)) {

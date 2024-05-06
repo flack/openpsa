@@ -215,7 +215,7 @@ class midcom_helper_toolbar
      *
      * Invalid positions will result in a MidCOM Error.
      *
-     * @param mixed $before The index before which the item should be inserted.
+     * @param string|int $before The index before which the item should be inserted.
      *     Use -1 for appending at the end, use a string to insert
      *     it before a URL, an integer will insert it before a
      *     given index.
@@ -223,7 +223,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::clean_item()
      */
-    public function add_item(array $item, $before = -1)
+    public function add_item(array $item, string|int $before = -1)
     {
         if ($before != -1) {
             $before = $this->_check_index($before, false);
@@ -244,12 +244,12 @@ class midcom_helper_toolbar
     /**
      * Convenience shortcut to add multiple buttons at the same item
      *
-     * @param mixed $before The index before which the item should be inserted.
+     * @param string|int $before The index before which the item should be inserted.
      *     Use -1 for appending at the end, use a string to insert
      *     it before a URL, an integer will insert it before a
      *     given index.
      */
-    public function add_items(array $items, $before = -1)
+    public function add_items(array $items, string|int $before = -1)
     {
         foreach ($items as $item) {
             $this->add_item($item, $before);
@@ -319,11 +319,11 @@ class midcom_helper_toolbar
      *
      * It will trigger a MidCOM Error upon an invalid index.
      *
-     * @param mixed $index The (integer) index or URL to remove.
+     * @param string|int $index The (integer) index or URL to remove.
      * @see midcom_helper_toolbar::get_index_from_url()
      * @see midcom_helper_toolbar::_check_index()
      */
-    public function remove_item($index)
+    public function remove_item(string|int $index)
     {
         $index = $this->_check_index($index);
 
@@ -348,9 +348,9 @@ class midcom_helper_toolbar
     /**
      * Set's an item's enabled flag to true.
      *
-     * @param mixed $index The integer index or URL of the item to enable.
+     * @param string|int $index The integer index or URL of the item to enable.
      */
-    public function enable_item($index)
+    public function enable_item(string|int $index)
     {
         $index = $this->_check_index($index);
         $this->items[$index][MIDCOM_TOOLBAR_ENABLED] = true;
@@ -359,9 +359,9 @@ class midcom_helper_toolbar
     /**
      * Set's an item's enabled flag to false.
      *
-     * @param mixed $index The integer index or URL of the item to disable.
+     * @param string|int $index The integer index or URL of the item to disable.
      */
-    public function disable_item($index)
+    public function disable_item(string|int $index)
     {
         $index = $this->_check_index($index, false);
 
@@ -373,9 +373,9 @@ class midcom_helper_toolbar
     /**
      * Set's an item's hidden flag to true.
      *
-     * @param mixed $index The integer index or URL of the item to hide.
+     * @param string|int $index The integer index or URL of the item to hide.
      */
-    public function hide_item($index)
+    public function hide_item(string|int $index)
     {
         $index = $this->_check_index($index, false);
 
@@ -387,9 +387,9 @@ class midcom_helper_toolbar
     /**
      * Set's an item's hidden flag to false.
      *
-     * @param mixed $index The integer index or URL of the item to show.
+     * @param string|int $index The integer index or URL of the item to show.
      */
-    public function show_item($index)
+    public function show_item(string|int $index)
     {
         $index = $this->_check_index($index);
         $this->items[$index][MIDCOM_TOOLBAR_HIDDEN] = false;
@@ -403,7 +403,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::add_item()
      */
-    public function update_item_url($index, string $url)
+    public function update_item_url(string|int $index, string $url)
     {
         $index = $this->_check_index($index);
         $this->set_url($this->items[$index], $url);
@@ -607,9 +607,9 @@ class midcom_helper_toolbar
      * also trigger an error. The translated URL is returned by the
      * function.
      *
-     * @param mixed $index The integer index or URL to check
+     * @param string|int $index The integer index or URL to check
      */
-    protected function _check_index($index, bool $raise_error = true) :?int
+    protected function _check_index(string|int $index, bool $raise_error = true) :?int
     {
         if (is_string($index)) {
             $url = $index;

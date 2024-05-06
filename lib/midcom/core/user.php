@@ -416,10 +416,8 @@ class midcom_core_user
      * 1. A valid group object (subclass of midcom_core_group)
      * 2. A group string identifier, matching the regex ^group:
      * 3. A valid midcom group name
-     *
-     * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
      */
-    public function is_in_group($group) : bool
+    public function is_in_group(midcom_core_group|string $group) : bool
     {
         if ($this->_all_groups === null) {
             $this->_load_all_groups();

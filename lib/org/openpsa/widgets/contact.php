@@ -92,10 +92,8 @@ class org_openpsa_widgets_contact
 
     /**
      * Retrieve an object, uses in-request caching
-     *
-     * @param mixed $src GUID of object (ids work but are discouraged)
      */
-    public static function get($src) : self
+    public static function get(string|int $src) : self
     {
         static $cache = [];
 

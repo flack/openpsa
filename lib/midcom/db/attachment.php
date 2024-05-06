@@ -155,7 +155,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return "{$cacheroot}/{$subdir}/{$this->guid}/{$this->name}";
     }
 
-    public static function get_url($attachment, string $name = null) : string
+    public static function get_url(midgard_attachment|midcom_db_attachment|string $attachment, string $name = null) : string
     {
         if (is_string($attachment)) {
             $guid = $attachment;
@@ -164,11 +164,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 $names = $mc->get_values('name');
                 $name = array_pop($names);
             }
-        } elseif (midcom::get()->dbfactory->is_a($attachment, 'midgard_attachment')) {
+        } else {
             $guid = $attachment->guid;
             $name = $attachment->name;
-        } else {
-            throw new midcom_error('Invalid attachment identifier');
         }
 
         if (!$guid) {

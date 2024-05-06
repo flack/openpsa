@@ -106,18 +106,13 @@ class midcom_services_dbclassloader
     /**
      * Get a MidCOM DB class name for a MgdSchema Object.
      * We also ensure that the corresponding component has been loaded.
-     *
-     * @param string|object $classname The classname (or object) to check
      */
-    public function get_midcom_class_name_for_mgdschema_object($classname) : ?string
+    public function get_midcom_class_name_for_mgdschema_object(string|object $classname) : ?string
     {
         static $dba_classes_by_mgdschema = [];
 
         if (is_object($classname)) {
             $classname = ClassUtils::getClass($classname);
-        } elseif (!is_string($classname)) {
-            debug_print_r("Invalid input provided", $classname, MIDCOM_LOG_WARN);
-            return null;
         }
 
         if (!array_key_exists($classname, $dba_classes_by_mgdschema)) {
@@ -161,10 +156,8 @@ class midcom_services_dbclassloader
     /**
      * Simple helper to check whether we are dealing with a MidCOM Database object
      * or a subclass thereof.
-     *
-     * @param object|string $object The object (or classname) to check
      */
-    public function is_midcom_db_object($object) : bool
+    public function is_midcom_db_object(object|string $object) : bool
     {
         return is_subclass_of($object, midcom_core_dbaobject::class)
             || is_a($object, midcom_core_dbaproxy::class, true);

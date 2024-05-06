@@ -49,10 +49,9 @@ class midcom_helper_reflector extends midgard_reflection_property
     /**
      * Get cached reflector instance
      *
-     * @param mixed $src Object or classname
      * @return static
      */
-    public static function get($src) : self
+    public static function get(string|object $src) : self
     {
         $identifier = get_called_class() . (is_object($src) ? get_class($src) : $src);
 
@@ -397,10 +396,8 @@ class midcom_helper_reflector extends midgard_reflection_property
 
     /**
      * Get the MgdSchema classname for given class
-     *
-     * @param string|object $classname either string (class name) or object
      */
-    public static function resolve_baseclass($classname) : string
+    public static function resolve_baseclass(string|object $classname) : string
     {
         static $cached = [];
 

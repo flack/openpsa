@@ -273,11 +273,8 @@ class midcom_services_auth
      * against the currently authenticated user.
      *
      * It always returns true for administrative users.
-     *
-     * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
-     * @param midcom_core_user $user The user which should be checked, defaults to the current user.
      */
-    public function is_group_member($group, $user = null) : bool
+    public function is_group_member(midcom_core_group|string $group, midcom_core_user $user = null) : bool
     {
         if ($this->is_admin($user)) {
             // Administrators always have access.
@@ -521,19 +518,13 @@ class midcom_services_auth
      * Returns a midcom_core_group instance. Valid arguments are either a valid group identifier
      * (group:...), any valid identifier for the midcom_core_group
      * constructor or a valid object of that type.
-     *
-     * @param mixed $id The identifier of the group as outlined above.
      */
-    public function get_group($id) : ?midcom_core_group
+    public function get_group(string|int|midcom_db_group|midgard_group $id) : ?midcom_core_group
     {
         $param = $id;
 
-        if (isset($param->id)) {
+        if (is_object($param)) {
             $id = $param->id;
-        } elseif (!is_string($id) && !is_int($id)) {
-            debug_add('The group identifier is of an unsupported type: ' . gettype($param), MIDCOM_LOG_WARN);
-            debug_print_r('Complete dump:', $param);
-            return null;
         }
 
         if (!array_key_exists($id, $this->_group_cache)) {

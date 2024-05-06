@@ -66,9 +66,8 @@ class midcom_helper__dbfactory
      * Retrieve a reference to an object, uses in-request caching
      *
      * @param string $classname Which DBA are we dealing with
-     * @param mixed $src GUID of object (ids work but are discouraged)
      */
-    public function get_cached(string $classname, $src) : midcom_core_dbaobject
+    public function get_cached(string $classname, string|int $src) : midcom_core_dbaobject
     {
         static $cache = [];
 

@@ -74,10 +74,8 @@ class midcom_core_privilege
     /**
      * The Default constructor creates an empty privilege, if you specify
      * another privilege object in the constructor, a copy is constructed.
-     *
-     * @param midcom_core_privilege_db|array|string $src Object to copy from.
      */
-    public function __construct($src = null)
+    public function __construct(midcom_core_privilege_db|array|string $src = null)
     {
         if (is_array($src)) {
             // Store given values to our privilege array
@@ -211,15 +209,10 @@ class midcom_core_privilege
      * - Any one of the magic assignees SELF, EVERYONE, ANONYMOUS, USERS.
      * - Any midcom_core_user or midcom_core_group object or subtype thereof.
      * - Any string identifier which can be resolved using midcom_services_auth::get_assignee().
-     *
-     * @param mixed $assignee An assignee representation as outlined above.
      */
-    public function set_assignee($assignee) : bool
+    public function set_assignee(midcom_core_group|midcom_core_user|string $assignee) : bool
     {
-        if (   is_a($assignee, midcom_core_user::class)
-            || is_a($assignee, midcom_core_group::class)) {
-            $this->assignee = $assignee->id;
-        } elseif (is_string($assignee)) {
+        if (is_string($assignee)) {
             if ($this->is_magic_assignee($assignee)) {
                 $this->assignee = $assignee;
             } else {
@@ -231,9 +224,7 @@ class midcom_core_privilege
                 $this->assignee = $tmp->id;
             }
         } else {
-            debug_add('Unknown type passed, aborting.', MIDCOM_LOG_INFO);
-            debug_print_r('Argument was:', $assignee);
-            return false;
+            $this->assignee = $assignee->id;
         }
 
         return true;
