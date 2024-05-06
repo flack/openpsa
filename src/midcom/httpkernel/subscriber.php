@@ -23,6 +23,8 @@ use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * @package midcom.httpkernel
@@ -36,6 +38,7 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::CONTROLLER => ['on_controller'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
+            KernelEvents::RESPONSE => ['on_response'],
             KernelEvents::EXCEPTION => ['on_exception'],
             KernelEvents::TERMINATE => ['on_terminate']
         ];
@@ -111,6 +114,19 @@ class subscriber implements EventSubscriberInterface
             $controller[0]->populate_breadcrumb_line();
         }
         $event->setResponse(new midcom_response_styled($attributes->get('context')));
+    }
+
+    public function on_response(ResponseEvent $event)
+    {
+        if ($event->isMainRequest()) {
+            $response = $event->getResponse();
+            if ($response instanceof StreamedResponse) {
+                // if we have a streamed response, we need to send right away
+                // otherwise exceptions in the callback won't be caught by the kernel
+                // which means e.g. that a midcom-exec script couldn't show a login screen
+                $response->send();
+            }
+        }
     }
 
     public function on_exception(ExceptionEvent $event)
