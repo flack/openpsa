@@ -119,6 +119,7 @@ abstract class openpsa_testcase extends TestCase
 
         $request = $request ?? Request::createFromGlobals();
         $request->attributes->set('context', $context);
+        $request->setSession(midcom::get()->session);
 
         $result = midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
 
