@@ -17,6 +17,7 @@ class datamanager_form extends base
 
     public function form_errors(FormView $view, array $data)
     {
+        return '';
     }
 
     public function form_widget_compound(FormView $view, array $data)
@@ -50,14 +51,17 @@ class datamanager_form extends base
 
     public function button_row(FormView $view, array $data)
     {
+        return '';
     }
 
     public function password_row(FormView $view, array $data)
     {
+        return '';
     }
 
     public function toolbar_row(FormView $view, array $data)
     {
+        return '';
     }
 
     public function choice_widget_collapsed(FormView $view, array $data)

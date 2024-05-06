@@ -28,7 +28,7 @@ class multipleTransformer implements DataTransformerInterface
         }
     }
 
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         if (in_array($input, [false, null], true)) {
             return [];
@@ -65,14 +65,14 @@ class multipleTransformer implements DataTransformerInterface
         }
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         if (!is_array($array) ) {
             throw new TransformationFailedException('Expected an array.');
         }
 
         if (empty($array)) {
-            return;
+            return null;
         }
 
         switch ($this->multiple_storagemode) {

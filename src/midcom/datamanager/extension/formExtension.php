@@ -28,7 +28,7 @@ class formExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'widget_config' => [],
@@ -52,7 +52,7 @@ class formExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $view->vars['start_fieldset'] = $options['start_fieldset'];
         $view->vars['end_fieldset'] = $options['end_fieldset'];

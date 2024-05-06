@@ -25,7 +25,7 @@ class midcom_response_relocate extends RedirectResponse
      *
      * {@inheritDoc}
      */
-    public function setTargetUrl($url)
+    public function setTargetUrl(string $url) : static
     {
         if (   !str_starts_with($url, "/")
             && !preg_match('|^https?://|', $url)) {
@@ -36,7 +36,7 @@ class midcom_response_relocate extends RedirectResponse
         return parent::setTargetUrl($url);
     }
 
-    public function send()
+    public function send(bool $flush = true): static
     {
         if (defined('OPENPSA2_UNITTEST_RUN')) {
             throw new openpsa_test_relocate($this->targetUrl, $this->getStatusCode());
@@ -44,6 +44,6 @@ class midcom_response_relocate extends RedirectResponse
 
         midcom::get()->cache->content->no_cache();
         debug_add("Relocating to {$this->targetUrl}");
-        return parent::send();
+        return parent::send($flush);
     }
 }

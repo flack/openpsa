@@ -19,7 +19,7 @@ class otherTransformer implements DataTransformerInterface
         $this->choices = $choices;
     }
 
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         $other = '';
         foreach ($input as $i => $choice) {
@@ -31,7 +31,7 @@ class otherTransformer implements DataTransformerInterface
         return ['select' => $input, 'other' => $other];
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         $chosen = $array['select'];
         if (!empty($array['other'])) {

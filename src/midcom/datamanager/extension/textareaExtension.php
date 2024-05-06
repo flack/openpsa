@@ -20,7 +20,7 @@ class textareaExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $map_attr = function (Options $options, $value) {
             $value ??= [];
@@ -48,7 +48,7 @@ class textareaExtension extends AbstractTypeExtension
         ]);
     }
 
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options) : void
     {
         $view->vars['output_mode'] = $options['type_config']['output_mode'];
     }

@@ -69,7 +69,7 @@ class midcom_services__sessioning extends Session
     /**
      * {@inheritdoc}
      */
-    public function get(string $key, $default = null)
+    public function get(string $key, $default = null) : mixed
     {
         if ($this->has($key)) {
             midcom::get()->cache->content->no_cache();
@@ -80,7 +80,7 @@ class midcom_services__sessioning extends Session
     /**
      * {@inheritdoc}
      */
-    public function set(string $key, $value)
+    public function set(string $key, mixed $value) : void
     {
         midcom::get()->cache->content->no_cache();
         parent::set($key, $value);

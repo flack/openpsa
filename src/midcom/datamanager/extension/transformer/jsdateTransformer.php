@@ -22,7 +22,7 @@ class jsdateTransformer implements DataTransformerInterface
         $this->config = $config;
     }
 
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         $result = ['date' => null];
         if ($this->config['widget_config']['show_time']) {
@@ -53,7 +53,7 @@ class jsdateTransformer implements DataTransformerInterface
         return $result;
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         if (!is_array($array)) {
             throw new TransformationFailedException('Expected an array.');
@@ -62,7 +62,7 @@ class jsdateTransformer implements DataTransformerInterface
         if (   empty($array['date'])
             || (   $array['date'] instanceof DateTime
                 && $array['date']->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
-            return;
+            return null;
         }
         if (!empty($array['time'])) {
             $array['date']->setTime((int) $array['time']->format('G'), (int) $array['time']->format('i'), (int) $array['time']->format('s'));
@@ -74,5 +74,6 @@ class jsdateTransformer implements DataTransformerInterface
         if ($this->config['type_config']['storage_type'] === jsdateType::ISO) {
             return $array['date']->format('Y-m-d H:i:s');
         }
+        return null;
     }
 }

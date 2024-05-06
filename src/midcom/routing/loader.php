@@ -27,7 +27,7 @@ class loader extends base
      * {@inheritDoc}
      * @see \Symfony\Component\Config\Loader\LoaderInterface::load()
      */
-    public function load($input, $type = null)
+    public function load(mixed $input, ?string $type = null): mixed
     {
         if (is_string($input)) {
             if (!$this->is_legacy($input)) {
@@ -88,7 +88,7 @@ class loader extends base
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, ?string $type = null)
+    public function supports(mixed $resource, ?string $type = null) : bool
     {
         if (is_string($resource)) {
             if (!$this->is_legacy($resource)) {

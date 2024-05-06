@@ -63,8 +63,7 @@ class imageValidatorTest extends TestCase
 
             $violation_builder
                 ->expects($this->once())
-                ->method('addViolation')
-                ->willReturn(null);
+                ->method('addViolation');
         } else {
             $context
                 ->expects($this->exactly(0))

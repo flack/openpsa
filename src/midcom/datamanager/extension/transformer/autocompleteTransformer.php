@@ -19,12 +19,12 @@ class autocompleteTransformer implements DataTransformerInterface
         $this->config = $config;
     }
 
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         return ['selection' => $input];
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         if ($this->config['type_config']['allow_multiple']) {
             return $array['selection'];
@@ -32,5 +32,6 @@ class autocompleteTransformer implements DataTransformerInterface
         if (!empty($array['selection'])) {
             return reset($array['selection']);
         }
+        return null;
     }
 }

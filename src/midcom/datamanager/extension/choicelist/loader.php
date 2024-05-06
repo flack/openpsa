@@ -7,6 +7,7 @@ namespace midcom\datamanager\extension\choicelist;
 
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
+use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 
 /**
  * Loader / converter from type_config
@@ -25,7 +26,7 @@ class loader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadChoiceList($value = null)
+    public function loadChoiceList(?callable $value = null) : ChoiceListInterface
     {
         if ($this->choice_list === null) {
             $options = [];
@@ -52,7 +53,7 @@ class loader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadChoicesForValues(array $values, $value = null)
+    public function loadChoicesForValues(array $values, ?callable $value = null): array
     {
         if (empty($values)) {
             return [];
@@ -64,7 +65,7 @@ class loader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadValuesForChoices(array $choices, $value = null)
+    public function loadValuesForChoices(array $choices, ?callable $value = null): array
     {
         if (empty($choices)) {
             return [];

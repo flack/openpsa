@@ -16,13 +16,13 @@ class engine extends AbstractRendererEngine
     /**
      * {@inheritdoc}
      */
-    public function renderBlock(FormView $view, $resource, $blockName, array $variables = [])
+    public function renderBlock(FormView $view, mixed $resource, string $blockName, array $variables = []) : string
     {
         $data = array_merge($view->vars, $variables);
         return $resource->$blockName($view, $data);
     }
 
-    public function setTheme(FormView $view, $themes, $useDefaultThemes = true)
+    public function setTheme(FormView $view, mixed $themes, bool $useDefaultThemes = true) : void
     {
         $this->themes = [];
         $this->resources = [];
@@ -32,7 +32,7 @@ class engine extends AbstractRendererEngine
     /**
      * {@inheritdoc}
      */
-    protected function loadResourceForBlockName(string $cacheKey, FormView $view, string $blockName)
+    protected function loadResourceForBlockName(string $cacheKey, FormView $view, string $blockName) : bool
     {
         // Check each theme whether it contains the searched block
         if (isset($this->themes[$cacheKey])) {

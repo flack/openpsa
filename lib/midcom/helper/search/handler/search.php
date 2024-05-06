@@ -44,12 +44,19 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $this->_request_data['type'] = $handler_id;
     }
 
-    private function fetch(Request $request, string $field, $default = null)
+    private function fetch(Request $request, string $field, $default = null, bool $is_array = false)
     {
-        if ($request->request->has($field)) {
-            return $request->request->get($field);
+        if ($is_array) {
+            $method = 'all';
+            $default ??= [];
+        } else {
+            $method = 'get';
         }
-        return $request->query->get($field, $default);
+
+        if ($request->request->has($field)) {
+            return $request->request->$method($field);
+        }
+        return $request->query->$method($field, $default);
     }
 
     /**
@@ -118,7 +125,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             debug_add("Final query: {$final_query}");
             $result = $indexer->query($final_query);
         } elseif ($type == 'advanced') {
-            $result = $this->do_advanced_query($data, $this->fetch($request, 'append_terms'));
+            $result = $this->do_advanced_query($data, $this->fetch($request, 'append_terms', is_array: true));
         } else {
             throw new midcom_error_notfound('unknown query type');
         }

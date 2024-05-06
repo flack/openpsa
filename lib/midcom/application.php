@@ -82,25 +82,25 @@ class midcom_application extends Kernel
         }
     }
 
-    protected function initializeContainer()
+    protected function initializeContainer() : void
     {
         parent::initializeContainer();
         $this->container->set('config', $this->cfg);
     }
 
-    protected function buildContainer()
+    protected function buildContainer() : ContainerBuilder
     {
         $container = parent::buildContainer();
         $this->cfg->export_to($container);
         return $container;
     }
 
-    public function registerBundles()
+    public function registerBundles() : iterable
     {
         return [new midcomBundle];
     }
 
-    public function getProjectDir()
+    public function getProjectDir() : string
     {
         if ($this->project_dir === null) {
             if (basename(dirname(__DIR__, 4)) === 'vendor') {
@@ -113,7 +113,7 @@ class midcom_application extends Kernel
         return $this->project_dir;
     }
 
-    public function getCacheDir()
+    public function getCacheDir() : string
     {
         return $this->cfg->get('cache_base_directory') ?: parent::getCacheDir();
     }

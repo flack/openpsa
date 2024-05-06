@@ -12,12 +12,12 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class jsonTransformer implements DataTransformerInterface
 {
-    public function reverseTransform($input)
+    public function reverseTransform(mixed $input) : mixed
     {
         return (array) json_decode($input);
     }
 
-    public function transform($array)
+    public function transform(mixed $array) : mixed
     {
         return json_encode((array) $array);
     }

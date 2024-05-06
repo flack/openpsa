@@ -153,7 +153,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
 
     private function _prepare_journal_query(ParameterBag $post)
     {
-        if ($constraints = $post->get('journal_entry_constraints')) {
+        if ($constraints = $post->all('journal_entry_constraints')) {
             foreach ($constraints as $constraint) {
                 //"type-cast" for closed because it will be passed as string
                 if ($constraint['property'] == 'closed') {

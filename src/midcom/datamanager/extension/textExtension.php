@@ -22,7 +22,7 @@ class textExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('constraints', []);
         helper::add_normalizers($resolver, [
@@ -47,7 +47,7 @@ class textExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         if (!empty($options['type_config']['purify'])) {
             $builder->addEventSubscriber(new purifySubscriber($options['type_config']['purify_config']));

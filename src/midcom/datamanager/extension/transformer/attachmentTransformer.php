@@ -25,7 +25,7 @@ class attachmentTransformer implements DataTransformerInterface
         $this->config = $config;
     }
 
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         if (empty($input)) {
             return null;
@@ -77,7 +77,7 @@ class attachmentTransformer implements DataTransformerInterface
         ];
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         if (empty($array)) {
             return null;

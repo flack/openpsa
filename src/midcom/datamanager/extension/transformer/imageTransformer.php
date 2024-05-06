@@ -12,7 +12,7 @@ namespace midcom\datamanager\extension\transformer;
  */
 class imageTransformer extends attachmentTransformer
 {
-    public function transform($input)
+    public function transform(mixed $input) : mixed
     {
         if ($input === null) {
             return [];
@@ -40,7 +40,7 @@ class imageTransformer extends attachmentTransformer
         return $result;
     }
 
-    public function reverseTransform($array)
+    public function reverseTransform(mixed $array) : mixed
     {
         if (empty($array)) {
             return null;

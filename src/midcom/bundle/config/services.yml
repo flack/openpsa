@@ -2,9 +2,6 @@ services:
     subscriber:
         class: midcom\httpkernel\subscriber
 
-    streamed_response_listener:
-        class: Symfony\Component\HttpKernel\EventListener\StreamedResponseListener
-
     watcher:
         class: midcom\events\watcher
         arguments: ['@componentloader']
@@ -13,7 +10,6 @@ services:
         class: Symfony\Component\EventDispatcher\EventDispatcher
         calls:
             - [addSubscriber, ['@subscriber']]
-            - [addSubscriber, ['@streamed_response_listener']]
             - [addSubscriber, ['@watcher']]
             - [addSubscriber, ['@cache']]
             - [addSubscriber, ['@head']]
