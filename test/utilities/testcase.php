@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
+use PHPUnit\Framework\TestStatus\Success;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -393,7 +394,7 @@ abstract class openpsa_testcase extends TestCase
             while (midcom::get()->auth->is_component_sudo()) {
                 midcom::get()->auth->drop_sudo();
             }
-            if (!$this->hasFailed()) {
+            if ($this->status() instanceof Success) {
                 throw new RuntimeException('Unclosed component sudo detected');
             }
         }
