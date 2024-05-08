@@ -20,7 +20,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
 
     public function _handler_view(array &$data)
     {
-        $prefix = '/' . $this->_component . '/elFinder-2.1.61/';
+        $prefix = '/' . $this->_component . '/elFinder-2.1.64/';
         org_openpsa_widgets_contact::add_head_elements();
 
         $head = midcom::get()->head;
