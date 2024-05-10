@@ -59,7 +59,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     <div id="breadcrumb">
                         <?php
                         $nap = new midcom_helper_nav();
-                        echo $nap->get_breadcrumb_line(" &gt; ", levels: 1);
+                        echo $nap->get_breadcrumb_line(" &gt; ", skip_levels: 1);
                         ?>
                     </div>
 
