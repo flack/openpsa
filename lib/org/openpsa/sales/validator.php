@@ -13,7 +13,7 @@
  */
 class org_openpsa_sales_validator
 {
-    public function validate_subscription(array $fields) : array|true
+    public function validate_subscription(array $fields)
     {
         $result = $this->validate_units($fields);
 
@@ -27,7 +27,7 @@ class org_openpsa_sales_validator
         return $result ?: true;
     }
 
-    public function validate_units(array $fields) : array|true
+    public function validate_units(array $fields)
     {
         $result = [];
         if (   empty($fields['invoiceByActualUnits'])

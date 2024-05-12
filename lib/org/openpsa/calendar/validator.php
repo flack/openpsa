@@ -28,7 +28,7 @@ class org_openpsa_calendar_validator
      *
      * @return mixed Array with error message or true on success
      */
-    public function validate(array $input) : array|true
+    public function validate(array $input)
     {
         $this->event->busy = $input['busy'];
         $this->event->participants = array_flip($input['participants']);

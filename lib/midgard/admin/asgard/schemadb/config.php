@@ -118,7 +118,7 @@ class midgard_admin_asgard_schemadb_config
     /**
      * Ensure the configuration is valid (form validation callback)
      */
-    public function check_config(array $values) : array|true
+    public function check_config(array $values)
     {
         $current = $this->config->get_all();
         $result = [];
