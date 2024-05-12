@@ -58,14 +58,11 @@ abstract class midcom_helper_nav_itemlist
     public static function factory(midcom_helper_nav $nap, array $parent_node) : midcom_helper_nav_itemlist
     {
         $guid = $parent_node[MIDCOM_NAV_GUID];
-        $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
-        if ($navorder === MIDCOM_NAVORDER_ARTICLESFIRST) {
-            $navorder = 'articlesfirst';
-        } elseif ($navorder === MIDCOM_NAVORDER_SCORE) {
-            $navorder = 'score';
-        } else {
-            $navorder = 'topicsfirst';
-        }
+        $navorder = match ((int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder')) {
+            MIDCOM_NAVORDER_ARTICLESFIRST => 'articlesfirst',
+            MIDCOM_NAVORDER_SCORE => 'score',
+            default => 'topicsfirst'
+        };
         $class = "midcom_helper_nav_itemlist_{$navorder}";
 
         return new $class($nap, $parent_node[MIDCOM_NAV_ID]);

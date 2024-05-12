@@ -53,13 +53,11 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $qb->add_order('metadata.published', 'DESC');
 
-        if (in_array($handler_id, ['latest', 'ajax-latest'])) {
-            $qb->results_per_page = $args[0];
-        } elseif ($handler_id == 'latest-category') {
-            $qb->results_per_page = $args[1];
-        } else {
-            $qb->results_per_page = $this->_config->get('index_entries');
-        }
+        $qb->results_per_page = match ($handler_id) {
+            'latest', 'ajax-latest' => $args[0],
+            'latest-category' => $args[1],
+            default => $this->_config->get('index_entries')
+        };
 
         $this->_articles = $qb->execute();
 
