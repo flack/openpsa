@@ -75,15 +75,13 @@ class provider
      */
     private array $_search = [];
 
-    public function __construct($source, string $datatype = 'json')
+    public function __construct(array|client $source, string $datatype = 'json')
     {
         $this->_datatype = $datatype;
         if ($source instanceof client) {
             $this->_client = $source;
-        } elseif (is_array($source)) {
-            $this->set_rows($source);
         } else {
-            throw new midcom_error('Unknown source type');
+            $this->set_rows($source);
         }
     }
 

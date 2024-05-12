@@ -430,11 +430,11 @@ class org_openpsa_user_accounthelper
         return !empty($this->person->get_parameter("org_openpsa_user_blocked_account", "account_password"));
     }
 
-    public static function get_person_by_formdata(array $data)
+    public static function get_person_by_formdata(array $data) : ?midcom_db_person
     {
         if (   empty($data['username'])
             || empty($data['password'])) {
-            return false;
+            return null;
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
@@ -444,7 +444,7 @@ class org_openpsa_user_accounthelper
         midcom::get()->auth->drop_sudo();
 
         if (count($results) != 1) {
-            return false;
+            return null;
         }
         return $results[0];
     }

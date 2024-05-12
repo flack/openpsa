@@ -20,7 +20,7 @@ class org_openpsa_products_validation
      *
      * @param array $fields The form's data
      */
-    public function is_code_available(array $fields)
+    public function is_code_available(array $fields) : array|true
     {
         $result = [];
         if (!empty($fields['id'])) {

@@ -141,13 +141,13 @@ class accounthelperTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    private function _get_person_by_formdata($data, $expected_result)
+    private function _get_person_by_formdata(array $data, bool $expected_result)
     {
         $person = org_openpsa_user_accounthelper::get_person_by_formdata($data);
         if ($expected_result) {
             $this->assertInstanceOf(midcom_db_person::class, $person);
         } else {
-            $this->assertFalse($person);
+            $this->assertNull($person);
         }
         $this->reset_server_vars();
     }
