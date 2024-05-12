@@ -42,7 +42,7 @@ class loggerPassTest extends TestCase
                 $this->equalTo('kernel.logs_dir'),
                 $this->equalTo('midcom.log_filename'),
                 $this->equalTo('midcom.log_level')))
-            ->will($this->returnCallback([$this, 'get_config']));
+            ->willReturnCallback([$this, 'get_config']);
 
         $container
             ->expects($this->once())
@@ -55,7 +55,7 @@ class loggerPassTest extends TestCase
             ->with($this->logicalOr(
                 $this->equalTo('logger.filehandler'),
                 $this->equalTo('controller_resolver')))
-            ->will($this->returnCallback([$this, 'get_definition_mock']));
+            ->willReturnCallback([$this, 'get_definition_mock']);
 
         (new loggerPass)->process($container);
     }
