@@ -32,7 +32,7 @@ class net_nemein_wiki_parser
 
     public function get_markdown(string $input) : string
     {
-        return preg_replace_callback($this->_config->get('wikilink_regexp'), [$this, 'replace_wikiwords'], $input);
+        return preg_replace_callback($this->_config->get('wikilink_regexp'), $this->replace_wikiwords(...), $input);
     }
 
     /**
@@ -168,7 +168,7 @@ class net_nemein_wiki_parser
         $nap = new midcom_helper_nav();
         $ret = "\n<ul class=\"tagged\">\n";
 
-        usort($pages, [$this, '_code_sort_by_title']);
+        usort($pages, $this->_code_sort_by_title(...));
         foreach ($pages as $page) {
             $node = $nap->get_node($page->topic);
             if ($node[MIDCOM_NAV_COMPONENT] !== 'net.nemein.wiki') {

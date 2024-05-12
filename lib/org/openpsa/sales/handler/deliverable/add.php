@@ -98,7 +98,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

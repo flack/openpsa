@@ -130,6 +130,6 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 ]);
             }
         }
-        $this->items = array_map([$this, 'clean_item'], $buttons);
+        $this->items = array_map($this->clean_item(...), $buttons);
     }
 }

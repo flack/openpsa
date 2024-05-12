@@ -64,7 +64,7 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

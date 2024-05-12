@@ -65,7 +65,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_message_copy'));
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $dm->get_controller(),
-            'save_callback' => [$this, 'copy_callback']
+            'save_callback' => $this->copy_callback(...)
         ]);
         return $workflow->run($request);
     }

@@ -38,7 +38,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $dm->get_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

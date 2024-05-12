@@ -80,10 +80,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     private function _sort_rows()
     {
-        usort($this->_request_data['report']['rows'], [$this, '_sort_by_key']);
+        usort($this->_request_data['report']['rows'], $this->_sort_by_key(...));
         foreach ($this->_request_data['report']['rows'] as &$group) {
             if (!empty($group['rows'])) {
-                usort($group['rows'], [$this, '_sort_by_key']);
+                usort($group['rows'], $this->_sort_by_key(...));
             }
         }
     }

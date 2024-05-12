@@ -52,7 +52,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $controller,
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

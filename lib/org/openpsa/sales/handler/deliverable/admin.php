@@ -67,7 +67,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

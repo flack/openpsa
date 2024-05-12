@@ -83,7 +83,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
         $this->_init_csv_variables($request);
 
-        $response = new StreamedResponse([$this, 'render_csv']);
+        $response = new StreamedResponse($this->render_csv(...));
         $response->headers->set('Content-Disposition', $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
             $data['filename'])
@@ -196,7 +196,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     private function _print_row(array $row, $output)
     {
-        $row = array_map([$this, 'encode_csv'], $row);
+        $row = array_map($this->encode_csv(...), $row);
         fputcsv($output, $row, $this->csv['s'], $this->csv['q']);
     }
 

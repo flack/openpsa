@@ -57,7 +57,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

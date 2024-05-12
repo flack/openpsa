@@ -64,7 +64,7 @@ class schemabuilder
             // Skip the fields that aren't requested, if inclusion list has been defined
             $type_fields = array_intersect($type_fields, $include_fields);
         }
-        $type_fields = array_filter($type_fields, [$this, '_filter_schema_fields']);
+        $type_fields = array_filter($type_fields, $this->_filter_schema_fields(...));
 
         $this->process_type($type, $type_fields);
 

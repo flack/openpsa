@@ -73,7 +73,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
         $data['controller'] = $this->load_controller();
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

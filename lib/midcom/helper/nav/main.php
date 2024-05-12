@@ -112,7 +112,7 @@ class midcom_helper_nav
      */
     public function get_nodes(int $parent_node_id, bool $show_noentry = false) : array
     {
-        return array_map([$this, 'get_node'], $this->_backend->list_nodes($parent_node_id, $show_noentry));
+        return array_map($this->get_node(...), $this->_backend->list_nodes($parent_node_id, $show_noentry));
     }
 
     /**
@@ -125,7 +125,7 @@ class midcom_helper_nav
      */
     public function get_leaves(int $parent_node_id, bool $show_noentry = false) : array
     {
-        return array_map([$this, 'get_leaf'], $this->_backend->list_leaves($parent_node_id, $show_noentry));
+        return array_map($this->get_leaf(...), $this->_backend->list_leaves($parent_node_id, $show_noentry));
     }
 
     /**

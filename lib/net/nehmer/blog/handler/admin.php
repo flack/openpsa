@@ -57,7 +57,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $controller,
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         if ($this->article->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $this->article]);

@@ -34,7 +34,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback'],
+            'save_callback' => $this->save_callback(...),
             'relocate' => false
         ]);
         return $workflow->run($request);

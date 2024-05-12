@@ -37,7 +37,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle($this->_l10n->get('create project'));
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller($defaults),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }
@@ -65,7 +65,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $data['controller'],
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

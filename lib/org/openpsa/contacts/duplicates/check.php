@@ -150,7 +150,7 @@ abstract class org_openpsa_contacts_duplicates_check
          */
         $candidates = $this->get_candidates();
 
-        array_walk($candidates, [$this, 'check_all_arraywalk'], $candidates);
+        array_walk($candidates, $this->check_all_arraywalk(...), $candidates);
 
         return $this->p_map;
     }

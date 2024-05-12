@@ -191,7 +191,7 @@ class autocomplete
 
             $items[] = $item;
         }
-        usort($items, [$this, 'sort_items']);
+        usort($items, $this->sort_items(...));
 
         return $items;
     }

@@ -161,7 +161,7 @@ class midcom_helper__componentloader
      */
     public function get_manifests() : array
     {
-        array_map([$this, 'get_manifest'], array_keys($this->components));
+        array_map($this->get_manifest(...), array_keys($this->components));
         return $this->manifests;
     }
 

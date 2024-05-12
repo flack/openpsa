@@ -156,7 +156,7 @@ class midcom_helper_imagefilter
     public function process_chain(string $chain)
     {
         $filters = array_filter(explode(";", $chain));
-        array_map([$this, 'process_command'], $filters);
+        array_map($this->process_command(...), $filters);
     }
 
     /**

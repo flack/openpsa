@@ -52,7 +52,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle($this->_l10n->get('create invoice'));
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }
@@ -68,7 +68,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')));
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         if ($this->invoice->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', [

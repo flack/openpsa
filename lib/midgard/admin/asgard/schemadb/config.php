@@ -81,7 +81,7 @@ class midgard_admin_asgard_schemadb_config
         $schema->set('fields', $fields);
         $validation = $schema->get('validation') ?: [];
         $validation[] = [
-            'callback' => [$this, 'check_config'],
+            'callback' => $this->check_config(...),
         ];
         $schema->set('validation', $validation);
         return $schemadb;

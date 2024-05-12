@@ -156,7 +156,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->_request_data['direction'] = $direction;
 
         //Sort the array of links
-        uasort($this->_links[$direction], [$this, '_sort_by_time']);
+        uasort($this->_links[$direction], $this->_sort_by_time(...));
 
         midcom_show_style('relatedto_list_top');
 

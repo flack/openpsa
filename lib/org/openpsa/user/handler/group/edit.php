@@ -31,7 +31,7 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $controller,
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

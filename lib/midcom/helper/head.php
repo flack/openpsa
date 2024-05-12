@@ -408,10 +408,10 @@ class midcom_helper_head implements EventSubscriberInterface
         $head .= $this->_style_head;
 
         if (!empty($this->_prepend_jshead)) {
-            $head .= array_reduce($this->_prepend_jshead, [$this, 'render_js'], '');
+            $head .= array_reduce($this->_prepend_jshead, $this->render_js(...), '');
         }
 
-        $head .= array_reduce($this->_jshead, [$this, 'render_js'], '');
+        $head .= array_reduce($this->_jshead, $this->render_js(...), '');
         return $head . $this->render_jquery_statuses();
     }
 

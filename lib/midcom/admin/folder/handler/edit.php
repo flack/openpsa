@@ -92,7 +92,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->_controller,
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

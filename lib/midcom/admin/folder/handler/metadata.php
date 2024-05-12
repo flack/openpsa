@@ -35,7 +35,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->object->metadata->get_datamanager()->get_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

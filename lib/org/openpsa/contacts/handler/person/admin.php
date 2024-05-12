@@ -41,7 +41,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

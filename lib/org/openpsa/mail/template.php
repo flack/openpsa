@@ -116,7 +116,7 @@ class org_openpsa_mail_template
      */
     public function parse(string $input) : string
     {
-        return preg_replace_callback($this->_patterns, [$this, '_replace_callback'], $input);
+        return preg_replace_callback($this->_patterns, $this->_replace_callback(...), $input);
     }
 
     private function _replace_callback(array $matches)

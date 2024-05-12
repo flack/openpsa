@@ -35,7 +35,7 @@ class midgard_admin_asgard_schemadb extends schemabuilder
      */
     protected function process_type(string $type, array $type_fields)
     {
-        usort($type_fields, [$this, 'sort_schema_fields']);
+        usort($type_fields, $this->sort_schema_fields(...));
 
         parent::process_type($type, $type_fields);
 

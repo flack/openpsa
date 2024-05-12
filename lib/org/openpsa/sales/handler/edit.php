@@ -70,7 +70,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $dm->get_controller(),
-            'save_callback' => [$this, 'save_callback']
+            'save_callback' => $this->save_callback(...)
         ]);
         return $workflow->run($request);
     }

@@ -22,7 +22,7 @@ trait org_openpsa_expenses_handler
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
         $person_filter = new org_openpsa_core_filter_multiselect('person');
-        $person_filter->set_callback([$this, 'get_person_options']);
+        $person_filter->set_callback($this->get_person_options(...));
         $person_filter->set_label($this->_l10n->get("choose user"));
         $qf->add_filter($person_filter);
 
