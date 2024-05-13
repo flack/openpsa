@@ -33,7 +33,7 @@ implements client
         $this->_datamanager = datamanager::from_schemadb($this->_config->get('schemadb_document'));
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 

@@ -247,7 +247,7 @@ class midcom_helper_head implements EventSubscriberInterface
      *
      * @param string $media The media type(s) for the stylesheet, if any
      */
-    public function add_stylesheet(string $url, string $media = null)
+    public function add_stylesheet(string $url, ?string $media = null)
     {
         $this->add_link_head($this->prepare_stylesheet_attributes($url, $media));
     }
@@ -257,7 +257,7 @@ class midcom_helper_head implements EventSubscriberInterface
      *
      * @param string $media The media type(s) for the stylesheet, if any
      */
-    public function prepend_stylesheet(string $url, string $media = null)
+    public function prepend_stylesheet(string $url, ?string $media = null)
     {
         $this->add_link_head($this->prepare_stylesheet_attributes($url, $media), true);
     }

@@ -180,7 +180,7 @@ implements client
         return sprintf($this->_l10n->get($message), $person_string);
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         if ($field !== null) {
             $this->qb->add_order($field, $direction);

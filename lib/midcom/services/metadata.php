@@ -38,7 +38,7 @@ class midcom_services_metadata
      * @param int $context_id The context to retrieve the view metadata for, this
      *     defaults to the current context.
      */
-    public function get_view_metadata(int $context_id = null) : ?midcom_helper_metadata
+    public function get_view_metadata(?int $context_id = null) : ?midcom_helper_metadata
     {
         $context_id ??= midcom_core_context::get()->id;
 
@@ -86,7 +86,7 @@ class midcom_services_metadata
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
      */
-    public function get_object_classes(midcom_core_dbaobject $object, string $existing_classes = null) : string
+    public function get_object_classes(midcom_core_dbaobject $object, ?string $existing_classes = null) : string
     {
         $css_classes = [];
         if ($existing_classes !== null) {
@@ -303,7 +303,7 @@ class midcom_services_metadata
      *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
      *     which contains a ready-made permalink.
      */
-    public function get_request_metadata(midcom_core_context $context = null) : array
+    public function get_request_metadata(?midcom_core_context $context = null) : array
     {
         $context ??= midcom_core_context::get();
         return [

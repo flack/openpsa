@@ -99,7 +99,7 @@ EOX;
         self::assertThat($actual, $constraint);
     }
 
-    private function _get_data_array(org_openpsa_projects_project $project = null)
+    private function _get_data_array(?org_openpsa_projects_project $project = null)
     {
         return [
             'midcom_helper_metadata' => [

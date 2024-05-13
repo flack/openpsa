@@ -331,7 +331,7 @@ class midcom_helper_nav
      * @param int       $skip_levels      The number of topic levels to skip before starting to work (use this to skip 'Home' links etc.).
      * @param string    $current_class    The class that should be assigned to the currently active element.
      */
-    public function get_breadcrumb_line(string $separator = ' &gt; ', string $class = null, int $skip_levels = 0, string $current_class = null, array $skip_guids = []) : string
+    public function get_breadcrumb_line(string $separator = ' &gt; ', ?string $class = null, int $skip_levels = 0, ?string $current_class = null, array $skip_guids = []) : string
     {
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';

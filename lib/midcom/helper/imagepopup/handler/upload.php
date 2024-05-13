@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_components_handler
 {
-    public function _handler_upload(Request $request, string $guid = null)
+    public function _handler_upload(Request $request, ?string $guid = null)
     {
         // Get the file
         $temp = $request->files->get('file');

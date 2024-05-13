@@ -23,7 +23,7 @@ interface client
      * @param array $search Optional search filters
      * @return \midcom_core_query QB or MC instance
      */
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : \midcom_core_query;
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : \midcom_core_query;
 
     /**
      * Transfers a result object into a grid row

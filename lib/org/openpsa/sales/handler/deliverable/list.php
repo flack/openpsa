@@ -19,7 +19,7 @@ implements client
 {
     private org_openpsa_products_product_dba $_product;
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
         if ($field !== null) {

@@ -29,7 +29,7 @@ implements client
         $this->provider = new provider($this);
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
 

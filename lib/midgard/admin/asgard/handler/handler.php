@@ -13,7 +13,7 @@ use midgard\portable\storage\connection;
  */
 trait midgard_admin_asgard_handler
 {
-    public function get_response(string $element = null) : midcom_response_styled
+    public function get_response(?string $element = null) : midcom_response_styled
     {
         if (isset($_GET['ajax'])) {
             midcom::get()->skip_page_style = true;

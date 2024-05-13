@@ -94,7 +94,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
         $this->_populate_node_toolbar();
     }
 
-    public static function get_topic_qb(int $id, string $sort_property = null) : midcom_core_querybuilder
+    public static function get_topic_qb(int $id, ?string $sort_property = null) : midcom_core_querybuilder
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $id);

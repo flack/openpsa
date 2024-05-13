@@ -90,7 +90,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         }
     }
 
-    public function _handler_create(Request $request, array &$data, string $schema = null)
+    public function _handler_create(Request $request, array &$data, ?string $schema = null)
     {
         // Initialize sessioning first
         $session = new midcom_services_session();

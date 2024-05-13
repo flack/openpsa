@@ -51,7 +51,7 @@ class xml_comparison extends Constraint
         return $new_doc->saveXML();
     }
 
-    private function copy($nodes, DOMDocument $new_doc, DOMNode $parent = null)
+    private function copy($nodes, DOMDocument $new_doc, ?DOMNode $parent = null)
     {
         $map = [];
         foreach ($nodes as $node) {

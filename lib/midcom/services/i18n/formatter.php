@@ -55,7 +55,7 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function timeframe($start, $end, string $mode = 'both', string $range_separator = null, bool $fulldate = false) : string
+    public function timeframe($start, $end, string $mode = 'both', ?string $range_separator = null, bool $fulldate = false) : string
     {
         $ranger = new Ranger($this->get_locale());
         if ($mode !== 'date') {

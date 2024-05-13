@@ -55,7 +55,7 @@ class datamanager
         return $this;
     }
 
-    public function set_storage(midcom_core_dbaobject $storage = null, string $schemaname = null) : self
+    public function set_storage(?midcom_core_dbaobject $storage = null, ?string $schemaname = null) : self
     {
         if (   $schemaname === null
             && !empty($storage->id)) {
@@ -96,7 +96,7 @@ class datamanager
         $this->schema = $schema;
     }
 
-    public function get_schema(string $name = null) : schema
+    public function get_schema(?string $name = null) : schema
     {
         if ($name) {
             return $this->schemadb->get($name);
@@ -135,7 +135,7 @@ class datamanager
         return $this->renderer;
     }
 
-    public function get_controller(string $name = null) : controller
+    public function get_controller(?string $name = null) : controller
     {
         return new controller($this, $name);
     }
@@ -158,7 +158,7 @@ class datamanager
      * The builder instance needs to be passed back to build_form() for the modifications
      * to have a consistent effect.
      */
-    public function get_builder(string $name = null) : FormBuilderInterface
+    public function get_builder(?string $name = null) : FormBuilderInterface
     {
         $config = [
             'schema' => $this->get_schema()

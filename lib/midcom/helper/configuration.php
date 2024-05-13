@@ -80,7 +80,7 @@ class midcom_helper_configuration
      * @param mixed $source      Either an associative array or a Midgard object.
      * @param string $path       Either null or the name of a Parameter domain.
      */
-    public function __construct($source, string $path = null)
+    public function __construct($source, ?string $path = null)
     {
         if ($path !== null) {
             $this->_object = $source;

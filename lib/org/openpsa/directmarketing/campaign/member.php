@@ -125,7 +125,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $content;
     }
 
-    public function get_unsubscribe_url(array $node = null) : string
+    public function get_unsubscribe_url(?array $node = null) : string
     {
         if (!$node) {
             $nap = new midcom_helper_nav();

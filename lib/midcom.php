@@ -53,7 +53,7 @@ class midcom
      * @param string $name The service name as listed in the _service_classes array or null to get midcom_application
      * @return midcom_application The midcom application instance
      */
-    public static function get(string $name = null)
+    public static function get(?string $name = null)
     {
         if (!self::$_application) {
             self::init();

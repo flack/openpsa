@@ -13,7 +13,7 @@
  */
 class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
 {
-    public function _handler_fetch(array &$data, string $guid = null)
+    public function _handler_fetch(array &$data, ?string $guid = null)
     {
         $this->_topic->require_do('midgard:create');
         midcom::get()->cache->content->no_cache();

@@ -29,7 +29,7 @@ class midcom_helper_reflector_nameresolver
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
      * @return string value of name property or null on failure
      */
-    public function get_object_name(string $name_property = null) : ?string
+    public function get_object_name(?string $name_property = null) : ?string
     {
         $name_property ??= midcom_helper_reflector::get_name_property($this->_object);
         if (    empty($name_property)
@@ -46,7 +46,7 @@ class midcom_helper_reflector_nameresolver
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
      */
-    public function name_is_clean(string $name_property = null) : bool
+    public function name_is_clean(?string $name_property = null) : bool
     {
         if ($name_copy = $this->get_object_name($name_property)) {
             return $name_copy === midcom_helper_misc::urlize($name_copy);
@@ -61,7 +61,7 @@ class midcom_helper_reflector_nameresolver
      * @see http://trac.midgard-project.org/ticket/809
      * @param string $name_property property to use as "name", if left to default (null), will be reflected
      */
-    public function name_is_safe(string $name_property = null) : bool
+    public function name_is_safe(?string $name_property = null) : bool
     {
         if ($name_copy = $this->get_object_name($name_property)) {
             return $name_copy === rawurlencode($name_copy);

@@ -231,7 +231,7 @@ class net_nemein_wiki_parser
         }
     }
 
-    public function render_link(string $wikilink, string $text = null) : string
+    public function render_link(string $wikilink, ?string $text = null) : string
     {
         $text ??= $wikilink;
         // Don't choke on links with anchors

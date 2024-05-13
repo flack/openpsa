@@ -193,7 +193,7 @@ class midcom_core_privilege
     /**
      * Checks whether the current assignee is a magic assignee or an object identifier.
      */
-    public function is_magic_assignee(string $assignee = null) : bool
+    public function is_magic_assignee(?string $assignee = null) : bool
     {
         $assignee ??= $this->assignee;
         return in_array($assignee, ['SELF', 'EVERYONE', 'USERS', 'ANONYMOUS', 'OWNER']);

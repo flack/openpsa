@@ -79,7 +79,7 @@ abstract class org_openpsa_contacts_duplicates_check
         return $ret;
     }
 
-    private function get_candidates(midcom_core_dbaobject $object = null) : array
+    private function get_candidates(?midcom_core_dbaobject $object = null) : array
     {
         $classname = $this->get_class();
         $fields = $this->get_fields();

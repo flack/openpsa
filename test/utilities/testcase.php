@@ -107,7 +107,7 @@ abstract class openpsa_testcase extends TestCase
         midcom_baseclasses_components_configuration::set($component, 'config', new midcom_helper_configuration($config->get_all()));
     }
 
-    public function run_handler($topic, array $args = [], Request $request = null) : array
+    public function run_handler($topic, array $args = [], ?Request $request = null) : array
     {
         if (is_object($topic)) {
             $component = $topic->component;

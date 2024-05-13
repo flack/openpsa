@@ -23,7 +23,7 @@ implements client
 
     private array $memberships;
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);

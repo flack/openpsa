@@ -45,7 +45,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return midcom::get()->componentloader->path_to_snippetpath($component) . '/documentation/';
     }
 
-    public static function generate_file_path(string $help_id, string $component, string $language = null) : ?string
+    public static function generate_file_path(string $help_id, string $component, ?string $language = null) : ?string
     {
         $language ??= midcom::get()->i18n->get_current_language();
 

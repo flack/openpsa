@@ -76,7 +76,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         return [$this->generate_invoice_item($description, $this->deliverable->units, $invoice->id)];
     }
 
-    protected function generate_invoice_item(string $description, float $units, int $invoice, org_openpsa_projects_task_dba $task = null) : org_openpsa_invoices_invoice_item_dba
+    protected function generate_invoice_item(string $description, float $units, int $invoice, ?org_openpsa_projects_task_dba $task = null) : org_openpsa_invoices_invoice_item_dba
     {
         $item = new org_openpsa_invoices_invoice_item_dba();
         $item->description = $description;

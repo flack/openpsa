@@ -193,7 +193,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * sends the response as json
      * containing the current response data
      */
-    private function _send_response(string $message = null) : JsonResponse
+    private function _send_response(?string $message = null) : JsonResponse
     {
         // always add status code and message
         $this->_response['code'] = $this->_responseStatus;

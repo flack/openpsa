@@ -157,7 +157,7 @@ abstract class midcom_core_dbaobject
      * @param string $domain The domain property of the collector instance
      * @param mixed $value Value match for the collector instance
      */
-    public static function new_collector(string $domain = null, $value = null) : midcom_core_collector
+    public static function new_collector(?string $domain = null, $value = null) : midcom_core_collector
     {
         return midcom::get()->dbfactory->new_collector(get_called_class(), $domain, $value);
     }
@@ -347,11 +347,11 @@ abstract class midcom_core_dbaobject
     {
         return midcom::get()->auth->can_user_do($privilege, $user, $this->__midcom_class_name__);
     }
-    public function require_do(string $privilege, string $message = null)
+    public function require_do(string $privilege, ?string $message = null)
     {
         midcom::get()->auth->require_do($privilege, $this, $message);
     }
-    public function require_user_do(string $privilege, string $message = null)
+    public function require_user_do(string $privilege, ?string $message = null)
     {
         midcom::get()->auth->require_user_do($privilege, $message, $this->__midcom_class_name__);
     }

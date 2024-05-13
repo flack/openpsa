@@ -60,7 +60,7 @@ class org_openpsa_calendar_handler_event_create extends midcom_baseclasses_compo
     /**
      * Handle the creation phase
      */
-    public function _handler_create(Request $request, array &$data, string $resource = null)
+    public function _handler_create(Request $request, array &$data, ?string $resource = null)
     {
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
         $this->root_event->require_do('midgard:create');

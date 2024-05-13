@@ -51,16 +51,16 @@ class midcom_core_context
     /**
      * Create and prepare a new component context.
      *
-     * @param midcom_db_topic $node Root node of the context
+     * @param ?midcom_db_topic $node Root node of the context
      */
-    public function __construct(midcom_db_topic $node = null)
+    public function __construct(?midcom_db_topic $node = null)
     {
         $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'] ?? '';
         $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
         $this->id = self::$counter++;
     }
 
-    public static function enter(string $url = null, midcom_db_topic $topic = null) : self
+    public static function enter(?string $url = null, ?midcom_db_topic $topic = null) : self
     {
         $context = new static($topic);
         array_push(self::$stack, $context);

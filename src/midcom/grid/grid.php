@@ -251,7 +251,7 @@ class grid
     /**
      * Renders the grid as HTML
      */
-    public function render(array $entries = null)
+    public function render(?array $entries = null)
     {
         if (is_array($entries)) {
             if (null !== $this->_provider) {

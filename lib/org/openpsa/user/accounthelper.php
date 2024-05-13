@@ -21,7 +21,7 @@ class org_openpsa_user_accounthelper
 
     public string $errstr;
 
-    public function __construct(midcom_db_person $person = null)
+    public function __construct(?midcom_db_person $person = null)
     {
         $this->_component = 'org.openpsa.user';
         if (null !== $person) {
@@ -454,7 +454,7 @@ class org_openpsa_user_accounthelper
      *
      * @param string $component the component we take the config values from
      */
-    public function check_login_attempts(string $component = null) : bool
+    public function check_login_attempts(?string $component = null) : bool
     {
         $stat = true;
         $component = $component ?: "org.openpsa.user";

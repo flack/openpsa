@@ -67,7 +67,7 @@ class org_openpsa_httplib
      * @param string $url Fully qualified URL
      * @return string Contents
      */
-    public function get(string $url, array $headers = [], string $username = null, string $password = null)
+    public function get(string $url, array $headers = [], ?string $username = null, ?string $password = null)
     {
         $request = new Request('GET', $url, $headers);
 

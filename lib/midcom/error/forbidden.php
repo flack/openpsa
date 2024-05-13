@@ -17,7 +17,7 @@ class midcom_error_forbidden extends midcom_error
 {
     private string $method;
 
-    public function __construct(string $message = null, int $code = Response::HTTP_FORBIDDEN, string $method = 'form')
+    public function __construct(?string $message = null, int $code = Response::HTTP_FORBIDDEN, string $method = 'form')
     {
         $message ??= midcom::get()->i18n->get_string('access denied', 'midcom');
         $this->method = $method;

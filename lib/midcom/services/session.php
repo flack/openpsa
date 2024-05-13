@@ -59,7 +59,7 @@ class midcom_services_session
      * is useful for components that need sessioning while under dynamic_load
      * conditions or while used as a library.
      */
-    public function __construct(string $domain = null)
+    public function __construct(?string $domain = null)
     {
         $this->_domain = $domain ?? midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
 

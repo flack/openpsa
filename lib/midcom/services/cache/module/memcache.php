@@ -57,7 +57,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    public function invalidate(string $guid, midcom_core_dbaobject $object = null)
+    public function invalidate(string $guid, ?midcom_core_dbaobject $object = null)
     {
         foreach ($this->_data_groups as $group) {
             if ($group == 'ACL') {
@@ -89,7 +89,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * Sets a given key in the cache. If the data group is unknown, a Warning-Level error
      * is logged and putting is denied.
      */
-    public function put(string $data_group, string $key, $data, int $timeout = null)
+    public function put(string $data_group, string $key, $data, ?int $timeout = null)
     {
         if (!in_array($data_group, $this->_data_groups)) {
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);

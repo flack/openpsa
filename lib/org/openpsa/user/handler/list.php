@@ -30,7 +30,7 @@ implements client
     /**
      * Handler for listing users
      */
-    public function _handler_list(array &$data, string $guid = null)
+    public function _handler_list(array &$data, ?string $guid = null)
     {
         $auth = midcom::get()->auth;
         if (!$auth->can_user_do('org.openpsa.user:access', class: org_openpsa_user_interface::class)) {
@@ -69,7 +69,7 @@ implements client
     /**
      * Lists users in JSON format
      */
-    public function _handler_json(array &$data, string $guid = null)
+    public function _handler_json(array &$data, ?string $guid = null)
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;
@@ -83,7 +83,7 @@ implements client
     /**
      * Get querybuilder for JSON user list
      */
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = midcom_db_person::new_collector();
 

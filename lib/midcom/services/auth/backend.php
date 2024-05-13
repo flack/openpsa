@@ -162,7 +162,7 @@ abstract class midcom_services_auth_backend
      * Creates a login session using the given credentials. It assumes that
      * no login has concluded earlier
      */
-    public function login(string $username, string $password, string $clientip = null, bool $trusted = false) : ?midcom_core_user
+    public function login(string $username, string $password, ?string $clientip = null, bool $trusted = false) : ?midcom_core_user
     {
         $user = $this->authenticate($username, $password, $trusted);
 

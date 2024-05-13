@@ -36,7 +36,7 @@ implements client
         return $this->show('show-scheduled');
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('method', '=', 'new_subscription_cycle');

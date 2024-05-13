@@ -123,7 +123,7 @@ class org_openpsa_directmarketing_sender
         return true;
     }
 
-    public function register_send_job(int $batch, string $url_base, int $time = null) : bool
+    public function register_send_job(int $batch, string $url_base, ?int $time = null) : bool
     {
         $time = $time ?: time() + 30;
         $args = [

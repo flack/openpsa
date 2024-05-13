@@ -71,7 +71,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Loads the schemadb from the helper class
      */
-    private function _load_schemadb(midcom_core_dbaobject $object = null, array $include_fields = null, bool $add_copy_fields = false)
+    private function _load_schemadb(?midcom_core_dbaobject $object = null, ?array $include_fields = null, bool $add_copy_fields = false)
     {
         $schema_helper = new midgard_admin_asgard_schemadb($object ?? $this->_object, $this->_config);
         $schema_helper->add_copy_fields = $add_copy_fields;

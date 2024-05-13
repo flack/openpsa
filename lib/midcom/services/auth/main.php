@@ -224,7 +224,7 @@ class midcom_services_auth
      *
      * @param string $domain The domain to request sudo for. This is a component name.
      */
-    public function request_sudo(string $domain = null) : bool
+    public function request_sudo(?string $domain = null) : bool
     {
         if (!midcom::get()->config->get('auth_allow_sudo')) {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
@@ -274,7 +274,7 @@ class midcom_services_auth
      *
      * It always returns true for administrative users.
      */
-    public function is_group_member(midcom_core_group|string $group, midcom_core_user $user = null) : bool
+    public function is_group_member(midcom_core_group|string $group, ?midcom_core_user $user = null) : bool
     {
         if ($this->is_admin($user)) {
             // Administrators always have access.
@@ -313,7 +313,7 @@ class midcom_services_auth
      *
      * @param MidgardObject $content_object A Midgard Content Object
      */
-    public function require_do(string $privilege, object $content_object, string $message = null)
+    public function require_do(string $privilege, object $content_object, ?string $message = null)
     {
         if (!$this->can_do($privilege, $content_object)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
@@ -336,7 +336,7 @@ class midcom_services_auth
      *
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
      */
-    public function require_user_do(string $privilege, string $message = null, string $class = null)
+    public function require_user_do(string $privilege, ?string $message = null, ?string $class = null)
     {
         if (!$this->can_user_do($privilege, class: $class)) {
             throw $this->access_denied($message, 'privilege %s not granted', $privilege);
@@ -372,14 +372,14 @@ class midcom_services_auth
      *
      * If the check is successful, the function returns silently.
      */
-    public function require_admin_user(string $message = null)
+    public function require_admin_user(?string $message = null)
     {
         if (!$this->admin && !$this->_component_sudo) {
             throw $this->access_denied($message, 'admin level privileges required');
         }
     }
 
-    private function access_denied(?string $message, string $fallback, string $data = null) : midcom_error_forbidden
+    private function access_denied(?string $message, string $fallback, ?string $data = null) : midcom_error_forbidden
     {
         if ($message === null) {
             $message = midcom::get()->i18n->get_string('access denied: ' . $fallback, 'midcom');
@@ -544,7 +544,7 @@ class midcom_services_auth
     /**
      * This call tells the backend to log in.
      */
-    public function login(string $username, string $password, string $clientip = null) : bool
+    public function login(string $username, string $password, ?string $clientip = null) : bool
     {
         if ($user = $this->backend->login($username, $password, $clientip)) {
             $this->set_user($user);

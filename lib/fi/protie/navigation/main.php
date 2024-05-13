@@ -138,7 +138,7 @@ class fi_protie_navigation
     /**
      * Here we initialize the classes and variables needed through the class.
      */
-    public function __construct(int $id = null)
+    public function __construct(?int $id = null)
     {
         $this->_nap = new midcom_helper_nav();
         $this->get_node_path();

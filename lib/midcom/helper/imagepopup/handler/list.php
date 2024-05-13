@@ -22,7 +22,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private array $_search_results = [];
 
-    public function _handler_list(Request $request, string $handler_id, string $filetype, array &$data, string $guid = null)
+    public function _handler_list(Request $request, string $handler_id, string $filetype, array &$data, ?string $guid = null)
     {
         midcom::get()->cache->content->no_cache();
         midcom::get()->auth->require_valid_user();

@@ -135,7 +135,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $result;
     }
 
-    public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, string $folder = null)
+    public function _handler_edit(Request $request, string $handler_id, array &$data, string $component, ?string $folder = null)
     {
         $data['name'] = $component;
         if ($folder) {

@@ -151,7 +151,7 @@ implements client
     /**
      * Get querybuilder for JSON group member list
      */
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = midcom_db_person::new_collector();
         $qb->get_doctrine()

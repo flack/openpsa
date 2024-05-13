@@ -91,7 +91,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * {@inheritDoc}
      */
-    public function query(string $querystring, midcom_services_indexer_filter $filter = null, array $options = []) : array
+    public function query(string $querystring, ?midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
         $query = array_merge($this->config->get_array('indexer_config_options'), $options);
@@ -143,7 +143,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         return $result;
     }
 
-    private function prepare_request(string $action, string $body = null, string $method = 'GET') : Request
+    private function prepare_request(string $action, ?string $body = null, string $method = 'GET') : Request
     {
         $uri = "http://" . $this->config->get('indexer_xmltcp_host');
         $uri .= ":" . $this->config->get('indexer_xmltcp_port');

@@ -23,7 +23,7 @@ implements client
         midcom::get()->auth->require_valid_user();
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->id);

@@ -24,7 +24,7 @@ implements client
 
     private array $rules;
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $resolver = new org_openpsa_directmarketing_campaign_ruleresolver();
         $resolver->resolve($this->rules);

@@ -182,7 +182,7 @@ class midcom_helper_toolbar
      * Note that the styles can be changed after construction by updating
      * the id_style and class_style members.
      */
-    public function __construct(string $class_style = 'midcom_toolbar', string $id_style = null)
+    public function __construct(string $class_style = 'midcom_toolbar', ?string $id_style = null)
     {
         $this->id_style = $id_style;
         $this->class_style = $class_style;

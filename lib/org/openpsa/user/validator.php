@@ -20,7 +20,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
         $this->l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');
     }
 
-    protected function get_accounthelper(midcom_db_person $person = null) : org_openpsa_user_accounthelper
+    protected function get_accounthelper(?midcom_db_person $person = null) : org_openpsa_user_accounthelper
     {
         return new org_openpsa_user_accounthelper($person);
     }

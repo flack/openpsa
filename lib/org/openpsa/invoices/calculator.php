@@ -17,7 +17,7 @@ class org_openpsa_invoices_calculator
 
     private org_openpsa_invoices_invoice_dba $_invoice;
 
-    public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, int $cycle_number = null)
+    public function process_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, ?int $cycle_number = null)
     {
         $this->_deliverable = $deliverable;
         // Recalculate price to catch possible unit changes

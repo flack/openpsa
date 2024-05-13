@@ -93,7 +93,7 @@ trait parameters
      *
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
      */
-    public function list_parameters(string $domain = null) : array
+    public function list_parameters(?string $domain = null) : array
     {
         if (!$this->guid) {
             debug_add('Cannot retrieve information on a non-persistent object.', MIDCOM_LOG_INFO);

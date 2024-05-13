@@ -23,7 +23,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      *
      * @param array $extra Array with the possible extra-properties
      */
-    public static function create(object $from_obj, string $from_component, object $to_obj, string $to_component, int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
+    public static function create(object $from_obj, string $from_component, object $to_obj, string $to_component, ?int $status = null, array $extra = []) : ?org_openpsa_relatedto_dba
     {
         $status ??= org_openpsa_relatedto_dba::CONFIRMED;
 

@@ -33,7 +33,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     /**
      * Generates an object creation view.
      */
-    public function _handler_create(Request $request, string $company = null)
+    public function _handler_create(Request $request, ?string $company = null)
     {
         $this->mode = 'create';
         midcom::get()->auth->require_user_do('midgard:create', class: org_openpsa_invoices_invoice_dba::class);

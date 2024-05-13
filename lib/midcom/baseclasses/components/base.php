@@ -67,7 +67,7 @@ trait midcom_baseclasses_components_base
     /**
      * Convenience shortcut for adding CSS files
      */
-    public function add_stylesheet(string $url, string $media = null)
+    public function add_stylesheet(string $url, ?string $media = null)
     {
         midcom::get()->head->add_stylesheet($url, $media);
     }
