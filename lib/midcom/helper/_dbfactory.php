@@ -75,9 +75,7 @@ class midcom_helper__dbfactory
             throw new midcom_error('invalid source identifier');
         }
 
-        if (!isset($cache[$classname])) {
-            $cache[$classname] = [];
-        }
+        $cache[$classname] ??= [];
 
         if (isset($cache[$classname][$src])) {
             return $cache[$classname][$src];

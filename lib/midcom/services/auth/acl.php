@@ -464,10 +464,7 @@ class midcom_services_auth_acl
 
         $cache_key = "{$user_id}::{$object_guid}::{$privilege}";
 
-        if (!isset($cache[$cache_key])) {
-            $cache[$cache_key] = $this->can_do_byguid_uncached($privilege, $object_guid, $object_class, $user_id);
-        }
-        return $cache[$cache_key];
+        return $cache[$cache_key] ??= $this->can_do_byguid_uncached($privilege, $object_guid, $object_class, $user_id);
     }
 
     private function can_do_byguid_uncached(string $privilege, string $object_guid, string $object_class, string $user_id) : bool

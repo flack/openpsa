@@ -93,11 +93,8 @@ class midgard_admin_asgard_stylehelper
         $style_nodes = $this->_get_nodes_using_style($style_path);
 
         foreach ($style_nodes as $node) {
-            if (!isset($results['nodes'][$node->component])) {
-                $results['nodes'][$node->component] = [];
-                // Get the list of style elements for the component
-                $results['elements'][$node->component] = $this->_get_component_default_elements($node->component);
-            }
+            // Get the list of style elements for the component
+            $results['elements'][$node->component] ??= $this->_get_component_default_elements($node->component);
 
             $results['nodes'][$node->component][] = $node;
         }

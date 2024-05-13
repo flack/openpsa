@@ -284,24 +284,18 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     {
         static $root_classes = [];
 
-        // Return cached results
-        if (!empty($root_classes)) {
-            return $root_classes;
+        if (empty($root_classes)) {
+            // Get the classes
+            $classes = midcom_helper_reflector_tree::get_root_classes();
+
+            // Get the translated name
+            foreach ($classes as $class) {
+                $ref = new midcom_helper_reflector($class);
+                $root_classes[$class] = $ref->get_class_label();
+            }
+
+            asort($root_classes);
         }
-
-        // Initialize the returnable array
-        $root_classes = [];
-
-        // Get the classes
-        $classes = midcom_helper_reflector_tree::get_root_classes();
-
-        // Get the translated name
-        foreach ($classes as $class) {
-            $ref = new midcom_helper_reflector($class);
-            $root_classes[$class] = $ref->get_class_label();
-        }
-
-        asort($root_classes);
 
         return $root_classes;
     }

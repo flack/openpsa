@@ -129,14 +129,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         if ($component != 'midcom') {
             $options['handlers'] = $this->read_component_handlers($component);
         }
-        foreach ($options as $key => $values) {
-            if (!empty($values)) {
-                $files[$key] = [
-                    'path' => '/' . $key,
-                    'subject' => $this->_l10n->get('help_' . $key),
-                    'lang' => 'en',
-                ];
-            }
+        foreach (array_filter($options) as $key => $values) {
+            $files[$key] = [
+                'path' => '/' . $key,
+                'subject' => $this->_l10n->get('help_' . $key),
+                'lang' => 'en',
+            ];
             $this->_request_data[$key] = $values;
         }
 

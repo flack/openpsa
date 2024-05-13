@@ -391,10 +391,8 @@ class midgard_admin_asgard_navigation
         if (!empty($this->_object_path)) {
             $this->_request_data['root_object'] = $this->_object_path[0];
             $this->_request_data['navigation_type'] = $this->_object_path[0]->__mgdschema_class_name__;
-        } elseif (isset($this->expanded_root_types[0])) {
-            $this->_request_data['navigation_type'] = $this->expanded_root_types[0];
         } else {
-            $this->_request_data['navigation_type'] = '';
+            $this->_request_data['navigation_type'] = $this->expanded_root_types[0] ?? '';
         }
 
         $this->_request_data['label_mapping'] = midgard_admin_asgard_plugin::get_root_classes();
