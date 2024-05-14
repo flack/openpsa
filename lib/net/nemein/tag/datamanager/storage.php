@@ -12,6 +12,12 @@ class net_nemein_tag_datamanager_storage extends delayed
 {
     private string $auto_context = '';
 
+    public function __construct(midcom_core_dbaobject $object, array $config)
+    {
+        parent::__construct($object, $config);
+        $this->auto_context = $this->config['type_config']['auto_context'] ?? '';
+    }
+
     public function load()
     {
         if ($this->object->id) {
