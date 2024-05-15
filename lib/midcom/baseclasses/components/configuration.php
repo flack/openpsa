@@ -30,7 +30,7 @@ class midcom_baseclasses_components_configuration
      */
     private static array $_data = [];
 
-    public static function get(string $component, string $key = null)
+    public static function get(string $component, ?string $key = null)
     {
         self::_initialize($component);
         if ($key === null) {
