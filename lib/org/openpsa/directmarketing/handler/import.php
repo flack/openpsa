@@ -136,8 +136,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     {
         $this->_request_data['time_start'] = time();
 
-        $contacts = $importer->parse($input);
-        if (!empty($contacts)) {
+        if ($contacts = $importer->parse($input)) {
             $this->_request_data['import_status'] = $importer->import_subscribers($contacts, $this->_request_data['campaign']);
             if (   $this->_request_data['import_status']['subscribed_new'] > 0
                 || $this->_request_data['import_status']['already_subscribed'] > 0) {

@@ -65,8 +65,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
         if (mgd_is_guid($group)) {
             $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
             $qb2->add_constraint('guid', '=', $group);
-            $up_group = $qb2->execute();
-            if (!empty($up_group)) {
+            if ($up_group = $qb2->execute()) {
                 //We just pick the first category here
                 $qb = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb->add_constraint('up', '=', $up_group[0]->id);

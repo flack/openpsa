@@ -69,8 +69,7 @@ implements midcom_services_permalinks_resolver
         $qb = new midgard_query_builder('midgard_article');
         $qb->add_constraint('topic', '=', $node[MIDCOM_NAV_OBJECT]->id);
         $qb->add_constraint('name', '=', $wikiword_name);
-        $ret = $qb->execute();
-        if (!empty($ret)) {
+        if ($ret = $qb->execute()) {
             //Match found, word is reserved
             debug_add("QB found matches for name '{$wikiword_name}' in topic #{$node[MIDCOM_NAV_OBJECT]->id}, given word '{$wikiword}' is reserved", MIDCOM_LOG_INFO);
             debug_print_r('QB results:', $ret);

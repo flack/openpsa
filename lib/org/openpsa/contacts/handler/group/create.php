@@ -48,7 +48,7 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
             ->get_controller();
     }
 
-    public function _handler_create(Request $request, string $type, string $guid = null)
+    public function _handler_create(Request $request, string $type, ?string $guid = null)
     {
         $this->_type = $type;
 

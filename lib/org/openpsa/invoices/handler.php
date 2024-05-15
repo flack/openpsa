@@ -16,8 +16,7 @@ trait org_openpsa_invoices_handler
     public function get_vat_options(string $percentages) : array
     {
         $values = [];
-        $vat_array = explode(',', $percentages);
-        if (!empty($vat_array)) {
+        if ($vat_array = explode(',', $percentages)) {
             foreach ($vat_array as $entry) {
                 $values[$entry] = "{$entry}%";
             }

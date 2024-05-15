@@ -38,9 +38,8 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
                 // First line is headers, skip
                 continue;
             }
-            $contact = $this->_read_line($csv_line);
 
-            if (!empty($contact)) {
+            if ($contact = $this->_read_line($csv_line)) {
                 $parsed[] = $contact;
             }
         }

@@ -133,7 +133,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         return new midcom_response_relocate($relocate);
     }
 
-    private function parse_input(ParameterBag $input, string $action)
+    private function parse_input(ParameterBag $input, string $action) : int|bool
     {
         if (!in_array($action, ['invoiceable', 'invoice', 'task'])) {
             throw new midcom_error('passed action ' . $action . ' is unknown');
@@ -141,10 +141,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         if ($action == 'invoiceable') {
             return $input->getBoolean('value');
         }
-        $selection = $input->get('selection');
-        if (empty($selection)) {
-            return 0;
+        if ($selection = $input->get('selection')) {
+            return (int) array_pop($selection);
         }
-        return (int) array_pop($selection);
+        return 0;
     }
 }

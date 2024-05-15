@@ -28,9 +28,8 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb->add_constraint('customerContact', '=', $person->id);
-        $results = $qb->execute();
 
-        if (!empty($results)) {
+        if ($results = $qb->execute()) {
             return array_pop($results);
         }
 

@@ -73,8 +73,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $qb_messages->add_constraint('sendStarted', '>', $first_send);
         $qb_messages->add_order('sendStarted', 'DESC');
         $qb_messages->set_limit(1);
-        $messages = $qb_messages->execute_unchecked();
-        if (!empty($messages[0])) {
+        if ($messages = $qb_messages->execute_unchecked()) {
             $campaign_data['next_message'] = $messages[0];
             $qb_unsub->add_constraint('metadata.revised', '<', date('Y-m-d H:i:s', $messages[0]->sendStarted));
         }

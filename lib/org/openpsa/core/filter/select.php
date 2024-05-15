@@ -51,9 +51,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      */
     public function render()
     {
-        $options = $this->_get_options();
-
-        if (!empty($options)) {
+        if ($options = $this->_get_options()) {
             echo '<label>' . $this->_label . ': </label>';
             echo '<select class="filter_input" onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 

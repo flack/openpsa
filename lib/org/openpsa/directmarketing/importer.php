@@ -119,8 +119,7 @@ abstract class org_openpsa_directmarketing_importer
         $qb->add_constraint('person', '=', $person->id);
         $qb->add_constraint('campaign', '=', $campaign->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $members = $qb->execute_unchecked();
-        if (!empty($members)) {
+        if ($members = $qb->execute_unchecked()) {
             // User is or has been subscriber earlier, update status
             $member = $members[0];
 
@@ -204,8 +203,7 @@ abstract class org_openpsa_directmarketing_importer
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('uid', '=', $person->id);
         $qb->add_constraint('gid', '=', $organization->id);
-        $members = $qb->execute_unchecked();
-        if (!empty($members)) {
+        if ($members = $qb->execute_unchecked()) {
             // Match found, use it
             $member = $members[0];
         } else {

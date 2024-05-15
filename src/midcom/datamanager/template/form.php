@@ -151,7 +151,7 @@ class form extends base
 
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
+        $string .= $data['value']['filename'] ?? $this->renderer->humanize('add new file');
         $string .= '</legend>';
 
         $string .= '<div class="attachment-container">';

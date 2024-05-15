@@ -101,9 +101,7 @@ implements midcom_services_permalinks_resolver
         }
 
         // Check for RSS feed
-        $rss_url = org_openpsa_httplib_helpers::get_link_values($html, 'alternate');
-
-        if (!empty($rss_url)) {
+        if ($rss_url = org_openpsa_httplib_helpers::get_link_values($html, 'alternate')) {
             $data['rss_url'] = $rss_url[0]['href'];
 
             // We have a feed URL, but we should check if it is GeoRSS as well

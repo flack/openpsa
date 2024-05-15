@@ -31,21 +31,15 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $mc->add_object_order('status', 'ASC');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
-        $at_entries = $mc->get_related_objects();
 
-        if (empty($at_entries)) {
-            if (   (   $this->_deliverable->continuous
-                    || $this->_deliverable->end > time())
-                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
-                $schema->get_field('next_cycle')['hidden'] = false;
-            }
-        } else {
-            $schema->get_field('next_cycle')['hidden'] = false;
-
+        if ($at_entries = $mc->get_related_objects()) {
             $entry = $at_entries[0];
-
+            $schema->get_field('next_cycle')['hidden'] = false;
             $schema->get_field('next_cycle')['default'] = $entry->start;
             $schema->get_field('at_entry')['default'] = $entry->id;
+        } elseif (   ($this->_deliverable->continuous || $this->_deliverable->end > time())
+                  && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
+            $schema->get_field('next_cycle')['hidden'] = false;
         }
         $dm = new datamanager($schemadb);
         $dm->set_storage($this->_deliverable);

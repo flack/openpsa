@@ -50,8 +50,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
 
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $guid);
-        $billing_data = $qb_billing_data->execute();
-        if (!empty($billing_data)) {
+        if ($billing_data = $qb_billing_data->execute()) {
             $mode = 'edit';
             $bd = $billing_data[0];
         } else {

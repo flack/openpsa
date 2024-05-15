@@ -194,10 +194,7 @@ class provider
 
     private function _get_grid_option(string $key, $default = null)
     {
-        if (empty($this->_grid)) {
-            return $default;
-        }
-        return $this->_grid->get_option($key);
+        return $this->_grid ? $this->_grid->get_option($key) : $default;
     }
 
     private function _convert_to_localdata() : string

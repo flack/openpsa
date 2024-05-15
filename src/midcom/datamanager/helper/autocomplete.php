@@ -56,8 +56,7 @@ class autocomplete
             $this->apply_constraints($qb, $this->request['constraints']);
         }
 
-        $constraints = $this->get_search_constraints();
-        if (!empty($constraints)) {
+        if ($constraints = $this->get_search_constraints()) {
             $qb->begin_group('OR');
             $this->apply_constraints($qb, $constraints);
             $qb->end_group();
