@@ -94,7 +94,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
                         $customer = new org_openpsa_contacts_group_dba($customer_id);
                         $customer_label = $customer->official;
                         $customer = $customer_id;
-                    } catch (midcom_error $e) {
+                    } catch (midcom_error) {
                     }
                 }
             }

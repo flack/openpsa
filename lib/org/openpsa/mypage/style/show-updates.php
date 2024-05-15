@@ -27,7 +27,7 @@ foreach (['today', 'yesterday'] as $type) {
             }
             $contact = new org_openpsa_widgets_contact($editor);
             echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . $formatter->datetime($document->edited) . " (" . $contact->show_inline() . ")</div></li>\n";
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
         }
     }
     echo "</ul></div>\n";

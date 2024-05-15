@@ -56,7 +56,7 @@ foreach ($data['salesprojects'] as $salesproject) {
         $owner_widget = org_openpsa_widgets_contact::get($salesproject->owner);
         $row['index_owner'] = $owner->rname;
         $row['owner'] = $owner_widget->show_inline();
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
         $row['index_owner'] = '';
         $row['owner'] = '';
     }

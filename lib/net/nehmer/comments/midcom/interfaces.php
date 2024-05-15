@@ -47,7 +47,7 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
         if ($node_id) {
             try {
                 $comments_topic = new midcom_db_topic($node_id);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 return null;
             }
 

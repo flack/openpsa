@@ -43,7 +43,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         }
         try {
             $resource = org_openpsa_calendar_resource_dba::get_cached($this->resource);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             debug_add("Cannot fetch resource #{$this->resource} returning false", MIDCOM_LOG_INFO);
             return false;
         }

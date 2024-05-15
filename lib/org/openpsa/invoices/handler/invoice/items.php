@@ -8,7 +8,6 @@
 
 use midcom\grid\grid;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use midcom\grid\editor;
 
@@ -41,7 +40,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
                 if ($sales_url) {
                     $entry['deliverable'] = '<a href="' . $sales_url . 'deliverable/' . $deliverable->guid . '/">' . $entry['deliverable'] . '</a>';
                 }
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $entry['deliverable'] = '';
             }
             try {
@@ -50,7 +49,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
                 if ($projects_url) {
                     $entry['task'] = '<a href="' . $projects_url . 'task/' . $task->guid . '/">' . $entry['task'] . '</a>';
                 }
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $entry['task'] = '';
             }
 

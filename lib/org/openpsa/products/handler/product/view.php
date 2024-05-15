@@ -74,7 +74,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
                 $replacements['<PRODUCTGROUP_TITLE>'] = $productgroup->title;
                 $replacements['<PRODUCTGROUP_CODE>'] = $productgroup->code;
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $replacements['<PRODUCTGROUP_TITLE>'] = '';
                 $replacements['<PRODUCTGROUP_CODE>'] = '';
             }

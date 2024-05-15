@@ -185,7 +185,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         try {
             $account = new midcom_core_account($person);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $person->id), 'error');
             return;
         }

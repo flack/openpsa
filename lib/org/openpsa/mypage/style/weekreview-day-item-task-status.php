@@ -33,7 +33,7 @@ $message = sprintf(midcom::get()->i18n->get_string($task_status->get_status_mess
                 $task_label = "<a href=\"{$data['projects_url']}task/{$task->guid}/\">{$task_label}</a>";
             }
             echo $task_label;
-        } catch (midcom_error $e) {}
+        } catch (midcom_error) {}
         ?>
     </td>
     <td class="multivalue">

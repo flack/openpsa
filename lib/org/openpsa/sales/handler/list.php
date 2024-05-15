@@ -95,7 +95,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         try {
             $this->_request_data['customer'] = new org_openpsa_contacts_group_dba($guid);
             $qb->add_constraint('customer', '=', $this->_request_data['customer']->id);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $this->_request_data['customer'] = new org_openpsa_contacts_person_dba($guid);
             $qb->add_constraint('customerContact', '=', $this->_request_data['customer']->id);
         }

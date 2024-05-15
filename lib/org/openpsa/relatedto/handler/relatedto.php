@@ -107,7 +107,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             //TODO: check for duplicates ?
             try {
                 $result = ['other_obj' => midcom::get()->dbfactory->get_object_by_guid($link[$other . 'Guid'])];
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 continue;
             }
             $result['link'] = [

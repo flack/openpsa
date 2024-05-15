@@ -58,7 +58,7 @@ class org_openpsa_notifications
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         try {
             $recipient = midcom_db_person::get_cached($recipient);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return false;
         }
 

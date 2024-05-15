@@ -142,7 +142,7 @@ class org_openpsa_calendar_conflictmanager
             try {
                 $event = new org_openpsa_calendar_event_dba($member->event);
                 $set_as_modified = true;
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 debug_add("event_resource #{$member->id} links to bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
                 $member->delete();
                 return;
@@ -170,7 +170,7 @@ class org_openpsa_calendar_conflictmanager
 
         try {
             $event = new org_openpsa_calendar_event_dba($member->eid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
             $member->delete();
             return;

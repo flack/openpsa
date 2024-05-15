@@ -91,7 +91,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                 $row['organization_member'] = $membership;
                 try {
                     $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
-                } catch (midcom_error $e) {
+                } catch (midcom_error) {
                     debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
                     continue;
                 }

@@ -267,7 +267,7 @@ implements client
                 $customer_url = "{$contacts_url}group/{$customer->guid}/";
                 $ret['customer'] = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->get_label()}</a>";
                 $ret['index_customer'] = $customer->name;
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $ret['customer'] = '';
                 $ret['index_customer'] = '';
             }

@@ -43,7 +43,7 @@ class midcom_db_style extends midcom_core_dbaobject
                     break;
                 }
             }
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
         }
 
         $path_parts = array_reverse($path_parts);

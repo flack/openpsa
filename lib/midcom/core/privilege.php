@@ -112,7 +112,7 @@ class midcom_core_privilege
         if ($this->__cached_object === null) {
             try {
                 $this->__cached_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 return null;
             }
         }

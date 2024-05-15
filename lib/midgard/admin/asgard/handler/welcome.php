@@ -177,7 +177,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         foreach ($guids as $guid) {
             try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 continue;
             }
 
@@ -192,7 +192,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         foreach ($guids as $guid) {
             try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 continue;
             }
 

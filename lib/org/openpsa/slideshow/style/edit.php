@@ -21,7 +21,7 @@ foreach ($data['images'] as $image) {
         $original = new midcom_db_attachment($image->attachment);
         $original_url = midcom_db_attachment::get_url($original);
         $name = $original->name;
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
         $url = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
         $name = $data['l10n']->get('attachment missing');
         $original_url = '';

@@ -25,7 +25,7 @@
             $row['creator_index'] = $creator->rname;
             $creator_card = org_openpsa_widgets_contact::get($entry->metadata->creator);
             $row['creator'] = $creator_card->show_inline();
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $row['creator_index'] = '';
             $row['creator'] = '';
         }

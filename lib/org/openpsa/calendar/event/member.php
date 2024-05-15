@@ -141,7 +141,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 debug_add('person #' . $person->id . 'has no email address, aborting');
                 return null;
             }
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return null;
         }
 

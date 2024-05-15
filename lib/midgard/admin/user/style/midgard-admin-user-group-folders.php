@@ -17,7 +17,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         foreach ($data['objects'] as $guid => $privs) {
             try {
                 $object = new midcom_db_topic($guid);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 continue;
             }
             echo "<tr>\n";

@@ -74,7 +74,7 @@ implements midcom_services_permalinks_resolver
         $stat = true;
         try {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $handler->print_error("{$args['campaign_guid']} is not a valid campaign GUID");
             $stat = false;
         }

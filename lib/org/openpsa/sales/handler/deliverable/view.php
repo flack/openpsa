@@ -45,7 +45,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         }
         try {
             $this->_request_data['product'] = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $this->_request_data['product'] = false;
         }
     }

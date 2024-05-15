@@ -439,7 +439,7 @@ abstract class openpsa_testcase extends TestCase
                     continue;
                 }
                 $stat = $object->delete();
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $stat = false;
             }
             if (!$stat) {

@@ -77,7 +77,7 @@ abstract class midcom_services_auth_backend
         if (!array_key_exists($id, $this->_user_cache)) {
             try {
                 $this->_user_cache[$id] = new midcom_core_user($param);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 // Keep it silent while missing user object can mess here
                 $this->_user_cache[$id] = null;
             }

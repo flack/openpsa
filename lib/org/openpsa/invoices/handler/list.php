@@ -87,7 +87,7 @@ implements client
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
                 $entry['customer'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $customer->guid])}\">" . $customer->get_label() . "</a>";
                 $entry['index_customer'] = $customer->get_label();
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $entry['customer'] = '';
                 $entry['index_customer'] = '';
             }
@@ -101,7 +101,7 @@ implements client
                 $entry['contact'] = "<a href=\"{$this->router->generate('list_customer_all', ['guid' => $contact->guid])}\">" . $contact->get_label() . "</a>";
                 $entry['contact'] = $contact_widget->show_inline();
                 $entry['index_contact'] = $contact->get_label();
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $entry['contact'] = '';
                 $entry['index_contact'] = '';
             }
@@ -248,7 +248,7 @@ implements client
     {
         try {
             $this->_customer = new org_openpsa_contacts_group_dba($guid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $this->_customer = new org_openpsa_contacts_person_dba($guid);
         }
         $data['customer'] = $this->_customer;

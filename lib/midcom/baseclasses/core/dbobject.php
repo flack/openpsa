@@ -423,7 +423,7 @@ class midcom_baseclasses_core_dbobject
          */
         try {
             return $object->get_by_id($object->id);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

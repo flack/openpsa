@@ -8,7 +8,7 @@ try {
     if ($customer->orgOpenpsaObtype < org_openpsa_contacts_group_dba::ORGANIZATION) {
         $customer = false;
     }
-} catch (midcom_error $e) {
+} catch (midcom_error) {
     $customer = false;
 }
 

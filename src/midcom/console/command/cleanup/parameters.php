@@ -49,7 +49,7 @@ class parameters extends Command
                 try {
                     \midgard_object_class::get_object_by_guid($param->parentguid);
                     $seen[$param->parentguid] = true;
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     $seen[$param->parentguid] = false;
                 }
             }

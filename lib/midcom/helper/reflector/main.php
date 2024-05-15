@@ -153,7 +153,7 @@ class midcom_helper_reflector extends midgard_reflection_property
         if ($object instanceof mgdobject) {
             try {
                 $obj = midcom::get()->dbfactory->convert_midgard_to_midcom($object);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 return null;
             }
         } else {

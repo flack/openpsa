@@ -6,7 +6,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     foreach ($data['prospects'] as $prospect) {
         try {
             $person = org_openpsa_contacts_person_dba::get_cached($prospect->person);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             continue;
         } ?>
         <person>

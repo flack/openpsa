@@ -25,7 +25,7 @@ foreach ($results as $i => $result) {
     try {
         midcom::get()->dbfactory->get_object_by_guid($result->fromGuid);
         midcom::get()->dbfactory->get_object_by_guid($result->toGuid);
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
         echo $i . "/" . $total . ": Deleting relatedto #" . $result->id . "\n";
         $result->delete();
     }

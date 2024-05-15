@@ -23,7 +23,7 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         midcom::get()->auth->request_sudo($this->_component);
         try {
             $person = new midcom_db_person($args['guid']);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $handler->print_error('Person with guid #' . $args['guid'] . ' does not exist');
             midcom::get()->auth->drop_sudo();
             return false;

@@ -209,7 +209,7 @@ class org_openpsa_directmarketing_sender
     {
         try {
             $person = org_openpsa_contacts_person_dba::get_cached($member->person);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->delete();

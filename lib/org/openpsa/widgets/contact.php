@@ -103,7 +103,7 @@ class org_openpsa_widgets_contact
 
         try {
             $person = midcom_db_person::get_cached($src);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return $cache[$src] = new self(new midcom_db_person);
         }
 

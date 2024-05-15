@@ -49,7 +49,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         } elseif (!empty($this->data[MIDCOM_NAV_GUID])) {
             try {
                 $this->data[MIDCOM_NAV_OBJECT] = midcom::get()->dbfactory->get_object_by_guid($this->data[MIDCOM_NAV_GUID]);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
             }
         } else {
             debug_add("Warning: The leaf {$this->leafid} of topic {$topic->id} does set neither a GUID nor an object.");

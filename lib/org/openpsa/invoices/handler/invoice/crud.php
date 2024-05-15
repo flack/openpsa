@@ -42,7 +42,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             // We're creating invoice for chosen customer
             try {
                 $this->customer = new org_openpsa_contacts_group_dba($company);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $contact = new org_openpsa_contacts_person_dba($company);
                 $this->contact_id = $contact->id;
             }

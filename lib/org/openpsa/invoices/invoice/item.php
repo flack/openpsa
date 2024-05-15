@@ -72,7 +72,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             try {
                 $task = org_openpsa_projects_task_dba::get_cached($this->task);
                 $url = $projects_url . 'task/' . $task->guid . '/';
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
             }
         }
         if (   $url == ''
@@ -80,7 +80,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->deliverable);
                 $url = $sales_url . 'deliverable/' . $deliverable->guid . '/';
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
             }
         }
         if ($url != '') {

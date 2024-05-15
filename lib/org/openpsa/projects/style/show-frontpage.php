@@ -21,7 +21,7 @@ $formatter = $data['l10n']->get_formatter();
         try {
             $customer = new org_openpsa_contacts_group_dba($customer);
             $customer_title = $customer->official;
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $customer_title = $data['l10n']->get('no customer');
         }
 

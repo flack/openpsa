@@ -103,7 +103,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         foreach ($hours as $guid => $row) {
             try {
                 $task = org_openpsa_projects_task_dba::get_cached($row['task']);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 // Task couldn't be loaded, probably because of ACL
                 continue;
             }
@@ -116,7 +116,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
                     $person_object = midcom_db_person::get_cached($row['person']);
                     $person_label = $this->_get_list_link($person_object->name, person_id: $row['person']);
                     $person_name = $person_object->name;
-                } catch (midcom_error $e) {
+                } catch (midcom_error) {
                     $person_label = $this->_l10n->get('no person');
                     $person_name = '';
                 }

@@ -37,7 +37,7 @@ class repligard extends Command
     {
         try {
             $this->db = connection::get_em()->getConnection()->getNativeConnection();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->db = $this->create_connection($input, $output);
         }
 

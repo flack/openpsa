@@ -29,7 +29,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         foreach ($qb->execute() as $feed) {
             try {
                 midcom_db_topic::get_cached($feed->node);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 debug_add("Node #{$feed->node} does not exist, skipping feed #{$feed->id}", MIDCOM_LOG_ERROR);
                 continue;
             }

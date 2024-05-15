@@ -135,7 +135,7 @@ class accounthelperTest extends openpsa_testcase
         try {
             $helper->reopen_account();
             $this->fail("Reopening an unblocked account should throw an exception");
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         midcom::get()->auth->drop_sudo();

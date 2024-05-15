@@ -196,7 +196,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             if (!empty($document->topic_guid)) {
                 try {
                     midcom_db_topic::get_cached($document->topic_guid);
-                } catch (midcom_error $e) {
+                } catch (midcom_error) {
                     // Skip document, the object is hidden.
                     debug_add("Skipping the generic document {$document->title}, its topic seems to be invisible, we cannot proceed.");
                     continue;
@@ -209,7 +209,7 @@ class midcom_services_indexer implements EventSubscriberInterface
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try {
                     midcom::get()->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
-                } catch (midcom_error $e) {
+                } catch (midcom_error) {
                     // Skip document, the object is hidden, deleted or otherwise unavailable.
                     //@todo Maybe nonexistent objects should be removed from index?
                     continue;

@@ -37,7 +37,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             // Add person to campaign
             try {
                 $campaign = new org_openpsa_directmarketing_campaign_dba($add_to);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 // FIXME: More informative error message
                 $this->notify('Failed adding person %s to campaign %s', $add_to, 'error');
                 return;

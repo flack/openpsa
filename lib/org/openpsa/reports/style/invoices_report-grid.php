@@ -70,7 +70,7 @@ foreach ($data['invoices'] as $invoice) {
         } else {
             $entry['customer'] = $customer->official;
         }
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
     }
 
     if ($entry['status'] === 'canceled') {
@@ -82,7 +82,7 @@ foreach ($data['invoices'] as $invoice) {
         $entry['index_contact'] = $contact->rname;
         $contact_card = org_openpsa_widgets_contact::get($invoice->customerContact);
         $entry['contact'] = $contact_card->show_inline();
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
     }
 
     $entries[] = $entry;

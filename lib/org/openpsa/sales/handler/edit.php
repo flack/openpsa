@@ -54,7 +54,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
                 $field['type_config']['options'] = [0 => '', $customer->id => $customer->official];
 
                 $defaults['customer'] = $customer->id;
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $customer = new org_openpsa_contacts_person_dba($guid);
                 $defaults['customerContact'] = $customer->id;
                 $field['type_config']['options'] = $this->list_groups([$customer->id => true]);

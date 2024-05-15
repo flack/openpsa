@@ -132,7 +132,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
                         && $deliverable->end > $this->_request_data['start'])) {
                     $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
                 }
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
             }
         }
         $invoices = array_merge($invoices, $this->_get_deliverable_invoices());

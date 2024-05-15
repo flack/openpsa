@@ -510,7 +510,7 @@ class midcom_services_indexer_document
     {
         try {
             return midcom_db_person::get_cached($guid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return null;
         }
     }

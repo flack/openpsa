@@ -131,7 +131,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     {
         try {
             return new org_openpsa_contacts_person_dba($this->linkGuid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             try {
                 return new org_openpsa_contacts_group_dba($this->linkGuid);
             } catch (midcom_error $e) {

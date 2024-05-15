@@ -567,7 +567,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         try {
             $doc = new org_openpsa_documents_document_dba($path);
             return $doc->delete();
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return false;
         }
     }

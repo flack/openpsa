@@ -119,7 +119,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                             try {
                                 $creator = new midcom_db_person($view_metadata->get('creator'));
                                 $creator_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>";
-                            } catch (midcom_error $e) {
+                            } catch (midcom_error) {
                                 $creator_string = $l10n->get('unknown person');
                             }
                             $formatter = $data['l10n']->get_formatter();
@@ -133,7 +133,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 try {
                                     $editor = new midcom_db_person($view_metadata->get('revisor'));
                                     $editor_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>";
-                                } catch (midcom_error $e) {
+                                } catch (midcom_error) {
                                     $editor_string = $l10n->get('unknown person');
                                 }
 

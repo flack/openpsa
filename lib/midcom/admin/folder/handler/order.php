@@ -68,7 +68,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Use the DB Factory to resolve the class and to get the object
         try {
             $object = midcom::get()->dbfactory->get_object_by_guid($identifier);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             // This is probably a pseudo leaf, store the score to the current node
             $this->_topic->set_parameter('midcom.helper.nav.score', $identifier, $score);
             return true;

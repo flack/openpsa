@@ -159,7 +159,7 @@ class midcom_helper__dbfactory
 
         try {
             return $this->get_cached($classname, $parent_guid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return null;
         }
     }

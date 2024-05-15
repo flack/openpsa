@@ -98,7 +98,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_viewer
             $node_guid = $siteconfig->get_node_guid($component);
             try {
                 $available_generators[$component] = midcom_db_topic::get_cached($node_guid)->get_label();
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 debug_add("topic for component '{$component}' not found or accessible");
             }
         }

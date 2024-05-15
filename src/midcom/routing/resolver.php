@@ -59,7 +59,7 @@ class resolver
 
             try {
                 $result = $router->match($url);
-            } catch (ResourceNotFoundException $e) {
+            } catch (ResourceNotFoundException) {
                 throw new midcom_error_notfound('This URL method is unknown.');
             }
             $this->request->attributes->add($result);
@@ -118,7 +118,7 @@ class resolver
 
         try {
             $result = $router->match($url);
-        } catch (ResourceNotFoundException $e) {
+        } catch (ResourceNotFoundException) {
             // No match
             debug_add("Component {$viewer->_component} in {$viewer->_topic->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             throw new midcom_error_notfound("This page is not available on this server.");

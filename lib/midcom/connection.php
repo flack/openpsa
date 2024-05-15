@@ -84,7 +84,7 @@ class midcom_connection
 
         try {
             $user = new midgard_user($login_tokens);
-        } catch (mgd_exception $e) {
+        } catch (mgd_exception) {
             return null;
         }
         if (!$trusted && !self::verify_password($password, $user->password)) {

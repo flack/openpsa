@@ -50,7 +50,7 @@ implements midcom_services_permalinks_resolver
         try {
             $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
         } catch (midcom_error $e) {
-            $handler->print_error("Deliverable {$args['deliverable']} not found: " . midcom_connection::get_error_string());
+            $handler->print_error("Deliverable {$args['deliverable']} not found: " . $e->getMessage());
             return false;
         }
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
@@ -69,7 +69,7 @@ implements midcom_services_permalinks_resolver
         }
         try {
             $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             $handler->print_error('no deliverable with passed GUID: ' . $args['deliverable'] . ', aborting');
             return false;
         }

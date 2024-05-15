@@ -94,7 +94,7 @@ class exec extends Command
 
         try {
             require $basedir . $file;
-        } catch (\midcom_error_forbidden $e) {
+        } catch (\midcom_error_forbidden) {
             $dialog = $this->getHelperSet()->get('question');
             $this->login($dialog, $input, $output);
             require $basedir . $file;

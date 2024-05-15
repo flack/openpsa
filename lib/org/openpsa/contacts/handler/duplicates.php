@@ -82,7 +82,7 @@ class org_openpsa_contacts_handler_duplicates extends midcom_baseclasses_compone
             try {
                 $object1 = $this->load($param->parentguid);
                 $object2 = $this->load($param->name);
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
                 $i++;
                 continue;
             }

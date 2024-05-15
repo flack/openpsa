@@ -43,7 +43,7 @@ class midcom_db_member extends midcom_core_dbaobject
         }
         try {
             $person = new midcom_db_person($this->uid);
-        } catch (midcom_error $e) {
+        } catch (midcom_error) {
             return;
         }
         midcom::get()->cache->invalidate($person->guid);

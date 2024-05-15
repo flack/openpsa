@@ -219,7 +219,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                     $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
                     $this->customer = $salesproject->customer;
                 }
-                catch (midcom_error $e) {}
+                catch (midcom_error) {}
             }
         } else {
             // No agreement, we can't be invoiceable

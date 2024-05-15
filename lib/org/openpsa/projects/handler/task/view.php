@@ -109,7 +109,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
                         MIDCOM_TOOLBAR_GLYPHICON => 'money',
                     ];
                 }
-            } catch (midcom_error $e) {
+            } catch (midcom_error) {
             }
         }
 
