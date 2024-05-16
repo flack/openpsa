@@ -94,11 +94,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     {
         $this->_load_schemadb();
 
-        $defaults = [];
-        if (midcom::get()->auth->user) {
-            $defaults['author'] = midcom::get()->auth->user->name;
-        }
-
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
         $this->_new_comment->ip = $request->getClientIp();
@@ -116,7 +111,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
         $dm = new datamanager($this->_schemadb);
         $this->_post_controller = $dm
-            ->set_defaults($defaults)
             ->set_storage($this->_new_comment)
             ->get_controller();
     }
