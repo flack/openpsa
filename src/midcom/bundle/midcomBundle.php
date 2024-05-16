@@ -17,6 +17,7 @@ use midcom\bundle\dependencyInjection\componentPass;
 use midcom\bundle\dependencyInjection\cachePass;
 use midcom\bundle\dependencyInjection\indexerPass;
 use midcom\bundle\dependencyInjection\authPass;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 
 class midcomBundle extends Bundle
 {
@@ -37,5 +38,6 @@ class midcomBundle extends Bundle
         $container->addCompilerPass(new FormPass);
         $container->addCompilerPass(new datamanagerPass);
         $container->addCompilerPass(new AddConsoleCommandPass);
+        $container->addCompilerPass(new RegisterListenersPass);
     }
 }

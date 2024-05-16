@@ -1,18 +1,17 @@
 services:
     subscriber:
         class: midcom\httpkernel\subscriber
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     watcher:
         class: midcom\events\watcher
         arguments: ['@componentloader']
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     event_dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
-        calls:
-            - [addSubscriber, ['@subscriber']]
-            - [addSubscriber, ['@watcher']]
-            - [addSubscriber, ['@cache']]
-            - [addSubscriber, ['@head']]
 
     dispatcher:
         alias: event_dispatcher
@@ -69,6 +68,8 @@ services:
     cache:
         class: midcom_services_cache
         public: true
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     cache.module.content:
         class: midcom_services_cache_module_content
@@ -119,6 +120,8 @@ services:
     head:
         class: midcom_helper_head
         public: true
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     i18n:
         class: midcom_services_i18n
