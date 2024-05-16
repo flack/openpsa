@@ -22,8 +22,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         // Ensure we get the correct styles
         midcom::get()->style->prepend_component_styledir('midcom.admin.folder');
-
-        $this->_request_data['folder'] = $this->_topic;
     }
 
     /**
