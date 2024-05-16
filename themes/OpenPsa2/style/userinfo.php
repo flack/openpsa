@@ -1,13 +1,12 @@
 <?php
-$auth = midcom::get()->auth;
 $logout_label = midcom::get()->i18n->get_string('logout', 'midcom');
 
-if ($auth->user) {
+if ($user = midcom::get()->auth->user) {
     $siteconf = org_openpsa_core_siteconfig::get_instance();
     if ($user_url = $siteconf->get_node_full_url('org.openpsa.user')) {
-        $person_string = '<a href="' . $user_url . 'view/' . $auth->user->guid . '/">' . $auth->user->name . "</a>";
+        $person_string = '<a href="' . $user_url . 'view/' . $user->guid . '/">' . $user->name . "</a>";
     } else {
-        $person_string = $auth->user->name;
+        $person_string = $user->name;
     } ?>
     <ul>
         <li class="user">&(person_string:h);</li>

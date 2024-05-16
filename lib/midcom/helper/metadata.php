@@ -427,8 +427,7 @@ class midcom_helper_metadata
         }
 
         // Lock was created by the user, return "not locked"
-        if (   !empty(midcom::get()->auth->user->guid)
-            && $this->get('locker') === midcom::get()->auth->user->guid) {
+        if ($this->get('locker') === midcom::get()->auth->user?->guid) {
             return false;
         }
 
@@ -454,7 +453,7 @@ class midcom_helper_metadata
      */
     public function can_unlock() : bool
     {
-        return (  (midcom::get()->auth->user && midcom::get()->auth->user->guid == $this->__object->metadata->locker)
+        return (   midcom::get()->auth->user?->guid == $this->__object->metadata->locker
                 || $this->__object->can_do('midcom:unlock')
                 || midcom::get()->auth->can_user_do('midcom:unlock', class: midcom_services_auth::class));
     }

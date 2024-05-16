@@ -52,8 +52,7 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             MIDCOM_TOOLBAR_OPTIONS => ['rel' => 'directlink']
         ];
 
-        if (midcom::get()->auth->user) {
-            $user = midcom::get()->auth->user->get_storage();
+        if ($user = midcom::get()->auth->user?->get_storage()) {
             $date = $this->_l10n->get_formatter()->date();
             $relatedto_button_settings = [
                 'wikinote' => [

@@ -32,8 +32,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 $qb->add_constraint('metadata.revised', '>=', $since);
 
                 if (   $only_mine
-                    && midcom::get()->auth->user) {
-                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
+                    && $guid = midcom::get()->auth->user?->guid) {
+                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . $guid . '|');
                 }
 
                 foreach ($qb->execute() as $object) {
