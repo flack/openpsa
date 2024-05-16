@@ -267,7 +267,7 @@ abstract class openpsa_testcase extends TestCase
             if (!array_key_exists('__openpsa_testcase_response', $data)) {
                 $data['__openpsa_testcase_response'] = null;
             }
-            $this->assertInstanceOf(midcom_response_relocate::class, $data['__openpsa_testcase_response'], 'handler did not relocate');
+            $this->assertInstanceOf(RedirectResponse::class, $data['__openpsa_testcase_response'], 'handler did not relocate');
             $url = $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
