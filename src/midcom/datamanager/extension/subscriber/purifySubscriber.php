@@ -52,12 +52,12 @@ class purifySubscriber implements EventSubscriberInterface
             && $def = $purifier_config->maybeGetRawHTMLDefinition()) {
             if (!empty($definitions['addAttribute'])) {
                 foreach (array_filter((array) $definitions['addAttribute'], 'is_array') as $attrdef) {
-                    call_user_func_array([$def, 'addAttribute'], $attrdef);
+                    $def->addAttribute(...$attrdef);
                 }
             }
             if (!empty($definitions['addElement'])) {
                 foreach (array_filter((array) $definitions['addElement'], 'is_array') as $elemdef) {
-                    call_user_func_array([$def, 'addElement'], $elemdef);
+                    $def->addElement(...$elemdef);
                 }
             }
         }
