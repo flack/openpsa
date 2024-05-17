@@ -22,7 +22,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
 
         $tree = new org_openpsa_widgets_tree(midcom_db_group::class, 'owner');
         $tree->title_fields = ['official', 'name'];
-        $tree->link_callback = [__CLASS__, 'render_link'];
+        $tree->link_callback = self::render_link(...);
         $data['tree'] = $tree;
 
         return $this->show('group-list');

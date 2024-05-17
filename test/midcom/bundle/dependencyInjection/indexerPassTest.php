@@ -44,7 +44,7 @@ class indexerPassTest extends TestCase
                 $this->equalTo('indexer'),
                 $this->equalTo('indexer.backend'),
                 $this->equalTo('event_dispatcher')))
-            ->willReturnCallback([$this, 'get_definition_mock']);
+            ->willReturnCallback($this->get_definition_mock(...));
 
         (new indexerPass)->process($container);
     }

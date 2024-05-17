@@ -33,13 +33,13 @@ class authPassTest extends TestCase
             ->with($this->logicalOr(
                 $this->equalTo('midcom.auth_backend'),
                 $this->equalTo('midcom.auth_frontend')))
-            ->willReturnCallback([$this, 'get_config']);
+            ->willReturnCallback($this->get_config(...));
 
         $container
             ->expects($this->once())
             ->method('getDefinition')
             ->with('auth.frontend')
-            ->willReturnCallback([$this, 'get_definition_mock']);
+            ->willReturnCallback($this->get_definition_mock(...));
 
         (new authPass)->process($container);
     }

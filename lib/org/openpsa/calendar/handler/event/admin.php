@@ -34,7 +34,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         $validator = new org_openpsa_calendar_validator($event, $this->_l10n);
         $schemadb = schemadb::from_path($this->_config->get('schemadb'));
         foreach ($schemadb->all() as $schema) {
-            $schema->set('validation', [['callback' => [$validator, 'validate']]]);
+            $schema->set('validation', [['callback' => $validator->validate(...)]]);
         }
         $dm = new datamanager($schemadb);
         $data['controller'] = $dm

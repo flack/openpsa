@@ -86,7 +86,7 @@ class net_nemein_wiki_resolver
         ];
 
         $levels = explode('/', $path);
-        $path = implode('/', array_map([midcom_helper_misc::class, 'urlize'], $levels));
+        $path = implode('/', array_map(midcom_helper_misc::urlize(...), $levels));
 
         midcom::get()->auth->request_sudo('net.nemein.wiki');
         if (count($levels) == 1) {

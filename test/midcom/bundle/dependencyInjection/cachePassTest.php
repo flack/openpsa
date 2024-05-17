@@ -36,13 +36,13 @@ class cachePassTest extends TestCase
             ->expects($this->exactly(7))
             ->method('getParameter')
             ->with($this->logicalOr('midcom.cache_module_content_backend', 'midcom.cache_module_memcache_backend', 'midcom.cache_module_memcache_backend_config', 'kernel.cache_dir'))
-            ->willReturnCallback([$this, 'get_config']);
+            ->willReturnCallback($this->get_config(...));
 
         $container
             ->expects($this->exactly(5))
             ->method('getDefinition')
             ->with($this->logicalOr('cache', 'cache.module.memcache.backend', 'cache.module.nap.backend'))
-            ->willReturnCallback([$this, 'get_definition_mock']);
+            ->willReturnCallback($this->get_definition_mock(...));
 
         (new cachePass)->process($container);
     }

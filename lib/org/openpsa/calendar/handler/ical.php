@@ -55,7 +55,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
 
         $encoder = new org_openpsa_calendar_vcal;
-        array_map([$encoder, 'add_event'], $this->get_events());
+        array_map($encoder->add_event(...), $this->get_events());
 
         return new Response($encoder, Response::HTTP_OK, [
             'Content-Type' => 'text/calendar'

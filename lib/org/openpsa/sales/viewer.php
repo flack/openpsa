@@ -29,7 +29,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_viewer
     {
         $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.products');
-        return array_map([$l10n, 'get'], $unit_options);
+        return array_map($l10n->get(...), $unit_options);
     }
 
     public static function get_unit_option($unit) : string

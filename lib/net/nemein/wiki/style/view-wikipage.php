@@ -10,7 +10,7 @@ $view = $data['wikipage_view'];
     // List possible wiki pages tagged with name of this page
     $tagged_pages = net_nemein_tag_handler::get_objects_with_tags([$data['wikipage']->title], [net_nemein_wiki_wikipage::class]);
     if (!empty($tagged_pages)) {
-        usort($tagged_pages, [net_nemein_wiki_handler_view::class, 'sort_by_title']);
+        usort($tagged_pages, net_nemein_wiki_handler_view::sort_by_title(...));
         echo "<dl class=\"tagged\">\n";
         echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), midcom::get()->i18n->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
         foreach ($tagged_pages as $page) {

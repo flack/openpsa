@@ -51,7 +51,7 @@ class schemaType extends AbstractType
             $validation = $options['schema']->get('validation');
             if (!empty($validation)) {
                 $cb_wrapper = new cb_wrapper($validation);
-                return [new Callback(['callback' => [$cb_wrapper, 'validate']])];
+                return [new Callback(['callback' => $cb_wrapper->validate(...)])];
             }
             return $value;
         });

@@ -137,7 +137,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 'url' => $this->router->generate('group_view', ['guid' => $group->guid])
             ];
         }
-        usort($data, [autocomplete::class, 'sort_items']);
+        usort($data, autocomplete::sort_items(...));
 
         return new JsonResponse($data);
     }

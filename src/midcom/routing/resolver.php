@@ -142,6 +142,6 @@ class resolver
         }
 
         $this->request->attributes->add($result);
-        $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, [$viewer, 'show']);
+        $this->context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, $viewer->show(...));
     }
 }
