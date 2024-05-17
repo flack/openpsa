@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Base singleton class of the MidCOM sessioning service.
@@ -64,6 +65,13 @@ class midcom_services__sessioning extends Session
             'cookie_secure' => $cookie_secure && $request && $request->isSecure(),
             'cookie_httponly' => true
         ]);
+    }
+
+    public function on_request(RequestEvent $event)
+    {
+        if ($event->isMainRequest()) {
+            $event->getRequest()->setSession($this);
+        }
     }
 
     /**

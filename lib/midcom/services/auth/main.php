@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * Main Authentication/Authorization service class, it provides means to authenticate
@@ -93,8 +93,9 @@ class midcom_services_auth
      * Checks if the current authentication fronted has new credentials
      * ready. If yes, it processes the login accordingly. Otherwise look for existing session
      */
-    public function check_for_login_session(Request $request) : ?midcom_response_relocate
+    public function check_for_login_session(RequestEvent $event)
     {
+        $request = $event->getRequest();
         // Try to start up a new session, this will authenticate as well.
         if ($credentials = $this->frontend->read_login_data($request)) {
             if (!$this->login($credentials['username'], $credentials['password'], $request->getClientIp())) {
@@ -103,7 +104,7 @@ class midcom_services_auth
                     // Calling the failure function with the username as a parameter. No password sent to the user function for security reasons
                     call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
                 }
-                return null;
+                return;
             }
             debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
 
@@ -125,14 +126,13 @@ class midcom_services_auth
 
             // Now we check whether there is a success-relocate URL given somewhere.
             if ($request->get('midcom_services_auth_login_success_url')) {
-                return new midcom_response_relocate($request->get('midcom_services_auth_login_success_url'));
+                $event->setResponse(new midcom_response_relocate($request->get('midcom_services_auth_login_success_url')));
             }
         }
         // No new login detected, so we check if there is a running session.
         elseif ($user = $this->backend->check_for_active_login_session($request)) {
             $this->set_user($user);
         }
-        return null;
     }
 
     private function set_user(midcom_core_user $user)

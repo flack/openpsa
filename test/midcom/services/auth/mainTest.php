@@ -14,6 +14,8 @@ use midcom_core_user;
 use midcom;
 use midcom_core_context;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * OpenPSA testcase
@@ -34,7 +36,8 @@ class mainTest extends openpsa_testcase
             'password' => $user->extra,
             'midcom_services_auth_frontend_form_submit' => ''
         ]);
-        $auth->check_for_login_session($request);
+        $event = new RequestEvent(midcom::get(), $request, HttpKernelInterface::MAIN_REQUEST);
+        $auth->check_for_login_session($event);
         $this->assertEquals($user->guid, $auth->user->guid);
     }
 

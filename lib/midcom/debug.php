@@ -9,6 +9,8 @@
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Monolog\Logger;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 
 /**
  * This is a debugger class.
@@ -37,6 +39,18 @@ class midcom_debug
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
+    }
+
+    public function on_request(RequestEvent $event)
+    {
+        if ($event->isMainRequest()) {
+            $this->log("Start of MidCOM run " . $event->getRequest()->server->get('REQUEST_URI', ''));
+        }
+    }
+
+    public function on_terminate(TerminateEvent $event)
+    {
+        $this->log("End of MidCOM run: " . $event->getRequest()->server->get('REQUEST_URI'));
     }
 
     /**

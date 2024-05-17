@@ -60,7 +60,9 @@ services:
         class: midcom_services_auth
         public: true
         arguments: ['@auth.acl', '@auth.backend', '@auth.frontend']
-
+        tags:
+            - {name: 'kernel.event_listener', event: 'kernel.request', priority: 10, method: 'check_for_login_session'}
+            
     componentloader:
         class: midcom_helper__componentloader
         public: true
@@ -74,7 +76,10 @@ services:
     cache.module.content:
         class: midcom_services_cache_module_content
         arguments: ['@config', '@cache.module.content.backend', '@cache.module.content_data.backend']
-
+        tags:
+            - {name: 'kernel.event_listener', event: 'kernel.request', priority: -1, method: 'on_request'}
+            - {name: 'kernel.event_listener', event: 'kernel.response', priority: -10, method: 'on_response'}
+            
     cache.module.content.backend:
         class: Symfony\Component\Cache\Adapter\NullAdapter
         factory: [midcom\bundle\dependencyInjection\cachePass, 'factory']
@@ -116,6 +121,9 @@ services:
        class:  midcom_debug
        arguments: ['@logger']
        public: true
+       tags:
+            - {name: 'kernel.event_listener', event: 'kernel.request', priority: 30, method: 'on_request'}
+            - {name: 'kernel.event_listener', event: 'kernel.terminate', priority: -30, method: 'on_terminate'}
 
     head:
         class: midcom_helper_head
@@ -153,7 +161,9 @@ services:
         class: midcom_services__sessioning
         arguments: ['@request_stack', '%midcom.auth_backend_simple_cookie_secure%']
         public: true
-
+        tags:
+            - {name: 'kernel.event_listener', event: 'kernel.request', priority: 20, method: 'on_request'}
+            
     style.loader:
         class: midcom\templating\loader
         arguments: ['%kernel.project_dir%/var/themes/']

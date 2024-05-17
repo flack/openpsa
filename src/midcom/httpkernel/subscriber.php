@@ -13,7 +13,6 @@ use midcom_response_styled;
 use midcom_baseclasses_components_handler;
 use Symfony\Component\HttpKernel\KernelEvents;
 use midcom\routing\resolver;
-use Symfony\Component\HttpFoundation\Request;
 use midcom;
 use midcom_connection;
 use midcom_core_context;
@@ -21,7 +20,6 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
-use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -39,38 +37,20 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
             KernelEvents::RESPONSE => ['on_response'],
-            KernelEvents::EXCEPTION => ['on_exception'],
-            KernelEvents::TERMINATE => ['on_terminate']
+            KernelEvents::EXCEPTION => ['on_exception']
         ];
-    }
-
-    private function initialize(Request $request)
-    {
-        $midcom = midcom::get();
-        $midcom->debug->log("Start of MidCOM run " . $request->server->get('REQUEST_URI', ''));
-        $request->setSession($midcom->session);
-        if ($response = $midcom->auth->check_for_login_session($request)) {
-            return $response;
-        }
-
-        // Initialize Context Storage
-        $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
-        $request->attributes->set('context', $context);
-
-        // Initialize the UI message stack from session
-        $midcom->uimessages->initialize($request);
-
-        $midcom->dispatcher->addListener(KernelEvents::REQUEST, [$midcom->cache->content, 'on_request'], 10);
-        $midcom->dispatcher->addListener(KernelEvents::RESPONSE, [$midcom->cache->content, 'on_response'], -10);
     }
 
     public function on_request(RequestEvent $event)
     {
         $request = $event->getRequest();
-        if (   $event->isMainRequest()
-            && $response = $this->initialize($request)) {
-            $event->setResponse($response);
-            return;
+        if ($event->isMainRequest()) {
+            // Initialize Context Storage
+            $context = midcom_core_context::enter(midcom_connection::get_url('uri'));
+            $request->attributes->set('context', $context);
+
+            // Initialize the UI message stack from session
+            midcom::get()->uimessages->initialize($request);
         }
 
         $resolver = new resolver($request);
@@ -134,10 +114,5 @@ class subscriber implements EventSubscriberInterface
         $event->allowCustomResponseCode();
         $handler = new \midcom_exception_handler($event->getThrowable());
         $event->setResponse($handler->render());
-    }
-
-    public function on_terminate(TerminateEvent $event)
-    {
-        debug_add("End of MidCOM run: " . $event->getRequest()->server->get('REQUEST_URI'));
     }
 }
