@@ -76,7 +76,7 @@ class midcom_core_group
                 $this->_storage = new midgard_group($id);
             } catch (mgd_exception $e) {
                 debug_add('Tried to load a midgard_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-                throw new midcom_error_midgard($e->getMessage(), $id);
+                throw new midcom_error_midgard($e, $id);
             }
         }
 
