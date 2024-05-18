@@ -142,7 +142,7 @@ class org_openpsa_mail_message
 
             $part = (new DataPart(fopen($uri, 'r'), $name, $mimetype))
                 ->asInline();
-            $this->_message->attachPart($part);
+            $this->_message->addPart($part);
 
             $new_html = str_replace($location, 'cid:' . $part->getContentId(), $match);
             $this->_html_body = str_replace($match, $new_html, $this->_html_body);
