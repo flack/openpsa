@@ -7,6 +7,7 @@
  */
 
 use Doctrine\ORM\Query\Expr\Join;
+use midgard\portable\api\error\exception as mgd_exception;
 
 /**
  * MidCOM group implementation supporting Midgard Groups.
@@ -68,15 +69,14 @@ class midcom_core_group
                     }
                     $id = $id_parts[1];
                 }
-            } elseif ($id == 0) {
-                throw new midcom_error('0 is not a valid DB identifier');
+            } elseif ($id < 1) {
+                throw new midcom_error($id . ' is not a valid database ID');
             }
             try {
                 $this->_storage = new midgard_group($id);
-            } catch (Exception $e) {
-                debug_add('Tried to load a midcom_core_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-                debug_print_r('Passed argument was:', $id);
-                throw new midcom_error($e->getMessage());
+            } catch (mgd_exception $e) {
+                debug_add('Tried to load a midgard_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
+                throw new midcom_error_midgard($e->getMessage(), $id);
             }
         }
 
