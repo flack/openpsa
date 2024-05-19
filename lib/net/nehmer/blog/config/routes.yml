@@ -1,0 +1,98 @@
+index:
+    path: /
+    defaults: { _controller: 'net_nehmer_blog_handler_index::index' }
+
+latest:
+    path: /latest/{results_per_page}/
+    defaults: { _controller: 'net_nehmer_blog_handler_index::index' }
+
+ajax-latest:
+    path: /ajax/latest/{results_per_page}/
+    defaults: { _controller: 'net_nehmer_blog_handler_index::index' }
+
+
+index-category:
+    path: /category/{category}/
+    defaults: { _controller: 'net_nehmer_blog_handler_index::index' }
+
+latest-category:
+    path: /category/latest/{category}/{results_per_page}/
+    defaults: { _controller: 'net_nehmer_blog_handler_index::index' }
+
+
+feed-index:
+    path: /feeds/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::index' }
+
+feed-category-rss2:
+    path: /feeds/category/{category}/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
+
+feed-rss2:
+    path: /rss.xml/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
+
+feed-rss1:
+    path: /rss1.xml/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
+
+feed-rss091:
+    path: /rss091.xml/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
+
+feed-atom:
+    path: /atom.xml/
+    defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
+
+
+archive-welcome:
+    path: /archive/
+    defaults: { _controller: 'net_nehmer_blog_handler_archive::welcome' }
+
+archive-year:
+    path: /archive/year/{year}/
+    defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
+    requirements: { year: '\d+' }
+
+archive-year-category:
+    path: /archive/year/{year}/{category}/
+    defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
+    requirements: { year: '\d+' }
+
+archive-month:
+    path: /archive/month/{year}/{month}/
+    defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
+    requirements: { year: '\d+', month: '\d+' }
+
+
+edit:
+    path: /edit/{guid}/
+    defaults: { _controller: 'net_nehmer_blog_handler_admin::edit' }
+
+delete:
+    path: /delete/{guid}/
+    defaults: { _controller: 'net_nehmer_blog_handler_admin::delete' }
+
+create:
+    path: /create/{schema_name}/
+    defaults: { _controller: 'net_nehmer_blog_handler_create::create' }
+
+
+config:
+    path: /config/
+    defaults: { _controller: 'net_nehmer_blog_handler_configuration::config' }
+
+
+config_recreate:
+    path: /config/recreate/
+    defaults: { _controller: 'net_nehmer_blog_handler_configuration::recreate' }
+
+
+view-raw:
+    path: /raw/{identifier}/
+    defaults: { _controller: 'net_nehmer_blog_handler_view::view' }
+
+view:
+    path: /{identifier}/
+    defaults: { _controller: 'net_nehmer_blog_handler_view::view' }
+

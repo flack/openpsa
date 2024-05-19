@@ -1,4 +1,4 @@
 <?php
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$backlink = $data['router']->generate('archive-welcome');
 ?>
-<p style="clear: left;"><a href="&(prefix);archive/"><?php $data['l10n_midcom']->show('back'); ?></a></p>
+<p style="clear: left;"><a href="&(backlink);"><?php $data['l10n_midcom']->show('back'); ?></a></p>

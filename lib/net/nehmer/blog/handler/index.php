@@ -30,7 +30,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
      */
-    public function _handler_index(string $handler_id, array $args, array &$data)
+    public function _handler_index(string $handler_id, array &$data, ?int $results_per_page = null, ?string $category = null)
     {
         if ($handler_id == 'ajax-latest') {
             midcom::get()->skip_page_style = true;
@@ -45,19 +45,15 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $data['page_title'] = $this->_topic->extra;
 
         // Filter by categories
-        if (in_array($handler_id, ['index-category', 'latest-category'])) {
-            $this->category = trim(strip_tags($args[0]));
+        if ($category) {
+            $this->category = trim(strip_tags($category));
 
             $this->_process_category_constraint($qb);
         }
 
         $qb->add_order('metadata.published', 'DESC');
 
-        $qb->results_per_page = match ($handler_id) {
-            'latest', 'ajax-latest' => $args[0],
-            'latest-category' => $args[1],
-            default => $this->_config->get('index_entries')
-        };
+        $qb->results_per_page = $results_per_page ?? $this->_config->get('index_entries');
 
         $this->_articles = $qb->execute();
 
@@ -97,7 +93,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->category}",
-                'href'  => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->category}/",
+                'href' => $this->router->generate('feed-category-rss2', ['category' => $this->category])
             ]);
         }
     }

@@ -49,18 +49,18 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     /**
      * Handle actual article display
      */
-    public function _handler_view(string $handler_id, array $args, array &$data)
+    public function _handler_view(string $handler_id, string $identifier, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
         $this->article_qb_constraints($qb);
 
         $qb->begin_group('OR');
-        $qb->add_constraint('name', '=', $args[0]);
-        $qb->add_constraint('guid', '=', $args[0]);
+        $qb->add_constraint('name', '=', $identifier);
+        $qb->add_constraint('guid', '=', $identifier);
         $qb->end_group();
         $this->_article = $qb->get_result(0);
         if (!$this->_article) {
-            throw new midcom_error_notfound('Could not find ' . $args[0]);
+            throw new midcom_error_notfound('Could not find ' . $identifier);
         }
 
         if ($handler_id == 'view-raw') {

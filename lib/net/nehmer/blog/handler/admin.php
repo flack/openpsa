@@ -24,9 +24,9 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Displays an article edit view.
      */
-    public function _handler_edit(Request $request, array $args, array &$data)
+    public function _handler_edit(Request $request, string $guid, array &$data)
     {
-        $this->article = new midcom_db_article($args[0]);
+        $this->article = new midcom_db_article($guid);
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
         if ($this->article->topic !== $this->_topic->id) {
@@ -34,9 +34,9 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $node = $nap->get_node($this->article->topic);
 
             if (!empty($node[MIDCOM_NAV_ABSOLUTEURL])) {
-                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$args[0]}/");
+                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$guid}/");
             }
-            throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
+            throw new midcom_error_notfound("The article with GUID {$guid} was not found.");
         }
 
         $this->article->require_do('midgard:update');
@@ -61,7 +61,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         ]);
         if ($this->article->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $this->article]);
-            $workflow->add_dialog_button($delete, $this->router->generate('delete', ['args_0' => $this->article->guid]));
+            $workflow->add_dialog_button($delete, $this->router->generate('delete', ['guid' => $this->article->guid]));
         }
         return $workflow->run($request);
     }
@@ -77,9 +77,9 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Handles article deletion
      */
-    public function _handler_delete(Request $request, array $args)
+    public function _handler_delete(Request $request, string $guid)
     {
-        $this->article = new midcom_db_article($args[0]);
+        $this->article = new midcom_db_article($guid);
         if ($this->article->topic !== $this->_topic->id) {
             throw new midcom_error_forbidden('Article does not belong to this topic');
         }

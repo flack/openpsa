@@ -32,7 +32,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
      */
-    public function _handler_feed(string $handler_id, array $args, array &$data)
+    public function _handler_feed(array &$data, ?string $category = null)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
@@ -46,15 +46,15 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         $qb->add_order('metadata.published', 'DESC');
 
-        if ($handler_id == 'feed-category-rss2') {
+        if ($category) {
             // This is not a predefined category from configuration, check if site maintainer allows us to show it
-            if (   !in_array($args[0], $data['categories'])
+            if (   !in_array($category, $data['categories'])
                 && !$this->_config->get('categories_custom_enable')) {
                 throw new midcom_error('Custom category support is disabled');
             }
 
             // TODO: Check for ".xml" suffix
-            $this->category = trim(strip_tags($args[0]));
+            $this->category = trim(strip_tags($category));
 
             $this->apply_category_constraint($qb, $this->category);
         }
@@ -63,7 +63,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         $this->_articles = $qb->execute();
 
-        // Prepare the feed (this will also validate the handler_id)
+        // Prepare the feed
         $this->_create_feed();
 
         midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);

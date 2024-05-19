@@ -24,11 +24,10 @@ class net_nehmer_blog_handler_create extends midcom_baseclasses_components_handl
      *
      * If create privileges apply, we relocate to the created article
      */
-    public function _handler_create(Request $request, array $args, array &$data)
+    public function _handler_create(Request $request, string $schema_name, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
-        $schema_name = $args[0];
         $schemadb = $data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
             && !midcom::get()->auth->can_user_do('midcom:urlname')) {

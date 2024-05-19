@@ -100,9 +100,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _compute_welcome_data()
     {
-        // Helpers
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
-
         // First step of request data: Overall info
         $total_count = 0;
         $year_data = [];
@@ -122,7 +119,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $month_names = $this->_get_month_names();
 
         for ($year = $last_year; $year >= $first_year; $year--) {
-            $year_url = "{$prefix}year/{$year}/";
             $year_count = 0;
             $month_data = [];
 
@@ -147,21 +143,20 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $end_time = clone $start_time;
                 $end_time->modify('+1 month');
 
-                $month_url = "{$prefix}month/{$year}/{$month}/";
                 $month_count = $this->_compute_welcome_posting_count($start_time, $end_time);
                 $year_count += $month_count;
                 $total_count += $month_count;
                 $month_data[$month] = [
                     'month' => $month,
                     'name' => $month_names[$month],
-                    'url' => $month_url,
+                    'url' => $this->router->generate('archive-year', ['year' => $year, 'month' => $month]),
                     'count' => $month_count,
                 ];
             }
 
             $year_data[$year] = [
                 'year' => $year,
-                'url' => $year_url,
+                'url' => $this->router->generate('archive-year', ['year' => $year]),
                 'count' => $year_count,
                 'month_data' => $month_data,
             ];
@@ -227,7 +222,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * Shows the archive. Depending on the selected handler various constraints are added to
      * the QB. See the add_*_constraint methods for details.
      */
-    public function _handler_list(string $handler_id, array $args, array &$data)
+    public function _handler_list(array &$data, ?int $year = null, ?int $month = null, ?string $category = null)
     {
         $data['datamanager'] = new datamanager($data['schemadb']);
         // Get Articles, distinguish by handler.
@@ -235,29 +230,26 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->article_qb_constraints($qb);
 
         // Use helper functions to determine start/end
-        switch ($handler_id) {
-            case 'archive-year-category':
-                $category = trim(strip_tags($args[1]));
+        if ($month) {
+            $this->_set_startend_from_month($year, $month);
+        } else {
+            if (!$this->_config->get('archive_years_enable')) {
+                throw new midcom_error_notfound('Year archive not allowed');
+            }
+
+            $this->_set_startend_from_year($year);
+
+            if ($category) {
+                $category = trim(strip_tags($category));
                 if (   $data['datamanager']->get_schema('default')->has_field('categories')
                     && !$data['datamanager']->get_schema('default')->get_field('categories')['type_config']['allow_multiple']) {
                     $qb->add_constraint('extra1', '=', $category);
                 } else {
                     $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
                 }
-                //Fall-through
-
-            case 'archive-year':
-                if (!$this->_config->get('archive_years_enable')) {
-                    throw new midcom_error_notfound('Year archive not allowed');
-                }
-
-                $this->_set_startend_from_year($args[0]);
-                break;
-
-            case 'archive-month':
-                $this->_set_startend_from_month($args[0], $args[1]);
-                break;
+            }
         }
+
 
         $qb->add_constraint('metadata.published', '>=', $this->_start->format('Y-m-d H:i:s'));
         $qb->add_constraint('metadata.published', '<', $this->_end->format('Y-m-d H:i:s'));
@@ -273,7 +265,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         $timeframe = $this->_l10n->get_formatter()->timeframe($this->_start, $this->_end, 'date');
-        $this->add_breadcrumb("archive/year/{$args[0]}/", $timeframe);
+        $this->add_breadcrumb("archive/year/{$year}/", $timeframe);
 
         $data['start'] = $this->_start;
         $data['end'] = $this->_end;
@@ -281,7 +273,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         if ($this->_config->get('archive_in_navigation')) {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         } else {
-            $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
+            $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $year);
         }
 
         midcom::get()->metadata->set_request_metadata($this->get_last_modified(), $this->_topic->guid);
@@ -292,7 +284,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * Computes the start/end dates to only query a given year. It will do validation
      * before processing, throwing 404 in case of incorrectly formatted dates.
      *
-     * This is used by the archive-year handler, which expects the year to be in $args[0].
+     * This is used by the archive-year handler.
      */
     private function _set_startend_from_year(int $year)
     {
@@ -314,8 +306,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * Computes the start/end dates to only query a given month. It will do validation
      * before processing, throwing 404 in case of incorrectly formatted dates.
      *
-     * This is used by the archive-month handler, which expects the year to be in $args[0]
-     * and the month to be in $args[1].
+     * This is used by the archive-month handler.
      */
     private function _set_startend_from_month(int $year, int $month)
     {
