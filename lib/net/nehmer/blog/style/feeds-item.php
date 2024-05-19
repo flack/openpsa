@@ -16,17 +16,13 @@ if ($authors) {
 }
 
 $item->title = $data['article']->title;
-$arg = $data['article']->name ?: $data['article']->guid;
 
 if (   $data['config']->get('link_to_external_url')
     && !empty($data['article']->url)) {
     $item->link = $data['article']->url;
 } else {
     $item->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-    if ($data['config']->get('view_in_url')) {
-        $item->link .= 'view/';
-    }
-    $item->link .= $arg . '/';
+    $item->link .= ($data['article']->name ?: $data['article']->guid) . '/';
 }
 
 $item->guid = midcom::get()->permalinks->create_permalink($data['article']->guid);

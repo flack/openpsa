@@ -106,7 +106,7 @@
     'fixed_args' => ['config', 'recreate'],
 ],
 
-// View article (might be changed by config setting view_in_url)
+// View article
 'view-raw' => [
     'handler' => ['net_nehmer_blog_handler_view', 'view'],
     'fixed_args' => 'raw',

@@ -138,10 +138,6 @@ Wybierz 'Nie' jeśli chcesz ukryć link do Archiwum i Wsadów w nawigacji.
 Wybierz 'Nie' jeśli chcesz ukryć link do Wsadów w nawigacji.
 ---STRINGEND
 
----STRING set to no for de.linkm.newsticker compatibility
-Wybierz 'Nie' żeby włączyć zgodność z de.linkm.newsticker
----STRINGEND
-
 ---STRING show feeds in navigation
 Pokaż Wsady w nawigacji
 ---STRINGEND
@@ -156,10 +152,6 @@ Pokaż pseudo strony w nawigacji
 
 ---STRING there is a total of %d posts.
 %d postów.
----STRINGEND
-
----STRING use view prefix in url
-Używaj elementu 'view' w URLach
 ---STRINGEND
 
 ---STRING disable indexing

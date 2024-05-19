@@ -54,12 +54,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
 
     private function _get_url(midcom_db_article $article) : string
     {
-        $view_url = $article->name ?: $article->guid;
-
-        if ($this->_config->get('view_in_url')) {
-            $view_url = 'view/' . $view_url;
-        }
-        return $view_url . '/';
+        return ($article->name ?: $article->guid) . '/';
     }
 
     private function _add_pseudo_leaves(array &$leaves)

@@ -61,12 +61,7 @@ implements midcom_services_permalinks_resolver
             return null;
         }
 
-        $arg = $object->name ?: $object->guid;
-
-        if ($config->get('view_in_url')) {
-            return "view/{$arg}/";
-        }
-        return "{$arg}/";
+        return ($object->name ?: $object->guid) . '/';
     }
 
     public function get_opengraph_default(midcom_core_dbaobject $object) : string

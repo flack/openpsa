@@ -21,12 +21,7 @@ trait net_nehmer_blog_handler
             return $article->url;
         }
 
-        $view_url = $article->name ?: $article->guid;
-
-        if ($this->_config->get('view_in_url')) {
-            $view_url = 'view/' . $view_url;
-        }
-        return $view_url . '/';
+        return ($article->name ?: $article->guid) . '/';
     }
 
     /**

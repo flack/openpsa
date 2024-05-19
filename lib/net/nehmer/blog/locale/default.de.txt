@@ -122,10 +122,6 @@ Schema-Datenbank für Artikel
 Wählen Sie hier "Nein", um Feed- und Archiv-Links aus der Navigation auszublenden
 ---STRINGEND
 
----STRING set to no for de.linkm.newsticker compatibility
-Wählen Sie hier "Nein" für de.linkm.newsticker-Kompatibilität
----STRINGEND
-
 ---STRING show latest items in navigation
 Die letzten Einträge in der Navigation anzeigen
 ---STRINGEND
@@ -136,10 +132,6 @@ Pseudo-Leaves in der Navigation anzeigen
 
 ---STRING there is a total of %d posts.
 Es sind insgesamt %d Nachrichten vorhanden.
----STRINGEND
-
----STRING use view prefix in url
-'view' als URL-Präfix verwenden
 ---STRINGEND
 
 ---STRING enable scheduled publishing

@@ -21,19 +21,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
      */
     public function _on_initialize()
     {
-        if ($this->_config->get('view_in_url')) {
-            $this->_request_switch['view-raw'] = [
-                'handler' => [net_nehmer_blog_handler_view::class, 'view'],
-                'fixed_args' => ['view', 'raw'],
-                'variable_args' => 1,
-            ];
-            $this->_request_switch['view'] = [
-                'handler' => [net_nehmer_blog_handler_view::class, 'view'],
-                'fixed_args' => 'view',
-                'variable_args' => 1,
-            ];
-        }
-
         if ($this->_config->get('rss_subscription_enable')) {
             net_nemein_rss_manage::register_plugin($this);
         }

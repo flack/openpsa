@@ -114,10 +114,6 @@ Visa senaste artiklar i navigering
 Det finns totalt %d postningar.
 ---STRINGEND
 
----STRING use view prefix in url
-Använd 'view' prefix i url
----STRINGEND
-
 ---STRING archive item order
 Arkivets ordning
 ---STRINGEND
@@ -136,10 +132,6 @@ Slå på skapande av nyhetsartiklar från andra RSS och Atom feeds
 
 ---STRING set this to no if you want to hide feeds and archive links in navigation
 Sätt detta till 'Nej' om du vill dölja 'Feeds' och 'Arkiv' länkar i navigering
----STRINGEND
-
----STRING set to no for de.linkm.newsticker compatibility
-Sätt till nej för kompabilitet med de.linkm.newsticker
 ---STRINGEND
 
 ---STRING show pseudo leaves in navigation

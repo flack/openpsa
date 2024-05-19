@@ -9,7 +9,6 @@
 // Comma-separated list of categories to limit the listing (if empty, all will be listed)
 'list_from_folders_categories' => '',
 
-'view_in_url' => false,
 'enable_scheduled_publishing' => false,
 
 // Specifies how many entries should be shown in the index page.

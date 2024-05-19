@@ -158,10 +158,6 @@ Set this to 'no' if you want to hide 'Feeds' and 'Archive' links in navigation
 Set this to "no" if you want to hide feeds link from navigation
 ---STRINGEND
 
----STRING set to no for de.linkm.newsticker compatibility
-Set to no for de.linkm.newsticker compatibility
----STRINGEND
-
 ---STRING show feeds in navigation
 Show available feeds in navigation
 ---STRINGEND
@@ -176,8 +172,4 @@ Show pseudo leaves in navigation
 
 ---STRING there is a total of %d posts.
 There is a total of %d posts.
----STRINGEND
-
----STRING use view prefix in url
-Use 'view' prefix in url
 ---STRINGEND

@@ -138,10 +138,6 @@ Aseta tämä kohtaan 'ei' jos haluat piilottaa linkit 'Syötteet' ja 'Arkisto' n
 Aseta tämä pois päältä mikäli et halua näyttää syötteet-linkkiä navigaatiosta
 ---STRINGEND
 
----STRING set to no for de.linkm.newsticker compatibility
-Aseta kohtaan ei, jos haluat de.linkm.newsticker -yhteensopivuuden
----STRINGEND
-
 ---STRING show feeds in navigation
 Näytä saatavilla olevat syötteet navigaatiossa
 ---STRINGEND
@@ -156,10 +152,6 @@ Näytä valesivut navigaatiossa
 
 ---STRING there is a total of %d posts.
 Yhteensä %s uutista.
----STRINGEND
-
----STRING use view prefix in url
-Käytä 'view'-etuliitettä osoitteissa
 ---STRINGEND
 
 ---STRING list articles from folders

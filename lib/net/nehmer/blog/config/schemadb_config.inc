@@ -318,25 +318,6 @@
                 ],
                 'widget' => 'radiocheckselect',
             ],
-            'view_in_url' => [
-                'title' => 'use view prefix in url',
-                'helptext' => 'set to no for de.linkm.newsticker compatibility',
-                'storage' => [
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'view_in_url',
-                ],
-                'type' => 'select',
-                'type_config' => [
-                    'options' => [
-                        '1' => 'yes',
-                        '0' => 'no',
-                        '' => 'default setting',
-                    ],
-                ],
-                'widget' => 'radiocheckselect',
-                'end_fieldset' => 1,
-            ],
         ],
         class_exists('net_nemein_rss_helpers') ? net_nemein_rss_helpers::default_rss_config_schema_fields('net.nehmer.blog') : []
     ),
