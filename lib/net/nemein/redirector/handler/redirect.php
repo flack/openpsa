@@ -33,7 +33,7 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
         // of redirecting administrators
         if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
             && !$this->_config->get('admin_redirection')) {
-            return new midcom_response_relocate("{$this->_topic->name}/edit/{$args[0]}/");
+            return new midcom_response_relocate("edit/{$args[0]}/");
         }
         $guid = key($results);
         $url = $mc->get_subkey($guid, 'url');
