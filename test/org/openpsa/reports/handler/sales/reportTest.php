@@ -70,7 +70,7 @@ class reportTest extends openpsa_testcase
             'deliverable' => $del->id
         ]);
 
-        $data = $this->run_handler('org.openpsa.reports', ['sales', $query->guid, 'test.csv']);
+        $data = $this->run_handler('org.openpsa.reports', 'sales/' . $query->guid . '/test.csv');
         $this->assertEquals('sales_report_guid_file', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

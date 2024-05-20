@@ -24,17 +24,17 @@ $invoiceable_prev_month['org_openpsa_reports_query_data']['end'] = $this_month;
 ?>
 <ul>
     <li>
-        <a href="&(data['report_prefix']);get/?<?php echo http_build_query($invoiceable_this_month); ?>" target="_blank">
+        <a href="<?= $data['router']->generate('projects_report_get', $invoiceable_this_month) ?>" target="_blank">
             <?php echo $data['l10n']->get('invoiceable hours this month'); ?>
         </a>
     </li>
     <li>
-        <a href="&(data['report_prefix']);get/?<?php echo http_build_query($invoiceable_prev_month); ?>" target="_blank">
+        <a href="<?= $data['router']->generate('projects_report_get', $invoiceable_prev_month) ?>" target="_blank">
             <?php echo $data['l10n']->get('invoiceable hours last month'); ?>
         </a>
     </li>
     <li>
-        <a href="&(data['report_prefix']);">
+        <a href="<?= $data['router']->generate('projects_report') ?>">
             <?php echo $data['l10n']->get('define custom report'); ?>
         </a>
     </li>

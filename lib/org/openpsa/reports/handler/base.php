@@ -18,11 +18,18 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 {
     protected string $module;
 
-    public function _handler_generator(array $args, array &$data)
+    public function _on_initialize()
+    {
+        if (!array_key_exists('org.openpsa.' . $this->module, org_openpsa_reports_viewer::get_available_generators())) {
+            throw new midcom_error_notfound('org.openpsa.' . $this->module . ' is not installed');
+        }
+    }
+
+    public function _handler_generator(array &$data, string $guid, ?string $file)
     {
         midcom::get()->auth->require_valid_user();
 
-        if ($response = $this->_generator_load_redirect($args)) {
+        if ($response = $this->_generator_load_redirect($guid, $file)) {
             return $response;
         }
         $this->_handler_generator_style($data);
@@ -60,12 +67,12 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $dm;
     }
 
-    public function _handler_query_form(Request $request, array $args, array &$data)
+    public function _handler_query_form(Request $request, array &$data, ?string $guid = null)
     {
         midcom::get()->auth->require_valid_user();
 
-        if (isset($args[0])) {
-            $data['query'] = new org_openpsa_reports_query_dba($args[0]);
+        if (isset($guid)) {
+            $data['query'] = new org_openpsa_reports_query_dba($guid);
             $data['query']->require_do('midgard:update');
         } else {
             $data['query']= new org_openpsa_reports_query_dba();
@@ -78,7 +85,11 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         switch ($data['controller']->handle($request)) {
             case 'save':
                 // Relocate to report view
-                return new midcom_response_relocate($this->module . '/' . $data['query']->guid . "/");
+                $url = $this->router->generate($this->module . '_report_guid', [
+                    'guid' => $data['query']->guid,
+                ]);
+
+                return new midcom_response_relocate($url);
 
             case 'cancel':
                 return new midcom_response_relocate('');
@@ -94,11 +105,11 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $this->show("{$this->module}_query_form");
     }
 
-    protected function _generator_load_redirect(array $args)
+    protected function _generator_load_redirect(string $guid, ?string $file)
     {
-        $this->_request_data['query'] = new org_openpsa_reports_query_dba($args[0]);
+        $this->_request_data['query'] = new org_openpsa_reports_query_dba($guid);
 
-        if (empty($args[1])) {
+        if (empty($file)) {
             debug_add('Filename part not specified in URL, generating');
             $timestamp = $this->_request_data['query']->metadata->created ?: time();
             $filename = date('Y_m_d', $timestamp);
@@ -106,9 +117,13 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($title));
             $filename .= $this->_request_data['query']->extension;
 
-            return new midcom_response_relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
+            $url = $this->router->generate($this->module . '_report_guid_file', [
+                'guid' => $this->_request_data['query']->guid,
+                'file' => $filename
+            ]);
+            return new midcom_response_relocate($url);
         }
-        $this->_request_data['filename'] = $args[1];
+        $this->_request_data['filename'] = $file;
 
         //Get DM schema data to array
         $dm = $this->load_datamanager($this->_request_data['query']);

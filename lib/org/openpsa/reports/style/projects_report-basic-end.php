@@ -1,4 +1,5 @@
 <?php
+$url = $data['router']->generate('csv_export', ['filename' => $data['filename']]);
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
         <form method="post" action="&(prefix);csv/&(data['filename']);.csv" onSubmit="return table2csv('org_openpsa_reports_basic_reporttable');">

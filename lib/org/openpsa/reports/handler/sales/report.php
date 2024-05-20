@@ -18,6 +18,8 @@ use midcom\grid\provider;
 class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handler_base
 implements client
 {
+    protected string $module = 'sales';
+
     /**
      * {@inheritdoc}
      */
@@ -94,14 +96,9 @@ implements client
         return $row;
     }
 
-    public function _on_initialize()
+    public function _handler_generator(array &$data, string $guid, ?string $file)
     {
-        $this->module = 'sales';
-    }
-
-    public function _handler_generator(array $args, array &$data)
-    {
-        if ($response = parent::_handler_generator($args, $data)) {
+        if ($response = parent::_handler_generator($data, $guid, $file)) {
             return $response;
         }
 

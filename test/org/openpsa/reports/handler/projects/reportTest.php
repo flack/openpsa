@@ -70,7 +70,7 @@ class reportTest extends openpsa_testcase
         $query->set_parameter('midcom.helper.datamanager2', 'task', self::$project->guid);
         $query->set_parameter('midcom.helper.datamanager2', 'resource', 'all');
 
-        $data = $this->run_handler('org.openpsa.reports', ['projects', $query->guid, 'test.csv']);
+        $data = $this->run_handler('org.openpsa.reports', 'projects/' . $query->guid . '/test.csv');
         $this->assertEquals('projects_report_guid_file', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

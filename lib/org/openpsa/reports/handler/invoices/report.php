@@ -15,16 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_handler_base
 {
+    protected string $module = 'invoices';
+
     private $_sales_url;
 
-    public function _on_initialize()
+    public function _handler_generator(array &$data, string $guid, ?string $file)
     {
-        $this->module = 'invoices';
-    }
-
-    public function _handler_generator(array $args, array &$data)
-    {
-        if ($response = parent::_handler_generator($args, $data)) {
+        if ($response = parent::_handler_generator($data, $guid, $file)) {
             return $response;
         }
         $this->process_handler($data);

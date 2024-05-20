@@ -13,6 +13,8 @@
  */
 class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_handler_base
 {
+    protected string $module = 'projects';
+
     private string $_grouping = 'date';
     private array $_valid_groupings = [
         'date' => true,
@@ -20,11 +22,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     ];
 
     private array $raw_results;
-
-    public function _on_initialize()
-    {
-        $this->module = 'projects';
-    }
 
     /**
      * Get array of IDs of all tasks in subtree

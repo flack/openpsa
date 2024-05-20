@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-namespace test\org\openpsa\reports;
+namespace test\org\openpsa\reports\handler;
 
 use openpsa_testcase;
 use midcom;
@@ -17,7 +17,7 @@ use org_openpsa_reports_query_dba;
  *
  * @package openpsa.test
  */
-class viewerTest extends openpsa_testcase
+class commonTest extends openpsa_testcase
 {
     public static function setUpBeforeClass() : void
     {
@@ -40,7 +40,7 @@ class viewerTest extends openpsa_testcase
 
         $_POST = ['org_openpsa_reports_csv' => 'TEST'];
 
-        $data = $this->run_handler('org.openpsa.reports', ['csv', 'testfile.csv']);
+        $data = $this->run_handler('org.openpsa.reports', 'csv/testfile.csv');
         $this->assertEquals('csv_export', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
