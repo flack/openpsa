@@ -20,11 +20,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      */
     private net_nemein_redirector_tinyurl_dba $_tinyurl;
 
-    /**
-     * @var net_nemein_redirector_tinyurl_dba[]
-     */
-    private array $_tinyurls = [];
-
     private function load_controller() : controller
     {
         $dm = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
@@ -38,13 +33,13 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     private function _populate_request_data(string $handler_id)
     {
         if ($handler_id === 'edit') {
-            $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
-            $this->add_breadcrumb("edit/{$this->_tinyurl->name}", $this->_l10n_midcom->get('edit'));
+            $this->add_breadcrumb($this->router->generate('tinyurl', ['tinyurl' => $this->_tinyurl->name]), $this->_tinyurl->title);
+            $this->add_breadcrumb($this->router->generate('edit', ['tinyurl' => $this->_tinyurl->name]), $this->_l10n_midcom->get('edit'));
             $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
-            $this->_view_toolbar->add_item($workflow->get_button('delete/' . $this->_tinyurl->guid . '/'));
+            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('delete', ['tinyurl' => $this->_tinyurl->guid])));
             $this->_view_toolbar->bind_to($this->_tinyurl);
         } elseif ($handler_id === 'create') {
-            $this->add_breadcrumb("create/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')));
+            $this->add_breadcrumb($this->router->generate('create'), sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')));
         }
     }
 
@@ -94,9 +89,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Edit an existing TinyURL
      */
-    public function _handler_edit(Request $request, string $handler_id, array $args, array &$data)
+    public function _handler_edit(Request $request, string $handler_id, string $tinyurl, array &$data)
     {
-        $this->_tinyurl = $this->_get_item($args[0]);
+        $this->_tinyurl = $this->_get_item($tinyurl);
         $this->_tinyurl->require_do('midgard:update');
 
         // Edit controller
@@ -120,49 +115,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Delete an existing TinyURL
      */
-    public function _handler_delete(Request $request, array $args)
+    public function _handler_delete(Request $request, string $tinyurl)
     {
-        $this->_tinyurl = $this->_get_item($args[0]);
+        $this->_tinyurl = $this->_get_item($tinyurl);
         $workflow = $this->get_workflow('delete', ['object' => $this->_tinyurl]);
         return $workflow->run($request);
-    }
-
-    /**
-     * List TinyURLs
-     */
-    public function _handler_list(string $handler_id, array &$data)
-    {
-        // Get the topic link and relocate accordingly
-        $data['url'] = net_nemein_redirector_viewer::topic_links_to($this->_config);
-
-        $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
-        $qb->add_constraint('node', '=', $this->_topic->guid);
-
-        $this->_tinyurls = $qb->execute();
-
-        $data['workflow'] = $this->get_workflow('datamanager');
-        // Set the request data
-        $this->_populate_request_data($handler_id);
-    }
-
-    /**
-     * Show the list of TinyURLs
-     */
-    public function _show_list(string $handler_id, array &$data)
-    {
-        midcom_show_style('tinyurl-list-start');
-
-        // Initialize the datamanager instance
-        $datamanager = datamanager::from_schemadb($this->_config->get('schemadb_tinyurl'));
-
-        foreach ($this->_tinyurls as $tinyurl) {
-            $data['tinyurl'] = $tinyurl;
-            $datamanager->set_storage($tinyurl);
-            $data['view_tinyurl'] = $datamanager->get_content_html();
-
-            midcom_show_style('tinyurl-list-item');
-        }
-
-        midcom_show_style('tinyurl-list-end');
     }
 }

@@ -14,25 +14,6 @@
 class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
 {
     /**
-     * Initialization script, which sets the request switches
-     */
-    public function _on_initialize()
-    {
-        // Match /
-        if (   $this->_config->get('redirection_type') === null
-            || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
-                && !$this->_config->get('admin_redirection'))) {
-            $this->_request_switch['redirect'] = [
-                'handler' => [net_nemein_redirector_handler_tinyurl::class, 'list'],
-            ];
-        } else {
-            $this->_request_switch['redirect'] = [
-                'handler' => [net_nemein_redirector_handler_redirect::class, 'index']
-            ];
-        }
-    }
-
-    /**
      * Add creation link
      */
     public function _on_handle($handler_id, array $args)
@@ -40,7 +21,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_viewer
         if ($this->_topic->can_do('midgard:create')) {
             // Add the creation link to toolbar
             $this->_node_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => "create/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('create'),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
                 MIDCOM_TOOLBAR_GLYPHICON => 'external-link',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'n',

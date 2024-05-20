@@ -1,0 +1,23 @@
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+
+create:
+    path: /create/
+    defaults: { _controller: 'net_nemein_redirector_handler_tinyurl::create' }
+
+edit:
+    path: /edit/{tinyurl}/
+    defaults: { _controller: 'net_nemein_redirector_handler_tinyurl::edit' }
+
+delete:
+    path: /delete/{tinyurl}/
+    defaults: { _controller: 'net_nemein_redirector_handler_tinyurl::delete' }
+
+tinyurl:
+    path: /{tinyurl}/
+    defaults: { _controller: 'net_nemein_redirector_handler_redirect::redirect' }
+
+redirect:
+    path: /
+    defaults: { _controller: 'net_nemein_redirector_handler_redirect::index' }
