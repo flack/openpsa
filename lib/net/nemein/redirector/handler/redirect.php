@@ -50,12 +50,12 @@ class net_nemein_redirector_handler_redirect extends midcom_baseclasses_componen
         }
 
         // Metatag redirection
-        $data['redirection_url'] = $url;
-        $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
+        $this->_request_data['redirection_url'] = $url;
+        $this->_request_data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
         midcom::get()->head->add_meta_head([
             'http-equiv' => 'refresh',
-            'content' => "{$data['redirection_speed']};url={$url}",
+            'content' => "{$this->_request_data['redirection_speed']};url={$url}",
             ]);
 
         return $this->show('redirection-page');
