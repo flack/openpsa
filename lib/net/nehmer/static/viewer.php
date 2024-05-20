@@ -43,7 +43,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
         $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
             foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
-                $buttons[] = $workflow->get_button("create/{$name}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('create', ['schema' => $name]), [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($schema->get('description'))
@@ -56,7 +56,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $buttons[] = $workflow->get_button('config/', [
+                $buttons[] = $workflow->get_button($this->router->generate('config'), [
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'wrench',

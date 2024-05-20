@@ -35,7 +35,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $buttons = [];
         $workflow = $this->get_workflow('datamanager');
         if ($this->_article->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('edit', ['guid' => $this->_article->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
@@ -43,7 +43,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_article->topic === $this->_topic->id
             && $this->_article->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $this->_article]);
-            $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
+            $buttons[] = $delete->get_button($this->router->generate('delete', ['guid' => $this->_article->guid]));
         }
 
         $this->_view_toolbar->add_items($buttons);
@@ -57,16 +57,16 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      *
      * If create privileges apply, we relocate to the index creation article
      */
-    public function _handler_view(string $handler_id, array $args, array &$data)
+    public function _handler_view(string $handler_id, string $name, array &$data)
     {
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_topic->id, $this->_config->get('sort_order'));
-        $qb->add_constraint('name', '=', $args[0]);
+        $qb->add_constraint('name', '=', $name);
         $qb->add_constraint('up', '=', 0);
         $qb->set_limit(1);
 
         $this->_article = $qb->get_result(0);
         if (!$this->_article) {
-            throw new midcom_error_notfound('Could not find ' . $args[0]);
+            throw new midcom_error_notfound('Could not find ' . $name);
         }
         return $this->show_article($data, $handler_id == 'view_raw');
     }
@@ -192,11 +192,10 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     {
         $formatter = $this->_l10n->get_formatter();
         $view_data = $datamanager->get_form()->getViewData();
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";
 
         $view[$filename]['article'] = $article;
-        $view[$filename]['url'] = $prefix . $filename;
+        $view[$filename]['url'] = $this->router->generate('view', ['name' => $article->name]);
         $view[$filename]['formattedsize'] = midcom_helper_misc::filesize_to_string($article->metadata->size);
         $view[$filename]['description'] = $view_data->title;
         $view[$filename]['mimetype'] = 'text/html';

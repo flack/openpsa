@@ -35,7 +35,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
     /**
      * Displays an article create view.
      */
-    public function _handler_create(Request $request, string $handler_id, array $args)
+    public function _handler_create(Request $request, string $handler_id, string $schema)
     {
         $this->_topic->require_do('midgard:create');
         $this->article = new midcom_db_article();
@@ -45,7 +45,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
         if ($handler_id == 'createindex') {
             $defaults['name'] = 'index';
         }
-        $controller = $this->load_controller($args[0], $defaults);
+        $controller = $this->load_controller($schema, $defaults);
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($controller->get_datamanager()->get_schema()->get('description')));
         midcom::get()->head->set_pagetitle($title);
@@ -68,8 +68,8 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
         }
 
         if ($this->article->name == 'index') {
-            return '';
+            return $this->router->generate('index');
         }
-        return $this->article->name . '/';
+        return $this->router->generate('view', ['name' => $this->article->name]);
     }
 }

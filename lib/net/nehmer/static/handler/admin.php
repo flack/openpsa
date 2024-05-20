@@ -37,9 +37,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      * Displays an article edit view.
      */
-    public function _handler_edit(Request $request, array $args)
+    public function _handler_edit(Request $request, string $guid)
     {
-        $this->article = new midcom_db_article($args[0]);
+        $this->article = new midcom_db_article($guid);
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
         if ($this->article->topic !== $this->_topic->id) {
@@ -47,9 +47,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             $node = $nap->get_node($this->article->topic);
 
             if (!empty($node[MIDCOM_NAV_ABSOLUTEURL])) {
-                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$args[0]}/");
+                return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$guid}/");
             }
-            throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
+            throw new midcom_error_notfound("The article with GUID {$guid} was not found.");
         }
 
         $this->article->require_do('midgard:update');
@@ -68,17 +68,17 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $indexer = midcom::get()->indexer;
         net_nehmer_static_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
         if ($this->article->name == 'index') {
-            return '';
+            return $this->router->generate('index');
         }
-        return $this->article->name . '/';
+        return $this->router->generate('view', ['name' => $this->article->name]);
     }
 
     /**
      * Displays an article delete confirmation view.
      */
-    public function _handler_delete(Request $request, array $args)
+    public function _handler_delete(Request $request, string $guid)
     {
-        $this->article = new midcom_db_article($args[0]);
+        $this->article = new midcom_db_article($guid);
         if ($this->article->topic !== $this->_topic->id) {
             throw new midcom_error_forbidden('Article does not belong to this topic');
         }

@@ -1,0 +1,31 @@
+edit:
+    path: /edit/{guid}/
+    defaults: { _controller: 'net_nehmer_static_handler_admin::edit' }
+
+delete:
+    path: /delete/{guid}/
+    defaults: { _controller: 'net_nehmer_static_handler_admin::delete' }
+
+create:
+    path: /create/{schema}/
+    defaults: { _controller: 'net_nehmer_static_handler_create::create' }
+
+createindex:
+    path: /createindex/{schema}/
+    defaults: { _controller: 'net_nehmer_static_handler_create::create' }
+
+config:
+    path: /config/
+    defaults: { _controller: 'midcom_baseclasses_components_handler_configuration::config' }
+
+view_raw:
+    path: /raw/{name}/
+    defaults: { _controller: 'net_nehmer_static_handler_view::view' }
+
+view:
+    path: /{name}/
+    defaults: { _controller: 'net_nehmer_static_handler_view::view' }
+
+index:
+    path: /
+    defaults: { _controller: 'net_nehmer_static_handler_view::index' }
