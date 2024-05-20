@@ -44,7 +44,7 @@ class feedTest extends openpsa_testcase
         $data = $this->run_handler(self::$topic, ['feeds', 'category', 'dummy']);
         $this->assertEquals('feed-category-rss2', $data['handler_id']);
 
-        $data = $this->run_handler(self::$topic, ['rss.xml']);
+        $data = $this->run_handler(self::$topic, 'rss.xml');
         $this->assertEquals('feed-rss2', $data['handler_id']);
     }
 }

@@ -29,19 +29,19 @@ feed-category-rss2:
     defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
 
 feed-rss2:
-    path: /rss.xml/
+    path: /rss.xml
     defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
 
 feed-rss1:
-    path: /rss1.xml/
+    path: /rss1.xml
     defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
 
 feed-rss091:
-    path: /rss091.xml/
+    path: /rss091.xml
     defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
 
 feed-atom:
-    path: /atom.xml/
+    path: /atom.xml
     defaults: { _controller: 'net_nehmer_blog_handler_feed::feed' }
 
 
