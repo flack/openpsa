@@ -17,25 +17,6 @@ use midcom\datamanager\schemadb;
 class net_nehmer_static_viewer extends midcom_baseclasses_components_viewer
 {
     /**
-     * Initialize the request switch and the content topic.
-     */
-    public function _on_initialize()
-    {
-        // View mode handler, set index viewer according to autoindex setting.
-        // These, especially the general view handler, must come last, otherwise we'll hide other
-        // handlers
-        if ($this->_config->get('autoindex')) {
-            $this->_request_switch['autoindex'] = [
-                'handler' => [net_nehmer_static_handler_autoindex::class, 'autoindex'],
-            ];
-        } else {
-            $this->_request_switch['index'] = [
-                'handler' => [net_nehmer_static_handler_view::class, 'view'],
-            ];
-        }
-    }
-
-    /**
      * Indexes an article.
      *
      * @param midcom_db_topic|midcom_core_dbaproxy $topic The topic which we are bound to. If this is not an object, the code

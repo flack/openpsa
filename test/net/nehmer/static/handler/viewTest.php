@@ -47,6 +47,17 @@ class viewTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testHandler_autoindex()
+    {
+        midcom::get()->auth->request_sudo('net.nehmer.static');
+        self::$_topic->set_parameter('net.nehmer.static', 'autoindex', true);
+
+        $data = $this->run_handler(self::$_topic);
+        $this->assertEquals('index', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_view()
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');

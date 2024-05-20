@@ -34,3 +34,7 @@
     'handler' => ['net_nehmer_static_handler_view', 'view'],
     'variable_args' => 1,
 ],
+
+'index' => [
+    'handler' => [net_nehmer_static_handler_view::class, 'index'],
+],
