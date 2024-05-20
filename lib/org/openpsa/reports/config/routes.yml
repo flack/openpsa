@@ -1,0 +1,71 @@
+projects_report_get:
+    path: /projects/get/
+    defaults: { _controller: 'org_openpsa_reports_handler_projects_report::generator_get' }
+
+projects_edit_report_guid:
+    path: /projects/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_projects_report::query_form' }
+
+projects_report_guid_file:
+    path: /projects/{guid}/{file}
+    defaults: { _controller: 'org_openpsa_reports_handler_projects_report::generator' }
+
+projects_report_guid:
+    path: /projects/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_projects_report::generator' }
+
+projects_report:
+    path: /projects/
+    defaults: { _controller: 'org_openpsa_reports_handler_projects_report::query_form' }
+
+sales_report_get:
+    path: /sales/get/
+    defaults: { _controller: 'org_openpsa_reports_handler_sales_report::generator_get' }
+
+sales_edit_report_guid:
+    path: /sales/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_sales_report::query_form' }
+
+sales_report_guid_file:
+    path: /sales/{guid}/{file}
+    defaults: { _controller: 'org_openpsa_reports_handler_sales_report::generator' }
+
+sales_report_guid:
+    path: /sales/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_sales_report::generator' }
+
+sales_report:
+    path: /sales
+    defaults: { _controller: 'org_openpsa_reports_handler_sales_report::query_form' }
+
+invoices_report_get:
+    path: /invoices/get
+    defaults: { _controller: 'org_openpsa_reports_handler_invoices_report::generator_get' }
+
+invoices_edit_report_guid:
+    path: /invoices/edit/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_invoices_report::query_form' }
+
+invoices_report_guid_file:
+    path: /invoices/{guid}/{file}
+    defaults: { _controller: 'org_openpsa_reports_handler_invoices_report::generator' }
+
+invoices_report_guid:
+    path: /invoices/{}
+    defaults: { _controller: 'org_openpsa_reports_handler_invoices_report::generator' }
+
+invoices_report:
+    path: /invoices
+    defaults: { _controller: 'org_openpsa_reports_handler_invoices_report::query_form' }
+
+csv_export:
+    path: /csv/{filename}
+    defaults: { _controller: 'org_openpsa_reports_handler_common::csv' }
+
+delete_report:
+    path: /delete/{guid}/
+    defaults: { _controller: 'org_openpsa_reports_handler_common::delete_report' }
+
+frontpage:
+    path: /
+    defaults: { _controller: 'org_openpsa_reports_handler_common::frontpage' }

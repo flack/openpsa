@@ -109,7 +109,11 @@ class resolver
 
         $url = '/';
         if (!empty($argv)) {
-            $url .= implode('/', $argv) . '/';
+            $url .= implode('/', $argv);
+            $uri = $this->context->get_key(MIDCOM_CONTEXT_URI);
+            if ($uri !== '/' && str_ends_with($uri, '/')) {
+                $url .= '/';
+            }
         }
         $router = $viewer->get_router();
         $router->getContext()

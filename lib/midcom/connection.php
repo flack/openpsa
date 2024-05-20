@@ -213,6 +213,10 @@ class midcom_connection
             }
         }
 
+        if (!str_ends_with($uri, '/')) {
+            $path = substr($path, 0, -1);
+        }
+
         self::$_data['page_style'] = $page_style;
         self::$_data['uri'] = $path;
         self::$_data['self'] = $self;
