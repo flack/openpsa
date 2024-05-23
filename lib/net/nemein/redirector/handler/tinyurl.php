@@ -15,9 +15,6 @@ use midcom\datamanager\controller;
  */
 class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_components_handler
 {
-    /**
-     * @var net_nemein_redirector_tinyurl_dba
-     */
     private net_nemein_redirector_tinyurl_dba $_tinyurl;
 
     private function load_controller() : controller

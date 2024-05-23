@@ -48,7 +48,6 @@ class callback
 
     /**
      * @param container|array $container
-     * @return array
      */
     private function to_array($container) : array
     {
