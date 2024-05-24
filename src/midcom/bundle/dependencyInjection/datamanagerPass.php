@@ -9,7 +9,7 @@ class datamanagerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $form_prefix = $this->get_prefix($container->getDefinition('form.factory'));
+        $form_prefix = self::get_prefix($container->getDefinition('form.factory'));
 
         $validator_builder = $container
             ->getDefinition('validator.builder')
@@ -17,7 +17,7 @@ class datamanagerPass implements CompilerPassInterface
 
         $container->getDefinition('translator')
             ->addArgument([
-                $this->get_prefix($validator_builder, 'translations/validators.'),
+                self::get_prefix($validator_builder, 'translations/validators.'),
                 $form_prefix . 'translations/validators.'
             ]);
     }

@@ -29,7 +29,7 @@ abstract class org_openpsa_relatedto_finder
         foreach ($qb->execute() as $object) {
             $links_array[] = [
                 'other_obj' => $object,
-                'link' => $this->defaults_helper($defaults, $component, $object)
+                'link' => self::defaults_helper($defaults, $component, $object)
             ];
         }
         return $links_array;
