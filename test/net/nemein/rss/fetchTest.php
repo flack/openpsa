@@ -15,6 +15,7 @@ use net_nemein_rss_fetch;
 use midcom;
 use midcom_db_article;
 use midcom_db_person;
+use SimplePie\Item;
 
 /**
  * OpenPSA testcase
@@ -23,7 +24,7 @@ use midcom_db_person;
  */
 class fetchTest extends openpsa_testcase
 {
-    private static function get_items($source, $raw = false)
+    private static function get_items(string $source) : array
     {
         $string = file_get_contents($source);
         $feed = net_nemein_rss_fetch::get_parser();
@@ -53,8 +54,7 @@ class fetchTest extends openpsa_testcase
 
         $this->assertEquals('import-test', $article->name);
         $this->assertEquals('Import Test', $article->title);
-        // trim is a php 7.1 / 7.2 workaround
-        $this->assertEquals('Test Description <a rel="tag" title="tag title" href="http://openpsa2.org/news/no-such-entry/tag-link" class="test">dummy</a>', trim($article->content));
+        $this->assertEquals('Test Description <a rel="tag" title="tag title" href="http://openpsa2.org/news/no-such-entry/tag-link" class="test">dummy</a>', $article->content);
         $this->assertEquals('http://openpsa2.org/news/no-such-entry/', $article->url);
         $this->assertEquals('|feed:' . md5($feed->url) . '|test category|test2|', $article->extra1);
 
@@ -127,7 +127,7 @@ class fetchTest extends openpsa_testcase
     /**
      * @dataProvider provider_normalize_item
      */
-    public function test_normalize_item($item, $expected)
+    public function test_normalize_item(Item $item, array $expected)
     {
         foreach ($expected as $field => $value) {
             $method = 'get_' . $field;
@@ -137,7 +137,7 @@ class fetchTest extends openpsa_testcase
 
     public static function provider_normalize_item()
     {
-        $items = self::get_items(__DIR__ . '/__files/normalize.xml', true);
+        $items = self::get_items(__DIR__ . '/__files/normalize.xml');
         return [
             [
                 $items[0],
