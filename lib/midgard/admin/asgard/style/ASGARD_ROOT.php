@@ -137,7 +137,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                     $editor_string = $l10n->get('unknown person');
                                 }
 
-                                printf($l10n->get('last edited by %s on %s (revision %s)'), $editor_string, $formatter->datetime($edited, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM), $revision) . "\n";
+                                printf($l10n->get('last edited by %s on %s (revision %s)'), $editor_string, $formatter->datetime($edited, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM), $revision);
                             }
                         }
                         ?>

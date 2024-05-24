@@ -13,15 +13,16 @@ echo "</h2>";
 echo "<p>";
 if ($data['parent_type']) {
     $link = $data['router']->generate('type', ['type' => $data['parent_type']]);
-    printf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$link}\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
+    printf($data['l10n']->get('%s is under type %s') . ' ', midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$link}\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>");
 }
 
 if ($data['component'] == 'midgard') {
-    echo $data['l10n']->get('this is a midgard core type') . "</p>\n";
+    echo $data['l10n']->get('this is a midgard core type');
 } else {
     $link = $data['router']->generate('components_component', ['component' => $data['component']]);
-    printf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$link}\">{$data['component']}</a>") . "</p>\n";
+    printf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$link}\">{$data['component']}</a>");
 }
+echo "</p>\n";
 ?>
 
 &(data['help']:h);
