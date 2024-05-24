@@ -148,7 +148,7 @@ abstract class midcom_core_dbaobject
      */
     public static function new_query_builder() : midcom_core_querybuilder
     {
-        return midcom::get()->dbfactory->new_query_builder(get_called_class());
+        return midcom::get()->dbfactory->new_query_builder(static::class);
     }
 
     /**
@@ -159,7 +159,7 @@ abstract class midcom_core_dbaobject
      */
     public static function new_collector(?string $domain = null, $value = null) : midcom_core_collector
     {
-        return midcom::get()->dbfactory->new_collector(get_called_class(), $domain, $value);
+        return midcom::get()->dbfactory->new_collector(static::class, $domain, $value);
     }
 
     /**
@@ -170,7 +170,7 @@ abstract class midcom_core_dbaobject
      */
     public static function get_cached($src) : self
     {
-        return midcom::get()->dbfactory->get_cached(get_called_class(), $src);
+        return midcom::get()->dbfactory->get_cached(static::class, $src);
     }
 
     public function set_guid(string $guid)

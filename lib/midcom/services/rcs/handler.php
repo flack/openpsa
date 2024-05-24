@@ -90,7 +90,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $last = $history->get_last();
 
         $diff_view = !empty($revision2);
-        $revision2 = $revision2 ?? $revision;
+        $revision2 ??= $revision;
 
         if ($previous = $history->get_previous($revision['revision'])) {
             $enabled = true;

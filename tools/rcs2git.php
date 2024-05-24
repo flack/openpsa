@@ -48,7 +48,7 @@ class rcs2git extends Command
         foreach (new RecursiveIteratorIterator($it) as $file) {
             /** @var SplFileInfo $file */
             if ($file->getType() !== 'file') {
-                if (substr($file->getPath(), 0, strlen($dir . '.git')) !== $dir . '.git') {
+                if (!str_starts_with($file->getPath(), $dir . '.git')) {
                     if ($file->getBasename() === '.') {
                         $progress->advance();
                     }
@@ -56,7 +56,7 @@ class rcs2git extends Command
                 continue;
             }
 
-            if (substr($file->getBasename(), -2, 2) !== ',v') {
+            if (!str_ends_with($file->getBasename(), ',v')) {
                 continue;
             }
 
@@ -106,7 +106,7 @@ class rcs2git extends Command
         exec($command . ' 2>&1', $out, $stat);
         if ($stat != 0) {
             $output->writeln($command . ' failed with:');
-            array_map([$output, 'writeln'], $out);
+            array_map($output->writeln(...), $out);
             return false;
         }
         return true;

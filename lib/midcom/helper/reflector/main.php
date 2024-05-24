@@ -53,7 +53,7 @@ class midcom_helper_reflector extends midgard_reflection_property
      */
     public static function get(string|object $src) : self
     {
-        $identifier = get_called_class() . (is_object($src) ? get_class($src) : $src);
+        $identifier = static::class . (is_object($src) ? get_class($src) : $src);
 
         return self::$_cache['instance'][$identifier] ??= new static($src);
     }

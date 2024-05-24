@@ -44,7 +44,7 @@ class midcom_helper_style
     /**
      * Current topic
      */
-    private ?midcom_db_topic $_topic;
+    private ?midcom_db_topic $_topic = null;
 
     /**
      * Context stack

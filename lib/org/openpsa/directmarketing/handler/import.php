@@ -97,18 +97,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_update_breadcrumb($handler_id, $guid);
 
         if ($request->request->has('org_openpsa_directmarketing_import_separator')) {
-            switch ($request->request->get('org_openpsa_directmarketing_import_separator')) {
-                case 'N':
-                    $separator = "\n";
-                    break;
-                case ';':
-                    $separator = ";";
-                    break;
-                case ',':
-                default:
-                    $separator = ",";
-                    break;
-            }
+            $separator = match ($request->request->get('org_openpsa_directmarketing_import_separator')) {
+                'N' => "\n",
+                ';' => ";",
+                default => ",",
+            };
 
             // Initialize the raw contact data
             $contacts_raw = '';

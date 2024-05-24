@@ -29,7 +29,7 @@ class imagefilterTest extends openpsa_testcase
     public static function setUpBeforeClass() : void
     {
         self::$_topic = self::create_class_object(midcom_db_topic::class);
-        self::$_filepath = dirname(__FILE__) . '/__files/';
+        self::$_filepath = __DIR__ . '/__files/';
         self::$_filename = self::$_filepath . 'midgard-16x16.png';
     }
 

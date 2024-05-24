@@ -46,7 +46,7 @@ $node = $nap->get_node($nap->get_current_node());
             $customer_html = '<a href="' . $contacts_url . '/group/' . $customer->guid . '/">' . $customer_html . "</a>\n";
         }
         echo $customer_html;
-    } catch (midcom_error $e) {
+    } catch (midcom_error) {
     }
 
     if ($project->manager) {

@@ -207,7 +207,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * stops the application and outputs the info message with corresponding statuscode
      */
-    protected function _stop(string $message, int $statuscode = Response::HTTP_INTERNAL_SERVER_ERROR)
+    protected function _stop(string $message, int $statuscode = Response::HTTP_INTERNAL_SERVER_ERROR) : never
     {
         throw new midcom_error($message, $statuscode);
     }
