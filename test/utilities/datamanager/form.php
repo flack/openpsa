@@ -95,8 +95,7 @@ class datamanager_form extends base
     {
         $string = '{"password": ' . $this->renderer->widget($view['password']) . ',';
         $string .= $this->renderer->row($view['switch']) . '}';
-        $string = str_replace(',}', '}', $string);
-        return $string;
+        return str_replace(',}', '}', $string);
     }
 
     public function autocomplete_widget(FormView $view, array $data)

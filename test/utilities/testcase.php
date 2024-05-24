@@ -189,8 +189,7 @@ abstract class openpsa_testcase extends TestCase
             return $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
-            $url = preg_replace('/^\//', '', $url);
-            return $url;
+            return preg_replace('/^\//', '', $url);
         }
     }
 
@@ -274,9 +273,7 @@ abstract class openpsa_testcase extends TestCase
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
         }
-
-        $url = preg_replace('/^\//', '', $url);
-        return $url;
+        return preg_replace('/^\//', '', $url);
     }
 
     public function create_object(string $classname, array $data = []) : object

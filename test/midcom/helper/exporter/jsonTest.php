@@ -71,7 +71,7 @@ class jsonTest extends TestCase
 
     private function _get_data_array($creator)
     {
-        $data = [
+        return [
             'guid' => '',
             'id' => 0,
             'name' => 'Test',
@@ -103,6 +103,5 @@ class jsonTest extends TestCase
                 'exported' => 0
            ]
         ];
-        return $data;
     }
 }
