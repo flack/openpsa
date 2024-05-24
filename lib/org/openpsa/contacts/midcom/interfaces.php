@@ -50,27 +50,23 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('owner', '=', 0);
         $qb->add_constraint('name', '=', '__org_openpsa_contacts');
 
-        $results = $qb->execute();
-
-        if (!empty($results)) {
-            $root_group = end($results);
-        } else {
-            debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
-
-            //Attempt to  auto-initialize the group.
-            midcom::get()->auth->request_sudo('org.openpsa.contacts');
-            $grp = new midcom_db_group();
-            $grp->owner = 0;
-            $grp->name = '__org_openpsa_contacts';
-            $grp->official = midcom::get()->i18n->get_string($grp->name, 'org.openpsa.contacts');
-            $ret = $grp->create();
-            midcom::get()->auth->drop_sudo();
-            if (!$ret) {
-                throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
-            }
-            $root_group = $grp;
+        if ($results = $qb->execute()) {
+            return $root_group = end($results);
         }
 
+        debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
+
+        //Attempt to  auto-initialize the group.
+        $root_group = new midcom_db_group();
+        $root_group->owner = 0;
+        $root_group->name = '__org_openpsa_contacts';
+        $root_group->official = midcom::get()->i18n->get_string($root_group->name, 'org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
+        $ret = $root_group->create();
+        midcom::get()->auth->drop_sudo();
+        if (!$ret) {
+            throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
+        }
         return $root_group;
     }
 
