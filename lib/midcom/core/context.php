@@ -132,13 +132,13 @@ class midcom_core_context
         }
 
         if ($key === MIDCOM_CONTEXT_ROOTTOPIC) {
-            $this->_data[$key] ??= self::initialize_root_topic();
+            $this->_data[$key] ??= $this->initialize_root_topic();
         }
 
         return $this->_data[$key];
     }
 
-    private static function initialize_root_topic() : midcom_db_topic
+    private function initialize_root_topic() : midcom_db_topic
     {
         if (!self::$root_topic) {
             if ($guid = midcom::get()->config->get('midcom_root_topic_guid')) {

@@ -39,7 +39,7 @@ class datamanager
         $this->schemadb = $schemadb;
     }
 
-    private static function get_factory() : FormFactoryInterface
+    private function get_factory() : FormFactoryInterface
     {
         return midcom::get()->getContainer()->get('form.factory');
     }
@@ -163,7 +163,7 @@ class datamanager
         $config = [
             'schema' => $this->get_schema()
         ];
-        $builder = self::get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, options: $config);
+        $builder = $this->get_factory()->createNamedBuilder($this->get_name($name), schemaType::class, options: $config);
         $builder->add('form_toolbar', toolbarType::class, [
             'operations' => $this->schema->get('operations'),
             'index_method' => 'noindex'

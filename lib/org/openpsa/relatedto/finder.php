@@ -29,7 +29,7 @@ abstract class org_openpsa_relatedto_finder
         foreach ($qb->execute() as $object) {
             $links_array[] = [
                 'other_obj' => $object,
-                'link' => self::defaults_helper($defaults, $component, $object)
+                'link' => $this->defaults_helper($defaults, $component, $object)
             ];
         }
         return $links_array;
@@ -40,7 +40,7 @@ abstract class org_openpsa_relatedto_finder
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */
-    private static function defaults_helper(org_openpsa_relatedto_dba $defaults, string $component, midcom_core_dbaobject $obj) : org_openpsa_relatedto_dba
+    private function defaults_helper(org_openpsa_relatedto_dba $defaults, string $component, midcom_core_dbaobject $obj) : org_openpsa_relatedto_dba
     {
         $link = new org_openpsa_relatedto_dba;
 
