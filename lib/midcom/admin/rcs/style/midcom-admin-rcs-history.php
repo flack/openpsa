@@ -1,13 +1,9 @@
 <?php
-midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.rcs/rcs.js');
-$history = $data['history']->all();
-$guid = $data['guid'];
-
 echo "<h1>{$data['view_title']}</h1>\n";
 
-if (empty($history)) {
-    echo $data['l10n']->get('no revisions exist');
-} else {
+if ($history = $data['history']->all()) {
+    midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.rcs/rcs.js');
+    $guid = $data['guid'];
     ?>
     <form name="midcom_admin_rcs_history" action="" >
         <table>
@@ -50,9 +46,11 @@ if (empty($history)) {
         </table>
         <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('show differences'); ?>" />
     </form>
+    <script>
+    init_controls('[name="midcom_admin_rcs_history"]');
+    </script>
     <?php
+} else {
+    echo $data['l10n']->get('no revisions exist');
 }
 ?>
-<script>
-init_controls('[name="midcom_admin_rcs_history"]');
-</script>

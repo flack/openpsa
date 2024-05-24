@@ -168,8 +168,7 @@ abstract class midcom_core_query
         // Deal with empty arrays, which would produce invalid queries
         // This is done here to avoid repetitive code in callers, and because
         // it's easy enough to generalize: IN empty set => always false, NOT IN empty set => always true
-        if (   is_array($value)
-            && empty($value)) {
+        if ($value === []) {
             if ($operator == 'NOT IN') {
                 return;
             }
