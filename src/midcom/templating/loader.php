@@ -155,7 +155,7 @@ class loader
 
             switch ($element) {
                 case 'title':
-                    return midcom::get()->config->get('midcom_site_title');
+                    return '<?= midcom::get()->config->get("midcom_site_title") ?>';
                 case 'content':
                     return '<?php midcom_core_context::get()->show(); ?>';
                 default:
