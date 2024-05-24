@@ -162,9 +162,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         if ($person_id !== null) {
             $filters['person'] = [$person_id];
         }
-        if (!empty($filters)) {
-            $url .= '?' . http_build_query($filters);
-        }
+        $url .= '?' . http_build_query($filters);
 
         return "<a href=\"{$url}\">" . $label . "</a>";
     }

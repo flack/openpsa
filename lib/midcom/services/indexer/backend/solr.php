@@ -169,7 +169,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $code = $response->getStatusCode();
         if ($code != 200) {
             debug_print_r('Request content:', (string) $request->getBody());
-            throw new midcom_error((string) $response->getReasonPhrase(), $code);
+            throw new midcom_error($response->getReasonPhrase(), $code);
         }
         return $response;
     }

@@ -94,12 +94,10 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $data['feedcreator'] = $this->_feed;
 
         // Add each article now.
-        if ($this->_articles) {
-            foreach ($this->_articles as $article) {
-                $data['datamanager']->set_storage($article);
-                $data['article'] = $article;
-                midcom_show_style('feeds-item');
-            }
+        foreach ($this->_articles as $article) {
+            $data['datamanager']->set_storage($article);
+            $data['article'] = $article;
+            midcom_show_style('feeds-item');
         }
 
         switch ($handler_id) {
