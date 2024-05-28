@@ -127,7 +127,7 @@ abstract class openpsa_testcase extends TestCase
         $result = midcom::get()->handle($request, KernelInterface::SUB_REQUEST);
 
         $this->assertNotFalse($result, $component . ' handle returned false on ./' . $url);
-        $data = $context->get_custom_key('request_data');
+        $data = $context->get_custom_key('request_data') ?: [];
         $data['__openpsa_testcase_response'] = $result;
 
         // added to simulate http uri composition
@@ -261,7 +261,7 @@ abstract class openpsa_testcase extends TestCase
         $this->fail('No refresh URL found');
     }
 
-    public function run_relocate_handler($component, array $args = []) : string
+    public function run_relocate_handler($component, string|array $args = []) : string
     {
         try {
             $data = $this->run_handler($component, $args);

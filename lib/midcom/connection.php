@@ -192,10 +192,9 @@ class midcom_connection
      */
     private static function _parse_url(string $uri, string $self, string $prefix)
     {
-        $uri = preg_replace('/\/[\/]+/i', '/', $uri);
         $path_parts = explode('/', $uri);
         $page_style = '';
-        $path = $self;
+        $path = $uri;
 
         $args_started = false;
         foreach ($path_parts as $part) {
@@ -203,18 +202,14 @@ class midcom_connection
                 continue;
             }
             if (    midcom::get()->config->get('theme')
-                 && !$args_started
-                 && self::check_page_exists($part)) {
+                && !$args_started
+                && self::check_page_exists($part)) {
                 $page_style .= '/' . $part;
                 $self .= $part . '/';
+                $path = substr($path, strlen($part) + 1);
             } else {
-                $path .= $part . '/';
                 $args_started = true;
             }
-        }
-
-        if (!str_ends_with($uri, '/')) {
-            $path = substr($path, 0, -1);
         }
 
         self::$_data['page_style'] = $page_style;

@@ -69,7 +69,7 @@ class parser
             || !str_starts_with($this->argv[0], 'midcom-')) {
             return null;
         }
-        return '/' . implode('/', $this->argv);
+        return $this->context->get_key(MIDCOM_CONTEXT_URI);
     }
 
     /**
