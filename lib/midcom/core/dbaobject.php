@@ -69,7 +69,7 @@ abstract class midcom_core_dbaobject
             if (midcom::get()->dbclassloader->is_midcom_db_object($id)) {
                 $id = $id->__object;
             }
-            $this->set_object($id);
+            $this->__object = $id;
         } else {
             if (   is_int($id)
                 && $id < 1) {
@@ -78,7 +78,7 @@ abstract class midcom_core_dbaobject
 
             try {
                 $mgdschemaclass = $this->__mgdschema_class_name__;
-                $this->set_object(new $mgdschemaclass($id));
+                $this->__object = new $mgdschemaclass($id);
             } catch (mgd_exception $e) {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_WARN);
                 throw new midcom_error_midgard($e, $id);
@@ -110,11 +110,6 @@ abstract class midcom_core_dbaobject
         if ($this->__object->guid) {
             midcom_baseclasses_core_dbobject::post_db_load_checks($this);
         }
-    }
-
-    private function set_object(mgdobject $object)
-    {
-        $this->__object = $object;
     }
 
     /**
