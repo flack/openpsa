@@ -131,8 +131,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $filename = end($parts);
 
         if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
-            $name = $ext_matches[1];
-            $ext = $ext_matches[2];
+            [, $name, $ext] = $ext_matches;
         } else {
             $name = $filename;
             $ext = '';

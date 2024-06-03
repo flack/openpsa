@@ -489,8 +489,7 @@ class midcom_helper_imagefilter
 
         // 1a. If got...
         if ($data) {
-            $size_x = $data[0];
-            $size_y = $data[1];
+            [$size_x, $size_y] = $data;
         } else {
             // If image data was not available, try to get it with identify program
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify -verbose {$this->_filename}";
@@ -502,12 +501,11 @@ class midcom_helper_imagefilter
                 throw new midcom_error('Could not read geometry data');
             }
 
-            $size_x = (int) $regs[1];
-            $size_y = (int) $regs[2];
+            [, $size_x, $size_y] = $regs;
         }
 
         // Get resize ratio in relations to the original
-        $ratio = str_replace(',', '.', 100 * max($x / $size_x, $y / $size_y));
+        $ratio = str_replace(',', '.', 100 * max($x / (int) $size_x, $y / (int) $size_y));
         $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality} -resize {$ratio}% -gravity {$gravity} -crop {$x}x{$y}+0+0 +repage " . escapeshellarg($this->_filename);
         $this->_run_command($cmd);
     }

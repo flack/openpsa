@@ -419,8 +419,7 @@ class net_nemein_rss_fetch
             $name_parts = explode(' ', $author_info['full_name']);
             if (count($name_parts) > 1) {
                 // We assume the western format Firstname Lastname
-                $firstname = $name_parts[0];
-                $lastname = $name_parts[1];
+                [$firstname, $lastname] = $name_parts;
 
                 $person_qb = midcom_db_person::new_query_builder();
                 $person_qb->add_constraint('firstname', '=', $firstname);

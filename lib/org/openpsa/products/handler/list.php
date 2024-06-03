@@ -64,7 +64,7 @@ implements client
                             $constraint_members[2] = (boolean) $constraint_members[2];
                             break;
                     }
-                    $qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
+                    $qb->add_constraint(...$constraint_members);
                 }
             } else {
                 $qb->add_constraint('productGroup', '=', $this->group->id);

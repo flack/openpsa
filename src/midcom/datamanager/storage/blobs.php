@@ -174,8 +174,7 @@ class blobs extends delayed
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
             }
-            $identifier = $info[0];
-            $guid = $info[1];
+            [$identifier, $guid] = $info;
             if (mgd_is_guid($guid)) {
                 $map[$identifier] = $guid;
             }

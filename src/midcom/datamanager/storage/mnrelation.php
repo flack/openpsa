@@ -99,8 +99,7 @@ class mnrelation extends delayed
         foreach ($this->config['type_config']['additional_fields'] as $fieldname => $value) {
             // Determine what to do if using dot (.) in the additional fields,
             if (preg_match('/^(.+)\.(.+)$/', $fieldname, $regs)) {
-                $domain = $regs[1];
-                $key = $regs[2];
+                [, $domain, $key] = $regs;
 
                 // Determine what should be done with conjunction
                 switch ($domain) {

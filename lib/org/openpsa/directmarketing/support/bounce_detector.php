@@ -35,8 +35,7 @@ if (count($template) != 2) {
     error_log("Invalid address template: $BOUNCE_ADDRESS");
     exit(1);
 }
-$prefix = $template[0];
-$suffix = $template[1];
+[$prefix, $suffix] = $template;
 
 // Match the recipient address to the address template
 if (!isset($_ENV["RECIPIENT"])) {

@@ -52,8 +52,7 @@ class org_openpsa_notifications
             return false;
         }
 
-        $component = $action_parts[0];
-        $action = $action_parts[1];
+        [$component, $action] = $action_parts;
 
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         try {
