@@ -46,12 +46,5 @@
 
         <property name="title" type="string"/>
         <property name="description" type="text"/>
-
-        <!-- Common OpenPSA properties -->
-
-        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
-        <property name="orgOpenpsaObtype" type="integer" index="yes"/>
-
-        <!-- /Common OpenPSA properties -->
     </type>
 </Schema>

@@ -32,43 +32,8 @@ implements client
     public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
-
         if (!empty($this->group)) {
-            if ($this->group->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART) {
-                // Smart group, query products by stored constraints
-                $constraints = $this->group->list_parameters('org.openpsa.products:constraints');
-                if (empty($constraints)) {
-                    $qb->add_constraint('productGroup', '=', $this->group->id);
-                }
-
-                $reflector = new midgard_reflection_property('org_openpsa_products_product');
-
-                foreach ($constraints as $constraint_string) {
-                    $constraint_members = explode(',', $constraint_string);
-                    if (count($constraint_members) != 3) {
-                        throw new midcom_error("Invalid constraint '{$constraint_string}'");
-                    }
-
-                    // Reflection is needed here for safety
-                    $field_type = $reflector->get_midgard_type($constraint_members[0]);
-                    switch ($field_type) {
-                        case MGD_TYPE_NONE:
-                            throw new midcom_error("Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
-                        case MGD_TYPE_INT:
-                            $constraint_members[2] = (int) $constraint_members[2];
-                            break;
-                        case MGD_TYPE_FLOAT:
-                            $constraint_members[2] = (float) $constraint_members[2];
-                            break;
-                        case MGD_TYPE_BOOLEAN:
-                            $constraint_members[2] = (boolean) $constraint_members[2];
-                            break;
-                    }
-                    $qb->add_constraint(...$constraint_members);
-                }
-            } else {
-                $qb->add_constraint('productGroup', '=', $this->group->id);
-            }
+            $qb->add_constraint('productGroup', '=', $this->group->id);
         }
 
         if ($field !== null) {
@@ -143,9 +108,6 @@ implements client
                 MIDCOM_TOOLBAR_ENABLED => $this->group->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]));
-            if ($this->group->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART) {
-                $allow_create_product = false;
-            }
         }
 
         $this->_add_schema_buttons('schemadb_group', 'cubes', '', $allow_create_group);
