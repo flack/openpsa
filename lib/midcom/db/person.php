@@ -20,12 +20,6 @@
  * @property string $postcode Zip code of the person
  * @property string $city City of the person
  * @property string $extra Additional information about the person
- * @property integer $salutation
- * @property string $title
- * @property midgard_datetime $birthdate
- * @property string $pgpkey
- * @property string $country
- * @property string $fax
  * @package midcom.db
  */
 class midcom_db_person extends midcom_core_dbaobject
