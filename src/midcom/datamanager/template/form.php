@@ -100,7 +100,7 @@ class form extends base
             $class .= ' required';
         }
 
-        if ($data['errors']->count() > 0) {
+        if ($view->vars['errors']->count() > 0) {
             $class .= ' error';
         }
 
