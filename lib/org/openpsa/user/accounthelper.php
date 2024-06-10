@@ -97,7 +97,7 @@ class org_openpsa_user_accounthelper
              * if the password was auto generated show it in an ui message
              */
             midcom::get()->uimessages->add(
-                $this->_l10n->get('org.openpsa.user'),
+                $this->_l10n->get($this->_component),
                 sprintf($this->_l10n->get("account_creation_success"), $username, $password), 'ok');
         }
 
@@ -201,7 +201,7 @@ class org_openpsa_user_accounthelper
         // check current password
         if (midcom_connection::verify_password($password, $this->get_account()->get_password())) {
             if ($show_ui_message) {
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('password is the same as the current one'), 'error');
             }
             return false;
         }
@@ -213,7 +213,7 @@ class org_openpsa_user_accounthelper
         foreach ($old_passwords as $old) {
             if (midcom_connection::verify_password($password, $old)) {
                 if ($show_ui_message) {
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('password was already used'), 'error');
                 }
                 return false;
             }
@@ -271,7 +271,7 @@ class org_openpsa_user_accounthelper
 
         if ($password_length < $this->_config->get('min_password_length')) {
             if ($show_ui_message){
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('password too short'), 'error');
             }
             return false;
         }
@@ -289,7 +289,7 @@ class org_openpsa_user_accounthelper
 
         if ($score < $this->_config->get('min_password_score')) {
             if ($show_ui_message){
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('password weak'), 'error');
             }
             return false;
         }
@@ -367,7 +367,7 @@ class org_openpsa_user_accounthelper
             return $entry->update();
         }
 
-        if (!midcom_services_at_interface::register($release_time, 'org.openpsa.user', 'reopen_account', $args)) {
+        if (!midcom_services_at_interface::register($release_time, $this->_component, 'reopen_account', $args)) {
             throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
         $this->person->set_parameter("org_openpsa_user_blocked_account", "account_password", $account->get_password());
@@ -468,7 +468,7 @@ class org_openpsa_user_accounthelper
             return $stat;
         }
 
-        midcom::get()->auth->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo($this->_component);
 
         if ($attempts = $this->person->get_parameter("org_openpsa_user_password", "attempts")) {
             $attempts = unserialize($attempts);
