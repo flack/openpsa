@@ -180,7 +180,7 @@ class loader
                 $theme_dir .= '/' . $part;
                 $part = $theme_dir;
             }
-            foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
+            foreach (array_reverse(array_filter($parts, is_dir(...))) as $dirname) {
                 midcom::get()->style->prepend_styledir($dirname);
             }
         }

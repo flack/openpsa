@@ -447,7 +447,7 @@ class net_nemein_tag_handler
         if (!empty($current_tag)) {
             $tags[] = $current_tag;
         }
-        $tags = array_filter(array_map('trim', $tags));
+        $tags = array_filter(array_map(trim(...), $tags));
         return array_fill_keys($tags, '');
     }
 

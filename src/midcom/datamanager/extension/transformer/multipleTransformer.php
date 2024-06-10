@@ -56,7 +56,7 @@ class multipleTransformer implements DataTransformerInterface
                 $results = explode($this->multiple_separator, substr($input, 1, -1));
                 if (   !empty($this->config['widget_config']['id_field'])
                     && $this->config['widget_config']['id_field'] == 'id') {
-                    $results = array_map('intval', $results);
+                    $results = array_map(intval(...), $results);
                 }
                 return $results;
 

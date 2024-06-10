@@ -167,7 +167,7 @@ trait parameters
             self::$parameter_all[$this->guid] = true;
         }
         // Clean up empty arrays
-        return array_filter(self::$parameter_cache[$this->guid], 'count');
+        return array_filter(self::$parameter_cache[$this->guid], count(...));
     }
 
     /**

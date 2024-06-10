@@ -126,7 +126,7 @@ abstract class org_openpsa_contacts_duplicates_check
      */
     private function normalize_fields(array $fields, string $guid) : array
     {
-        $fields = array_map('strtolower', array_map('trim', $fields));
+        $fields = array_map(strtolower(...), array_map(trim(...), $fields));
         $fields['guid'] = $guid;
 
         return $fields;

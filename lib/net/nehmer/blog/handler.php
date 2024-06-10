@@ -55,7 +55,7 @@ trait net_nehmer_blog_handler
         if ($list_from_folders = $this->_config->get('list_from_folders')) {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $list_from_folders);
-            $topic_guids = array_merge($topic_guids, array_filter($guids, 'mgd_is_guid'));
+            $topic_guids = array_merge($topic_guids, array_filter($guids, mgd_is_guid(...)));
         }
 
         $qb->add_constraint('topic.guid', 'IN', $topic_guids);

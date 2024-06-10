@@ -28,7 +28,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      */
     private function _show_navigation_tree(array $tree_array, string $link_url)
     {
-        foreach (array_filter($tree_array, 'is_array') as $tree) {
+        foreach (array_filter($tree_array, is_array(...)) as $tree) {
             $this->_request_data["name"] = $tree["topic"]->extra;
             $this->_request_data["id"] = $tree["topic"]->id;
             $this->_request_data["link_url"] = $link_url . "/" . $tree["topic"]->name . '/';
