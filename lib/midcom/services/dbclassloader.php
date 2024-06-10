@@ -69,6 +69,7 @@ class midcom_services_dbclassloader
         // Fix for incorrectly named classes
         $component_map = [
             'midgard' => 'midcom',
+            'openpsa' => 'midcom', // for openpsa_person class
             'org.openpsa.campaign' => 'org.openpsa.directmarketing',
             'org.openpsa.link' => 'org.openpsa.directmarketing',
             'org.openpsa.document' => 'org.openpsa.documents',
