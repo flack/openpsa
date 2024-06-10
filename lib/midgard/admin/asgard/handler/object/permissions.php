@@ -234,7 +234,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         if ($request->request->count() > 0) {
             $formdata = $request->request->all();
             $formdata = reset($formdata);
-            $this->additional_assignee = $formdata['add_assignee'];
+            $this->additional_assignee = $formdata['add_assignee'] ?? null;
         }
 
         // Load the datamanager controller
