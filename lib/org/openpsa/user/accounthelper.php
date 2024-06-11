@@ -457,11 +457,10 @@ class org_openpsa_user_accounthelper
         $stat = true;
 
         //max-attempts allowed & timeframe
-        $max_attempts = midcom_baseclasses_components_configuration::get($this->_component, 'config')->get('max_password_attempts');
-        $timeframe = midcom_baseclasses_components_configuration::get($this->_component, 'config')->get('password_block_timeframe_min');
+        $max_attempts = $this->_config->get('max_password_attempts');
+        $timeframe = $this->_config->get('password_block_timeframe_min');
 
-        if (   $max_attempts == 0
-            || $timeframe == 0) {
+        if (!$max_attempts || !$timeframe) {
             return $stat;
         }
 
