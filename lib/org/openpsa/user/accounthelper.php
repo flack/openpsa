@@ -451,17 +451,14 @@ class org_openpsa_user_accounthelper
 
     /**
      * Record failed login attempts and disable account is necessary
-     *
-     * @param string $component the component we take the config values from
      */
-    public function check_login_attempts(?string $component = null) : bool
+    public function check_login_attempts() : bool
     {
         $stat = true;
-        $component = $component ?: "org.openpsa.user";
 
         //max-attempts allowed & timeframe
-        $max_attempts = midcom_baseclasses_components_configuration::get($component, 'config')->get('max_password_attempts');
-        $timeframe = midcom_baseclasses_components_configuration::get($component, 'config')->get('password_block_timeframe_min');
+        $max_attempts = midcom_baseclasses_components_configuration::get($this->_component, 'config')->get('max_password_attempts');
+        $timeframe = midcom_baseclasses_components_configuration::get($this->_component, 'config')->get('password_block_timeframe_min');
 
         if (   $max_attempts == 0
             || $timeframe == 0) {
