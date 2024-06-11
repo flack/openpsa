@@ -1,6 +1,5 @@
 <?php
 $action = $data['router']->generate('deliverable_add', ['guid' => $data['salesproject']->guid]);
-$unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
 ?>
 <div class="deliverables">
     <h2><?php echo $data['l10n']->get('deliverables'); ?></h2>
@@ -25,8 +24,7 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
                             $desc .= $data['l10n']->get('subscription');
                         }
                         $desc .= ', ' . $data['l10n']->get_formatter()->number($product['price']);
-                        if (array_key_exists($product['unit'], $unit_options)) {
-                            $unit = midcom::get()->i18n->get_string($unit_options[$product['unit']], 'org.openpsa.products');
+                        if ($unit = org_openpsa_sales_viewer::get_unit_option($product['unit'])) {
                             $desc .= ' ' . sprintf($data['l10n']->get('per %s'), $unit);
                         }
 
