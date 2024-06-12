@@ -15,23 +15,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:access', class: 'midgard_admin_asgard_plugin');
-        // Disable content caching
-        midcom::get()->cache->content->no_cache();
-
-        // Preferred language
-        if ($language = self::get_preference('interface_language', false)) {
-            $this->_i18n->set_language($language);
-        }
-
-        // Enable jQuery
-        midcom::get()->head->enable_jquery();
-
-        // Ensure we get the correct styles
-        midcom::get()->style->prepend_component_styledir('midgard.admin.asgard');
-
-        $this->_request_data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
-        self::get_default_mode($this->_request_data);
+        self::setup($this->_request_data);
     }
 
     /**
@@ -39,20 +23,30 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     public static function prepare_plugin(string $title, array &$data)
     {
+        self::setup($data);
+
+        $data['view_title'] = $title;
+
+        midcom::get()->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
+    }
+
+    private static function setup(array &$data)
+    {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:access', class: 'midgard_admin_asgard_plugin');
         // Disable content caching
         midcom::get()->cache->content->no_cache();
-        $data['view_title'] = $title;
-        $data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
-        self::get_default_mode($data);
 
         // Preferred language
         if ($language = self::get_preference('interface_language', false)) {
             midcom::get()->i18n->set_language($language);
         }
-
+        // Ensure we get the correct styles
         midcom::get()->style->prepend_component_styledir('midgard.admin.asgard');
-        midcom::get()->style->prepend_component_styledir(str_replace('asgard_', '', $data['plugin_name']));
+
+        // Set the default object mode
+        $data['default_mode'] = self::get_preference('edit_mode') ? 'edit' : 'view';
+
+        $data['asgard_toolbar'] = new midgard_admin_asgard_toolbar;
     }
 
     public static function get_type_label(string $type) : string
@@ -106,18 +100,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $label = $data['object_reflector']->get_object_label($object);
         $type_label = self::get_type_label(get_class($object));
         $data['view_title'] = sprintf($title_string, $type_label, $label);
-    }
-
-    /**
-     * Set the default object mode
-     */
-    public static function get_default_mode(array &$data) : string
-    {
-        //only set mode once per request
-        if (empty($data['default_mode'])) {
-            $data['default_mode'] = self::get_preference('edit_mode') ? 'edit' : 'view';
-        }
-        return $data['default_mode'];
     }
 
     /**
