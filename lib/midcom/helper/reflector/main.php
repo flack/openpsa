@@ -8,6 +8,7 @@
 
 use midgard\portable\storage\connection;
 use midgard\portable\api\mgdobject;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * The Grand Unified Reflector
@@ -399,6 +400,8 @@ class midcom_helper_reflector extends midgard_reflection_property
         if (!$classname) {
             throw new midcom_error('Class name must not be empty');
         }
+
+        $classname = ClassUtils::getRealClass($classname);
 
         if (isset($cached[$classname])) {
             return $cached[$classname];
