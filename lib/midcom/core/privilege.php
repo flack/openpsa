@@ -408,7 +408,7 @@ class midcom_core_privilege
      *
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      */
-    public static function get_privilege(midcom_core_dbaobject $object, string $name, $assignee, string $classname = '') : midcom_core_privilege
+    public static function get_privilege(midcom_core_dbaobject $object, string $name, string $assignee, string $classname = '') : midcom_core_privilege
     {
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $object->guid);
@@ -444,7 +444,7 @@ class midcom_core_privilege
         return new midcom_core_privilege($result[0]);
     }
 
-    private function _load($src)
+    private function _load(midcom_core_privilege_db|string $src = null)
     {
         if ($src instanceof midcom_core_privilege_db) {
             // Got a privilege object as argument, use that

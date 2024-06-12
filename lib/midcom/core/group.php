@@ -56,7 +56,7 @@ class midcom_core_group
      *
      * Any error will trigger midcom_error.
      */
-    public function __construct(string|int|midcom_db_group|midgard_group $id)
+    public function __construct(string|int|midgard_group $id)
     {
         if (is_object($id)) {
             $this->_storage = $id;

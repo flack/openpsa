@@ -11,6 +11,8 @@ namespace midcom\dba;
 use midcom;
 use midcom_error;
 use midcom_core_privilege;
+use midcom_core_user;
+use midcom_core_group;
 
 /**
  * midcom privileges support
@@ -123,7 +125,7 @@ trait privileges
      *     midcom_core_group object or subtype thereof.
      * @param string $classname An optional class name to which a SELF privilege is restricted to.
      */
-    public function get_privilege(string $privilege, $assignee, string $classname = '')
+    public function get_privilege(string $privilege, midcom_core_user|midcom_core_group|string $assignee, string $classname = '')
     {
         if (!$this->can_do('midgard:privileges')) {
             debug_add("Failed to get a privilege, midgard:update or midgard:privileges on " . static::class . " {$this->guid} not granted for the current user.",
