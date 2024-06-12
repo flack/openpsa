@@ -23,7 +23,7 @@ class midcom_services_i18n_formatter
         $this->language = $language;
     }
 
-    public function number($value, int $precision = 2)
+    public function number(int|float $value, int $precision = 2)
     {
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
         $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
@@ -31,24 +31,24 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function date($value = null, $dateformat = 'medium')
+    public function date(int|string|DateTimeInterface $value = null, int|string $dateformat = 'medium')
     {
         return $this->datetime($value, $dateformat, IntlDateFormatter::NONE);
     }
 
-    public function time($value = null, $timeformat = 'short')
+    public function time(int|string|DateTimeInterface $value = null, int|string $timeformat = 'short')
     {
         return $this->datetime($value, IntlDateFormatter::NONE, $timeformat);
     }
 
-    public function datetime($value = null, $dateformat = 'medium', $timeformat = 'short')
+    public function datetime(int|string|DateTimeInterface $value = null, int|string $dateformat = 'medium', int|string $timeformat = 'short')
     {
         $value ??= time();
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
         return $formatter->format($value);
     }
 
-    public function customdate($value, string $pattern)
+    public function customdate(int|string|DateTimeInterface $value, string $pattern)
     {
         $formatter = new IntlDateFormatter($this->get_locale(), IntlDateFormatter::FULL, IntlDateFormatter::FULL);
         $formatter->setPattern($pattern);
@@ -70,7 +70,7 @@ class midcom_services_i18n_formatter
         return $ranger->format($start, $end);
     }
 
-    private function constant($input) : int
+    private function constant(int|string $input) : int
     {
         if (is_int($input)) {
             return $input;

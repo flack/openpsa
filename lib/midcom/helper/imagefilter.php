@@ -263,10 +263,8 @@ class midcom_helper_imagefilter
      * Filter Syntax: gamma($gamma)
      *
      * Where $gamma is a positive floating point number, e.g. 1.2
-     *
-     * @param float $gamma Gamma adjustment value.
      */
-    public function gamma($gamma = 1.2)
+    public function gamma(float $gamma = 1.2)
     {
         $gamma = (double) $gamma;
 
@@ -375,7 +373,7 @@ class midcom_helper_imagefilter
      *
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      */
-    public function rotate($rotate = 0)
+    public function rotate(float $rotate = 0)
     {
         // Do some normalizing on the argument
         $rotate %= 360;
@@ -421,15 +419,9 @@ class midcom_helper_imagefilter
      *
      * The resize will be done only if it would not increase the image
      * as this won't gain you any benefit.
-     *
-     * @param int $x Width
-     * @param int $y Height
      */
-    public function resize($x = 0, $y = 0)
+    public function resize(int $x = 0, int $y = 0)
     {
-        $x = (int) $x;
-        $y = (int) $y;
-
         if ($x == 0 && $y == 0) {
             debug_add("Both x and y are 0, skipping operation.", MIDCOM_LOG_INFO);
             return;
@@ -461,21 +453,16 @@ class midcom_helper_imagefilter
      *
      * This is a one parameter shorthand for cropping, provided for
      * backwards compatibility
-     *
-     * @param int $x Width
      */
-    public function squarethumb($x = 0, string $gravity = 'center')
+    public function squarethumb(int $x = 0, string $gravity = 'center')
     {
         $this->crop($x, $x, $gravity);
     }
 
     /**
      * Crop an image to given proportions
-     *
-     * @param int $x Width
-     * @param int $y Height
      */
-    public function crop($x = 0, $y = 0, string $gravity = 'center')
+    public function crop(int $x = 0, int $y = 0, string $gravity = 'center')
     {
         if ($x == 0) {
             return;
@@ -512,13 +499,8 @@ class midcom_helper_imagefilter
 
     /**
      * Resize image and apply fill to match given size
-     *
-     * @param int $x Width
-     * @param int $y Height
-     * @param string $color Color
-     * @param string $gravity Gravity point
      */
-    public function fill($x = null, $y = null, $color = null, string $gravity = 'center')
+    public function fill(?int $x = null, ?int $y = null, ?string $color = null, string $gravity = 'center')
     {
         if (   empty($x)
             || empty($y)

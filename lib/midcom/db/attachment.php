@@ -329,12 +329,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Updates the contents of the attachments with the contents given.
      *
-     * @param mixed $source File contents.
+     * @param string $data File contents.
      */
-    public function copy_from_memory($source) : bool
+    public function copy_from_memory(string $data) : bool
     {
         if ($dest = $this->open()) {
-            fwrite($dest, $source);
+            fwrite($dest, $data);
             $this->close();
             return true;
         }
@@ -363,7 +363,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @param string $filename The file to read.
      */
-    public function copy_from_file($filename) : bool
+    public function copy_from_file(string $filename) : bool
     {
         $source = @fopen($filename, 'r');
         if (!$source) {
