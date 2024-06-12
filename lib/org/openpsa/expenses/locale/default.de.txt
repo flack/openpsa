@@ -62,6 +62,10 @@ Stundenberichte für Aufgabe "%s"
 Stundenberichte zu Rechnung %s
 ---STRINGEND
 
+---STRING marked %s hours as invoiced in task "%s"
+%s Arbeitsstunden in Aufgabe "%s" als abgerechnet markiert
+---STRINGEND
+
 ---STRING next week
 Folgewoche
 ---STRINGEND

@@ -170,10 +170,6 @@ Manager
 Als fertiggestellt kennzeichnen
 ---STRINGEND
 
----STRING marked %s hours as invoiced in task "%s"
-%s Arbeitsstunden in Aufgabe "%s" als abgerechnet markiert
----STRINGEND
-
 ---STRING marked as completed by %s
 Als fertiggestellt gekennzeichnet durch %s
 ---STRINGEND

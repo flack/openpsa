@@ -170,10 +170,6 @@ Manager
 Mark completed
 ---STRINGEND
 
----STRING marked %s hours as invoiced in task "%s"
-Marked %s hours as invoiced in task "%s"
----STRINGEND
-
 ---STRING marked as completed by %s
 Marked as completed by %s
 ---STRINGEND

@@ -66,6 +66,10 @@ Hour reports for Task "%s"
 Hour reports for Invoice %s
 ---STRINGEND
 
+---STRING marked %s hours as invoiced in task "%s"
+Marked %s hours as invoiced in task "%s"
+---STRINGEND
+
 ---STRING next week
 next week
 ---STRINGEND

@@ -191,7 +191,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
         }
 
         // Notify user
-        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title));
+        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.expenses', 'org.openpsa.expenses'), sprintf(midcom::get()->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.expenses'), $hours_marked, $task->title));
         return $hours_marked;
     }
 }
