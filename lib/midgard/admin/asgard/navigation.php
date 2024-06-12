@@ -15,8 +15,6 @@ class midgard_admin_asgard_navigation
 {
     use midcom_baseclasses_components_base;
 
-    public array $root_types = [];
-
     /**
      * @var midgard\portable\api\mgdobject
      */
@@ -38,11 +36,11 @@ class midgard_admin_asgard_navigation
         $this->_object = $object;
         $this->_request_data =& $request_data;
 
-        $this->root_types = midcom_helper_reflector_tree::get_root_classes();
+        $root_types = midgard_admin_asgard_plugin::get_root_classes();
 
         if (array_key_exists('current_type', $request_data)) {
             $expanded_type = $request_data['current_type'];
-            if (!in_array($expanded_type, $this->root_types)) {
+            if (!array_key_exists($expanded_type, $root_types)) {
                 $expanded_type = midcom_helper_reflector_tree::get($expanded_type)->get_parent_class();
             }
             $this->expanded_root_types[] = $expanded_type;
@@ -51,7 +49,7 @@ class midgard_admin_asgard_navigation
 
             // we go through the path bottom up and show the first root type we find
             foreach (array_reverse($this->_object_path) as $node) {
-                foreach ($this->root_types as $root_type) {
+                foreach (array_keys($root_types) as $root_type) {
                     if (   $node instanceof $root_type
                         || midcom_helper_reflector::is_same_class($root_type, $node->__midcom_class_name__)) {
                         $this->expanded_root_types[] = $root_type;
