@@ -183,9 +183,12 @@ abstract class openpsa_testcase extends TestCase
         try {
             $data = $this->run_handler($component, $args);
             if (array_key_exists($controller_key, $data)) {
-                $this->assertEquals([], $data[$controller_key]->get_errors(), 'Form validation failed');
+                $this->verify_form_submission($data[$controller_key]);
             }
-            $this->assertInstanceOf(RedirectResponse::class, $data['__openpsa_testcase_response'], 'Form did not relocate');
+            if (   !array_key_exists('__openpsa_testcase_response', $data)
+                || !$data['__openpsa_testcase_response'] instanceof RedirectResponse) {
+                $this->fail('Form did not relocate');
+            }
             return $data['__openpsa_testcase_response']->getTargetUrl();
         } catch (openpsa_test_relocate $e) {
             $url = $e->getMessage();
@@ -200,19 +203,24 @@ abstract class openpsa_testcase extends TestCase
         $this->set_dm_formdata($data[$controller_key], $formdata, $button);
         $data = $this->run_handler($component, $args);
 
-        $errors = $data[$controller_key]->get_datamanager()->get_form()->getErrors(true);
+        $this->verify_form_submission($data[$controller_key]);
+
+        return $data;
+    }
+
+    private function verify_form_submission(controller $controller)
+    {
+        $errors = $controller->get_datamanager()->get_form()->getErrors(true);
 
         if ($errors->count() > 0) {
             $message = 'Form validation failed: ';
 
             foreach ($errors as $error) {
-                $message .= "\n". $error->getOrigin()->getName() . ': ' . $error->getMessage();
+                $message .= "\n" . $error->getOrigin()->getName() . ': ' . $error->getMessage();
             }
 
             $this->fail($message);
         }
-
-        return $data;
     }
 
     private function get_controller(midcom_response_styled $response) : controller
