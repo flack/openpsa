@@ -107,7 +107,7 @@ abstract class openpsa_testcase extends TestCase
         midcom_baseclasses_components_configuration::set($component, 'config', new midcom_helper_configuration($config->get_all()));
     }
 
-    public function run_handler($topic, string|array $args = [], ?Request $request = null) : array
+    public function run_handler(string|midcom_db_topic $topic, string|array $args = [], ?Request $request = null) : array
     {
         if (is_object($topic)) {
             $component = $topic->component;
@@ -170,7 +170,7 @@ abstract class openpsa_testcase extends TestCase
         $_REQUEST = $_POST;
     }
 
-    public function submit_dm_form(string $controller_key, array $formdata, $component, array $args = [], $button = 'save')
+    public function submit_dm_form(string $controller_key, array $formdata, string|midcom_db_topic $component, array $args = [], $button = 'save')
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
@@ -196,7 +196,7 @@ abstract class openpsa_testcase extends TestCase
         }
     }
 
-    public function submit_dm_no_relocate_form(string $controller_key, array $formdata, $component, array $args = [], $button = 'save') : array
+    public function submit_dm_no_relocate_form(string $controller_key, array $formdata, string|midcom_db_topic $component, array $args = [], $button = 'save') : array
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
