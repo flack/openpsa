@@ -76,6 +76,16 @@ class datamanager_form extends base
         return $this->form_widget_simple($view, $data);
     }
 
+    public function choice_widget_expanded(FormView $view, array $data)
+    {
+        foreach ($view->children as $child) {
+            if ($child->vars['checked']) {
+                return '"' . $data['name'] . '": "' . $child->vars['value'] . '",';
+            }
+        }
+        return '""';
+    }
+
     public function image_widget(FormView $view, array $data)
     {
         return '[]';
