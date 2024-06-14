@@ -8,7 +8,6 @@
 namespace midcom\datamanager\test;
 
 use openpsa_testcase;
-use midcom;
 use midcom_db_topic;
 use midcom\datamanager\storage\image;
 
@@ -25,9 +24,7 @@ class imageTest extends openpsa_testcase
     {
         $storage = new image(new midcom_db_topic, ['name' => 'testname', 'type_config' => []]);
         $storage->set_value(['title' => null]);
-        midcom::get()->auth->request_sudo('midcom.datamanager');
-        $storage->save();
-        midcom::get()->auth->drop_sudo();
+        $this->sudo($storage->save(...));
 
         $result = $storage->load();
         $this->assertCount(0, $result);

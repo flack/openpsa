@@ -9,7 +9,6 @@
 namespace test\org\openpsa\sales\calculator;
 
 use openpsa_testcase;
-use midcom;
 use org_openpsa_invoices_invoice_dba;
 use org_openpsa_sales_calculator_default;
 
@@ -25,9 +24,7 @@ class defaultTest extends openpsa_testcase
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_order('number', 'DESC');
         $qb->set_limit(1);
-        midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $last_invoice = $qb->execute_unchecked();
-        midcom::get()->auth->drop_sudo();
+        $last_invoice = $this->sudo($qb->execute_unchecked(...));
 
         if (count($last_invoice) == 0) {
             $previous = 0;

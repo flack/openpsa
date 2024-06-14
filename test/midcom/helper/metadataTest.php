@@ -61,9 +61,7 @@ class metadataTest extends openpsa_testcase
     {
         $topic = $this->create_object(midcom_db_topic::class);
         $this->assertFalse($topic->metadata->deleted);
-        midcom::get()->auth->request_sudo('midcom.core');
-        $this->assertTrue($topic->delete());
-        midcom::get()->auth->drop_sudo();
+        $this->assertTrue($this->sudo($topic->delete(...)));
         $this->assertTrue($topic->metadata->deleted);
     }
 

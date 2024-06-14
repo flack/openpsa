@@ -58,13 +58,15 @@ abstract class openpsa_testcase extends TestCase
 
     protected function sudo(callable $function)
     {
-        if (!midcom::get()->auth->request_sudo('org.openpsa.projects')) {
+        if (!midcom::get()->auth->request_sudo('midcom.core')) {
             $this->fail('Could not get sudo');
         }
 
-        $function();
+        $ret = $function();
 
         midcom::get()->auth->drop_sudo();
+
+        return $ret;
     }
 
     public static function get_component_node(string $component) : midcom_db_topic

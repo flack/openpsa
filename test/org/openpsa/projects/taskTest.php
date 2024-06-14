@@ -64,9 +64,7 @@ class taskTest extends openpsa_testcase
     {
         $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => self::$project->id]);
 
-        midcom::get()->auth->request_sudo('org.openpsa.projects');
-        $parent = $task->get_parent();
-        midcom::get()->auth->drop_sudo();
+        $parent = $this->sudo($task->get_parent(...));
 
         $this->assertEquals($parent->guid, self::$project->guid);
     }

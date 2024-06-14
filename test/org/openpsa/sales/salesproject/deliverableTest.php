@@ -92,9 +92,7 @@ class deliverableTest extends openpsa_testcase
 
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes['deliverable']);
 
-        midcom::get()->auth->request_sudo('org.openpsa.sales');
-        $stat = $deliverable->order();
-        midcom::get()->auth->drop_sudo();
+        $stat = $this->sudo($deliverable->order(...));
 
         $this->assertEquals($retval, $stat);
 

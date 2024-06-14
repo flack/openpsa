@@ -114,10 +114,10 @@ class reportTest extends openpsa_testcase
             'hours' => 2,
             'person' => $person->id
         ]);
-        $this->sudo([$task, 'refresh']);
+        $this->sudo($task->refresh(...));
         $this->assertEquals(2, $task->invoicedHours);
 
-        $this->sudo([$invoice, 'delete']);
+        $this->sudo($invoice->delete(...));
         $this->assertEquals(2, $task->invoicedHours);
     }
 
@@ -162,19 +162,19 @@ class reportTest extends openpsa_testcase
             'invoice' => $invoice->id
         ];
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
+        $this->sudo($task->refresh(...));
         $this->assertEquals(4, $task->invoicedHours);
 
         $data['invoiceable'] = false;
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
+        $this->sudo($task->refresh(...));
         $this->assertEquals(4, $task->invoicedHours);
         $this->assertEquals(8, $task->reportedHours);
 
         $data['invoiceable'] = true;
         unset($data['invoice']);
         $this->create_object(org_openpsa_expenses_hour_report_dba::class, $data);
-        $this->sudo([$task, 'refresh']);
+        $this->sudo($task->refresh(...));
         $this->assertEquals(4, $task->invoiceableHours);
         $this->assertEquals(12, $task->reportedHours);
     }
