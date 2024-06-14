@@ -230,7 +230,7 @@ abstract class openpsa_testcase extends TestCase
         return $prop->getValue($response)->get_key(MIDCOM_CONTEXT_SHOWCALLBACK)[0];
     }
 
-    public function submit_dm_dialog(array $formdata, $component, array $args = []) : string
+    public function submit_dm_dialog(array $formdata, string|midcom_db_topic $component, array $args = []) : string
     {
         $data = $this->run_handler($component, $args);
         $controller = $this->get_controller($data['__openpsa_testcase_response']);
