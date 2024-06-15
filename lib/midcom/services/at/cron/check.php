@@ -53,7 +53,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $args['midcom_services_at_entry_object'] = $entry;
         $interface = midcom::get()->componentloader->get_interface_class($entry->component);
         $method = $entry->method;
-        if (!is_callable([$interface, $method])) {
+        if (!method_exists($interface, $method)) {
             $error = get_class($interface) . "->{$method}() is not callable";
             $this->handle_error($entry, $error, $args);
             return;

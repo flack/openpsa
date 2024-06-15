@@ -201,7 +201,7 @@ class form extends base
             } else {
                 $method = $type . '_widget';
             }
-            if (is_callable([$vr, $method])) {
+            if (method_exists($vr, $method)) {
                 $value = $vr->$method($view, $data);
             } else {
                 $value = $data['value'];

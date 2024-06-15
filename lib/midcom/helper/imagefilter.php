@@ -182,7 +182,7 @@ class midcom_helper_imagefilter
         $args = explode(',', $matches[2]);
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
-        if (is_callable([$this, $command])) {
+        if (method_exists($this, $command)) {
             $this->$command(...$args);
         } elseif ($command != 'none') {
             debug_add('This is no known command, we try to find a callback.');

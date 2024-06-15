@@ -186,7 +186,7 @@ class midcom_helper_reflector extends midgard_reflection_property
      */
     public static function get_create_icon(string $type) : string
     {
-        if (is_callable([$type, 'get_create_icon'])) {
+        if (method_exists($type, 'get_create_icon')) {
             // class has static method to tell us the answer ? great !
             return $type::get_create_icon();
         }

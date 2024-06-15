@@ -284,7 +284,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $root_classes[] = $schema_type;
         }
 
-        usort($root_classes, 'strnatcmp');
+        usort($root_classes, strnatcmp(...));
         return $root_classes;
     }
 

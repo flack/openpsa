@@ -37,7 +37,7 @@ class engine extends AbstractRendererEngine
         // Check each theme whether it contains the searched block
         if (isset($this->themes[$cacheKey])) {
             for ($i = count($this->themes[$cacheKey]) - 1; $i >= 0; --$i) {
-                if (is_callable([$this->themes[$cacheKey][$i], $blockName])) {
+                if (method_exists($this->themes[$cacheKey][$i], $blockName)) {
                     $this->resources[$cacheKey][$blockName] = $this->themes[$cacheKey][$i];
                     return true;
                 }
