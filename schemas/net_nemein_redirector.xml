@@ -2,7 +2,7 @@
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
   <type name="net_nemein_redirector_tinyurl" table="net_nemein_redirector_tinyurl" parent="midgard_topic" parentfield="node">
     <property name="id" type="unsigned integer" primaryfield="id"/>
-    <property name="name" type="string" />
+    <property name="name" type="string" unique="yes" />
     <property name="code" type="integer" reverse="no" />
     <property name="node" link="midgard_topic:guid" reverse="no" type="guid" parentfield="node" />
     

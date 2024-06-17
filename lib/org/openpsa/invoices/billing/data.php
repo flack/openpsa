@@ -36,17 +36,6 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     public string $__midcom_class_name__ = __CLASS__;
     public string $__mgdschema_class_name__ = 'org_openpsa_billing_data';
 
-    public function _on_creating() : bool
-    {
-        $mc = self::new_collector('linkGuid', $this->linkGuid);
-        if ($mc->count() > 0) {
-            midcom_connection::set_error(MGD_ERR_DUPLICATE);
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * Get the billing data for the customer in object or create a default data set of it.
      */
