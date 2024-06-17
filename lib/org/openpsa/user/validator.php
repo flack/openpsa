@@ -163,10 +163,10 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
 
         $accounthelper = $this->get_accounthelper(new midcom_db_person($fields["person"]));
         if (!$accounthelper->check_password_reuse($fields['new_password'])){
-            $result['password'] = $this->l10n->get('password was already used');
+            $result['new_password'] = $this->l10n->get('password was already used');
         }
         if (!$accounthelper->check_password_strength($fields['new_password'])){
-            $result['password'] = $this->l10n->get('password weak');
+            $result['new_password'] = $this->l10n->get('password weak');
         }
         return $result ?: true;
     }
