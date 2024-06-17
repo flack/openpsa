@@ -6,7 +6,7 @@
         </property>
         <property name="productGroup" link="org_openpsa_products_product_group:id" type="unsigned integer" parentfield="productGroup"/>
 
-        <property name="code" type="string" index="yes"/>
+        <property name="code" type="string" index="yes" unique="yes"/>
 
         <property name="title" type="string"/>
         <property name="description" type="text"/>
@@ -42,7 +42,7 @@
 
         <property name="up" upfield="up" link="org_openpsa_products_product_group:id" type="unsigned integer"/>
 
-        <property name="code" type="string" index="yes"/>
+        <property name="code" type="string" index="yes" unique="yes"/>
 
         <property name="title" type="string"/>
         <property name="description" type="text"/>

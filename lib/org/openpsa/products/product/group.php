@@ -20,42 +20,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     public string $__midcom_class_name__ = __CLASS__;
     public string $__mgdschema_class_name__ = 'org_openpsa_products_product_group';
 
-    public function _on_creating() : bool
-    {
-        if ($this->_check_duplicates($this->code)) {
-            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
-            return false;
-        }
-        return true;
-    }
-
-    public function _on_updating() : bool
-    {
-        if ($this->_check_duplicates($this->code)) {
-            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
-            return false;
-        }
-        return true;
-    }
-
-    private function _check_duplicates(string $code) : bool
-    {
-        if (!$code) {
-            return false;
-        }
-
-        // Check for duplicates
-        $qb = self::new_query_builder();
-        $qb->add_constraint('code', '=', $code);
-        $qb->add_constraint('up', '=', $this->up);
-
-        if ($this->id) {
-            $qb->add_constraint('id', '<>', $this->id);
-        }
-
-        return $qb->count() > 0;
-    }
-
     /**
      * Make an array usable with datamanager select type for selecting product groups
      *

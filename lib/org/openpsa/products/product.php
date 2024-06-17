@@ -58,24 +58,6 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return $this->title;
     }
 
-    public function _on_creating() : bool
-    {
-        if (!$this->validate_code($this->code)) {
-            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
-            return false;
-        }
-        return true;
-    }
-
-    public function _on_updating() : bool
-    {
-        if (!$this->validate_code($this->code)) {
-            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
-            return false;
-        }
-        return true;
-    }
-
     public function validate_code(string $code) : bool
     {
         if ($code == '') {
