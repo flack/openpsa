@@ -45,11 +45,6 @@ class midcom_core_account
     public function save() : bool
     {
         midcom::get()->auth->require_do('midgard:update', $this->_person);
-        if (!$this->_is_username_unique()) {
-            midcom_connection::set_error(MGD_ERR_DUPLICATE);
-            return false;
-        }
-
         if (!$this->_user->guid) {
             return $this->_create_user();
         }
@@ -211,14 +206,5 @@ class midcom_core_account
             return new midgard_user();
         }
         return $result[0];
-    }
-
-    private function _is_username_unique() : bool
-    {
-        $qb = new midgard_query_builder('midgard_user');
-        $qb->add_constraint('login', '=', $this->get_username());
-        $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-        $qb->add_constraint('guid', '<>', $this->_user->guid);
-        return $qb->count() == 0;
     }
 }
