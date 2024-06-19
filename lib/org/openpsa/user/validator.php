@@ -57,10 +57,10 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
     public function validate_create_form(array $fields)
     {
         $result = $this->is_username_available($fields);
-
+        $accounthelper = $this->get_accounthelper();
         if (   $fields['password']['switch']
-            && !$this->get_accounthelper()->check_password_strength((string) $fields['password']['password'])) {
-            $result = ['password' => $this->l10n->get('password weak')];
+            && !$accounthelper->check_password_strength((string) $fields['password']['password'])) {
+            $result = ['password' => $accounthelper->errstr];
         }
 
         if (is_array($result)) {
@@ -163,10 +163,9 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
 
         $accounthelper = $this->get_accounthelper(new midcom_db_person($fields["person"]));
         if (!$accounthelper->check_password_reuse($fields['new_password'])){
-            $result['new_password'] = $this->l10n->get('password was already used');
-        }
-        if (!$accounthelper->check_password_strength($fields['new_password'])){
-            $result['new_password'] = $this->l10n->get('password weak');
+            $result['new_password'] = $accounthelper->errstr;
+        } elseif (!$accounthelper->check_password_strength($fields['new_password'])){
+            $result['new_password'] = $accounthelper->errstr;
         }
         return $result ?: true;
     }

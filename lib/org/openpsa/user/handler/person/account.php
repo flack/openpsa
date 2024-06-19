@@ -136,7 +136,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         if (   !$accounthelper->set_account($controller->get_form_values()["username"], $password)
             && midcom_connection::get_error() != MGD_ERR_OK) {
             // Failure, give a message
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . $accounthelper->errstr, 'error');
         }
     }
 
