@@ -211,7 +211,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
             midcom::get()->auth->request_sudo('net.nehmer.comments');
-            $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
+            $parent_object = $this->get_parent();
 
             if ($config->get('ratings_cache_total')) {
                 $value = $ratings_total;
@@ -249,10 +249,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             return;
         }
         //Get the parent object
-        try {
-            $parent = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
-        } catch (midcom_error $e) {
-            $e->log();
+        $parent = $this->get_parent();
+        if (!$parent) {
             return;
         }
 
@@ -288,7 +286,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message = [];
 
         // Resolve parent title
-        $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
+        $parent_object = $this->get_parent();
         $ref = midcom_helper_reflector::get($parent_object);
         $parent_title = $ref->get_object_label($parent_object);
 

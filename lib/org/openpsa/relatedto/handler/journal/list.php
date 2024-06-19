@@ -131,12 +131,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
                 continue;
             }
-            //create reflector with linked object to get the right label
-            try {
-                $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
-            } catch (midcom_error $e) {
+            // create reflector with linked object to get the right label
+            $linked_object = $entry->get_parent();
+            if (!$linked_object) {
                 unset($data['entries'][$i]);
-                $e->log();
                 continue;
             }
 
