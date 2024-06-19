@@ -210,7 +210,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
-            midcom::get()->auth->request_sudo($this->_component);
+            midcom::get()->auth->request_sudo('net.nehmer.comments');
             $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
 
             if ($config->get('ratings_cache_total')) {
