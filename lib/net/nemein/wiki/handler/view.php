@@ -252,7 +252,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             return $response;
         }
 
-        midcom::get()->auth->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo($this->_component);
 
         if ($request->request->get('target') == 'folder') {
             // We're subscribing to the whole wiki

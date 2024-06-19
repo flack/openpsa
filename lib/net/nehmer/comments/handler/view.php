@@ -175,7 +175,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     private function _process_post(Request $request)
     {
         if (   !midcom::get()->auth->user
-            && !midcom::get()->auth->request_sudo('net.nehmer.comments')) {
+            && !midcom::get()->auth->request_sudo($this->_component)) {
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
 

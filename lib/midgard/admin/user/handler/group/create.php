@@ -27,7 +27,7 @@ class midgard_admin_user_handler_group_create extends midcom_baseclasses_compone
         switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the group
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $group->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('group %s saved'), $group->name));
                 return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $group->guid]));
 
             case 'cancel':

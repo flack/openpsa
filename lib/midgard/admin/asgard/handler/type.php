@@ -93,7 +93,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $help_component = $component;
         if ($component == 'midcom') {
             $component = 'midgard';
-            $help_component = 'midgard.admin.asgard';
+            $help_component = $this->_component;
         }
 
         $help = new midcom_admin_help_help();
@@ -130,7 +130,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $this->_prepare_toolbar($data);
 
         // Set the breadcrumb data
-        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('type', ['type' => $type]), $data['view_title']);
         return $this->get_response();
     }

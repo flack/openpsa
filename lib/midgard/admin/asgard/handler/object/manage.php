@@ -383,9 +383,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         if ($this->_request_data['handler_id'] === 'object_copy_tree') {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
         } else {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('copy successful, you have been relocated to the new object'));
         }
         return $new_object;
     }

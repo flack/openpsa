@@ -25,7 +25,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
      */
     private function _update_breadcrumb()
     {
-        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
 
         $tmp = [];
@@ -62,7 +62,7 @@ class midgard_admin_user_handler_group_edit extends midcom_baseclasses_component
         switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the group
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
                 return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $this->_group->guid]));
 
             case 'cancel':

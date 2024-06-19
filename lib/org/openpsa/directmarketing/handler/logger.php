@@ -25,7 +25,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             throw new midcom_error('Token not present in POST or empty');
         }
 
-        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo($this->_component);
         $ret = $this->_qb_token_receipts($request->request->get('token'));
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt) {
@@ -92,7 +92,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             throw new midcom_error('Link not present in POST or empty');
         }
 
-        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo($this->_component);
         $ret = $this->_qb_token_receipts($token);
 
         //While in theory we should have only one token lets use foreach just to be sure

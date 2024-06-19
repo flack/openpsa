@@ -30,7 +30,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
             }
             $sudo = false;
             if (!$comment->can_do('midgard:update')) {
-                $sudo = midcom::get()->auth->request_sudo('net.nehmer.comments');
+                $sudo = midcom::get()->auth->request_sudo($this->_component);
             }
 
             if ($comment->moderate($status, 'reported_abuse')) {

@@ -91,7 +91,7 @@ implements client
             try {
                 $rules = $this->_load_rules($request);
             } catch (midcom_error $e) {
-                midcom::get()->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get($e->getMessage()), 'error');
+                midcom::get()->uimessages->add($this->_component, $this->_l10n->get($e->getMessage()), 'error');
                 return;
             }
 

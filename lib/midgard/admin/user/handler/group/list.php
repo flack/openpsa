@@ -22,7 +22,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
      */
     private function _update_breadcrumb(string $handler_id)
     {
-        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('group_list'), $this->_l10n->get('groups'));
 
         if ($handler_id == 'group_move') {
@@ -46,7 +46,7 @@ class midgard_admin_user_handler_group_list extends midcom_baseclasses_component
             $data['group']->owner = $request->request->getInt('midgard_admin_user_move_group');
 
             if ($data['group']->update()) {
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n_midcom->get('updated'));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('updated'));
                 return new midcom_response_relocate($this->router->generate('group_edit', ['guid' => $guid]));
             }
             debug_add('Failed to update the group, last error was ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

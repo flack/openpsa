@@ -38,6 +38,6 @@ class org_openpsa_user_handler_group_edit extends midcom_baseclasses_components_
 
     public function save_callback()
     {
-        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->group->get_label()));
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('group %s saved'), $this->group->get_label()));
     }
 }

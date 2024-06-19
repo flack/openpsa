@@ -46,7 +46,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
 
         if (   $workflow->get_state() == 'save'
             && $this->create_account($this->person, $data["controller"]->get_form_values())) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->person->name));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s created'), $this->person->name));
         }
 
         return $response;
@@ -136,7 +136,7 @@ class org_openpsa_user_handler_person_account extends midcom_baseclasses_compone
         if (   !$accounthelper->set_account($controller->get_form_values()["username"], $password)
             && midcom_connection::get_error() != MGD_ERR_OK) {
             // Failure, give a message
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . $accounthelper->errstr, 'error');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get("failed to update the user account, reason") . ': ' . $accounthelper->errstr, 'error');
         }
     }
 

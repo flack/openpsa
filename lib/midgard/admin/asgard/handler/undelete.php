@@ -52,7 +52,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         }
 
         // Set the breadcrumb data
-        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb($this->router->generate('welcome'), $this->_l10n->get($this->_component));
         $this->add_breadcrumb($this->router->generate('trash'), $this->_l10n->get('trash'));
         return $this->get_response('midgard_admin_asgard_trash');
     }

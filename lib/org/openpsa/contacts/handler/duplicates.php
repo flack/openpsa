@@ -135,14 +135,14 @@ class org_openpsa_contacts_handler_duplicates extends midcom_baseclasses_compone
                     $option2->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid);
 
                     // TODO: Localize
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
                 } else {
                     $errstr = midcom_connection::get_error_string();
                     // Failed to set as not duplicate, clear parameter that might have been set (could have only been the first)
                     $option1->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid);
 
                     // TODO: Localize
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
                 }
             } else {
                 if ($keep == $option1->guid) {
@@ -162,7 +162,7 @@ class org_openpsa_contacts_handler_duplicates extends midcom_baseclasses_compone
                     $merger->merge_delete($object1, $object2);
                 } catch (midcom_error $e) {
                     // TODO: Localize
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $e->getMessage(), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), 'Merge failed, errstr: ' . $e->getMessage(), 'error');
                 }
             }
 

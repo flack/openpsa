@@ -92,7 +92,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         // Make sure the currently selected customer (if any) is listed
         if ($this->_salesproject->customer > 0) {
             // Make sure we can read the current customer for the name
-            midcom::get()->auth->request_sudo('org.openpsa.helpers');
+            midcom::get()->auth->request_sudo($this->_component);
             $this->load_group($ret, $this->_salesproject->customer);
             midcom::get()->auth->drop_sudo();
         }

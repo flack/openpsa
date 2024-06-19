@@ -116,15 +116,15 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 return null;
             }
 
-            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('new style created'));
 
             if (!$this->edit_topic->update()) {
-                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()), 'error');
                 return null;
             }
         }
 
-        midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
         if (midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC)->id === $this->edit_topic->id) {
@@ -135,7 +135,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _create_topic(string $prefix) : string
     {
-        midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('folder created'));
 
         // Generate name if it is missing
         if (!$this->edit_topic->name) {

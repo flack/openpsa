@@ -134,7 +134,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             $relocate_url .= '?' . $request->getQueryString();
         }
         if (empty($request->request->all('midgard_admin_user'))) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n->get('empty selection'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('empty selection'));
             return new midcom_response_relocate($relocate_url);
         }
 
@@ -156,7 +156,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             $member->uid = $person->id;
             $member->gid = $request->request->getInt('midgard_admin_user_group');
             if ($member->create()) {
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('user %s added to group'), $person->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('user %s added to group'), $person->name));
             }
         }
     }
@@ -167,9 +167,9 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             return;
         }
         $account = new midcom_core_account($person);
-        $person->set_parameter('midgard.admin.user', 'username', $account->get_username());
+        $person->set_parameter($this->_component, 'username', $account->get_username());
         if ($account->delete()) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
         }
     }
 
@@ -186,7 +186,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         try {
             $account = new midcom_core_account($person);
         } catch (midcom_error) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $person->id), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to get the user with id %s'), $person->id), 'error');
             return;
         }
 
@@ -195,13 +195,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         // Cannot send the email if address is not specified
         if (!$person->email) {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
             return;
         }
 
         // if account has no username, we don't need to set a password either
         if ($account->get_username() == '') {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('no username defined for %s'), $person_edit_url), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('no username defined for %s'), $person_edit_url), 'error');
             return;
         }
 
@@ -209,7 +209,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         $mail->to = $person->email;
 
         // Store the old password
-        $person->set_parameter('midgard.admin.user', 'old_password', $account->get_password());
+        $person->set_parameter($this->_component, 'old_password', $account->get_password());
 
         // Get a new password
         $password = midgard_admin_user_plugin::generate_password(8);
@@ -235,13 +235,13 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
             $account->set_password($password);
 
             if (!$account->save()) {
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url), 'error');
                 return;
             }
             // Show UI message on success
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('passwords updated and mail sent'));
         } else {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), "Failed to send the mail, SMTP returned error " . $mail->get_error_message(), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), "Failed to send the mail, SMTP returned error " . $mail->get_error_message(), 'error');
         }
     }
 

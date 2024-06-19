@@ -27,7 +27,7 @@ class midgard_admin_user_handler_user_create extends midcom_baseclasses_componen
         switch ($data['controller']->handle($request)) {
             case 'save':
                 // Show confirmation for the user
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $person->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s saved'), $person->name));
                 return new midcom_response_relocate($this->router->generate('user_edit', ['guid' => $person->guid]));
 
             case 'cancel':

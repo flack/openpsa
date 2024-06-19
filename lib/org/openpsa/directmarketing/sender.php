@@ -339,7 +339,7 @@ class org_openpsa_directmarketing_sender
      */
     private function _check_campaign_up_to_date()
     {
-        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo($this->_component);
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
         midcom::get()->auth->drop_sudo();
         if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART) {

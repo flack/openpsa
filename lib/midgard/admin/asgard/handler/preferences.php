@@ -120,7 +120,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
-        midcom::get()->auth->request_sudo('midgard.admin.asgard');
+        midcom::get()->auth->request_sudo($this->_component);
 
         foreach ($request->request->all() as $key => $value) {
             if (is_array($value)) {

@@ -41,6 +41,6 @@ class org_openpsa_user_handler_person_edit extends midcom_baseclasses_components
 
     public function save_callback()
     {
-        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->person->name));
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s saved'), $this->person->name));
     }
 }

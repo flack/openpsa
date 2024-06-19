@@ -140,7 +140,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         $indexer = midcom::get()->indexer;
         net_nemein_wiki_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
 
-        midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword));
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s added'), $this->_wikiword));
 
         return "{$this->_page->name}/";
     }

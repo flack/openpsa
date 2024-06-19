@@ -97,7 +97,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
         switch ($data['controller']->handle($request)) {
             case 'save':
-                midcom::get()->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('saved'));
                 // Fall through
 
             case 'cancel':

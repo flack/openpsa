@@ -20,7 +20,7 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
      */
     private function _update_breadcrumb()
     {
-        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get('midgard.admin.user'));
+        $this->add_breadcrumb($this->router->generate('user_list'), $this->_l10n->get($this->_component));
 
         $tmp = [];
         $grp = $this->_group;

@@ -48,7 +48,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
             case 'save':
                 $this->save_account($data['controller']);
                 // Show confirmation for the user
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->person->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s saved'), $this->person->name));
                 return new midcom_response_relocate($this->router->generate('user_edit', ['guid' => $this->person->guid]));
 
             case 'cancel':
@@ -104,7 +104,7 @@ class midgard_admin_user_handler_user_account extends midcom_baseclasses_compone
             case 'delete':
                 $this->account->delete();
                 // Show confirmation for the user
-                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('account for %s deleted'), $this->person->name));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('account for %s deleted'), $this->person->name));
                 //fall-through
             case 'cancel':
                 return new midcom_response_relocate($this->router->generate('user_edit', ['guid' => $this->person->guid]));
