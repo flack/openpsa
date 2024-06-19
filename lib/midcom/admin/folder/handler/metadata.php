@@ -34,14 +34,8 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit metadata of %s'), $object_label));
 
         $workflow = $this->get_workflow('datamanager', [
-            'controller' => $this->object->metadata->get_datamanager()->get_controller(),
-            'save_callback' => $this->save_callback(...)
+            'controller' => $this->object->metadata->get_datamanager()->get_controller()
         ]);
         return $workflow->run($request);
-    }
-
-    public function save_callback()
-    {
-        midcom::get()->cache->invalidate($this->object->guid);
     }
 }

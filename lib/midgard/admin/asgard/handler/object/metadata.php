@@ -42,7 +42,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                midcom::get()->cache->invalidate($object->guid);
                 return new midcom_response_relocate($this->router->generate('object_metadata', ['guid' => $object->guid]));
 
             case 'cancel':

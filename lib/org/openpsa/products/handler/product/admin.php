@@ -49,7 +49,6 @@ class org_openpsa_products_handler_product_admin extends midcom_baseclasses_comp
             org_openpsa_products_viewer::index($controller->get_datamanager(), $indexer, $this->_topic);
         }
 
-        midcom::get()->cache->invalidate($this->product->guid);
         return $this->router->generate('view_product', ['guid' => $this->product->guid]);
     }
 
