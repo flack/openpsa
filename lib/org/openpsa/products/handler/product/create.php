@@ -43,10 +43,8 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
 
     /**
      * Displays an product create view.
-     *
-     * @param string $group The product group GUID (or ID apparently)
      */
-    public function _handler_create(Request $request, array &$data, string $schema, $group = null)
+    public function _handler_create(Request $request, array &$data, string $schema, ?int $group = null)
     {
         $this->find_parent($group);
         $this->_product = new org_openpsa_products_product_dba();
@@ -60,25 +58,11 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
         return $workflow->run($request);
     }
 
-    private function find_parent($group)
+    private function find_parent(?int $group = null)
     {
-        if (mgd_is_guid($group)) {
-            $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
-            $qb2->add_constraint('guid', '=', $group);
-            if ($up_group = $qb2->execute()) {
-                //We just pick the first category here
-                $qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $qb->add_constraint('up', '=', $up_group[0]->id);
-                $qb->add_order('code', 'ASC');
-                $qb->set_limit(1);
-                $up_group = $qb->execute();
-                if (count($up_group) == 1) {
-                    $this->parent = $up_group[0];
-                }
-            }
-        } elseif ((int) $group > 0) {
+        if ($group > 0) {
             try {
-                $this->parent = new org_openpsa_products_product_group_dba((int) $group);
+                $this->parent = new org_openpsa_products_product_group_dba($group);
             } catch (midcom_error $e) {
                 $e->log();
             }
