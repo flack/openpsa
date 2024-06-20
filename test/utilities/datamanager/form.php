@@ -7,7 +7,7 @@ class datamanager_form extends base
 {
     public function form_start(FormView $view, array $data)
     {
-        return '{"' . $data['name'] . '": {';
+        return '{' . json_encode($data['name']) . ': {';
     }
 
     public function form_end(FormView $view, array $data)
@@ -32,7 +32,7 @@ class datamanager_form extends base
 
     public function form_widget_simple(FormView $view, array $data)
     {
-        return '"' . $data['value'] . '"';
+        return json_encode($data['value']);
     }
 
     public function form_rows(FormView $view, array $data)
@@ -46,7 +46,7 @@ class datamanager_form extends base
 
     public function form_row(FormView $view, array $data)
     {
-        return '"' . $data['name'] . '": ' . $this->renderer->widget($view) . ',';
+        return json_encode($data['name']) . ': ' . $this->renderer->widget($view) . ',';
     }
 
     public function button_row(FormView $view, array $data)
@@ -69,7 +69,7 @@ class datamanager_form extends base
         if (is_array($data['value'])) {
             $ret = '[';
             foreach ($data['value'] as $val) {
-                $ret .= '"' . $val . '",';
+                $ret .= json_encode($val) . ',';
             }
             return $ret . ']';
         }
@@ -80,7 +80,7 @@ class datamanager_form extends base
     {
         foreach ($view->children as $child) {
             if ($child->vars['checked']) {
-                return '"' . $data['name'] . '": "' . $child->vars['value'] . '",';
+                return json_encode($data['name']) . ': ' . json_encode($child->vars['value']) . ',';
             }
         }
         return '""';
@@ -95,7 +95,7 @@ class datamanager_form extends base
     {
         foreach ($view->children as $child) {
             if ($child->vars['checked']) {
-                return '"' . $data['name'] . '": "' . $child->vars['value'] . '",';
+                return json_encode($data['name']) . ': ' . json_encode($child->vars['value']) . ',';
             }
         }
         return '';
