@@ -36,7 +36,7 @@ foreach ($qb->execute() as $topic) {
     $node = $nap->get_node($topic->id);
     $crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);
     render_breadcrumb($crumbs);
-    echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$topic->guid}'>in Asgard</a>)<br/>\n";
+    echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$topic->guid}/'>in Asgard</a>)<br/>\n";
 }
 
 echo "<h2>Articles</h2>\n";
@@ -54,5 +54,5 @@ foreach ($qb->execute() as $article) {
         echo "{$crumb[MIDCOM_NAV_NAME]} &gt; ";
     }
     echo "<a href='{$crumb['napobject'][MIDCOM_NAV_FULLURL]}{$article->name}/'>{$article->title}</a>";
-    echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$article->guid}'>in Asgard</a>)<br/>\n";
+    echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$article->guid}/'>in Asgard</a>)<br/>\n";
 }

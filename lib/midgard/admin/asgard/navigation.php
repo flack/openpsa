@@ -338,7 +338,7 @@ class midgard_admin_asgard_navigation
         }
 
         foreach ($expanded_types as $root_type) {
-            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$root_type}";
+            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$root_type}/";
             $this->_request_data['section_name'] = $label_mapping[$root_type];
             $this->_request_data['expanded'] = true;
             midcom_show_style('midgard_admin_asgard_navigation_section_header');
