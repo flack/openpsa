@@ -76,15 +76,17 @@ implements client
         $data['data_url'] = $this->router->generate('list_json');
         if ($guid !== null) {
             $this->group = new org_openpsa_products_product_group_dba($guid);
+            $data['view_title'] = $this->group->title;
             $data['data_url'] = $this->router->generate('list_json_group', ['guid' => $guid]);
 
             $this->datamanager = new datamanager($data['schemadb_group']);
             $this->datamanager->set_storage($this->group);
             $tmp = $this->update_breadcrumb_line($this->group);
             midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
+        } else {
+            $data['view_title'] = $this->_l10n->get('product database');
         }
         $data['grid'] = $this->provider->get_grid('product_list');
-        $data['view_title'] = $this->_l10n->get('product database');
 
         $this->_populate_toolbar();
         midcom::get()->head->set_pagetitle($data['view_title']);
