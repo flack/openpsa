@@ -142,6 +142,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
 
         midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s added'), $this->_wikiword));
 
-        return "{$this->_page->name}/";
+        return $this->router->generate('view', ['wikipage' =>$this->_page->name]);
     }
 }

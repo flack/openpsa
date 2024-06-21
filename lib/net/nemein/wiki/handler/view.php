@@ -37,23 +37,23 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $workflow = $this->get_workflow('datamanager');
         $buttons = [
             [
-                MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('view', ['wikipage' => $this->_page->name]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'search',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             ],
-            $workflow->get_button("edit/{$this->_page->name}/", [
+            $workflow->get_button($this->router->generate('edit', ['wikipage' => $this->_page->name]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
             ])
         ];
         if ($this->_page->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', ['object' => $this->_page]);
-            $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
+            $buttons[] = $workflow->get_button($this->router->generate('delete', ['wikipage' => $this->_page->name]));
         }
 
         $buttons[] = [
-            MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
+            MIDCOM_TOOLBAR_URL => $this->router->generate('whatlinks', ['wikipage' => $this->_page->name]),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
             MIDCOM_TOOLBAR_GLYPHICON => 'link',
         ];
@@ -65,7 +65,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 $action = 'subscribe';
             }
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
+                MIDCOM_TOOLBAR_URL => $this->router->generate('subscribe', ['wikipage' => $this->_page->name]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
                 MIDCOM_TOOLBAR_GLYPHICON => 'envelope-o',
                 MIDCOM_TOOLBAR_POST => true,
@@ -141,20 +141,20 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             if (empty($result)) {
                 // No matching redirection page found, relocate to editing
                 // TODO: Add UI message
-                return new midcom_response_relocate("edit/{$this->_page->name}/");
+                return new midcom_response_relocate($this->router->generate('edit', ['wikipage' => $this->_page->name]));
             }
 
             if ($result[0]->topic == $this->_topic->id) {
-                return new midcom_response_relocate("{$result[0]->name}/");
+                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]));
             }
             return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($result[0]->guid));
         }
 
         $this->_populate_toolbar();
-        $this->_view_toolbar->hide_item("{$this->_page->name}/");
+        $this->_view_toolbar->hide_item($this->router->generate('view', ['wikipage' => $this->_page->name]));
 
         if ($this->_page->name != 'index') {
-            $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
+            $this->add_breadcrumb($this->router->generate('view', ['wikipage' => $this->_page->name]), $this->_page->title);
         }
 
         midcom::get()->head->set_pagetitle($this->_page->title);
@@ -277,9 +277,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         // Redirect to editing
         if ($this->_page->name == 'index') {
-            return new midcom_response_relocate("");
+            return new midcom_response_relocate($this->router->generate('start'));
         }
-        return new midcom_response_relocate("{$this->_page->name}/");
+        return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $this->_page->name]));
     }
 
     public function _handler_whatlinks(string $wikipage, array &$data)
@@ -291,8 +291,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $this->_load_datamanager();
 
         $this->_populate_toolbar();
-        $this->_view_toolbar->hide_item("whatlinks/{$this->_page->name}/");
-        $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
+        $this->_view_toolbar->hide_item($this->router->generate('whatlinks', ['wikipage' => $this->_page->name]));
+        $this->add_breadcrumb($this->router->generate('view', ['wikipage' => $this->_page->name]), $this->_page->title);
 
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('topage', '=', $this->_page->title);

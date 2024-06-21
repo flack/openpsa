@@ -33,7 +33,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $buttons = [];
         $workflow = $this->get_workflow('datamanager');
         if ($this->_article->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", [
+            $buttons[] = $workflow->get_button($this->router->generate('edit', ['guid' => $this->_article->guid]), [
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ]);
         }
@@ -41,7 +41,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         if (   $this->_article->topic === $this->_topic->id
             && $this->_article->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', ['object' => $this->_article]);
-            $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
+            $buttons[] = $delete->get_button($this->router->generate('delete', ['guid' => $this->_article->guid]));
         }
         $this->_view_toolbar->add_items($buttons);
     }

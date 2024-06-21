@@ -265,7 +265,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         $timeframe = $this->_l10n->get_formatter()->timeframe($this->_start, $this->_end, 'date');
-        $this->add_breadcrumb("archive/year/{$year}/", $timeframe);
+        $this->add_breadcrumb($this->router->generate('archive-year', ['year' => $year]), $timeframe);
 
         $data['start'] = $this->_start;
         $data['end'] = $this->_end;

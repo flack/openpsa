@@ -56,7 +56,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_viewer
         $workflow = $this->get_workflow('datamanager');
         if ($this->_topic->can_do('midgard:create')) {
             foreach ($this->_request_data['schemadb']->all() as $name => $schema) {
-                $buttons[] = $workflow->get_button("create/{$name}/", [
+                $buttons[] = $workflow->get_button($this->router->generate('create', ['schema_name' => $name]), [
                     MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($schema->get('description'))

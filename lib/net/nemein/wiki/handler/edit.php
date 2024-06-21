@@ -74,7 +74,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 continue;
             }
             $label = sprintf($this->_l10n->get('change to %s'), $this->_l10n->get($schema->get('description')));
-            $workflow->add_post_button("change/{$this->page->name}/", $label, ['change_to' => $name]);
+            $workflow->add_post_button($this->router->generate('change', ['wikipage' => $this->page->name]), $label, ['change_to' => $name]);
         }
 
         $response = $workflow->run($request);
@@ -112,6 +112,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->page->set_parameter('midcom.helper.datamanager2', 'schema_name', $request->request->get('change_to'));
 
         // Redirect to editing
-        return new midcom_response_relocate("edit/{$this->page->name}/");
+        return new midcom_response_relocate($this->router->generate('edit', ['wikipage' => $this->page->name]));
     }
 }

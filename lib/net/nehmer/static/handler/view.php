@@ -83,7 +83,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $arg = $this->_article->name ?: $this->_article->guid;
         if (   $arg != 'index'
             && $this->_config->get('hide_navigation')) {
-            $this->add_breadcrumb("{$arg}/", $this->_article->title);
+            $this->add_breadcrumb($this->router->generate('view', ['name' =>$arg]), $this->_article->title);
         }
 
         $this->_prepare_request_data();
