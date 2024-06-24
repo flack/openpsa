@@ -17,6 +17,7 @@ use midcom_error;
 use midcom_services_cron;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Cron command
@@ -45,6 +46,11 @@ use Symfony\Component\Console\Input\InputOption;
  * @see midcom_services_cron
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cron',
+    description: 'Checks all component manifests for cron jobs and runs them sequentially',
+    aliases: ['cron']
+)]
 class cron extends Command
 {
     private midcom_services_auth $auth;
@@ -60,9 +66,7 @@ class cron extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:cron')
-            ->setAliases(['cron'])
-            ->setDescription('Checks all component manifests for cron jobs and runs them sequentially')
+        $this
             ->addArgument('type', InputArgument::OPTIONAL, 'Recurrence (minute, hour, or day)', 'minute')
             ->addOption('job', 'j', InputOption::VALUE_REQUIRED, 'Run only this job');
     }

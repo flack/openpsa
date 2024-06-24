@@ -13,12 +13,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\loginhelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Purge deleted objects
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:purgedeleted',
+    description: 'Purge deleted objects',
+    aliases: ['purgedeleted']
+)]
 class purgedeleted extends Command
 {
     use loginhelper;
@@ -26,10 +32,7 @@ class purgedeleted extends Command
     protected function configure()
     {
         $config = new \midcom_config;
-        $this->setName('midcom:purgedeleted')
-            ->setAliases(['purgedeleted'])
-            ->setDescription('Purge deleted objects')
-            ->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'));
+        $this->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'));
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

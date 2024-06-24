@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom_db_attachment;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Cleanup the blobdir
@@ -20,6 +21,11 @@ use midcom_db_attachment;
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cleanup:blobdir',
+    description: 'Cleanup the blobdir',
+    aliases: ['blobdircleanup']
+)]
 class blobdir extends Command
 {
     private int $_file_counter = 0;
@@ -35,10 +41,7 @@ class blobdir extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:cleanup:blobdir')
-            ->setAliases(['blobdircleanup'])
-            ->setDescription('Cleanup the blobdir')
-            ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
+        $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }
 
     public function check_dir(string $outerDir)

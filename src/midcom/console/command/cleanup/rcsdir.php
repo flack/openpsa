@@ -17,6 +17,7 @@ use midcom_services_rcs_config;
 use midgard\portable\storage\connection;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Cleanup the RCS dir
@@ -24,6 +25,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cleanup:rcsdir',
+    description: 'Cleanup the RCS dir',
+    aliases: ['rcsdircleanup']
+)]
 class rcsdir extends Command
 {
     private int $counter = 0;
@@ -40,10 +46,7 @@ class rcsdir extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:cleanup:rcsdir')
-            ->setAliases(['rcsdircleanup'])
-            ->setDescription('Cleanup the RCS dir')
-            ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
+        $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
     }
 
     private function check_dir(OutputInterface $output, string $outerDir)

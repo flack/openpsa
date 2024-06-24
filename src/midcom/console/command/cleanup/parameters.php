@@ -13,20 +13,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Cleanup dangling parameters
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cleanup:parameters',
+    description: 'Cleanup dangling parameters',
+    aliases: ['parametercleanup']
+)]
 class parameters extends Command
 {
     protected function configure()
     {
-        $this->setName('midcom:cleanup:parameters')
-            ->setAliases(['parametercleanup'])
-            ->setDescription('Cleanup dangling parameters')
-            ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, parameters will not be deleted');
+        $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, parameters will not be deleted');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int

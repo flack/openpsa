@@ -3,54 +3,54 @@ services:
         class: midcom\console\command\exec
         arguments: ['@auth', '@componentloader', '%kernel.project_dir%']
         tags:
-            - {name: 'console.command', command: 'midcom:exec'}
+            - {name: 'console.command'}
 
     command.midcom.purgedeleted:
         class: midcom\console\command\purgedeleted
         tags:
-            - {name: 'console.command', command: 'midcom:purgedeleted'}
+            - {name: 'console.command'}
 
     command.midcom.repligard:
         class: midcom\console\command\repligard
         tags:
-            - {name: 'console.command', command: 'midcom:repligard'}
+            - {name: 'console.command'}
 
     command.midcom.cleanup.blobdir:
         class: midcom\console\command\cleanup\blobdir
         tags:
-            - {name: 'console.command', command: 'midcom:cleanup:blobdir'}
+            - {name: 'console.command'}
 
     command.midcom.cleanup.parameters:
         class: midcom\console\command\cleanup\parameters
         tags:
-            - {name: 'console.command', command: 'midcom:cleanup:parameters'}
+            - {name: 'console.command'}
 
     command.midcom.cleanup.privileges:
         class: midcom\console\command\cleanup\privileges
         arguments: ['@auth']
         tags:
-            - {name: 'console.command', command: 'midcom:cleanup:privileges'}
+            - {name: 'console.command'}
 
     command.midcom.cleanup.rcsdir:
         class: midcom\console\command\cleanup\rcsdir
         arguments: ['@config']
         tags:
-            - {name: 'console.command', command: 'midcom:cleanup:rcsdir'}
+            - {name: 'console.command'}
 
     command.midcom.reindex:
         class: midcom\console\command\reindex
         arguments: ['@indexer', '@componentloader']
         tags:
-            - {name: 'console.command', command: 'midcom:reindex'}
+            - {name: 'console.command'}
 
     command.midcom.cron:
         class: midcom\console\command\cron
         arguments: ['@auth', '@componentloader']
         tags:
-            - {name: 'console.command', command: 'midcom:cron'}
+            - {name: 'console.command'}
 
     command.midcom.cacheinvalidate:
         class: midcom\console\command\cacheinvalidate
         arguments: ['@cache', '%kernel.cache_dir%']
         tags:
-            - {name: 'console.command', command: 'midcom:cache-invalidate'}
+            - {name: 'console.command'}

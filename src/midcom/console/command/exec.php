@@ -16,12 +16,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use midcom\console\loginhelper;
 use midcom_services_auth;
 use midcom_helper__componentloader;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * CLI wrapper for midcom-exec calls
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:exec',
+    description: 'Runs a script in midcom context',
+    aliases: ['exec']
+)]
 class exec extends Command
 {
     use loginhelper;
@@ -42,9 +48,7 @@ class exec extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:exec')
-            ->setAliases(['exec'])
-            ->setDescription('Runs a script in midcom context')
+        $this
             ->addArgument('file', InputArgument::OPTIONAL, 'The file to run (leave empty to list available files)')
             ->addArgument('get', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Additional GET parameters (key=value pairs, space-separated)')
             ->addOption('login', 'l', InputOption::VALUE_NONE, 'Use Midgard authorization');

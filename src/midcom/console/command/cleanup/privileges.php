@@ -14,12 +14,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use midcom_services_auth;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Cleanup dangling privileges
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cleanup:privileges',
+    description: 'Cleanup dangling privileges',
+    aliases: ['privilegecleanup']
+)]
 class privileges extends Command
 {
     private midcom_services_auth $auth;
@@ -32,10 +38,7 @@ class privileges extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:cleanup:privileges')
-            ->setAliases(['privilegecleanup'])
-            ->setDescription('Cleanup dangling privileges')
-            ->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, privileges will not be deleted');
+        $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, privileges will not be deleted');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int

@@ -20,6 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DomCrawler\Crawler;
 use midcom\console\loginhelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Reindex command
@@ -31,6 +32,11 @@ use midcom\console\loginhelper;
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:reindex',
+    description: 'Reindex',
+    aliases: ['reindex']
+)]
 class reindex extends Command
 {
     use loginhelper;
@@ -48,10 +54,7 @@ class reindex extends Command
 
     protected function configure()
     {
-        $this->setName('midcom:reindex')
-            ->setAliases(['reindex'])
-            ->setDescription('Reindex')
-            ->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
+        $this->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

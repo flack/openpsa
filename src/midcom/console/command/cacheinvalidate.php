@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom_services_cache;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * clear the cache of the current site
@@ -20,6 +21,11 @@ use Symfony\Component\Filesystem\Filesystem;
  * @see midcom_services_cache
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:cache-invalidate',
+    description: 'Clears the cache',
+    aliases: ['cache-invalidate']
+)]
 class cacheinvalidate extends Command
 {
     private midcom_services_cache $cache;
@@ -31,13 +37,6 @@ class cacheinvalidate extends Command
         $this->cache = $cache;
         $this->cachedir = $cachedir;
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this->setName('midcom:cache-invalidate')
-            ->setAliases(['cache-invalidate'])
-            ->setDescription('Clears the cache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int

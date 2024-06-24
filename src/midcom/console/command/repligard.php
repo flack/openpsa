@@ -16,22 +16,21 @@ use PDO;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use midgard\portable\api\dbobject;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Clean up repligard table
  *
  * @package midcom.console
  */
+#[AsCommand(
+    name: 'midcom:repligard',
+    description: 'Clean up repligard table',
+    aliases: ['repligard']
+)]
 class repligard extends Command
 {
     private PDO $db;
-
-    protected function configure()
-    {
-        $this->setName('midcom:repligard')
-            ->setAliases(['repligard'])
-            ->setDescription('Clean up repligard table');
-    }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
