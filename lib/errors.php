@@ -9,6 +9,10 @@
 use Symfony\Component\HttpFoundation\Response;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpFoundation\ServerBag;
 
 /**
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
@@ -17,13 +21,15 @@ use Monolog\Handler\StreamHandler;
  *
  * @package midcom
  */
-class midcom_exception_handler
+class midcom_exception_handler implements EventSubscriberInterface
 {
     private Throwable $error;
 
-    public function __construct(Throwable $error)
+    public static function getSubscribedEvents()
     {
-        $this->error = $error;
+        return [
+            KernelEvents::EXCEPTION => ['handle']
+        ];
     }
 
     /**
@@ -36,8 +42,10 @@ class midcom_exception_handler
      *
      * For a list of the allowed HTTP codes see the Response::HTTP_... constants
      */
-    public function render()
+    public function handle(ExceptionEvent $event)
     {
+        $this->error = $event->getThrowable();
+
         $httpcode = $this->error->getCode();
         $message = $this->error->getMessage();
         debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $this->error->getTraceAsString());
@@ -48,11 +56,18 @@ class midcom_exception_handler
         }
 
         // Send error to special log or recipient as per configuration.
-        $this->send($httpcode, $message);
+        $this->process_actions($event->getRequest()->server, $httpcode, $message);
 
         if (PHP_SAPI === 'cli') {
             throw $this->error;
         }
+
+        $event->allowCustomResponseCode();
+        $event->setResponse($this->process($httpcode, $message));
+    }
+
+    private function process(int $httpcode, string $message) : Response
+    {
 
         if ($httpcode == Response::HTTP_FORBIDDEN) {
             return new midcom_response_accessdenied($message);
@@ -89,7 +104,7 @@ class midcom_exception_handler
      * performed. This means that system administrators can request email notifications
      * of 500 "Internal Errors" and a special log of 404 "Not Founds".
      */
-    private function send(int $httpcode, string $message)
+    private function process_actions(ServerBag $server, int $httpcode, string $message)
     {
         $error_actions = midcom::get()->config->get_array('error_actions');
         if (!isset($error_actions[$httpcode]['action'])) {
@@ -98,15 +113,15 @@ class midcom_exception_handler
         }
 
         // Prepare the message
-        $msg = "{$_SERVER['REQUEST_METHOD']} request to {$_SERVER['REQUEST_URI']}: ";
+        $msg = "{$server->getString('REQUEST_METHOD')} request to {$server->getString('REQUEST_URI')}: ";
         $msg .= "{$httpcode} {$message}\n";
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $msg .= "(Referrer: {$_SERVER['HTTP_REFERER']})\n";
+        if ($server->has('HTTP_REFERER')) {
+            $msg .= "(Referrer: {$server->getString('HTTP_REFERER')})\n";
         }
 
         // Send as email handler
         if ($error_actions[$httpcode]['action'] == 'email') {
-            $this->_send_email($msg, $error_actions[$httpcode]);
+            $this->_send_email($msg, $error_actions[$httpcode], $server->getString('SERVER_NAME'));
         }
         // Append to log file handler
         elseif ($error_actions[$httpcode]['action'] == 'log') {
@@ -134,7 +149,7 @@ class midcom_exception_handler
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function _send_email(string $msg, array $config)
+    private function _send_email(string $msg, array $config, string $servername)
     {
         if (empty($config['email'])) {
             // No recipient specified, skip
@@ -148,9 +163,9 @@ class midcom_exception_handler
 
         $mail = new org_openpsa_mail();
         $mail->to = $config['email'];
-        $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
-        $mail->subject = "[{$_SERVER['SERVER_NAME']}] " . str_replace("\n", ' ', $msg);
-        $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
+        $mail->from = "\"MidCOM error notifier\" <webmaster@{$servername}>";
+        $mail->subject = "[{$servername}] " . str_replace("\n", ' ', $msg);
+        $mail->body = "{$servername}:\n{$msg}";
 
         $stacktrace = $this->get_function_stack();
 

@@ -3,6 +3,11 @@ services:
         class: midcom\httpkernel\subscriber
         tags:
             - {name: 'kernel.event_subscriber'}
+            
+    exception_handler:
+        class: midcom_exception_handler
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     watcher:
         class: midcom\events\watcher

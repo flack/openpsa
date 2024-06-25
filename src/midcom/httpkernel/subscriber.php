@@ -17,7 +17,6 @@ use midcom;
 use midcom_connection;
 use midcom_core_context;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -36,8 +35,7 @@ class subscriber implements EventSubscriberInterface
             KernelEvents::CONTROLLER => ['on_controller'],
             KernelEvents::CONTROLLER_ARGUMENTS => ['on_arguments'],
             KernelEvents::VIEW => ['on_view'],
-            KernelEvents::RESPONSE => ['on_response'],
-            KernelEvents::EXCEPTION => ['on_exception']
+            KernelEvents::RESPONSE => ['on_response']
         ];
     }
 
@@ -107,12 +105,5 @@ class subscriber implements EventSubscriberInterface
                 $response->send();
             }
         }
-    }
-
-    public function on_exception(ExceptionEvent $event)
-    {
-        $event->allowCustomResponseCode();
-        $handler = new \midcom_exception_handler($event->getThrowable());
-        $event->setResponse($handler->render());
     }
 }
