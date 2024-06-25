@@ -25,6 +25,9 @@ class midcom_exception_handler implements EventSubscriberInterface
 {
     private Throwable $error;
 
+    public function __construct(private array $error_actions, private midcom_helper_style $style)
+    {}
+
     public static function getSubscribedEvents()
     {
         return [
@@ -68,7 +71,6 @@ class midcom_exception_handler implements EventSubscriberInterface
 
     private function process(int $httpcode, string $message) : Response
     {
-
         if ($httpcode == Response::HTTP_FORBIDDEN) {
             return new midcom_response_accessdenied($message);
         }
@@ -80,17 +82,15 @@ class midcom_exception_handler implements EventSubscriberInterface
             return new midcom_response_login;
         }
 
-        $style = midcom::get()->style;
-
-        $style->data['error_title'] = Response::$statusTexts[$httpcode];
-        $style->data['error_message'] = $message;
-        $style->data['error_code'] = $httpcode;
-        $style->data['error_exception'] = $this->error;
-        $style->data['error_handler'] = $this;
+        $this->style->data['error_title'] = Response::$statusTexts[$httpcode];
+        $this->style->data['error_message'] = $message;
+        $this->style->data['error_code'] = $httpcode;
+        $this->style->data['error_exception'] = $this->error;
+        $this->style->data['error_handler'] = $this;
 
         ob_start();
-        if (!$style->show_midcom('midcom_error_' . $httpcode)) {
-            $style->show_midcom('midcom_error');
+        if (!$this->style->show_midcom('midcom_error_' . $httpcode)) {
+            $this->style->show_midcom('midcom_error');
         }
         $content = ob_get_clean();
 
@@ -106,8 +106,7 @@ class midcom_exception_handler implements EventSubscriberInterface
      */
     private function process_actions(ServerBag $server, int $httpcode, string $message)
     {
-        $error_actions = midcom::get()->config->get_array('error_actions');
-        if (!isset($error_actions[$httpcode]['action'])) {
+        if (!isset($this->error_actions[$httpcode]['action'])) {
             // No action specified for this error code, skip
             return;
         }
@@ -120,12 +119,12 @@ class midcom_exception_handler implements EventSubscriberInterface
         }
 
         // Send as email handler
-        if ($error_actions[$httpcode]['action'] == 'email') {
-            $this->_send_email($msg, $error_actions[$httpcode], $server->getString('SERVER_NAME'));
+        if ($this->error_actions[$httpcode]['action'] == 'email') {
+            $this->_send_email($msg, $this->error_actions[$httpcode], $server->getString('SERVER_NAME'));
         }
         // Append to log file handler
-        elseif ($error_actions[$httpcode]['action'] == 'log') {
-            $this->_log($msg, $error_actions[$httpcode]);
+        elseif ($this->error_actions[$httpcode]['action'] == 'log') {
+            $this->_log($msg, $this->error_actions[$httpcode]);
         }
     }
 
@@ -153,11 +152,6 @@ class midcom_exception_handler implements EventSubscriberInterface
     {
         if (empty($config['email'])) {
             // No recipient specified, skip
-            return;
-        }
-
-        if (!midcom::get()->componentloader->is_installed('org.openpsa.mail')) {
-            debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
             return;
         }
 

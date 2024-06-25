@@ -6,6 +6,7 @@ services:
             
     exception_handler:
         class: midcom_exception_handler
+        arguments: ['%midcom.error_actions%', '@style']
         tags:
             - {name: 'kernel.event_subscriber'}
 
