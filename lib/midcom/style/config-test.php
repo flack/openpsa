@@ -29,9 +29,9 @@ th, td {
 <body>
 
 <?php
-$runner = new midcom_config_test();
+$runner = new midcom_config_test;
 $runner->check();
-$runner->show();
+$runner->show($this->data['request']);
 ?>
 </body>
 </html>

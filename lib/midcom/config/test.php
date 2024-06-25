@@ -7,6 +7,7 @@
  */
 
 use midcom\bundle\dependencyInjection\cachePass;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Collection of simple helper methods for testing site configuration
@@ -209,12 +210,12 @@ class midcom_config_test
         }
     }
 
-    public function show()
+    public function show(Request $request)
     {
         echo '<table>';
 
         $this->print_section('MidCOM ' . midcom::VERSION, $this->messages['midcom']);
-        $this->print_section($_SERVER['SERVER_SOFTWARE'], $this->messages['php']);
+        $this->print_section($request->server->get('SERVER_SOFTWARE'), $this->messages['php']);
         $this->print_section('External Utilities', $this->messages['external']);
 
         echo '</table>';

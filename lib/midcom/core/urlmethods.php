@@ -21,8 +21,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class midcom_core_urlmethods
 {
-    public function process_config() : Response
+    public function process_config(Request $request) : Response
     {
+        midcom::get()->style->data['request'] = $request;
         return new StreamedResponse(function() {
             midcom::get()->style->show_midcom('config-test');
         });
