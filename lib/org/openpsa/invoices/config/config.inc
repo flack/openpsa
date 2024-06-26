@@ -1,4 +1,4 @@
-'schemadb'             => 'file:/org/openpsa/invoices/config/schemadb_default.inc',
+'schemadb'             => 'file:/org/openpsa/invoices/config/schemadb_default.php',
 'schemadb_config'      => 'file:/org/openpsa/invoices/config/schemadb_config.inc',
 'schemadb_billing_data' => 'file:/org/openpsa/invoices/config/schemadb_default_billing_data.inc',
 'default_hourly_price' => 0,

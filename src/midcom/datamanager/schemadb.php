@@ -22,6 +22,9 @@ class schemadb
 
     private static function load_from_path(string $path) : array
     {
+        if (str_ends_with($path, '.php')) {
+            return include midcom_helper_misc::resolve_path($path);
+        }
         $data = midcom_helper_misc::get_snippet_content($path);
         return midcom_helper_misc::parse_config($data, $path);
     }
