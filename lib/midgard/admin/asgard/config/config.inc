@@ -42,11 +42,11 @@
     'bearing',
     'accuracy',
 ],
-'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
-'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.inc',
+'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.php',
+'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.php',
 
 // User preferences
-'schemadb_preferences' => 'file:/midgard/admin/asgard/config/schemadb_preferences.inc',
+'schemadb_preferences' => 'file:/midgard/admin/asgard/config/schemadb_preferences.php',
 
 // User interface
 'tinymce_enabled' => true,

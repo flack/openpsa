@@ -1,1 +1,1 @@
-'schemadb_feed' => 'file:/net/nemein/rss/config/schemadb_default.inc',
+'schemadb_feed' => 'file:/net/nemein/rss/config/schemadb_default.php',

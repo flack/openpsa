@@ -22,10 +22,10 @@ class vcardsTest extends TestCase
     public function testHandler_index()
     {
         $schemadbs = [
-            'person' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_person.inc'),
-            'campaign_member' => schemadb::from_path('file:/org/openpsa/directmarketing/config/schemadb_default_campaign_member.inc'),
-            'organization' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_organization.inc'),
-            'organization_member' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_member.inc'),
+            'person' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_person.php'),
+            'campaign_member' => schemadb::from_path('file:/org/openpsa/directmarketing/config/schemadb_default_campaign_member.php'),
+            'organization' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_organization.php'),
+            'organization_member' => schemadb::from_path('file:/org/openpsa/contacts/config/schemadb_default_member.php'),
         ];
 
         $importer = new org_openpsa_directmarketing_importer_vcards($schemadbs);

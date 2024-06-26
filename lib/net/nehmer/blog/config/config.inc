@@ -1,7 +1,7 @@
 // Schema database to use
-'schemadb' => 'file:/net/nehmer/blog/config/schemadb_default.inc',
+'schemadb' => 'file:/net/nehmer/blog/config/schemadb_default.php',
 'schemadbs'      => [
-    'file:/net/nehmer/blog/config/schemadb_default.inc' => 'Default Schema Database',
+    'file:/net/nehmer/blog/config/schemadb_default.php' => 'Default Schema Database',
 ],
 'schemadb_config' => 'file:/net/nehmer/blog/config/schemadb_config.inc',
 

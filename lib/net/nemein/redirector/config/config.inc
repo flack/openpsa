@@ -1,5 +1,5 @@
 'schemadb_config' => 'file:/net/nemein/redirector/config/config_schemadb.inc',
-'schemadb_tinyurl' => 'file:/net/nemein/redirector/config/schemadb_tinyurl.inc',
+'schemadb_tinyurl' => 'file:/net/nemein/redirector/config/schemadb_tinyurl.php',
 'redirection_type' => null, // subnode or url
 'redirection_url'  => '',
 'redirection_code' => 301,

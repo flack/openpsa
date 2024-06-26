@@ -40,7 +40,7 @@ class emailTest extends openpsa_testcase
             'campaign' => self::$campaign->id
         ]);
 
-        $datamanager = datamanager::from_schemadb('file:/org/openpsa/directmarketing/config/schemadb_default_message.inc')
+        $datamanager = datamanager::from_schemadb('file:/org/openpsa/directmarketing/config/schemadb_default_message.php')
             ->set_storage($message);
 
         $config = [
@@ -57,7 +57,7 @@ class emailTest extends openpsa_testcase
             'orgOpenpsaObtype' => org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML
         ]);
 
-        $datamanager = datamanager::from_schemadb('file:/org/openpsa/directmarketing/config/schemadb_default_message.inc')
+        $datamanager = datamanager::from_schemadb('file:/org/openpsa/directmarketing/config/schemadb_default_message.php')
             ->set_storage($message);
 
         $config = [

@@ -3,8 +3,8 @@
  * This is where you set default values for different configuration variables
  */
 /* The schema databases to use */
-'schemadb_product' => 'file:/org/openpsa/products/config/schemadb_product_default.inc',
-'schemadb_group' => 'file:/org/openpsa/products/config/schemadb_group_default.inc',
+'schemadb_product' => 'file:/org/openpsa/products/config/schemadb_product_default.php',
+'schemadb_group' => 'file:/org/openpsa/products/config/schemadb_group_default.php',
 'schemadb_config' => 'file:/org/openpsa/products/config/config_schemadb.inc',
 
 'unit_options' => [

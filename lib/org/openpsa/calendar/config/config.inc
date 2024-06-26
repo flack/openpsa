@@ -1,6 +1,6 @@
-'schemadb' => 'file:/org/openpsa/calendar/config/schemadb_default.inc',
-'schemadb_resource' => 'file:/org/openpsa/calendar/config/schemadb_resource.inc',
-'schemadb_filters' => 'file:/org/openpsa/calendar/config/schemadb_filters.inc',
+'schemadb' => 'file:/org/openpsa/calendar/config/schemadb_default.php',
+'schemadb_resource' => 'file:/org/openpsa/calendar/config/schemadb_resource.php',
+'schemadb_filters' => 'file:/org/openpsa/calendar/config/schemadb_filters.php',
 
 'schemadb_config' => 'file:/org/openpsa/calendar/config/schemadb_config.inc',
 

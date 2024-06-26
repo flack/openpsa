@@ -1,11 +1,11 @@
-'schemadb_person' => 'file:/org/openpsa/user/config/schemadb_person.inc',
-'schemadb_account' => 'file:/org/openpsa/user/config/schemadb_account.inc',
-'schemadb_account_edit' => 'file:/org/openpsa/user/config/schemadb_account_edit.inc',
-'schemadb_lostpassword' => 'file:/org/openpsa/user/config/schemadb_lostpassword.inc',
+'schemadb_person' => 'file:/org/openpsa/user/config/schemadb_person.php',
+'schemadb_account' => 'file:/org/openpsa/user/config/schemadb_account.php',
+'schemadb_account_edit' => 'file:/org/openpsa/user/config/schemadb_account_edit.php',
+'schemadb_lostpassword' => 'file:/org/openpsa/user/config/schemadb_lostpassword.php',
 
-'schemadb_group' => 'file:/org/openpsa/user/config/schemadb_group.inc',
+'schemadb_group' => 'file:/org/openpsa/user/config/schemadb_group.php',
 
-'schemadb_acl' => 'file:/org/openpsa/user/config/schemadb_default_acl.inc',
+'schemadb_acl' => 'file:/org/openpsa/user/config/schemadb_default_acl.php',
 
 //Set 'none' to disable lostpassword functionality
 'lostpassword_mode' => 'lostpassword_by_username',

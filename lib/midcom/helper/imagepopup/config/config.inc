@@ -1,1 +1,1 @@
-'schemadb' => 'file:/midcom/helper/imagepopup/config/schemadb.inc',
+'schemadb' => 'file:/midcom/helper/imagepopup/config/schemadb.php',

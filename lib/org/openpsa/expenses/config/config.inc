@@ -4,6 +4,6 @@
  */
 
 /* The schema database to use */
-'schemadb_hours' => 'file:/org/openpsa/expenses/config/schemadb_default_hours.inc',
+'schemadb_hours' => 'file:/org/openpsa/expenses/config/schemadb_default_hours.php',
 
 'default_minimum_time_slot' => 0.25,
