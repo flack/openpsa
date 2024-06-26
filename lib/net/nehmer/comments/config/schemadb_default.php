@@ -10,7 +10,7 @@ return [
                 'title' => 'csrf',
                 'type' => 'text',
                 'widget' => 'csrf',
-                'required' => 'true',
+                'required' => true,
             ],
             'author' => [
                 'title' => 'author',
@@ -28,10 +28,12 @@ return [
             ],
             'content' => [
                 'title' => 'content',
-                'required' => 'true',
+                'required' => true,
                 'storage' => 'content',
                 'type' => 'text',
-                'type_config' => [ 'output_mode' => 'markdown' ],
+                'type_config' => [
+                    'output_mode' => 'markdown'
+                ],
                 'widget' => 'textarea',
             ],
             'rating' => [
