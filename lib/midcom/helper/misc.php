@@ -122,13 +122,17 @@ class midcom_helper_misc
      * Any error (files not found) will raise a MidCOM Error. If you want a more
      * graceful behavior, look for midcom_helper_misc::get_snippet_content_graceful
      */
-    public static function get_snippet_content(string $path) : string
+    public static function load_snippet(string $path) : array
     {
+        $resolved_path = self::resolve_path($path);
+        if (str_ends_with($resolved_path, '.php')) {
+            return include $resolved_path;
+        }
         $data = self::get_snippet_content_graceful($path);
         if ($data === null) {
             throw new midcom_error("Could not load the contents of the snippet {$path}: Snippet does not exist.");
         }
-        return $data;
+        return self::parse_config($data, $path);
     }
 
     /**

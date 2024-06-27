@@ -17,16 +17,7 @@ class schemadb
 
     public static function from_path(string $path) : self
     {
-        return new static(static::load_from_path($path));
-    }
-
-    private static function load_from_path(string $path) : array
-    {
-        if (str_ends_with($path, '.php')) {
-            return include midcom_helper_misc::resolve_path($path);
-        }
-        $data = midcom_helper_misc::get_snippet_content($path);
-        return midcom_helper_misc::parse_config($data, $path);
+        return new static(midcom_helper_misc::load_snippet($path));
     }
 
     public function __construct(array $data = [])
@@ -74,7 +65,7 @@ class schemadb
                 $extended_schema_name = $schema['extends']['name'];
                 $extended_schemadb = [$extended_schema_name => $data[$extended_schema_name]];
             } else {
-                $extended_schemadb = static::load_from_path($path);
+                $extended_schemadb = midcom_helper_misc::load_snippet($path);
                 if (!isset($extended_schemadb[$extended_schema_name])) {
                     throw new midcom_error('extended schema ' . $path . ':' . $schema_name . ' was not found');
                 }
