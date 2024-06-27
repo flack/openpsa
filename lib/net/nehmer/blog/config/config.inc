@@ -3,7 +3,7 @@
 'schemadbs'      => [
     'file:/net/nehmer/blog/config/schemadb_default.php' => 'Default Schema Database',
 ],
-'schemadb_config' => 'file:/net/nehmer/blog/config/schemadb_config.inc',
+'schemadb_config' => 'file:/net/nehmer/blog/config/schemadb_config.php',
 
 'list_from_folders'     => null,   // List of the event topics displayed in this topic
 // Comma-separated list of categories to limit the listing (if empty, all will be listed)

@@ -1,4 +1,4 @@
-'schemadb_config' => 'file:/net/nemein/redirector/config/config_schemadb.inc',
+'schemadb_config' => 'file:/net/nemein/redirector/config/config_schemadb.php',
 'schemadb_tinyurl' => 'file:/net/nemein/redirector/config/schemadb_tinyurl.php',
 'redirection_type' => null, // subnode or url
 'redirection_url'  => '',

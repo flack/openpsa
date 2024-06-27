@@ -1,6 +1,6 @@
 // schema to use, must have an entry 'comment', which is used.
 'schemadb' => 'file:/net/nehmer/comments/config/schemadb_default.php',
-'schemadb_config' => 'file:/net/nehmer/comments/config/schemadb_config.inc',
+'schemadb_config' => 'file:/net/nehmer/comments/config/schemadb_config.php',
 
 // Always protect submission with a captcha
 'use_captcha' => false,

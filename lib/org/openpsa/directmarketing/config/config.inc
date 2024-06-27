@@ -1,4 +1,4 @@
-'schemadb_config' => 'file:/org/openpsa/directmarketing/config/schemadb_config.inc',
+'schemadb_config' => 'file:/org/openpsa/directmarketing/config/schemadb_config.php',
 'schemadb_campaign'  => 'file:/org/openpsa/directmarketing/config/schemadb_default_campaign.php',
 'schemadb_message'   => 'file:/org/openpsa/directmarketing/config/schemadb_default_message.php',
 'schemadb_message_copy'   => 'file:/org/openpsa/directmarketing/config/schemadb_default_message_copy.php',

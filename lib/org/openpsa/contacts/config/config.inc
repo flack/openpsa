@@ -1,7 +1,7 @@
 'schemadb_group' => 'file:/org/openpsa/contacts/config/schemadb_default_organization.php',
 'schemadb_person' => 'file:/org/openpsa/contacts/config/schemadb_default_person.php',
 
-'schemadb_config' => 'file:/org/openpsa/contacts/config/schemadb_config.inc',
+'schemadb_config' => 'file:/org/openpsa/contacts/config/schemadb_config.php',
 
 'person_search_fields' => 'username,firstname,lastname,email',
 'organization_search_fields' => 'official,email,name',

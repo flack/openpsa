@@ -4,7 +4,7 @@
     'file:/net/nehmer/static/config/schemadb_default.php' => 'Default Schema Database',
 ],
 
-'schemadb_config' => 'file:/net/nehmer/static/config/config_schemadb.inc',
+'schemadb_config' => 'file:/net/nehmer/static/config/config_schemadb.php',
 
 // A valid sort order usable with QB
 'sort_order' => 'metadata.score',

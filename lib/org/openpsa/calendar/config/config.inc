@@ -2,7 +2,7 @@
 'schemadb_resource' => 'file:/org/openpsa/calendar/config/schemadb_resource.php',
 'schemadb_filters' => 'file:/org/openpsa/calendar/config/schemadb_filters.php',
 
-'schemadb_config' => 'file:/org/openpsa/calendar/config/schemadb_config.inc',
+'schemadb_config' => 'file:/org/openpsa/calendar/config/schemadb_config.php',
 
 'calendar_root_event' => false,
 
