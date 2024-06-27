@@ -32,15 +32,13 @@ class midgard_admin_asgard_schemadb_config
     public function create() : schemadb
     {
         // Load SchemaDb
-        $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->component) . '/config/config_schemadb.inc';
         $schemaname = 'default';
 
-        if (file_exists($schemadb_config_path)) {
-            $schemadb = schemadb::from_path('file:/' . str_replace('.', '/', $this->component) . '/config/config_schemadb.inc');
+        if ($path = $this->config->get('schemadb_config')) {
+            $schemadb = schemadb::from_path($path);
             if ($schemadb->has('config')) {
                 $schemaname = 'config';
             }
-            // TODO: Log error on deprecated config schema?
         } else {
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = new schemadb(['default' => [

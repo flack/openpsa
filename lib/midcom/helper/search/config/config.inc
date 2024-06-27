@@ -8,3 +8,5 @@
  * may not get matched since the wildcard part matches nothing)
  */
 'single_term_auto_wildcard' => false,
+
+'schemadb_config' => 'file:/midcom/helper/search/config/config_schemadb.inc',
