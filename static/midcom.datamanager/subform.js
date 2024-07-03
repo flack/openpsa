@@ -14,14 +14,14 @@ function init_subform(id, sortable, allow_add, allow_delete) {
         if (   container.data('max-count') > 0
             && container.data('max-count') >= container.find('fieldset').length
             && container.find('.add-item').length === 0) {
-            if(allow_add === true) {
+            if (allow_add === true) {
                 container.append(add_button);
             }
         }
     });
 
     container.children().each(function() {
-        if(allow_delete === true) {
+        if (allow_delete === true) {
             $(this).prepend(delete_button.clone());
         }
         index++;
@@ -63,13 +63,13 @@ function add_form(container, add_button, delete_button, sortable, allow_delete) 
         index = container.data('index'),
         new_form = $(prototype.replace(/__name__/g, 'new-' + index))
             .insertBefore(add_button);
-    if(allow_delete === true) {
+    if (allow_delete === true) {
         new_form.prepend(delete_button.clone());
     }
     container.data('index', index + 1);
 
     if (   container.data('max-count') > 0
-        && container.data('max-count') >= container.find('> :not(.button.add-item)').length) {
+        && container.data('max-count') <= container.find('> :not(.button.add-item)').length) {
         add_button.detach();
     }
     if (sortable === true) {
