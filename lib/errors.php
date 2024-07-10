@@ -170,9 +170,10 @@ class midcom_exception_handler implements EventSubscriberInterface
         }
     }
 
-    public function get_function_stack()
+    public function get_function_stack(?Throwable $error = null)
     {
-        $stack = $this->error->getTrace();
+        $error = $error ?? $this->error;
+        $stack = $error->getTrace();
 
         $stacktrace = [];
         foreach ($stack as $number => $frame) {

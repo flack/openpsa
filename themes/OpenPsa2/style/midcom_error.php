@@ -40,6 +40,10 @@ $stacktrace = $this->data['error_handler']->get_function_stack();
 if (!empty($stacktrace)) {
     echo '<h3>Stacktrace:</h3>';
     echo "<pre>" . implode("\n", $stacktrace) . "</pre>\n";
+    if ($prev = $this->data['error_exception']->getPrevious()) {
+        echo '<h3>Caused by:</h3>';
+        echo "<pre>" . implode("\n", $this->data['error_handler']->get_function_stack($prev)) . "</pre>\n";
+    }
 }
 ?>
   </div>
