@@ -141,9 +141,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         if ($action == 'invoiceable') {
             return $input->getBoolean('value');
         }
-        if ($selection = $input->get('selection')) {
+        if ($selection = $input->all('selection')) {
             return (int) array_pop($selection);
         }
+
         return 0;
     }
 }

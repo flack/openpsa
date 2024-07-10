@@ -105,4 +105,22 @@ class adminTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_hours_batch()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'task', 'batch']);
+        $this->assertEquals('hours_task_action', $data['handler_id']);
+
+        $invoice = $this->create_object(\org_openpsa_invoices_invoice_dba::class);
+        $_POST = [
+            'action' => 'invoice',
+            'entries' => [self::$_report->id],
+            'selection' => [$invoice->id]
+        ];
+        $this->run_handler('org.openpsa.expenses', ['hours', 'task', 'batch']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }
