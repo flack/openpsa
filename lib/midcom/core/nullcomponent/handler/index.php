@@ -18,7 +18,6 @@ class midcom_core_nullcomponent_handler_index extends midcom_baseclasses_compone
      */
     public function _handler_index(array &$data)
     {
-        midcom::get()->style->prepend_component_styledir($this->_component);
         midcom::get()->head->set_pagetitle($this->_topic->extra);
 
         midcom::get()->metadata->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
