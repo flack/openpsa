@@ -181,8 +181,7 @@ class midcom_helper_style
      */
     public function append_component_styledir(string $component)
     {
-        $loader = midcom::get()->componentloader;
-        $path = $loader->path_to_snippetpath($component) . "/style";
+        $path = midcom::get()->componentloader->path_to_snippetpath($component) . "/style";
         $this->append_styledir($path);
     }
 
@@ -191,8 +190,7 @@ class midcom_helper_style
      */
     public function prepend_component_styledir(string $component)
     {
-        $loader = midcom::get()->componentloader;
-        $path = $loader->path_to_snippetpath($component) . "/style";
+        $path = midcom::get()->componentloader->path_to_snippetpath($component) . "/style";
         $this->prepend_styledir($path);
     }
 

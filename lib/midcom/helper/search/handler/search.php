@@ -120,10 +120,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         if ($type == 'basic') {
-            $indexer = midcom::get()->indexer;
             $final_query = $data['query'];
             debug_add("Final query: {$final_query}");
-            $result = $indexer->query($final_query);
+            $result = midcom::get()->indexer->query($final_query);
         } elseif ($type == 'advanced') {
             $result = $this->do_advanced_query($data, $this->fetch($request, 'append_terms', is_array: true));
         } else {
@@ -219,12 +218,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         debug_add("Final query: {$final_query}");
-        $indexer = midcom::get()->indexer;
 
         if ($filter->count() == 0) {
             $filter = null;
         }
-        return $indexer->query($final_query, $filter);
+        return midcom::get()->indexer->query($final_query, $filter);
     }
 
     /**

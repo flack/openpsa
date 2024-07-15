@@ -39,8 +39,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/styling.css");
         org_openpsa_widgets_tree::add_head_elements();
-        $head = midcom::get()->head;
-        $head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 
         // Ensure we get the correct styles
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
