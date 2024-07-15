@@ -30,10 +30,9 @@ implements midcom_services_permalinks_resolver
     public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         midcom::get()->auth->request_sudo($this->_component);
-        $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-        $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
-        $result = $qb_billing_data->execute();
-        foreach ($result as $billing_data) {
+        $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
+        $qb->add_constraint('linkGuid', '=', $object->guid);
+        foreach ($qb->execute() as $billing_data) {
             debug_add("Delete billing data with guid:" . $billing_data->guid . " for object with guid:" . $object->guid);
             $billing_data->delete();
         }
