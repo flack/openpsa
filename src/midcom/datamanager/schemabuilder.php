@@ -48,7 +48,7 @@ class schemabuilder
      */
     public function create(?array $include_fields = null) : schemadb
     {
-        $type = get_class($this->object);
+        $type = $this->object::class;
         $type_fields = $this->object->get_properties();
 
         $this->schema = [

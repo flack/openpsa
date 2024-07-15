@@ -28,8 +28,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $status ??= org_openpsa_relatedto_dba::CONFIRMED;
 
         $rel = new org_openpsa_relatedto_dba();
-        $rel->fromClass = get_class($from_obj);
-        $rel->toClass = get_class($to_obj);
+        $rel->fromClass = $from_obj::class;
+        $rel->toClass = $to_obj::class;
         $rel->fromGuid = $from_obj->guid;
         $rel->toGuid = $to_obj->guid;
         $rel->fromComponent = $from_component;
@@ -148,7 +148,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
         $related_to = new org_openpsa_relatedto_dba();
         $related_to->toGuid = $bind_object->guid;
-        $related_to->toClass = get_class($bind_object);
+        $related_to->toClass = $bind_object::class;
         $related_to->toComponent = $calling_component;
         $related_to->fromComponent = $button_component;
         $related_to->status = org_openpsa_relatedto_dba::CONFIRMED;

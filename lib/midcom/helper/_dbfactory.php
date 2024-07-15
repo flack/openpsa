@@ -55,7 +55,7 @@ class midcom_helper__dbfactory
 
             throw new midcom_error_midgard($e, $guid);
         }
-        if (   get_class($tmp) == 'midgard_person'
+        if (   $tmp::class == 'midgard_person'
             && $this->person_class != 'midgard_person') {
             $tmp = new $this->person_class($guid);
         }

@@ -134,7 +134,7 @@ class org_openpsa_mail_template
                 if (method_exists($value, '__toString')) {
                     return (string) $value;
                 }
-                throw new midcom_error("__toString method not found on " . get_class($value));
+                throw new midcom_error("__toString method not found on " . $value::class);
             }
             return $value->{$matches[2]};
         }
@@ -162,7 +162,7 @@ class org_openpsa_mail_template
     private function prepare_value(string $key, $value) : string
     {
         if (is_object($value)) {
-            $value = get_class($value) . " object";
+            $value = $value::class . " object";
             debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
         }
 

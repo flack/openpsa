@@ -247,7 +247,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
 
                 default:
-                    throw new midcom_error("parameters for " . get_class($parent) . " -objects not supported (parent guid {$parent->guid})");
+                    throw new midcom_error("parameters for " . $parent::class . " -objects not supported (parent guid {$parent->guid})");
             }
         }
     }

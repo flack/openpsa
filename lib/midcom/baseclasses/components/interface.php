@@ -212,7 +212,7 @@ class midcom_baseclasses_components_interface
      */
     public function trigger_watch(int $operation, midcom_core_dbaobject $object)
     {
-        debug_add("We were notified about a watch for the operation {$operation} on " . get_class($object) . " {$object->guid}");
+        debug_add("We were notified about a watch for the operation {$operation} on " . $object::class . " {$object->guid}");
 
         $this->_on_watched_operation($operation, $object);
 

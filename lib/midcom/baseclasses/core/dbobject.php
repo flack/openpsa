@@ -27,7 +27,7 @@ class midcom_baseclasses_core_dbobject
     public static function update_pre_checks(midcom_core_dbaobject $object) : bool
     {
         if (!$object->can_do('midgard:update')) {
-            debug_add("Failed to update object, update privilege on the " . get_class($object) . " {$object->id} not granted for the current user.",
+            debug_add("Failed to update object, update privilege on the " . $object::class . " {$object->id} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
@@ -90,7 +90,7 @@ class midcom_baseclasses_core_dbobject
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
         if (!midcom::get()->auth->user) {
-            debug_add("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
+            debug_add("Could not retrieve the midcom_core_user instance for the creator of " . $object::class . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
             return;
         }
@@ -121,19 +121,19 @@ class midcom_baseclasses_core_dbobject
             if ($object instanceof midcom_db_attachment) {
                 if (   !$parent->can_do('midgard:attachments')
                     || !$parent->can_do('midgard:update')) {
-                    debug_add("Failed to create attachment, update or attachments privilege on the parent " . get_class($parent) . " {$parent->guid} not granted for the current user.",
+                    debug_add("Failed to create attachment, update or attachments privilege on the parent " . $parent::class . " {$parent->guid} not granted for the current user.",
                         MIDCOM_LOG_ERROR);
                     midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                     return false;
                 }
             } elseif (   !$parent->can_do('midgard:create')
-                      && !midcom::get()->auth->can_user_do('midgard:create', class: get_class($object))) {
-                debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
+                      && !midcom::get()->auth->can_user_do('midgard:create', class: $object::class)) {
+                debug_add("Failed to create object, create privilege on the parent " . $parent::class . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
             }
-        } elseif (!midcom::get()->auth->can_user_do('midgard:create', class: get_class($object))) {
+        } elseif (!midcom::get()->auth->can_user_do('midgard:create', class: $object::class)) {
             debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
@@ -249,7 +249,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         if (!$object->__object->create()) {
-            debug_add("Failed to create " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string());
+            debug_add("Failed to create " . $object::class . ", last Midgard error: " . midcom_connection::get_error_string());
             return false;
         }
 
@@ -320,7 +320,7 @@ class midcom_baseclasses_core_dbobject
 
         // Finally, delete the object itself
         if (!$object->__object->delete()) {
-            debug_add("Failed to delete " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add("Failed to delete " . $object::class . ", last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -398,7 +398,7 @@ class midcom_baseclasses_core_dbobject
     public static function post_db_load_checks(midcom_core_dbaobject $object)
     {
         if (!$object->can_do('midgard:read')) {
-            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.");
+            debug_add("Failed to load object, read privilege on the " . $object::class . " {$object->guid} not granted for the current user.");
             throw new midcom_error_forbidden();
         }
         $object->_on_loaded();
@@ -435,7 +435,7 @@ class midcom_baseclasses_core_dbobject
     public static function get_by_id(midcom_core_dbaobject $object, int $id) : bool
     {
         if (!$id) {
-            debug_add("Failed to load " . get_class($object) . " object, incorrect ID provided.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to load " . $object::class . " object, incorrect ID provided.", MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -446,7 +446,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
         if (!$object->can_do('midgard:read')) {
-            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
+            debug_add("Failed to load object, read privilege on the " . $object::class . " {$object->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
             $object->__object = new $object->__mgdschema_class_name__;
             return false;
@@ -463,8 +463,8 @@ class midcom_baseclasses_core_dbobject
     public static function get_by_guid(midcom_core_dbaobject $object, string $guid) : bool
     {
         if (   !midcom::get()->auth->admin
-            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, get_class($object), midcom::get()->auth->acl->get_user_id())) {
-            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$guid} not granted for the current user.", MIDCOM_LOG_ERROR);
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, $object::class, midcom::get()->auth->acl->get_user_id())) {
+            debug_add("Failed to load object, read privilege on the " . $object::class . " {$guid} not granted for the current user.", MIDCOM_LOG_ERROR);
             return false;
         }
         $object->__object->get_by_guid($guid);
@@ -505,12 +505,12 @@ class midcom_baseclasses_core_dbobject
     public static function delete_pre_checks(midcom_core_dbaobject $object) : bool
     {
         if (!$object->id) {
-            debug_add("Failed to delete object, object " . get_class($object) . " is non-persistent (empty ID).", MIDCOM_LOG_ERROR);
+            debug_add("Failed to delete object, object " . $object::class . " is non-persistent (empty ID).", MIDCOM_LOG_ERROR);
             return false;
         }
 
         if (!$object->can_do('midgard:delete')) {
-            debug_add("Failed to delete object, delete privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
+            debug_add("Failed to delete object, delete privilege on the " . $object::class . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;

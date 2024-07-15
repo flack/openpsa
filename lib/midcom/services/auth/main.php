@@ -161,7 +161,7 @@ class midcom_services_auth
 
         //if we're handed the correct object type, we use its class right away
         if (midcom::get()->dbclassloader->is_midcom_db_object($content_object)) {
-            $content_object_class = get_class($content_object);
+            $content_object_class = $content_object::class;
         }
         //otherwise, we assume (hope) that it's a midgard object
         else {

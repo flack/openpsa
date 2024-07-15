@@ -63,12 +63,12 @@ abstract class org_openpsa_relatedto_finder
 
         if (   empty($link->toGuid)
             && !empty($link->fromGuid)) {
-            $link->toClass = get_class($obj);
+            $link->toClass = $obj::class;
             $link->toGuid = $obj->guid;
             debug_add("Setting property 'toGuid' to '{$link->toGuid}'");
             debug_add("Setting property 'toClass' to '{$link->toClass}'");
         } else {
-            $link->fromClass = get_class($obj);
+            $link->fromClass = $obj::class;
             $link->fromGuid = $obj->guid;
             debug_add("Setting property 'fromGuid' to '{$link->fromGuid}'");
             debug_add("Setting property 'fromClass' to '{$link->fromClass}'");
@@ -97,7 +97,7 @@ abstract class org_openpsa_relatedto_finder
         $link_def = new org_openpsa_relatedto_dba();
         $link_def->{$prefix . 'Component'} = $component;
         $link_def->{$prefix . 'Guid'} = $object->guid;
-        $link_def->{$prefix . 'Class'} = get_class($object);
+        $link_def->{$prefix . 'Class'} = $object::class;
         $link_def->status = org_openpsa_relatedto_dba::SUSPECTED;
         return $link_def;
     }

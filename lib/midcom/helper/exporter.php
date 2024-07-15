@@ -92,6 +92,6 @@ abstract class midcom_helper_exporter
         if (property_exists($object, '__mgdschema_class_name__')) {
             return $object->__mgdschema_class_name__;
         }
-        return get_class($object);
+        return $object::class;
     }
 }

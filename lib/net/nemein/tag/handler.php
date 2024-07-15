@@ -79,7 +79,7 @@ class net_nemein_tag_handler
         $link->context = self::resolve_context($tagname);
         $link->value = self::resolve_value($tagname);
         $link->fromGuid = $object->guid;
-        $link->fromClass = get_class($object);
+        $link->fromClass = $object::class;
         $link->fromComponent = $component;
 
         // Carry the original object's publication date to the tag as well

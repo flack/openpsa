@@ -192,7 +192,7 @@ class midcom_helper_metadata
     private function _set_property(string $key, $value) : bool
     {
         if (is_object($value)) {
-            $classname = get_class($value);
+            $classname = $value::class;
             debug_add("Can not set metadata '{$key}' property with '{$classname}' object as value", MIDCOM_LOG_WARN);
             return false;
         }

@@ -54,14 +54,14 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $interface = midcom::get()->componentloader->get_interface_class($entry->component);
         $method = $entry->method;
         if (!method_exists($interface, $method)) {
-            $error = get_class($interface) . "->{$method}() is not callable";
+            $error = $interface::class . "->{$method}() is not callable";
             $this->handle_error($entry, $error, $args);
             return;
         }
         $mret = $interface->$method($args, $this);
 
         if ($mret !== true) {
-            $error = get_class($interface) . '->' . $method . '(' . json_encode($args) . ", \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
+            $error = $interface::class . '->' . $method . '(' . json_encode($args) . ", \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
             $this->handle_error($entry, $error, $args);
         } else {
             midcom::get()->auth->request_sudo($this->_component);

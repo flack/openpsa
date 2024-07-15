@@ -247,7 +247,7 @@ class autocomplete
         }
         return midcom_helper_reflector::get($object)->get_object_label($object) ?:
             self::build_label($object, array_column($result_headers, 'name')) ?:
-            get_class($object) . ' #' . $object->id;
+            $object::class . ' #' . $object->id;
     }
 
     private static function build_label($object, array $fields) : string

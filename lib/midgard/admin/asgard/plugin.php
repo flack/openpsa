@@ -98,7 +98,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         };
 
         $label = $data['object_reflector']->get_object_label($object);
-        $type_label = self::get_type_label(get_class($object));
+        $type_label = self::get_type_label($object::class);
         $data['view_title'] = sprintf($title_string, $type_label, $label);
     }
 

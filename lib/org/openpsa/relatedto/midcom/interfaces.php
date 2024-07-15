@@ -26,7 +26,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
             $relatedto_arr = org_openpsa_relatedto_plugin::get2relatedto();
         }
         foreach ($relatedto_arr as $rel) {
-            $rel->fromClass = get_class($object);
+            $rel->fromClass = $object::class;
             $rel->fromGuid = $object->guid;
             if (!$rel->id) {
                 $rel->create();

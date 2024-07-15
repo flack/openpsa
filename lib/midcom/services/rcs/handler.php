@@ -48,7 +48,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
         if (   !midcom::get()->config->get('midcom_services_rcs_enable')
             || !$this->object->_use_rcs) {
-            throw new midcom_error_notfound("Revision control not supported for " . get_class($this->object) . ".");
+            throw new midcom_error_notfound("Revision control not supported for " . $this->object::class . ".");
         }
 
         $this->backend = midcom::get()->rcs->load_backend($this->object);

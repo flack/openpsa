@@ -130,7 +130,7 @@ class midcom_helper_reflector_copy
     public function copy_object(midcom_core_dbaobject $source, ?midcom_core_dbaobject $parent, array $defaults = []) : ?midcom_core_dbaobject
     {
         // Duplicate the object
-        $class_name = get_class($source);
+        $class_name = $source::class;
         $target = new $class_name();
 
         // Copy the object properties

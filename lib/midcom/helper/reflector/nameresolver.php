@@ -108,7 +108,7 @@ class midcom_helper_reflector_nameresolver
                 return [$classname];
             }
         }
-        debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes", MIDCOM_LOG_ERROR);
+        debug_add("Object " . $this->_object::class . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes", MIDCOM_LOG_ERROR);
         return [];
     }
 
@@ -124,7 +124,7 @@ class midcom_helper_reflector_nameresolver
 
             $qb->add_constraint($child_name_property, '=', $name);
             if ($qb->count()) {
-                debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
+                debug_add("Name clash in sibling class {$schema_type} for " . $this->_object::class . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
                 return false;
             }
         }
@@ -147,7 +147,7 @@ class midcom_helper_reflector_nameresolver
         $original_name = $this->get_object_name();
         if ($original_name === null) {
             // Fatal error with name resolution
-            debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
+            debug_add("Object " . $this->_object::class . " #{$this->_object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
             return null;
         }
 
@@ -161,11 +161,11 @@ class midcom_helper_reflector_nameresolver
             $title_copy = midcom_helper_reflector::get_object_title($this->_object);
             if ($title_copy === null) {
                 // Fatal error with title resolution
-                debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
+                debug_add("Object " . $this->_object::class . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
                 return null;
             }
             if (empty($title_copy)) {
-                debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
+                debug_add("Object " . $this->_object::class . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return null;
             }
             $current_name = midcom_helper_misc::urlize($title_copy);

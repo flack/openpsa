@@ -193,7 +193,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
 
-        if ($info = $this->get_link_field($schema_type, get_class($for_object))) {
+        if ($info = $this->get_link_field($schema_type, $for_object::class)) {
             $qb->add_constraint($info['name'], '=', $for_object->{$info['target']});
             // we only return direct children (otherwise they would turn up twice in recursive queries)
             if ($info['type'] == 'parent' && $info['upfield']) {
@@ -202,7 +202,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return $qb;
         }
 
-        debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
+        debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . $for_object::class . "', this should not happen here", MIDCOM_LOG_ERROR);
         return false;
     }
 

@@ -106,7 +106,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 'revision' => $object->metadata->revision,
                 'revised' => $object->metadata->revised,
                 'id' => $object->guid,
-                'class' => get_class($object),
+                'class' => $object::class,
             ];
 
             $row['approved'] = $object->is_approved() ? $object->metadata->approved : '';

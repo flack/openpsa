@@ -191,7 +191,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->_request_data['other_obj'] =& $other_obj;
         $this->_request_data['icon'] = midcom_helper_reflector::get_object_icon($other_obj);
 
-        if (get_class($other_obj) != $link['class']) {
+        if ($other_obj::class != $link['class']) {
             $other_obj = new $link['class']($other_obj);
         }
 
@@ -326,7 +326,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line_default(array $link, $other_obj)
     {
-        $class = get_class($other_obj);
+        $class = $other_obj::class;
 
         $ref = midcom_helper_reflector::get($other_obj);
         $object_label = $ref->get_object_label($other_obj);

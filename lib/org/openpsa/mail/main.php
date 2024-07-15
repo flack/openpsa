@@ -102,7 +102,7 @@ class org_openpsa_mail
         $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
 
         $this->headers['X-Originating-IP'] = '[' . $_SERVER['REMOTE_ADDR'] . ']';
-        $this->headers['X-Mailer'] = "PHP/" . PHP_VERSION . ' /OpenPSA/' . midcom::VERSION . '/' . get_class($this->_backend);
+        $this->headers['X-Mailer'] = "PHP/" . PHP_VERSION . ' /OpenPSA/' . midcom::VERSION . '/' . $this->_backend::class;
     }
 
     /**

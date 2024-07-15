@@ -123,7 +123,7 @@ return [
                 'type_config' => [
                     'privilege_name' => 'midcom:ajax',
                     'assignee'       => 'SELF',
-                    'classname'      => get_class(midcom::get()->uimessages),
+                    'classname'      => midcom::get()->uimessages::class,
                 ],
                 'widget'      => 'privilege',
                 'storage'     => null,

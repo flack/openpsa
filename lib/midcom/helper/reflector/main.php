@@ -54,7 +54,7 @@ class midcom_helper_reflector extends midgard_reflection_property
      */
     public static function get(string|object $src) : self
     {
-        $identifier = static::class . (is_object($src) ? get_class($src) : $src);
+        $identifier = static::class . (is_object($src) ? $src::class : $src);
 
         return self::$_cache['instance'][$identifier] ??= new static($src);
     }
@@ -64,7 +64,7 @@ class midcom_helper_reflector extends midgard_reflection_property
      */
     public static function get_object_fieldnames(object $object) : array
     {
-        $classname = get_class($object);
+        $classname = $object::class;
         $metadata = false;
 
         if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
@@ -230,7 +230,7 @@ class midcom_helper_reflector extends midgard_reflection_property
             // object knows it's icon, how handy!
             $icon = $obj->get_icon();
         } else {
-            $icon = self::get_icon(get_class($obj), self::resolve_baseclass($obj), 'object_icon');
+            $icon = self::get_icon($obj::class, self::resolve_baseclass($obj), 'object_icon');
         }
 
         return '<i class="fa fa-' . $icon . '"></i>';
@@ -394,7 +394,7 @@ class midcom_helper_reflector extends midgard_reflection_property
 
         if (is_object($classname)) {
             $class_instance = $classname;
-            $classname = get_class($classname);
+            $classname = $classname::class;
         }
 
         if (!$classname) {
@@ -426,7 +426,7 @@ class midcom_helper_reflector extends midgard_reflection_property
     private function get_property(string $type, object $object) : ?string
     {
         // Cache results per class within request
-        $key = get_class($object);
+        $key = $object::class;
         if (array_key_exists($key, self::$_cache[$type])) {
             return self::$_cache[$type][$key];
         }

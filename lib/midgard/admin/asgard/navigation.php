@@ -248,7 +248,7 @@ class midgard_admin_asgard_navigation
 
     protected function get_css_classes(object $object, string $mgdschema_class) : string
     {
-        $css_class = get_class($object) . " {$mgdschema_class}";
+        $css_class = $object::class . " {$mgdschema_class}";
 
         // Populate common properties
         $css_class = midcom::get()->metadata->get_object_classes($object, $css_class);

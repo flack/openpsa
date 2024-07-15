@@ -207,7 +207,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
             }
             if (empty($defaults)) {
-                throw new midcom_error("Could not establish link between {$new_type} and " . get_class($this->_object));
+                throw new midcom_error("Could not establish link between {$new_type} and " . $this->_object::class);
             }
         }
 

@@ -408,7 +408,7 @@ class midcom_services_auth_acl
 
         if ($class !== null) {
             if (is_object($class)) {
-                $class = get_class($class);
+                $class = $class::class;
             } elseif (!class_exists($class)) {
                 debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
                 return false;

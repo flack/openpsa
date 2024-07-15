@@ -184,7 +184,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                 foreach ($guids as $object) {
                     $data['class'] = ($data['class'] == 'even') ? 'odd' : 'even';
                     $data['object'] = $object;
-                    switch (get_class($object)) {
+                    switch ($object::class) {
                         case org_openpsa_calendar_event_dba::class:
                             midcom_show_style('weekreview-day-item-event');
                             break;

@@ -30,7 +30,7 @@ $title = $this->data['error_title'];
   <div class="error-exception">
 <?php if (!empty($this->data['error_exception'])) {
     $e = $this->data['error_exception'];
-    echo '<p>' . get_class($e) . ' in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
+    echo '<p>' . $e::class . ' in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
 }
 ?>
 <?php

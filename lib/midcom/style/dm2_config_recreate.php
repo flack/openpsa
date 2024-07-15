@@ -3,7 +3,7 @@ echo "<p>" . midcom::get()->i18n->get_string('recreating', 'midcom') . "</p>\n";
 
 echo "<pre>\n";
 foreach ($this->data['objects'] as $object) {
-    $type = get_class($object);
+    $type = $object::class;
     if (!isset($this->data['datamanagers'][$type])) {
         echo sprintf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
         continue;

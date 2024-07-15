@@ -139,7 +139,7 @@ class softdelete
 
             // now shoot yourself
             if (!$object->purge()) {
-                debug_add("Failed to purge object " . get_class($object) . " {$object->guid}", MIDCOM_LOG_INFO);
+                debug_add("Failed to purge object " . $object::class . " {$object->guid}", MIDCOM_LOG_INFO);
             } else {
                 $purged_size += $object->metadata->size;
             }
