@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Hour report CRUD handler
@@ -35,30 +36,36 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             'person' => midcom_connection::get_user(),
             'date' => time()
         ];
+        $task = $invoice = null;
 
         if ($handler_id == 'hours_create_task') {
             $task = new org_openpsa_projects_task_dba($guid);
-            $task->require_do('midgard:create');
-            $defaults['task'] = $task->id;
-            $defaults['invoiceable'] = $task->hoursInvoiceableDefault;
-            $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-            $qb->add_constraint('task', '=', $task->id);
+            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+            $qb->get_doctrine()->leftJoin('org_openpsa_invoice_item', 'i', Join::WITH, 'c.id = i.invoice')
+                ->andWhere('i.task = :task')
+                ->setParameter('task', $task->id);
             $result = $qb->execute();
             if (count($result) == 1) {
-                $defaults['invoice'] = $result[0]->invoice;
+                $invoice = $result[0];
             }
         } elseif ($handler_id == 'hours_create_invoice') {
             $invoice = new org_openpsa_invoices_invoice_dba($guid);
-            $invoice->require_do('midgard:create');
-            $defaults['invoice'] = $invoice->id;
-            $defaults['invoiceable'] = true;
-            $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-            $qb->add_constraint('invoice', '=', $invoice->id);
-            $qb->add_constraint('task', '<>', 0);
+            $qb = org_openpsa_projects_task_dba::new_query_builder();
+            $qb->get_doctrine()->leftJoin('org_openpsa_invoice_item', 'i', Join::WITH, 'c.id = i.task')
+                ->andWhere('i.invoice = :invoice')
+                ->setParameter('invoice', $invoice->id);
             $result = $qb->execute();
             if (count($result) == 1) {
-                $defaults['task'] = $result[0]->task;
+                $task = $result[0];
             }
+        }
+        if ($task?->can_do('midgard:create')) {
+            $defaults['task'] = $task->id;
+            $defaults['invoiceable'] = $task->hoursInvoiceableDefault;
+        }
+        if ($invoice?->can_do('midgard:create')) {
+            $defaults['invoice'] = $invoice->id;
+            $defaults['invoiceable'] = true;
         }
         $dm = $this->load_datamanager($report, $defaults, $schema);
         $data['controller'] = $dm->get_controller();
