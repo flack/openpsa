@@ -150,7 +150,7 @@ class midcom_config_test
             $config = midcom::get()->config->get_array('cache_module_memcache_backend_config');
             $memcached = cachePass::prepare_memcached($config);
             // Sometimes, addServer returns true even if the server is not running, so we call a command to make sure it's actually working
-            if ($memcached && $memcached->getVersion()) {
+            if ($memcached?->getVersion()) {
                 $this->add('Memcache', self::OK);
             } else {
                 $this->add('Memcache', self::ERROR, "The PHP memcached module is available and set to be in use, but it cannot be connected to.");
