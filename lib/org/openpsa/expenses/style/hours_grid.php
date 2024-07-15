@@ -59,7 +59,7 @@ foreach ($data['hours'] as $report) {
         $entry['index_invoice'] = $invoice->number;
         $entry['invoice'] = $invoice->get_label();
         if ($invoice_url) {
-            $entry['invoice'] = '<a href="' . $invoice_url . 'invoice/' . $invoice->guid . '">' . $entry['invoice'] . '</a>';
+            $entry['invoice'] = '<a href="' . $invoice_url . 'invoice/' . $invoice->guid . '/">' . $entry['invoice'] . '</a>';
         }
     }
 

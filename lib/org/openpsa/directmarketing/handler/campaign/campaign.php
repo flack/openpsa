@@ -52,7 +52,7 @@ implements client
         $template = '%s';
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         if ($url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/') {
-            $template = '<a target="_blank" href="' . $url . $person->guid . '">%s</a>';
+            $template = '<a target="_blank" href="' . $url . $person->guid . '/">%s</a>';
         }
 
         $row = [
