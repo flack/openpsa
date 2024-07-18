@@ -23,10 +23,9 @@ class org_openpsa_user_handler_person_privileges extends midcom_baseclasses_comp
         $schemadb = schemadb::from_path($this->_config->get('schemadb_acl'));
 
         // Get the calendar root event
-        if (   class_exists('org_openpsa_calendar_interface')
-            && $root_event = org_openpsa_calendar_interface::find_root_event()) {
+        if (class_exists('org_openpsa_calendar_interface')) {
             $field =& $schemadb->get('default')->get_field('calendar');
-            $field['type_config']['privilege_object'] = $root_event;
+            $field['type_config']['privilege_object'] = org_openpsa_calendar_interface::find_root_event();
             $field['type_config']['assignee'] = 'user:' . $person->guid;
         }
 
