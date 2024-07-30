@@ -7,7 +7,6 @@
  */
 
 use PHPUnit\Framework\Constraint\Constraint;
-use PHPUnit\Framework\InvalidArgumentException;
 
 /**
  * Constraint for comparing XML strings produced by objectmapper. It removes
@@ -29,7 +28,7 @@ class xml_comparison extends Constraint
         $doc = new DOMDocument;
 
         if (!$doc->loadXML($string)) {
-            throw InvalidArgumentException::create($argument, 'valid XML');
+            throw new InvalidArgumentException('$string is not valid XML');
         }
 
         $xpath = new DOMXPath($doc);
@@ -76,7 +75,7 @@ class xml_comparison extends Constraint
     public function evaluate($other, $description = '', $returnResult = false) : ?bool
     {
         if (!is_string($other)) {
-            throw InvalidArgumentException::create(1, 'string');
+            throw new InvalidArgumentException('$other must be string');
         }
 
         return parent::evaluate($this->_normalize_string($other), $description, $returnResult);
@@ -84,6 +83,6 @@ class xml_comparison extends Constraint
 
     public function toString() : string
     {
-        return 'is equal to ' . $this->exporter()->export($this->value);
+        return 'is equal to ' . (new \SebastianBergmann\Exporter\Exporter)->export($this->value);
     }
 }
