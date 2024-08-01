@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Sort navigation order.
@@ -22,7 +23,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * Set the score.
      */
-    private function _process_order_form(Request $request)
+    private function _process_order_form(Request $request) : ?Response
     {
         // Form has been handled if cancel has been pressed
         if ($request->request->has('f_cancel')) {
@@ -32,7 +33,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         // If the actual score list hasn't been posted, return
         if (!$request->request->has('f_submit')) {
-            return;
+            return null;
         }
 
         if ($request->request->has('f_navorder')) {
