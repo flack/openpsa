@@ -211,7 +211,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function get_cycle_identifier(int $time) : string
     {
-        $date = new DateTime('@' . $time, new DateTimeZone(date_default_timezone_get()));
+        $date = new DateTime('@' . $time);
+        $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
         switch ($this->unit) {
             case 'm':
