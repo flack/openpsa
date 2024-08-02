@@ -52,17 +52,17 @@ archive-welcome:
 archive-year:
     path: /archive/year/{year}/
     defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
-    requirements: { year: '\d+' }
+    requirements: { year: '\d{4}' }
 
 archive-year-category:
     path: /archive/year/{year}/{category}/
     defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
-    requirements: { year: '\d+' }
+    requirements: { year: '\d{4}' }
 
 archive-month:
     path: /archive/month/{year}/{month}/
     defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
-    requirements: { year: '\d+', month: '\d+' }
+    requirements: { year: '\d{4}', month: '\d+' }
 
 
 edit:

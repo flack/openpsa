@@ -149,7 +149,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $month_data[$month] = [
                     'month' => $month,
                     'name' => $month_names[$month],
-                    'url' => $this->router->generate('archive-year', ['year' => $year, 'month' => $month]),
+                    'url' => $this->router->generate('archive-month', ['year' => $year, 'month' => $month]),
                     'count' => $month_count,
                 ];
             }
@@ -288,10 +288,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_year(int $year)
     {
-        if (strlen($year) != 4) {
-            throw new midcom_error_notfound("The year '{$year}' is not valid.");
-        }
-
         $now = new DateTime();
         if ($year > (int) $now->format('Y')) {
             throw new midcom_error_notfound("The year '{$year}' is in the future, no archive available.");
@@ -310,10 +306,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_month(int $year, int $month)
     {
-        if (strlen($year) != 4) {
-            throw new midcom_error_notfound("The year '{$year}' is not valid.");
-        }
-
         if (   $month < 1
             || $month > 12) {
             throw new midcom_error_notfound("The month {$month} is not valid.");
