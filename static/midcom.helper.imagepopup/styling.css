@@ -146,3 +146,8 @@ form.datamanager2 > .form > .form_toolbar
 {
     margin: 10px 0 10px 0;
 }
+
+.midcom_helper_imagepopup_search_result_item img
+{
+    vertical-align: text-top
+}
