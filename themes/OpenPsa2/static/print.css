@@ -1,3 +1,6 @@
+html, body {
+    height: auto;
+}
 #content
 {
   font-size: 90%;
@@ -8,9 +11,14 @@
 #leftframe,
 #content-menu .context,
 #org_openpsa_toolbar,
-#template_openpsa2_resizer
+#template_openpsa2_resizer,
+.midcom_services_toolbars_fancy
 {
-  display: none;
+  display: none !important;
+}
+
+#content-menu {
+    background: transparent
 }
 
 #breadcrumb
@@ -23,7 +31,8 @@
 
 #content-text
 {
-    padding: 0 !important
+    padding: 0 !important;
+    overflow: visible;
 }
 
 a
