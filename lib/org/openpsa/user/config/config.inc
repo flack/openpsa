@@ -24,6 +24,7 @@ __PASSWORD__',
 'max_old_passwords' => 3,
 'min_password_length' => 8,
 'min_password_score' => 35,
+'unique_character_score' => 4,
 'password_block_timeframe_min' => 5,
 'max_password_attempts' => 5,
 

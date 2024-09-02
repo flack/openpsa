@@ -270,7 +270,7 @@ class org_openpsa_user_accounthelper
         }
 
         // score for length & repetition
-        $score = $this->count_unique_characters($password) * 4;
+        $score = $this->count_unique_characters($password) * $this->_config->get('unique_character_score');
 
         //check $password with rules
         $rules = $this->_config->get_array('password_score_rules');
