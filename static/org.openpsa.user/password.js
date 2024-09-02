@@ -77,7 +77,7 @@
         }
 
         //password length
-        var score = countUniqueCharacters(password) * 4;
+        var score = countUniqueCharacters(password) * option.unique_character_score;
 
         option.password_rules.forEach(function(rule) {
             var regex = rule.match.replace(/^\//, '').replace(/\/$/, '');

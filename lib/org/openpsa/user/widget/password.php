@@ -57,6 +57,7 @@ class org_openpsa_user_widget_password extends AbstractType
             'password_rules' => $config->get('password_score_rules'),
             'min_length' => $config->get('min_password_length'),
             'min_score' => $config->get('min_password_score'),
+            'unique_character_score' => $config->get('unique_character_score'),
             'userid_required' => $userid_required
         ];
         $conf = json_encode($conf);
