@@ -62,7 +62,7 @@ class privileges extends Command
                 try {
                     \midgard_object_class::get_object_by_guid($priv->objectguid);
                     $seen_parents[$priv->objectguid] = true;
-                } catch (\Exception) {
+                } catch (\Throwable) {
                     $seen_parents[$priv->objectguid] = false;
                 }
             }
