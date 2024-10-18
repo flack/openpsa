@@ -96,7 +96,7 @@ class org_openpsa_sales_handler_offer extends midcom_baseclasses_components_hand
         $response = $wf->run($request);
         if ($wf->get_state() == 'save') {
             try {
-                $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->salesproject->code . '.pdf';
+                $output_filename = $this->_l10n->get('offer_filename_prefix') . '-' . $this->salesproject->code . '-' . $this->offer->id . '.pdf';
                 $this->client->render($output_filename);
                 midcom::get()->uimessages->add($this->_l10n->get('offer created'), $this->_l10n->get('please verify the file'));
             }
