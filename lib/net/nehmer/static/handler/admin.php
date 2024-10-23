@@ -59,6 +59,10 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             'controller' => $this->load_controller(),
             'save_callback' => $this->save_callback(...)
         ]);
+        if ($this->article->can_do('midgard:delete')) {
+            $delete = $this->get_workflow('delete', ['object' => $this->article]);
+            $workflow->add_dialog_button($delete, $this->router->generate('delete', ['guid' => $this->article->guid]));
+        }
         return $workflow->run($request);
     }
 
