@@ -14,6 +14,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use midcom_db_attachment;
 use Symfony\Component\Console\Attribute\AsCommand;
+use midgard\portable\storage\connection;
+use Doctrine\ORM\AbstractQuery;
 
 /**
  * Cleanup the blobdir
@@ -36,7 +38,8 @@ class blobdir extends Command
 
     private array $findings = [
         'corrupted' => [],
-        'orphaned' => []
+        'orphaned' => [],
+        'orphaned_attachments' => []
     ];
 
     protected function configure()
@@ -56,8 +59,13 @@ class blobdir extends Command
                 $file = $outerDir . "/" . $d;
                 if (filesize($file) == 0) {
                     $this->findings['corrupted'][] = $file;
-                } elseif (!$this->get_attachment($file)) {
-                    $this->findings['orphaned'][] = $file;
+                } else {
+                    $attachment = $this->get_attachment($file);
+                    if (!$attachment) {
+                        $this->findings['orphaned'][] = $file;
+                    } elseif (!$this->get_attachment_parent($attachment)) {
+                        $this->findings['orphaned_attachments'][] = $attachment;
+                    }
                 }
                 $this->_file_counter++;
             }
@@ -69,20 +77,44 @@ class blobdir extends Command
         return ltrim(str_replace($this->_dir, "", $path), "/");
     }
 
+    private function get_attachment_parent(midcom_db_attachment $attachment) : bool
+    {
+        $type = connection::get_em()
+            ->createQuery('SELECT r.typename from midgard_repligard r WHERE r.guid = ?1')
+            ->setParameter(1, $attachment->parentguid)
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+
+        if (!$type) {
+            return false;
+        }
+
+        $dba_type = \midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
+
+        $qb = \midcom::get()->dbfactory->new_query_builder($dba_type);
+        $qb->include_deleted();
+        $qb->add_constraint('guid', '=', $attachment->parentguid);
+        return $qb->count() > 0;
+    }
+
     private function get_attachment(string $file) : ?midcom_db_attachment
     {
         $location = $this->_determine_location($file);
         // get attachments
         $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint("location", "=", $location);
-        $attachments = $qb->execute();
+        try {
+            $attachments = $qb->execute();
+        } catch (\Exception) {
+            return null;
+        }
         if (empty($attachments)) {
             return null;
         }
-        if (count($attachments) === 1) {
-            return $attachments[0];
+        if (count($attachments) > 1) {
+            throw new \midcom_error('Multiple attachments share location ' . $location);
         }
-        throw new \midcom_error('Multiple attachments share location ' . $location);
+
+        return $attachments[0];
     }
 
     private function cleanup_corrupted(OutputInterface $output, array $files)
@@ -94,13 +126,18 @@ class blobdir extends Command
             $output->writeln($i . ") " . $file);
             $this->cleanup_file($output, $file);
 
-            if ($att = $this->get_attachment($file)) {
-                if (!$this->dry) {
-                    $stat = $att->purge();
-                    if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                        $output->writeln(($stat) ? "<info>Purge OK</info>" : "<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
-                    }
-                }
+            if ($attachment = $this->get_attachment($file)) {
+                $this->purge_attachment($output, $attachment);
+            }
+        }
+    }
+
+    private function purge_attachment(OutputInterface $output, midcom_db_attachment $attachment)
+    {
+        if (!$this->dry) {
+            $stat = $attachment->purge();
+            if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                $output->writeln(($stat) ? "<info>Purge OK</info>" : "<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
             }
         }
     }
@@ -133,13 +170,18 @@ class blobdir extends Command
         $this->check_dir($dir);
 
         $output->writeln("Scanned <info>" . $this->_file_counter . "</info> files");
-        $output->writeln("Found <info>" . count($this->findings['corrupted']) . "</info> corrupted files:");
-        $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</info> orphaned files:");
+        $output->writeln("Found <info>" . count($this->findings['corrupted']) . "</info> corrupted files");
+        $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</info> orphaned files");
+        $output->writeln("Found <info>" . count($this->findings['orphaned_attachments']) . "</info> orphaned attachments");
 
         $this->cleanup_corrupted($output, $this->findings['corrupted']);
 
         foreach ($this->findings['orphaned'] as $file) {
             $this->cleanup_file($output, $file);
+        }
+
+        foreach ($this->findings['orphaned_attachments'] as $attachment) {
+            $this->purge_attachment($output, $attachment);
         }
 
         $output->writeln("<comment>Done</comment>");
