@@ -74,7 +74,7 @@ class rcsdir extends Command
         $guid = preg_replace('/^.+\/(.+?),?v?$/', '$1', $file);
 
         $repligard_entry = connection::get_em()
-            ->getRepository('midgard:midgard_repligard')
+            ->getRepository(connection::get_fqcn('midgard_repligard'))
             ->findOneBy(['guid' => $guid]);
 
         return !empty($repligard_entry);
