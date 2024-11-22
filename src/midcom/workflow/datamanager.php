@@ -97,7 +97,7 @@ class datamanager extends dialog
         $object = $dm->get_storage()->get_value();
         if ($object instanceof \midcom_core_dbaobject) {
             // we rebuild the form so that newly created child objects are listed with their proper DB identifiers
-            $dm->set_storage($object);
+            $dm->set_storage($object, $dm->get_schema()->get_name());
             $data = $dm->get_content_html();
             $data['guid'] = $object->guid;
         } else {
