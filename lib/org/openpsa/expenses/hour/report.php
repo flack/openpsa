@@ -120,7 +120,7 @@ class org_openpsa_expenses_hour_report_dba extends midcom_core_dbaobject
                     $time_slot = 1;
                 }
             }
-            $this->hours = max(1, round($this->hours / $time_slot)) * $time_slot;
+            $this->hours = ceil($this->hours / $time_slot) * $time_slot;
         }
     }
 
