@@ -57,7 +57,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Prepare version control toolbar
      */
-    private function rcs_toolbar(array $revision, array $revision2 = null)
+    private function rcs_toolbar(array $revision, ?array $revision2 = null)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.services.rcs/rcs.css");
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;

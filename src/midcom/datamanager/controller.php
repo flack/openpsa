@@ -30,7 +30,7 @@ class controller
 
     private datamanager $dm;
 
-    public function __construct(datamanager $dm, string $name = null)
+    public function __construct(datamanager $dm, ?string $name = null)
     {
         $this->dm = $dm;
         $this->form = $dm->get_form($name);

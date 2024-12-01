@@ -361,7 +361,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @see uncached()
      */
-    public function no_cache(Response $response = null)
+    public function no_cache(?Response $response = null)
     {
         $settings = 'no-store, no-cache, must-revalidate';
         // PONDER: Send expires header (set to long time in past) as well ??
@@ -451,7 +451,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * {@inheritDoc}
      */
-    public function invalidate(string $guid, midcom_core_dbaobject $object = null)
+    public function invalidate(string $guid, ?midcom_core_dbaobject $object = null)
     {
         $guidmap = $this->backend->getItem($guid);
         if (!$guidmap->isHit()) {

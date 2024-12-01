@@ -23,7 +23,7 @@ class net_nemein_tag_handler
      * @param array $tags List of tags and urls, tag is key, url is value
      * @todo Set the link->navorder property
      */
-    public static function tag_object($object, array $tags, string $component = null) : bool
+    public static function tag_object($object, array $tags, ?string $component = null) : bool
     {
         $component ??= midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $existing_tags = self::get_object_tags($object);

@@ -75,7 +75,7 @@ class midcom_core_privilege
      * The Default constructor creates an empty privilege, if you specify
      * another privilege object in the constructor, a copy is constructed.
      */
-    public function __construct(midcom_core_privilege_db|array|string $src = null)
+    public function __construct(midcom_core_privilege_db|array|string|null $src = null)
     {
         if (is_array($src)) {
             // Store given values to our privilege array
@@ -444,7 +444,7 @@ class midcom_core_privilege
         return new midcom_core_privilege($result[0]);
     }
 
-    private function _load(midcom_core_privilege_db|string $src = null)
+    private function _load(midcom_core_privilege_db|string|null $src = null)
     {
         if ($src instanceof midcom_core_privilege_db) {
             // Got a privilege object as argument, use that

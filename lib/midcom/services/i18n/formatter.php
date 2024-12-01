@@ -31,17 +31,17 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
-    public function date(int|string|DateTimeInterface $value = null, int|string $dateformat = 'medium')
+    public function date(int|string|null|DateTimeInterface $value = null, int|string $dateformat = 'medium')
     {
         return $this->datetime($value, $dateformat, IntlDateFormatter::NONE);
     }
 
-    public function time(int|string|DateTimeInterface $value = null, int|string $timeformat = 'short')
+    public function time(int|string|null|DateTimeInterface $value = null, int|string $timeformat = 'short')
     {
         return $this->datetime($value, IntlDateFormatter::NONE, $timeformat);
     }
 
-    public function datetime(int|string|DateTimeInterface $value = null, int|string $dateformat = 'medium', int|string $timeformat = 'short')
+    public function datetime(int|string|null|DateTimeInterface $value = null, int|string $dateformat = 'medium', int|string $timeformat = 'short')
     {
         $value ??= time();
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));

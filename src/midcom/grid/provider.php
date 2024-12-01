@@ -103,7 +103,7 @@ class provider
         $this->_datatype = $grid->get_option('datatype');
     }
 
-    public function get_grid(string $identifier = null) : grid
+    public function get_grid(?string $identifier = null) : grid
     {
         if (null !== $identifier) {
             $this->_grid = new grid($identifier, $this->_datatype);

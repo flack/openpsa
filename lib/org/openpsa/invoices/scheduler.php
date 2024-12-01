@@ -211,7 +211,7 @@ class org_openpsa_invoices_scheduler
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    public function create_task(int $start, int $end, string $title, org_openpsa_projects_task_dba $source_task = null) : org_openpsa_projects_task_dba
+    public function create_task(int $start, int $end, string $title, ?org_openpsa_projects_task_dba $source_task = null) : org_openpsa_projects_task_dba
     {
         // Create the task
         $task = new org_openpsa_projects_task_dba();
@@ -263,7 +263,7 @@ class org_openpsa_invoices_scheduler
      * @param integer $months The maximum number of months to look forward
      * @param integer $start The timestamp from which to begin
      */
-    public function calculate_cycles(int $months = null, int $start = null) : int
+    public function calculate_cycles(?int $months = null, ?int $start = null) : int
     {
         $start ??= time();
         $cycles = 0;

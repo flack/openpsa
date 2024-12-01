@@ -48,7 +48,7 @@ class org_openpsa_mypage_workingon
     /**
      * @param midcom_db_person $person Person to handle "now working on" for. By default current user
      */
-    public function __construct(midcom_db_person $person = null)
+    public function __construct(?midcom_db_person $person = null)
     {
         $this->person = $person ?? midcom::get()->auth->user->get_storage();
 

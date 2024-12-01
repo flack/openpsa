@@ -41,7 +41,7 @@ abstract class midcom_services_indexer_client
     /**
      * @param midcom_db_topic $topic The current topic
      */
-    public function __construct($topic, midcom_services_indexer $indexer = null)
+    public function __construct($topic, ?midcom_services_indexer $indexer = null)
     {
         $this->_topic = $topic;
         $this->_l10n = midcom::get()->i18n->get_l10n($topic->component);

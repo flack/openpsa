@@ -35,7 +35,7 @@ class midcom_services_indexer implements EventSubscriberInterface
     /**
      * Initialization
      */
-    public function __construct(midcom_services_indexer_backend $backend = null)
+    public function __construct(?midcom_services_indexer_backend $backend = null)
     {
         $this->_backend = $backend;
         $this->_disabled = $this->_backend === null;
@@ -163,7 +163,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @return midcom_services_indexer_document[] An array of documents matching the query
      * @todo Refactor into multiple methods
      */
-    public function query(string $query, midcom_services_indexer_filter $filter = null, array $options = []) : array
+    public function query(string $query, ?midcom_services_indexer_filter $filter = null, array $options = []) : array
     {
         $result = [];
         if ($this->_disabled) {

@@ -39,7 +39,7 @@ implements client
         midcom::get()->uimessages->add_head_elements();
     }
 
-    public function get_qb(string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
+    public function get_qb(?string $field = null, string $direction = 'ASC', array $search = []) : midcom_core_query
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector();
         if ($field !== null) {

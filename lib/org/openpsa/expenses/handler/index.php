@@ -42,7 +42,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
     /**
      * The handler for the index view.
      */
-    public function _handler_index(Request $request, array &$data, string $timestamp = null)
+    public function _handler_index(Request $request, array &$data, ?string $timestamp = null)
     {
         $this->prepare_dates($timestamp, $data);
 
@@ -142,7 +142,7 @@ class org_openpsa_expenses_handler_index extends midcom_baseclasses_components_h
         return array_values($reports);
     }
 
-    private function _get_list_link(string $label, string $date = null, string $task_guid = null, $person_id = null) : string
+    private function _get_list_link(string $label, ?string $date = null, ?string $task_guid = null, $person_id = null) : string
     {
         if ($task_guid !== null) {
             $url = $this->router->generate('list_hours_task', ['guid' => $task_guid]);

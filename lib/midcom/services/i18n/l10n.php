@@ -252,7 +252,7 @@ class midcom_services_i18n_l10n
      *
      * @param string $language The language to search in.
      */
-    function string_exists(string $string, string $language = null) : bool
+    function string_exists(string $string, ?string $language = null) : bool
     {
         $language ??= $this->_language;
         $this->_check_for_language($language);
