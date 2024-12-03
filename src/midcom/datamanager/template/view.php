@@ -208,7 +208,7 @@ class view extends base
         }
     }
 
-    public function radiocheckselect_widget(FormView $view, array $data)
+    public function choice_widget_expanded(FormView $view, array $data)
     {
         $ret = [];
         foreach ($view->children as $child) {
