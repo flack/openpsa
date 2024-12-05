@@ -153,6 +153,11 @@ class controller
         }
 
         foreach ($from->all() as $key => $child) {
+            if (!$to->has($key)) {
+                $config = $child->getConfig();
+                $to->add($child->getName(), get_class($config->getType()->getInnerType()), $config->getOptions());
+            }
+
             $this->copy_errors($child, $to->get($key));
         }
     }
