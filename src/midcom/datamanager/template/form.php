@@ -153,8 +153,8 @@ class form extends base
         $string .= '<legend>';
         $string .= $data['value']['filename'] ?? $this->renderer->humanize('add new file');
         $string .= '</legend>';
-
-        $string .= '<div class="attachment-container">';
+        $class = ($data['errors']->count() > 0) ? ' error' : '';
+        $string .= '<div class="attachment-container' . $class . '">';
         $string .= '<div class="attachment-preview">';
         if (!empty($data['value']['filename'])) {
             $ext = pathinfo($data['value']['filename'], PATHINFO_EXTENSION);
@@ -168,6 +168,7 @@ class form extends base
         foreach ($view->children as $child) {
             $string .= $this->renderer->row($child);
         }
+        $string .= $this->renderer->errors($view);
 
         $string .= '</div></div>';
         $string .= $this->jsinit('dm_attachment_init("' . $data['form']['file']->vars['id'] . '")');

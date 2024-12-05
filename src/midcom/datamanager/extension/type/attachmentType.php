@@ -35,6 +35,7 @@ class attachmentType extends AbstractType
                 'sortable' => false
             ]
         ]);
+        $resolver->setDefault('error_bubbling', false);
     }
 
     /**
