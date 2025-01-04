@@ -56,9 +56,6 @@ class midcom_core_urlmethods
                 $response->headers->set('X-Sendfile-Type', 'X-Sendfile');
             }
         }
-        midcom::get()->cache->content->cache_control_headers($response);
-        // Store metadata in cache so _check_hit() can help us
-        midcom::get()->cache->content->write_meta_cache('A-' . $etag, $request, $response);
         return $response;
     }
 

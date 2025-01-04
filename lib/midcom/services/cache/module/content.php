@@ -251,7 +251,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
         $response = $event->getResponse();
-        if ($response instanceof BinaryFileResponse || $response->isServerError()) {
+        if ($response->isServerError()) {
+            return;
+        }
+        if ($response instanceof BinaryFileResponse) {
+            $this->cache_control_headers($response);
+            // Store metadata in cache so _check_hit() can help us
+            $this->write_meta_cache('A-' . $response->getEtag(), $event->getRequest(), $response);
             return;
         }
         foreach ($this->_sent_headers as $header => $value) {
@@ -497,7 +503,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * Writes meta-cache entry from context data using given content id
      * Used to be part of on_request, but needed by serve-attachment method in midcom_core_urlmethods as well
      */
-    public function write_meta_cache(string $content_id, Request $request, Response $response)
+    private function write_meta_cache(string $content_id, Request $request, Response $response)
     {
         if (   $this->_uncached
             || $this->_no_cache) {
@@ -613,7 +619,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->cache_control_headers($response);
     }
 
-    public function cache_control_headers(Response $response)
+    private function cache_control_headers(Response $response)
     {
         // Just to be sure not to mess the headers sent by no_cache in case it was called
         if ($this->_no_cache) {
