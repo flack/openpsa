@@ -15,6 +15,7 @@ use midcom_services_rcs;
 use midcom_db_topic;
 use midcom_services_rcs_backend_null;
 use midcom_services_rcs_backend_rcs;
+use midcom\events\dbaevent;
 
 /**
  * OpenPSA testcase
@@ -60,6 +61,7 @@ class mainTest extends openpsa_testcase
         $topic = $this->create_object(midcom_db_topic::class);
 
         $rcs = new midcom_services_rcs($conf);
-        $this->assertTrue($rcs->update($topic));
+        $rcs->update(new dbaevent($topic));
+        $this->assertCount(1, $rcs->load_backend($topic)->get_history()->all());
     }
 }
