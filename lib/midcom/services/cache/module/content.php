@@ -26,7 +26,6 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
  * - midcom_services_cache_module_content::uncached();
  * - midcom_services_cache_module_content::expires();
  * - midcom_services_cache_module_content::invalidate_all();
- * - midcom_services_cache_module_content::content_type();
  * - midcom_services_cache_module_content::enable_live_mode();
  *
  * You have to use these functions everywhere where it is applicable or the cache
@@ -409,20 +408,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function uncached(bool $uncached = true)
     {
         $this->_uncached = $uncached;
-    }
-
-    /**
-     * Sets the content type for the current page. The required HTTP Headers for
-     * are automatically generated, so, to the contrary of expires, you just have
-     * to set this header accordingly.
-     *
-     * This is usually set automatically by MidCOM for all regular HTML output and
-     * for all attachment deliveries. You have to adapt it only for things like RSS
-     * output.
-     */
-    public function content_type(string $type)
-    {
-        midcom::get()->header('Content-Type: ' . $type);
     }
 
     /**

@@ -213,7 +213,7 @@ class provider
             'records' => $this->_total_rows,
             'rows' => $rows
         ];
-        midcom::get()->cache->content->content_type('application/json; charset=UTF-8');
+        midcom::get()->header('Content-Type: application/json; charset=UTF-8');
 
         echo json_encode($response);
     }
