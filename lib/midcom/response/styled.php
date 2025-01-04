@@ -21,10 +21,9 @@ class midcom_response_styled extends Response
 
     public function __construct(midcom_core_context $context, string $root_element = 'ROOT')
     {
-        parent::__construct();
         $this->set_context($context);
         $this->root_element = $root_element;
-        $this->content = $this->render();
+        parent::__construct($this->render());
     }
 
     private function render() : string

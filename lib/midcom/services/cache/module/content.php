@@ -251,7 +251,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
         $response = $event->getResponse();
-        if ($response instanceof BinaryFileResponse) {
+        if ($response instanceof BinaryFileResponse || $response->isServerError()) {
             return;
         }
         foreach ($this->_sent_headers as $header => $value) {
