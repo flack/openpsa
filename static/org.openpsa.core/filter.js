@@ -20,7 +20,11 @@ $(document).ready(function() {
         });
 
         if (!$.isEmptyObject(filter_values)) {
-            $(this).closest('form').prop('action', $(this).closest('form').prop('action') + '?' + $.param(filter_values));
+            const url = new URL($(this).closest('form').prop('action'));
+            for (const [key, value] of Object.entries(filter_values)) {
+                url.searchParams.set(key, value);
+            }
+            $(this).closest('form').prop('action', url.toString());
         }
         $(this).closest('form').submit();
     });
