@@ -8,7 +8,7 @@
 
 namespace test\midcom\services\cache\module;
 
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -38,14 +38,14 @@ class contentTest extends TestCase
         $request = Request::create('/');
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new RequestEvent(midcom::get(), $request, KernelInterface::MAIN_REQUEST);
+        $event = new RequestEvent(midcom::get(), $request, HttpKernelInterface::MAIN_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
 
         // write response to cache
         $response = new Response('test');
-        $filter_event = new ResponseEvent(midcom::get(), $request, KernelInterface::MAIN_REQUEST, $response);
+        $filter_event = new ResponseEvent(midcom::get(), $request, HttpKernelInterface::MAIN_REQUEST, $response);
         $module->on_response($filter_event);
 
         $module->on_request($event);
@@ -56,7 +56,7 @@ class contentTest extends TestCase
         $request = Request::create('/', 'GET', ['test' => 'test']);
         $ctx = midcom_core_context::enter('/');
         $request->attributes->set('context', $ctx);
-        $event = new RequestEvent(midcom::get(), $request, KernelInterface::MAIN_REQUEST);
+        $event = new RequestEvent(midcom::get(), $request, HttpKernelInterface::MAIN_REQUEST);
 
         $module->on_request($event);
         $this->assertFalse($event->hasResponse(), 'Response should not be cached yet');
@@ -77,8 +77,8 @@ class contentTest extends TestCase
         $module = new midcom_services_cache_module_content($config, $backend, $data_cache);
         $module->uncached(false);
         $module->register('1111111111111111111111111');
-
-        $module->store_dl_content($ctx->id, 'test', $request);
+        $event = new ResponseEvent(midcom::get(), $request, HttpKernelInterface::SUB_REQUEST, new Response('test'));
+        $module->on_response($event);
 
         $backend_values = $backend->getValues();
         $this->assertCount(2, $backend_values);

@@ -205,32 +205,17 @@ class midcom_application extends Kernel
         $request = $this->get_request()->duplicate([], attributes: []);
         $request->attributes->set('context', $context);
 
-        $cached = $this->cache->content->check_dl_hit($request);
-        if ($cached !== false) {
-            echo $cached;
-            midcom_core_context::leave();
-            return;
-        }
-
         $backup = $this->skip_page_style;
         $this->skip_page_style = true;
         try {
             $response = $this->handle($request, HttpKernelInterface::SUB_REQUEST, false);
+            echo $response->getContent();
         } catch (midcom_error_notfound | midcom_error_forbidden $e) {
             $e->log();
-            midcom_core_context::leave();
-            return;
         } finally {
             $this->skip_page_style = $backup;
+            midcom_core_context::leave();
         }
-
-        $dl_cache_data = $response->getContent();
-        echo $dl_cache_data;
-
-        /* Cache DL the content */
-        $this->cache->content->store_dl_content($context->id, $dl_cache_data, $request);
-
-        midcom_core_context::leave();
     }
 
     /**

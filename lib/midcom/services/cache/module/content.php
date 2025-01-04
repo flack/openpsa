@@ -156,14 +156,16 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     public function on_request(RequestEvent $event)
     {
+        $request = $event->getRequest();
         if ($event->isMainRequest()) {
-            $request = $event->getRequest();
             /* Load and start up the cache system, this might already end the request
              * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
              */
             if ($response = $this->_check_hit($request)) {
                 $event->setResponse($response);
             }
+        } elseif ($content = $this->check_dl_hit($request)) {
+            $event->setResponse(new Response($content));
         }
     }
 
@@ -247,11 +249,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function on_response(ResponseEvent $event)
     {
-        if (!$event->isMainRequest()) {
+        $response = $event->getResponse();
+        $request = $event->getRequest();
+        if ($response->isServerError()) {
             return;
         }
-        $response = $event->getResponse();
-        if ($response->isServerError()) {
+        if (!$event->isMainRequest()) {
+            $this->store_dl_content($request, $response);
             return;
         }
         if ($response instanceof BinaryFileResponse) {
@@ -267,7 +271,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
             $response->headers->set($header, $value);
         }
-        $request = $event->getRequest();
         if ($this->_no_cache) {
             $response->prepare($request);
             return;
@@ -519,12 +522,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->backend->save($item2->set($response->headers->all()));
 
         // Cache where the object have been
-        $context = midcom_core_context::get()->id;
-        $this->store_context_guid_map($context, $content_id, $request_id);
+        $this->store_context_guid_map($content_id, $request_id);
     }
 
-    private function store_context_guid_map(int $context, string $content_id, string $request_id)
+    private function store_context_guid_map(string $content_id, string $request_id)
     {
+        $context = midcom_core_context::get()->id;
         // non-existent context
         if (!array_key_exists($context, $this->context_guids)) {
             return;
@@ -554,7 +557,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    public function check_dl_hit(Request $request)
+    private function check_dl_hit(Request $request)
     {
         if ($this->_no_cache) {
             return false;
@@ -568,12 +571,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return $this->_data_cache->getItem($dl_content_id->get())->get();
     }
 
-    public function store_dl_content(int $context, string $dl_cache_data, Request $request)
+    private function store_dl_content(Request $request, Response $response)
     {
         if (   $this->_no_cache
             || $this->_uncached) {
             return;
         }
+        $dl_cache_data = $response->getContent();
         $dl_request_id = 'DL' . $this->generate_request_identifier($request);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
@@ -587,7 +591,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_data_cache->save($item);
 
         // Cache where the object have been
-        $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
+        $this->store_context_guid_map($dl_content_id, $dl_request_id);
     }
 
     /**
