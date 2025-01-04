@@ -162,6 +162,8 @@ services:
         class: midcom_services_rcs
         arguments: ['@config']
         public: true
+        tags:
+            - {name: 'kernel.event_subscriber'}
 
     session:
         class: midcom_services__sessioning

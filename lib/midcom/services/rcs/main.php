@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use midcom\events\dbaevent;
+
 /**
  * The RCS service gives a write only interface to different services wanting to save changes to objects.
  *
@@ -19,9 +22,18 @@
  *
  * @package midcom.services.rcs
  */
-class midcom_services_rcs
+class midcom_services_rcs implements EventSubscriberInterface
 {
     private midcom_services_rcs_config $config;
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            dbaevent::CREATE => ['update'],
+            dbaevent::UPDATE => ['update'],
+            dbaevent::DELETE => ['update']
+        ];
+    }
 
     public function __construct(midcom_config $config)
     {
@@ -44,19 +56,18 @@ class midcom_services_rcs
     /**
      * Create or update the RCS file for the object.
      */
-    public function update(midcom_core_dbaobject $object, string $message = '') : bool
+    public function update(dbaevent $event)
     {
-        if (!$this->config->use_rcs()) {
-            return true;
+        $object = $event->get_object();
+        if (!$this->config->use_rcs() || !$object->_use_rcs) {
+            return;
         }
         $backend = $this->load_backend($object);
         try {
-            $backend->update(midcom::get()->auth->user->id ?? 'NOBODY', $message);
-            return true;
+            $backend->update(midcom::get()->auth->user->id ?? 'NOBODY', $object->get_rcs_message());
         } catch (midcom_error $e) {
             debug_add('RCS: Could not save file!');
             $e->log();
-            return false;
         }
     }
 
