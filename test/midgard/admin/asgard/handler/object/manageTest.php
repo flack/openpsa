@@ -64,18 +64,6 @@ class manageTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_copy_tree()
-    {
-        $this->create_object(midcom_db_topic::class, ['up' => self::$_object->id]);
-        $this->create_user(true);
-        midcom::get()->auth->request_sudo('midgard.admin.asgard');
-
-        $data = $this->run_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'copy', 'tree', self::$_object->guid]);
-        $this->assertEquals('object_copy_tree', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function testHandler_create_chooser()
     {
         $this->create_user(true);

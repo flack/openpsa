@@ -150,10 +150,6 @@ Content
 Copy %s
 ---STRINGEND
 
----STRING copy %s and its descendants
-Copy "%s" and its descendants
----STRINGEND
-
 ---STRING copy attachments
 Copy attachments
 ---STRINGEND
@@ -168,10 +164,6 @@ Copy parameters
 
 ---STRING copy successful, you have been relocated to the new object
 Copy successful, you have been relocated to the new object.
----STRINGEND
-
----STRING copy successful, you have been relocated to the root of the new object tree
-Copy successful, you have been relocated to the root of the new object tree.
 ---STRINGEND
 
 ---STRING copy to editor

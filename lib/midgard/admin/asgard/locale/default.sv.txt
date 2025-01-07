@@ -131,11 +131,7 @@ Innehåll
 ---STRINGEND
 
 ---STRING copy %s
-Kopiera %s
----STRINGEND
-
----STRING copy %s and its descendants
-Kopiera '%s' och underartiklar
+Kopiera '%s'
 ---STRINGEND
 
 ---STRING copy attachments
@@ -152,10 +148,6 @@ Kopiera parametrar
 
 ---STRING copy successful, you have been relocated to the new object
 Kopiering lyckades, du är flyttad till det nya objektet.
----STRINGEND
-
----STRING copy successful, you have been relocated to the root of the new object tree
-Kopiering lyckades, du har blivit flyttad till rooten av det nya objektträdet.
 ---STRINGEND
 
 ---STRING copy to editor

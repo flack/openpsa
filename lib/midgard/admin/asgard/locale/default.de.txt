@@ -142,10 +142,6 @@ Inhalt
 %s kopieren
 ---STRINGEND
 
----STRING copy %s and its descendants
-Kopiere "%s" und Kindelemente
----STRINGEND
-
 ---STRING copy attachments
 Dateianhänge kopieren
 ---STRINGEND
@@ -160,10 +156,6 @@ Parameter kopieren
 
 ---STRING copy successful, you have been relocated to the new object
 Kopiervorgang erfolgreich, Sie wurden zum neuen Objekt weitergeleitet
----STRINGEND
-
----STRING copy successful, you have been relocated to the root of the new object tree
-Kopiervorgang erfolgreich, Sie wurden zum Wurzelement des neuen Objektbaums weitergeleitet
 ---STRINGEND
 
 ---STRING copy to editor

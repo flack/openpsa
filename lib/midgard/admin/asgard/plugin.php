@@ -160,12 +160,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('copy', 'midcom'),
                 ];
                 break;
-            case 'object_copy_tree':
-                $breadcrumb[] = [
-                    MIDCOM_NAV_URL => self::_generate_url('copy/tree', $object->guid),
-                    MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('copy', 'midcom'),
-                ];
-                break;
             case 'components_configuration_edit_folder':
                 $breadcrumb[] = [
                     MIDCOM_NAV_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",

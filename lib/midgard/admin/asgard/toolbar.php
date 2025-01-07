@@ -65,9 +65,8 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
 
         if ($object->can_do('midgard:create')) {
-            $url = (midcom_helper_reflector_tree::get_child_objects($object)) ? 'copy/tree' : 'copy';
             $buttons[] = [
-                MIDCOM_TOOLBAR_URL => $this->_generate_url($url, $object),
+                MIDCOM_TOOLBAR_URL => $this->_generate_url('copy', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'clone',
             ];
@@ -168,9 +167,6 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                 break;
             case 'object_copy':
                 $this->disable_item($this->_generate_url('copy', $object));
-                break;
-            case 'object_copy_tree':
-                $this->disable_item($this->_generate_url('copy/tree', $object));
                 break;
             case 'components_configuration_edit_folder':
                 $this->disable_item("__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/");
