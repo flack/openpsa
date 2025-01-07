@@ -296,8 +296,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if ($handler_id === 'object_copy_tree') {
             $parent = midcom_helper_reflector_copy::get_parent_property($this->_object);
             $this->_load_schemadb($this->_object, [$parent], true);
-            // Change the name for the parent field
-            $this->schemadb->get_first()->get_field($parent)['title'] = $this->_l10n->get('choose the target');
+            if ($parent) {
+                // Change the name for the parent field
+                $this->schemadb->get_first()->get_field($parent)['title'] = $this->_l10n->get('choose the target');
+            }
         } else {
             $parent = null;
             $this->_load_schemadb($this->_object, [false], true);

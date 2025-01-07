@@ -68,18 +68,10 @@ class midcom_helper_reflector_copy
     /**
      * Get the parent property for overriding it
      */
-    public static function get_parent_property(midcom_core_dbaobject $object) : string
+    public static function get_parent_property(midcom_core_dbaobject $object) : ?string
     {
-        $parent = midgard_object_class::get_property_parent($object->__mgdschema_class_name__);
-        if (!$parent) {
-            $parent = midgard_object_class::get_property_up($object->__mgdschema_class_name__);
-
-            if (!$parent) {
-                throw new midcom_error('Failed to get the parent property for copying');
-            }
-        }
-
-        return $parent;
+        return midgard_object_class::get_property_parent($object->__mgdschema_class_name__)
+            ?? midgard_object_class::get_property_up($object->__mgdschema_class_name__);
     }
 
     /**
@@ -146,8 +138,8 @@ class midcom_helper_reflector_copy
             $target->$name = $value;
         }
 
-        if ($this->recursive) {
-            $parent_property = self::get_parent_property($source);
+        if (   $this->recursive
+            && $parent_property = self::get_parent_property($source)) {
 
             // Copy the link to parent
             if (!empty($parent->guid)) {
