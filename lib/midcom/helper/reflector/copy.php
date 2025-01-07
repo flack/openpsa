@@ -96,7 +96,7 @@ class midcom_helper_reflector_copy
      * Eventually this method will return the first root object that was created, i.e. the root
      * of the new tree.
      */
-    public function copy_tree(midcom_core_dbaobject $source, midcom_core_dbaobject $parent) : ?midcom_core_dbaobject
+    public function copy_tree(midcom_core_dbaobject $source, ?midcom_core_dbaobject $parent) : ?midcom_core_dbaobject
     {
         // Copy the root object
         $root = $this->copy_object($source, $parent);
