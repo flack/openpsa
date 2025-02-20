@@ -27,8 +27,17 @@ class phpValidator extends ConstraintValidator
     {
         $return_status = 0;
         $parse_results = [];
-        exec(sprintf('echo %s | php -l', escapeshellarg($input)) . " 2>&1", $parse_results, $return_status);
+
+        // Not all shells seem to support disabling escape characters, so
+        // enable them everywhere with -e and mask them instead
+        $input = str_replace(
+            ['\a', '\b', '\c', '\e', '\f', '\n', '\r', '\t', '\v'],
+            [ '\\\a', '\\\b', '\\\c', '\\\e', '\\\f', '\\\n', '\\\r', '\\\t', '\\\v'],
+            $input
+        );
+        exec(sprintf('echo -e %s | php -l', escapeshellarg($input)) . " 2>&1", $parse_results, $return_status);
         debug_print_r("php -l returned:", $parse_results);
+
         if ($return_status !== 0) {
             $parse_result = array_pop($parse_results);
             if (str_contains($parse_result, 'No syntax errors detected in ')) {
