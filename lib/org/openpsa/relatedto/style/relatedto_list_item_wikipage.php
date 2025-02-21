@@ -1,7 +1,7 @@
 <?php
 $link = $data['link'];
 $page = $data['other_obj'];
-$page_url = $data['page_url'] . $page->name;
+$page_url = $data['page_url'] . $page->name . '/';
 $author_card = org_openpsa_widgets_contact::get($page->metadata->creator);
 ?>
 <li class="note" id="org_openpsa_relatedto_line_&(link['guid']);">
