@@ -27,7 +27,7 @@ if (!$nodeid) {
 }
 
 //check if language is passed & set language if needed
-if ($language = $query->getInt('language')) {
+if ($language = $query->getAlpha('language')) {
     midcom::get()->i18n->set_language($language);
 }
 
