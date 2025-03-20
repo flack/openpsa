@@ -22,16 +22,30 @@ $(document).ready(function() {
         if (!$.isEmptyObject(filter_values)) {
             const url = new URL($(this).closest('form').prop('action'));
             for (const [key, value] of Object.entries(filter_values)) {
-                url.searchParams.set(key, value);
+                url.searchParams.delete(key + '[]');
+                if (Array.isArray(value)) {
+                    value.forEach(function(val) {
+                        url.searchParams.append(key + '[]', val);
+                    });
+                } else {
+                    url.searchParams.set(key, value);
+                }
             }
             $(this).closest('form').prop('action', url.toString());
         }
         $(this).closest('form').submit();
     });
     $('form.org_openpsa_queryfilter .filter_unset').on('click', function() {
-        var form = $(this).closest('form'),
-            container = $(this).closest('.org_openpsa_filter_widget');
+        const form = $(this).closest('form'),
+            container = $(this).closest('.org_openpsa_filter_widget'),
+            url = new URL(form.prop('action'));
+
+        $(this).parent().find('input, select').each(function() {
+            url.searchParams.delete($(this).attr('name'));
+        });
+
         form
+            .attr('action', url.toString())
             .append('<input type="hidden" name="unset_filter" value="' + container.attr('id') + '" />')
             .submit();
     });
