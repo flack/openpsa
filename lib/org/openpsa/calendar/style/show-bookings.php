@@ -1,5 +1,6 @@
 <?php
 $task = $data['task'];
+$task->get_members();
 $formatter = $data['l10n']->get_formatter();
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
@@ -34,10 +35,11 @@ $projects_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('
     } else {
         $status = 'bad';
     }
+
     echo "<p class=\"{$status}\">" . sprintf($data['l10n']->get('%s of %s planned hours booked'), $data['booked_time'], $task->plannedHours) . ".\n";
     if ($task->resources) {
         echo "<a href=\"{$projects_url}task/resourcing/{$task->guid}/\">" . $data['l10n']->get('schedule resources') . "</a>";
     }
-    echo ".</p>\n";
+    echo "</p>\n";
     ?>
 </div>
