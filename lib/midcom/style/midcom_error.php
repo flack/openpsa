@@ -39,7 +39,9 @@ $stacktrace = $this->data['error_handler']->get_function_stack();
 if (!empty($stacktrace)) {
     echo "<pre>Stacktrace:\n" . implode("\n", $stacktrace);
     if ($prev = $this->data['error_exception']->getPrevious()) {
-        echo "\n\nCaused by:\n" . implode("\n", $this->data['error_handler']->get_function_stack($prev));
+        echo "\n\nCaused by:\n";
+        echo "\n" . $prev::class . ' in ' . $prev->getFile() . ', line ' . $prev->getLine() . "\n";
+        echo "\n" . implode("\n", $this->data['error_handler']->get_function_stack($prev));
     }
     echo "</pre>\n";
 }

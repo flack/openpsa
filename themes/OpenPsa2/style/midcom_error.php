@@ -42,6 +42,7 @@ if (!empty($stacktrace)) {
     echo "<pre>" . implode("\n", $stacktrace) . "</pre>\n";
     if ($prev = $this->data['error_exception']->getPrevious()) {
         echo '<h3>Caused by:</h3>';
+        echo '<p>' . $prev::class . ' in ' . $prev->getFile() . ', line ' . $prev->getLine() . "</p>";
         echo "<pre>" . implode("\n", $this->data['error_handler']->get_function_stack($prev)) . "</pre>\n";
     }
 }
