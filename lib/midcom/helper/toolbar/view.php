@@ -91,29 +91,24 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
     {
         $buttons = [];
         if (midcom::get()->config->get('metadata_approval')) {
+            $published = midcom::get()->config->get('show_hidden_objects') || $object->metadata->is_visible();
             if ($object->metadata->is_approved()) {
                 $action = 'unapprove';
                 $helptext = 'approved';
-                $icontype = 'approved';
                 $accesskey = 'u';
+                $icon = $published ? 'check-square-o' : 'calendar-check-o';
             } else {
                 $action = 'approve';
                 $helptext = 'unapproved';
-                $icontype = 'notapproved';
                 $accesskey = 'a';
+                $icon = $published ? 'times-rectangle-o' : 'calendar-times-o';
             }
 
-            $icon = 'stock-icons/16x16/page-' . $icontype . '.png';
-            if (   !midcom::get()->config->get('show_hidden_objects')
-                && !$object->metadata->is_visible()) {
-                // Take scheduling into account
-                $icon = 'stock-icons/16x16/page-' . $icontype . '-notpublished.png';
-            }
             $buttons[] = [
                 MIDCOM_TOOLBAR_URL => "__ais/folder/" . $action . "/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string($action, 'midcom'),
                 MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string($helptext, 'midcom'),
-                MIDCOM_TOOLBAR_ICON => $icon,
+                MIDCOM_TOOLBAR_GLYPHICON => $icon,
                 MIDCOM_TOOLBAR_POST => true,
                 MIDCOM_TOOLBAR_POST_HIDDENARGS => [
                     'guid' => $object->guid,
