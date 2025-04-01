@@ -221,7 +221,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
                 break;
             case 'q':
                 // Quarterly recurring subscription
-                $identifier = ceil(((int)$date->format('n')) / 4) . 'Q' . $date->format('y');
+                $identifier = ceil(((int)$date->format('n')) / 3) . 'Q' . $date->format('y');
                 break;
             case 'hy':
                 // Half-yearly recurring subscription

@@ -302,10 +302,10 @@ class deliverableTest extends openpsa_testcase
             [
                 [
                     'unit' => 'q',
-                    'start' => 1293840000,
-                    'end' => 1325376000,
+                    'start' => 1743465600,
+                    'end' => 1746057599,
                 ],
-                '1Q11',
+                '2Q25',
             ],
             [
                 [
