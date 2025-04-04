@@ -23,28 +23,33 @@ function init_datepicker(options)
     }
 
     if (options.hasOwnProperty('later_than')) {
-        var pickers = $(options.id + ', ' + options.later_than);
+        let pickers = $(options.id + ', ' + options.later_than),
+            start_max = $(options.later_than).datepicker('option', 'maxDate'),
+            end_min = $(options.id).datepicker('option', 'minDate');
+
         pickers.datepicker('option', 'beforeShow', function (input) {
             var default_date = $(input).val(),
-                other_option, option, other_picker,
+                other_option, option, other_picker, fallback,
                 instance = $(this).data("datepicker"),
                 date = $.datepicker.parseDate(
-                    instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                    default_date, instance.settings),
+                    instance.settings.dateFormat || $.datepicker._defaults.dateFormat,
+                    default_date, instance.settings
+                ),
                 config = {defaultDate: default_date};
 
             if ('#' + this.id == options.later_than) {
                 other_option = "minDate";
                 option = "maxDate";
                 other_picker = $(options.id);
+                fallback = start_max;
             } else {
                 other_option = "maxDate";
                 option = "minDate";
                 other_picker = $(options.later_than);
+                fallback = end_min;
             }
 
-            config[option] = other_picker.val();
+            config[option] = other_picker.val() || fallback;
             other_picker.datepicker("option", other_option, date);
             return config;
         });
