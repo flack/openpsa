@@ -27,29 +27,43 @@ function init_datepicker(options)
             start_max = $(options.later_than).datepicker('option', 'maxDate'),
             end_min = $(options.id).datepicker('option', 'minDate');
 
+        function parse_date(node)
+        {
+            const instance = $(node).data("datepicker"),
+                value = $(node).val();
+
+            return $.datepicker.parseDate(
+                instance.settings.dateFormat || $.datepicker._defaults.dateFormat,
+                value, instance.settings
+            );
+        }
+
         pickers.datepicker('option', 'beforeShow', function (input) {
             var default_date = $(input).val(),
-                other_option, option, other_picker, fallback,
-                instance = $(this).data("datepicker"),
-                date = $.datepicker.parseDate(
-                    instance.settings.dateFormat || $.datepicker._defaults.dateFormat,
-                    default_date, instance.settings
-                ),
+                other_option, option, other_picker,
+                date = parse_date(this),
+                other_date,
                 config = {defaultDate: default_date};
 
             if ('#' + this.id == options.later_than) {
                 other_option = "minDate";
                 option = "maxDate";
                 other_picker = $(options.id);
-                fallback = start_max;
+                other_date = parse_date(other_picker);
+                if (!other_date || other_date > start_max) {
+                    other_date = start_max
+                }
             } else {
                 other_option = "maxDate";
                 option = "minDate";
                 other_picker = $(options.later_than);
-                fallback = end_min;
+                other_date = parse_date(other_picker);
+                if (!other_date || other_date < end_min) {
+                    other_date = end_min
+                }
             }
 
-            config[option] = other_picker.val() || fallback;
+            config[option] = other_date;
             other_picker.datepicker("option", other_option, date);
             return config;
         });
