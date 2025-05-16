@@ -31,6 +31,15 @@ class midcom_services_i18n_formatter
         return $formatter->format($value);
     }
 
+    public function amount(int|float $value)
+    {
+        // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
+        $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
+        return $formatter->format($value);
+    }
+
     public function date(int|string|null|DateTimeInterface $value = null, int|string $dateformat = 'medium')
     {
         return $this->datetime($value, $dateformat, IntlDateFormatter::NONE);

@@ -159,7 +159,7 @@ class org_openpsa_invoices_scheduler
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
-        $message['content'] .= $l10n->get('invoiced') . ': ' . $l10n->get_formatter()->number($data['invoiced_sum']) . "\n\n";
+        $message['content'] .= $l10n->get('invoiced') . ': ' . $l10n->get_formatter()->amount($data['invoiced_sum']) . "\n\n";
 
         if ($data['invoiced_sum'] > 0) {
             $invoice = $calculator->get_invoice();

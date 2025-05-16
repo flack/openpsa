@@ -32,11 +32,11 @@ $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
             <?php } ?>
             <div class="field">
              <div class="title"><?php echo $data['l10n']->get('value'); ?></div>
-             <div class="value"><?php echo $formatter->number($salesproject->value); ?></div>
+             <div class="value"><?php echo $formatter->amount($salesproject->value); ?></div>
             </div>
             <div class="field">
              <div class="title"><?php echo $data['l10n']->get('profit'); ?></div>
-             <div class="value"><?php echo $formatter->number($salesproject->profit); ?></div>
+             <div class="value"><?php echo $formatter->amount($salesproject->profit); ?></div>
             </div>
             <div class="field">
              <div class="title"><?php echo $data['l10n']->get('owner'); ?></div>

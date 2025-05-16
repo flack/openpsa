@@ -23,7 +23,7 @@ $action = $data['router']->generate('deliverable_add', ['guid' => $data['salespr
                         } else {
                             $desc .= $data['l10n']->get('subscription');
                         }
-                        $desc .= ', ' . $data['l10n']->get_formatter()->number($product['price']);
+                        $desc .= ', ' . $data['l10n']->get_formatter()->amount($product['price']);
                         if ($unit = org_openpsa_sales_viewer::get_unit_option($product['unit'])) {
                             $desc .= ' ' . sprintf($data['l10n']->get('per %s'), $unit);
                         }

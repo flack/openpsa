@@ -12,7 +12,7 @@ if ($data['list_type'] == 'overdue') {
 }
 
 $footer_data = [
-    'sum' => $formatter->number($grid->get_provider()->get_column_total('index_sum'))
+    'sum' => $formatter->amount($grid->get_provider()->get_column_total('index_sum'))
 ];
 
 $grid->set_option('loadonce', true);
@@ -32,7 +32,7 @@ if (!($data['customer'] instanceof org_openpsa_contacts_person_dba)) {
 
 if (array_key_exists('deliverable', $data)) {
     $grid->set_column('item_sum', $data['deliverable']->title, 'width: 80, fixed: true, align: "right"', 'number');
-    $footer_data['item_sum'] = $formatter->number($data['totals']['deliverable']);
+    $footer_data['item_sum'] = $formatter->amount($data['totals']['deliverable']);
 }
 $grid->set_column('due', $data['l10n']->get('due'), 'width: 80, fixed: true, align: "right", formatter: "date"')
 ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right", title: false, classes: "sum"', 'number');

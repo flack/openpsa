@@ -115,10 +115,10 @@ implements client
             $item_sum = org_openpsa_invoices_invoice_item_dba::get_sum($constraints);
             $this->_request_data['totals']['deliverable'] += $item_sum;
             $entry['index_item_sum'] = $item_sum;
-            $entry['item_sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->number((($item_sum / 100) * $invoice->vat) + $item_sum) . '">' . $this->formatter->number($item_sum) . '</span>';
+            $entry['item_sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->amount((($item_sum / 100) * $invoice->vat) + $item_sum) . '">' . $this->formatter->amount($item_sum) . '</span>';
         }
         $entry['index_sum'] = $invoice->sum;
-        $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . $this->formatter->number($invoice->sum) . '</span>';
+        $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->amount((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . $this->formatter->amount($invoice->sum) . '</span>';
 
         $entry['due'] = '';
         if ($invoice->due > 0) {

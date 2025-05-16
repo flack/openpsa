@@ -66,10 +66,10 @@ if (   $data['product']
                       <tbody>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('price'); ?></td>
-                          <td class="numeric"><?php echo $formatter->number($data['deliverable']->pricePerUnit); ?></td>
+                          <td class="numeric"><?php echo $formatter->amount($data['deliverable']->pricePerUnit); ?></td>
                           <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                           <td class="numeric"><?php echo $view['units']; ?></td>
-                          <td class="numeric"><?php echo $formatter->number($data['deliverable']->price); ?></td>
+                          <td class="numeric"><?php echo $formatter->amount($data['deliverable']->price); ?></td>
                         </tr>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
@@ -80,11 +80,11 @@ if (   $data['product']
                               <td class="numeric">&nbsp;</td>
                           <?php
                           } else { ?>
-                              <td class="numeric"><?php echo $formatter->number($data['deliverable']->costPerUnit); ?></td>
+                              <td class="numeric"><?php echo $formatter->amount($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
                           <?php } ?>
-                              <td class="numeric"><?php echo $formatter->number($data['deliverable']->cost); ?></td>
+                              <td class="numeric"><?php echo $formatter->amount($data['deliverable']->cost); ?></td>
                         </tr>
                       </tbody>
                     </table>
@@ -103,7 +103,7 @@ if (   $data['product']
                 if ($data['deliverable']->invoiced > 0) { ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
-                        <div class="value"><?php echo $formatter->number($data['deliverable']->invoiced); ?></div>
+                        <div class="value"><?php echo $formatter->amount($data['deliverable']->invoiced); ?></div>
                     </div>
                 <?php } ?>
         </div>
