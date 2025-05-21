@@ -9,7 +9,7 @@ function init_datepicker(options)
         prevText: '',
         nextText: '',
         showOn: options.showOn,
-        buttonText: '&#xf073;',
+        buttonText: '',
         onClose: function() {
             $(options.id).next().focus();
         }
