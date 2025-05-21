@@ -519,21 +519,16 @@ class midcom_helper_head implements EventSubscriberInterface
             $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/' . $path . '.min.js');
 
             if ($component == 'datepicker') {
-                $lang = midcom::get()->i18n->get_current_language();
                 /*
                  * The calendar doesn't have all lang files and some are named differently
                  * Since a missing lang file causes the calendar to break, let's make extra sure
                  * that this won't happen
                  */
-                if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
-                    $lang = midcom::get()->i18n->get_fallback_language();
-                    if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
-                        $lang = null;
+                foreach ([midcom::get()->i18n->get_current_language(), midcom::get()->i18n->get_fallback_language()] as $lang) {
+                    if (file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
+                        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . "/i18n/datepicker-{$lang}.min.js");
+                        break;
                     }
-                }
-
-                if ($lang) {
-                    $this->add_jsfile(MIDCOM_JQUERY_UI_URL . "/i18n/datepicker-{$lang}.min.js");
                 }
             }
         }
