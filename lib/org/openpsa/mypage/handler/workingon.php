@@ -118,7 +118,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), 'Failed to set "working on" parameter, reason ' . midcom_connection::get_error_string(), 'error');
         }
 
-        $relocate = $request->request->get('url', '');
-        return new midcom_response_relocate($relocate . "workingon/");
+        return new midcom_response_relocate($this->router->generate('workingon'));
     }
 }

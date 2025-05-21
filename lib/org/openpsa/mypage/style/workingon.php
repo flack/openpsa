@@ -1,4 +1,6 @@
 <?php
+// we have to load assets unconditionally, since this can be delivered via AJAX in which case page style is skipped
+midcom::get()->uimessages->add_head_elements();
 $url = $data['router']->generate('today');
 $workingon = $data['workingon'];
 
