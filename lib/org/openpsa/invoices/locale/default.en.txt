@@ -439,3 +439,11 @@ Hello __FIRSTNAME__ __LASTNAME__,
 
 we got an invoice for you labeled __INVOICE_LABEL__!
 ---STRINGEND
+
+---STRING subject
+Subject
+---STRINGEND
+
+---STRING message
+Message
+---STRINGEND

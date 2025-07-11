@@ -151,9 +151,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
         $dm = new datamanager($schemadb);
         
-        $default_subject = $this->_l10n->get('invoice_mail_title_default');
-        $default_message = $this->_l10n->get('invoice_mail_body_default');
-
         $subject = null;
         $message = null;
 
@@ -165,8 +162,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->mail_recipient = $customer;
 
         $dm->set_defaults([
-            'subject' => $subject ?: $default_subject,
-            'message' => $message ?: $default_message
+            'subject' => $subject ?: $this->_l10n->get('invoice_mail_title_default'),
+            'message' => $message ?: $this->_l10n->get('invoice_mail_body_default')
         ]);
 
         return $dm->get_controller();
@@ -212,7 +209,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $mail = new org_openpsa_mail();
         $mail->attachments[] = [
-            'name' => $attachment->name . ".pdf",
+            'name' => $attachment->name,
             'mimetype' => "application/pdf",
             'content' => $attachment->read()
         ];

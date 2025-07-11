@@ -451,3 +451,11 @@ Hallo __FIRSTNAME__ __LASTNAME__,
 
 wir haben eine Rechnung für Sie mit der Bezeichnung __INVOICE_LABEL__!
 ---STRINGEND
+
+---STRING subject
+Betreff
+---STRINGEND
+
+---STRING message
+Nachricht
+---STRINGEND
