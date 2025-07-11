@@ -12,6 +12,7 @@ use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+
 /**
  * Invoice action handler
  *
@@ -151,19 +152,36 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $default_subject = $this->_l10n->get('invoice_mail_title_default');
         $default_message = $this->_l10n->get('invoice_mail_body_default');
 
-        if ($this->invoice->customer) {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
-            $default_message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message') ?: $default_message;
-            $default_subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject') ?: $default_subject;
-        } elseif ($this->invoice->customerContact) {
+        $subject = null;
+        $message = null;
+
+        if ($this->invoice->customerContact) {
             $contact = org_openpsa_contacts_person_dba::get_cached($this->invoice->customerContact);
-            $default_message = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message') ?: $default_message;
-            $default_subject = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject') ?: $default_subject;
+            $contact_message = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
+            $contact_subject = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
+
+            if ($contact_message && $contact_subject) {
+                $message = $contact_message;
+                $subject = $contact_subject;
+            }
         }
+
+        if ((!$message || !$subject) && $this->invoice->customer) {
+            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
+            $customer_message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
+            $customer_subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
+
+            if ($customer_message && $customer_subject) {
+                $message = $customer_message;
+                $subject = $customer_subject;
+            }
+        }
+
         $dm->set_defaults([
-            'message' => $default_message,
-            'subject' => $default_subject
+            'subject' => $subject ?: $default_subject,
+            'message' => $message ?: $default_message
         ]);
+
         return $dm->get_controller();
     }
 
@@ -171,6 +189,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     {
         midcom::get()->head->set_pagetitle($this->_l10n->get('send_by_mail'));
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
+        $this->invoice->require_do('midgard:update');
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_send_mail_controller(),
@@ -181,19 +200,18 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     public function save_callback(controller $controller)
     {
-        $this->invoice->require_do('midgard:update');
         $this->old_status = $this->invoice->get_status();
         
         $data = $controller->get_datamanager()->get_content_raw();
 
-        if ($this->invoice->customer) {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
-            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
-            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
-        } elseif ($this->invoice->customerContact) {
+        if ($this->invoice->customerContact) {
             $contact = org_openpsa_contacts_person_dba::get_cached($this->invoice->customerContact);
             $contact->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
             $contact->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
+        } elseif ($this->invoice->customer) {
+            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
+            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
+            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
         }
 
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
