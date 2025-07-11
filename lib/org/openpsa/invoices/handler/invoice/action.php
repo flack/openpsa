@@ -26,6 +26,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private string $old_status;
 
+    private ?midcom_core_dbaobject $mail_recipient = null;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -155,27 +157,12 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $subject = null;
         $message = null;
 
-        if ($this->invoice->customerContact) {
-            $contact = org_openpsa_contacts_person_dba::get_cached($this->invoice->customerContact);
-            $contact_message = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
-            $contact_subject = $contact->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
-
-            if ($contact_message && $contact_subject) {
-                $message = $contact_message;
-                $subject = $contact_subject;
-            }
+        $customer = $this->invoice->get_customer();
+        if ($customer) {
+            $message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
+            $subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
         }
-
-        if ((!$message || !$subject) && $this->invoice->customer) {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
-            $customer_message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
-            $customer_subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
-
-            if ($customer_message && $customer_subject) {
-                $message = $customer_message;
-                $subject = $customer_subject;
-            }
-        }
+        $this->mail_recipient = $customer;
 
         $dm->set_defaults([
             'subject' => $subject ?: $default_subject,
@@ -203,15 +190,10 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->old_status = $this->invoice->get_status();
         
         $data = $controller->get_datamanager()->get_content_raw();
-
-        if ($this->invoice->customerContact) {
-            $contact = org_openpsa_contacts_person_dba::get_cached($this->invoice->customerContact);
-            $contact->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
-            $contact->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
-        } elseif ($this->invoice->customer) {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->invoice->customer);
-            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
-            $customer->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
+       
+        if ($this->mail_recipient) {
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
         }
 
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
