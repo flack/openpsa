@@ -195,7 +195,7 @@ Mark sent
 ---STRINGEND
 
 ---STRING send_by_mail
-send by mail
+Send by mail
 ---STRINGEND
 
 ---STRING marked invoice %s paid
