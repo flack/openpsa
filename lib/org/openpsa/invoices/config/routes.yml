@@ -44,7 +44,11 @@ invoice_mark_sent:
 
 invoice_send_by_mail:
     path: /invoice/action/send_by_mail/{guid}/
-    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_by_mail' }
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_mail' }
+
+invoice_send_payment_reminder:
+    path: /invoice/action/send_payment_reminder/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_mail', type: 'reminder' }
 
 invoice_mark_paid:
     path: /invoice/action/mark_paid/

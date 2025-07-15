@@ -210,6 +210,10 @@ Marked invoice %s as sent
 Sent invoice %s per mail
 ---STRINGEND
 
+---STRING marked invoice %s payment reminder sent
+Invoice %s payment reminder sent
+---STRINGEND
+
 ---STRING marked task "%s" finished
 Marked task "%s" as finished
 ---STRINGEND
@@ -446,4 +450,18 @@ Subject
 
 ---STRING message
 Message
+---STRINGEND
+
+---STRING send_payment_reminder
+Send payment reminder
+---STRINGEND
+
+---STRING payment_reminder_mail_title_default
+Payment reminder for invoice __INVOICE_LABEL__
+---STRINGEND
+
+---STRING payment_reminder_mail_body_default
+Hello __FIRSTNAME__ __LASTNAME__,
+
+this is a reminder for your overdue invoice labeled __INVOICE_LABEL__!
 ---STRINGEND

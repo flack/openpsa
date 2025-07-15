@@ -102,6 +102,17 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
                     ]
                 );
             }
+
+            if ($this->invoice->get_status() == 'overdue') {
+                $buttons[] = $workflow->get_button(
+                    $this->router->generate('invoice_send_payment_reminder', ['guid' => $this->invoice->guid]),
+                    [
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('send_payment_reminder'),
+                        MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
+                        MIDCOM_TOOLBAR_ENABLED => true,
+                    ]
+                );
+            }
         }
 
         if ($this->_config->get('invoice_pdfbuilder_reminder_class') && $this->invoice->get_status() == 'overdue') {

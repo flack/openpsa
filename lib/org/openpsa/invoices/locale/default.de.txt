@@ -202,6 +202,10 @@ Rechnung %s wurde als verschickt markiert
 Rechnung %s wurde per E-Mail versendet
 ---STRINGEND
 
+---STRING marked invoice %s payment reminder sent
+Zahlungserinnerung für Rechnung %s wurde versendet
+---STRINGEND
+
 ---STRING marked task "%s" finished
 Aufgabe "%s" wurde als fertiggestellt markiert
 ---STRINGEND
@@ -458,4 +462,18 @@ Betreff
 
 ---STRING message
 Nachricht
+---STRINGEND
+
+---STRING send_payment_reminder
+Zahlungserinnerung versenden
+---STRINGEND
+
+---STRING payment_reminder_mail_title_default
+Zahlungserinnerung für Rechnung __INVOICE_LABEL__
+---STRINGEND
+
+---STRING payment_reminder_mail_body_default
+Hallo __FIRSTNAME__ __LASTNAME__,
+
+dies ist eine Erinnerung an Ihre überfällige Rechnung mit der Bezeichnung __INVOICE_LABEL__!
 ---STRINGEND
