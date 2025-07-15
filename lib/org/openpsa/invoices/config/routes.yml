@@ -44,7 +44,11 @@ invoice_mark_sent:
 
 invoice_send_by_mail:
     path: /invoice/action/send_by_mail/{guid}/
-    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_by_mail' }
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_mail' }
+
+invoice_send_payment_reminder:
+    path: /invoice/action/send_payment_reminder/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::send_mail', type: 'reminder' }
 
 invoice_mark_paid:
     path: /invoice/action/mark_paid/
@@ -58,9 +62,9 @@ create_pdf:
     path: /invoice/action/create_pdf/
     defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_pdf' }
 
-create_reminder:
-    path: /invoice/action/create_reminder/
-    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_pdf_reminder' }
+create_payment_warning:
+    path: /invoice/action/create_payment_warning/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_action::create_payment_warning' }
 
 recalc_invoice:
     path: /invoice/recalculation/{guid}/

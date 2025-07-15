@@ -101,7 +101,7 @@ class actionTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_create_reminder()
+    public function testHandler_create_payment_warning()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
@@ -112,7 +112,7 @@ class actionTest extends openpsa_testcase
             'id' => self::$_invoice->id,
             'relocate' => true
         ];
-        $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_reminder']);
+        $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_payment_warning']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
@@ -146,12 +146,15 @@ class actionTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_send_by_mail()
+    public function testHandler_send_mail()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_by_mail', self::$_invoice->guid]);
         $this->assertEquals('invoice_send_by_mail', $data['handler_id']);
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_payment_reminder', self::$_invoice->guid]);
+        $this->assertEquals('invoice_send_payment_reminder', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
