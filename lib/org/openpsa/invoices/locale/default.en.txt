@@ -195,7 +195,7 @@ Mark sent
 ---STRINGEND
 
 ---STRING send_by_mail
-send by mail
+Send by mail
 ---STRINGEND
 
 ---STRING marked invoice %s paid
@@ -428,4 +428,22 @@ Position
 
 ---STRING create_reminder
 create reminder
+---STRINGEND
+
+---STRING invoice_mail_title_default
+Invoice __INVOICE_LABEL__
+---STRINGEND
+
+---STRING invoice_mail_body_default
+Hello __FIRSTNAME__ __LASTNAME__,
+
+we got an invoice for you labeled __INVOICE_LABEL__!
+---STRINGEND
+
+---STRING subject
+Subject
+---STRINGEND
+
+---STRING message
+Message
 ---STRINGEND

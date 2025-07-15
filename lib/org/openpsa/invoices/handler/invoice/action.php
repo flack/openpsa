@@ -8,6 +8,10 @@
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use midcom\datamanager\schemadb;
+use Symfony\Component\HttpFoundation\Request;
+use midcom\datamanager\controller;
+use midcom\datamanager\datamanager;
 
 /**
  * Invoice action handler
@@ -22,15 +26,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private string $old_status;
 
+    private ?midcom_core_dbaobject $mail_recipient = null;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        if (empty($_POST['id'])) {
-            throw new midcom_error('Incomplete POST data');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
+            $this->invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
+            $this->invoice->require_do('midgard:update');
+            $this->old_status = $this->invoice->get_status();
         }
-        $this->invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
-        $this->invoice->require_do('midgard:update');
-        $this->old_status = $this->invoice->get_status();
     }
 
     private function reply(bool $success, string $message) : Response
@@ -141,8 +146,53 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
     }    
 
-    public function _handler_send_by_mail()
+    private function load_send_mail_controller() : controller
     {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
+        $dm = new datamanager($schemadb);
+        
+        $subject = null;
+        $message = null;
+
+        $customer = $this->invoice->get_customer();
+        if ($customer) {
+            $message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
+            $subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
+        }
+        $this->mail_recipient = $customer;
+
+        $dm->set_defaults([
+            'subject' => $subject ?: $this->_l10n->get('invoice_mail_title_default'),
+            'message' => $message ?: $this->_l10n->get('invoice_mail_body_default')
+        ]);
+
+        return $dm->get_controller();
+    }
+
+    public function _handler_send_by_mail(Request $request, string $guid)
+    {
+        midcom::get()->head->set_pagetitle($this->_l10n->get('send_by_mail'));
+        $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
+        $this->invoice->require_do('midgard:update');
+
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $this->load_send_mail_controller(),
+            'save_callback' => $this->save_callback(...),
+        ]);
+        return $workflow->run($request);
+    }
+
+    public function save_callback(controller $controller)
+    {
+        $this->old_status = $this->invoice->get_status();
+        
+        $data = $controller->get_datamanager()->get_content_raw();
+       
+        if ($this->mail_recipient) {
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
+        }
+
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $this->invoice->get_label();
@@ -159,7 +209,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $mail = new org_openpsa_mail();
         $mail->attachments[] = [
-            'name' => $attachment->name . ".pdf",
+            'name' => $attachment->name,
             'mimetype' => "application/pdf",
             'content' => $attachment->read()
         ];
@@ -174,18 +224,23 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $mail->to = $contactDetails["email"];
         $mail->from = $this->_config->get('invoice_mail_from_address');
-        $mail->subject = $this->_config->get('invoice_mail_title');
-        $mail->body = $this->_config->get('invoice_mail_body');
+        $mail->subject = $data['subject'];
+        $mail->body = $data['message'];
 
         if ($this->_config->get('invoice_mail_bcc')) {
             $mail->bcc = $this->_config->get('invoice_mail_bcc');
         }
 
+        $_POST['relocate'] = '1';
+
         if (!$mail->send()) {
-            return $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
+            $response = $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
+            return $response->getTargetUrl();
         }
         $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());
-        return $this->_handler_mark_sent();
+
+        $response = $this->_handler_mark_sent();
+        return $response->getTargetUrl();
     }
 
     public function _handler_mark_paid()

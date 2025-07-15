@@ -145,4 +145,14 @@ class actionTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_send_by_mail()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_by_mail', self::$_invoice->guid]);
+        $this->assertEquals('invoice_send_by_mail', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

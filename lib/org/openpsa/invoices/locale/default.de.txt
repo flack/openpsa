@@ -441,3 +441,21 @@ Mahnungs PDF-Datei konnte nicht erzeugt werden
 ---STRING position
 Position
 ---STRINGEND
+
+---STRING invoice_mail_title_default
+Rechnung __INVOICE_LABEL__
+---STRINGEND
+
+---STRING invoice_mail_body_default
+Hallo __FIRSTNAME__ __LASTNAME__,
+
+wir haben eine Rechnung für Sie mit der Bezeichnung __INVOICE_LABEL__!
+---STRINGEND
+
+---STRING subject
+Betreff
+---STRINGEND
+
+---STRING message
+Nachricht
+---STRINGEND
