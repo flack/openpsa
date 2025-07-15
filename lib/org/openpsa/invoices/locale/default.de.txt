@@ -422,7 +422,7 @@ PDF erzeugen
 Mahnung
 ---STRINGEND
 
----STRING create_reminder
+---STRING create_payment_warning
 Mahnung erzeugen
 ---STRINGEND
 
@@ -430,7 +430,7 @@ Mahnung erzeugen
 PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
----STRING reminder pdf created
+---STRING payment warning pdf created
 Mahnungs PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
@@ -438,7 +438,7 @@ Mahnungs PDF-Datei wurde erfolgreich erzeugt
 PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 
----STRING reminder pdf creation failed
+---STRING payment warning pdf creation failed
 Mahnungs PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 

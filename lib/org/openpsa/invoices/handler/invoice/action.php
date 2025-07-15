@@ -137,14 +137,14 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
     }
 
-    public function _handler_create_pdf_reminder()
+    public function _handler_create_payment_warning()
     {
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
         try {
             $pdf_helper->render_and_attach('reminder');
-            return $this->reply(true, $this->_l10n->get('reminder pdf created'));
+            return $this->reply(true, $this->_l10n->get('payment warning pdf created'));
         } catch (midcom_error $e) {
-            return $this->reply(false, $this->_l10n->get('reminder pdf creation failed') . ': ' . $e->getMessage());
+            return $this->reply(false, $this->_l10n->get('payment warning pdf creation failed') . ': ' . $e->getMessage());
         }
     }    
     private function get_email_type_config(string $type) : array

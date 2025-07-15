@@ -430,8 +430,8 @@ Could not create PDF
 Position
 ---STRINGEND
 
----STRING create_reminder
-create reminder
+---STRING create_payment_warning
+Create payment warning
 ---STRINGEND
 
 ---STRING invoice_mail_title_default
