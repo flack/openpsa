@@ -435,9 +435,13 @@ Invoice __INVOICE_LABEL__
 ---STRINGEND
 
 ---STRING invoice_mail_body_default
-Hello __FIRSTNAME__ __LASTNAME__,
+Hello,
 
 we got an invoice for you labeled __INVOICE_LABEL__!
+---STRINGEND
+
+---STRING to_email
+To
 ---STRINGEND
 
 ---STRING subject

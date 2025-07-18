@@ -151,17 +151,23 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
         $dm = new datamanager($schemadb);
         
+        $to_email = '';
         $subject = null;
         $message = null;
 
-        $customer = $this->invoice->get_customer();
+        $customer = $this->invoice->get_customer(true);
+
         if ($customer) {
             $message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
             $subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
+            $billing_data = $this->invoice->get_billing_data(true);
+            $to_email = $billing_data->email ?: $customer->email;
         }
+        
         $this->mail_recipient = $customer;
 
         $dm->set_defaults([
+            'to_email'=> $to_email,
             'subject' => $subject ?: $this->_l10n->get('invoice_mail_title_default'),
             'message' => $message ?: $this->_l10n->get('invoice_mail_body_default')
         ]);
@@ -193,8 +199,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
         }
 
-        $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
-        $contactDetails = $customerCard->contact_details;
         $invoice_label = $this->invoice->get_label();
 
         // check if we got an invoice date..
@@ -218,11 +222,9 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $mail->parameters = [
             "INVOICE_LABEL" => $invoice_label,
             "INVOICE_DATE" => $invoice_date,
-            "FIRSTNAME" => $contactDetails["firstname"],
-            "LASTNAME" => $contactDetails["lastname"]
         ];
 
-        $mail->to = $contactDetails["email"];
+        $mail->to = $data['to_email'];
         $mail->from = $this->_config->get('invoice_mail_from_address');
         $mail->subject = $data['subject'];
         $mail->body = $data['message'];
