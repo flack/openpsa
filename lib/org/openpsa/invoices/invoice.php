@@ -247,25 +247,42 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     /**
      * Get the billing data for the invoice
      */
-    public function get_billing_data() : org_openpsa_invoices_billing_data_dba
+    public function get_billing_data(bool $prioritize_contact = false) : org_openpsa_invoices_billing_data_dba
     {
-        return $this->_billing_data ??= org_openpsa_invoices_billing_data_dba::get_by_object($this);;
+        return $this->_billing_data ??= org_openpsa_invoices_billing_data_dba::get_by_object($this, $prioritize_contact);
     }
 
-    public function get_customer()
+    public function get_customer(bool $prioritize_contact = false)
     {
-        if (!empty($this->customer)) {
-            try {
-                return org_openpsa_contacts_group_dba::get_cached($this->customer);
-            } catch (midcom_error $e) {
-                $e->log();
+        if ($prioritize_contact) {
+            if (!empty($this->customerContact)) {
+                try {
+                    return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+                } catch (midcom_error $e) {
+                    $e->log();
+                }
             }
-        }
-        if (!empty($this->customerContact)) {
-            try {
-                return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
-            } catch (midcom_error $e) {
-                $e->log();
+            if (!empty($this->customer)) {
+                try {
+                    return org_openpsa_contacts_group_dba::get_cached($this->customer);
+                } catch (midcom_error $e) {
+                    $e->log();
+                }
+            }
+        } else {
+            if (!empty($this->customer)) {
+                try {
+                    return org_openpsa_contacts_group_dba::get_cached($this->customer);
+                } catch (midcom_error $e) {
+                    $e->log();
+                }
+            }
+            if (!empty($this->customerContact)) {
+                try {
+                    return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+                } catch (midcom_error $e) {
+                    $e->log();
+                }
             }
         }
         return null;
