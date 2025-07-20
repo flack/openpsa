@@ -155,17 +155,17 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $subject = null;
         $message = null;
 
-        $customer = $this->invoice->get_customer(true);
-
-        if ($customer) {
-            $message = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
-            $subject = $customer->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
-            $billing_data = $this->invoice->get_billing_data(true);
-            $to_email = $billing_data->email ?: $customer->email;
-        }
+        $this->mail_recipient = $this->invoice->get_customer(true);
         
-        $this->mail_recipient = $customer;
+        if (!$this->mail_recipient) {
+            throw new midcom_error('No mail recipient found');
+        }
 
+        $message = $this->mail_recipient->get_parameter('org.openpsa.invoices', 'last_invoice_mail_message');
+        $subject = $this->mail_recipient->get_parameter('org.openpsa.invoices', 'last_invoice_mail_subject');
+        $billing_data = $this->invoice->get_billing_data(true);
+        $to_email = $billing_data->email ?: $this->mail_recipient->email;
+        
         $dm->set_defaults([
             'to_email'=> $to_email,
             'subject' => $subject ?: $this->_l10n->get('invoice_mail_title_default'),
@@ -194,9 +194,17 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         
         $data = $controller->get_datamanager()->get_content_raw();
        
-        if ($this->mail_recipient) {
-            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
-            $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
+        $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_message', $data['message']);
+        $this->mail_recipient->set_parameter('org.openpsa.invoices', 'last_invoice_mail_subject', $data['subject']);
+        
+        if ($this->mail_recipient instanceof org_openpsa_contacts_person_dba) {
+            $customerCard = org_openpsa_widgets_contact::get($this->mail_recipient->id);
+            $contactDetails = $customerCard->contact_details;
+            $firstname = $contactDetails["firstname"];
+            $lastname = $contactDetails["lastname"];
+        } else {
+            $firstname = '';
+            $lastname = '';
         }
 
         $invoice_label = $this->invoice->get_label();
@@ -222,6 +230,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $mail->parameters = [
             "INVOICE_LABEL" => $invoice_label,
             "INVOICE_DATE" => $invoice_date,
+            "FIRSTNAME" => $firstname,
+            "LASTNAME" => $lastname
         ];
 
         $mail->to = $data['to_email'];

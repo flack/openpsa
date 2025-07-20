@@ -254,32 +254,19 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
     public function get_customer(bool $prioritize_contact = false)
     {
+        $fields = [
+            org_openpsa_contacts_group_dba::class => 'customer',
+            org_openpsa_contacts_person_dba::class => 'customerContact',
+        ];
+
         if ($prioritize_contact) {
-            if (!empty($this->customerContact)) {
+            $fields = array_reverse($fields);
+        }
+        
+        foreach ($fields as $class => $property) {
+            if (!empty($this->$property)) {
                 try {
-                    return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
-                } catch (midcom_error $e) {
-                    $e->log();
-                }
-            }
-            if (!empty($this->customer)) {
-                try {
-                    return org_openpsa_contacts_group_dba::get_cached($this->customer);
-                } catch (midcom_error $e) {
-                    $e->log();
-                }
-            }
-        } else {
-            if (!empty($this->customer)) {
-                try {
-                    return org_openpsa_contacts_group_dba::get_cached($this->customer);
-                } catch (midcom_error $e) {
-                    $e->log();
-                }
-            }
-            if (!empty($this->customerContact)) {
-                try {
-                    return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+                    return $class::get_cached($this->$property);
                 } catch (midcom_error $e) {
                     $e->log();
                 }

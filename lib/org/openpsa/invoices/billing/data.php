@@ -39,9 +39,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     /**
      * Get the billing data for the customer in object or create a default data set of it.
      */
-    public static function get_by_object(org_openpsa_invoices_interfaces_customer $object, bool $prefer_contact = false) : self
+    public static function get_by_object(org_openpsa_invoices_interfaces_customer $object, bool $prioritize_contact = false) : self
     {
-        if ($prefer_contact) {
+        if ($prioritize_contact) {
             $bd = self::get_billing_data(org_openpsa_contacts_person_dba::class, $object->customerContact)
             ?: self::get_billing_data(org_openpsa_contacts_group_dba::class, $object->customer);
         } else {

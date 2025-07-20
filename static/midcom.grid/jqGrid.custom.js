@@ -781,14 +781,6 @@ const midcom_grid_row_actions = {
     process: function(button, action, config) {
         button.attr('disabled', 'disabled');
         var id = button.parent().parent().attr('id');
-
-        if (action === 'send_by_mail') {
-            var guid = button.attr('id').replace('invoice_', '');
-            create_dialog(button, 'send_by_mail', config.url + action + '/' + guid + '/');
-            button.removeAttr('disabled');
-            return;
-        }
-        
         $.post(config.url + action + '/', {id: id}, function(data) {
             if (data.success !== false) {
                 var old_grid = button.closest('.ui-jqgrid-btable'),

@@ -105,4 +105,10 @@ $(document).ready(function() {
             });
         });
     });
+
+    $('button.send_by_mail').on('click', function() {
+        var guid = $(this).attr('id').replace('invoice_', '');
+        var url = window.location.origin + '/invoices/invoice/action/send_by_mail/' + guid + '/';
+        create_dialog($(this), 'send_by_mail', url);
+    });
 });
