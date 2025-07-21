@@ -39,8 +39,7 @@ trait org_openpsa_invoices_handler
             if ($billing_data->sendingoption === 2) {
                 $action = 'send_by_mail';
                 $icon = '<i class="fa fa-paper-plane"></i>';
-                $url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices') 
-                . 'invoice/action/' .$action. '/' . $invoice->guid . '/';
+                $url = $this->router->generate('invoice_send_by_mail', ['guid' => $invoice->guid]);
                 
                 // generate next action button with data-url attribute
                 return '<button id="invoice_' . $invoice->guid . '" class="' . $action . '" data-url="' . $url . '">' . $icon . ' ' . $this->_l10n->get($action) . '</button>';
