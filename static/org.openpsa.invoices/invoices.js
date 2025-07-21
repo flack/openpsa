@@ -105,4 +105,9 @@ $(document).ready(function() {
             });
         });
     });
+
+    $('button.send_by_mail').on('click', function() {
+        var url = $(this).data('url');
+        create_dialog($(this), 'send_by_mail', url);
+    });
 });

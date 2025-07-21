@@ -440,6 +440,10 @@ Hello __FIRSTNAME__ __LASTNAME__,
 we got an invoice for you labeled __INVOICE_LABEL__!
 ---STRINGEND
 
+---STRING to_email
+To
+---STRINGEND
+
 ---STRING subject
 Subject
 ---STRINGEND
