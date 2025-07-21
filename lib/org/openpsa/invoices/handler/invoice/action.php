@@ -151,10 +151,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
         $dm = new datamanager($schemadb);
         
-        $to_email = '';
-        $subject = null;
-        $message = null;
-
         $this->mail_recipient = $this->invoice->get_customer(true);
         
         if (!$this->mail_recipient) {
