@@ -447,7 +447,7 @@ Rechnung __INVOICE_LABEL__
 ---STRINGEND
 
 ---STRING invoice_mail_body_default
-Hallo,
+Hallo __FIRSTNAME__ __LASTNAME__,
 
 wir haben eine Rechnung für Sie mit der Bezeichnung __INVOICE_LABEL__!
 ---STRINGEND
