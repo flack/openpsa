@@ -38,13 +38,11 @@ class workingonTest extends openpsa_testcase
 
     public function testHandler_weekreview_redirect()
     {
-
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'task' => self::$task->id,
             'description' => 'test',
             'action' => 'stop',
-        ];
+        ]);
 
         $url = $this->run_relocate_handler('org.openpsa.mypage', ['workingon', 'set']);
         $this->assertEquals('workingon/', $url);

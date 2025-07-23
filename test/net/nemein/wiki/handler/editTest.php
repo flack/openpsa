@@ -51,8 +51,7 @@ class editTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST['change_to'] = 'default';
+        $this->set_post_data(['change_to' => 'default']);
         $url = $this->run_relocate_handler(self::$_topic, ['change', self::$_page->name]);
         $this->assertEquals('edit/' . self::$_page->name . '/', $url);
 
