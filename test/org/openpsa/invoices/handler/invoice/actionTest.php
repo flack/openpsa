@@ -153,6 +153,7 @@ class actionTest extends openpsa_testcase
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
             'customerContact' => self::$_person->id
         ]);
+        $this->set_post_data(['id' => $invoice->id]);
 
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_by_mail', $invoice->guid]);
         $this->assertEquals('invoice_send_by_mail', $data['handler_id']);
