@@ -146,10 +146,11 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         } catch (midcom_error $e) {
             return $this->reply(false, $this->_l10n->get('payment warning pdf creation failed') . ': ' . $e->getMessage());
         }
-    }    
-    private function get_email_type_config(string $type) : array
+    }
+    
+    private function get_email_type_config() : array
     {
-        if ($type === 'reminder') {
+        if ($this->mail_type === 'reminder') {
             return [
                 'subject_param' => 'last_payment_reminder_subject',
                 'message_param' => 'last_payment_reminder_message',
@@ -178,8 +179,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $customer = $this->invoice->get_customer();
         if ($customer) {
-            $subject = $customer->get_parameter('org.openpsa.invoices',$config['subject_param']);
-            $message = $customer->get_parameter('org.openpsa.invoices',$config['message_param']);
+            $subject = $customer->get_parameter('org.openpsa.invoices', $config['subject_param']);
+            $message = $customer->get_parameter('org.openpsa.invoices', $config['message_param']);
         }
         $this->mail_recipient = $customer;
 
@@ -194,7 +195,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     public function _handler_send_mail(Request $request, string $guid, string $type = 'invoice')
     {
         $this->mail_type = $type;
-        $config = $this->get_email_type_config($type);
+        $config = $this->get_email_type_config();
         midcom::get()->head->set_pagetitle($this->_l10n->get($config['pagetitle']));
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
@@ -211,12 +212,11 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->old_status = $this->invoice->get_status();
         
         $data = $controller->get_datamanager()->get_content_raw();
-        $mail_type = $this->mail_type;
-        $prefix = ($mail_type === 'reminder') ? 'last_payment_reminder_' : 'last_invoice_mail_';
+        $config = $this->get_email_type_config();
        
         if ($this->mail_recipient) {
-            $this->mail_recipient->set_parameter('org.openpsa.invoices', $prefix . 'subject', $data['subject']);
-            $this->mail_recipient->set_parameter('org.openpsa.invoices', $prefix . 'message', $data['message']);
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', $config['subject_param'], $data['subject']);
+            $this->mail_recipient->set_parameter('org.openpsa.invoices', $config['message_param'], $data['message']);
         }
 
         $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
@@ -264,10 +264,10 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return $response->getTargetUrl();
         }
 
-        if ($mail_type === 'reminder') {
+        if ($this->mail_type === 'reminder') {
             $this->invoice->set_parameter($this->_component, 'sent_payment_reminder', time());
-            $reponse = $this->reply(true, sprintf($this->_l10n->get('marked invoice %s payment reminder sent'), $this->invoice->get_label()));
-            return $reponse->getTargetUrl();
+            $response = $this->reply(true, sprintf($this->_l10n->get('marked invoice %s payment reminder sent'), $this->invoice->get_label()));
+            return $response->getTargetUrl();
         }
 
         $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());

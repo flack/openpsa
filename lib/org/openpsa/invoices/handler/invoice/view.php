@@ -103,7 +103,7 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
                 );
             }
 
-            if ($this->invoice->get_status() == 'overdue') {
+            if ($this->invoice->get_status() == 'overdue' && intval($billing_data->sendingoption) == 2) {
                 $buttons[] = $workflow->get_button(
                     $this->router->generate('invoice_send_payment_reminder', ['guid' => $this->invoice->guid]),
                     [
