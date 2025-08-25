@@ -44,7 +44,7 @@ class itemsTest extends openpsa_testcase
     public function testHandler_recalculation()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $this->set_post_data([]);
         $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'recalculation', self::$_invoice->guid]);
         $this->assertEquals('invoice/items/' . self::$_invoice->guid . '/', $url);
 

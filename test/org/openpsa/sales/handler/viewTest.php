@@ -82,11 +82,9 @@ class viewTest extends openpsa_testcase
 
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-
-        $_POST = [
+        $this->set_post_data([
             'id' => $deliverable->id,
-        ];
+        ]);
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'order']);
         $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
@@ -94,19 +92,11 @@ class viewTest extends openpsa_testcase
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED, $deliverable->state);
 
-        $_POST = [
-            'id' => $deliverable->id,
-        ];
-
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'deliver']);
         $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
         $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->success);
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED, $deliverable->state);
-
-        $_POST = [
-            'id' => $deliverable->id,
-        ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'invoice']);
         $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
@@ -141,11 +131,9 @@ class viewTest extends openpsa_testcase
         $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $deliverable_attributes);
         $deliverable->update();
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-
-        $_POST = [
+        $this->set_post_data([
             'id' => $deliverable->id,
-        ];
+        ]);
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'order']);
         $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);
@@ -159,10 +147,6 @@ class viewTest extends openpsa_testcase
 
         $this->register_objects($at_entries);
         $this->assertCount(1, $at_entries);
-
-        $_POST = [
-            'id' => $deliverable->id,
-        ];
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'action', 'run_cycle']);
         $this->assertInstanceOf(JsonResponse::class, $data['__openpsa_testcase_response']);

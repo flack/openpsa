@@ -48,11 +48,10 @@ class actionTest extends openpsa_testcase
         $this->assertTrue($invoice->is_cancelable());
 
         // process
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'id' => $invoice->id,
             'relocate' => true
-        ];
+        ]);
         $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'create_cancelation']);
 
         // now we should got a cancelation invoice
@@ -90,11 +89,10 @@ class actionTest extends openpsa_testcase
 
         $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.invoices']);
         $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'id' => self::$_invoice->id,
             'relocate' => true
-        ];
+        ]);
         $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_pdf']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
@@ -107,11 +105,10 @@ class actionTest extends openpsa_testcase
 
         $topic = $this->create_object(midcom_db_topic::class, ['component' => 'org.openpsa.invoices']);
         $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_reminder_class', 'nonexistent');
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'id' => self::$_invoice->id,
-            'relocate' => true
-        ];
+            'relocate' => true,
+        ]);
         $url = $this->run_relocate_handler($topic, ['invoice', 'action', 'create_payment_warning']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
@@ -121,11 +118,10 @@ class actionTest extends openpsa_testcase
     public function testHandler_mark_sent()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'id' => self::$_invoice->id,
             'relocate' => true
-        ];
+        ]);
         $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'mark_sent']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
@@ -135,11 +131,10 @@ class actionTest extends openpsa_testcase
     public function testHandler_mark_paid()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = [
+        $this->set_post_data([
             'id' => self::$_invoice->id,
             'relocate' => true
-        ];
+        ]);
         $url = $this->run_relocate_handler('org.openpsa.invoices', ['invoice', 'action', 'mark_paid']);
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
@@ -150,7 +145,12 @@ class actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_by_mail', self::$_invoice->guid]);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
+            'customerContact' => self::$_person->id
+        ]);
+        $this->set_post_data(['id' => $invoice->id]);
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_by_mail', $invoice->guid]);
         $this->assertEquals('invoice_send_by_mail', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -160,7 +160,12 @@ class actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_payment_reminder', self::$_invoice->guid]);
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
+            'customerContact' => self::$_person->id
+        ]);
+        $this->set_post_data(['id' => $invoice->id]);
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'action', 'send_payment_reminder', $invoice->guid]);
         $this->assertEquals('invoice_send_payment_reminder', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

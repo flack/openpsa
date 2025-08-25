@@ -77,8 +77,7 @@ class viewTest extends openpsa_testcase
     {
         self::create_user(true);
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST['subscribe'] = true;
+        $this->set_post_data(['subscribe' => true]);
 
         $url = $this->run_relocate_handler(self::$_topic, ['subscribe', self::$_page->name]);
         $this->assertEquals(self::$_page->name . '/', $url);

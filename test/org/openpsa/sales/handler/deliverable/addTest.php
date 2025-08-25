@@ -44,11 +44,9 @@ class addTest extends openpsa_testcase
         ];
         $this->_product = $this->create_object(org_openpsa_products_product_dba::class, $product_attributes);
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-
-        $_POST = [
+        $this->set_post_data([
             'product' => $this->_product->id,
-        ];
+        ]);
     }
 
     public function testHandler_add_create()

@@ -53,7 +53,7 @@ $grid->set_footer_data($footer_data);
 midcom_grid_row_actions.init({
     identifier: '<?= $grid->get_identifier(); ?>',
     url: '<?= $invoices_url; ?>invoice/action/',
-    actions: ['mark_sent', 'send_by_mail', 'mark_paid'],
+    actions: ['mark_sent', 'mark_paid'],
     totals_field: 'sum'
 });
 </script>

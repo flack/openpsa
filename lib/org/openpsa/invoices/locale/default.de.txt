@@ -456,6 +456,10 @@ Hallo __FIRSTNAME__ __LASTNAME__,
 wir haben eine Rechnung für Sie mit der Bezeichnung __INVOICE_LABEL__!
 ---STRINGEND
 
+---STRING to_email
+An
+---STRINGEND
+
 ---STRING subject
 Betreff
 ---STRINGEND
