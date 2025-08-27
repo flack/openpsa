@@ -153,8 +153,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $config = [
             'subject_param' => 'last_' . $this->mail_type . '_subject',
             'message_param' => 'last_' . $this->mail_type . '_message',
-            'subject_default' => $this->mail_type . '_mail_title_default',
-            'message_default' => $this->mail_type . '_mail_body_default',
             'pagetitle' => $this->mail_type . '_send_by_mail'
         ];
 
@@ -167,8 +165,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $subject = $this->mail_recipient->get_parameter($this->_component, $config['subject_param']);
         $message = $this->mail_recipient->get_parameter($this->_component, $config['message_param']);
         
-        $config['subject'] = $subject ?: $this->_l10n->get($config['subject_default']);
-        $config['message'] = $message ?: $this->_l10n->get($config['message_default']);
+        $config['subject'] = $subject ?: $this->_l10n->get($this->mail_type . '_mail_title_default');
+        $config['message'] = $message ?: $this->_l10n->get($this->mail_type . '_mail_body_default');
         
         $config['pagetitle'] = $this->_l10n->get($config['pagetitle']);
 
