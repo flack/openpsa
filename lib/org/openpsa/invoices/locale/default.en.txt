@@ -194,7 +194,7 @@ Mark paid
 Mark sent
 ---STRINGEND
 
----STRING send_by_mail
+---STRING invoice_send_by_mail
 Send by mail
 ---STRINGEND
 
@@ -208,6 +208,10 @@ Marked invoice %s as sent
 
 ---STRING marked invoice %s sent per mail
 Sent invoice %s per mail
+---STRINGEND
+
+---STRING marked invoice %s payment reminder sent
+Invoice %s payment reminder sent
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -426,8 +430,8 @@ Could not create PDF
 Position
 ---STRINGEND
 
----STRING create_reminder
-create reminder
+---STRING create_payment_warning
+Create payment warning
 ---STRINGEND
 
 ---STRING invoice_mail_title_default
@@ -450,4 +454,18 @@ Subject
 
 ---STRING message
 Message
+---STRINGEND
+
+---STRING reminder_send_by_mail
+Send payment reminder
+---STRINGEND
+
+---STRING reminder_mail_title_default
+Payment reminder for invoice __INVOICE_LABEL__
+---STRINGEND
+
+---STRING reminder_mail_body_default
+Hello __FIRSTNAME__ __LASTNAME__,
+
+this is a reminder for your overdue invoice labeled __INVOICE_LABEL__!
 ---STRINGEND

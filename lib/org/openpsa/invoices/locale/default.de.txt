@@ -186,7 +186,7 @@ bezahlt
 verschickt
 ---STRINGEND
 
----STRING send_by_mail
+---STRING invoice_send_by_mail
 Mail versenden
 ---STRINGEND
 
@@ -200,6 +200,10 @@ Rechnung %s wurde als verschickt markiert
 
 ---STRING marked invoice %s sent per mail
 Rechnung %s wurde per E-Mail versendet
+---STRINGEND
+
+---STRING marked invoice %s payment reminder sent
+Zahlungserinnerung für Rechnung %s wurde versendet
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -418,7 +422,7 @@ PDF erzeugen
 Mahnung
 ---STRINGEND
 
----STRING create_reminder
+---STRING create_payment_warning
 Mahnung erzeugen
 ---STRINGEND
 
@@ -426,7 +430,7 @@ Mahnung erzeugen
 PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
----STRING reminder pdf created
+---STRING payment warning pdf created
 Mahnungs PDF-Datei wurde erfolgreich erzeugt
 ---STRINGEND
 
@@ -434,7 +438,7 @@ Mahnungs PDF-Datei wurde erfolgreich erzeugt
 PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 
----STRING reminder pdf creation failed
+---STRING payment warning pdf creation failed
 Mahnungs PDF-Datei konnte nicht erzeugt werden
 ---STRINGEND
 
@@ -462,4 +466,18 @@ Betreff
 
 ---STRING message
 Nachricht
+---STRINGEND
+
+---STRING reminder_send_by_mail
+Zahlungserinnerung versenden
+---STRINGEND
+
+---STRING reminder_mail_title_default
+Zahlungserinnerung für Rechnung __INVOICE_LABEL__
+---STRINGEND
+
+---STRING reminder_mail_body_default
+Hallo __FIRSTNAME__ __LASTNAME__,
+
+dies ist eine Erinnerung an Ihre überfällige Rechnung mit der Bezeichnung __INVOICE_LABEL__!
 ---STRINGEND

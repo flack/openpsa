@@ -26,6 +26,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private string $old_status;
 
+    private string $mail_type;
+
     private ?midcom_core_dbaobject $mail_recipient = null;
 
     public function _on_initialize()
@@ -135,50 +137,68 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
     }
 
-    public function _handler_create_pdf_reminder()
+    public function _handler_create_payment_warning()
     {
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
         try {
             $pdf_helper->render_and_attach('reminder');
-            return $this->reply(true, $this->_l10n->get('reminder pdf created'));
+            return $this->reply(true, $this->_l10n->get('payment warning pdf created'));
         } catch (midcom_error $e) {
-            return $this->reply(false, $this->_l10n->get('reminder pdf creation failed') . ': ' . $e->getMessage());
+            return $this->reply(false, $this->_l10n->get('payment warning pdf creation failed') . ': ' . $e->getMessage());
         }
-    }    
-
-    private function load_send_mail_controller() : controller
+    }
+    
+    private function get_email_type_config() : array
     {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
-        $dm = new datamanager($schemadb);
-        
+        $config = [
+            'subject_param' => 'last_' . $this->mail_type . '_subject',
+            'message_param' => 'last_' . $this->mail_type . '_message',
+            'pagetitle' => $this->mail_type . '_send_by_mail'
+        ];
+
         $this->mail_recipient = $this->invoice->get_customer(true);
         
         if (!$this->mail_recipient) {
             throw new midcom_error('No mail recipient found');
         }
 
-        $message = $this->mail_recipient->get_parameter($this->_component, 'last_invoice_mail_message');
-        $subject = $this->mail_recipient->get_parameter($this->_component, 'last_invoice_mail_subject');
+        $subject = $this->mail_recipient->get_parameter($this->_component, $config['subject_param']);
+        $message = $this->mail_recipient->get_parameter($this->_component, $config['message_param']);
+        
+        $config['subject'] = $subject ?: $this->_l10n->get($this->mail_type . '_mail_title_default');
+        $config['message'] = $message ?: $this->_l10n->get($this->mail_type . '_mail_body_default');
+        
+        $config['pagetitle'] = $this->_l10n->get($config['pagetitle']);
+
+        return $config;
+    }
+
+    private function load_send_mail_controller(array $config) : controller
+    {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
+        $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
         $to_email = $billing_data->email ?: $this->mail_recipient->email;
         
         $dm->set_defaults([
             'to_email'=> $to_email,
-            'subject' => $subject ?: $this->_l10n->get('invoice_mail_title_default'),
-            'message' => $message ?: $this->_l10n->get('invoice_mail_body_default')
+            'subject' => $config['subject'],
+            'message' => $config['message']
         ]);
 
         return $dm->get_controller();
     }
 
-    public function _handler_send_by_mail(Request $request, string $guid)
+    public function _handler_send_mail(Request $request, string $guid, string $type = 'invoice')
     {
-        midcom::get()->head->set_pagetitle($this->_l10n->get('send_by_mail'));
+        $this->mail_type = $type;
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
+        $config = $this->get_email_type_config();
+        midcom::get()->head->set_pagetitle($config['pagetitle']);
 
         $workflow = $this->get_workflow('datamanager', [
-            'controller' => $this->load_send_mail_controller(),
+            'controller' => $this->load_send_mail_controller($config),
             'save_callback' => $this->save_callback(...),
         ]);
         return $workflow->run($request);
@@ -189,9 +209,10 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $this->old_status = $this->invoice->get_status();
         
         $data = $controller->get_datamanager()->get_content_raw();
+        $config = $this->get_email_type_config();
        
-        $this->mail_recipient->set_parameter($this->_component, 'last_invoice_mail_message', $data['message']);
-        $this->mail_recipient->set_parameter($this->_component, 'last_invoice_mail_subject', $data['subject']);
+        $this->mail_recipient->set_parameter($this->_component, $config['subject_param'], $data['subject']);
+        $this->mail_recipient->set_parameter($this->_component, $config['message_param'], $data['message']);
         
         if ($this->mail_recipient instanceof org_openpsa_contacts_person_dba) {
             $customerCard = org_openpsa_widgets_contact::get($this->mail_recipient->id);
@@ -245,6 +266,17 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             $response = $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
             return $response->getTargetUrl();
         }
+
+        if ($this->mail_type === 'reminder') {
+            $existing_reminders = $this->invoice->get_parameter($this->_component, 'sent_payment_reminder');
+            $reminders = $existing_reminders ? json_decode($existing_reminders, true) : [];
+            $reminders[] = time();
+            $this->invoice->set_parameter($this->_component, 'sent_payment_reminder', json_encode($reminders));
+
+            $response = $this->reply(true, sprintf($this->_l10n->get('marked invoice %s payment reminder sent'), $this->invoice->get_label()));
+            return $response->getTargetUrl();
+        }
+
         $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());
 
         $response = $this->_handler_mark_sent();
