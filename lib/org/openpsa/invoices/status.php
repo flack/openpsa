@@ -109,12 +109,16 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 ];
             }
 
-            if ($reminder_time = $this->invoice->get_parameter('org.openpsa.invoices', 'sent_payment_reminder')) {
-                $entries[] = [
-                    'timestamp' => $reminder_time,
-                    'message' => sprintf($this->l10n->get('marked invoice %s payment reminder sent'), ''),
-                    'order' => 1
-                ];
+            $reminders = $this->invoice->get_parameter('org.openpsa.invoices', 'sent_payment_reminder');
+            if ($reminders) {
+                $reminder_times = json_decode($reminders, true);
+                foreach ($reminder_times as $reminder_time) {
+                    $entries[] = [
+                        'timestamp' => $reminder_time,
+                        'message' => sprintf($this->l10n->get('marked invoice %s payment reminder sent'), ''),
+                        'order' => 1
+                    ];
+                }
             }
         }
         $entries[] = [

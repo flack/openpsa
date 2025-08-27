@@ -270,7 +270,11 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
 
         if ($this->mail_type === 'reminder') {
-            $this->invoice->set_parameter($this->_component, 'sent_payment_reminder', time());
+            $existing_reminders = $this->invoice->get_parameter($this->_component, 'sent_payment_reminder');
+            $reminders = $existing_reminders ? json_decode($existing_reminders, true) : [];
+            $reminders[] = time();
+            $this->invoice->set_parameter($this->_component, 'sent_payment_reminder', json_encode($reminders));
+
             $response = $this->reply(true, sprintf($this->_l10n->get('marked invoice %s payment reminder sent'), $this->invoice->get_label()));
             return $response->getTargetUrl();
         }
