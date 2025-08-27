@@ -37,7 +37,7 @@ trait org_openpsa_invoices_handler
             $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice);
             // only show if mail was chosen as option
             if ($billing_data->sendingoption === 2) {
-                $action = 'send_by_mail';
+                $action = 'invoice_send_by_mail';
                 $icon = '<i class="fa fa-paper-plane"></i>';
                 $url = $this->router->generate('invoice_send_by_mail', ['guid' => $invoice->guid]);
                 

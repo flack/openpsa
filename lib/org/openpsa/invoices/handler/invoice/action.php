@@ -150,30 +150,14 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     
     private function get_email_type_config() : array
     {
-        if ($this->mail_type === 'reminder') {
-            return [
-                'subject_param' => 'last_payment_reminder_subject',
-                'message_param' => 'last_payment_reminder_message',
-                'subject_default' => 'payment_reminder_mail_title_default',
-                'message_default' => 'payment_reminder_mail_body_default',
-                'pagetitle' => 'send_payment_reminder'
-            ];
-        }
-
-        return [
-            'subject_param' => 'last_invoice_mail_subject',
-            'message_param' => 'last_invoice_mail_message',
-            'subject_default' => 'invoice_mail_title_default',
-            'message_default' => 'invoice_mail_body_default',
-            'pagetitle' => 'send_by_mail'
+        $config = [
+            'subject_param' => 'last_' . $this->mail_type . '_subject',
+            'message_param' => 'last_' . $this->mail_type . '_message',
+            'subject_default' => $this->mail_type . '_mail_title_default',
+            'message_default' => $this->mail_type . '_mail_body_default',
+            'pagetitle' => $this->mail_type . '_send_by_mail'
         ];
-    }
 
-    private function load_send_mail_controller(array $config) : controller
-    {
-        $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
-        $dm = new datamanager($schemadb);
-        
         $this->mail_recipient = $this->invoice->get_customer(true);
         
         if (!$this->mail_recipient) {
@@ -182,13 +166,26 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
         $subject = $this->mail_recipient->get_parameter($this->_component, $config['subject_param']);
         $message = $this->mail_recipient->get_parameter($this->_component, $config['message_param']);
+        
+        $config['subject'] = $subject ?: $this->_l10n->get($config['subject_default']);
+        $config['message'] = $message ?: $this->_l10n->get($config['message_default']);
+        
+        $config['pagetitle'] = $this->_l10n->get($config['pagetitle']);
+
+        return $config;
+    }
+
+    private function load_send_mail_controller(array $config) : controller
+    {
+        $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
+        $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
         $to_email = $billing_data->email ?: $this->mail_recipient->email;
         
         $dm->set_defaults([
             'to_email'=> $to_email,
-            'subject' => $subject ?: $this->_l10n->get($config['subject_default']),
-            'message' => $message ?: $this->_l10n->get($config['message_default'])
+            'subject' => $config['subject'],
+            'message' => $config['message']
         ]);
 
         return $dm->get_controller();
@@ -197,10 +194,10 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     public function _handler_send_mail(Request $request, string $guid, string $type = 'invoice')
     {
         $this->mail_type = $type;
-        $config = $this->get_email_type_config();
-        midcom::get()->head->set_pagetitle($this->_l10n->get($config['pagetitle']));
         $this->invoice = new org_openpsa_invoices_invoice_dba($guid);
         $this->invoice->require_do('midgard:update');
+        $config = $this->get_email_type_config();
+        midcom::get()->head->set_pagetitle($config['pagetitle']);
 
         $workflow = $this->get_workflow('datamanager', [
             'controller' => $this->load_send_mail_controller($config),

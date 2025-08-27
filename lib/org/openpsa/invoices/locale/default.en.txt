@@ -194,7 +194,7 @@ Mark paid
 Mark sent
 ---STRINGEND
 
----STRING send_by_mail
+---STRING invoice_send_by_mail
 Send by mail
 ---STRINGEND
 
@@ -456,15 +456,15 @@ Subject
 Message
 ---STRINGEND
 
----STRING send_payment_reminder
+---STRING reminder_send_by_mail
 Send payment reminder
 ---STRINGEND
 
----STRING payment_reminder_mail_title_default
+---STRING reminder_mail_title_default
 Payment reminder for invoice __INVOICE_LABEL__
 ---STRINGEND
 
----STRING payment_reminder_mail_body_default
+---STRING reminder_mail_body_default
 Hello __FIRSTNAME__ __LASTNAME__,
 
 this is a reminder for your overdue invoice labeled __INVOICE_LABEL__!
