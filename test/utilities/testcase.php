@@ -229,7 +229,15 @@ abstract class openpsa_testcase extends TestCase
     {
         $prop = new ReflectionProperty($response, 'context');
         $prop->setAccessible(true);
-        return $prop->getValue($response)->get_key(MIDCOM_CONTEXT_SHOWCALLBACK)[0];
+        $callback = $prop->getValue($response)->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
+        if (is_array($callback)) {
+            return $callback[0];
+        }
+        $data = $prop->getValue($response)->get_custom_key('request_data');
+        if (!array_key_exists('controller', $data)) {
+            $this->fail('Could not find controller');
+        }
+        return $data['controller'];
     }
 
     public function submit_dm_dialog(array $formdata, string|midcom_db_topic $component, array $args = []) : string
