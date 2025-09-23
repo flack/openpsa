@@ -235,7 +235,7 @@ class autocomplete
         return $config;
     }
 
-    public static function create_item_label($object, array $result_headers, ?string $titlefield) : string
+    public static function create_item_label($object, array $result_headers, null|string|callable $titlefield) : string
     {
         if (!empty($titlefield)) {
             if (is_callable($titlefield)) {
