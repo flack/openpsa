@@ -242,6 +242,7 @@ abstract class openpsa_testcase extends TestCase
 
     public function submit_dm_dialog(array $formdata, string|midcom_db_topic $component, array $args = []) : string
     {
+        $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
         $controller = $this->get_controller($data['__openpsa_testcase_response']);
 
