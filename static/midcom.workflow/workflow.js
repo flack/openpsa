@@ -103,12 +103,18 @@ $(document).ready(function() {
 
     $('body').on('click', '[data-dialog="dialog"]', function(event) {
         event.preventDefault();
-        let url;
+        let url, 
+            href = this.getAttribute('href');
+
+        if (this.classList.contains('dialog-extra-button')) {
+            href = this.dataset.action;
+        }
+
         if ($('.midcom-workflow-dialog').is(':visible') && $('.midcom-workflow-dialog iframe').length > 0) {
             url = $('.midcom-workflow-dialog iframe')[0].contentWindow.location.href;
         }
-        if (url != this.href) {
-            create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, this.getAttribute('href'));
+        if (url != href) {
+            create_dialog($(this), $(this).find('.toolbar_label').text() || this.title, href);
         }
     });
 
