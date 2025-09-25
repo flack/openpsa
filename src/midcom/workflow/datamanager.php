@@ -40,6 +40,8 @@ class datamanager extends dialog
 
     protected ?string $style = null;
 
+    protected string $label;
+
     /**
      * {@inheritdoc}
      */
@@ -50,7 +52,8 @@ class datamanager extends dialog
                 'controller' => null,
                 'save_callback' => null,
                 'relocate' => true,
-                'style' => null
+                'style' => null,
+                'label' => midcom::get()->i18n->get_string('edit', 'midcom')
             ])
             ->setAllowedTypes('controller', ['null', controller::class]);
     }
@@ -58,7 +61,7 @@ class datamanager extends dialog
     public function get_button_config() : array
     {
         return [
-            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit', 'midcom'),
+            MIDCOM_TOOLBAR_LABEL => $this->label,
             MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
             MIDCOM_TOOLBAR_OPTIONS => [
                 'data-dialog' => 'dialog',
