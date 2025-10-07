@@ -35,16 +35,11 @@ class purgedeleted extends Command
         $this->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'));
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $dialog = $this->getHelperSet()->get('question');
-        $this->require_admin($dialog, $input, $output);
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $handler = new \midcom_cron_purgedeleted;
         $handler->set_cutoff((int) $input->getOption('days'));
+        \midcom::get()->auth->request_sudo('midcom.core');
 
         $output->writeln('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $handler->get_cutoff()));
 
