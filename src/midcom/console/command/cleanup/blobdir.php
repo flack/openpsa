@@ -182,11 +182,6 @@ class blobdir extends Command
 
         $this->check_dir($dir);
 
-        $output->writeln("Scanned <info>" . $this->_file_counter . "</info> files");
-        $output->writeln("Found <info>" . count($this->findings['corrupted']) . "</info> corrupted files");
-        $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</info> orphaned files");
-        $output->writeln("Found <info>" . count($this->findings['orphaned_attachments']) . "</info> orphaned attachments");
-
         $this->cleanup_corrupted($output, $this->findings['corrupted']);
 
         foreach ($this->findings['orphaned'] as $file) {
@@ -198,7 +193,11 @@ class blobdir extends Command
         }
 
         $this->auth->drop_sudo();
-        $output->writeln("<comment>Done</comment>");
+
+        $output->writeln("Scanned <info>" . $this->_file_counter . "</> files");
+        $output->writeln("Found <info>" . count($this->findings['corrupted']) . "</> corrupted files");
+        $output->writeln("Found <info>" . count($this->findings['orphaned']) . "</> orphaned files");
+        $output->writeln("Found <info>" . count($this->findings['orphaned_attachments']) . "</> orphaned attachments");
         return Command::SUCCESS;
     }
 }
