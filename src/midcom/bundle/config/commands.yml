@@ -17,6 +17,7 @@ services:
 
     command.midcom.cleanup.blobdir:
         class: midcom\console\command\cleanup\blobdir
+        arguments: ['@auth']
         tags:
             - {name: 'console.command'}
 

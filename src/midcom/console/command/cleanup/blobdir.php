@@ -16,6 +16,7 @@ use midcom_db_attachment;
 use Symfony\Component\Console\Attribute\AsCommand;
 use midgard\portable\storage\connection;
 use Doctrine\ORM\AbstractQuery;
+use midcom_services_auth;
 
 /**
  * Cleanup the blobdir
@@ -41,6 +42,14 @@ class blobdir extends Command
         'orphaned' => [],
         'orphaned_attachments' => []
     ];
+
+    private midcom_services_auth $auth;
+
+    public function __construct(midcom_services_auth $auth)
+    {
+        $this->auth = $auth;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -166,6 +175,10 @@ class blobdir extends Command
         }
 
         $output->writeln("Start scanning dir: <comment>" . $dir . "</comment>");
+        if (!$this->auth->request_sudo('midcom.core')) {
+            $output->writeln("<comment>Unable to get sudo</comment>");
+            return Command::FAILURE;
+        }
 
         $this->check_dir($dir);
 
@@ -184,6 +197,7 @@ class blobdir extends Command
             $this->purge_attachment($output, $attachment);
         }
 
+        $this->auth->drop_sudo();
         $output->writeln("<comment>Done</comment>");
         return Command::SUCCESS;
     }
