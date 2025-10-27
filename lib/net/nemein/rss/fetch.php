@@ -438,7 +438,7 @@ class net_nemein_rss_fetch
      */
     private function _parse_parameters(midcom_db_article $article, net_nemein_rss_parser_item $item)
     {
-        foreach ($item->get_enclosures() as $enclosure) {
+        foreach ((array) $item->get_enclosures() as $enclosure) {
             $article->set_parameter('net.nemein.rss:enclosure', 'url', $enclosure->get_link());
             $article->set_parameter('net.nemein.rss:enclosure', 'duration', $enclosure->get_duration());
             $article->set_parameter('net.nemein.rss:enclosure', 'mimetype', $enclosure->get_type());
