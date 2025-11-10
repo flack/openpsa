@@ -91,6 +91,8 @@ function attach_to_parent_dialog(dialog) {
         });
     }
 
+    var buttonset = dialog.nextAll('.ui-dialog-buttonpane').find('.ui-dialog-buttonset');
+
     if ($('.datamanager2 .form_toolbar > *').length > 0) {
         $('.datamanager2 .form_toolbar > *').each(function() {
             var btn = $(this);
@@ -100,6 +102,11 @@ function attach_to_parent_dialog(dialog) {
                     if (btn.hasClass('cancel')) {
                         dialog.dialog('close');
                     } else {
+                        btn.closest('form').on('submit', function() {
+                            buttonset
+                                .find('.ui-button')
+                                .addClass('ui-state-disabled');
+                        });
                         btn.click();
                     }
                 }
@@ -117,7 +124,7 @@ function attach_to_parent_dialog(dialog) {
     // stable (3.4.1) is affected. For now, we just copy the relevant part from jqueryui's
     // _createButtons method..
 
-    var buttonset = dialog.nextAll('.ui-dialog-buttonpane').find('.ui-dialog-buttonset').empty();
+    buttonset.empty();
 
     $.each(buttons, function (name, props) {
         var click, buttonOptions;
