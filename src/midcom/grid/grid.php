@@ -136,14 +136,7 @@ class grid
     public function set_option(string $key, $value, bool $autoquote_string = true) : self
     {
         $this->_raw_options[$key] = $value;
-        if (   $autoquote_string
-            && is_string($value)) {
-            $value = '"' . str_replace('"', '\\"', $value) . '"';
-        } elseif ($value === true) {
-            $value = 'true';
-        } elseif ($value === false) {
-            $value = 'false';
-        } elseif (is_array($value)) {
+        if ($autoquote_string || !is_string($value)) {
             $value = json_encode($value);
         }
         $this->_options[$key] = $value;
@@ -299,7 +292,7 @@ class grid
         $string .= "});\n";
 
         if ($this->_footer_data) {
-            $format = $this->format_footer ? 'true' : 'false';
+            $format = json_encode($this->format_footer);
             $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", " . $format . ");\n";
         }
 

@@ -70,9 +70,9 @@ class subformType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['max_count'] = $options['type_config']['max_count'];
-        $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
-        $view->vars['allow_add'] = $options['allow_add'] ? 'true' : 'false';
-        $view->vars['allow_delete'] = $options['allow_delete'] ? 'true' : 'false';
+        $view->vars['sortable'] = json_encode($options['widget_config']['sortable']);
+        $view->vars['allow_add'] = json_encode($options['allow_add']);
+        $view->vars['allow_delete'] = json_encode($options['allow_delete']);
     }
 
     /**

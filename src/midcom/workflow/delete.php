@@ -107,7 +107,7 @@ class delete extends dialog
                 'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
                 'data-dialog-text' => $dialog_text,
                 'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel'),
-                'data-recursive' => $this->recursive ? 'true' : 'false',
+                'data-recursive' => json_encode($this->recursive),
                 'data-guid' => $this->object->guid,
                 'data-relocate' => $this->relocate
             ]

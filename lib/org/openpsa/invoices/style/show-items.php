@@ -4,8 +4,8 @@ $position_url = $data['router']->generate('invoice_item_position');
 $grid = $data['grid'];
 $grid->set_option('editurl', $data['router']->generate('invoice_item_edit', ['guid' => $data['invoice']->guid]));
 $grid->set_option('pager', '#p_' . $grid->get_identifier());
-$grid->set_option('pgbuttons', 'false');
-$grid->set_option('pginput', 'false');
+$grid->set_option('pgbuttons', false);
+$grid->set_option('pginput', false);
 
 $grid->set_column('position', $data['l10n']->get('position'), 'hidden: true');
 $grid->set_column('deliverable', midcom::get()->i18n->get_string('agreement', 'org.openpsa.projects'), 'fixed: true, align: "center", width: 40, sortable: false');
