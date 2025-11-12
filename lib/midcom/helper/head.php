@@ -196,8 +196,8 @@ class midcom_helper_head implements EventSubscriberInterface
     {
         $string = '';
         foreach ($attributes as $key => $val) {
-            if ($this->cachebusting && $key === 'href') {
-                $val .= $this->cachebusting;
+            if ($key === 'href') {
+                $val = $this->cachebust($val);
             }
             $string .= ' ' . $key . '="' . htmlspecialchars($val, ENT_COMPAT) . '"';
         }
@@ -418,14 +418,21 @@ class midcom_helper_head implements EventSubscriberInterface
     private function render_js(string $carry, array $js_call) : string
     {
         if (array_key_exists('url', $js_call)) {
-            if ($this->cachebusting) {
-                $js_call['url'] .= $this->cachebusting;
-            }
-            return $carry . '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
+            return $carry . '<script type="text/javascript" src="' . $this->cachebust($js_call['url']) . "\"></script>\n";
         }
         $carry .= '<script type="text/javascript"' . ($js_call['defer'] ?? '') . ">\n";
         $carry .= $js_call['content'] . "\n";
         return $carry . "</script>\n";
+    }
+
+    private function cachebust(string $url) : string
+    {
+        if (   $this->cachebusting
+            && !str_starts_with($url, 'http:')
+            && !str_starts_with($url, 'https:')) {
+            return $url . $this->cachebusting;
+        }
+        return $url;
     }
 
     public function get_jshead_elements() : array
