@@ -13,6 +13,7 @@ class form extends base
     {
         parent::__construct($renderer);
         midcom::get()->head->prepend_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/default.css');
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
     }
 
     protected function get_view_renderer() : view
