@@ -142,13 +142,15 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Get the path to the document in the static cache
      */
-    private function get_cache_path() : string
+    private function get_cache_path() : ?string
     {
         // Copy the file to the static directory
         $cacheroot = midcom::get()->config->get('attachment_cache_root');
         $subdir = $this->guid[0];
         if (!file_exists("{$cacheroot}/{$subdir}/{$this->guid}")) {
-            mkdir("{$cacheroot}/{$subdir}/{$this->guid}", 0777, true);
+            if (!mkdir("{$cacheroot}/{$subdir}/{$this->guid}", 0777, true)) {
+                return null;
+            }
         }
 
         return "{$cacheroot}/{$subdir}/{$this->guid}/{$this->name}";
@@ -198,6 +200,11 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         $filename = $this->get_cache_path();
 
+        if (!$filename) {
+            debug_add("Failed to create cache dir, skipping.");
+            return;
+        }
+
         if (file_exists($filename) && is_link($filename)) {
             debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.");
             return;
@@ -212,16 +219,15 @@ class midcom_db_attachment extends midcom_core_dbaobject
         // Symlink failed, actually copy the data
         if (!copy($this->get_path(), $filename)) {
             debug_add("Failed to cache attachment {$this->name} ({$this->guid}), copying failed.");
-            return;
+        } else {
+            debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.");
         }
-
-        debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.");
     }
 
     private function remove_from_cache()
     {
         $filename = $this->get_cache_path();
-        if (file_exists($filename)) {
+        if ($filename && file_exists($filename)) {
             @unlink($filename);
         }
     }
