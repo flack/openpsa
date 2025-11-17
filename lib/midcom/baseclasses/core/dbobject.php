@@ -290,7 +290,7 @@ class midcom_baseclasses_core_dbobject
         if (!$object instanceof midcom_db_attachment) {
             foreach ($object->list_attachments() as $attachment) {
                 if (!$attachment->delete()) {
-                    debug_add("Failed to delete attachment ID {$attachment->id}", MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete attachment ID {$attachment->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     return false;
                 }
             }
@@ -300,7 +300,7 @@ class midcom_baseclasses_core_dbobject
         $query->add_constraint('parentguid', '=', $object->guid);
         foreach ($query->execute() as $parameter) {
             if (!$parameter->delete()) {
-                debug_add("Failed to delete parameter ID {$parameter->id}", MIDCOM_LOG_ERROR);
+                debug_add("Failed to delete parameter ID {$parameter->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }
         }
