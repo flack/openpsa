@@ -27,7 +27,7 @@ class purifySubscriber implements EventSubscriberInterface
         $this->config = $config ?: $this->get_from_global_config('html_purify_config');
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [FormEvents::PRE_SUBMIT => 'purify_content'];
     }

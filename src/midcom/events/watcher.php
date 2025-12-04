@@ -36,7 +36,7 @@ class watcher implements EventSubscriberInterface
         $this->watches = $watches;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             dbaevent::CREATE => ['handle_event'],

@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
  */
 class subscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             KernelEvents::REQUEST => ['on_request'],
