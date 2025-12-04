@@ -68,7 +68,7 @@ class midcom_application extends Kernel
         return $this->request ??= Request::createFromGlobals();
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader) : void
     {
         if (file_exists($this->getProjectDir() . '/config/services.yml')) {
             $loader->load($this->getProjectDir() . '/config/services.yml');
