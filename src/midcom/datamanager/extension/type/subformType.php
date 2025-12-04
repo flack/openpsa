@@ -39,17 +39,17 @@ class subformType extends AbstractType
             ]
         ]);
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
-            $validation = [];
+            $min = $max = null;
             if ($options['type_config']['max_count'] > 0) {
-                $validation['max'] = $options['type_config']['max_count'];
+                $max = $options['type_config']['max_count'];
             }
             if ($options['required']) {
-                $validation['min'] = 1;
+                $min = 1;
             }
-            if (!empty($validation)) {
-                return [new Count($validation)];
+            if (isset($min) || isset($max)) {
+                return [new Count(min: $min, max: $max)];
             }
-            return $validation;
+            return [];
         });
         $resolver->setNormalizer('entry_options', function (Options $options, $value) {
             return array_replace([

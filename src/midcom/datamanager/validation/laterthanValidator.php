@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class laterthanValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         $element = $this->context->getObject()->getParent()->get($constraint->value);
         $compare = $element->getData();

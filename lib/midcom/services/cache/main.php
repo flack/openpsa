@@ -55,7 +55,7 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     private array $_modules = [];
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             dbaevent::CREATE => ['handle_create'],

@@ -101,7 +101,7 @@ class dbacontainer extends container
             $rfp = new midgard_reflection_property($this->object->__mgdschema_class_name__);
             $type = $rfp->get_midgard_type($location);
             if ($type == MGD_TYPE_STRING) {
-                $config['validation'][] = new Length(['max' => 255]);
+                $config['validation'][] = new Length(max: 255);
             }
         }
         return new $classname($this->object, $config);

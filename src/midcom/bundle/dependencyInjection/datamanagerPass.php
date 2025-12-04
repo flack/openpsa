@@ -10,11 +10,12 @@ class datamanagerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container) : void
     {
         $form_prefix = $this->get_prefix($container->getDefinition('form.factory'));
+        $validator_builder = $container->getDefinition('validator.builder');
 
-        $validator_builder = $container
-            ->getDefinition('validator.builder')
-            ->addMethodCall('addXmlMappings', [[$form_prefix . 'config/validation.xml']]);
-
+        // Symfony <8 compat
+        if (file_exists($form_prefix . 'config/validation.xml')) {
+            $validator_builder->addMethodCall('addXmlMappings', [[$form_prefix . 'config/validation.xml']]);
+        }
         $container->getDefinition('translator')
             ->addArgument([
                 $this->get_prefix($validator_builder, 'translations/validators.'),

@@ -38,7 +38,7 @@ class textExtension extends AbstractTypeExtension
                 $value[] = new validator(['forbidden_patterns' => $options['type_config']['forbidden_patterns']]);
             }
             if (!empty($options['type_config']['maxlength'])) {
-                $value[] = new Length(['max' => $options['type_config']['maxlength']]);
+                $value[] = new Length(max: $options['type_config']['maxlength']);
             }
             return $value;
         });

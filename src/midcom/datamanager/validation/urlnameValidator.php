@@ -14,7 +14,7 @@ use midcom\datamanager\storage\container\dbacontainer;
 
 class urlnameValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         if (empty($value)) {
             return;

@@ -28,7 +28,7 @@ class midcom_exception_handler implements EventSubscriberInterface
     public function __construct(private array $error_actions, private midcom_helper_style $style)
     {}
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             KernelEvents::EXCEPTION => ['handle']

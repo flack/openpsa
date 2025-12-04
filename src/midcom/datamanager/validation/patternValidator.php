@@ -11,7 +11,7 @@ use midcom;
 
 class patternValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
         $value = (string) $value;

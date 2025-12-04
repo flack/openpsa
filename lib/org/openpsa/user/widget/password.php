@@ -36,7 +36,7 @@ class org_openpsa_user_widget_password extends AbstractType
         $builder->add('password', PasswordType::class, [
             'label_attr' => ['style' => 'display: none'],
             'attr' => ['autocomplete' => 'new-password'],
-            'constraints' => [new Length(['min' => $config->get('min_password_length')])]
+            'constraints' => [new Length(min: $config->get('min_password_length'))]
         ]);
 
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.user');

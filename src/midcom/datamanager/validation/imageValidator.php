@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class imageValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         if (   empty($value)
             || !empty($value['delete'])

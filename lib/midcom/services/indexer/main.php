@@ -41,7 +41,7 @@ class midcom_services_indexer implements EventSubscriberInterface
         $this->_disabled = $this->_backend === null;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [dbaevent::DELETE => ['handle_delete']];
     }

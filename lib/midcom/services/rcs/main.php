@@ -26,7 +26,7 @@ class midcom_services_rcs implements EventSubscriberInterface
 {
     private midcom_services_rcs_config $config;
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             dbaevent::CREATE => ['update'],

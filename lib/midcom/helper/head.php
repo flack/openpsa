@@ -73,7 +73,7 @@ class midcom_helper_head implements EventSubscriberInterface
 
     private string $cachebusting = '';
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [KernelEvents::RESPONSE => ['inject_head_elements']];
     }

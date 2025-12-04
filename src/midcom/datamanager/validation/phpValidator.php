@@ -11,7 +11,7 @@ use midcom;
 
 class phpValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint) : void
     {
         if (trim($value) == '') {
             return;
