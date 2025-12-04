@@ -89,6 +89,7 @@ return [
                         'overdue'      => midcom::get()->i18n->get_string('overdue', 'org.openpsa.invoices'),
                         'paid'     => midcom::get()->i18n->get_string('paid', 'org.openpsa.invoices'),
                         'scheduled'     => midcom::get()->i18n->get_string('scheduled', 'org.openpsa.invoices'),
+                        'default'     => midcom::get()->i18n->get_string('default', 'org.openpsa.invoices'),
                     ],
                     'allow_multiple' => true
                 ],

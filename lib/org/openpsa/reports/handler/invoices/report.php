@@ -199,11 +199,16 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('due', '<', time());
                 $qb->add_constraint('paid', '=', 0);
+                $qb->add_constraint('defaultdate', '=', 0);
                 break;
             case 'open':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '>=', time());
+                $qb->add_constraint('defaultdate', '=', 0);
+                break;
+            case 'default':
+                $qb->add_constraint('defaultdate', '>', 0);
                 break;
         }
 

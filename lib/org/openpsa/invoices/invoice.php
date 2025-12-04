@@ -14,6 +14,7 @@
  * @property integer $paid
  * @property integer $date
  * @property integer $deliverydate
+ * @property integer $defaultdate
  * @property integer $number
  * @property string $description
  * @property float $sum
@@ -39,6 +40,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
     {
         if ($this->id == 0) {
             return 'scheduled';
+        }
+        if ($this->defaultdate) {
+            return 'default';
         }
         if ($this->cancelationInvoice) {
             return 'canceled';
@@ -262,7 +266,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
         if ($prioritize_contact) {
             $fields = array_reverse($fields);
         }
-        
+
         foreach ($fields as $class => $property) {
             if (!empty($this->$property)) {
                 try {

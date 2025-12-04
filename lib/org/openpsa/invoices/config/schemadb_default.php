@@ -154,6 +154,18 @@ return [
                 ],
                 'hidden'    => true,
             ],
+            'defaultdate' => [
+                'title' => 'default',
+                'storage'    => 'defaultdate',
+                'type'    => 'date',
+                'type_config' => [
+                    'storage_type' => 'UNIXTIME',
+                ],
+                'widget'    => 'jsdate',
+                'widget_config' => [
+                    'show_time' => false
+                ],
+            ],
             'pdf_file' => [
                 'title' => 'pdf file',
                 'type'    => 'blobs',

@@ -62,6 +62,18 @@ Kundenkontakt
 Übersicht
 ---STRINGEND
 
+---STRING default
+Zahlungsausfall
+---STRINGEND
+
+---STRING default invoices
+Zahlungsausfälle
+---STRINGEND
+
+---STRING default on payment on %s
+Zahlungsausfall am %s
+---STRINGEND
+
 ---STRING due
 Fällig
 ---STRINGEND

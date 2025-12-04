@@ -4,7 +4,7 @@ $url = $data['router']->generate('list_json_type', ['type' => $data['list_type']
 $grid = $data['grid'];
 $classes = $data['list_type'];
 
-if ($data['list_type'] == 'overdue') {
+if (in_array($data['list_type'], ['overdue', 'default'])) {
     $classes .= ' bad';
 } elseif ($data['list_type'] == 'paid') {
     $classes .= ' good';

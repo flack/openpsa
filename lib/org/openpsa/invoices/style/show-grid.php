@@ -3,7 +3,7 @@ $grid = $data['grid'];
 $classes = $data['list_type'];
 $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 $formatter = $data['l10n']->get_formatter();
-if ($data['list_type'] == 'overdue') {
+if (in_array($data['list_type'], ['overdue', 'default'])) {
     $classes .= ' bad';
 } elseif ($data['list_type'] == 'paid') {
     $classes .= ' good';

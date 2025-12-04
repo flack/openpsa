@@ -58,6 +58,18 @@ Customer contact
 Dashboard
 ---STRINGEND
 
+---STRING default
+default on payment
+---STRINGEND
+
+---STRING default invoices
+Defaults on payment
+---STRINGEND
+
+---STRING default on payment on %s
+Default on payment on am %s
+---STRINGEND
+
 ---STRING due
 Due date
 ---STRINGEND

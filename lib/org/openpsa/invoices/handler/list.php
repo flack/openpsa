@@ -59,11 +59,16 @@ implements client
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '<=', strtotime('today'));
+                $qb->add_constraint('defaultdate', '=', 0);
                 break;
             case 'open':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '>', strtotime('today'));
+                $qb->add_constraint('defaultdate', '=', 0);
+                break;
+            case 'default':
+                $qb->add_constraint('defaultdate', '>', 0);
                 break;
         }
 
@@ -227,6 +232,9 @@ implements client
             case 'open':
                 $provider->add_order('due');
                 break;
+            case 'default':
+                $provider->add_order('defaultdate');
+                break;
         }
         $grid_id = $type . '_invoices_grid';
 
@@ -293,6 +301,7 @@ implements client
         $this->_show_invoice_list('overdue');
         $this->_show_invoice_list('open');
         $this->_show_invoice_list('paid');
+        $this->_show_invoice_list('default');
     }
 
     public function _handler_deliverable(string $guid, array &$data)

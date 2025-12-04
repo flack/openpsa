@@ -10,7 +10,6 @@ namespace midcom\grid;
 
 use midcom\grid\provider\client;
 use midcom_core_query;
-use midcom_error;
 use midcom;
 
 /**

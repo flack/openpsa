@@ -31,7 +31,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             'open' => sprintf($this->l10n->get('due on %s'), $this->l10n->get_formatter()->date($this->invoice->due)),
             'overdue' => '<span class="bad">' . sprintf($this->l10n->get('overdue since %s'), $this->l10n->get_formatter()->date($this->invoice->due)) . '</span>',
             'paid' => sprintf($this->l10n->get('paid on %s'), $this->l10n->get_formatter()->date($this->invoice->paid)),
-            'canceled' => sprintf($this->l10n->get('invoice canceled on %s'), $this->l10n->get_formatter()->date($this->invoice->paid))
+            'canceled' => sprintf($this->l10n->get('invoice canceled on %s'), $this->l10n->get_formatter()->date($this->invoice->paid)),
+            'default' => sprintf($this->l10n->get('default on payment on %s'), $this->l10n->get_formatter()->date($this->invoice->defaultdate))
         };
     }
 
@@ -66,7 +67,13 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
     private function get_status_entries() : array
     {
         $entries = [];
-        if ($this->invoice->cancelationInvoice) {
+        if ($this->invoice->defaultdate) {
+            $entries[] = [
+                'timestamp' => $this->invoice->defaultdate,
+                'message' => $this->l10n->get('default'),
+                'order' => 5
+            ];
+        } elseif ($this->invoice->cancelationInvoice) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $cancelation_invoice = new org_openpsa_invoices_invoice_dba($this->invoice->cancelationInvoice);
             $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';

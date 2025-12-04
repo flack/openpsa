@@ -9,6 +9,7 @@
         <property name="sent" type="integer" index="yes"/>
         <property name="due" type="integer" index="yes"/>
         <property name="paid" type="integer" index="yes"/>
+        <property name="defaultdate" type="integer" index="yes" />
 
         <!-- The invoice itself, date, comment, sum and VAT % -->
         <property name="date" type="integer" index="yes"/>
