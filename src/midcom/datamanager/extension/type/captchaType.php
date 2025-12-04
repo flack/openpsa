@@ -32,12 +32,12 @@ class captchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('mapped', false);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $session_key = md5($builder->getForm()->getName() . '_session_key');
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($session_key) {
@@ -54,7 +54,7 @@ class captchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $session_key = md5($form->getName() . '_session_key');
         $view->vars['captcha_url'] = midcom_connection::get_url('self') . 'midcom-exec-midcom.datamanager/captcha.php/' . $session_key;
@@ -63,7 +63,7 @@ class captchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return TextType::class;
     }
@@ -71,7 +71,7 @@ class captchaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'captcha';
     }

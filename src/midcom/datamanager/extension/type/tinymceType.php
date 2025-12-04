@@ -34,7 +34,7 @@ class tinymceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('config', function (Options $options) {
             return \midcom_baseclasses_components_configuration::get('midcom.datamanager', 'config');
@@ -57,7 +57,7 @@ class tinymceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $config = $this->get_configuration($options);
         $tiny_options = [
@@ -75,7 +75,7 @@ class tinymceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'tinymce';
     }
@@ -83,7 +83,7 @@ class tinymceType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return TextareaType::class;
     }

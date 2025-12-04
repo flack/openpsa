@@ -18,7 +18,7 @@ class privilegeselectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('expanded', false);
     }
@@ -26,7 +26,7 @@ class privilegeselectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $effective_value = $view->vars['effective_value'] ? 'allow' : 'deny';
         $view->vars['jsinit'] = '$("#' . $view->vars['id'] . '").parent().render_privilege({effective_value: "' . $effective_value . '"});';
@@ -35,12 +35,12 @@ class privilegeselectionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'privilegeselection';
     }
 
-    public function getParent()
+    public function getParent() : ?string
     {
         return privilegeType::class;
     }

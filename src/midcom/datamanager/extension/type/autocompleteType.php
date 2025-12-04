@@ -30,7 +30,7 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('error_bubbling', false);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
@@ -89,7 +89,7 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder->addModelTransformer(new autocompleteTransformer($options));
         $builder->add('selection', HiddenType::class);
@@ -105,7 +105,7 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options) : void
     {
         $preset = [];
         if (   !empty($view->children['selection']->vars['data'])
@@ -140,7 +140,7 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'autocomplete';
     }
@@ -148,7 +148,7 @@ class autocompleteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return FormType::class;
     }

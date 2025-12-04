@@ -22,7 +22,7 @@ class toolbarType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'operations' => [],
@@ -33,7 +33,7 @@ class toolbarType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         foreach ($options['operations'] as $operation => $button_labels) {
             foreach ((array) $button_labels as $key => $label) {
@@ -57,7 +57,7 @@ class toolbarType extends AbstractType
         }
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $view->vars['button-labels'] = [];
         foreach ($form->all() as $key => $button) {
@@ -81,7 +81,7 @@ class toolbarType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'toolbar';
     }

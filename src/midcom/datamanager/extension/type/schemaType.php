@@ -30,7 +30,7 @@ class schemaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver
             ->setRequired('schema')
@@ -67,7 +67,7 @@ class schemaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         foreach ($options['schema']->get('fields') as $field => $config) {
             if ($config['widget'] === 'csrf') {
@@ -91,7 +91,7 @@ class schemaType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'form';
     }

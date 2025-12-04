@@ -31,7 +31,7 @@ class privilegeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'choices' => [
@@ -55,7 +55,7 @@ class privilegeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $view->vars['effective_value'] = $this->get_effective_value($options['type_config'], $form);
     }
@@ -96,7 +96,7 @@ class privilegeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'privilege';
     }
@@ -104,7 +104,7 @@ class privilegeType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return radiocheckselectType::class;
     }

@@ -19,7 +19,7 @@ class passwordType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'type' => sf_type::class,
@@ -37,7 +37,7 @@ class passwordType extends AbstractType
         });
     }
 
-    public function getParent()
+    public function getParent() : string
     {
         return RepeatedType::class;
     }

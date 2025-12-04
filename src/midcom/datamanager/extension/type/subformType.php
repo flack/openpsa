@@ -22,7 +22,7 @@ class subformType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'allow_add' => true,
@@ -67,7 +67,7 @@ class subformType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         $view->vars['max_count'] = $options['type_config']['max_count'];
         $view->vars['sortable'] = json_encode($options['widget_config']['sortable']);
@@ -78,7 +78,7 @@ class subformType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'subform';
     }
@@ -86,7 +86,7 @@ class subformType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return CollectionType::class;
     }

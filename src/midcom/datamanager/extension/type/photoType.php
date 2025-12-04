@@ -17,7 +17,7 @@ class photoType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         helper::add_normalizers($resolver, [
             'widget_config' => [
@@ -34,7 +34,7 @@ class photoType extends AbstractType
         ]);
     }
 
-    public function getParent()
+    public function getParent() : ?string
     {
         return imageType::class;
     }

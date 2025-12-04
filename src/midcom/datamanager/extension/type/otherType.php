@@ -22,7 +22,7 @@ class otherType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('error_bubbling', false);
         $resolver->setNormalizer('type_config', function (Options $options, $value) {
@@ -41,7 +41,7 @@ class otherType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder->addModelTransformer(new otherTransformer($options['type_config']['options']));
         if (!empty($options['type_config']['allow_multiple'])) {
@@ -57,7 +57,7 @@ class otherType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'other';
     }

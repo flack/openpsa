@@ -18,7 +18,7 @@ class componentPass implements CompilerPassInterface
 
     private array $classmap = [];
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         $paths = $this->find_builtin_components();
 

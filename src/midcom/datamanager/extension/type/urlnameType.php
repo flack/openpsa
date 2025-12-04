@@ -20,7 +20,7 @@ class urlnameType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setNormalizer('write_privilege', function (Options $options, $value) {
             return (array) $value + ['privilege' => 'midcom:urlname'];
@@ -48,7 +48,7 @@ class urlnameType extends AbstractType
         });
     }
 
-    public function getParent()
+    public function getParent() : ?string
     {
         return TextType::class;
     }

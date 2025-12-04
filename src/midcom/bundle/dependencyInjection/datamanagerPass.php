@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class datamanagerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         $form_prefix = $this->get_prefix($container->getDefinition('form.factory'));
 

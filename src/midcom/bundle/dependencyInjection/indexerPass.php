@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class indexerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         if ($class = $container->getParameter('midcom.indexer_backend')) {
             if (!str_contains($class, '_')) {

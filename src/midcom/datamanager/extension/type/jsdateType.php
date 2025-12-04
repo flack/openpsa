@@ -33,7 +33,7 @@ class jsdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'error_bubbling' => false
@@ -68,7 +68,7 @@ class jsdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder->addModelTransformer(new jsdateTransformer($options));
 
@@ -108,7 +108,7 @@ class jsdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options) : void
     {
         $init_max = new DateTime($options['widget_config']['maxyear'] . '-12-31');
         $init_min = new DateTime($options['widget_config']['minyear'] . '-01-01');
@@ -138,7 +138,7 @@ class jsdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'jsdate';
     }
@@ -146,7 +146,7 @@ class jsdateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent() : ?string
     {
         return FormType::class;
     }

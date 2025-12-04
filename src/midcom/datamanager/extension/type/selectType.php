@@ -24,7 +24,7 @@ class selectType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $choice_loader = function (Options $options) {
             if (!empty($options['choices'])) {
@@ -67,7 +67,7 @@ class selectType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         if ($options['multiple'] && !empty($options['dm2_type']) && $options['dm2_type'] != 'mnrelation') {
             $builder->addModelTransformer(new multipleTransformer($options));
@@ -77,7 +77,7 @@ class selectType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options) : void
     {
         if ($options['multiple']) {
             $view->vars['attr']['size'] = max(1, $options['widget_config']['height']);
@@ -85,7 +85,7 @@ class selectType extends AbstractType
         $view->vars['attr'] = array_merge($view->vars['attr'], $options['widget_config']['jsevents']);
     }
 
-    public function getParent()
+    public function getParent() : ?string
     {
         return ChoiceType::class;
     }

@@ -26,7 +26,7 @@ class cachePass implements CompilerPassInterface
         return new $classname(...$args);
     }
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         foreach (['content', 'nap', 'memcache'] as $name) {
             $container->getDefinition('cache')

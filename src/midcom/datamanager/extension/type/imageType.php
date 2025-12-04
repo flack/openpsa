@@ -26,7 +26,7 @@ class imageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('error_bubbling', false);
 
@@ -55,7 +55,7 @@ class imageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder->addViewTransformer(new imageTransformer($options));
         $builder->add('file', FileType::class, [
@@ -83,7 +83,7 @@ class imageType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'image';
     }

@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class authPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         foreach (['frontend' => 'form', 'backend' => 'simple'] as $name => $default) {
             $class = $container->getParameter('midcom.auth_' . $name);

@@ -25,7 +25,7 @@ class attachmentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         helper::add_normalizers($resolver, [
             'widget_config' => [
@@ -41,7 +41,7 @@ class attachmentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder->add('file', FileType::class, ['constraints' => [new File()], 'required' => false]);
         if ($options['widget_config']['show_title']) {
@@ -60,7 +60,7 @@ class attachmentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix() : string
     {
         return 'attachment';
     }

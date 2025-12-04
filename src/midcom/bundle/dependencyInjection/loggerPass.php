@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class loggerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container) : void
     {
         $filehandler = $container->getDefinition('logger.filehandler');
         $filename = $container->getParameter('midcom.log_filename');
