@@ -20,12 +20,12 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class org_openpsa_user_widget_password extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefault('compound', true);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config');
         $builder->add('switch', radiocheckselectType::class, [
