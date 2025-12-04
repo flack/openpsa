@@ -54,7 +54,7 @@ class exec extends Command
             ->addOption('login', 'l', InputOption::VALUE_NONE, 'Use Midgard authorization');
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output) : void
     {
         if ($input->getOption('login')) {
             $dialog = $this->getHelperSet()->get('question');

@@ -57,7 +57,7 @@ class reindex extends Command
         $this->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output) : void
     {
         if (!$this->indexer->enabled()) {
             throw new midcom_error('No indexer backend has been defined. Aborting.');
