@@ -46,7 +46,7 @@ class exec extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this
             ->addArgument('file', InputArgument::OPTIONAL, 'The file to run (leave empty to list available files)')

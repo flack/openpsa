@@ -51,7 +51,7 @@ class blobdir extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }

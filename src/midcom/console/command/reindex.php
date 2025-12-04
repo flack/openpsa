@@ -52,7 +52,7 @@ class reindex extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'Start node (root if empty)');
     }

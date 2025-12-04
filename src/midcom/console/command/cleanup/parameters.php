@@ -27,7 +27,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 )]
 class parameters extends Command
 {
-    protected function configure()
+    protected function configure() : void
     {
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, parameters will not be deleted');
     }

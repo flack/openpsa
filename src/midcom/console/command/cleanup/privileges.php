@@ -36,7 +36,7 @@ class privileges extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, privileges will not be deleted');
     }

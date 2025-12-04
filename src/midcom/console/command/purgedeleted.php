@@ -29,7 +29,7 @@ class purgedeleted extends Command
 {
     use loginhelper;
 
-    protected function configure()
+    protected function configure() : void
     {
         $config = new \midcom_config;
         $this->addOption('days', 'd', InputOption::VALUE_REQUIRED, 'Grace period in days', $config->get('cron_purge_deleted_after'));

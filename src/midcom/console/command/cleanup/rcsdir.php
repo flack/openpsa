@@ -44,7 +44,7 @@ class rcsdir extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
     }
