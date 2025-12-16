@@ -365,7 +365,7 @@ class midcom_config implements ArrayAccess
 
         // Map MidCOM metadata properties to HTML meta tags
         'metadata_head_elements' => [
-            'published'   => 'DC.date',
+            'revised'   => 'DC.date',
             'description'   => 'description',
         ],
 
