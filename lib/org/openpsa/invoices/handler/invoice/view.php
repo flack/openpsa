@@ -91,27 +91,27 @@ class org_openpsa_invoices_handler_invoice_view extends midcom_baseclasses_compo
             $buttons[] = $button;
 
             // sending per email enabled in billing data?
-            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this->invoice);
-            if (    !$this->invoice->sent && intval($billing_data->sendingoption) == 2) {
-                $buttons[] = $workflow->get_button(
-                    $this->router->generate('invoice_send_by_mail', ['guid' => $this->invoice->guid]),
-                    [
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('invoice_send_by_mail'),
-                        MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
-                        MIDCOM_TOOLBAR_ENABLED => true,
-                    ]
-                );
-            }
-
-            if ($this->invoice->get_status() == 'overdue' && intval($billing_data->sendingoption) == 2) {
-                $buttons[] = $workflow->get_button(
-                    $this->router->generate('invoice_send_payment_reminder', ['guid' => $this->invoice->guid]),
-                    [
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reminder_send_by_mail'),
-                        MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
-                        MIDCOM_TOOLBAR_ENABLED => true,
-                    ]
-                );
+            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this->invoice, true);
+            if ($billing_data->sendingoption == 2) {
+                if (!$this->invoice->sent) {
+                    $buttons[] = $workflow->get_button(
+                        $this->router->generate('invoice_send_by_mail', ['guid' => $this->invoice->guid]),
+                        [
+                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('invoice_send_by_mail'),
+                            MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
+                            MIDCOM_TOOLBAR_ENABLED => true,
+                        ]
+                    );
+                } elseif ($this->invoice->get_status() == 'overdue') {
+                    $buttons[] = $workflow->get_button(
+                        $this->router->generate('invoice_send_payment_reminder', ['guid' => $this->invoice->guid]),
+                        [
+                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reminder_send_by_mail'),
+                            MIDCOM_TOOLBAR_GLYPHICON => 'paper-plane',
+                            MIDCOM_TOOLBAR_ENABLED => true,
+                        ]
+                    );
+                }
             }
         }
 

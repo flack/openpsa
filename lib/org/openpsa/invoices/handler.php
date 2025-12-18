@@ -34,17 +34,17 @@ trait org_openpsa_invoices_handler
         // unsent invoices
         if ($invoice->sent == 0) {
             // sending per mail enabled in billing data?
-            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice);
+            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice, true);
             // only show if mail was chosen as option
             if ($billing_data->sendingoption === 2) {
                 $action = 'invoice_send_by_mail';
                 $icon = '<i class="fa fa-paper-plane"></i>';
                 $url = $this->router->generate('invoice_send_by_mail', ['guid' => $invoice->guid]);
-                
+
                 // generate next action button with data-url attribute
                 return '<button id="invoice_' . $invoice->guid . '" class="' . $action . '" data-url="' . $url . '">' . $icon . ' ' . $this->_l10n->get($action) . '</button>';
             }
-            
+
             $action = 'mark_sent';
             $icon = '<i class="fa fa-paper-plane-o"></i>';
         } else {
