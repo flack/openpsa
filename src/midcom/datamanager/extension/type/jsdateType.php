@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use midcom\datamanager\validation\laterthanorequal;
 
 /**
  * Experimental jsdate type
@@ -43,7 +44,8 @@ class jsdateType extends AbstractType
                 'storage_type' => self::ISO,
                 'min_date' => null,
                 'max_date' => null,
-                'later_than' => null
+                'later_than' => null,
+                'later_than_or_equal' => false
             ]
         ]);
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
@@ -59,7 +61,11 @@ class jsdateType extends AbstractType
         });
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['type_config']['later_than']) {
-                $value[] = new laterthan($options['type_config']['later_than']);
+                if ($options['type_config']['later_than_or_equal']) {
+                    $value[] = new laterthanorequal($options['type_config']['later_than']);
+                } else {
+                    $value[] = new laterthan($options['type_config']['later_than']);
+                }
             }
             return $value;
         });
