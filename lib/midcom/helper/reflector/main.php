@@ -403,22 +403,14 @@ class midcom_helper_reflector extends midgard_reflection_property
 
         $classname = ClassUtils::getRealClass($classname);
 
-        if (isset($cached[$classname])) {
-            return $cached[$classname];
-        }
+        if (!isset($cached[$classname])) {
+            $class_instance ??= new $classname();
 
-        if (!isset($class_instance)) {
-            $class_instance = new $classname();
-        }
+            // Check for decorators first
+            $parent_class = $class_instance->__mgdschema_class_name__ ?? $classname;
 
-        // Check for decorators first
-        if (!empty($class_instance->__mgdschema_class_name__)) {
-            $parent_class = $class_instance->__mgdschema_class_name__;
-        } else {
-            $parent_class = $classname;
+            $cached[$classname] = self::class_rewrite($parent_class);
         }
-
-        $cached[$classname] = self::class_rewrite($parent_class);
 
         return $cached[$classname];
     }

@@ -286,11 +286,10 @@ class midgard_admin_asgard_navigation
         if (   ($selected = midgard_admin_asgard_plugin::get_preference('midgard_types'))
             && preg_match_all('/\|([a-z0-9\.\-_]+)/', $selected, $regs)) {
             $types = array_flip($regs[1]);
-            if ($exclude) {
-                $label_mapping = array_diff_key($label_mapping, $types);
-            } else {
-                $label_mapping = array_intersect_key($label_mapping, $types);
-            }
+            $label_mapping = match ($exclude) {
+                true => array_diff_key($label_mapping, $types),
+                false => array_intersect_key($label_mapping, $types)
+            };
         }
 
         // Get the possible regular expression
