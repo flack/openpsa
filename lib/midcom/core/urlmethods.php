@@ -117,7 +117,11 @@ class midcom_core_urlmethods
         if (midcom::get()->auth->is_valid_user()) {
             return $this->redirect($request, $url);
         }
-        return new midcom_response_login;
+        $response = new midcom_response_login;
+        if (!midcom::get()->auth->has_login_data()) {
+            $response->setStatusCode(Response::HTTP_OK);
+        }
+        return $response;
     }
 
     public function process_unlock(string $guid) : Response

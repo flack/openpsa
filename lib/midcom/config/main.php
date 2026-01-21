@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Core configuration defaults.
@@ -253,7 +254,7 @@ class midcom_config implements ArrayAccess
         'auth_frontend' => 'form',
         'auth_check_client_ip' => true,
         'auth_allow_sudo' => true,
-        'auth_login_form_httpcode' => 403,
+        'auth_login_form_httpcode' => Response::HTTP_FORBIDDEN,
         'auth_save_prev_login' => false,
         'auth_success_callback' => null,
         'auth_failure_callback' => null,
