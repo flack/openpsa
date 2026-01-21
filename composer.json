@@ -24,7 +24,6 @@
         "checkdomain/holiday": "^3.0.0",
         "gregwar/captcha": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
-        "mf2/mf2": ">=0.2.12",
         "michelf/php-markdown": "^2.0",
         "monolog/monolog": "^2.0",
         "openpsa/installer": "^1.0",

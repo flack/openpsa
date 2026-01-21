@@ -51,18 +51,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     private array $members = [];
     private bool $_members_loaded = false;
-    private bool $_register_prober = false;
     private array $_address_extras = [];
-
-    public function __set($name, $value)
-    {
-        if (   $name == 'homepage'
-            && !empty($value)
-            && $value != $this->homepage) {
-            $this->_register_prober = true;
-        }
-        parent::__set($name, $value);
-    }
 
     public function get_label() : string
     {
@@ -100,14 +89,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         if (empty($this->official)) {
             $this->official = $this->name ?: "Group #{$this->id}";
-        }
-    }
-
-    public function _on_updated()
-    {
-        if ($this->_register_prober) {
-            $args = ['group' => $this->guid];
-            midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }
 

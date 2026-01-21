@@ -38,24 +38,12 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         midcom_db_member::class => 'uid'
     ];
 
-    private bool $_register_prober = false;
-
     public function __construct($identifier = null)
     {
         if (!in_array(midcom::get()->config->get('person_class'), ['midgard_person', 'openpsa_person'])) {
             $this->__mgdschema_class_name__ = midcom::get()->config->get('person_class');
         }
         parent::__construct($identifier);
-    }
-
-    public function __set($name, $value)
-    {
-        if (   $name == 'homepage'
-            && !empty($value)
-            && $value != $this->homepage) {
-            $this->_register_prober = true;
-        }
-        parent::__set($name, $value);
     }
 
     public function render_link() : string
@@ -66,16 +54,6 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
             return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>";
         }
         return $this->get_label();
-    }
-
-    public function _on_updated()
-    {
-        if ($this->_register_prober) {
-            $args = [
-                'person' => $this->guid,
-            ];
-            midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
-        }
     }
 
     public function _on_deleting() : bool
