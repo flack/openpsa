@@ -32,7 +32,7 @@ class imageValidatorTest extends TestCase
         $validator = $this->get_validator(true);
         $validator->validate(['archival' => 'XX'], $constraint);
 
-        $constraint->config = ['do_not_save_archival' => true];
+        $constraint->payload = ['do_not_save_archival' => true];
         $validator = $this->get_validator();
         $validator->validate(['archival' => 'XX'], $constraint);
 

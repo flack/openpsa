@@ -46,7 +46,7 @@ class imageType extends AbstractType
 
         $resolver->setNormalizer('constraints', function (Options $options, $value) {
             if ($options['required']) {
-                return [new constraint(['config' => $options['type_config']])];
+                return [new constraint(payload: $options['type_config'])];
             }
             return [];
         });
