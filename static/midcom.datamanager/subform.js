@@ -4,20 +4,46 @@ function init_subform(id, sortable, allow_add, allow_delete) {
         add_button = $('<a class="button add-item">+</a>')
             .on('click', function(e) {
                 e.preventDefault();
-                add_form(container, add_button, delete_button, sortable, allow_delete);
+                add_form();
             }),
         index = 0;
+    
+    function add_form() {
+        var prototype = container.data('prototype'),
+            index = container.data('index'),
+            new_form = $(prototype.replace(/__name__/g, 'new-' + index))
+                .insertBefore(add_button);
+        if (allow_delete === true) {
+            new_form.prepend(delete_button.clone());
+        }
+        container.data('index', index + 1);
+        update_add_button();
+        
+        if (sortable === true) {
+            container.sortable('refresh');
+            container.trigger('sortupdate');
+        }
+        new_form.trigger('subformadded');
+    }
 
+    function update_add_button() {
+        if (container.data('max-count') > 0) {
+            if (container.data('max-count') > container.children(':not(.add_item)').length) {
+                if (allow_add && container.find('> .add-item').length === 0) {
+                    container.append(add_button);
+                }
+            } else  {
+                add_button.detach();
+            }
+        } else if (allow_add && container.find('> .add-item').length === 0) {
+            container.append(add_button);
+        }
+    }
+    
     container.on('click', 'a.remove-item', function(e) {
         e.preventDefault();
         $(this).parent().remove();
-        if (   container.data('max-count') > 0
-            && container.data('max-count') >= container.find('fieldset').length
-            && container.find('.add-item').length === 0) {
-            if (allow_add === true) {
-                container.append(add_button);
-            }
-        }
+        update_add_button();
     });
 
     container.children().each(function() {
@@ -28,12 +54,8 @@ function init_subform(id, sortable, allow_add, allow_delete) {
     });
 
     container.data('index', index);
-    if (   (container.data('max-count') === 0
-        ||  container.data('max-count') > index)
-        &&  allow_add === true) {
-        container.append(add_button);
-    }
-
+    update_add_button();
+    
     if (sortable === true) {
         container
             .sortable({items: '> :not(a.add-item)'})
@@ -56,25 +78,4 @@ function init_subform(id, sortable, allow_add, allow_delete) {
             $(this).prev().find('input[type="file"]').click();
         }
     });
-}
-
-function add_form(container, add_button, delete_button, sortable, allow_delete) {
-    var prototype = container.data('prototype'),
-        index = container.data('index'),
-        new_form = $(prototype.replace(/__name__/g, 'new-' + index))
-            .insertBefore(add_button);
-    if (allow_delete === true) {
-        new_form.prepend(delete_button.clone());
-    }
-    container.data('index', index + 1);
-
-    if (   container.data('max-count') > 0
-        && container.data('max-count') <= container.find('> :not(.button.add-item)').length) {
-        add_button.detach();
-    }
-    if (sortable === true) {
-        container.sortable('refresh');
-        container.trigger('sortupdate');
-    }
-    new_form.trigger('subformadded');
 }
