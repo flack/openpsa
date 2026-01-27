@@ -27,16 +27,18 @@ function init_subform(id, sortable, allow_add, allow_delete) {
     }
 
     function update_add_button() {
-        if (container.data('max-count') > 0) {
-            if (container.data('max-count') > container.children(':not(.add_item)').length) {
-                if (allow_add && container.find('> .add-item').length === 0) {
-                    container.append(add_button);
+        if (allow_add) {
+            if (container.data('max-count') > 0) {
+                if (container.data('max-count') > container.children(':not(.add_item)').length) {
+                    if (container.find('> .add-item').length === 0) {
+                        container.append(add_button);
+                    }
+                } else  {
+                    add_button.detach();
                 }
-            } else  {
-                add_button.detach();
+            } else if (container.find('> .add-item').length === 0) {
+                container.append(add_button);
             }
-        } else if (allow_add && container.find('> .add-item').length === 0) {
-            container.append(add_button);
         }
     }
     
