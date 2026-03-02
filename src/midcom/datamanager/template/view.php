@@ -4,9 +4,9 @@ namespace midcom\datamanager\template;
 use Symfony\Component\Form\FormView;
 use midcom;
 use midcom_helper_formatter;
-use Michelf\MarkdownExtra;
 use Symfony\Component\Form\ChoiceList\View\ChoiceGroupView;
 use midcom\datamanager\renderer;
+use Parsedown;
 
 class view extends base
 {
@@ -197,7 +197,8 @@ class view extends base
                 return midcom_helper_formatter::format($data['value'], 'f');
 
             case 'markdown':
-                return MarkdownExtra::defaultTransform($data['value']);
+                $parsedown = new Parsedown();
+                return $parsedown->text($data['value']);
 
             case (str_starts_with($view->vars['output_mode'], 'x')):
                 // Run the contents through a custom formatter registered via mgd_register_filter

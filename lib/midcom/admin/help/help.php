@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Michelf\MarkdownExtra;
 use midgard\portable\storage\connection;
 
 /**
@@ -95,7 +94,8 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function get_help_contents(string $help_id, string $component) : ?string
     {
         if ($text = $this->_load_file($help_id, $component)) {
-            return MarkdownExtra::defaultTransform($text);
+            $parsedown = new Parsedown();
+            return $parsedown->text($text);
         }
         return null;
     }

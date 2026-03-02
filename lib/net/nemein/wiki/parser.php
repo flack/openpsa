@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use Michelf\MarkdownExtra;
-
 /**
  * Wiki markup parser
  *
@@ -27,7 +25,8 @@ class net_nemein_wiki_parser
 
     public function get_html() : string
     {
-        return MarkdownExtra::defaultTransform($this->get_markdown($this->_page->content));
+        $parsedown = new Parsedown();
+        return $parsedown->text($this->get_markdown($this->_page->content));
     }
 
     public function get_markdown(string $input) : string

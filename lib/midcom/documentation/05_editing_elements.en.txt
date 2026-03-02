@@ -172,16 +172,16 @@ from the right-click context menu:
 Depending on the level of action (single cell/table row/whole table), select the corresponding action. 
 
 * Table properties for affecting the whole table 
- * choose eg. the horizontal Alignment, Border width and table dimensions (Width and Height) 
+    * choose eg. the horizontal Alignment, Border width and table dimensions (Width and Height) 
 * Table row properties for affecting the selected rows 
- * choose whether the rows represent table body, head or foot 
- * general alignments 
- * with Table row properties it is also possible to change either the currently selected rows, all the 
+    * choose whether the rows represent table body, head or foot 
+    * general alignments 
+    * with Table row properties it is also possible to change either the currently selected rows, all the 
 rows or all the odd/even rows of the table 
 * Table cell properties for individual table cells 
- * cell specific alignments and Cell type 
- * cell dimensions (Width and Height) 
- * with Table cell properties it is also possible to change either the currently selected cells, all the 
+    * cell specific alignments and Cell type 
+    * cell dimensions (Width and Height) 
+    * with Table cell properties it is also possible to change either the currently selected cells, all the 
 cells on the currently selected rows or every cell in the table 
 
 >Note: Many of the actions for cells and rows are the same, although some functionalities 
@@ -211,9 +211,9 @@ appear a popup window.
 Other functionalities of the image popup are 
 
 * Replace file 
- * replace a file that is currently on the server eg. after changes 
+    * replace a file that is currently on the server eg. after changes 
 * Delete file 
- * delete a file from the server 
+    * delete a file from the server 
  
 >Note: If you are using the same image many times eg. in the same folder (but not the same 
 >article) you can also attach the image to the folder instead of the currently edited page. To 
@@ -224,9 +224,9 @@ To change the image size
 
 * Click on the image 
 * There are white boxes in each of the corners and in the middle of each side 
- * to change the proportional size click and drag from a corner 
- * to change the horizontal size click and drag from the sides 
- * to change the vertical size click and drag from the top or bottom 
+    * to change the proportional size click and drag from a corner 
+    * to change the horizontal size click and drag from the sides 
+    * to change the vertical size click and drag from the top or bottom 
  
 ###Image properties 
 

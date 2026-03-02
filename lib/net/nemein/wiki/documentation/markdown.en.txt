@@ -31,7 +31,7 @@ Markdown: Syntax
     *   [Automatic Links](#autolink)
 
 
-* * *
+---
 
 <h2 id="overview">Overview</h2>
 
