@@ -28,7 +28,7 @@ return [
                     'max_count' => 1,
                     'sortable' => false,
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'index_method' => 'attachment',
                 'required' => true
             ],
@@ -109,7 +109,7 @@ return [
                  ],
                 'required' => true,
                 'index_merge_with_content' => false,
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'orgOpenpsaAccesstype' => [
                 'title' => 'Access type',
@@ -133,7 +133,7 @@ return [
                     'options' => org_openpsa_helpers_list::workgroups(),
                 ],
                 'widget'       => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'index_merge_with_content' => false,
             ],
         ]

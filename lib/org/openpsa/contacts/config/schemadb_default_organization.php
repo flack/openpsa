@@ -74,7 +74,7 @@ return [
                     'creation_default_key' => 'lastname',
                 ],
                 'index_method' => 'noindex',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'homepage' => [
                 'title'    => 'homepage',
@@ -104,7 +104,7 @@ return [
                 'storage'  => 'fax',
                 'type'     => 'text',
                 'widget'   => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'street' => [
                 'title'    => 'street',
@@ -133,7 +133,7 @@ return [
                 'storage'  => 'country',
                 'type'     => 'text',
                 'widget'   => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
            'postal_label' => [
                 'title'    => 'name',
@@ -168,7 +168,7 @@ return [
                 'storage'  => 'postalCountry',
                 'type'     => 'text',
                 'widget'   => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ]
     ],

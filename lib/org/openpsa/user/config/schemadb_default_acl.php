@@ -62,7 +62,7 @@ return [
                 ],
                 'widget'      => 'privilege',
                 'storage'     => null,
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             'calendar' => [
@@ -79,7 +79,7 @@ return [
                     'title' => midcom::get()->i18n->get_string('org.openpsa.calendar', 'org.openpsa.calendar'),
                     'css_group' => 'area',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.calendar'),
             ],
 
@@ -119,7 +119,7 @@ return [
                     'classname'      => org_openpsa_projects_task_dba::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
             ],
 
@@ -171,7 +171,7 @@ return [
                     'classname'      => org_openpsa_contacts_group_dba::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'usermanagement_access' => [
                 'title'       => 'enable user management access',
@@ -198,7 +198,7 @@ return [
                 ],
                 'widget'      => 'privilege',
                 'storage'     => null,
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'invoices_creation' => [
                 'title' => 'enable invoice creation',
@@ -225,7 +225,7 @@ return [
                     'classname'      => org_openpsa_invoices_invoice_dba::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.invoices'),
             ],
 
@@ -254,7 +254,7 @@ return [
                     'classname'      => net_nemein_wiki_wikipage::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('net.nemein.wiki'),
             ],
 
@@ -283,7 +283,7 @@ return [
                     'classname'      => org_openpsa_products_product_dba::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.products'),
             ],
 
@@ -312,7 +312,7 @@ return [
                     'classname'      => org_openpsa_directmarketing_campaign_dba::class,
                 ],
                 'widget'      => 'privilege',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.directmarketing'),
             ],
 
@@ -329,7 +329,7 @@ return [
                     'title' => midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
                     'css_group' => 'area',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.sales'),
             ],
         ]

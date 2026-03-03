@@ -38,7 +38,7 @@ class org_openpsa_user_handler_person_create extends midcom_baseclasses_componen
                     'css_group' => 'area meta',
                 ];
             } elseif ($current == $last) {
-                $field['end_fieldset'] = '';
+                $field['end_fieldset'] = 1;
             }
             $person_fields[$name] = $field;
         }

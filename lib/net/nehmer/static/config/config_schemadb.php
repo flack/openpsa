@@ -44,7 +44,7 @@ return [
                     ],
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'autoindex' => [
                 'title' => 'autoindex',
@@ -102,7 +102,7 @@ return [
                     ],
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             'schemadb' => [
@@ -137,7 +137,7 @@ return [
                     ],
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ],
     ]

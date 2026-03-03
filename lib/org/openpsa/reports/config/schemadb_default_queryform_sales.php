@@ -23,7 +23,7 @@ return [
                 'type'      => 'text',
                 'widget'      => 'hidden',
                 'default'       => '.html',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
             'style' => [
                 'title'   => 'Report style',
@@ -61,7 +61,7 @@ return [
                     'show_time' => false,
                 ],
                 'default'       => mktime(0, 0, 1, date('n') + 1, 0, date('Y')),
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'resource' => [
                 'title'   => 'Workgroup/Person',
@@ -75,7 +75,7 @@ return [
                     'title'     => 'Scope',
                     'css_group' => 'area',
                 ],
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'type' => [
                 'title'   => 'Save query for future',
@@ -99,7 +99,7 @@ return [
                 'storage'      => 'title',
                 'type'      => 'text',
                 'widget'      => 'text',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
         ],
     ]

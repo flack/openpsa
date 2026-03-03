@@ -92,7 +92,7 @@ return [
                 'storage'  => 'description',
                 'type'  => 'text',
                 'widget' => 'textarea',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'sum' => [
                 'title' => 'sum',
@@ -195,7 +195,7 @@ return [
                 'type_config' => [
                     'sortable' => false,
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
                 'index_method' => 'attachment',
             ],
         ],

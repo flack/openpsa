@@ -228,7 +228,7 @@ return [
                 'type' => 'boolean',
                 'storage' => 'hoursInvoiceableDefault',
                 'widget' => 'checkbox',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'minimum_slot' => [
                 'title' => 'minimum time slot needed for task bookings',

@@ -50,7 +50,7 @@ return [
                 'type'     => 'text',
                 'widget'   => 'text',
                 'validation' => 'email',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'account_number' => [
                 'title'    => 'account number',
@@ -85,7 +85,7 @@ return [
                 'storage'  => 'bic',
                 'type'     => 'text',
                 'widget'   => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'taxid' => [
                 'title'    => 'tax identification number',
@@ -136,7 +136,7 @@ return [
                 'storage'  => 'remarks',
                 'type'     => 'text',
                 'widget'   => 'textarea',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ]
     ]

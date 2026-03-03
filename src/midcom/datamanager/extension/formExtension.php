@@ -47,6 +47,12 @@ class formExtension extends AbstractTypeExtension
                 return !empty($options['hidden']);
             }
         ]);
+        $resolver->setNormalizer('end_fieldset', function (Options $options, $value) {
+            if ($value !== null) {
+                $value = max(1, (int) $value);
+            }
+            return $value;
+        });
     }
 
     /**

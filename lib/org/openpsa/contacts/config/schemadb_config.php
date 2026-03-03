@@ -60,7 +60,7 @@ return [
                     'domain' => 'org.openpsa.contacts',
                     'name' => 'person_search_fields'
                 ],
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
 
             /* Schema settings */
@@ -87,7 +87,7 @@ return [
                     'domain' => 'org.openpsa.contacts',
                     'name' => 'schemadb_person'
                 ],
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
         ],
     ]

@@ -87,7 +87,7 @@ return [
                     ],
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             'comment_count_cache_to_object' => [

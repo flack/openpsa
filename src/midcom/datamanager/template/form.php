@@ -75,9 +75,8 @@ class form extends base
                 }
             }
             $string .= $this->renderer->row($child);
-            if ($child->vars['end_fieldset'] !== null) {
-                $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                $string .= str_repeat('</fieldset>', $end_fieldsets);
+            if (isset($child->vars['end_fieldset'])) {
+                $string .= str_repeat('</fieldset>', $child->vars['end_fieldset']);
             }
         }
         return $string;

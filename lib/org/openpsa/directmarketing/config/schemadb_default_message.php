@@ -23,7 +23,7 @@ return [
                     'output_mode' => 'markdown'
                 ],
                 'widget' => 'markdown',
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
             'subject' => [
                 'title'    => 'subject',
@@ -64,7 +64,7 @@ return [
                 'title'    => 'files to attach',
                 'type'     => 'blobs',
                 'widget'   => 'downloads',
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
         ],
         'customdata'  => [
@@ -94,7 +94,7 @@ return [
                     'output_mode' => 'markdown'
                 ],
                 'widget' => 'markdown',
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
             'subject' => [
                 'title'    => 'subject',
@@ -130,7 +130,7 @@ return [
                 'widget'   => 'tinymce',
                 'storage'  => 'parameter',
                 'required' => true,
-                'end_fieldset' => ''
+                'end_fieldset' => 1
             ],
         ],
         'customdata'  => [

@@ -23,7 +23,7 @@ return [
                 'type'      => 'text',
                 'widget'      => 'hidden',
                 'default'       => '.html',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
             'style' => [
                 'title'   => 'Report style',
@@ -76,7 +76,7 @@ return [
                 ],
                 'widget'        => 'radiocheckselect',
                 'default'       => 'due',
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'invoice_status' => [
                 'title'   => 'invoice status',
@@ -107,7 +107,7 @@ return [
                      'options' => array_merge(['all' => 'all'], org_openpsa_helpers_list::workgroups('first', true)),
                 ],
                 'widget'        => 'select',
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'type' => [
                 'title'   => 'save query for future',
@@ -131,7 +131,7 @@ return [
                 'storage'      => 'title',
                 'type'      => 'text',
                 'widget'      => 'text',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
         ],
     ]

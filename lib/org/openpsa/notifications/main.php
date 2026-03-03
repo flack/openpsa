@@ -169,7 +169,7 @@ class org_openpsa_notifications
                     ];
                 }
                 if (++$i == $total) {
-                    $field_config['end_fieldset'] = '';
+                    $field_config['end_fieldset'] = 1;
                 }
                 $schema['fields'][str_replace([':', '.'], '_', $action_key)] = $field_config;
             }

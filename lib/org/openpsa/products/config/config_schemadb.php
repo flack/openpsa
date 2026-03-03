@@ -38,7 +38,7 @@ return [
                     'options' => org_openpsa_products_product_group_dba::list_groups(0, '', 'guid'),
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'index_products' => [
                 'title' => 'Index products',
@@ -76,7 +76,7 @@ return [
                     ],
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'schemadb_product' => [
                 'title' => 'product schema database',

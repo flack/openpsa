@@ -175,7 +175,7 @@ return [
                     ],
                     'type' => 'text',
                     'widget' => 'text',
-                    'end_fieldset' => '2',
+                    'end_fieldset' => 2,
                 ],
 
                 'schemadb' => [
@@ -261,7 +261,7 @@ return [
                         ],
                     ],
                     'widget' => 'radiocheckselect',
-                    'end_fieldset' => '1',
+                    'end_fieldset' => 1,
                 ],
                 'show_latest_in_navigation' => [
                     'title' => 'show latest items in navigation',

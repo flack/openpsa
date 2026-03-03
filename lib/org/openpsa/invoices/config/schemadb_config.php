@@ -37,7 +37,7 @@ return [
                     'name'    => 'default_hourly_price',
                  ],
                 'widget' => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             /* Schema settings */
@@ -53,7 +53,7 @@ return [
                 'start_fieldset' => [
                     'title' => 'advanced schema and data settings',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ],
     ]

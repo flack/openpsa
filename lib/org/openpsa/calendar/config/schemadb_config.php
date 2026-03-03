@@ -18,7 +18,7 @@ return [
                 'start_fieldset' => [
                     'title' => 'view settings',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             /* time settings */
@@ -72,7 +72,7 @@ return [
                     'domain' => 'org.openpsa.calendar',
                     'name' => 'event_label'
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ],
     ]

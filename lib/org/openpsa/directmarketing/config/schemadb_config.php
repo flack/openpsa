@@ -48,7 +48,7 @@ return [
                     'title' => 'bounce detector configuration (note: requires special mail server configuration as well)',
                     'css_group' => 'area',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'linkdetector_address' => [
                 'title' => 'link detector base address (use token to indicate place of the token and url of link)',

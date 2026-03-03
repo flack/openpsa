@@ -10,7 +10,7 @@
             'start_fieldset' => [
                 'title' => 'opengraph information',
             ],
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
             'title' => 'opengraph type',
             'type' => 'select',
             'type_config' => [
@@ -83,7 +83,7 @@
             'type' => 'boolean',
             'storage' => 'metadata',
             'widget' => 'checkbox',
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ],
         'description' => [
             'title' => 'description',
@@ -181,7 +181,7 @@
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_group/",
                 'creation_default_key' => 'official',
             ],
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ],
         'created' => [
             'title' => 'created',
@@ -277,7 +277,7 @@
             'type' => 'number',
             'widget' => 'text',
             'readonly' => true,
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ],
 
         // Approvals
@@ -321,7 +321,7 @@
                 'orders' => [['lastname' => 'ASC']],
             ],
             'readonly' => true,
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ],
 
         // Editing status
@@ -362,7 +362,7 @@
             ],
             'readonly' => true,
             'hidden' => true,
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ],
     ],
 ],

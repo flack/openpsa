@@ -60,7 +60,7 @@ return [
                     ],
                 ],
                 'widget' => 'radiocheckselect',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'interface_language' => [
                 'title' => 'interface language',
@@ -77,7 +77,7 @@ return [
                 'start_fieldset' => [
                     'title' => 'localisation settings',
                 ],
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'navigation_type' => [
                 'title' => 'navigation type',
@@ -142,7 +142,7 @@ return [
                     ],
                 ],
                 'widget' => 'radiocheckselect',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
             'midgard_types_model' => [
                 'title' => 'model for selecting navigation types',

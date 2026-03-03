@@ -23,7 +23,7 @@ return [
                 'type'      => 'text',
                 'widget'      => 'hidden',
                 'default'       => '.html',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
             'style' => [
                 'title'   => 'Report style',
@@ -48,7 +48,7 @@ return [
                     'title'     => 'report style',
                     'css_group' => 'area',
                 ],
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
             'start' => [
                 'title'   => 'Start time',
@@ -79,7 +79,7 @@ return [
                     'show_time' => false,
                 ],
                 'default'       => mktime(0, 0, 1, date('n') + 1, 0, date('Y')),
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'resource' => [
                 'title'   => 'Workgroup/Person',
@@ -130,7 +130,7 @@ return [
                 ],
                 'default'       => -1,
                 'widget'      => 'radiocheckselect',
-                'end_fieldset'    => '',
+                'end_fieldset'    => 1,
             ],
             'type' => [
                 'title'   => 'Save query for future',
@@ -154,7 +154,7 @@ return [
                 'storage'      => 'title',
                 'type'      => 'text',
                 'widget'      => 'text',
-                'end_fieldset'  => '',
+                'end_fieldset'  => 1,
             ],
         ],
     ]

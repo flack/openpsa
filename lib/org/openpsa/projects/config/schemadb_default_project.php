@@ -146,7 +146,7 @@ return [
                 'storage' => null,
                 'type' => 'tags',
                 'widget' => 'text',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
 
             'orgOpenpsaAccesstype' => [
@@ -170,7 +170,7 @@ return [
                     'options' => org_openpsa_helpers_list::workgroups(),
                 ],
                 'widget' => 'select',
-                'end_fieldset' => '',
+                'end_fieldset' => 1,
             ],
         ]
     ]

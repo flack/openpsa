@@ -66,8 +66,7 @@ class view extends base
             $string .= $this->renderer->row($child);
 
             if (isset($child->vars['end_fieldset'])) {
-                $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                $string .= str_repeat('</div>', $end_fieldsets);
+                $string .= str_repeat('</div>', $child->vars['end_fieldset']);
             }
         }
         return $string;

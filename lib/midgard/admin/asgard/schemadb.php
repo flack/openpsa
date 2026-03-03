@@ -166,7 +166,7 @@ class midgard_admin_asgard_schemadb extends schemabuilder
                 'title' => $this->l10n->get('revision'),
                 'css_group' => 'rcs',
             ],
-            'end_fieldset' => '',
+            'end_fieldset' => 1,
         ];
     }
     private function _add_copy_fields()
