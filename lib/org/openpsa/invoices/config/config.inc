@@ -12,3 +12,4 @@
 
 'invoice_mail_bcc'       => false,
 'invoice_mail_from_address' => 'foo@example.org',
+'reminder_mail_bcc'       => false,

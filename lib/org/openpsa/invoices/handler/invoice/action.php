@@ -147,7 +147,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return $this->reply(false, $this->_l10n->get('payment warning pdf creation failed') . ': ' . $e->getMessage());
         }
     }
-    
+
     private function get_email_type_config() : array
     {
         $config = [
@@ -157,17 +157,17 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         ];
 
         $this->mail_recipient = $this->invoice->get_customer(true);
-        
+
         if (!$this->mail_recipient) {
             throw new midcom_error('No mail recipient found');
         }
 
         $subject = $this->mail_recipient->get_parameter($this->_component, $config['subject_param']);
         $message = $this->mail_recipient->get_parameter($this->_component, $config['message_param']);
-        
+
         $config['subject'] = $subject ?: $this->_l10n->get($this->mail_type . '_mail_title_default');
         $config['message'] = $message ?: $this->_l10n->get($this->mail_type . '_mail_body_default');
-        
+
         $config['pagetitle'] = $this->_l10n->get($config['pagetitle']);
 
         return $config;
@@ -179,7 +179,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
         $to_email = $billing_data->email ?: $this->mail_recipient->email;
-        
+
         $dm->set_defaults([
             'to_email'=> $to_email,
             'subject' => $config['subject'],
@@ -207,13 +207,13 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     public function save_callback(controller $controller)
     {
         $this->old_status = $this->invoice->get_status();
-        
+
         $data = $controller->get_datamanager()->get_content_raw();
         $config = $this->get_email_type_config();
-       
+
         $this->mail_recipient->set_parameter($this->_component, $config['subject_param'], $data['subject']);
         $this->mail_recipient->set_parameter($this->_component, $config['message_param'], $data['message']);
-        
+
         if ($this->mail_recipient instanceof org_openpsa_contacts_person_dba) {
             $customerCard = org_openpsa_widgets_contact::get($this->mail_recipient->id);
             $contactDetails = $customerCard->contact_details;
@@ -256,8 +256,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $mail->subject = $data['subject'];
         $mail->body = $data['message'];
 
-        if ($this->_config->get('invoice_mail_bcc')) {
-            $mail->bcc = $this->_config->get('invoice_mail_bcc');
+        if ($this->_config->get($this->mail_type . '_mail_bcc')) {
+            $mail->bcc = $this->_config->get($this->mail_type . '_mail_bcc');
         }
 
         $_POST['relocate'] = '1';
