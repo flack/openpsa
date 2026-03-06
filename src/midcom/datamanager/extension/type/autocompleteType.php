@@ -108,18 +108,22 @@ class autocompleteType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options) : void
     {
         $preset = [];
-        if (   !empty($view->children['selection']->vars['data'])
-            && !empty($options['widget_config']['class'])) {
-            foreach (array_filter((array) $view->children['selection']->vars['data']) as $identifier) {
-                if ($options['widget_config']['id_field'] == 'id') {
-                    $identifier = (int) $identifier;
+        if (!empty($view->children['selection']->vars['data'])) {
+            $identifiers = array_filter((array) $view->children['selection']->vars['data']);
+            if (!empty($options['widget_config']['class'])) {
+                foreach ($identifiers as $identifier) {
+                    if ($options['widget_config']['id_field'] == 'id') {
+                        $identifier = (int) $identifier;
+                    }
+                    try {
+                        $object = $options['widget_config']['class']::get_cached($identifier);
+                        $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['titlefield']);
+                    } catch (midcom_error $e) {
+                        $e->log();
+                    }
                 }
-                try {
-                    $object = $options['widget_config']['class']::get_cached($identifier);
-                    $preset[$identifier] = autocomplete_helper::create_item_label($object, $options['widget_config']['result_headers'], $options['widget_config']['titlefield']);
-                } catch (midcom_error $e) {
-                    $e->log();
-                }
+            } else {
+                $preset = array_combine($identifiers, $identifiers);
             }
         }
 
