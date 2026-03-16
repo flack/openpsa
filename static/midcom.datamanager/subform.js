@@ -24,6 +24,13 @@ function init_subform(id, sortable, allow_add, allow_delete) {
             container.trigger('sortupdate');
         }
         new_form.trigger('subformadded');
+
+        // If there is exactly one file selector, we're probably in some sort of attachment list,
+        // so let's assume the user wants to add a file
+        // (at some point this should probably be made configurable)
+        if (new_form.find('input[type="file"]').length === 1) {
+            new_form.find('input[type="file"]').trigger('click');
+        }
     }
 
     function update_add_button() {
@@ -71,13 +78,4 @@ function init_subform(id, sortable, allow_add, allow_delete) {
                 });
             });
     }
-
-    add_button.on('click', function() {
-        // If there is exactly one file selector, we're probably in some sort of attachment list,
-        // so let's assume the user wants to add a file
-        // (at some point this should probably be made configurable)
-        if ($(this).prev().find('input[type="file"]').length === 1) {
-            $(this).prev().find('input[type="file"]').click();
-        }
-    });
 }
