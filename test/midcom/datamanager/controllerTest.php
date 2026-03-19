@@ -62,4 +62,33 @@ class controllerTest extends openpsa_testcase
         $this->assertNotEmpty($object->id);
     }
 
+    public function test_validation_error()
+    {
+        $schemadb = new schemadb;
+        $schemadb->add('default', new schema([
+            'validation' => [['callback' => function() {
+                return ['dummy' => 'failed'];
+            }]],
+            'fields' => [
+                'dummy' => [
+                    'widget' => 'text',
+                    'type' => 'text'
+                ]
+            ]
+        ]));
+        $dm = new datamanager($schemadb);
+
+        $controller = $dm->get_controller('test');
+
+        $request = Request::create('/', 'POST', [
+            'test' => [
+                'form_toolbar' => ['save0' => '']
+            ]
+        ]);
+
+        $result = $controller->handle($request);
+
+        $this->assertSame(controller::EDIT, $result);
+        $this->assertEquals(['dummy' => 'failed'], $controller->get_errors());
+    }
 }

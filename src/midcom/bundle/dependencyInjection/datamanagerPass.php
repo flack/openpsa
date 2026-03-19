@@ -15,6 +15,8 @@ class datamanagerPass implements CompilerPassInterface
         // Symfony <8 compat
         if (file_exists($form_prefix . 'config/validation.xml')) {
             $validator_builder->addMethodCall('addXmlMappings', [[$form_prefix . 'config/validation.xml']]);
+        } else {
+            $validator_builder->addMethodCall('enableAttributeMapping');
         }
         $container->getDefinition('translator')
             ->addArgument([
