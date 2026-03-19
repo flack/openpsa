@@ -41,7 +41,6 @@ class property extends dbanode
     public function set_value($value)
     {
         if ($this->config['type'] === 'urlname') {
-
             if (empty($value)) {
                 $title_field = (!empty($this->config['type_config']['title_field'])) ? $this->config['type_config']['title_field'] : 'title';
                 $value = midcom_helper_misc::urlize($this->object->{$title_field});
