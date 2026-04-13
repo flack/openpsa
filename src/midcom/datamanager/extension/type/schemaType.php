@@ -140,7 +140,7 @@ class schemaType extends AbstractType
                 if (!empty($rule['message'])) {
                     $r_options['message'] = $rule['message'];
                 }
-                $constraints[] = new Regex($r_options);
+                $constraints[] = new Regex(...$r_options);
             } else {
                 throw new midcom_error($rule['type'] . ' validation not implemented yet');
             }
