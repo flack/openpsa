@@ -41,7 +41,7 @@
         "symfony/dom-crawler": ">=6.4",
         "symfony/event-dispatcher": ">=6.4",
         "symfony/finder": ">=6.4",
-        "symfony/form": ">=6.4",
+        "symfony/form": ">=7.4",
         "symfony/http-foundation": ">=6.4",
         "symfony/http-kernel": ">=6.4",
         "symfony/intl": ">=6.4",
