@@ -170,7 +170,8 @@ class midgard_admin_asgard_navigation
                     }
                 }
             }
-            if (!empty($object)) {
+
+            if (!empty($object) && empty($this->shown_objects[$object->guid])) {
                 $label = htmlspecialchars($ref->get_object_label($object));
                 $this->_draw_element($object, $label, $level);
             }
