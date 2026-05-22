@@ -597,9 +597,9 @@ class form extends base
     {
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/easymde-2.16.1/easymde.min.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/easymde-2.21.0/easymde.min.css');
         $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/easymde-2.16.1/easymde.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/easymde-2.21.0/easymde.min.js');
 
         $data['required'] = false;
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>' . $data['value'] . '</textarea>';
