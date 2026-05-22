@@ -128,7 +128,7 @@ function attach_to_parent_dialog(dialog) {
 
     $.each(buttons, function (name, props) {
         var click, buttonOptions;
-        props = $.isFunction(props) ? {click: props, text: name} : props;
+        props = typeof props === 'function' ? {click: props, text: name} : props;
 
         // Default to a non-submitting button
         props = $.extend({type: "button"}, props);

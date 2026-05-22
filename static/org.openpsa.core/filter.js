@@ -9,7 +9,7 @@ $(document).ready(function() {
         });
         $('form.org_openpsa_queryfilter select').each(function(index, element) {
             var filter_name = element.name.slice(0, element.name.length - 2);
-            if ($.isArray($(element).val())) {
+            if (Array.isArray($(element).val())) {
                 filter_values[filter_name] = [];
                 $.each($(element).val(), function(i, value) {
                     filter_values[filter_name].push(value);
