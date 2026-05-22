@@ -49,7 +49,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chartjs-4.2.1/chart.umd.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chartjs-4.5.1/chart.umd.js');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/chart.js');
     }
 
