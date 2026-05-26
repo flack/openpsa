@@ -44,10 +44,8 @@ class application extends base_application
             $this->setCommandLoader($container->get('console.command_loader'));
         }
 
-        if ($container->hasParameter('console.command.ids')) {
-            foreach ($container->getParameter('console.command.ids') as $id) {
-                $this->add($container->get($id));
-            }
+        if ($command_ids = $container->getParameter('console.command.ids')) {
+            $this->addCommands($command_ids);
         }
     }
 
