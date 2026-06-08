@@ -50,6 +50,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         $qb->add_constraint('context', '=', $this->context);
 
         if ($qb->count_unchecked() > 0) {
+            midcom_connection::set_error(MGD_ERR_DUPLICATE);
             debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
