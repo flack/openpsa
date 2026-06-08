@@ -62,7 +62,7 @@ archive-year-category:
 archive-month:
     path: /archive/month/{year}/{month}/
     defaults: { _controller: 'net_nehmer_blog_handler_archive::list' }
-    requirements: { year: '\d{4}', month: '\d+' }
+    requirements: { year: '\d{4}', month: '\d{1,2}' }
 
 
 edit:
