@@ -76,7 +76,8 @@
         "openpsa/openpsa": "*"
     },
     "conflict": {
-        "cocur/slugify": "4.5.0"
+        "cocur/slugify": "4.5.0",
+        "symfony/http-kernel": "8.1.0"
     },
     "extra": {
         "branch-alias": {
