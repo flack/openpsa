@@ -90,9 +90,7 @@ class exec extends Command
             throw new \midcom_error('File not found');
         }
 
-        if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-            $output->writeln('Running ' . $file);
-        }
+        $output->writeln('Running ' . $file, OutputInterface::VERBOSITY_VERBOSE);
 
         $this->auth->request_sudo('midcom.exec');
 

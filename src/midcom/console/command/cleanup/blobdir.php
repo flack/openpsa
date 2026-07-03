@@ -144,9 +144,10 @@ class blobdir extends Command
     private function purge_attachment(OutputInterface $output, midcom_db_attachment $attachment)
     {
         if (!$this->dry) {
-            $stat = $attachment->purge();
-            if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                $output->writeln(($stat) ? "<info>Purge OK</info>" : "<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
+            if ($attachment->purge()) {
+                $output->writeln("<info>Purge OK</info>", OutputInterface::VERBOSITY_VERBOSE);
+            } else {
+                $output->writeln("<comment>Purge FAILED, reason: " . \midcom_connection::get_error_string() . "</comment>");
             }
         }
     }
@@ -154,9 +155,10 @@ class blobdir extends Command
     private function cleanup_file(OutputInterface $output, string $file)
     {
         if (!$this->dry) {
-            $stat = unlink($file);
-            if (!$stat || $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                $output->writeln(($stat) ? "<info>Cleanup OK</info>" : "<comment>Cleanup FAILED</comment>");
+            if (unlink($file)) {
+                $output->writeln("<info>Cleanup OK</info>", OutputInterface::VERBOSITY_VERBOSE);
+            } else {
+                $output->writeln("<comment>Cleanup FAILED");
             }
         }
     }
