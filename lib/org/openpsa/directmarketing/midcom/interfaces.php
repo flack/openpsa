@@ -17,8 +17,7 @@ implements midcom_services_permalinks_resolver
     public function _on_watched_dba_delete(midcom_core_dbaobject $object)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        if (   $object instanceof midcom_db_person
-            || $object instanceof org_openpsa_contacts_person_dba) {
+        if ($object instanceof midcom_db_person) {
             $qb->add_constraint('person', '=', $object->id);
         } elseif ($object instanceof org_openpsa_directmarketing_campaign_dba) {
             $qb->add_constraint('campaign', '=', $object->id);

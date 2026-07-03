@@ -76,8 +76,7 @@ implements midcom_services_permalinks_resolver
             || $object instanceof midcom_db_group) {
             return "group/{$object->guid}/";
         }
-        if (   $object instanceof org_openpsa_contacts_person_dba
-            || $object instanceof midcom_db_person) {
+        if ($object instanceof midcom_db_person) {
             return "person/{$object->guid}/";
         }
         return null;
