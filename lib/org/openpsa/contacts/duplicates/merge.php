@@ -35,11 +35,8 @@ class org_openpsa_contacts_duplicates_merge
      *
      * Depending on modes either all or only future dependencies, this method
      * will go trough all components' interface classes and call a merge method there
-     *
-     * @param midcom_core_dbaobject $obj1 Object that data will be merged to
-     * @param midcom_core_dbaobject $obj2 Object that data will be merged from
      */
-    public function merge(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2, string $merge_mode)
+    public function merge(midcom_core_dbaobject $to, midcom_core_dbaobject $from, string $merge_mode)
     {
         if (!in_array($merge_mode, ['all', 'future'])) {
             debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
@@ -49,25 +46,25 @@ class org_openpsa_contacts_duplicates_merge
         // TODO: Check that both objects are of valid class for object mode
         $config = $this->config->get_array($this->_object_mode . '_merge_configuration');
 
-        $this->process_dba_classes($obj1, $obj2, $config);
+        $this->process_dba_classes($to, $from, $config);
 
         if ($this->_object_mode == 'person') {
             // if person never logged in (or had no account), we don't need to look for metadata
-            if ($obj2->get_parameter('midcom', 'last_login')) {
-                $this->merge_metadata($obj1, $obj2, $config);
+            if ($from->get_parameter('midcom', 'last_login')) {
+                $this->merge_metadata($to, $from, $config);
             }
-            $this->merge_persons($obj1, $obj2);
+            $this->merge_persons($to, $from);
         }
     }
 
-    private function process_dba_classes(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2, array $config)
+    private function process_dba_classes(midcom_core_dbaobject $to, midcom_core_dbaobject $from, array $config)
     {
         foreach (array_filter($config) as $classname => $fieldconfig) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->begin_group('OR');
             foreach ($fieldconfig as $field => $conf) {
-                $qb->add_constraint($field, '=', $obj1->{$conf['target']});
-                $qb->add_constraint($field, '=', $obj2->{$conf['target']});
+                $qb->add_constraint($field, '=', $to->{$conf['target']});
+                $qb->add_constraint($field, '=', $from->{$conf['target']});
             }
             $qb->end_group();
             $results = $qb->execute();
@@ -75,8 +72,8 @@ class org_openpsa_contacts_duplicates_merge
             foreach ($results as $result) {
                 $needs_update = false;
                 foreach ($fieldconfig as $field => $conf) {
-                    if ($result->$field == $obj2->{$conf['target']}) {
-                        $result->$field = $obj1->{$conf['target']};
+                    if ($result->$field == $from->{$conf['target']}) {
+                        $result->$field = $to->{$conf['target']};
                         $needs_update = true;
 
                         if (!empty($conf['duplicate_check'])) {
@@ -108,23 +105,23 @@ class org_openpsa_contacts_duplicates_merge
     /**
      * Handle metadata dependencies
      */
-    private function merge_metadata($person1, $person2, array $config)
+    private function merge_metadata(midcom_db_person $to, midcom_db_person $from, array $config)
     {
         foreach (array_keys($config) as $class) {
             $qb = $class::new_query_builder();
             $qb->begin_group('OR');
-            $qb->add_constraint('metadata.approver', '=', $person2->guid);
-            $qb->add_constraint('metadata.owner', '=', $person2->guid);
+            $qb->add_constraint('metadata.approver', '=', $from->guid);
+            $qb->add_constraint('metadata.owner', '=', $from->guid);
             $qb->end_group();
 
             foreach ($qb->execute() as $object) {
-                if ($object->metadata->approver == $person2->guid) {
-                    debug_add("Transferred approver to person #{$person1->id} on {$class} #{$object->id}");
-                    $object->metadata->approver = $person1->guid;
+                if ($object->metadata->approver == $from->guid) {
+                    debug_add("Transferred approver to person #{$to->id} on {$class} #{$object->id}");
+                    $object->metadata->approver = $to->guid;
                 }
-                if ($object->metadata->owner == $person2->guid) {
-                    debug_add("Transferred owner to person #{$person1->id} on {$class} #{$object->id}");
-                    $object->metadata->owner = $person1->guid;
+                if ($object->metadata->owner == $from->guid) {
+                    debug_add("Transferred owner to person #{$to->id} on {$class} #{$object->id}");
+                    $object->metadata->owner = $to->guid;
                 }
                 if (!$object->update()) {
                     throw new midcom_error("Could not update object {$class} #{$object->id}, errstr: " . midcom_connection::get_error_string());
@@ -148,46 +145,43 @@ class org_openpsa_contacts_duplicates_merge
         return true;
     }
 
-    private function merge_persons($person1, $person2)
+    private function merge_persons(midcom_db_person $to, midcom_db_person $from)
     {
-        // Copy fields missing from person1 and present in person2 over
+        // Copy fields missing from $to and present in $from over
         $skip_properties = [
             'id' => true,
             'guid' => true,
         ];
         $changed = false;
-        foreach ($person2 as $property => $value) {
+        foreach ($from as $property => $value) {
             // Copy only simple properties not marked to be skipped missing from person1
-            if (   !empty($person2->$property)
-                && empty($person1->$property)
+            if (   !empty($from->$property)
+                && empty($to->$property)
                 && !isset($skip_properties[$property])
                 && is_scalar($value)) {
-                $person1->$property = $value;
+                    $to->$property = $value;
                 $changed = true;
             }
         }
         // Avoid unnecessary updates
-        if ($changed && !$person1->update()) {
-            throw new midcom_error("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string());
+        if ($changed && !$to->update()) {
+            throw new midcom_error("Error updating person #{$to->id}, errstr: " . midcom_connection::get_error_string());
         }
         // PONDER: sensible way to do the same for parameters ??
     }
 
     /**
      * Merges first object with second and then deletes the second
-     *
-     * @param midcom_core_dbaobject $obj1 Object that will remain
-     * @param midcom_core_dbaobject $obj2 Object that will be deleted
      */
-    public function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
+    public function merge_delete(midcom_core_dbaobject $to, midcom_core_dbaobject $from)
     {
-        $this->merge($obj1, $obj2, 'all');
-        if (!$obj2->delete()) {
+        $this->merge($to, $from, 'all');
+        if (!$from->delete()) {
             throw new midcom_error('Deletion failed: ' . midcom_connection::get_error_string());
         }
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
-        $qb->add_constraint('name', '=', $obj2->guid);
+        $qb->add_constraint('name', '=', $from->guid);
         foreach ($qb->execute() as $param) {
             if (!$param->delete()) {
                 debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
