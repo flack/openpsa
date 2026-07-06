@@ -40,11 +40,7 @@ abstract class midcom_helper_nav_item
     public function __get($name)
     {
         $name = $this->translate_name($name);
-        $data = $this->get_data();
-        if (!array_key_exists($name, $data)) {
-            return null;
-        }
-        return $data[$name];
+        return $this->get_data()[$name] ?? null;
     }
 
     /**

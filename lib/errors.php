@@ -186,17 +186,9 @@ class midcom_exception_handler implements EventSubscriberInterface
             }
             if (array_key_exists('class', $frame)) {
                 $line .= $frame['class'];
-                if (array_key_exists('type', $frame)) {
-                    $line .= $frame['type'];
-                } else {
-                    $line .= '::';
-                }
+                $line .= $frame['type'] ?? '::';
             }
-            if (array_key_exists('function', $frame)) {
-                $line .= $frame['function'];
-            } else {
-                $line .= 'require, include or eval';
-            }
+            $line .= $frame['function'] ?? 'require, include or eval';
             $stacktrace[] = $line;
         }
 
