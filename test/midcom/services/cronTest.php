@@ -10,6 +10,7 @@ namespace test\midcom\services;
 
 use PHPUnit\Framework\TestCase;
 use midcom_services_cron;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -18,9 +19,7 @@ use midcom_services_cron;
  */
 class cronTest extends TestCase
 {
-    /**
-     * @dataProvider provider_load_jobs
-     */
+    #[DataProvider('provider_load_jobs')]
     public function test_load_jobs($recurrence, $jobs, $expected)
     {
         $cron = new midcom_services_cron($recurrence);

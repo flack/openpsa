@@ -10,6 +10,7 @@ namespace test\org\openpsa\directmarketing\campaign;
 
 use PHPUnit\Framework\TestCase;
 use org_openpsa_directmarketing_campaign_ruleresolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -18,9 +19,7 @@ use org_openpsa_directmarketing_campaign_ruleresolver;
  */
 class ruleresolverTest extends TestCase
 {
-    /**
-     * @dataProvider provider_resolve
-     */
+    #[DataProvider('provider_resolve')]
     public function test_resolve($rules, $result)
     {
         $resolver = new org_openpsa_directmarketing_campaign_ruleresolver;

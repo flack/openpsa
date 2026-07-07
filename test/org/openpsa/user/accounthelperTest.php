@@ -17,6 +17,7 @@ use Exception;
 use midcom_baseclasses_components_configuration;
 use midcom_services_at_entry_dba;
 use midcom_connection;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -209,9 +210,7 @@ class accounthelperTest extends openpsa_testcase
         $this->assertTrue($accounthelper->check_password_strength($password));
     }
 
-    /**
-     * @depends testCheck_password_strength
-     */
+    #[Depends('testCheck_password_strength')]
     public function testGenerate_safe_password()
     {
         $accounthelper = new org_openpsa_user_accounthelper;
@@ -221,9 +220,7 @@ class accounthelperTest extends openpsa_testcase
         $this->assertTrue($accounthelper->check_password_strength($password));
     }
 
-    /**
-     * @depends testGenerate_safe_password
-     */
+    #[Depends('testGenerate_safe_password')]
     public function testCheck_password_reuse()
     {
         $account = new midcom_core_account(self::$_user);
@@ -261,9 +258,7 @@ class accounthelperTest extends openpsa_testcase
         $this->assertFalse($accounthelper->check_password_age());
     }
 
-    /**
-     * @depends testGenerate_safe_password
-     */
+    #[Depends('testGenerate_safe_password')]
     public function testDisable_account()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
@@ -293,11 +288,9 @@ class accounthelperTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @depends testCheck_password_strength
-     * @depends testCheck_password_reuse
-     * @depends testGenerate_safe_password
-     */
+    #[Depends('testCheck_password_strength')]
+    #[Depends('testCheck_password_reuse')]
+    #[Depends('testGenerate_safe_password')]
     public function testSet_account()
     {
         $user = self::create_user();

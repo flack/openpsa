@@ -11,6 +11,7 @@ namespace test\midcom;
 use PHPUnit\Framework\TestCase;
 use Monolog\Logger;
 use midcom_debug;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -19,9 +20,7 @@ use midcom_debug;
  */
 class debugTest extends TestCase
 {
-    /**
-     * @dataProvider provider_get_caller
-     */
+    #[DataProvider('provider_get_caller')]
     public function test_get_caller(array $bt, string $expected)
     {
         $debug = new midcom_debug(new Logger('test'));

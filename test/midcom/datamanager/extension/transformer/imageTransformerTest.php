@@ -10,6 +10,7 @@ namespace midcom\datamanager\test;
 use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\imageTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class imageTransformerTest extends openpsa_testcase
 {
@@ -27,18 +28,14 @@ class imageTransformerTest extends openpsa_testcase
         return new imageTransformer($config);
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_transform($input, $expected)
     {
         $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->transform($input));
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_reverseTransform($expected, $input)
     {
         $transformer = $this->get_transformer();

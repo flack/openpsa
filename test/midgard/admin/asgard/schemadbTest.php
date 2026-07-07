@@ -15,6 +15,7 @@ use midgard_admin_asgard_schemadb;
 use midcom_db_article;
 use org_openpsa_calendar_event_dba;
 use midcom_db_person;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -23,9 +24,7 @@ use midcom_db_person;
  */
 class schemadbTest extends TestCase
 {
-    /**
-     * @dataProvider provider_sort
-     */
+    #[DataProvider('provider_sort')]
     public function test_sort($object, $first, $second, $expected)
     {
         midcom::get()->auth->request_sudo('midgard.admin.asgard');

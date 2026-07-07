@@ -11,6 +11,8 @@ namespace test\midcom\helper;
 use openpsa_testcase;
 use midcom_db_topic;
 use midcom;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -19,9 +21,7 @@ use midcom;
  */
 class metadataTest extends openpsa_testcase
 {
-    /**
-     * @dataProvider providerEmptyProperties
-     */
+    #[DataProvider('providerEmptyProperties')]
     public function testEmptyProperties($name)
     {
         $topic = new midcom_db_topic();
@@ -65,10 +65,8 @@ class metadataTest extends openpsa_testcase
         $this->assertTrue($topic->metadata->deleted);
     }
 
-    /**
-     * @depends testEmptyProperties
-     * @dataProvider providerSetEmptyObjectProperties
-     */
+    #[Depends('testEmptyProperties')]
+    #[DataProvider('providerSetEmptyObjectProperties')]
     public function testSetEmptyObjectProperties($field, $value)
     {
         $topic = new midcom_db_topic();
@@ -87,10 +85,8 @@ class metadataTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @depends testSetEmptyObjectProperties
-     * @dataProvider providerSetDBObjectProperties
-     */
+    #[Depends('testSetEmptyObjectProperties')]
+    #[DataProvider('providerSetDBObjectProperties')]
     public function testSetDBObjectProperties($field, $expected)
     {
         $topic = $this->create_object(midcom_db_topic::class);

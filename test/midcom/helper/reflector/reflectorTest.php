@@ -15,6 +15,7 @@ use midcom_db_article;
 use midgard_topic;
 use midcom_db_topic;
 use midcom_core_dbaproxy;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -23,9 +24,7 @@ use midcom_core_dbaproxy;
  */
 class reflectorTest extends openpsa_testcase
 {
-    /**
-     * @dataProvider provider_property_exists
-     */
+    #[DataProvider('provider_property_exists')]
     public function test_property_exists($input)
     {
         $reflector = midcom_helper_reflector::get($input);
@@ -54,9 +53,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_class_label
-     */
+    #[DataProvider('providerGet_class_label')]
     public function testGet_class_label($classname, $label)
     {
         $reflector = new midcom_helper_reflector($classname);
@@ -73,9 +70,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_label_property
-     */
+    #[DataProvider('providerGet_label_property')]
     public function testGet_label_property($classname, $property)
     {
         $reflector = new midcom_helper_reflector($classname);
@@ -96,9 +91,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_object_label
-     */
+    #[DataProvider('providerGet_object_label')]
     public function testGet_object_label($classname, $data, $label)
     {
         $object = new $classname;
@@ -122,9 +115,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_object_title
-     */
+    #[DataProvider('providerGet_object_title')]
     public function testGet_object_title($classname, $data, $label)
     {
         $object = new $classname;
@@ -144,9 +135,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_title_property
-     */
+    #[DataProvider('providerGet_title_property')]
     public function testGet_title_property($classname, $property)
     {
         $object = new $classname;
@@ -164,9 +153,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_name_property
-     */
+    #[DataProvider('providerGet_name_property')]
     public function testGet_name_property($classname, $property)
     {
         $object = new $classname;
@@ -184,9 +171,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_create_icon
-     */
+    #[DataProvider('providerGet_create_icon')]
     public function testGet_create_icon($classname, $icon)
     {
         $reflector = new midcom_helper_reflector($classname);
@@ -205,9 +190,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_object_icon
-     */
+    #[DataProvider('providerGet_object_icon')]
     public function testGet_object_icon($classname, $icon)
     {
         $object = new $classname;
@@ -237,9 +220,7 @@ class reflectorTest extends openpsa_testcase
         $this->assertEquals($icon, midcom_helper_reflector::get_object_icon($proxy));
     }
 
-    /**
-     * @dataProvider providerGet_search_properties
-     */
+    #[DataProvider('providerGet_search_properties')]
     public function testGet_search_properties($classname, $properties)
     {
         $reflector = new midcom_helper_reflector($classname);
@@ -261,9 +242,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerIs_same_class
-     */
+    #[DataProvider('providerIs_same_class')]
     public function testIs_same_class($classname1, $classname2, $result)
     {
         $this->assertEquals($result, midcom_helper_reflector::is_same_class($classname1, $classname2));
@@ -278,9 +257,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerResolve_baseclass
-     */
+    #[DataProvider('providerResolve_baseclass')]
     public function testResolve_baseclass($classname1, $result)
     {
         $this->assertEquals($result, midcom_helper_reflector::resolve_baseclass($classname1));
@@ -296,9 +273,7 @@ class reflectorTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_link_properties
-     */
+    #[DataProvider('providerGet_link_properties')]
     public function testGet_link_properties($classname, $properties)
     {
         $reflector = new midcom_helper_reflector($classname);

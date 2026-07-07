@@ -13,6 +13,7 @@ use midcom;
 use midcom_db_person;
 use midcom_db_group;
 use midcom_db_member;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -59,9 +60,7 @@ class personTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @dataProvider providerUpdate_computed_members
-     */
+    #[DataProvider('providerUpdate_computed_members')]
     public function testUpdate_computed_members($attributes, $results)
     {
         $person = self::prepare_object('midcom_db_person', $attributes);

@@ -14,6 +14,7 @@ use midcom_db_person;
 use org_openpsa_projects_project;
 use midcom_core_privilege;
 use midcom_connection;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -22,9 +23,7 @@ use midcom_connection;
  */
 class privilegeTest extends openpsa_testcase
 {
-    /**
-     * @dataProvider providerStoreArray
-     */
+    #[DataProvider('providerStoreArray')]
     public function testStoreArray($input, $output)
     {
         midcom::get()->auth->request_sudo('midcom.core');

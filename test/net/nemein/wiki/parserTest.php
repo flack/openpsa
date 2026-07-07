@@ -11,6 +11,7 @@ namespace test\net\nemein\wiki;
 use openpsa_testcase;
 use net_nemein_wiki_wikipage;
 use net_nemein_wiki_parser;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -31,9 +32,7 @@ class parserTest extends openpsa_testcase
         self::$_page = self::create_class_object(net_nemein_wiki_wikipage::class, $attributes);
     }
 
-    /**
-     * @dataProvider provider_find_links_in_content
-     */
+    #[DataProvider('provider_find_links_in_content')]
     public function test_find_links_in_content($text, $result)
     {
         self::$_page->content = $text;

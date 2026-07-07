@@ -16,6 +16,7 @@ use org_openpsa_sales_salesproject_deliverable_dba;
 use org_openpsa_projects_task_dba;
 use org_openpsa_expenses_hour_report_dba;
 use org_openpsa_invoices_invoice_item_dba;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -55,9 +56,7 @@ class invoiceTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @depends testCRUD
-     */
+    #[Depends('testCRUD')]
     public function testRecalculate_invoice_items()
     {
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);

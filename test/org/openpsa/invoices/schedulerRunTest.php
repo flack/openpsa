@@ -26,6 +26,8 @@ use org_openpsa_expenses_calculator;
 use org_openpsa_invoices_scheduler;
 use org_openpsa_relatedto_collector;
 use org_openpsa_contacts_person_dba;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -136,9 +138,7 @@ class schedulerRunTest extends openpsa_testcase
         $this->_deliverable->refresh();
     }
 
-    /**
-     * @dataProvider providerRun_cycle
-     */
+    #[DataProvider('providerRun_cycle')]
     public function testRun_cycle($params, $input, $result)
     {
         $this->set_config('org.openpsa.sales', 'calculator', org_openpsa_expenses_calculator::class);
@@ -547,9 +547,7 @@ class schedulerRunTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @depends testRun_cycle
-     */
+    #[Depends('testRun_cycle')]
     public function testRun_cycle_multiple()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');

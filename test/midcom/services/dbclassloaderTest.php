@@ -17,6 +17,7 @@ use midgard_person;
 use openpsa_person;
 use org_openpsa_projects_task_dba;
 use org_openpsa_task;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -25,9 +26,7 @@ use org_openpsa_task;
  */
 class dbclassloaderTest extends TestCase
 {
-    /**
-     * @dataProvider providerGet_component_classes
-     */
+    #[DataProvider('providerGet_component_classes')]
     public function testGet_component_classes($component, $result)
     {
         $classes = midcom::get()->dbclassloader->get_component_classes($component);
@@ -50,9 +49,7 @@ class dbclassloaderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider_class_conversion
-     */
+    #[DataProvider('provider_class_conversion')]
     public function test_class_conversion(string $midcom, string $midgard)
     {
         $cl = new midcom_services_dbclassloader(['test' => [
@@ -83,9 +80,7 @@ class dbclassloaderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_midcom_class_name_for_mgdschema_object
-     */
+    #[DataProvider('providerGet_midcom_class_name_for_mgdschema_object')]
     public function testGet_midcom_class_name_for_mgdschema_object($object, $result)
     {
         $component = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);

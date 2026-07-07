@@ -10,6 +10,7 @@ namespace test\midcom\helper\search\handler;
 
 use midcom_db_topic;
 use openpsa_testcase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -37,9 +38,7 @@ class searchTest extends openpsa_testcase
         $this->assertEquals('advanced', $data['handler_id']);
     }
 
-    /**
-     * @dataProvider provider_result
-     */
+    #[DataProvider('provider_result')]
     public function testHandler_result($options)
     {
         $_GET = $options;

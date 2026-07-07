@@ -13,6 +13,7 @@ use midcom;
 use midcom_db_group;
 use midcom_db_person;
 use midcom_db_member;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -47,9 +48,7 @@ class groupTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @depends testCRUD
-     */
+    #[Depends('testCRUD')]
     public function testMembershipManagement()
     {
         $person = $this->create_object(midcom_db_person::class);

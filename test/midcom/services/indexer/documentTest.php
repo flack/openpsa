@@ -10,6 +10,7 @@ namespace test\midcom\services\indexer;
 
 use PHPUnit\Framework\TestCase;
 use midcom_services_indexer_document;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -18,9 +19,7 @@ use midcom_services_indexer_document;
  */
 class documentTest extends TestCase
 {
-    /**
-     * @dataProvider provider_html2text
-     */
+    #[DataProvider('provider_html2text')]
     public function test_html2text($in, $out)
     {
         $document = new midcom_services_indexer_document;

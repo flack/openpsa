@@ -10,6 +10,7 @@ namespace test\midcom\admin\help;
 
 use openpsa_testcase;
 use midcom_admin_help_help;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -33,9 +34,7 @@ class helpTest extends openpsa_testcase
         $this->assertNull($path);
     }
 
-    /**
-     * @dataProvider provider_list_files
-     */
+    #[DataProvider('provider_list_files')]
     public function test_list_files($component, $index, $expected)
     {
         //@todo: To test properly, we should setup a context with a handler of the component

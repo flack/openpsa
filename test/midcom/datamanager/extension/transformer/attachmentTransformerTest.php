@@ -11,6 +11,7 @@ use openpsa_testcase;
 use midcom;
 use midcom\datamanager\extension\transformer\attachmentTransformer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class attachmentTransformerTest extends openpsa_testcase
 {
@@ -28,18 +29,14 @@ class attachmentTransformerTest extends openpsa_testcase
         return new attachmentTransformer($config);
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_transform($input, $expected)
     {
         $transformer = $this->get_transformer();
         $this->assertEquals($expected, $transformer->transform($input));
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_reverseTransform($expected, $input)
     {
         $transformer = $this->get_transformer();

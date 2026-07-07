@@ -10,6 +10,7 @@ namespace test\net\nehmer\comments\handler;
 
 use openpsa_testcase;
 use midcom;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -29,9 +30,7 @@ class adminTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @dataProvider provider_moderate
-     */
+    #[DataProvider('provider_moderate')]
     public function testHandler_moderate($status)
     {
         $this->create_user(true);

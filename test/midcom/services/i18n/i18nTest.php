@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 use PHPUnit\Framework\TestCase;
 use midcom_services_i18n;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -26,9 +27,7 @@ class i18nTest extends TestCase
         $this->assertEquals('en', $i18n->get_fallback_language());
     }
 
-    /**
-     * @dataProvider provider_read_http_negotiation
-     */
+    #[DataProvider('provider_read_http_negotiation')]
     public function test_read_http_negotiation($input, $expected)
     {
         $rs = new RequestStack;

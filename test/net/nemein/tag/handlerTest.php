@@ -13,6 +13,7 @@ use net_nemein_tag_handler;
 use midcom_db_person;
 use net_nemein_tag_tag_dba;
 use net_nemein_tag_link_dba;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -21,9 +22,7 @@ use net_nemein_tag_link_dba;
  */
 class handlerTest extends openpsa_testcase
 {
-    /**
-     * @dataProvider provider_resolve_tagname
-     */
+    #[DataProvider('provider_resolve_tagname')]
     public function test_resolve_tagname($input, $expected)
     {
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_tagname($input));
@@ -51,9 +50,7 @@ class handlerTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider provider_resolve_value
-     */
+    #[DataProvider('provider_resolve_value')]
     public function test_resolve_value($input, $expected)
     {
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_value($input));
@@ -81,9 +78,7 @@ class handlerTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider provider_resolve_context
-     */
+    #[DataProvider('provider_resolve_context')]
     public function test_resolve_context($input, $expected)
     {
         $this->assertEquals($expected, net_nemein_tag_handler::resolve_context($input));
@@ -111,9 +106,7 @@ class handlerTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider provider_string2tag_array
-     */
+    #[DataProvider('provider_string2tag_array')]
     public function test_string2tag_array($input, $expected)
     {
         $this->assertEquals($expected, net_nemein_tag_handler::string2tag_array($input));

@@ -9,6 +9,7 @@ namespace midcom\datamanager\test;
 
 use midcom\datamanager\extension\transformer\multipleTransformer;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class multipleTransformerTest extends TestCase
 {
@@ -25,18 +26,14 @@ class multipleTransformerTest extends TestCase
         return new multipleTransformer($config);
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_transform($method, $input, $expected)
     {
         $transformer = $this->get_transformer($method);
         $this->assertEquals($expected, $transformer->transform($input));
     }
 
-    /**
-     * @dataProvider provider_transform
-     */
+    #[DataProvider('provider_transform')]
     public function test_reverseTransform($method, $expected, $input)
     {
         $transformer = $this->get_transformer($method);

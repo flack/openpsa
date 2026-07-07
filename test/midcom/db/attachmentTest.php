@@ -13,6 +13,7 @@ use midcom_db_topic;
 use midcom;
 use midcom_db_attachment;
 use midcom_connection;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -98,9 +99,7 @@ class attachmentTest extends openpsa_testcase
         $this->assertFileExists($expected_path);
     }
 
-    /**
-     * @dataProvider provider_safe_filename
-     */
+    #[DataProvider('provider_safe_filename')]
     public function test_safe_filename($input, $output)
     {
         $converted = midcom_db_attachment::safe_filename($input);

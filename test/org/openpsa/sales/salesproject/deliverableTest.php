@@ -15,6 +15,8 @@ use org_openpsa_products_product_dba;
 use org_openpsa_sales_salesproject_deliverable_dba;
 use midcom;
 use midcom_connection;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -76,11 +78,9 @@ class deliverableTest extends openpsa_testcase
         $this->assertEquals($parent->guid, self::$_salesproject->guid);
     }
 
-    /**
-     * @dataProvider providerOrder
-     * @depends testCRUD
-     */
-    public function testOrder($attributes, $retval, $results)
+    #[Depends('testCRUD')]
+    #[DataProvider('providerOrder')]
+    public function testOrder($attributes, $results)
     {
         $productgroup = $this->create_object(org_openpsa_products_product_group_dba::class);
         $attributes['product']['productGroup'] = $productgroup->id;
@@ -94,9 +94,10 @@ class deliverableTest extends openpsa_testcase
 
         $stat = $this->sudo($deliverable->order(...));
 
-        $this->assertEquals($retval, $stat);
+        $expected = !empty($results);
+        $this->assertEquals($expected, $stat);
 
-        if ($retval === true) {
+        if ($stat === true) {
             $salesproject = self::$_salesproject;
             $salesproject->refresh();
 
@@ -112,7 +113,7 @@ class deliverableTest extends openpsa_testcase
     {
         return [
             0 => [
-                'attributes' => [
+                [
                     'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS,
@@ -122,8 +123,7 @@ class deliverableTest extends openpsa_testcase
                         'costPerUnit' => 2,
                     ]
                 ],
-                true,
-                'results' => [
+                [
                     'deliverable' => [
                         'plannedUnits' => 10,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
@@ -134,17 +134,16 @@ class deliverableTest extends openpsa_testcase
                 ],
             ],
             1 => [
-                'attributes' => [
+                [
                     'product' => [],
                     'deliverable' => [
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     ]
                 ],
-                false,
-                'results' => []
+                []
             ],
             2 => [
-                'attributes' => [
+                [
                     'product' => [
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'orgOpenpsaObtype' => org_openpsa_products_product_dba::TYPE_GOODS,
@@ -155,8 +154,7 @@ class deliverableTest extends openpsa_testcase
                         'invoiceByActualUnits' => true,
                     ]
                 ],
-                true,
-                'results' => [
+                [
                     'deliverable' => [
                         'plannedUnits' => 10,
                         'cost' => 0,
@@ -171,9 +169,7 @@ class deliverableTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @depends testCRUD
-     */
+    #[Depends('testCRUD')]
     public function testDecline()
     {
         $attributes = [
@@ -208,10 +204,8 @@ class deliverableTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @dataProvider providerCalculate_price
-     * @depends testCRUD
-     */
+    #[Depends('testCRUD')]
+    #[DataProvider('providerCalculate_price')]
     public function testCalculate_price($attributes, $results)
     {
         $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
@@ -270,9 +264,7 @@ class deliverableTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerGet_cycle_identifier
-     */
+    #[DataProvider('providerGet_cycle_identifier')]
     public function testGet_cycle_identifier($attributes, $output)
     {
         $deliverable = self::prepare_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);

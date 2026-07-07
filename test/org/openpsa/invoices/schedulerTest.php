@@ -21,6 +21,8 @@ use org_openpsa_projects_role_dba;
 use org_openpsa_projects_task_dba;
 use org_openpsa_projects_project;
 use midcom_baseclasses_components_configuration;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * OpenPSA testcase
@@ -29,9 +31,7 @@ use midcom_baseclasses_components_configuration;
  */
 class schedulerTest extends openpsa_testcase
 {
-    /**
-     * @dataProvider providerCalculate_cycle_next
-     */
+    #[DataProvider('providerCalculate_cycle_next')]
     public function testCalculate_cycle_next($unit, $start, $result)
     {
         $start = strtotime($start);
@@ -95,10 +95,8 @@ class schedulerTest extends openpsa_testcase
         ];
     }
 
-    /**
-     * @dataProvider providerCalculate_cycles
-     * @depends testCalculate_cycle_next
-     */
+    #[Depends('testCalculate_cycle_next')]
+    #[DataProvider('providerCalculate_cycles')]
     public function testCalculate_cycles($attributes, $months, $result)
     {
         $deliverable = self::prepare_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
@@ -238,9 +236,7 @@ class schedulerTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    /**
-     * @dataProvider providerCycle_start
-     */
+    #[DataProvider('providerCycle_start')]
     public function testCycle_start($input, $expected)
     {
         midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->set('subscription_invoice_day_of_month', 1);

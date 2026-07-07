@@ -16,6 +16,7 @@ use midcom;
 use midcom_db_article;
 use midcom_db_person;
 use SimplePie\Item;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * OpenPSA testcase
@@ -124,9 +125,7 @@ class fetchTest extends openpsa_testcase
         $this->assertEquals($person->guid, $author->guid);
     }
 
-    /**
-     * @dataProvider provider_normalize_item
-     */
+    #[DataProvider('provider_normalize_item')]
     public function test_normalize_item(Item $item, array $expected)
     {
         foreach ($expected as $field => $value) {
