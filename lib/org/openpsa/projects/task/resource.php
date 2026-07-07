@@ -61,7 +61,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc = self::new_collector('task', $parent->id);
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $mc->add_constraint('person', '=', $this->person);
-        $mc->execute();
         if ($mc->count() > 0) {
             //Resource is already present, aborting
             return;
@@ -82,7 +81,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc = self::new_collector('person', $this->person);
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $mc->add_constraint('task.project', '=', $task->project);
-        $mc->execute();
         if ($mc->count() > 0) {
             //Resource is still present in sibling tasks, aborting
             return;

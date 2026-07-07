@@ -75,7 +75,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             $data['query'] = new org_openpsa_reports_query_dba($guid);
             $data['query']->require_do('midgard:update');
         } else {
-            $data['query']= new org_openpsa_reports_query_dba();
+            $data['query'] = new org_openpsa_reports_query_dba();
             $data['query']->component = $this->_component;
         }
 

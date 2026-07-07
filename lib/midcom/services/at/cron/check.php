@@ -32,12 +32,12 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $qb->set_limit(1);
 
             midcom::get()->auth->request_sudo($this->_component);
-            $qbret = $qb->execute();
+            $qbret = $qb->get_result(0);
             midcom::get()->auth->drop_sudo();
             if (empty($qbret)) {
                 break;
             }
-            $this->process_entry($qbret[0]);
+            $this->process_entry($qbret);
         }
     }
 

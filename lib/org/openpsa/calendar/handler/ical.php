@@ -99,8 +99,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('externalGuid', '=', $uid);
-        if ($result = $qb->execute()) {
-            return $result[0];
+        if ($result = $qb->get_result(0)) {
+            return $result;
         }
 
         $event = new org_openpsa_calendar_event_dba;
@@ -124,12 +124,12 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $qb = midcom_db_person::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '=', $username);
         midcom::get()->auth->request_sudo($this->_component);
-        $persons = $qb->execute();
+        $person = $qb->get_result(0);
         midcom::get()->auth->drop_sudo();
-        if (empty($persons)) {
+        if (empty($person)) {
             throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
-        $this->person = $persons[0];
+        $this->person = $person;
     }
 
     /**

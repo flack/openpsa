@@ -34,7 +34,7 @@ trait attachments
         // Locate attachment
         $qb = $this->get_attachment_qb();
         $qb->add_constraint('name', '=', $name);
-        return $qb->execute()[0] ?? null;
+        return $qb->get_result(0);
     }
 
     /**

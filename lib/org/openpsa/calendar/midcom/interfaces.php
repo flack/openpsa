@@ -56,9 +56,8 @@ implements midcom_services_permalinks_resolver
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('title', '=', '__org_openpsa_calendar');
         $qb->add_constraint('up', '=', 0);
-        if ($ret = $qb->execute()) {
-            $root_event = $ret[0];
-        } else {
+        $root_event = $qb->get_result(0);
+        if (!$root_event) {
             debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
             //Attempt to auto-initialize
             $root_event = self::create_root_event();

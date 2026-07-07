@@ -101,12 +101,12 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $qb->add_constraint('topic', '=', $folder->id);
             $qb->add_order('position');
             $qb->set_limit(1);
-            $results = $qb->execute();
-            if (empty($results)) {
+            $result = $qb->get_result(0);
+            if (empty($result)) {
                 return null;
             }
             midcom::get()->auth->request_sudo('org.openpsa.slideshow');
-            $thumbnail = $results[0]->create_folder_thumbnail();
+            $thumbnail = $result->create_folder_thumbnail();
             midcom::get()->auth->drop_sudo();
         }
         return $thumbnail;

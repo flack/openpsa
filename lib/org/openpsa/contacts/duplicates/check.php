@@ -194,10 +194,7 @@ abstract class org_openpsa_contacts_duplicates_check
                 continue;
             }
 
-            if (!isset($this->p_map[$arr1['guid']])) {
-                $this->p_map[$arr1['guid']] = [];
-            }
-
+            $this->p_map[$arr1['guid']] ??= [];
             $this->p_map[$arr1['guid']][$arr2['guid']] = $p;
         }
     }

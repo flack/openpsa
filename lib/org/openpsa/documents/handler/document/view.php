@@ -173,9 +173,9 @@ implements client
         if ($version > 1) {
             $qb->add_order('metadata.created', 'DESC');
             $qb->set_limit(1);
-            $results = $qb->execute();
+            $result = $qb->get_result(0);
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $results[0]->guid]),
+                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $result->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'backward',
             ]);
@@ -184,19 +184,19 @@ implements client
         if ($this->_document->nextVersion != 0) {
             $qb = org_openpsa_documents_document_dba::new_query_builder();
             $qb->begin_group('OR');
-            $qb->begin_group('AND');
-            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.revised', '>', gmdate('Y-m-d H:i:s', $this->_document->metadata->created));
-            $qb->end_group();
-            $qb->add_constraint('id', '=', $this->_document->nextVersion);
+                $qb->begin_group('AND');
+                    $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+                    $qb->add_constraint('metadata.revised', '>', gmdate('Y-m-d H:i:s', $this->_document->metadata->created));
+                $qb->end_group();
+                $qb->add_constraint('id', '=', $this->_document->nextVersion);
             $qb->end_group();
             $qb->add_order('nextVersion', 'DESC');
             $qb->add_order('metadata.created', 'ASC');
             $qb->set_limit(1);
-            $results = $qb->execute();
+            $result = $qb->get_result(0);
 
             $this->_view_toolbar->add_item([
-                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $results[0]->guid]),
+                MIDCOM_TOOLBAR_URL => $this->router->generate('document-view', ['guid' => $result->guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'forward',
             ]);

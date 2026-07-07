@@ -30,10 +30,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         if (!empty($tag)) {
             $qb = self::new_query_builder();
             $qb->add_constraint('tag', '=', $tag);
-            $results = $qb->execute();
-            if (!empty($results)) {
-                return $results[0];
-            }
+            return $qb->get_result(0);
         }
         return null;
     }

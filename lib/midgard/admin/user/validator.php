@@ -30,9 +30,7 @@ class midgard_admin_user_validator
             if (isset($fields['person'])) {
                 $mc->add_constraint('person', '<>', $fields['person']);
             }
-            $mc->execute();
-            $keys = $mc->list_keys();
-            if (count($keys) > 0) {
+            if ($mc->count()) {
                 return [
                     "username" => sprintf(midcom::get()->i18n->get_string("username %s is already in use", "midgard.admin.user"), $fields['username'])
                 ];

@@ -92,7 +92,7 @@ implements client
             if (midcom::get()->componentloader->is_installed('org.openpsa.invoices')) {
                 $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
                 $qb_billing_data->add_constraint('linkGuid', '=', $this->group->guid);
-                $data['billing_data'] = $qb_billing_data->execute()[0] ?? null;
+                $data['billing_data'] = $qb_billing_data->get_result(0);
             }
         }
 

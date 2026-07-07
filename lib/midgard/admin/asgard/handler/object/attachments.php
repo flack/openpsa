@@ -115,21 +115,20 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
         $qb->add_constraint('name', '=', $filename);
 
-        $files = $qb->execute();
-        if (empty($files)) {
-            if (!$autocreate) {
-                throw new midcom_error_notfound("Attachment '{$filename}' of object {$this->_object->guid} was not found.");
-            }
-            $file = new midcom_db_attachment();
-            $file->name = $filename;
-            $file->parentguid = $this->_object->guid;
-
-            if (!$file->create()) {
-                throw new midcom_error('Failed to create attachment, reason: ' . midcom_connection::get_error_string());
-            }
+        if ($file = $qb->get_result(0)) {
             return $file;
         }
-        return $files[0];
+        if (!$autocreate) {
+            throw new midcom_error_notfound("Attachment '{$filename}' of object {$this->_object->guid} was not found.");
+        }
+        $file = new midcom_db_attachment();
+        $file->name = $filename;
+        $file->parentguid = $this->_object->guid;
+
+        if (!$file->create()) {
+            throw new midcom_error('Failed to create attachment, reason: ' . midcom_connection::get_error_string());
+        }
+        return $file;
     }
 
     private function _list_files()

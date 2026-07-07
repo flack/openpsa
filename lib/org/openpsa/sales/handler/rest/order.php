@@ -40,10 +40,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         // add logged in user as salesproject owner
         $salesproject->owner = midcom::get()->auth->user->get_storage()->id;
 
-        $salesproject->title = "";
-        if (isset($this->_request['params']['salesproject_title'])) {
-            $salesproject->title = $this->_request['params']['salesproject_title'];
-        }
+        $salesproject->title = $this->_request['params']['salesproject_title'] ?? '';
         // add username to salesproject title
         $salesproject->title .= ' ' . $person->rname;
         if (!$salesproject->create()) {

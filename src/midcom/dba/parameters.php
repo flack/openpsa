@@ -37,10 +37,7 @@ trait parameters
 
         if (isset(self::$parameter_cache[$this->guid][$domain])) {
             // We have this domain in cache already thanks to some parameter listing
-            if (!isset(self::$parameter_cache[$this->guid][$domain][$name])) {
-                return null;
-            }
-            return self::$parameter_cache[$this->guid][$domain][$name];
+            return self::$parameter_cache[$this->guid][$domain][$name] ?? null;
         }
 
         // Not in cache, query from MgdSchema API directly

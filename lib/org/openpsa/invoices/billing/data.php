@@ -72,19 +72,17 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             $contact = $dba_class::get_cached($contact_id);
             $qb = self::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $contact->guid);
-            $billing_data = $qb->execute();
-            if (empty($billing_data)) {
-                return null;
-            }
 
-            // call set_address so the billing_data contains address of the linked contact
-            // if the property useContactAddress is set
-            $billing_data[0]->set_address();
-            return $billing_data[0];
+            if ($billing_data = $qb->get_result(0)) {
+                // call set_address so the billing_data contains address of the linked contact
+                // if the property useContactAddress is set
+                $billing_data->set_address();
+                return $billing_data;
+            }
         } catch (midcom_error $e) {
             $e->log();
-            return null;
         }
+        return null;
     }
 
     /**

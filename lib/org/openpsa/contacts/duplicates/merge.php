@@ -159,7 +159,7 @@ class org_openpsa_contacts_duplicates_merge
                 && empty($to->$property)
                 && !isset($skip_properties[$property])
                 && is_scalar($value)) {
-                    $to->$property = $value;
+                $to->$property = $value;
                 $changed = true;
             }
         }

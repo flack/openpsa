@@ -86,7 +86,6 @@ class org_openpsa_contacts_duplicates_check_person extends org_openpsa_contacts_
     private function load_memberships(int $id) : array
     {
         if (!isset($this->membership_cache[$id])) {
-            $this->membership_cache[$id] = [];
             $mc = midcom_db_member::new_collector('uid', $id);
             $this->membership_cache[$id] = $mc->get_values('gid');
         }

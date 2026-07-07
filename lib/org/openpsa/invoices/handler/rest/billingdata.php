@@ -24,8 +24,8 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
     {
         $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb->add_constraint("linkGuid", "=", $linkGuid);
-        if ($billingdata = $qb->execute()) {
-            return $billingdata[0];
+        if ($billingdata = $qb->get_result(0)) {
+            return $billingdata;
         }
 
         // got no billingdata so far.. auto-create!

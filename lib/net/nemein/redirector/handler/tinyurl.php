@@ -49,16 +49,14 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         $qb->add_constraint('node', '=', $this->_topic->guid);
 
         $qb->begin_group('OR');
-        $qb->add_constraint('guid', '=', $rule);
-        $qb->add_constraint('name', '=', $rule);
+            $qb->add_constraint('guid', '=', $rule);
+            $qb->add_constraint('name', '=', $rule);
         $qb->end_group();
-        $results = $qb->execute();
-
-        if (empty($results)) {
-            throw new midcom_error_notfound('Item not found');
+        if ($result = $qb->get_result(0)) {
+            return $result;
         }
 
-        return $results[0];
+        throw new midcom_error_notfound('Item not found');
     }
 
     /**

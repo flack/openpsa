@@ -45,11 +45,8 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
             foreach ($comments as $comment) {
                 $qb = net_nehmer_comments_comment::new_query_builder();
                 $qb->add_constraint('remoteid', '=', $comment->get_id());
-                $db_comments = $qb->execute();
 
-                if (!empty($db_comments)) {
-                    $db_comment = $db_comments[0];
-
+                if ($db_comment = $qb->get_result(0)) {
                     $db_comment->title = $comment->get_title();
                     $db_comment->content = $comment->get_description();
                     $db_comment->update();

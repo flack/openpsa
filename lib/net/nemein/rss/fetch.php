@@ -266,9 +266,9 @@ class net_nemein_rss_fetch
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_feed->node);
         $qb->add_constraint($this->_guid_property, '=', substr($guid, 0, 255));
-        if ($articles = $qb->execute()) {
+        if ($article = $qb->get_result(0)) {
             // This item has been imported already earlier. Update
-            return $articles[0];
+            return $article;
         }
 
         // Check against duplicate hits that may come from different feeds
@@ -405,8 +405,8 @@ class net_nemein_rss_fetch
             // Email is a pretty good identifier, start with it
             $person_qb = midcom_db_person::new_query_builder();
             $person_qb->add_constraint('email', '=', $author_info['email']);
-            if ($persons = $person_qb->execute()) {
-                return $persons[0];
+            if ($person = $person_qb->get_result(0)) {
+                return $person;
             }
         }
 
@@ -424,8 +424,8 @@ class net_nemein_rss_fetch
                 $person_qb = midcom_db_person::new_query_builder();
                 $person_qb->add_constraint('firstname', '=', $firstname);
                 $person_qb->add_constraint('lastname', '=', $lastname);
-                if ($persons = $person_qb->execute()) {
-                    return $persons[0];
+                if ($person = $person_qb->get_result(0)) {
+                    return $person;
                 }
             }
         }

@@ -62,8 +62,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             $this->person = new org_openpsa_contacts_person_dba($person);
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb->add_constraint('person', '=', $this->person->id);
-            if ($memberships = $qb->execute()) {
-                $this->member = $memberships[0];
+            if ($membership = $qb->get_result(0)) {
+                $this->member = $membership;
             } else {
                 $this->member = new org_openpsa_directmarketing_campaign_member_dba();
                 $this->member->person = $this->person->id;

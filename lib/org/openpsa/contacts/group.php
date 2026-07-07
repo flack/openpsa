@@ -49,8 +49,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     const DAUGHTER = 1001;
     const DEPARTMENT = 1002;
 
-    private array $members = [];
-    private bool $_members_loaded = false;
+    private ?array $members = null;
     private array $_address_extras = [];
 
     public function get_label() : string
@@ -68,19 +67,15 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->get_label();
     }
 
-    private function _get_address_extra(string $property)
+    private function get_address_extra(string $property) : string
     {
-        $return = $this->get_parameter('midcom.helper.datamanager2', $property) ?: $this->get_label();
-        $this->_address_extras[$property] = $return;
+        return $this->get_parameter('midcom.helper.datamanager2', $property) ?: $this->get_label();
     }
 
     public function __get($property)
     {
         if (in_array($property, ['invoice_label', 'postal_label'])) {
-            if (!isset($this->_address_extras[$property])) {
-                $this->_get_address_extra($property);
-            }
-            return $this->_address_extras[$property];
+            return $this->get_address_extra($property);
         }
         return parent::__get($property);
     }
@@ -94,10 +89,9 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function get_members() : array
     {
-        if (!$this->_members_loaded) {
+        if ($this->members === null) {
             $mc = midcom_db_member::new_collector('gid', $this->id);
             $this->members = array_fill_keys($mc->get_values('uid'), true);
-            $this->_members_loaded = true;
         }
         return $this->members;
     }

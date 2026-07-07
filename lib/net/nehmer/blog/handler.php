@@ -36,10 +36,8 @@ trait net_nehmer_blog_handler
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
 
-        $articles = $qb->execute();
-
-        if (array_key_exists(0, $articles)) {
-            return max($this->_topic->metadata->revised, $articles[0]->metadata->revised);
+        if ($article = $qb->get_result(0)) {
+            return max($this->_topic->metadata->revised, $article->metadata->revised);
         }
         return $this->_topic->metadata->revised;
     }

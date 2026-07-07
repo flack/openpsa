@@ -258,7 +258,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
         $mc->add_constraint('state', '<', $state);
         $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
-        $mc->execute();
 
         if ($mc->count() == 0) {
             $this->state = $state;

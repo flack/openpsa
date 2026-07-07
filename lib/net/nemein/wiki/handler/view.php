@@ -93,10 +93,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('name', '=', $wikiword);
         midcom::get()->auth->request_sudo($this->_component);
-        $result = $qb->execute();
+        $result = $qb->get_result(0);
         midcom::get()->auth->drop_sudo();
         if (!empty($result)) {
-            $this->_page = $result[0];
+            $this->_page = $result;
             $this->_page->require_do('midgard:read');
             return;
         }
@@ -114,10 +114,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('topic', '=', $this->_topic->id);
             $qb->add_constraint('title', '=', $wikiword);
-            $result = $qb->execute();
-            if (!empty($result)) {
+            if ($result = $qb->get_result(0)) {
                 // This wiki page actually exists, so go there as "Permanent Redirect"
-                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]), Response::HTTP_MOVED_PERMANENTLY);
+                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result->name]), Response::HTTP_MOVED_PERMANENTLY);
             }
         }
         if ($autocreate) {
@@ -137,17 +136,17 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('topic.component', '=', 'net.nemein.wiki');
             $qb->add_constraint('name', '=', $this->_page->url);
-            $result = $qb->execute();
+            $result = $qb->get_result(0);
             if (empty($result)) {
                 // No matching redirection page found, relocate to editing
                 // TODO: Add UI message
                 return new midcom_response_relocate($this->router->generate('edit', ['wikipage' => $this->_page->name]));
             }
 
-            if ($result[0]->topic == $this->_topic->id) {
-                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result[0]->name]));
+            if ($result->topic == $this->_topic->id) {
+                return new midcom_response_relocate($this->router->generate('view', ['wikipage' => $result->name]));
             }
-            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($result[0]->guid));
+            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($result->guid));
         }
 
         $this->_populate_toolbar();

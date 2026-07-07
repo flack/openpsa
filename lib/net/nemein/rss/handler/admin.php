@@ -36,9 +36,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_constraint('node', '=', $this->_topic->id);
         $qb->add_constraint('url', '=', $feed_url);
-        if ($feeds = $qb->execute()) {
+        if ($feed = $qb->get_result(0)) {
             // If we're updating existing feed
-            $feed = $feeds[0];
             $feed->title = $feed_title;
             $feed->update();
         } else {

@@ -26,7 +26,6 @@ class org_openpsa_projects_role_dba extends midcom_core_dbaobject
         $mc = self::new_collector('project', $project);
         $mc->add_constraint('role', '=', $role);
         $mc->add_constraint('person', '=', $person);
-        $mc->execute();
         if ($mc->count() > 0) {
             //Resource is already present, aborting silently
             return true;
