@@ -50,7 +50,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     const DEPARTMENT = 1002;
 
     private ?array $members = null;
-    private array $_address_extras = [];
 
     public function get_label() : string
     {
