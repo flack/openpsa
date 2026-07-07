@@ -265,9 +265,7 @@ class midcom_helper__dbfactory
         if (empty($link_value)) {
             return null;
         }
-        if (!array_key_exists($target_class, $this->_parent_mapping)) {
-            $this->_parent_mapping[$target_class] = [];
-        }
+        $this->_parent_mapping[$target_class] ??= [];
         if (!array_key_exists($link_value, $this->_parent_mapping[$target_class])) {
             $mc = new midgard_collector($target_class, $target_property, $link_value);
             $mc->set_key_property('guid');

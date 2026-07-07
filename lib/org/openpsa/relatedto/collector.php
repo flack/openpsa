@@ -159,9 +159,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         foreach ($this->get_rows([$key]) as $relation) {
             $group_value = $relation[$key];
-            if (!array_key_exists($group_value, $guids)) {
-                $guids[$group_value] = [];
-            }
+            $guids[$group_value] ??= [];
             $guids[$group_value][] = $relation[$this->_other_prefix . 'Guid'];
         }
 
@@ -172,9 +170,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
                 $this->_apply_object_constraints($qb);
                 $this->_apply_object_orders($qb);
                 $this->_apply_object_limit($qb);
-                if (!array_key_exists($group_value, $entries)) {
-                    $entries[$group_value] = [];
-                }
+                $entries[$group_value] ??= [];
                 $entries[$group_value] = array_merge($entries[$group_value], $qb->execute());
             }
         }

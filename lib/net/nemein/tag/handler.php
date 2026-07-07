@@ -286,13 +286,9 @@ class net_nemein_tag_handler
         $tags = [];
         foreach (self::get_data_for_guid($object->guid) as $result) {
             $context = $result['context'] ?: 0;
-
-            if (!array_key_exists($context, $tags)) {
-                $tags[$context] = [];
-            }
-
             $tagname = self::tag_link2tagname($result['tag'], $result['value'], $context);
 
+            $tags[$context] ??= [];
             $tags[$context][$tagname] = $result['url'];
         }
         return $tags;
@@ -369,9 +365,7 @@ class net_nemein_tag_handler
 
         $link_object_map = [];
         foreach ($qb->execute() as $link) {
-            if (!array_key_exists($link->fromGuid, $link_object_map)) {
-                $link_object_map[$link->fromGuid] = [];
-            }
+            $link_object_map[$link->fromGuid] ??= [];
 
             try {
                 $tag = net_nemein_tag_tag_dba::get_cached($link->tag);

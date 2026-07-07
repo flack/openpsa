@@ -15,9 +15,7 @@ class privilege extends delayed
 {
     public function __construct(midcom_core_dbaobject $object, array $config)
     {
-        if (!array_key_exists('classname', $config['type_config'])) {
-            $config['type_config']['classname'] = '';
-        }
+        $config['type_config']['classname'] ??= '';
         parent::__construct($object, $config);
     }
 

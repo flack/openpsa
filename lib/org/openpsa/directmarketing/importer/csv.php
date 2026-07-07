@@ -64,10 +64,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
                     continue;
                 }
 
-                if (!array_key_exists($schemadb, $contact)) {
-                    $contact[$schemadb] = [];
-                }
-
+                $contact[$schemadb] ??= [];
                 $contact[$schemadb][$schema_field] = $value;
             }
         }

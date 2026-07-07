@@ -35,9 +35,6 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_viewer
     public static function get_unit_option($unit) : string
     {
         $unit_options = self::get_unit_options();
-        if (array_key_exists($unit, $unit_options)) {
-            return $unit_options[$unit];
-        }
-        return '';
+        return $unit_options[$unit] ?? '';
     }
 }

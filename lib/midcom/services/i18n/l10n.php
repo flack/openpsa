@@ -216,9 +216,7 @@ class midcom_services_i18n_l10n
      */
     private function _check_for_language(string $lang)
     {
-        if (!array_key_exists($lang, $this->_stringdb)) {
-            $this->_stringdb[$lang] = $this->_load_language($lang);
-        }
+        $this->_stringdb[$lang] ??= $this->_load_language($lang);
     }
 
     /**

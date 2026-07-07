@@ -185,9 +185,7 @@ class schema
             }
             if (strtolower($value['location']) === 'parameter') {
                 $value['location'] = strtolower($value['location']);
-                if (!array_key_exists('domain', $value)) {
-                    $value['domain'] = 'midcom.helper.datamanager2';
-                }
+                $value['domain'] ??= 'midcom.helper.datamanager2';
             }
             if (strtolower($value['location']) === 'configuration') {
                 $value['location'] = 'parameter';

@@ -53,9 +53,7 @@ class images extends blobs implements recreateable
         // we iterate over results since that takes sorting into account
         foreach ($results as $identifier => $image) {
             [$images_identifier, $images_name] = $map[$identifier];
-            if (!array_key_exists($images_identifier, $grouped)) {
-                $grouped[$images_identifier] = [];
-            }
+            $grouped[$images_identifier] ??= [];
             $grouped[$images_identifier][$images_name] = $image;
         }
 

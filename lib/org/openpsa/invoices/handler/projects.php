@@ -84,10 +84,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         foreach ($qb->execute() as $task) {
             $this->_tasks[$task->id] = $task;
 
-            if (!array_key_exists($task->customer, $this->_customers)) {
-                $this->_customers[$task->customer] = [];
-            }
-
+            $this->_customers[$task->customer] ??= [];
             $this->_customers[$task->customer][$task->id] = $this->_tasks[$task->id];
         }
 

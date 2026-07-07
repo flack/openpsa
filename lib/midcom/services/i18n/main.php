@@ -210,10 +210,7 @@ class midcom_services_i18n
      */
     public function get_l10n(string $component = 'midcom') : midcom_services_i18n_l10n
     {
-        if (!array_key_exists($component, $this->_obj_l10n)) {
-            $this->_obj_l10n[$component] = new midcom_services_i18n_l10n($component, $this->_current_language, $this->_fallback_language);
-        }
-
+        $this->_obj_l10n[$component] ??= new midcom_services_i18n_l10n($component, $this->_current_language, $this->_fallback_language);
         return $this->_obj_l10n[$component];
     }
 

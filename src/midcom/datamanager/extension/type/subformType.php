@@ -57,9 +57,7 @@ class subformType extends AbstractType
             ], (array) $value);
         });
         $resolver->setNormalizer('widget_config', function (Options $options, $value) {
-            if (!array_key_exists('sortable', $value)) {
-                $value['sortable'] = false;
-            }
+            $value['sortable'] ??= false;
             return $value;
         });
     }

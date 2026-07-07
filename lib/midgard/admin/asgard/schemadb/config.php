@@ -52,9 +52,7 @@ class midgard_admin_asgard_schemadb_config
 
         foreach ($this->config->_global as $key => $value) {
             // try to sniff what fields are missing in schema
-            if (!array_key_exists($key, $fields)) {
-                $fields[$key] = $this->detect_schema($key, $value);
-            }
+            $fields[$key] ??= $this->detect_schema($key, $value);
 
             if (   !isset($this->config->_local[$key])
                 || $this->config->_local[$key] == $this->config->_global[$key]) {

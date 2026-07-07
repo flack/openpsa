@@ -170,9 +170,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $events_by_date = [];
         foreach ($qb->execute() as $event) {
             $ymd = date('Ymd', $event->start);
-            if (!array_key_exists($ymd, $events_by_date)) {
-                $events_by_date[$ymd] = [];
-            }
+            $events_by_date[$ymd] ??= [];
             $events_by_date[$ymd][] = $event;
         }
 

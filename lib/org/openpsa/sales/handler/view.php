@@ -163,9 +163,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         foreach ($qb->execute() as $deliverable) {
-            if (!array_key_exists($deliverable->get_state(), $this->deliverables)) {
-                $this->deliverables[$deliverable->get_state()] = [];
-            }
+            $this->deliverables[$deliverable->get_state()] ??= [];
             $this->deliverables[$deliverable->get_state()][] = [
                 'object' => $deliverable,
                 'actions' => $this->render_actions($deliverable)

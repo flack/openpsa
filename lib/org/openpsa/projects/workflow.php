@@ -29,22 +29,19 @@ class org_openpsa_projects_workflow
      */
     public static function get_status_type(int $status) : string
     {
-        $map = [
+        return match ($status) {
             org_openpsa_projects_task_status_dba::REJECTED => 'rejected',
-            org_openpsa_projects_task_status_dba::PROPOSED => 'not_started',
-            org_openpsa_projects_task_status_dba::DECLINED => 'not_started',
+            org_openpsa_projects_task_status_dba::PROPOSED,
+            org_openpsa_projects_task_status_dba::DECLINED,
             org_openpsa_projects_task_status_dba::ACCEPTED => 'not_started',
-            org_openpsa_projects_task_status_dba::STARTED => 'ongoing',
+            org_openpsa_projects_task_status_dba::STARTED,
             org_openpsa_projects_task_status_dba::REOPENED => 'ongoing',
-            org_openpsa_projects_task_status_dba::COMPLETED => 'closed',
-            org_openpsa_projects_task_status_dba::APPROVED => 'closed',
+            org_openpsa_projects_task_status_dba::COMPLETED,
+            org_openpsa_projects_task_status_dba::APPROVED,
             org_openpsa_projects_task_status_dba::CLOSED => 'closed',
-            org_openpsa_projects_task_status_dba::ONHOLD => 'on_hold'
-        ];
-        if (array_key_exists($status, $map)) {
-            return $map[$status];
-        }
-        return 'on_hold';
+            org_openpsa_projects_task_status_dba::ONHOLD => 'on_hold',
+            default => 'on_hold'
+        };
     }
 
     public static function render_status_control(org_openpsa_projects_task_dba $task) : string

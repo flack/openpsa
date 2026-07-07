@@ -72,11 +72,7 @@ class midcom_services_metadata
     public function get_page_class() : string
     {
         $context = midcom_core_context::get();
-
-        if (array_key_exists($context->id, $this->_page_classes)) {
-            return $this->_page_classes[$context->id];
-        }
-        return 'default';
+        return $this->_page_classes[$context->id] ?? 'default';
     }
 
     /**

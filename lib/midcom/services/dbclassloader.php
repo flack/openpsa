@@ -142,12 +142,10 @@ class midcom_services_dbclassloader
         static $mapping = [];
 
         if (!array_key_exists($classname, $mapping)) {
-            $mapping[$classname] = false;
-
-            if (class_exists($classname)) {
-                if ($this->is_midcom_db_object($classname)) {
-                    $mapping[$classname] = (new $classname)->__mgdschema_class_name__;
-                }
+            if ($this->is_midcom_db_object($classname)) {
+                $mapping[$classname] = (new $classname)->__mgdschema_class_name__;
+            } else {
+                $mapping[$classname] = false;
             }
         }
 

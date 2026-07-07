@@ -190,10 +190,8 @@ class org_openpsa_calendar_conflictmanager
     private function flag_busy(string $type, int $id, org_openpsa_calendar_event_dba $event)
     {
         $field = 'busy_' . $type;
-        if (!array_key_exists($id, $this->$field)) {
-            //for mapping
-            $this->{$field}[$id] = [];
-        }
+        //for mapping
+        $this->{$field}[$id] ??= [];
         //PONDER: The display end might have issues with event guid that they cannot see without sudo...
         $this->{$field}[$id][] = $event;
     }

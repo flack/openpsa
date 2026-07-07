@@ -111,36 +111,19 @@ class midcom_services_toolbars
     {
         $context = midcom_core_context::get();
 
-        if (!array_key_exists($context->id, $this->_toolbars)) {
-            $this->_toolbars[$context->id] = [
-                MIDCOM_TOOLBAR_HELP => null,
-                MIDCOM_TOOLBAR_HOST => null,
-                MIDCOM_TOOLBAR_NODE => null,
-                MIDCOM_TOOLBAR_VIEW => null
-            ];
-        }
-        if (!isset($this->_toolbars[$context->id][$identifier])) {
-            switch ($identifier) {
-                case MIDCOM_TOOLBAR_HELP:
-                    $component = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
-                    $toolbar = new midcom_helper_toolbar_help($component);
-                    break;
-                case MIDCOM_TOOLBAR_HOST:
-                    $toolbar = new midcom_helper_toolbar_host;
-                    break;
-                case MIDCOM_TOOLBAR_NODE:
-                    $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-                    $toolbar = new midcom_helper_toolbar_node($topic);
-                    break;
-                case MIDCOM_TOOLBAR_VIEW:
-                    $toolbar = new midcom_helper_toolbar_view;
-                    break;
-                default:
-                    $toolbar = new midcom_helper_toolbar;
-                    break;
-            }
-            $this->_toolbars[$context->id][$identifier] = $toolbar;
-        }
+        $this->_toolbars[$context->id] ??= [
+            MIDCOM_TOOLBAR_HELP => null,
+            MIDCOM_TOOLBAR_HOST => null,
+            MIDCOM_TOOLBAR_NODE => null,
+            MIDCOM_TOOLBAR_VIEW => null
+        ];
+        $this->_toolbars[$context->id][$identifier] ??= match ((int) $identifier) {
+            MIDCOM_TOOLBAR_HELP => new midcom_helper_toolbar_help($context->get_key(MIDCOM_CONTEXT_COMPONENT)),
+            MIDCOM_TOOLBAR_HOST => new midcom_helper_toolbar_host,
+            MIDCOM_TOOLBAR_NODE => new midcom_helper_toolbar_node($context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)),
+            MIDCOM_TOOLBAR_VIEW => new midcom_helper_toolbar_view,
+            default => new midcom_helper_toolbar
+        };
         return $this->_toolbars[$context->id][$identifier];
     }
 

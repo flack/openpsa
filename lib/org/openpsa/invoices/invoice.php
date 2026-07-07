@@ -195,9 +195,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements 
 
         // sums up the hours of hour_reports for each task
         foreach ($qb->execute() as $hour_report) {
-            if (!array_key_exists($hour_report->task, $result_tasks)) {
-                $result_tasks[$hour_report->task] = 0;
-            }
+            $result_tasks[$hour_report->task] ??= 0;
             if ($hour_report->invoiceable) {
                 $result_tasks[$hour_report->task] += $hour_report->hours;
             }

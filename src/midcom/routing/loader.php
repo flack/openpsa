@@ -49,9 +49,7 @@ class loader extends base
                 $path = '/' . implode('/', $config['fixed_args']) . '/';
             }
 
-            if (!array_key_exists('variable_args', $config)) {
-                $config['variable_args'] = 0;
-            }
+            $config['variable_args'] ??= 0;
             for ($i = 0; $i < $config['variable_args']; $i++) {
                 $path .= '{args_' . $i . '}/';
                 if (!empty($config['validation'][$i])) {
