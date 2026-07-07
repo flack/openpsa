@@ -96,24 +96,24 @@ class midcom_config_test
     {
         $this->section = 'php';
 
-        $cur_limit = $this->ini_get_filesize('memory_limit');
-        if ($cur_limit >= (40 * 1024 * 1024)) {
-            $this->add('Setting: memory_limit', self::OK, ini_get('memory_limit'));
+        $cur_limit = ini_get('memory_limit');
+        if (ini_parse_quantity($cur_limit) >= ini_parse_quantity('40M')) {
+            $this->add('Setting: memory_limit', self::OK, $cur_limit);
         } else {
             $this->add('Setting: memory_limit', self::ERROR, "MidCOM requires a minimum memory limit of 40 MB to operate correctly. Smaller amounts will lead to PHP Errors. Detected limit was {$cur_limit}.");
         }
 
-        $upload_limit = $this->ini_get_filesize('upload_max_filesize');
-        if ($upload_limit >= (50 * 1024 * 1024)) {
-            $this->add('Setting: upload_max_filesize', self::OK, ini_get('upload_max_filesize'));
+        $upload_limit = ini_get('upload_max_filesize');
+        if (ini_parse_quantity($upload_limit) >= ini_parse_quantity('50M')) {
+            $this->add('Setting: upload_max_filesize', self::OK, $upload_limit);
         } else {
             $this->add('Setting: upload_max_filesize',
                              self::WARNING, "To make bulk uploads (for exampe in the Image Gallery) useful, you should increase the Upload limit to something above 50 MB. (Current setting: {$upload_limit})");
         }
 
-        $post_limit = $this->ini_get_filesize('post_max_size');
-        if ($post_limit >= $upload_limit) {
-            $this->add('Setting: post_max_size', self::OK, ini_get('post_max_size'));
+        $post_limit = ini_get('post_max_size');
+        if (ini_parse_quantity($post_limit) >= ini_parse_quantity($upload_limit)) {
+            $this->add('Setting: post_max_size', self::OK, $post_limit);
         } else {
             $this->add('Setting: post_max_size', self::WARNING, 'post_max_size should be larger than upload_max_filesize, as both limits apply during uploads.');
         }
@@ -156,20 +156,6 @@ class midcom_config_test
                 $this->add('Memcache', self::ERROR, "The PHP memcached module is available and set to be in use, but it cannot be connected to.");
             }
         }
-    }
-
-    private function ini_get_filesize(string $setting) : int
-    {
-        $result = ini_get($setting);
-        $last_char = $result[-1];
-        if ($last_char == 'M') {
-            $result = substr($result, 0, -1) * 1024 * 1024;
-        } elseif ($last_char == 'K') {
-            $result = substr($result, 0, -1) * 1024;
-        } elseif ($last_char == 'G') {
-            $result = substr($result, 0, -1) * 1024 * 1024 * 1024;
-        }
-        return $result;
     }
 
     private function check_external()
