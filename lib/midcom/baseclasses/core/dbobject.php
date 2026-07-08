@@ -305,9 +305,13 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        if (!self::_delete_privileges($object)) {
-            debug_add('Failed to delete the object privileges.', MIDCOM_LOG_INFO);
-            return false;
+        $qb = new midgard_query_builder('midcom_core_privilege_db');
+        $qb->add_constraint('objectguid', '=', $object->guid);
+        foreach ($qb->execute() as $dbpriv) {
+            if (!$dbpriv->purge()) {
+                debug_add('Failed to purge object privilege ' . $dbpriv->id . ': ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+                return false;
+            }
         }
 
         // Finally, delete the object itself
@@ -316,26 +320,8 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        // Explicitly set this in case someone needs to check against it
         self::delete_post_ops($object);
 
-        return true;
-    }
-
-    /**
-     * Unconditionally drop all privileges assigned to the given object.
-     * Called upon successful delete
-     */
-    private static function _delete_privileges(midcom_core_dbaobject $object) : bool
-    {
-        $qb = new midgard_query_builder('midcom_core_privilege_db');
-        $qb->add_constraint('objectguid', '=', $object->guid);
-
-        foreach ($qb->execute() as $dbpriv) {
-            if (!$dbpriv->purge()) {
-                return false;
-            }
-        }
         return true;
     }
 
