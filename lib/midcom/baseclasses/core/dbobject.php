@@ -416,10 +416,6 @@ class midcom_baseclasses_core_dbobject
 
         $object->__object->get_by_id($id);
 
-        if ($object->id == 0) {
-            debug_add("Failed to load the record identified by {$id}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            return false;
-        }
         if (!$object->can_do('midgard:read')) {
             debug_add("Failed to load object, read privilege on the " . $object::class . " {$object->guid} not granted for the current user.",
             MIDCOM_LOG_ERROR);
@@ -444,10 +440,6 @@ class midcom_baseclasses_core_dbobject
         }
         $object->__object->get_by_guid($guid);
 
-        if ($object->id == 0) {
-            debug_add("Failed to load the record identified by {$guid}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            return false;
-        }
         $object->_on_loaded();
         return true;
     }
@@ -458,12 +450,8 @@ class midcom_baseclasses_core_dbobject
      */
     public static function get_by_path(midcom_core_dbaobject $object, string $path) : bool
     {
-        $object->__object->get_by_path($path);
-
-        if ($object->id == 0) {
-            return false;
-        }
-        if (!$object->can_do('midgard:read')) {
+        if (   !$object->__object->get_by_path($path)
+            || !$object->can_do('midgard:read')) {
             $object->__object = new $object->__mgdschema_class_name__;
             return false;
         }
