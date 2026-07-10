@@ -6,7 +6,6 @@ $(document).ready(function() {
             spinner = $('<div class="spinner">' + get_spinner_template() + '</div>'),
             text = this.dataset.dialogText,
             relocate = $(this).data('relocate'),
-            action = this.getAttribute('href') || this.dataset.action,
             options = {
                 title:  this.dataset.dialogHeading,
                 dialogClass: 'midcom-workflow-dialog midcom-workflow-dialog-delete',
@@ -16,6 +15,7 @@ $(document).ready(function() {
                 buttons: [{
                     text: button.text().trim() || this.dataset.dialogHeading,
                     click: function() {
+                        let action = button[0].getAttribute('href') || button[0].dataset.action;
                         if (relocate) {
                             $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
                                 .append($('<input type="submit" name="' + button.data('form-id') + '">'))
