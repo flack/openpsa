@@ -100,7 +100,12 @@ function attach_to_parent_dialog(dialog) {
                 text: btn.val() || btn.text(),
                 click: function() {
                     if (btn.hasClass('cancel')) {
-                        dialog.dialog('close');
+                        let initial_url = dialog.find('> iframe')[0].src;
+                        if (initial_url != window.location.href) {
+                            window.location.href = initial_url;
+                        } else {
+                            dialog.dialog('close');
+                        }
                     } else {
                         btn.closest('form').on('submit', function() {
                             buttonset
