@@ -17,8 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * <b>Site-specific configuration:</b>
  *
- * MidCOM will include the file <i>midcom::get()->config->get('midcom_config_basedir') . /midcom.conf</i> which must be a regular
- * PHP file. You may populate the global array $midcom_config_site in this file. It should
+ * You may populate the global array $midcom_config_site. It should
  * list all options that apply to all installations (like the Cache backend selection
  * or the indexer host).
  *
@@ -50,12 +49,12 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * <b>Authentication configuration</b>
  *
- * - <b>boolean allow_sudo:</b> Set this to true (the default) to allow components to
+ * - <b>bool allow_sudo:</b> Set this to true (the default) to allow components to
  *   request super user privileges for certain operations. This is mainly used to allow
  *   anonymous access to the system without having to store a user account everywhere.
  * - <b>string auth_backend:</b> The authentication backend to use, the "simple"
  *   backend is used as a default.
- * - <b>boolean auth_check_client_ip:</b> Control whether to check the client IP address
+ * - <b>bool auth_check_client_ip:</b> Control whether to check the client IP address
  *   on each subsequent request when authentication a user. This is enabled by default
  *   as it will make session hijacking much harder. You should not turn it off unless
  *   you have very good reasons to do.
@@ -86,7 +85,7 @@ use Symfony\Component\HttpFoundation\Response;
  *   In general, you should use this only to change the backend driver.
  *   In all other cases you should leave this option untouched. The defaults are to store all
  *   cache databases into the 'content/' subdirectory of the cache base directory.
- * - <b>boolean cache_module_content_uncached:</b> Set this to true if you want the site to run in an uncached
+ * - <b>bool cache_module_content_uncached:</b> Set this to true if you want the site to run in an uncached
  *      mode. This is different from cache_disable in that the regular header preprocessing is
  *   done anyway, allowing for browser side caching. Essentially, the computing order is the
  *   same (no_cache for example is considered like usual), but the cache file is not stored.
@@ -145,19 +144,16 @@ use Symfony\Component\HttpFoundation\Response;
  *   Configuration example:
  *
  * <code>
- * $GLOBALS['midcom_config_local']['error_actions'] = array
- * (
- *     500 => array
- *     (
+ * $GLOBALS['midcom_config_local']['error_actions'] = [
+ *     500 => [
  *         'action' => 'email',
  *         'email' => 'webmaster@example.net',
- *     ),
- *     404 => array
- *     (
+ *     ],
+ *     404 => [
  *         'action' => 'log',
  *         'filename' => '/var/log/broken_links.log',
- *     ),
- * );
+ *     ],
+ * ];
  * </code>
  *
  * <b>MidCOM Core configuration</b>
@@ -186,7 +182,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  *  <b>string midcom_services_rcs_bin_dir</b>: the prefix for the rcs utilities (default: /usr/bin)
  *  <b>string midcom_services_rcs_root </b>: the directory where the rcs files get placed. (default: must be set!)
- *  <b>boolean midcom_services_rcs_enable</b>:  if set, midcom will fail hard if the rcs service is not operational. (default: false)
+ *  <b>bool midcom_services_rcs_enable</b>:  if set, midcom will fail hard if the rcs service is not operational. (default: false)
  *
  * <b>Style Engine</b>
  *
@@ -210,7 +206,7 @@ use Symfony\Component\HttpFoundation\Response;
  * - <b>string toolbars_object_style_class:</b> defaults to midcom_toolbar object_toolbar
  * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_STATIC_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
- * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
+ * - <b>bool toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
  *   javascript-floating MidCOM toolbar that users can display with midcom::get()->toolbars->show();
  *
  * <b>Utility Programs</b>
@@ -234,10 +230,10 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * <b>Visibility settings (NAP and DBA)</b>
  *
- * - <b>boolean show_hidden_objects:</b> This flag indicates whether objects that are
+ * - <b>bool show_hidden_objects:</b> This flag indicates whether objects that are
  *   invisible either by explicit hiding or by their scheduling should be shown anyway.
  *   This defaults to true at this time
- * - <b>boolean show_unapproved_objects:</b> This flag indicates whether objects should be
+ * - <b>bool show_unapproved_objects:</b> This flag indicates whether objects should be
  *   shown even if they are not approved. This defaults to true.
  *
  * @package midcom
