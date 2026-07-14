@@ -89,7 +89,7 @@ if ($data['mode'] == 'invoice') {
     $export_fields['category'] = $data['l10n']->get('category');
     $export_fields['invoice'] = $data['l10n']->get('invoice');
     $data['grid']->set_select_column('category', $data['l10n']->get('category'), "width: 50, hidden: true", $categories);
-    $data['grid']->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'integer');
+    $data['grid']->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'number');
 }
 $data['grid']->set_option('loadonce', true)
     ->set_option('sortname', 'date')

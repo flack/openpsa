@@ -15,7 +15,7 @@ $grid->set_option('loadonce', true)
     'showSummaryOnHide' => true
 ]);
 
-$grid->set_column('invoice', $invoices_l10n->get('invoice number'), 'width: 85, align: "center", fixed: true', 'integer');
+$grid->set_column('invoice', $invoices_l10n->get('invoice number'), 'width: 85, align: "center", fixed: true', 'number');
 if ($data['report_type'] != 'deliverable_report') {
     $grid->set_column('owner', $sales_l10n->get('owner'), 'width: 80', 'string');
 }

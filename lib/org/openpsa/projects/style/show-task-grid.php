@@ -31,7 +31,7 @@ $grid->set_column('task', $data['l10n']->get('task'), 'width: 110, classes: "' .
 if (!$data['is_single_project']) {
     $grid->set_column('project', $data['l10n']->get('project'), 'width: 80, classes: "ui-ellipsis"', 'string');
 }
-$grid->set_column('priority', $data['l10n']->get('priority'), 'width: 30, align: "center", fixed: true', 'integer');
+$grid->set_column('priority', $data['l10n']->get('priority'), 'width: 30, align: "center", fixed: true', 'number');
 
 if ($data['view_identifier'] != 'my_tasks') {
     if ($data['show_customer']) {
