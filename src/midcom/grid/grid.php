@@ -210,7 +210,7 @@ class grid
             throw new midcom_error('Invalid column name ' . $name);
         }
         if ($this->_columns[$name]['separate_index']) {
-            unset($this->_columns[$name . '_index']);
+            unset($this->_columns['index_' . $name]);
         }
         unset($this->_columns[$name]);
     }
