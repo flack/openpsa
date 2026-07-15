@@ -57,8 +57,7 @@ class exec extends Command
     protected function interact(InputInterface $input, OutputInterface $output) : void
     {
         if ($input->getOption('login')) {
-            $dialog = $this->getHelperSet()->get('question');
-            $this->login($dialog, $input, $output);
+            $this->login($input, $output);
         }
         $get = $input->getArgument('get');
 
@@ -97,8 +96,7 @@ class exec extends Command
         try {
             require $basedir . $file;
         } catch (\midcom_error_forbidden) {
-            $dialog = $this->getHelperSet()->get('question');
-            $this->login($dialog, $input, $output);
+            $this->login($input, $output);
             require $basedir . $file;
         }
 

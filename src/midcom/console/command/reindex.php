@@ -67,8 +67,7 @@ class reindex extends Command
             throw new midcom_error('Please specify host name (with --servername or -s)');
         }
 
-        $dialog = $this->getHelperSet()->get('question');
-        $this->require_admin($dialog, $input, $output);
+        $this->require_admin($input, $output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int

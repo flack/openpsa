@@ -21,25 +21,26 @@ use Symfony\Component\Console\Question\Question;
  */
 trait loginhelper
 {
-    public function login(QuestionHelper $dialog, InputInterface $input, OutputInterface $output)
+    public function login(InputInterface $input, OutputInterface $output)
     {
+        $helper = new QuestionHelper;
         $user_question = new Question('<question>Username:</question> ');
         $pw_question = new Question('<question>Password:</question> ');
         $pw_question->setHidden(true);
         $pw_question->setHiddenFallback(false);
 
         do {
-            $username = $dialog->ask($input, $output, $user_question);
-            $password = $dialog->ask($input, $output, $pw_question);
+            $username = $helper->ask($input, $output, $user_question);
+            $password = $helper->ask($input, $output, $pw_question);
             if (!midcom::get()->auth->login($username, $password)) {
                 $output->writeln('Login failed');
             }
         } while (!midcom::get()->auth->is_valid_user());
     }
 
-    public function require_admin(QuestionHelper $dialog, InputInterface $input, OutputInterface $output)
+    public function require_admin(InputInterface $input, OutputInterface $output)
     {
-        $this->login($dialog, $input, $output);
+        $this->login($input, $output);
 
         midcom::get()->auth->require_admin_user();
     }

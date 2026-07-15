@@ -17,6 +17,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use midgard\portable\api\dbobject;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 /**
  * Clean up repligard table
@@ -74,18 +75,18 @@ class repligard extends Command
             'dbname' => $config->database
         ];
 
-        $dialog = $this->getHelperSet()->get('question');
+        $helper = new QuestionHelper;
 
-        $host = $dialog->ask($input, $output, new Question('<question>DB host:</question> [' . $defaults['host'] . ']', $defaults['host']));
-        $dbtype = $dialog->ask($input, $output, new Question('<question>DB type:</question> [' . $defaults['dbtype'] . ']', $defaults['dbtype']));
-        $dbname = $dialog->ask($input, $output, new Question('<question>DB name:</question> [' . $defaults['dbname'] . ']', $defaults['dbname']));
+        $host = $helper->ask($input, $output, new Question('<question>DB host:</question> [' . $defaults['host'] . ']', $defaults['host']));
+        $dbtype = $helper->ask($input, $output, new Question('<question>DB type:</question> [' . $defaults['dbtype'] . ']', $defaults['dbtype']));
+        $dbname = $helper->ask($input, $output, new Question('<question>DB name:</question> [' . $defaults['dbname'] . ']', $defaults['dbname']));
 
         if (empty($defaults['username'])) {
-            $username = $dialog->ask($input, $output, new Question('<question>DB Username:</question> '));
+            $username = $helper->ask($input, $output, new Question('<question>DB Username:</question> '));
             $pw_question = new Question('<question>DB Password:</question> ');
             $pw_question->setHidden(true);
             $pw_question->setHiddenFallback(false);
-            $password = $dialog->ask($input, $output, $pw_question);
+            $password = $helper->ask($input, $output, $pw_question);
         }
 
         $dsn = strtolower($dbtype) . ':host=' . $host . ';dbname=' . $dbname;
@@ -95,10 +96,10 @@ class repligard extends Command
     private function _confirm(InputInterface $input, OutputInterface $output) : bool
     {
         $options = [true => 'y', false => 'N'];
+        $helper = new QuestionHelper;
         $question = '<question>Delete all rows? [' . implode('|', $options). ']</question> ';
         $question = new ConfirmationQuestion($question, false);
-        $dialog = $this->getHelperSet()->get('question');
-        return $dialog->ask($input, $output, $question);
+        return $helper->ask($input, $output, $question);
     }
 
     private function _run(string $stmt, $command = 'query')
