@@ -36,11 +36,8 @@ class rcsdir extends Command
 
     private array $orphaned = [];
 
-    private midcom_config $config;
-
-    public function __construct(midcom_config $config)
+    public function __construct(private readonly midcom_config $config)
     {
-        $this->config = $config;
         parent::__construct();
     }
 

@@ -53,14 +53,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
 )]
 class cron extends Command
 {
-    private midcom_services_auth $auth;
-
-    private midcom_helper__componentloader $loader;
-
-    public function __construct(midcom_services_auth $auth, midcom_helper__componentloader $loader)
+    public function __construct(
+        private readonly midcom_services_auth $auth,
+        private readonly midcom_helper__componentloader $loader)
     {
-        $this->auth = $auth;
-        $this->loader = $loader;
         parent::__construct();
     }
 

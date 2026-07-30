@@ -28,14 +28,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
 )]
 class cacheinvalidate extends Command
 {
-    private midcom_services_cache $cache;
-
-    private string $cachedir;
-
-    public function __construct(midcom_services_cache $cache, string $cachedir)
+    public function __construct(
+        private readonly midcom_services_cache $cache,
+        private readonly string $cachedir)
     {
-        $this->cache = $cache;
-        $this->cachedir = $cachedir;
         parent::__construct();
     }
 

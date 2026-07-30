@@ -32,17 +32,11 @@ class exec extends Command
 {
     use loginhelper;
 
-    private midcom_services_auth $auth;
-
-    private midcom_helper__componentloader $loader;
-
-    private string $projectdir;
-
-    public function __construct(midcom_services_auth $auth, midcom_helper__componentloader $loader, string $projectdir)
+    public function __construct(
+        private readonly midcom_services_auth $auth,
+        private readonly midcom_helper__componentloader $loader,
+        private readonly string $projectdir)
     {
-        $this->auth = $auth;
-        $this->loader = $loader;
-        $this->projectdir = $projectdir;
         parent::__construct();
     }
 

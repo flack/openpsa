@@ -41,14 +41,10 @@ class reindex extends Command
 {
     use loginhelper;
 
-    private midcom_services_indexer $indexer;
-
-    private midcom_helper__componentloader $loader;
-
-    public function __construct(midcom_services_indexer $indexer, midcom_helper__componentloader $loader)
+    public function __construct(
+        private readonly midcom_services_indexer $indexer,
+        private readonly midcom_helper__componentloader $loader)
     {
-        $this->indexer = $indexer;
-        $this->loader = $loader;
         parent::__construct();
     }
 
