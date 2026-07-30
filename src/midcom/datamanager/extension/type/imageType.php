@@ -57,7 +57,7 @@ class imageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
-        $builder->addViewTransformer(new imageTransformer($options));
+        $builder->addViewTransformer(new imageTransformer($options['widget_config']));
         $builder->add('file', FileType::class, [
             'required' => false,
             'constraints' => [new sf_constraint],

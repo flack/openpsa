@@ -24,7 +24,6 @@ class textExtension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver) : void
     {
-        $resolver->setDefault('constraints', []);
         helper::add_normalizers($resolver, [
             'type_config' => [
                 'forbidden_patterns' => [],

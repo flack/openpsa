@@ -36,7 +36,7 @@ class attachmentTransformer implements DataTransformerInterface
         }
 
         $description = $input->title;
-        if (!empty($this->config['widget_config']['show_description'])) {
+        if (!empty($this->config['show_description'])) {
             $description = $input->get_parameter('midcom.helper.datamanager2.type.blobs', 'description');
         }
 
@@ -83,7 +83,7 @@ class attachmentTransformer implements DataTransformerInterface
             return null;
         }
 
-        $title = ($this->config['widget_config']['show_title']) ? $array['title'] : '';
+        $title = ($this->config['show_title']) ? $array['title'] : '';
 
         if (!empty($array['file']) && $array['file'] instanceof UploadedFile) {
             if ($array['file']->getError() !== UPLOAD_ERR_OK) {
@@ -113,7 +113,7 @@ class attachmentTransformer implements DataTransformerInterface
             throw new TransformationFailedException('None of the required keys were found.');
         }
         $attachment->title = $title;
-        if (!empty($this->config['widget_config']['sortable'])) {
+        if (!empty($this->config['sortable'])) {
             $attachment->metadata->score = (int) $array['score'];
         }
 

@@ -54,7 +54,7 @@ class attachmentType extends AbstractType
         if ($options['widget_config']['sortable']) {
             $builder->add('score', HiddenType::class);
         }
-        $builder->addViewTransformer(new attachmentTransformer($options));
+        $builder->addViewTransformer(new attachmentTransformer($options['widget_config']));
     }
 
     /**

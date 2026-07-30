@@ -111,11 +111,9 @@ class mnrelation extends delayed
                         $member->set_parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
                         break;
                 }
-
-                continue;
+            } else {
+                $member->{$fieldname} = $value;
             }
-
-            $member->{$fieldname} = $value;
         }
         if (!empty($this->config['type_config']['sortable'])) {
             $member->metadata->score = $score;

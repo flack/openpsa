@@ -28,10 +28,10 @@ class imageTransformer extends attachmentTransformer
                     $result['identifier'] = $result['objects'][$key]['identifier'];
                 }
                 if ($key === 'main') {
-                    if (!empty($this->config['widget_config']['show_title'])) {
+                    if (!empty($this->config['show_title'])) {
                         $result['title'] = $result['objects'][$key]['title'];
                     }
-                    if (!empty($this->config['widget_config']['show_description'])) {
+                    if (!empty($this->config['show_description'])) {
                         $result['description'] = $result['objects'][$key]['description'];
                     }
                 }
@@ -61,13 +61,13 @@ class imageTransformer extends attachmentTransformer
         if (!empty($array['delete'])) {
             $result['delete'] = $array['delete'];
         }
-        if (!empty($this->config['widget_config']['show_description'])) {
+        if (!empty($this->config['show_description'])) {
             $result['description'] = $array['description'];
         }
-        if (!empty($this->config['widget_config']['show_title'])) {
+        if (!empty($this->config['show_title'])) {
             $result['title'] = $array['title'];
         }
-        if (!empty($this->config['widget_config']['sortable'])) {
+        if (!empty($this->config['sortable'])) {
             $result['score'] = $array['score'];
         }
         return $result;

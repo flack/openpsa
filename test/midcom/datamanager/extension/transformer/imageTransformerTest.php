@@ -20,10 +20,8 @@ class imageTransformerTest extends openpsa_testcase
     private function get_transformer()
     {
         $config = [
-            'widget_config' => [
-                'show_description' => false,
-                'show_title' => true
-            ]
+            'show_description' => false,
+            'show_title' => true
         ];
         return new imageTransformer($config);
     }

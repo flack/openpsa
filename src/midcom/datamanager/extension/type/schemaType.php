@@ -126,7 +126,7 @@ class schemaType extends AbstractType
 
     private function build_constraints(array $config) : array
     {
-        $constraints = !empty($config['constraints']) ? $config['constraints'] : [];
+        $constraints = $config['constraints'] ?? [];
 
         foreach ((array) $config['validation'] as $rule) {
             if (is_object($rule)) {

@@ -40,9 +40,9 @@ class purifySubscriber implements EventSubscriberInterface
         }
 
         $purifier_config = \HTMLPurifier_Config::create($this->config);
-        $name = $event->getForm()->getName();
         // Set local IDPrefix to field name...
         if (!empty($this->config['Attr']['IDPrefix'])) {
+            $name = $event->getForm()->getName();
             $purifier_config->set('Attr.IDPrefixLocal', "{$name}_");
         }
 

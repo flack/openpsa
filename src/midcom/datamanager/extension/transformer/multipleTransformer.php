@@ -103,16 +103,14 @@ class multipleTransformer implements DataTransformerInterface
     {
         $glue = $this->multiple_separator;
 
-        $result = [];
-        foreach ($array as $key) {
-            if (str_contains($key, $glue)) {
-                debug_add("The option key '{$key}' contained the multiple separator ($this->multiple_storagemode) char, which is not allowed for imploded storage targets. ignoring silently.",
-                MIDCOM_LOG_WARN);
-                continue;
+        $result = array_filter($array, function($key) use ($glue) {
+            if (!str_contains($key, $glue)) {
+                return true;
             }
-
-            $result[] = $key;
-        }
+            debug_add("The option key '{$key}' contained the multiple separator ($this->multiple_storagemode) char, which is not allowed for imploded storage targets. ignoring silently.",
+            MIDCOM_LOG_WARN);
+            return false;
+        });
         return implode($glue, $result);
     }
 }
