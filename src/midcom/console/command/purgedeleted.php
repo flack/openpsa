@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use midcom_services_auth;
 
 /**
  * Purge deleted objects
@@ -26,6 +27,11 @@ use Symfony\Component\Console\Attribute\AsCommand;
 )]
 class purgedeleted extends Command
 {
+    public function __construct(private readonly midcom_services_auth $auth)
+    {
+        parent::__construct();
+    }
+
     protected function configure() : void
     {
         $config = new \midcom_config;
@@ -36,7 +42,7 @@ class purgedeleted extends Command
     {
         $handler = new \midcom_cron_purgedeleted;
         $handler->set_cutoff((int) $input->getOption('days'));
-        \midcom::get()->auth->request_sudo('midcom.core');
+        $this->auth->request_sudo('midcom.core');
 
         $output->writeln('Purging entries deleted before ' . gmdate('Y-m-d H:i:s', $handler->get_cutoff()));
 

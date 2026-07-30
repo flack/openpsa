@@ -17,6 +17,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use midgard\portable\storage\connection;
 use Doctrine\ORM\AbstractQuery;
 use midcom_services_auth;
+use midcom_services_dbclassloader;
 
 /**
  * Cleanup the blobdir
@@ -43,11 +44,10 @@ class blobdir extends Command
         'orphaned_attachments' => []
     ];
 
-    private midcom_services_auth $auth;
-
-    public function __construct(midcom_services_auth $auth)
+    public function __construct(
+        private readonly midcom_services_auth $auth,
+        private readonly midcom_services_dbclassloader $dbclassloader)
     {
-        $this->auth = $auth;
         parent::__construct();
     }
 
@@ -97,9 +97,9 @@ class blobdir extends Command
             return false;
         }
 
-        $dba_type = \midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
+        $dba_type = $this->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
 
-        $qb = \midcom::get()->dbfactory->new_query_builder($dba_type);
+        $qb = new \midcom_core_querybuilder($dba_type);
         $qb->include_deleted();
         $qb->add_constraint('guid', '=', $attachment->parentguid);
         return $qb->count() > 0;

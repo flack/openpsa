@@ -7,6 +7,7 @@ services:
 
     command.midcom.purgedeleted:
         class: midcom\console\command\purgedeleted
+        arguments: ['@auth']
         tags:
             - {name: 'console.command'}
 
@@ -17,7 +18,7 @@ services:
 
     command.midcom.cleanup.blobdir:
         class: midcom\console\command\cleanup\blobdir
-        arguments: ['@auth']
+        arguments: ['@auth', '@dbclassloader']
         tags:
             - {name: 'console.command'}
 
