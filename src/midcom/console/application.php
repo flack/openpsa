@@ -54,8 +54,6 @@ class application extends base_application
      */
     public function doRun(InputInterface $input, OutputInterface $output) : int
     {
-        $GLOBALS['midcom_config_local']['cache_module_content_uncached'] = true;
-
         $port = $input->getParameterOption(['--port', '-p'], '80');
         $servername = $input->getParameterOption(['--servername', '-s'], md5(__FILE__));
 
