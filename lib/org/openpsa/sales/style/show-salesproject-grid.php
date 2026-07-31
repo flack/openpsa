@@ -27,10 +27,7 @@ foreach ($data['salesprojects'] as $salesproject) {
                 $customer = org_openpsa_contacts_group_dba::get_cached($salesproject->customer);
                 $label = $customer->get_label();
                 $row['index_customer'] = $label;
-                $row['customer'] = $label;
-                if ($data['contacts_url']) {
-                    $row['customer'] = "<a href=\"{$data['contacts_url']}group/{$customer->guid}/\">{$label}</a>";
-                }
+                $row['customer'] = '<a href="' . $data['router']->generate('list_customer', ['guid' => $customer->guid]) . "\">{$label}</a>";
             } catch (midcom_error $e) {
                 $e->log();
             }

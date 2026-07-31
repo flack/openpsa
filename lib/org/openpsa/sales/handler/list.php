@@ -17,10 +17,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 {
     public function _handler_list(string $handler_id, array $args, array &$data)
     {
-        // Locate Contacts node for linking
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
-
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
         if ($handler_id == 'list_customer') {
@@ -28,6 +24,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $data['mode'] = 'customer';
             $data['list_title'] = sprintf($this->_l10n->get('salesprojects with %s'), $data['customer']->get_label());
             $this->add_breadcrumb("", $data['list_title']);
+            midcom::get()->head->set_pagetitle($data['list_title']);
         } else {
             $data['mode'] = $this->get_list_mode($args);
             $this->_add_state_constraint($data['mode'], $qb);
@@ -66,8 +63,10 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         if (!empty($this->_request_data['customer'])) {
             $create_url .= $this->_request_data['customer']->guid . '/';
 
-            if ($this->_request_data['contacts_url']) {
-                $url_prefix = $this->_request_data['contacts_url'] . ($this->_request_data['customer'] instanceof org_openpsa_contacts_group_dba ? 'group' : 'person') . "/";
+            // Locate Contacts node for linking
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
+                $url_prefix = $contacts_url . ($this->_request_data['customer'] instanceof org_openpsa_contacts_group_dba ? 'group' : 'person') . "/";
                 $this->_view_toolbar->add_item([
                     MIDCOM_TOOLBAR_URL => $url_prefix . $this->_request_data['customer']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
