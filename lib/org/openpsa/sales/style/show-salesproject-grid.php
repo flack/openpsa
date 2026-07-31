@@ -3,7 +3,7 @@ $grid = $data['grid'];
 $rows = [];
 
 $state_labels = [
-    org_openpsa_sales_salesproject_dba::STATE_LOST => $data['l10n']->get('lost'),
+    org_openpsa_sales_salesproject_dba::STATE_LOST + 1000 => $data['l10n']->get('lost'),
     org_openpsa_sales_salesproject_dba::STATE_ACTIVE => $data['l10n']->get('active'),
     org_openpsa_sales_salesproject_dba::STATE_WON => $data['l10n']->get('won'),
     org_openpsa_sales_salesproject_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),
@@ -47,6 +47,10 @@ foreach ($data['salesprojects'] as $salesproject) {
     }
 
     $row['state'] = $salesproject->state;
+    // sort lost salesporjects to the bottom
+    if ($row['state'] === org_openpsa_sales_salesproject_dba::STATE_LOST) {
+        $row['state'] += 1000;
+    }
 
     try {
         $owner = org_openpsa_contacts_person_dba::get_cached($salesproject->owner);
