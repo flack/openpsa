@@ -79,7 +79,7 @@ Tipps zur Suche
 ---STRINGEND
 
 ---STRING search hints lucene
-Wörter können mit Anführungszeichen zusammengefasst werden("meine Abfrage").<br />
+Wörter können mit Anführungszeichen zusammengefasst werden ("meine Abfrage").<br />
 Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.
 ---STRINGEND
 
