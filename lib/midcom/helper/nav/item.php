@@ -101,7 +101,7 @@ abstract class midcom_helper_nav_item
             } else {
                 // For some reason, the metadata for this object could not be retrieved. so we skip
                 // Approval/Visibility checks.
-                debug_add("Warning, no Metadata available for the {$this->type} {$this->guid}.", MIDCOM_LOG_INFO);
+                debug_add("No metadata available for {$this->type} {$this->guid}.", MIDCOM_LOG_INFO);
             }
         }
 

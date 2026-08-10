@@ -378,7 +378,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $response->headers->set('Cache-Control', $settings);
         } elseif (!$this->_no_cache) {
             if (headers_sent()) {
-                debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
+                debug_add('We should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
             } else {
                 midcom::get()->header('Cache-Control: ' . $settings);
             }

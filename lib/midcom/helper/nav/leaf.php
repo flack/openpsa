@@ -52,7 +52,7 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
             } catch (midcom_error) {
             }
         } else {
-            debug_add("Warning: The leaf {$this->leafid} of topic {$topic->id} does set neither a GUID nor an object.");
+            debug_add("The leaf {$this->leafid} of topic {$topic->id} does set neither a GUID nor an object.");
             $this->data[MIDCOM_NAV_GUID] = null;
             $this->data[MIDCOM_NAV_OBJECT] = null;
 

@@ -436,7 +436,7 @@ class midcom_services_auth_acl
         }
 
         if (!array_key_exists($privilege, $full_privileges)) {
-            debug_add("Warning, the privilege {$privilege} is unknown at this point. Assuming not granted privilege.");
+            debug_add("The privilege {$privilege} is unknown at this point. Assuming not granted privilege.");
             return false;
         }
 
