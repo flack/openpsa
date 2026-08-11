@@ -9,9 +9,9 @@
  */
 class org_openpsa_qbpager_direct extends org_openpsa_qbpager
 {
-    public function __construct(string $classname, string $pager_id)
+    public function __construct(string $classname, string $page_parameter)
     {
-        $this->initialize($pager_id);
+        $this->initialize($page_parameter);
         $this->_query = new midgard_query_builder($classname);
     }
 

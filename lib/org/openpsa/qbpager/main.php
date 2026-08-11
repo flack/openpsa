@@ -16,26 +16,24 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
     public int $display_pages = 10;
     public string $string_next = 'next';
     public string $string_previous = 'previous';
-    protected string $_pager_id;
-    protected string $_prefix = '';
+    protected string $_page_parameter;
     private int $_current_page = 1;
     private $total;
 
-    public function __construct(string $classname, string $pager_id, ?string $prefix = null)
+    public function __construct(string $classname, string $page_parameter)
     {
-        $this->initialize($pager_id, $prefix);
+        $this->initialize($page_parameter);
         parent::__construct($classname);
     }
 
-    protected function initialize(string $pager_id, ?string $prefix = null)
+    protected function initialize(string $page_parameter) : void
     {
         $this->_component = 'org.openpsa.qbpager';
-        if (empty($pager_id)) {
-            throw new midcom_error('pager_id is not set (needed for distinguishing different instances on same request)');
+        if (empty($page_parameter)) {
+            throw new midcom_error('page parameter is not set (needed for distinguishing different instances on same request)');
         }
 
-        $this->_pager_id = $pager_id;
-        $this->_prefix = $prefix ?? 'org_openpsa_qbpager_' . $pager_id . '_page';
+        $this->_page_parameter = $page_parameter;
     }
 
     /**
@@ -74,7 +72,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
         }
         //@todo Move to style element
         //TODO: "showing results (offset)-(offset+limit)
-        $page_var = $this->_prefix;
+        $page_var = $this->_page_parameter;
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
         if ($this->_current_page > 1) {
@@ -99,7 +97,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             return $pages;
         }
 
-        $page_var = $this->_prefix;
+        $page_var = $this->_page_parameter;
         $display_start = max(($this->_current_page - ceil($this->display_pages / 2)), 1);
         $display_end = min(($this->_current_page + ceil($this->display_pages / 2)), $page_count);
 
@@ -181,12 +179,12 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
      */
     protected function parse_variables()
     {
-        $page_var = $this->_prefix;
+        $page_var = $this->_page_parameter;
         if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = max(1, (int) $_REQUEST[$page_var]);
         }
-        $results_var = 'org_openpsa_qbpager_' . $this->_pager_id . '_results';
+        $results_var = $this->_page_parameter . '_results';
         if (!empty($_REQUEST[$results_var])) {
             debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
             $this->results_per_page = max(1, (int) $_REQUEST[$results_var]);
