@@ -21,13 +21,13 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
     private int $_current_page = 1;
     private $total;
 
-    public function __construct(string $classname, string $pager_id)
+    public function __construct(string $classname, string $pager_id, ?string $prefix = null)
     {
-        $this->initialize($pager_id);
+        $this->initialize($pager_id, $prefix);
         parent::__construct($classname);
     }
 
-    protected function initialize(string $pager_id)
+    protected function initialize(string $pager_id, ?string $prefix = null)
     {
         $this->_component = 'org.openpsa.qbpager';
         if (empty($pager_id)) {
@@ -35,7 +35,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
         }
 
         $this->_pager_id = $pager_id;
-        $this->_prefix = 'org_openpsa_qbpager_' . $pager_id . '_';
+        $this->_prefix = $prefix ?? 'org_openpsa_qbpager_' . $pager_id . '_page';
     }
 
     /**
@@ -74,7 +74,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
         }
         //@todo Move to style element
         //TODO: "showing results (offset)-(offset+limit)
-        $page_var = $this->_prefix . 'page';
+        $page_var = $this->_prefix;
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
         if ($this->_current_page > 1) {
@@ -99,7 +99,7 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
             return $pages;
         }
 
-        $page_var = $this->_prefix . 'page';
+        $page_var = $this->_prefix;
         $display_start = max(($this->_current_page - ceil($this->display_pages / 2)), 1);
         $display_end = min(($this->_current_page + ceil($this->display_pages / 2)), $page_count);
 
@@ -181,12 +181,12 @@ class org_openpsa_qbpager extends midcom_core_querybuilder
      */
     protected function parse_variables()
     {
-        $page_var = $this->_prefix . 'page';
+        $page_var = $this->_prefix;
         if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = max(1, (int) $_REQUEST[$page_var]);
         }
-        $results_var = $this->_prefix . 'results';
+        $results_var = 'org_openpsa_qbpager_' . $this->_pager_id . '_results';
         if (!empty($_REQUEST[$results_var])) {
             debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
             $this->results_per_page = max(1, (int) $_REQUEST[$results_var]);
