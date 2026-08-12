@@ -254,10 +254,15 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return stat($path);
     }
 
+    public function __toString() : string
+    {
+        return $this->get_path();
+    }
+
     public function get_path() : string
     {
         if (!$this->id) {
-            return '';
+            return $this->location;
         }
         return (new blob($this->__object))->get_path();
     }
