@@ -16,8 +16,8 @@ $grid->set_option('caption', $data['l10n']->get('recipients'));
 $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
     ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
     ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis"', 'string')
-    ->set_column('delete', $data['l10n_midcom']->get('delete'), 'width: 20, align: "center", classes: "delete grid-button"')
-    ->set_column('bounced', $data['l10n']->get('bounced recipients'), 'width: 20, align: "center", classes: "bounce-status warn"');
+    ->set_column('delete', $data['l10n_midcom']->get('delete'), 'width: 20, align: "center", classes: "delete grid-button", sortable: false')
+    ->set_column('bounced', $data['l10n']->get('bounced recipients'), 'width: 20, align: "center", classes: "bounce-status warn", sortable: false');
 ?>
 <div class="content-with-sidebar">
 <div class="main org_openpsa_directmarketing_campaign">
