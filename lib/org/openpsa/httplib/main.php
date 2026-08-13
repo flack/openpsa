@@ -51,7 +51,7 @@ class org_openpsa_httplib
                     break;
                 case 'follow_redirects':
                     $value = ($value) ? 10 : 0;
-                    $config['allow_redirects'] = RedirectMiddleware::$defaultSettings;
+                    $config['allow_redirects'] = RedirectMiddleware::DEFAULT_SETTINGS;
                     $config['allow_redirects']['max'] = $value;
                     break;
                 default:
