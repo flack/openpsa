@@ -132,6 +132,8 @@ class attachmentTransformer implements DataTransformerInterface
             return;
         }
 
+        // the attachment location is already inside midcom_tempdir at this point.
+        // store the metadata next to the tmpfile so it follows the same cleanup lifecycle.
         file_put_contents($attachment->location . '.metadata', json_encode([
             'name' => $attachment->name,
             'title' => $attachment->title,
