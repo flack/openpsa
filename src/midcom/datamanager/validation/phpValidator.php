@@ -31,8 +31,8 @@ class phpValidator extends ConstraintValidator
         // Not all shells seem to support disabling escape characters, so
         // enable them everywhere with -e and mask them instead
         $input = str_replace(
-            ['\a', '\b', '\c', '\e', '\f', '\n', '\r', '\t', '\v'],
-            [ '\\\a', '\\\b', '\\\c', '\\\e', '\\\f', '\\\n', '\\\r', '\\\t', '\\\v'],
+            ['\a', '\b', '\c', '\e', '\f', '\n', '\r', '\t', '\v', '\\\\'],
+            [ '\\\a', '\\\b', '\\\c', '\\\e', '\\\f', '\\\n', '\\\r', '\\\t', '\\\v', '\\\\\\\\'],
             $input
         );
         exec(sprintf('echo -e %s | php -l', escapeshellarg($input)) . " 2>&1", $parse_results, $return_status);
