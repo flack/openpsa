@@ -45,6 +45,7 @@ class attachmentTransformer implements DataTransformerInterface
             $identifier = substr($input->location, strlen(midcom::get()->config->get('midcom_tempdir')) + 1);
             $stats = stat($input->location);
             $file = new UploadedFile($input->location, $input->name);
+            $this->store_tmpfile_metadata($input);
         } else {
             $identifier = $input->guid;
             $stats = $input->stat();
@@ -101,9 +102,14 @@ class attachmentTransformer implements DataTransformerInterface
         } elseif (str_starts_with($array['identifier'] ?? '', 'tmpfile-')) {
             $tmpfile = midcom::get()->config->get('midcom_tempdir') . '/' . $array['identifier'];
             if (file_exists($tmpfile)) {
+                $metadata = $this->get_tmpfile_metadata($tmpfile);
                 $attachment = new midcom_db_attachment;
-                $attachment->name = $title ?: $array['identifier'];
+                $attachment->name = $metadata['name'] ?? ($title ?: $array['identifier']);
+                $attachment->mimetype = $metadata['mimetype'] ?? '';
                 $attachment->location = $tmpfile;
+                if (empty($title)) {
+                    $title = $metadata['title'] ?? $attachment->name;
+                }
             }
         } elseif (!empty($array['object'])) {
             $attachment = $array['object'];
@@ -118,5 +124,29 @@ class attachmentTransformer implements DataTransformerInterface
         }
 
         return $attachment;
+    }
+
+    private function store_tmpfile_metadata(midcom_db_attachment $attachment) : void
+    {
+        if (!str_starts_with(basename($attachment->location), 'tmpfile-')) {
+            return;
+        }
+
+        file_put_contents($attachment->location . '.metadata', json_encode([
+            'name' => $attachment->name,
+            'title' => $attachment->title,
+            'mimetype' => $attachment->mimetype,
+        ]));
+    }
+
+    private function get_tmpfile_metadata(string $tmpfile) : array
+    {
+        $metadata_file = $tmpfile . '.metadata';
+        if (!file_exists($metadata_file)) {
+            return [];
+        }
+
+        $metadata = json_decode((string) file_get_contents($metadata_file), true);
+        return is_array($metadata) ? $metadata : [];
     }
 }
