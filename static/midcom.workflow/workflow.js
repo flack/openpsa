@@ -7,7 +7,7 @@ $(document).ready(function() {
             text = this.dataset.dialogText,
             options = {
                 title:  this.dataset.dialogHeading,
-                dialogClass: 'midcom-workflow-dialog midcom-workflow-dialog-delete',
+                classes: {'ui-dialog': 'midcom-workflow-dialog midcom-workflow-dialog-delete'},
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
@@ -172,7 +172,7 @@ function create_dialog(control, title, url) {
 
     var dialog, iframe, spinner, is_scrolling,
         config = {
-            dialogClass: 'midcom-workflow-dialog',
+            classes: {'ui-dialog': 'midcom-workflow-dialog'},
             buttons: [],
             title: title,
             height:  590,
