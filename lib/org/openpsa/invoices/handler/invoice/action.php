@@ -12,6 +12,7 @@ use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use midcom\datamanager\storage\blobs;
 
 /**
  * Invoice action handler
@@ -176,6 +177,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     private function load_send_mail_controller(array $config) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
+
+        $attachment_options = [];
+        foreach (blobs::get_attachments($this->invoice, 'files') as $attachment) {
+            $attachment_options[$attachment->guid] = $attachment->name;
+        }
+        if (!empty($attachment_options)) {
+            $schemadb->get('default')->get_field('additional_attachments')['type_config']['options'] = $attachment_options;
+            $schemadb->get('default')->get_field('additional_attachments')['hidden'] = false;
+        }
+
         $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
         $to_email = $billing_data->email ?: $this->mail_recipient->email;
@@ -242,6 +253,15 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             'mimetype' => "application/pdf",
             'content' => $attachment->read()
         ];
+
+        foreach ($data['additional_attachments'] as $additional_attachment_guid) {
+            $additional_attachment = new midcom_db_attachment($additional_attachment_guid);
+            $mail->attachments[] = [
+                'name' => $additional_attachment->name,
+                'mimetype' => $additional_attachment->mimetype,
+                'content' => $additional_attachment->read()
+            ];
+        }
 
         // define replacements for subject / body
         $mail->parameters = [
