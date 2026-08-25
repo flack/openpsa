@@ -14,6 +14,7 @@ use org_openpsa_invoices_invoice_dba;
 use org_openpsa_invoices_invoice_item_dba;
 use midcom;
 use midcom_db_topic;
+use mock_pdfbuilder;
 
 /**
  * OpenPSA testcase
@@ -143,6 +144,8 @@ class actionTest extends openpsa_testcase
 
     public function testHandler_send_by_mail()
     {
+        $this->set_config('org.openpsa.invoices', 'invoice_pdfbuilder_class', mock_pdfbuilder::class);
+
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
@@ -158,6 +161,8 @@ class actionTest extends openpsa_testcase
 
     public function testHandler_send_payment_reminder()
     {
+        $this->set_config('org.openpsa.invoices', 'invoice_pdfbuilder_class', mock_pdfbuilder::class);
+
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class, [
