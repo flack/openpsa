@@ -468,8 +468,8 @@ Subject
 Message
 ---STRINGEND
 
----STRING additional_attachments
-Additional attachments
+---STRING attachments
+Attachments
 ---STRINGEND
 
 ---STRING reminder_send_by_mail

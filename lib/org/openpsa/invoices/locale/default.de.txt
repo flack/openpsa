@@ -480,8 +480,8 @@ Betreff
 Nachricht
 ---STRINGEND
 
----STRING additional_attachments
-Weitere Anhänge
+---STRING attachments
+Anhänge
 ---STRINGEND
 
 ---STRING reminder_send_by_mail

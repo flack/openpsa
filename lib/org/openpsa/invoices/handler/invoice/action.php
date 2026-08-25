@@ -178,14 +178,14 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
 
-        $attachment_options = [];
+        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
+        $invoice_pdf = $pdf_helper->get_attachment(true);
+
+        $attachment_options = [$invoice_pdf->guid => $invoice_pdf->name];
         foreach (blobs::get_attachments($this->invoice, 'files') as $attachment) {
             $attachment_options[$attachment->guid] = $attachment->name;
         }
-        if (!empty($attachment_options)) {
-            $schemadb->get('default')->get_field('additional_attachments')['type_config']['options'] = $attachment_options;
-            $schemadb->get('default')->get_field('additional_attachments')['hidden'] = false;
-        }
+        $schemadb->get('default')->get_field('attachments')['type_config']['options'] = $attachment_options;
 
         $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
@@ -194,7 +194,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $dm->set_defaults([
             'to_email'=> $to_email,
             'subject' => $config['subject'],
-            'message' => $config['message']
+            'message' => $config['message'],
+            'attachments' => serialize([$invoice_pdf->guid]),
         ]);
 
         return $dm->get_controller();
@@ -244,22 +245,13 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
         $invoice_date = $this->_l10n->get_formatter()->date($this->invoice->date);
 
-        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
-        $attachment = $pdf_helper->get_attachment(true);
-
         $mail = new org_openpsa_mail();
-        $mail->attachments[] = [
-            'name' => $attachment->name,
-            'mimetype' => "application/pdf",
-            'content' => $attachment->read()
-        ];
-
-        foreach ($data['additional_attachments'] as $additional_attachment_guid) {
-            $additional_attachment = new midcom_db_attachment($additional_attachment_guid);
+        foreach ($data['attachments'] as $attachment_guid) {
+            $attachment = new midcom_db_attachment($attachment_guid);
             $mail->attachments[] = [
-                'name' => $additional_attachment->name,
-                'mimetype' => $additional_attachment->mimetype,
-                'content' => $additional_attachment->read()
+                'name' => $attachment->name,
+                'mimetype' => $attachment->mimetype,
+                'content' => $attachment->read()
             ];
         }
 
