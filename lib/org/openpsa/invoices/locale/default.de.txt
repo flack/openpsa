@@ -480,6 +480,10 @@ Betreff
 Nachricht
 ---STRINGEND
 
+---STRING attachments
+Anhänge
+---STRINGEND
+
 ---STRING reminder_send_by_mail
 Zahlungserinnerung versenden
 ---STRINGEND

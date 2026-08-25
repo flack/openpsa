@@ -25,6 +25,16 @@ return [
                 'widget' => 'textarea',
                 'required' => true,
             ],
+            'attachments' => [
+                'title' => 'attachments',
+                'storage' => 'attachments',
+                'type' => 'select',
+                'type_config' => [
+                    'options' => [],
+                    'allow_multiple' => true,
+                ],
+                'widget' => 'radiocheckselect',
+            ],
         ],
     ],
 ];

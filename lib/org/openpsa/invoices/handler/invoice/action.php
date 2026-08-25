@@ -12,6 +12,7 @@ use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
 use midcom\datamanager\controller;
 use midcom\datamanager\datamanager;
+use midcom\datamanager\storage\blobs;
 
 /**
  * Invoice action handler
@@ -176,6 +177,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
     private function load_send_mail_controller(array $config) : controller
     {
         $schemadb = schemadb::from_path($this->_config->get('schemadb_send_mail'));
+
+        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
+        $invoice_pdf = $pdf_helper->get_attachment(true);
+
+        $attachment_options = [$invoice_pdf->guid => $invoice_pdf->name];
+        foreach (blobs::get_attachments($this->invoice, 'files') as $attachment) {
+            $attachment_options[$attachment->guid] = $attachment->name;
+        }
+        $schemadb->get('default')->get_field('attachments')['type_config']['options'] = $attachment_options;
+
         $dm = new datamanager($schemadb);
         $billing_data = $this->invoice->get_billing_data(true);
         $to_email = $billing_data->email ?: $this->mail_recipient->email;
@@ -183,7 +194,8 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $dm->set_defaults([
             'to_email'=> $to_email,
             'subject' => $config['subject'],
-            'message' => $config['message']
+            'message' => $config['message'],
+            'attachments' => serialize([$invoice_pdf->guid]),
         ]);
 
         return $dm->get_controller();
@@ -233,15 +245,15 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
         $invoice_date = $this->_l10n->get_formatter()->date($this->invoice->date);
 
-        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
-        $attachment = $pdf_helper->get_attachment(true);
-
         $mail = new org_openpsa_mail();
-        $mail->attachments[] = [
-            'name' => $attachment->name,
-            'mimetype' => "application/pdf",
-            'content' => $attachment->read()
-        ];
+        foreach ($data['attachments'] as $attachment_guid) {
+            $attachment = new midcom_db_attachment($attachment_guid);
+            $mail->attachments[] = [
+                'name' => $attachment->name,
+                'mimetype' => $attachment->mimetype,
+                'content' => $attachment->read()
+            ];
+        }
 
         // define replacements for subject / body
         $mail->parameters = [

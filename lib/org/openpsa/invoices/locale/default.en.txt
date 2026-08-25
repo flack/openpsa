@@ -468,6 +468,10 @@ Subject
 Message
 ---STRINGEND
 
+---STRING attachments
+Attachments
+---STRINGEND
+
 ---STRING reminder_send_by_mail
 Send payment reminder
 ---STRINGEND
