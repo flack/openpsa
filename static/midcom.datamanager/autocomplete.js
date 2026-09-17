@@ -107,10 +107,8 @@ window.midcom_helper_datamanager2_autocomplete = {
 
         create_button
             .button({
-                icons: {
-                    primary: 'ui-icon-plusthick'
-                },
-                text: false
+                icon: 'ui-icon-plusthick',
+                showLabel: false
             })
             .on('click', function() {
                 var url = creation_url + '?chooser_widget_id=' + identifier;

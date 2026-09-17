@@ -52,10 +52,8 @@ $(function() {
                     .attr( "title", "Show All Items" )
                     .appendTo( this.wrapper )
                     .button({
-                        icons: {
-                            primary: "ui-icon-triangle-1-s"
-                        },
-                        text: false
+                        icon: "ui-icon-triangle-1-s",
+                        showLabel: false
                     })
                     .removeClass( "ui-corner-all" )
                     .addClass( "custom-productselect-toggle ui-corner-right" )
