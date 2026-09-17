@@ -28,6 +28,8 @@ class actionTest extends openpsa_testcase
 
     public static function setUpBeforeClass() : void
     {
+        require_once dirname(__DIR__, 2) . '/__helper/pdfbuilder.php';
+
         self::$_person = self::create_user(true);
         self::$_invoice = self::create_class_object(org_openpsa_invoices_invoice_dba::class);
         self::create_class_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);

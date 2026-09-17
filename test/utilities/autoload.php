@@ -16,4 +16,3 @@ require __DIR__ . '/directories.php';
 
 require __DIR__ . '/helpers/sessioning.php';
 require __DIR__ . '/helpers/relocate.php';
-require __DIR__ . '/helpers/pdfbuilder.php';
