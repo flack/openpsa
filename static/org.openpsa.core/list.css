@@ -73,6 +73,7 @@ table.list th.numeric,
 table.list td.numeric
 {
     text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 table.list th.status,
 table.list td.status

@@ -714,13 +714,19 @@ table.link_statistics td.bargraph div.link_count_visualization
 {
     border-color: transparent;
     height: 20px;
-    padding: 1px 4px
+    padding: 1px 4px;
+    line-height: 1.6
 }
 
 .ui-jqgrid .ui-jqgrid-hdiv
 {
     overflow: hidden;
     border-color: transparent;
+}
+
+.ui-jqgrid .ui-jqgrid-bdiv
+{
+    font-variant-numeric: tabular-nums;    
 }
 
 .ui-jqgrid .ui-jqgrid-hbox
@@ -805,7 +811,7 @@ table.link_statistics td.bargraph div.link_count_visualization
 
 .ui-jqgrid > .ui-jqgrid-view
 {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 /* Red headers */

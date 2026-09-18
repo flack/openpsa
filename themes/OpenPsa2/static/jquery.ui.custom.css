@@ -884,7 +884,7 @@ body .ui-tooltip {
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-    font-family: Lucida Grande, Segoe UI, Lucida Sans, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-size: inherit;
 }
 .ui-widget .ui-widget {
@@ -894,8 +894,8 @@ body .ui-tooltip {
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-    font-family: Lucida Grande, Segoe UI, Lucida Sans, Arial, sans-serif;
-    font-size: 1em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 1em;
 }
 .ui-widget.ui-widget-content {
     border: 1px solid #d2d6cd;
