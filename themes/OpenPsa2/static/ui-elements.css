@@ -294,6 +294,7 @@ form.datamanager2 .required_note
     position: absolute;
 }
 
+input.ui-autocomplete-input,
 input.ajax_editable:hover,
 form.datamanager2 div.input input, form.datamanager2 div.input textarea, form.datamanager2 div.input select,
 input[type="submit"],
@@ -328,12 +329,14 @@ form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
     max-width: calc(100% - 3.7em);
 }
 
+input.ui-autocomplete-input:focus,
 input.ajax_focused,
 form.datamanager2 input:focus, form.datamanager2 textarea:focus, form.datamanager2 select:focus {
     background-color: #fbf2dd;
     color: #000000;
 }
 
+input.ui-autocomplete-input,
 form.datamanager2 div.input input,
 form.datamanager2 div.input textarea
 {
