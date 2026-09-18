@@ -33,7 +33,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     &(view['description']:h);
 
     <?php
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}/");
     ?>
 
     <div class="org_openpsa_directmarketing full-width fill-height">

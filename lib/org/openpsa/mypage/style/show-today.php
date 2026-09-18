@@ -35,7 +35,7 @@
         if ($data['calendar_url']) { ?>
             <div class="agenda">
                 <?php
-                midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']->format('Y-m-d')); ?>
+                midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']->format('Y-m-d') . '/'); ?>
             </div>
             <?php
         }
