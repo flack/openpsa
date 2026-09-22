@@ -26,8 +26,7 @@
 #midcom_services_uimessages_wrapper
 {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    color: #000000;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     text-align: left;
     position: fixed;
@@ -47,7 +46,7 @@
     border-width: 2px;
     border-color: #ffffff;
     color: #333;
-    padding: 5px 16px 5px 5px;
+    padding: 5px 21px 5px 10px;
     margin-bottom: 10px;
     width: 312px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
@@ -63,10 +62,10 @@
 {
     float: right;
     position: relative;
-    right: -12px;
+    right: -15px;
     cursor: pointer;
     color: #f33;
-    font-size: 14px;
+    font-size: 16px;
     opacity: .7;
     transition: opacity .2s
 }
