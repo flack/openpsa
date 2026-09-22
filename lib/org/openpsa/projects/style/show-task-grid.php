@@ -25,7 +25,7 @@ $grid->set_option('loadonce', true)
 ]);
 
 if ($data['show_status_controls']) {
-    $grid->set_column('status_control', '', 'width: 16, fixed: true, sortable: false');
+    $grid->set_column('status_control', '', 'width: 20, fixed: true, align: "center", sortable: false, search: false');
 }
 $grid->set_column('task', $data['l10n']->get('task'), 'width: 110, classes: "' . $task_classes . '"', 'string');
 if (!$data['is_single_project']) {
