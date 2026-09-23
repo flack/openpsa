@@ -99,11 +99,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $fields = $schemadb->get('default')->get('fields');
         if (!empty($defaults['up']) || !empty($this->task->up)) {
             $fields['project']['widget'] = 'hidden';
-            $fields['up']['widget_config']['constraints'] = [
+            $fields['up']['widget_config']['constraints'] = [[
                 'field' => 'project',
                 'op' => '=',
                 'value' => $this->task->project ?: $defaults['project']
-            ];
+            ]];
             $fields['agreement']['widget'] = 'hidden';
         } else {
             $fields['up']['widget'] = 'hidden';
