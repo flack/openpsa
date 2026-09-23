@@ -46,6 +46,9 @@ class org_openpsa_projects_workflow
 
     public static function render_status_control(org_openpsa_projects_task_dba $task) : string
     {
+        if (!$task->can_do('midgard:update')) {
+            return '';
+        }
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if ($task->status < org_openpsa_projects_task_status_dba::COMPLETED) {
             $action = 'complete';
