@@ -833,7 +833,6 @@ aside .area
 
 aside .org_openpsa_helper_box
 {
-    font-size: 90%;
     border-style: solid;
     border-width: 1px;
     border-color: #daddd6;
@@ -847,6 +846,7 @@ aside .org_openpsa_helper_box h3
     background-color: #e9ede4;
     background: -ms-linear-gradient(top, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* IE10+ */
     background: linear-gradient(to bottom, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* W3C */
+    font-size: 90% !important;
 
     padding: .2em 0.5em;
     border: none;
@@ -858,7 +858,7 @@ aside .org_openpsa_helper_box h3
 .org_openpsa_helper_box ul
 {
   margin-left: 0;
-  padding-left: 0;
+  padding-left: .1em;
   list-style: none;
 }
 
@@ -869,7 +869,13 @@ aside .org_openpsa_helper_box h3
 
 .org_openpsa_helper_box .date
 {
+    font-size: 90%;
     color: #777;
+}
+
+.org_openpsa_helper_box .vcard
+{
+    vertical-align: top;
 }
 
 .org_openpsa_helper_box span.tip

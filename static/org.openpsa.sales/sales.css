@@ -65,14 +65,16 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
 }
 
 .org_openpsa_helpers_fileinfo .icon i {
-    font-size: 300%;
+    font-size: 240%;
+    margin-top: 4px;
     opacity: .5;
     transition: opacity .2s;
 }
 
-.org_openpsa_helpers_fileinfo .updated
+.org_openpsa_helpers_fileinfo .date + .vcard
 {
     font-size: 90%;
+    margin-left: .5em;
 }
 
 .org_openpsa_helpers_fileinfo .actions i
