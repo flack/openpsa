@@ -4,6 +4,7 @@
 
     <?php
     $total_hours = 0;
+    $formatter = $data['l10n']->get_formatter();
 
     echo "<table class=\"hours\">\n";
     foreach (['invoiceable', 'uninvoiceable'] as $type) {
@@ -12,7 +13,7 @@
 
         echo "    <tr>\n";
         echo "        <td>" . $data['l10n']->get($type) . "</td>\n";
-        echo "        <td>" . round($total, 2);
+        echo "        <td>" . $formatter->number($total);
         $count = count($data['hours'][$type]);
         if ($count > 0) {
             echo " (";
@@ -20,7 +21,7 @@
             foreach ($data['hours'][$type] as $customer_id => $hours) {
                 echo $data['customers'][$customer_id];
                 if ($count > 1) {
-                    echo " " . $hours;
+                    echo ": " . $formatter->number($hours);
                 }
                 if ($i++ != $count) {
                     echo ", ";
@@ -36,7 +37,7 @@
     echo "<form action=\"{$data['expenses_url']}\" method='post'><div>";
     $current_user = midcom::get()->auth->user->get_storage();
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
-    echo "<input type=\"submit\" value=\"" . sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2)) . "\" />";
+    echo "<input type=\"submit\" value=\"" . sprintf($data['l10n']->get('see all %s hours'), $formatter->number($total_hours)) . "\" />";
     echo "</div></form>";
     ?>
 </div>
