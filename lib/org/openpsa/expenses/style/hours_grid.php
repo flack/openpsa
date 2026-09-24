@@ -155,4 +155,5 @@ $('body').on('dialogdeleted', '[data-dialog="delete"]', function(e, message) {
     $('#&(grid_id);').jqGrid('delRowData', row_id);
     $('#&(grid_id);').trigger('reloadGrid');
 });
+$('#&(grid_id);').jqGrid('filterToolbar');
 </script>
