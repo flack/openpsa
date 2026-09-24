@@ -9,6 +9,7 @@
 use midcom\datamanager\datamanager;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * Salesproject edit/create/delete handler
@@ -93,43 +94,32 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         if ($this->_salesproject->customer > 0) {
             // Make sure we can read the current customer for the name
             midcom::get()->auth->request_sudo($this->_component);
-            $this->load_group($ret, $this->_salesproject->customer);
+            $company = new org_openpsa_contacts_group_dba($this->_salesproject->customer);
             midcom::get()->auth->drop_sudo();
+            $ret[$company->id] = $company->get_label();
         }
         if (empty($contacts)) {
             $this->_salesproject->get_members();
             $contacts = $this->_salesproject->contacts;
+        }
 
-            if (empty($contacts)) {
-                return $ret;
+        if (!empty($contacts)) {
+            $qb = org_openpsa_contacts_group_dba::new_query_builder();
+            // Skip magic groups and contact lists
+            $qb->add_constraint('name', 'NOT LIKE', '\_\_%');
+
+            $qb->get_doctrine()
+                ->leftJoin('midgard_member', 'm', Join::WITH, 'm.gid = c.id')
+                ->andWhere('m.uid IN (:contacts)')
+                ->setParameter('contacts', array_keys($contacts));
+
+            foreach ($qb->execute() as $company) {
+                $ret[$company->id] = $company->get_label();
             }
         }
-
-        $mc = midcom_db_member::new_collector();
-        $mc->add_constraint('uid', 'IN', array_keys($contacts));
-        // Skip magic groups and contact lists
-        $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
-        $memberships = $mc->get_values('gid');
-
-        foreach ($memberships as $gid) {
-            $this->load_group($ret, $gid);
-        }
-
         reset($ret);
         asort($ret);
         return $ret;
-    }
-
-    private function load_group(array &$ret, int $company_id)
-    {
-        if (!array_key_exists($company_id, $ret)) {
-            try {
-                $company = new org_openpsa_contacts_group_dba($company_id);
-                $ret[$company->id] = $company->get_label();
-            } catch (midcom_error $e) {
-                $e->log();
-            }
-        }
     }
 
     public function _handler_delete(Request $request, string $guid)
