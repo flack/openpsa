@@ -68,7 +68,7 @@ class midcom_core_collector extends midcom_core_query
      * @return boolean True if the query was executed, false otherwise (e.g. if it had been executed already)
      * @see midgard_collector::execute()
      */
-    public function execute()
+    public function execute() : bool
     {
         if ($this->prepare_execute()) {
             $this->_add_visibility_checks();

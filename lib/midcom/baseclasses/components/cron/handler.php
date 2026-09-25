@@ -48,7 +48,7 @@ abstract class midcom_baseclasses_components_cron_handler
      * Initialize the cron job. Before calling the on_initialize callback, it prepares
      * the instance with various configuration variables
      */
-    public function initialize(OutputInterface $output)
+    public function initialize(OutputInterface $output) : bool
     {
         $this->output = $output;
 

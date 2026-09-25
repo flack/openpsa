@@ -7,6 +7,7 @@
  */
 
 use midgard\portable\api\error\exception as mgd_exception;
+use midgard\portable\api\mgdobject;
 
 /**
  * System user, basically encapsulates a MidgardPerson. It does not provide a way to
@@ -186,7 +187,7 @@ class midcom_core_user
         $this->guid = $this->_storage->guid;
     }
 
-    private function _load_from_string(string $id, string $person_class)
+    private function _load_from_string(string $id, string $person_class) : mgdobject
     {
         // Don't even try with the magic assignees
         if (in_array($id, ['ANONYMOUS', 'EVERYONE', 'USERS', 'OWNER', 'SELF'])) {
