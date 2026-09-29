@@ -1,70 +1,40 @@
-.calendar-container {
+.calendar-container 
+{
     height: 100%;
 }
-#content-text .fc-toolbar-title
+
+#content-text .toolbar-title
 {
     margin: 0;
     font-size: 20px;
 }
 
-.fc-day-past
-{
-    background-color: #fdfcfa;
+.fc-classic-n5m {
+	font-size: 14px;
 }
 
-.fc-day-other
+.day-past
+{
+    background-color: #fdfcfa;
+    z-index: -1;
+}
+
+.day-other
 {
     background-color: #f1f1f0;
 }
-
-.fc-day-other.fc-past
+ 
+.day-other.day-past
 {
     background-color: #f0f0ed;
 }
 
-.fc-event:hover {
-    cursor: pointer;
-}
-
-.fc-event.private {
+.private 
+{
     border: 1px dashed white;
 }
 
-.fc-event-main
+.participants
 {
-    text-overflow: ellipsis;
-}
-
-.fc-event-main .fc-event-title
-{
-    padding-right: .4em
-}
-
-.fc-event-title-container .participants
-{
-    padding: 1px;
-    display: inline-block;
-}
-
-.fc-list-day a
-{
-    color: #333;
-}
-
-.fc-list-day a:hover
-{
-    cursor: default;
-    text-decoration: none;
-}
-
-/* see https://github.com/fullcalendar/fullcalendar/issues/5731 */
-.fc-liquid-hack td,
-.fc-liquid-hack th
-{
-    background-clip: padding-box;    
-}
-
-.fc .fc-timegrid-axis-cushion
-{
-    max-width: 70px;
+    padding-left: .2em;
 }

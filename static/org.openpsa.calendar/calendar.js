@@ -122,17 +122,23 @@ const openpsa_calendar_widget = {
                     openpsa_calendar_widget.update_url(selector, prefix);
                 }
             },
+            toolbarTitleClass: 'toolbar-title',
+            dayCellClass: function(info) {
+                return [info.isPast && 'day-past', info.isOther && 'day-other'].filter(Boolean).join(' ');
+            },
+            dayLaneClass: function(info) {
+                return info.isPast ? 'day-past' : '';
+            },
             eventContent: function (info) {
-                if (info.event.extendedProps.participants) {
-                    if (info.timeText && info.view.type === 'dayGridMonth') {
-                        return {
-                            html: '<div class="fc-daygrid-event-dot"></div><div class="fc-event-time">' + info.timeText + '</div><div class="fc-event-title">' + info.event.title + '</div><div class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</div>'
-                        };
+                if (info.event.extendedProps.participants && info.event.extendedProps.participants.length) {
+                    var html = '';
+                    if (info.timeText) {
+                        html += '<div class="' + info.timeClass + '">' + info.timeText + '</div>';
                     }
-                    return {
-                        html: '<div class="fc-event-main-frame"><div class="fc-event-time">' + info.timeText + '</div><div class="fc-event-title-container"><div class="fc-event-title fc-sticky">' + info.event.title + '</div><div class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</div></div></div>'
-                    };
+                    html += '<div class="' + info.titleClass + '">' + info.event.title + ' <span class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</span></div>';
+                    return {html: html};
                 }
+                return true;
             },
             eventClick: function (info) {
                 info.jsEvent.preventDefault();

@@ -11,7 +11,7 @@
  */
 class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_components_handler
 {
-    private string $prefix = '/org.openpsa.calendar/fullcalendar-6.1.20/';
+    private string $prefix = '/org.openpsa.calendar/fullcalendar-7.1.0/';
 
     /**
      * Initialization of the handler class
@@ -113,10 +113,14 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
     {
         $head = midcom::get()->head;
         $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'index.global.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . 'themes/classic/global.js');
         if ($lang = $this->get_lang()) {
             $head->add_jsfile(MIDCOM_STATIC_URL . $this->prefix . "locales/{$lang}.global.js");
         }
 
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'skeleton.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'themes/classic/theme.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $this->prefix . 'themes/classic/palette.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
     }

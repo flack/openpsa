@@ -30,6 +30,9 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
         $this->load_events($request->query->getInt('start'), $request->query->getInt('end'));
         $this->add_holidays($request->query->getInt('start'), $request->query->getInt('end'));
+        foreach ($this->events as &$event) {
+            $event['className'] = implode(' ', $event['className']);
+        }
         return new JsonResponse(array_values($this->events));
     }
 
