@@ -18,6 +18,10 @@
     background-color: #fdfcfa;
     z-index: -1;
 }
+div:last-child.day-past
+{
+    z-index: -2
+}
 
 .day-other:not(.fc-classic-hbn)
 {
