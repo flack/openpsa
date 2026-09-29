@@ -19,7 +19,7 @@
     z-index: -1;
 }
 
-.day-other
+.day-other:not(.fc-classic-hbn)
 {
     background-color: #f1f1f0;
 }
