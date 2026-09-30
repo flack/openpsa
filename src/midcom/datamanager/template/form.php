@@ -274,7 +274,7 @@ class form extends base
 
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .=  $this->renderer->widget($view['selection']);
-        $string .= ' ' . $this->renderer->widget($view['search_input']);
+        $string .= ' ' . $this->renderer->widget($view['search_input'], ['attr' => $data['attr'] ?? []]);
         $string .= '</fieldset>';
         return $string . $this->jsinit($jsinit);
     }
@@ -487,7 +487,8 @@ class form extends base
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/datepicker.js');
 
             $string .= $this->renderer->widget($view['date'], ['type' => 'hidden']);
-            $string .= $this->renderer->widget($view['input'], ['attr' => ['class' => 'jsdate']]);
+            $attr = array_merge(['class' => 'jsdate'], $data['attr'] ?? []);
+            $string .= $this->renderer->widget($view['input'], ['attr' => $attr]);
             if (isset($view['time'])) {
                 $string .= ' ' . $this->renderer->widget($view['time']);
             }
