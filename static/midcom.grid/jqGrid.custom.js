@@ -687,7 +687,11 @@ const midcom_grid_batch_processing = {
                 $(event.target).nextAll('input[type="submit"]').hide();
             } else {
                 $(event.target).nextAll('input[type="submit"]').show();
+                if (config.options[selected_option].dialog_url) {
+                    $("#form_" + config.id).submit();
+                }
             }
+            
             $('.ui-autocomplete-input').hide();
             $('#' + config.id + '_batch').css('display', 'inline');
             $('#' + config.id + '__' + selected_option + '_search_input').show();
@@ -736,9 +740,17 @@ const midcom_grid_batch_processing = {
                 $(window).trigger('resize');
             }
         });
-
+        
         // We use regular post instead of ajax to get browser's busy indicator
-        $("#form_" + config.id).on('submit', function() {
+        $("#form_" + config.id).on('submit', function(event) {
+            var action = $(this).find('select[name="action"]').val();
+            if (config.options[action].dialog_url) {
+                event.preventDefault();
+                var url = config.options[action].dialog_url + '?entries=' + $("#" + config.id).jqGrid('getGridParam', 'selarrrow').join(',');
+                create_dialog($(this).find('input[type="submit"]'), config.options[action].label, url);
+                return;
+            }
+
             function add_array(field, data) {
                 for (var i = 0; i < data.length; i++) {
                     $('<input type="hidden" name="' + field + '[]" value="' + data[i] + '" />')
@@ -747,8 +759,7 @@ const midcom_grid_batch_processing = {
             }
             add_array('entries', $("#" + config.id).jqGrid('getGridParam', 'selarrrow'));
 
-            var action = $("#form_" + config.id + ' select[name="action"]').val(),
-                autocomplete = $("#" + config.id + '__' + action + '_selection');
+            var autocomplete = $("#" + config.id + '__' + action + '_selection');
 
             if (autocomplete.length > 0 && autocomplete.val().length) {
                 add_array('selection', JSON.parse(autocomplete.val()));

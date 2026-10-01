@@ -118,6 +118,7 @@ services:
     validator:
         class: Symfony\Component\Validator\Validator\ValidatorInterface
         factory: ['@validator.builder', getValidator]
+        public: true
 
     form.type_guesser.validator:
         class: Symfony\Component\Form\Extension\Validator\ValidatorTypeGuesser
