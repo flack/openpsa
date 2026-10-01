@@ -137,3 +137,19 @@ Mark as billable
 ---STRING mark_uninvoiceable
 Mark as unbillable
 ---STRINGEND
+
+---STRING batch edit
+Edit selected
+---STRINGEND
+
+---STRING edit %s hour reports
+Edit %s hour reports
+---STRINGEND
+
+---STRING multiple values
+(multiple values)
+---STRINGEND
+
+---STRING %s is locked
+%s is locked by another user
+---STRINGEND

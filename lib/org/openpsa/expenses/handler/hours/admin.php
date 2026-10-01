@@ -118,6 +118,32 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     }
 
     /**
+     * Edit multiple hour reports at once
+     */
+    public function _handler_batch_edit(Request $request)
+    {
+        $ids = array_filter(array_map('intval', explode(',', $request->query->get('entries', ''))));
+        if (empty($ids)) {
+            throw new midcom_error_notfound('No hour reports selected');
+        }
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', $ids);
+        $reports = $qb->execute();
+        if (empty($reports)) {
+            throw new midcom_error_notfound('No hour reports found');
+        }
+
+        $batch = new org_openpsa_expenses_batchedit($this->_config->get('schemadb_hours'), $reports);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s hour reports'), count($reports)));
+
+        $workflow = $this->get_workflow('datamanager', [
+            'controller' => $batch->get_controller(),
+            'save_callback' => $batch->save(...)
+        ]);
+        return $workflow->run($request);
+    }
+
+    /**
      * executes passed action for passed reports & relocates to passed url
      */
     public function _handler_batch(Request $request)

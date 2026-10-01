@@ -137,3 +137,19 @@ Als abrechenbar markieren
 ---STRING mark_uninvoiceable
 Als nicht abrechenbar markieren
 ---STRINGEND
+
+---STRING batch edit
+Auswahl bearbeiten
+---STRINGEND
+
+---STRING edit %s hour reports
+%s Stundenberichte bearbeiten
+---STRINGEND
+
+---STRING multiple values
+(verschiedene Werte)
+---STRINGEND
+
+---STRING %s is locked
+%s ist von einem anderen Benutzer gesperrt
+---STRINGEND

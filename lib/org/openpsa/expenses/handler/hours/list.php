@@ -185,6 +185,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             'invoice' => [
                 'label' => $this->_l10n->get('change_invoice'),
                 'widget_config' => $invoice_conf
+            ],
+            'edit' => [
+                'label' => $this->_l10n->get('batch edit'),
+                'dialog_url' => $this->router->generate('hours_batch_edit')
             ]
         ];
     }

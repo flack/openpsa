@@ -2,6 +2,10 @@ hours_task_action:
     path: /hours/task/batch/
     defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::batch' }
 
+hours_batch_edit:
+    path: /hours/batch/edit/
+    defaults: { _controller: 'org_openpsa_expenses_handler_hours_admin::batch_edit' }
+
 list_hours_task:
     path: /hours/task/{guid}/
     defaults: { _controller: 'org_openpsa_expenses_handler_hours_list::task' }
