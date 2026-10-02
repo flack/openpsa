@@ -5,5 +5,5 @@ $data['style_helper']->render_help();
     <?php $data['controller']->display_form(); ?>
 </div>
 <script type="text/javascript">
-     $('form.datamanager2 input:visible:enabled:first').focus();
+     $('form.datamanager2 input:visible:enabled').first().focus();
 </script>

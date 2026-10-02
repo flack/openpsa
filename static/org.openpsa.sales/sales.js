@@ -21,7 +21,7 @@ $(function() {
                     .autocomplete({
                         delay: 0,
                         minLength: 0,
-                        source: $.proxy( this, "_source" ),
+                        source: this._source.bind(this),
                         select: function(event, ui) {
                             setTimeout(function() {
                                 $(ui.item.option).closest('form').submit();

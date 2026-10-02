@@ -346,7 +346,7 @@ const midcom_grid_editable = {
                     self.refreshItemPositions();
                     //Refresh the rows alternately with the style from the class even
                     $(this).find("tbody tr.jqgrow").removeClass('even');
-                    $(this).find("tbody tr.jqgrow:visible:odd").addClass('even');
+                    $(this).find("tbody tr.jqgrow:visible").odd().addClass('even');
                 })
                 .jqGrid("sortableRows", {helper: "clone"});
         }
