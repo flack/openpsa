@@ -70,7 +70,6 @@ class org_openpsa_mail_message
 
     public function get_headers() : array
     {
-        reset($this->_headers);
         foreach ($this->_headers as $header => $value) {
             if (is_string($value)) {
                 $this->_headers[$header] = trim($value);

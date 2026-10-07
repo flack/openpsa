@@ -188,7 +188,6 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                 }
                 midcom::get()->cache->content->register($doc->source);
             }
-            reset($this->_request_data['result']);
         }
     }
 

@@ -117,7 +117,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
                 $ret[$company->id] = $company->get_label();
             }
         }
-        reset($ret);
         asort($ret);
         return $ret;
     }

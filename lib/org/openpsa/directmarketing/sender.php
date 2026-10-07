@@ -269,7 +269,6 @@ class org_openpsa_directmarketing_sender
             return $this->_qb_single_chunk($level + 1);
         }
 
-        reset($results);
         return $results;
     }
 
