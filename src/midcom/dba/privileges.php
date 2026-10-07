@@ -152,7 +152,7 @@ trait privileges
             return false;
         }
         foreach ($privileges as $privilege) {
-            if ($this->unset_privilege($privilege)) {
+            if (!$this->unset_privilege($privilege)) {
                 debug_add('Failed to drop a privilege record, see debug log for more information, aborting.', MIDCOM_LOG_WARN);
                 return false;
             }
