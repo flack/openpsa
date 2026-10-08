@@ -119,8 +119,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * - <b>string indexer_backend:</b> The default indexer backend to use. This defaults to the false,
  *   indicating that <i>no</i> indexing should be done. Right now, the SOLR backend is recommended.
- * - <b>indexer_reindex_allowed_ips:</b> Array of IPs that don't need to basic authenticate themselves
- *   to run MidCOM reindexing or cron.
+ * - <b>indexer_reindex_allowed_ips:</b> Array of IPs or subnets in CIDR notation (e.g. 10.0.0.0/8)
+ *   that don't need to basic authenticate themselves to run MidCOM reindexing or cron.
  *
  * <b>Indexer backend configuration: SOLR module</b>
  *

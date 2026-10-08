@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
@@ -397,7 +398,7 @@ class midcom_services_auth
     public function require_admin_or_ip(string $domain) : bool
     {
         $ips = midcom::get()->config->get_array('indexer_reindex_allowed_ips');
-        if (in_array($_SERVER['REMOTE_ADDR'], $ips)) {
+        if (IpUtils::checkIp($_SERVER['REMOTE_ADDR'] ?? '', $ips)) {
             if (!$this->request_sudo($domain)) {
                 throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
             }
