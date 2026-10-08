@@ -18,6 +18,7 @@ use midgard\portable\storage\connection;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Cleanup the RCS dir
@@ -46,23 +47,14 @@ class rcsdir extends Command
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files will not be deleted');
     }
 
-    private function check_dir(OutputInterface $output, string $outerDir)
+    private function check_dir(OutputInterface $output, string $dir)
     {
-        $outerDir = rtrim($outerDir, "/");
-        $output->write("\x0D");
-        $output->write("Start scanning dir: <comment>" . $outerDir . "</comment>");
-        $dirs = array_diff(scandir($outerDir), [".", ".."]);
-        foreach ($dirs as $d) {
-            if (is_dir($outerDir . "/" . $d)) {
-                $this->check_dir($output, $outerDir . "/" . $d);
-            } else {
-                // got something
-                $file = $outerDir . "/" . $d;
-                if (!$this->has_repligard_entry($file)) {
-                    $this->orphaned[] = $file;
-                }
-                $this->counter++;
+        $output->writeln("Start scanning dir: <comment>" . $dir . "</comment>");
+        foreach ((new Finder)->files()->in($dir) as $file) {
+            if (!$this->has_repligard_entry($file->getPathname())) {
+                $this->orphaned[] = $file->getPathname();
             }
+            $this->counter++;
         }
     }
 

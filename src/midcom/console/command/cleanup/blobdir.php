@@ -18,6 +18,7 @@ use midgard\portable\storage\connection;
 use Doctrine\ORM\AbstractQuery;
 use midcom_services_auth;
 use midcom_services_dbclassloader;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Cleanup the blobdir
@@ -56,28 +57,20 @@ class blobdir extends Command
         $this->addOption('dry', 'd', InputOption::VALUE_NONE, 'If set, files and attachments will not be deleted');
     }
 
-    public function check_dir(string $outerDir)
+    public function check_dir(string $dir)
     {
-        $outerDir = rtrim($outerDir, "/");
-        $dirs = array_diff(scandir($outerDir), [".", ".."]);
-        foreach ($dirs as $d) {
-            if (is_dir($outerDir . "/" . $d)) {
-                $this->check_dir($outerDir . "/" . $d);
+        foreach ((new Finder)->files()->in($dir) as $file) {
+            if ($file->getSize() == 0) {
+                $this->findings['corrupted'][] = $file->getPathname();
             } else {
-                // got something
-                $file = $outerDir . "/" . $d;
-                if (filesize($file) == 0) {
-                    $this->findings['corrupted'][] = $file;
-                } else {
-                    $attachment = $this->get_attachment($file);
-                    if (!$attachment) {
-                        $this->findings['orphaned'][] = $file;
-                    } elseif (!$this->get_attachment_parent($attachment)) {
-                        $this->findings['orphaned_attachments'][] = $attachment;
-                    }
+                $attachment = $this->get_attachment($file->getPathname());
+                if (!$attachment) {
+                    $this->findings['orphaned'][] = $file->getPathname();
+                } elseif (!$this->get_attachment_parent($attachment)) {
+                    $this->findings['orphaned_attachments'][] = $attachment;
                 }
-                $this->_file_counter++;
             }
+            $this->_file_counter++;
         }
     }
 
