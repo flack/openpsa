@@ -37,42 +37,22 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_viewer
         }
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('net.nehmer.comments:moderation')) {
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/reported_abuse/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('reported abuse'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('reported abuse helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'flag',
+            $views = [
+                'reported_abuse' => ['reported_abuse', 'flag'],
+                'abuse' => ['abuse', 'ban'],
+                'junk' => ['junk', 'trash'],
+                'latest' => ['latest comments', 'comments-o'],
+                'latest_new' => ['only new', 'clock-o'],
+                'latest_approved' => ['only approved', 'check'],
             ];
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/abuse/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('abuse'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('abuse helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'ban',
-            ];
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/junk/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('junk'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('junk helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'trash',
-            ];
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/latest/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('latest comments'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('latest helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'comments-o',
-            ];
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/latest_new/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only new'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only new helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'clock-o',
-            ];
-            $buttons[] = [
-                MIDCOM_TOOLBAR_URL => 'moderate/latest_approved/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only approved'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only approved helptext'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'check',
-            ];
+            foreach ($views as $url => [$label, $glyphicon]) {
+                $buttons[] = [
+                    MIDCOM_TOOLBAR_URL => 'moderate/' . $url . '/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($label),
+                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get($label . ' helptext'),
+                    MIDCOM_TOOLBAR_GLYPHICON => $glyphicon,
+                ];
+            }
         }
         $this->_node_toolbar->add_items($buttons);
     }

@@ -80,14 +80,7 @@ trait org_openpsa_invoices_handler
         $items = [];
         $url = '';
         if ($object->number > 1) {
-            $mc = org_openpsa_invoices_invoice_dba::new_collector();
-            $mc->add_constraint('number', '<', $object->number);
-            $mc->set_limit(1);
-            $mc->add_order('number', 'DESC');
-
-            if ($results = $mc->list_keys()) {
-                $url = $urlprefix . key($results) . '/';
-            }
+            $url = $this->get_adjacent_url($object, '<', $urlprefix);
         }
         $items[] = [
             MIDCOM_TOOLBAR_URL => $url,
@@ -99,14 +92,7 @@ trait org_openpsa_invoices_handler
 
         $url = '';
         if (($object->number + 1) < $object->generate_invoice_number()) {
-            $mc = org_openpsa_invoices_invoice_dba::new_collector();
-            $mc->add_constraint('number', '>', $object->number);
-            $mc->set_limit(1);
-            $mc->add_order('number', 'ASC');
-
-            if ($results = $mc->list_keys()) {
-                $url = $urlprefix . key($results) . '/';
-            }
+            $url = $this->get_adjacent_url($object, '>', $urlprefix);
         }
         $items[] = [
             MIDCOM_TOOLBAR_URL => $url,
@@ -116,5 +102,18 @@ trait org_openpsa_invoices_handler
             MIDCOM_TOOLBAR_ENABLED => !empty($url)
         ];
         org_openpsa_widgets_ui::add_navigation_toolbar($items);
+    }
+
+    private function get_adjacent_url(org_openpsa_invoices_invoice_dba $object, string $operator, string $urlprefix) : string
+    {
+        $mc = org_openpsa_invoices_invoice_dba::new_collector();
+        $mc->add_constraint('number', $operator, $object->number);
+        $mc->set_limit(1);
+        $mc->add_order('number', $operator == '>' ? 'ASC' : 'DESC');
+
+        if ($results = $mc->list_keys()) {
+            return $urlprefix . key($results) . '/';
+        }
+        return '';
     }
 }

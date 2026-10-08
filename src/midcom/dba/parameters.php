@@ -179,20 +179,7 @@ trait parameters
      */
     public function set_parameter(string $domain, string $name, $value) : bool
     {
-        if (!$this->guid) {
-            debug_add('Cannot set parameters on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
-        }
-        if (empty($domain) || empty($name)) {
-            debug_add('Parameter domain and name must be non-empty strings', MIDCOM_LOG_WARN);
-            return false;
-        }
-
-        if (   !$this->can_do('midgard:update')
-            || !$this->can_do('midgard:parameters')) {
-            debug_add("Failed to set parameters, midgard:update or midgard:parameters on " . static::class . " {$this->guid} not granted for the current user.",
-                  MIDCOM_LOG_ERROR);
-            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+        if (!$this->can_write_parameter('set', $domain, $name)) {
             return false;
         }
 
@@ -223,20 +210,7 @@ trait parameters
      */
     public function delete_parameter(string $domain, string $name) : bool
     {
-        if (!$this->guid) {
-            debug_add('Cannot delete parameters on a non-persistent object.', MIDCOM_LOG_WARN);
-            return false;
-        }
-        if (empty($domain) || empty($name)) {
-            debug_add('Parameter domain and name must be non-empty strings', MIDCOM_LOG_WARN);
-            return false;
-        }
-
-        if (   !$this->can_do('midgard:update')
-            || !$this->can_do('midgard:parameters')) {
-            debug_add("Failed to delete parameters, midgard:update or midgard:parameters on " . static::class . " {$this->guid} not granted for the current user.",
-                  MIDCOM_LOG_ERROR);
-            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+        if (!$this->can_write_parameter('delete', $domain, $name)) {
             return false;
         }
 
@@ -249,5 +223,26 @@ trait parameters
         midcom::get()->dispatcher->dispatch(new dbaevent($this), dbaevent::PARAMETER);
 
         return $result;
+    }
+
+    private function can_write_parameter(string $action, string $domain, string $name) : bool
+    {
+        if (!$this->guid) {
+            debug_add("Cannot {$action} parameters on a non-persistent object.", MIDCOM_LOG_WARN);
+            return false;
+        }
+        if (empty($domain) || empty($name)) {
+            debug_add('Parameter domain and name must be non-empty strings', MIDCOM_LOG_WARN);
+            return false;
+        }
+
+        if (   !$this->can_do('midgard:update')
+            || !$this->can_do('midgard:parameters')) {
+            debug_add("Failed to {$action} parameters, midgard:update or midgard:parameters on " . static::class . " {$this->guid} not granted for the current user.",
+                  MIDCOM_LOG_ERROR);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+            return false;
+        }
+        return true;
     }
 }
