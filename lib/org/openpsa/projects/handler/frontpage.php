@@ -15,22 +15,12 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_projects_handler;
+
     public function _handler_frontpage(array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        $workflow = $this->get_workflow('datamanager');
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_project::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('project-new'), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
-                MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
-            ]));
-        }
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_task_dba::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('task-new'), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
-                MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
-            ]));
-        }
+        $this->add_create_buttons();
 
         // List current projects, sort by customer
         $data['customers'] = [];

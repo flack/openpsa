@@ -19,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
 implements client
 {
+    use org_openpsa_projects_handler;
+
     private array $status_order = [
         'proposed' => 0,
         'current' => 1,
@@ -65,7 +67,7 @@ implements client
     public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data($args[0]);
-        $this->prepare_toolbar();
+        $this->add_create_buttons();
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         switch ($args[0]) {
@@ -274,24 +276,6 @@ implements client
         }
 
         return $ret;
-    }
-
-    protected function prepare_toolbar()
-    {
-        $workflow = $this->get_workflow('datamanager');
-
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_project::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('project-new'), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
-                MIDCOM_TOOLBAR_GLYPHICON => 'tasks',
-            ]));
-        }
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_projects_task_dba::class)) {
-            $this->_view_toolbar->add_item($workflow->get_button($this->router->generate('task-new'), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
-                MIDCOM_TOOLBAR_GLYPHICON => 'calendar-check-o',
-            ]));
-        }
     }
 
     protected function prepare_request_data(string $identifier)

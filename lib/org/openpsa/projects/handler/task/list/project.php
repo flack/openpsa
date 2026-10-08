@@ -25,7 +25,7 @@ class org_openpsa_projects_handler_task_list_project extends org_openpsa_project
     public function _handler_list(Request $request, array $args)
     {
         $this->prepare_request_data('project_tasks');
-        $this->prepare_toolbar();
+        $this->add_create_buttons();
 
         $project = new org_openpsa_projects_project($args[0]);
 

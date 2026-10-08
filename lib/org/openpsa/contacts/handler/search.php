@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_handler
 {
+    use org_openpsa_contacts_handler;
+
     /**
      * The group results, if any
      */
@@ -111,7 +113,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             return new midcom_response_relocate($this->router->generate('person_view', ['guid' => $this->_persons[0]->guid]));
         }
 
-        $this->_populate_toolbar();
+        $this->add_create_buttons();
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('search'));
         $this->add_breadcrumb("", $this->_l10n->get('search'));
@@ -140,29 +142,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         usort($data, autocomplete::sort_items(...));
 
         return new JsonResponse($data);
-    }
-
-    private function _populate_toolbar()
-    {
-        $workflow = $this->get_workflow('datamanager');
-        $buttons = [];
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_contacts_person_dba::class)) {
-            $buttons[] = $workflow->get_button($this->router->generate('person_new'), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'user-o',
-            ]);
-        }
-        if (midcom::get()->auth->can_user_do('midgard:create', class: org_openpsa_contacts_group_dba::class)) {
-            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'organization']), [
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
-                MIDCOM_TOOLBAR_GLYPHICON => 'group',
-            ]);
-            $buttons[] = $workflow->get_button($this->router->generate('group_new', ['type' => 'group']), [
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
-                MIDCOM_TOOLBAR_GLYPHICON => 'group',
-            ]);
-        }
-        $this->_view_toolbar->add_items($buttons);
     }
 
     /**
