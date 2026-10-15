@@ -692,7 +692,7 @@ const midcom_grid_batch_processing = {
                 }
             }
             
-            $('.ui-autocomplete-input').hide();
+            $('#' + config.id + '_batch .ui-autocomplete-input').hide();
             $('#' + config.id + '_batch').css('display', 'inline');
             $('#' + config.id + '__' + selected_option + '_search_input').show();
         });
