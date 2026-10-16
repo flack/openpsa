@@ -153,3 +153,7 @@ Auswahl bearbeiten
 ---STRING %s is locked
 %s ist von einem anderen Benutzer gesperrt
 ---STRINGEND
+
+---STRING clear for all
+Bei allen leeren
+---STRINGEND

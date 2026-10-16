@@ -153,3 +153,7 @@ Edit %s hour reports
 ---STRING %s is locked
 %s is locked by another user
 ---STRINGEND
+
+---STRING clear for all
+Clear for all
+---STRINGEND

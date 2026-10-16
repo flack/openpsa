@@ -254,6 +254,28 @@ form.datamanager2 .form .element > .input
     flex-basis: 70%;
 }
 
+form.datamanager2 .form .element:has(input.batch-clear)
+{
+    margin-top: -.5em;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+form.datamanager2 .form .element:has(input.batch-clear) > .input
+{
+    order: 1;
+    flex: none;
+}
+
+form.datamanager2 .form .element:has(input.batch-clear) > label
+{
+    order: 2;
+    flex: none;
+    min-width: 0;
+    padding-left: .3em;
+    font-size: .85em;
+}
+
 form.datamanager2 .form fieldset th
 {
     font-weight: normal;
