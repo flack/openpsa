@@ -43,3 +43,11 @@ const tiny = {
         };
     }
 };
+
+tinymce.on('AddEditor', function(event) {
+    var editor = event.editor;
+    editor.on('input change undo redo', function() {
+        editor.save({set_dirty: false});
+        $(editor.getElement()).trigger('change');
+    });
+});

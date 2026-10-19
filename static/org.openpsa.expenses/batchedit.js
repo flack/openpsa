@@ -3,18 +3,14 @@ $(document).ready(function() {
         var checkbox = $(this),
             row = checkbox.closest('.element'),
             field = row.prev(),
-            selection = field.find('input[id$="_selection"]'),
-            editor = field.find('.CodeMirror')[0];
+            input = field.find('input[id$="_selection"]');
+
+        if (!input.length) {
+            input = field.find('textarea, input').first();
+        }
 
         function toggle() {
-            var empty;
-            if (selection.length) {
-                empty = selection.val() === '[]';
-            } else if (editor) {
-                empty = editor.CodeMirror.getValue() === '';
-            } else {
-                empty = field.find('input, textarea').val() === '';
-            }
+            var empty = ['', '[]'].includes(input.val());
             row.toggle(empty);
             if (!empty) {
                 checkbox.prop('checked', false);
@@ -22,9 +18,6 @@ $(document).ready(function() {
         }
 
         field.on('input change', toggle);
-        if (editor) {
-            editor.CodeMirror.on('change', toggle);
-        }
         toggle();
     });
 });
