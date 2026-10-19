@@ -158,6 +158,7 @@ class org_openpsa_expenses_batchedit
                 }
             }
             $schema->set('fields', $fields);
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/batchedit.js');
         }
         $this->dm->set_defaults($defaults)->set_storage(null, $schema_name);
 

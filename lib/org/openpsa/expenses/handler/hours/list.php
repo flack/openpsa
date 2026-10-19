@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\helper\autocomplete;
 use midcom\grid\grid;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +28,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->qb->add_order('date', 'DESC');
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
-        autocomplete::add_head_elements();
         midcom::get()->uimessages->add_head_elements();
     }
 

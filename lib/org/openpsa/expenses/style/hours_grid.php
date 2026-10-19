@@ -120,7 +120,7 @@ $data['grid']->render($entries);
 $grid_id = $data['grid']->get_identifier();
 ?>
 
-<form id="form_&(grid_id);"></form>
+<form id="form_&(grid_id);" method="post"></form>
 
 <button id="&(grid_id);_export">
    <i class="fa fa-download"></i>
