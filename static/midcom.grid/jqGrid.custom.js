@@ -663,18 +663,25 @@ const midcom_grid_batch_processing = {
 
         var widgets_to_add = [],
             label = config.submit || 'Go',
+            actions = Object.keys(config.options),
             //build action form and associated widgets
             action_select = '<div class="action_select_div" id="' + config.id + '_batch">';
-        action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
-        $.each(config.options, function(key, value) {
-            action_select += '<option value="' + key + '" >' + value.label + '</option>';
-            if (typeof value.widget_config !== 'undefined') {
-                var widget_id = config.id + '__' + key;
-                widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: value.widget_config});
-            }
-        });
-        action_select += '</select><input type="submit" name="send" value="' + label + '" style="display: none" /></div>';
+        if (actions.length === 1) {
+            action_select += '<input type="hidden" name="action" value="' + actions[0] + '" />';
+            action_select += '<button><i class="fa fa-pencil"></i> ' + config.options[actions[0]].label + '</button></div>';
+        } else {
+            action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
+
+            $.each(config.options, function(key, value) {
+                action_select += '<option value="' + key + '" >' + value.label + '</option>';
+                if (typeof value.widget_config !== 'undefined') {
+                    var widget_id = config.id + '__' + key;
+                    widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: value.widget_config});
+                }
+            });
+            action_select += '</select><input type="submit" name="send" value="' + label + '" style="display: none" /></div>';
+        }
         $(action_select).appendTo($('#form_' + config.id));
 
         widgets_to_add.forEach(function(widget_conf) {
@@ -743,11 +750,11 @@ const midcom_grid_batch_processing = {
         
         // We use regular post instead of ajax to get browser's busy indicator
         $("#form_" + config.id).on('submit', function(event) {
-            var action = $(this).find('select[name="action"]').val();
+            var action = $(this).find('[name="action"]').val();
             if (config.options[action].dialog_url) {
                 event.preventDefault();
                 var url = config.options[action].dialog_url + '?entries=' + $("#" + config.id).jqGrid('getGridParam', 'selarrrow').join(',');
-                create_dialog($(this).find('input[type="submit"]'), config.options[action].label, url);
+                create_dialog($(this).find('button, input[type="submit"]'), config.options[action].label, url);
                 return;
             }
 

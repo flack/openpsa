@@ -122,22 +122,6 @@ Rechnung
 Nutzerfilter
 ---STRINGEND
 
----STRING change_task
-Anderer Aufgabe zuordnen
----STRINGEND
-
----STRING change_invoice
-Anderer Rechnung zuordnen
----STRINGEND
-
----STRING mark_invoiceable
-Als abrechenbar markieren
----STRINGEND
-
----STRING mark_uninvoiceable
-Als nicht abrechenbar markieren
----STRINGEND
-
 ---STRING batch edit
 Auswahl bearbeiten
 ---STRINGEND
