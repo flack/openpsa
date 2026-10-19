@@ -138,6 +138,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['action_options'] = [
             'edit' => [
                 'label' => $this->_l10n->get('batch edit'),
+                'icon' => 'pencil',
                 'dialog_url' => $this->router->generate('hours_batch_edit')
             ]
         ];

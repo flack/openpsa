@@ -668,8 +668,9 @@ const midcom_grid_batch_processing = {
             html = '<div class="action_select_div" id="' + config.id + '_batch">';
 
         if (actions.length === 1) {
+            var option = config.options[actions[0]];
             html += '<input type="hidden" name="action" value="' + actions[0] + '" />';
-            html += '<button><i class="fa fa-pencil"></i> ' + config.options[actions[0]].label + '</button></div>';
+            html += '<button>' + (option.icon ? '<i class="fa fa-' + option.icon + '"></i> ' : '') + option.label + '</button></div>';
         } else {
             html += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
