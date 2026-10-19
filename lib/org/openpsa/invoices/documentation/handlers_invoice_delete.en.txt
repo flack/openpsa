@@ -1,2 +1,2 @@
-$args[0] - GUID of an invoice (org_openpsa_invoices_invoice_dba).
+{guid} - GUID of an invoice (org_openpsa_invoices_invoice_dba).
 Deletes an invoice with the given GUID.

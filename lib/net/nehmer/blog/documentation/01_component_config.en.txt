@@ -25,7 +25,6 @@ Newsticker/Blog component can be customized to users' needs by setting the follo
 * __Show latest items in navigation__
 * __Show pseudo leaves in navigation__
 * __Show available feeds in navigation__
-* __Use 'view' prefix in url__
 
 ##RSS export
 

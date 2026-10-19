@@ -6,7 +6,7 @@ folder in order to present on-line help regarding current component.
 
 It can be invoked several ways:
 
- * /__ais/help/ - presents help index for current topic's copmponent
+ * /__ais/help/ - presents help index for current topic's component
  * /__ais/help/*component* - presents help index for *component*
  * /__ais/help/*component*/*help_id* - presents contents of *help_id*.*lang*.txt documentation file
  
@@ -32,4 +32,4 @@ Once scanned, documentation files are ordered by file names.
 A navigation bar is also created upon scanned items of Table of Contents and placed at the top and 
 bottom of each but *index* page..
 
-Help files are parsed using wiki markdown syntax. Refer to [midcom.helper.datamanager2](../midcom.helper.datamanager2/markdown/) for more details.
+Help files are parsed using wiki markdown syntax. Refer to [net.nemein.wiki](../net.nemein.wiki/markdown/) for more details.
