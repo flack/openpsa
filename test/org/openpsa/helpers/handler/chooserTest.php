@@ -10,6 +10,7 @@ namespace test\org\openpsa\helpers\handler;
 
 use openpsa_testcase;
 use midcom;
+use midcom_db_topic;
 use org_openpsa_contacts_person_dba;
 
 /**
@@ -33,8 +34,10 @@ class chooserTest extends openpsa_testcase
             'defaults' => ['openpsa' => 'undefined']
         ];
         $handler_args = ['__mfa', 'org.openpsa.helpers', 'chooser', 'create', 'org_openpsa_contacts_person_dba'];
+        // The chooser needs to resolve the contacts node through NAP, so we have to run it from the site root
+        $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
 
-        $data = $this->run_handler('org.openpsa.sales', $handler_args);
+        $data = $this->run_handler($root_topic, $handler_args);
         $this->assertEquals('chooser_create', $data['handler_id']);
 
         $formdata = [
@@ -43,7 +46,7 @@ class chooserTest extends openpsa_testcase
             'email' => 'test@openpsa2.org'
         ];
         $this->set_dm_formdata($data['controller'], $formdata);
-        $data = $this->run_handler('org.openpsa.sales', $handler_args);
+        $data = $this->run_handler($root_topic, $handler_args);
 
         ob_start();
         $data['__openpsa_testcase_response']->sendContent();
