@@ -604,7 +604,9 @@ class form extends base
 
         $data['required'] = false;
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', $data) . '>' . $data['value'] . '</textarea>';
-        return $string . $this->jsinit('var easymde = new EasyMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false });');
+        $jsinit = 'var easymde = new EasyMDE({ element: document.getElementById("' . $view->vars['id'] . '"), status: false, forceSync: true });' . "\n";
+        $jsinit .= 'easymde.codemirror.on("change", function(cm) { $(cm.getTextArea()).trigger("change"); });' . "\n";
+        return $string . $this->jsinit($jsinit);
     }
 
     public function tinymce_widget(FormView $view, array $data)

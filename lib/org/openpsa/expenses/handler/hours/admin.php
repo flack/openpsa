@@ -8,7 +8,6 @@
 
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
@@ -141,43 +140,5 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             'save_callback' => $batch->save(...)
         ]);
         return $workflow->run($request);
-    }
-
-    /**
-     * executes passed action for passed reports & relocates to passed url
-     */
-    public function _handler_batch(Request $request)
-    {
-        if ($entries = $request->request->all('entries')) {
-            $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $entries);
-
-            $field = str_replace('uninvoiceable', 'invoiceable', $request->request->get('action'));
-            $value = $this->parse_input($request->request, $field);
-            foreach ($qb->execute() as $hour_report) {
-                if ($hour_report->$field != $value) {
-                    $hour_report->$field = $value;
-                    $hour_report->update();
-                }
-            }
-        }
-
-        $relocate = $request->request->get('relocate_url', $this->router->generate('index'));
-        return new midcom_response_relocate($relocate);
-    }
-
-    private function parse_input(ParameterBag $input, string $action) : int|bool
-    {
-        if (!in_array($action, ['invoiceable', 'invoice', 'task'])) {
-            throw new midcom_error('passed action ' . $action . ' is unknown');
-        }
-        if ($action == 'invoiceable') {
-            return $input->getBoolean('value');
-        }
-        if ($selection = $input->all('selection')) {
-            return (int) array_pop($selection);
-        }
-
-        return 0;
     }
 }

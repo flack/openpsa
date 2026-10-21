@@ -15,6 +15,7 @@ use midcom\datamanager\controller;
 use org_openpsa_projects_task_dba;
 use org_openpsa_projects_project;
 use org_openpsa_expenses_hour_report_dba;
+use org_openpsa_invoices_invoice_dba;
 use ReflectionProperty;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -59,7 +60,13 @@ class batcheditTest extends openpsa_testcase
 
     private function submit(array $reports, array $formdata) : array
     {
-        $this->set_dm_formdata($this->get_controller($reports), $formdata);
+        $controller = $this->get_controller($reports);
+        foreach (array_keys($controller->get_datamanager()->get_form()->all()) as $name) {
+            if (str_starts_with($name, '__clear_')) {
+                $formdata += [$name => null];
+            }
+        }
+        $this->set_dm_formdata($controller, $formdata);
 
         $ids = implode(',', array_column($reports, 'id'));
         $request = Request::create('/?entries=' . $ids, 'POST', $_POST);
@@ -111,6 +118,32 @@ class batcheditTest extends openpsa_testcase
             $this->assertEquals($i + 1, $report->hours);
             $this->assertFalse($report->invoiceable);
             $this->assertEquals(mktime(12, 0, 0, 1, 15, 2026), $report->date);
+        }
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testClear()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+        $invoice1 = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        $invoice2 = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+        $reports = [
+            $this->create_report(['hours' => 1, 'description' => 'one', 'invoice' => $invoice1->id]),
+            $this->create_report(['hours' => 2, 'description' => 'two', 'invoice' => $invoice2->id])
+        ];
+
+        $form = $this->get_controller($reports)->get_datamanager()->get_form();
+        $this->assertFalse($form->has('__clear_hours'));
+
+        $data = $this->submit($reports, [
+            '__clear_invoice' => '1'
+        ]);
+        $this->assertEquals('', $this->get_dialog_url($data));
+
+        foreach ($reports as $i => $report) {
+            $report->refresh();
+            $this->assertEquals(0, $report->invoice);
+            $this->assertEquals($i ? 'two' : 'one', $report->description);
         }
         midcom::get()->auth->drop_sudo();
     }

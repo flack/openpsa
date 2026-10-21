@@ -122,22 +122,6 @@ Invoice
 Choose user
 ---STRINGEND
 
----STRING change_task
-Change task
----STRINGEND
-
----STRING change_invoice
-Change invoice
----STRINGEND
-
----STRING mark_invoiceable
-Mark as billable
----STRINGEND
-
----STRING mark_uninvoiceable
-Mark as unbillable
----STRINGEND
-
 ---STRING batch edit
 Edit selected
 ---STRINGEND
@@ -152,4 +136,8 @@ Edit %s hour reports
 
 ---STRING %s is locked
 %s is locked by another user
+---STRINGEND
+
+---STRING clear for all
+Clear for all
 ---STRINGEND
