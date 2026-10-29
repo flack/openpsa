@@ -46,6 +46,11 @@ class org_openpsa_expenses_batchedit
     private array $multivalue_booleans = [];
 
     /**
+     * "Clear for all" checkboxes of mixed optional fields (field name => checkbox name)
+     */
+    private array $clear_checkboxes = [];
+
+    /**
      * Rendered values of the batch form before submission
      */
     private array $initial_values = [];
@@ -121,6 +126,7 @@ class org_openpsa_expenses_batchedit
         $schema = $this->dm->get_schema($schema_name);
         foreach ($this->multivalue_fields as $name) {
             $field =& $schema->get_field($name);
+            $required = $field['required'];
             $field['required'] = false;
             $field['attr']['placeholder'] = $this->l10n->get('multiple values');
             if ($field['type'] === 'boolean') {
@@ -133,7 +139,26 @@ class org_openpsa_expenses_batchedit
                     midcom::get()->i18n->get_string('yes', 'midcom') => '1',
                     midcom::get()->i18n->get_string('no', 'midcom') => '0',
                 ];
+            } elseif (!$required && !$field['readonly'] && !$field['hidden']) {
+                $this->clear_checkboxes[$name] = '__clear_' . $name;
             }
+        }
+        if ($this->clear_checkboxes) {
+            $fields = [];
+            foreach ($schema->get('fields') as $name => $config) {
+                $fields[$name] = $config;
+                if (isset($this->clear_checkboxes[$name])) {
+                    $fields[$this->clear_checkboxes[$name]] = [
+                        'title' => $this->l10n->get('clear for all'),
+                        'type' => 'boolean',
+                        'widget' => 'checkbox',
+                        'storage' => null,
+                        'attr' => ['class' => 'batch-clear']
+                    ];
+                }
+            }
+            $schema->set('fields', $fields);
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/batchedit.js');
         }
         $this->dm->set_defaults($defaults)->set_storage(null, $schema_name);
 
@@ -165,6 +190,13 @@ class org_openpsa_expenses_batchedit
             $this->changed_values[$name] = $this->submitted_values[$name] ?? null;
             if (in_array($name, $this->multivalue_booleans)) {
                 $this->changed_values[$name] = ($this->changed_values[$name] === '1') ? '1' : null;
+            }
+        }
+
+        foreach ($this->clear_checkboxes as $name => $checkbox) {
+            if ($form->get($checkbox)->getData()) {
+                $value = $this->submitted_values[$name];
+                $this->changed_values[$name] = is_array($value) ? array_fill_keys(array_keys($value), '') : '';
             }
         }
 

@@ -157,6 +157,12 @@ a.ui-jqgrid-titlebar-maximize span
     margin-right: 2em
 }
 
+.batch-processing > form,
+.batch-processing > button
+{
+    margin-left: .4em
+}
+
 .batch-processing > form input
 {
     margin-left: 1em;

@@ -6,7 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\helper\autocomplete;
 use midcom\grid\grid;
 use midcom\datamanager\schemadb;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +28,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->qb->add_order('date', 'DESC');
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
-        autocomplete::add_head_elements();
         midcom::get()->uimessages->add_head_elements();
     }
 
@@ -137,7 +135,13 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             'task' => $this->_l10n->get('task'),
             'reporter' => $this->_l10n->get('person')
         ];
-        $data['action_options'] = $this->prepare_batch_options();
+        $data['action_options'] = [
+            'edit' => [
+                'label' => $this->_l10n->get('batch edit'),
+                'icon' => 'pencil',
+                'dialog_url' => $this->router->generate('hours_batch_edit')
+            ]
+        ];
 
         return $this->show('hours_grid');
     }
@@ -158,38 +162,5 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_GLYPHICON => 'plus',
             ]));
         }
-    }
-
-    /**
-     * Set options array for JS, to show the right choosers
-     */
-    private function prepare_batch_options() : array
-    {
-        $task_conf = autocomplete::get_widget_config('task');
-        $invoice_conf = autocomplete::get_widget_config('invoice');
-
-        return [
-            'none' => ['label' => $this->_i18n->get_string("choose action", "midgard.admin.user")],
-            'invoiceable' => [
-                'label' => $this->_l10n->get('mark_invoiceable'),
-                'value' => true
-            ],
-            'uninvoiceable' => [
-                'label' => $this->_l10n->get('mark_uninvoiceable'),
-                'value' => false
-            ],
-            'task' => [
-                'label' => $this->_l10n->get('change_task'),
-                'widget_config' => $task_conf
-            ],
-            'invoice' => [
-                'label' => $this->_l10n->get('change_invoice'),
-                'widget_config' => $invoice_conf
-            ],
-            'edit' => [
-                'label' => $this->_l10n->get('batch edit'),
-                'dialog_url' => $this->router->generate('hours_batch_edit')
-            ]
-        ];
     }
 }
