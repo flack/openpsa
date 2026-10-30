@@ -113,6 +113,9 @@ class attachmentTransformer implements DataTransformerInterface
             }
         } elseif (!empty($array['object'])) {
             $attachment = $array['object'];
+            if (!$this->config['show_title']) {
+                $title = $attachment->title;
+            }
         }
 
         if (empty($attachment)) {

@@ -78,6 +78,27 @@ class attachmentTransformerTest extends openpsa_testcase
         ];
     }
 
+    public function test_reverseTransform_keeps_title_without_title_field()
+    {
+        $topic = $this->create_object(\midcom_db_topic::class);
+        midcom::get()->auth->request_sudo('midcom.datamanager');
+        $att = $topic->create_attachment('test.txt', 'stored title', 'text/plain');
+        midcom::get()->auth->drop_sudo();
+
+        $transformer = new attachmentTransformer([
+            'show_description' => false,
+            'show_title' => false
+        ]);
+
+        $input = [
+            'identifier' => $att->guid,
+            'file' => null,
+            'object' => $att
+        ];
+
+        $this->assertSame('stored title', $transformer->reverseTransform($input)->title);
+    }
+
     public function test_upload()
     {
         $transformer = $this->get_transformer();
