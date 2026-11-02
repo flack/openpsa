@@ -22,6 +22,10 @@ class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_h
     {
         $this->prepare_request_data('my_tasks');
 
+        $title = $this->_l10n->get('my_tasks');
+        midcom::get()->head->set_pagetitle($title);
+        $this->add_breadcrumb($this->router->generate('task-list-user'), $title);
+
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
         $this->qb->get_doctrine()
             ->leftJoin('org_openpsa_task_resource', 'r', Join::WITH, 'c.id = r.task')

@@ -1,19 +1,18 @@
 <div class="content-with-sidebar">
     <div class="org_openpsa_mypage main">
         <?php
+        $tabs = [];
         if ($data['projects_relative_url']) {
-            ?>
-            <div class="tasks normal">
-                <?php
-                midcom::get()->dynamic_load($data['projects_relative_url'] . 'task/list/'); ?>
-            </div>
-            <?php
+            $tabs[] = [
+                'url' => $data['projects_relative_url'] . 'task/list/',
+                'title' => midcom::get()->i18n->get_string('my_tasks', 'org.openpsa.projects'),
+            ];
         }
 
-        $tabs = [[
+        $tabs[] = [
             'url' => $data['journal_url'],
             'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
-        ]];
+        ];
 
         if ($data['wiki_url']) {
             $nap = new midcom_helper_nav;

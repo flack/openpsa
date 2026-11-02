@@ -59,14 +59,9 @@ div.org_openpsa_mypage_workingon .controls
     opacity: .7;
     color: orange
 }
-.org_openpsa_mypage.main .tasks
-{
-    padding-bottom: 2em;
-}
-
 .org_openpsa_mypage.main .ui-tabs-panel
 {
-    height: 170px;
+    min-height: 170px;
 }
 
 .org_openpsa_mypage.main + aside .agenda

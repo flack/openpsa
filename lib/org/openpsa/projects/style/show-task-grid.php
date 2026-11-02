@@ -45,8 +45,7 @@ if ($data['view_identifier'] != 'my_tasks') {
         ->set_column('end', $data['l10n']->get('end'), 'width: 80, formatter: "date", align: "right", fixed: true');
 } else {
     $grid->set_column('end', $data['l10n']->get('deadline'), 'width: 80, formatter: "date", align: "right", fixed: true')
-        ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float')
-        ->set_option('caption', $data['l10n']->get($data['view_identifier']));
+        ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float');
 }
 $grid->set_column('planned_hours', $data['l10n']->get('planned hours'), 'width: 55, template: "number", summaryType:"sum", fixed: true')
     ->set_column('reported_hours', $data['l10n']->get('reported'), 'width: 55, template: "number", summaryType:"sum", fixed: true');
