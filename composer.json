@@ -25,7 +25,7 @@
         "gregwar/captcha": "^1.0",
         "guzzlehttp/guzzle": "^8.0",
         "monolog/monolog": "^2.0",
-        "openpsa/installer": "dev-master",
+        "openpsa/installer": "^1.0",
         "openpsa/midgard-portable": "^1.10.0",
         "openpsa/ranger": ">=0.3.0",
         "openpsa/universalfeedcreator": "^1.8.2",
