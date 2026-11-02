@@ -22,8 +22,12 @@ class rcsTest extends openpsa_testcase
 {
     protected static midcom_db_person $_object;
 
+    private static bool $rcs_enabled;
+
     public static function setUpBeforeClass() : void
     {
+        self::$rcs_enabled = midcom::get()->config->get('midcom_services_rcs_enable');
+        midcom::get()->config->set('midcom_services_rcs_enable', true);
         self::create_user(true);
         self::$_object = self::create_class_object(midcom_db_person::class, ['_use_rcs' => true]);
         self::$_object->update();
@@ -68,5 +72,11 @@ class rcsTest extends openpsa_testcase
         $this->assertEquals('object_rcs_diff', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
+    }
+
+    public static function tearDownAfterClass() : void
+    {
+        parent::tearDownAfterClass();
+        midcom::get()->config->set('midcom_services_rcs_enable', self::$rcs_enabled);
     }
 }

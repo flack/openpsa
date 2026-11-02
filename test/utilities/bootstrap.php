@@ -11,6 +11,8 @@
 $defaults = [
     'theme' => 'OpenPsa2',
     'midcom_services_rcs_root' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs',
+    // RCS is slow and mostly irrelevant for tests, tests that need it can enable it explicitly
+    'midcom_services_rcs_enable' => false,
     'cache_base_directory' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/',
     'midcom_tempdir' => OPENPSA2_UNITTEST_OUTPUT_DIR . '/tmp/',
     // @todo: Really we should overwrite kernel.logs_dir here
