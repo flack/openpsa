@@ -423,6 +423,10 @@ class midcom_config implements ArrayAccess
         if (!empty($_SERVER['SERVER_NAME'])) {
             $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         }
+        if (is_dir('/opt/homebrew/bin/')) {
+            $this->_default_config['midcom_services_rcs_bin_dir'] = '/opt/homebrew/bin/';
+            $this->_default_config['utility_imagemagick_base'] = '/opt/homebrew/bin/';
+        }
     }
 
     public function get(string $key, $default = null)
