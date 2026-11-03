@@ -31,6 +31,7 @@ class attachmentType extends AbstractType
             'widget_config' => [
                 'map_action_elements' => false,
                 'show_title' => true,
+                'title_required' => true,
                 'show_description' => false,
                 'sortable' => false
             ]
@@ -45,7 +46,7 @@ class attachmentType extends AbstractType
     {
         $builder->add('file', FileType::class, ['constraints' => [new File()], 'required' => false]);
         if ($options['widget_config']['show_title']) {
-            $builder->add('title', TextType::class);
+            $builder->add('title', TextType::class, ['required' => $options['widget_config']['title_required']]);
         }
         if ($options['widget_config']['show_description']) {
             $builder->add('description', TextType::class);

@@ -24,6 +24,9 @@ return [
                 'title' => 'Document',
                 'type'    => 'blobs',
                 'widget' => 'downloads',
+                'widget_config' => [
+                    'title_required' => false,
+                ],
                 'type_config' => [
                     'max_count' => 1,
                     'sortable' => false,
