@@ -238,7 +238,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
      */
     public function mark_delivered()
     {
-        $this->mark(self::STATE_DELIVERED);
+        $this->mark(self::STATE_DELIVERED, org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED);
     }
 
     /**
@@ -246,17 +246,17 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
      */
     public function mark_invoiced()
     {
-        $this->mark(self::STATE_INVOICED);
+        $this->mark(self::STATE_INVOICED, org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED);
     }
 
-    private function mark(int $state)
+    private function mark(int $state, int $deliverable_state)
     {
         if ($this->state >= $state) {
             return;
         }
 
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
-        $mc->add_constraint('state', '<', $state);
+        $mc->add_constraint('state', '<', $deliverable_state);
         $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
 
         if ($mc->count() == 0) {

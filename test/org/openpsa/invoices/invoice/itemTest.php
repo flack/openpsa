@@ -76,6 +76,44 @@ class itemTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testSalesprojectMarkedInvoiced()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, [
+            'state' => org_openpsa_sales_salesproject_dba::STATE_WON
+        ]);
+        $attributes = [
+            'salesproject' => $salesproject->id,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED
+        ];
+        $deliverable1 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
+        $deliverable2 = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, $attributes);
+        $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
+            'salesproject' => $salesproject->id,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED
+        ]);
+
+        $this->create_object(org_openpsa_invoices_invoice_item_dba::class, [
+            'invoice' => self::$_invoice->id,
+            'deliverable' => $deliverable1->id,
+            'pricePerUnit' => 100,
+            'units' => 1
+        ]);
+        $salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_WON, $salesproject->state);
+
+        $this->create_object(org_openpsa_invoices_invoice_item_dba::class, [
+            'invoice' => self::$_invoice->id,
+            'deliverable' => $deliverable2->id,
+            'pricePerUnit' => 50,
+            'units' => 2
+        ]);
+        $salesproject->refresh();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_INVOICED, $salesproject->state);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function tearDown() : void
     {
         self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'invoice', self::$_invoice->id);

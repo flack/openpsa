@@ -10,6 +10,7 @@ namespace test\org\openpsa\sales;
 
 use openpsa_testcase;
 use org_openpsa_sales_salesproject_dba;
+use org_openpsa_sales_salesproject_deliverable_dba;
 use midcom;
 
 /**
@@ -40,6 +41,39 @@ class salesprojectTest extends openpsa_testcase
 
         $stat = $salesproject->delete();
         $this->assertTrue($stat);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testMark()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class, [
+            'state' => org_openpsa_sales_salesproject_dba::STATE_WON
+        ]);
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
+            'salesproject' => $salesproject->id,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
+        ]);
+        $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
+            'salesproject' => $salesproject->id,
+            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED
+        ]);
+
+        $salesproject->mark_delivered();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_WON, $salesproject->state);
+
+        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED;
+        $deliverable->update();
+        $salesproject->mark_invoiced();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_WON, $salesproject->state);
+        $salesproject->mark_delivered();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_DELIVERED, $salesproject->state);
+
+        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
+        $deliverable->update();
+        $salesproject->mark_invoiced();
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_INVOICED, $salesproject->state);
 
         midcom::get()->auth->drop_sudo();
     }
