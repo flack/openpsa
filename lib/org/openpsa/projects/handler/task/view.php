@@ -30,7 +30,7 @@ class org_openpsa_projects_handler_task_view extends midcom_baseclasses_componen
         $data['object_view'] = $datamanager->get_content_html();
 
         $this->populate_toolbar();
-        midcom::get()->head->set_pagetitle($this->task->get_label());
+        midcom::get()->head->set_pagetitle($this->task->title);
         org_openpsa_projects_viewer::add_breadcrumb_path($this->task, $this);
         midcom::get()->metadata->set_request_metadata($this->task->metadata->revised, $guid);
         $this->bind_view_to_object($this->task, $datamanager->get_schema()->get_name());
