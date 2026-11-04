@@ -27,7 +27,7 @@ $GLOBALS['midcom_config_local']['cache_module_content_headers_strategy'] = 'no-c
 
 $_SERVER = [
     'HTTP_HOST' => 'localhost',
-    'SERVER_NAME' => 'localhost',
+    'SERVER_NAME' => uniqid('unittest'),
     'SERVER_SOFTWARE' => 'PHPUnit',
     'HTTP_USER_AGENT' => 'PHPUnit',
     'SERVER_PORT' => '80',
