@@ -13,6 +13,7 @@ use midcom;
 use org_openpsa_projects_task_dba;
 use org_openpsa_projects_project;
 use org_openpsa_expenses_hour_report_dba;
+use org_openpsa_invoices_invoice_dba;
 
 /**
  * OpenPSA testcase
@@ -68,6 +69,18 @@ class listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.expenses', ['hours']);
         $this->assertEquals('list_hours', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_list_hours_invoice()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
+
+        $invoice = $this->create_object(org_openpsa_invoices_invoice_dba::class);
+
+        $data = $this->run_handler('org.openpsa.expenses', ['hours', 'invoice', $invoice->guid]);
+        $this->assertEquals('list_hours_invoice', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

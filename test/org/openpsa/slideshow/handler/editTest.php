@@ -52,4 +52,24 @@ class editTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function test_handler_recreate()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.slideshow');
+
+        $url = $this->run_relocate_handler('org.openpsa.slideshow', ['recreate']);
+        $this->assertEquals('edit/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function test_handler_recreate_folder_thumbnails()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.slideshow');
+
+        $url = $this->run_relocate_handler('org.openpsa.slideshow', ['recreate_folder_thumbnails']);
+        $this->assertEquals('', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

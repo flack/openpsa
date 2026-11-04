@@ -74,6 +74,19 @@ class rcsTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testHandler_restore()
+    {
+        midcom::get()->auth->request_sudo('midgard.admin.asgard');
+
+        $first = midcom::get()->rcs->load_backend(self::$_object)->get_history()->get_first()['revision'];
+        $this->run_relocate_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'rcs', 'restore', self::$_object->guid, $first]);
+
+        $restored = new midcom_db_person(self::$_object->guid);
+        $this->assertNotEquals('test', $restored->lastname);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public static function tearDownAfterClass() : void
     {
         parent::tearDownAfterClass();

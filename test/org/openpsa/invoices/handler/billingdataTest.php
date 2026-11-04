@@ -53,4 +53,16 @@ class billingdataTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_delete()
+    {
+        $billingdata = $this->create_object(org_openpsa_invoices_billing_data_dba::class, ['linkGuid' => self::$_person->guid]);
+
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+
+        $data = $this->run_handler('org.openpsa.invoices', ['billingdata', 'delete', $billingdata->guid]);
+        $this->assertEquals('billing_data_delete', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

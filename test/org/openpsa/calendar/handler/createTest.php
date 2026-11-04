@@ -76,4 +76,14 @@ class createTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_new_event_with_resource()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'new', self::$_user->guid]);
+        $this->assertEquals('new_event_with_resource', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

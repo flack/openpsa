@@ -55,4 +55,19 @@ class tinyurlTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_delete()
+    {
+        midcom::get()->auth->request_sudo('net.nemein.redirector');
+        $attributes = [
+            'node' => self::$_topic->guid,
+            'name' => net_nemein_redirector_tinyurl_dba::generate()
+        ];
+        $tinyurl = $this->create_object(net_nemein_redirector_tinyurl_dba::class, $attributes);
+
+        $data = $this->run_handler(self::$_topic, ['delete', $tinyurl->name]);
+        $this->assertEquals('delete', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

@@ -40,4 +40,40 @@ class moderateTest extends openpsa_testcase
         $this->assertEquals(net_nehmer_comments_comment::ABUSE, $comment->status);
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_not_abuse()
+    {
+        $this->create_user(true);
+        $topic = $this->create_object(midcom_db_topic::class);
+        $comment = $this->create_object(net_nehmer_comments_comment::class, ['objectguid' => $topic->guid]);
+
+        midcom::get()->auth->request_sudo('net.nehmer.comments');
+
+        $this->set_post_data(['return_url' => 'dummy']);
+
+        $url = $this->run_relocate_handler('net.nehmer.comments', ['report', 'not_abuse', $comment->guid]);
+        $this->assertEquals('dummy', $url);
+
+        $comment->refresh();
+        $this->assertEquals(net_nehmer_comments_comment::MODERATED, $comment->status);
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_confirm_report()
+    {
+        $this->create_user(true);
+        $topic = $this->create_object(midcom_db_topic::class);
+        $comment = $this->create_object(net_nehmer_comments_comment::class, ['objectguid' => $topic->guid]);
+
+        midcom::get()->auth->request_sudo('net.nehmer.comments');
+
+        $this->set_post_data(['return_url' => 'dummy']);
+
+        $url = $this->run_relocate_handler('net.nehmer.comments', ['report', 'confirm_junk', $comment->guid]);
+        $this->assertEquals('dummy', $url);
+
+        $comment->refresh();
+        $this->assertEquals(net_nehmer_comments_comment::JUNK, $comment->status);
+        midcom::get()->auth->drop_sudo();
+    }
 }

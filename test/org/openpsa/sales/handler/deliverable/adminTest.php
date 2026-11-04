@@ -88,4 +88,19 @@ class adminTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_delete()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
+
+        $deliverable = $this->create_object(org_openpsa_sales_salesproject_deliverable_dba::class, [
+            'salesproject' => self::$_salesproject->id,
+            'product' => self::$_product->id,
+        ]);
+
+        $data = $this->run_handler('org.openpsa.sales', ['deliverable', 'delete', $deliverable->guid]);
+        $this->assertEquals('deliverable_delete', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

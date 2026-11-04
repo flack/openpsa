@@ -69,4 +69,15 @@ class listTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_list_object()
+    {
+        midcom::get()->auth->request_sudo('midcom.helper.imagepopup');
+        $this->create_user(true);
+
+        $data = $this->run_handler(self::$node, ['__ais', 'imagepopup', 'file', self::$node->guid]);
+        $this->assertEquals('list_object', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

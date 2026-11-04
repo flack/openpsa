@@ -62,4 +62,14 @@ class archiveTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_year_category()
+    {
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
+
+        $data = $this->run_handler(self::$_topic, ['archive', 'year', date('Y'), 'dummy']);
+        $this->assertEquals('archive-year-category', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

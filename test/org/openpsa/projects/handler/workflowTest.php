@@ -38,4 +38,18 @@ class workflowTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_action()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
+
+        $project = $this->create_object(org_openpsa_projects_project::class);
+        $task = $this->create_object(org_openpsa_projects_task_dba::class, ['project' => $project->id]);
+
+        $data = $this->run_handler('org.openpsa.projects', ['workflow', $task->guid, 'accept']);
+        $this->assertEquals('workflow-action', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

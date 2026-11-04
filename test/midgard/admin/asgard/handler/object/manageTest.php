@@ -117,4 +117,14 @@ class manageTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_open()
+    {
+        midcom::get()->auth->request_sudo('midgard.admin.asgard');
+
+        $url = $this->run_relocate_handler('net.nehmer.static', ['__mfa', 'asgard', 'object', 'open', self::$_object->guid]);
+        $this->assertStringEndsWith('object/view/' . self::$_object->guid . '/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

@@ -112,4 +112,12 @@ class loggerTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_redirect_query()
+    {
+        $_GET = ['link' => 'dummy'];
+
+        $url = $this->run_relocate_handler('org.openpsa.directmarketing', ['logger', 'redirect', 'dummy']);
+        $this->assertEquals('dummy', $url);
+    }
 }

@@ -67,4 +67,28 @@ class adminTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_move()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
+            'start' => time() - 60 * 60,
+            'end' => time() + 60 * 60
+        ]);
+        $start = $event->start + 7200;
+        $end = $event->end + 7200;
+
+        $this->set_post_data(['start' => $start]);
+
+        $data = $this->run_handler('org.openpsa.calendar', ['event', 'move', $event->guid]);
+        $this->assertEquals('event_move', $data['handler_id']);
+
+        $event->refresh();
+        $this->assertEquals($start, $event->start);
+        $this->assertEquals($end, $event->end);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

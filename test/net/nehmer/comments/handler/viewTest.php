@@ -39,4 +39,16 @@ class viewTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_comments_custom()
+    {
+        $person = $this->create_user(true);
+        midcom::get()->auth->request_sudo('net.nehmer.comments');
+
+        $data = $this->run_handler('net.nehmer.comments', ['comment', $person->guid, 'dummy']);
+        $this->assertEquals('view-comments-custom', $data['handler_id']);
+        $this->assertEquals('dummy', $data['custom_view']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

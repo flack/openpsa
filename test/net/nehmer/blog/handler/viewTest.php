@@ -43,4 +43,14 @@ class viewTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_view_raw()
+    {
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
+
+        $data = $this->run_handler(self::$_topic, ['raw', 'index']);
+        $this->assertEquals('view-raw', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

@@ -54,4 +54,34 @@ class relatedtoTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_ajax()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
+
+        $data = $this->run_handler('org.openpsa.invoices', ['__mfa', 'org.openpsa.relatedto', 'ajax', 'confirm', self::$_relation->guid]);
+        $this->assertEquals('ajax_object', $data['handler_id']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->result);
+
+        self::$_relation->refresh();
+        $this->assertEquals(org_openpsa_relatedto_dba::CONFIRMED, self::$_relation->status);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_delete()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
+
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+        $relation = org_openpsa_relatedto_plugin::create(self::$_object_from, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
+
+        $data = $this->run_handler('org.openpsa.invoices', ['__mfa', 'org.openpsa.relatedto', 'delete', $relation->guid]);
+        $this->assertEquals('delete', $data['handler_id']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->result);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

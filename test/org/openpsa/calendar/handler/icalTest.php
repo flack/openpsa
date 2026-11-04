@@ -124,4 +124,32 @@ END:VCALENDAR\r\n
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_user_busy()
+    {
+        $user = $this->create_user(true);
+        $account = new midcom_core_account($user);
+
+        $event = $this->create_object(org_openpsa_calendar_event_dba::class, [
+            'up' => org_openpsa_calendar_interface::find_root_event()->id,
+            'start' => time() - 10,
+            'end' => time() + 8000,
+            'title' => 'Secret Title',
+        ]);
+        $this->create_object(org_openpsa_calendar_event_member_dba::class, [
+            'uid' => $user->id,
+            'eid' => $event->id
+        ]);
+
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+
+        $data = $this->run_handler('org.openpsa.calendar', ['ical', 'busy', $account->get_username()]);
+        $this->assertEquals('ical_user_busy', $data['handler_id']);
+        $content = $data['__openpsa_testcase_response']->getContent();
+
+        $this->assertEquals(1, substr_count($content, 'BEGIN:VEVENT'));
+        $this->assertStringNotContainsString('Secret Title', $content);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

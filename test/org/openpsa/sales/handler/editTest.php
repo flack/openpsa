@@ -12,6 +12,8 @@ use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_sales_salesproject_dba;
+use org_openpsa_contacts_group_dba;
+use org_openpsa_contacts_person_dba;
 
 /**
  * OpenPSA testcase
@@ -45,6 +47,33 @@ class editTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'new']);
         $this->assertEquals('salesproject_new', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_new_customer()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
+
+        $group = $this->create_object(org_openpsa_contacts_group_dba::class);
+        $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'new', $group->guid]);
+        $this->assertEquals('salesproject_new_customer', $data['handler_id']);
+
+        $person = $this->create_object(org_openpsa_contacts_person_dba::class);
+        $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'new', $person->guid]);
+        $this->assertEquals('salesproject_new_customer', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_delete()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
+
+        $salesproject = $this->create_object(org_openpsa_sales_salesproject_dba::class);
+
+        $data = $this->run_handler('org.openpsa.sales', ['salesproject', 'delete', $salesproject->guid]);
+        $this->assertEquals('salesproject_delete', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

@@ -11,6 +11,8 @@ namespace test\net\nehmer\comments\handler;
 use openpsa_testcase;
 use midcom;
 use PHPUnit\Framework\Attributes\DataProvider;
+use midcom_db_topic;
+use net_nehmer_comments_comment;
 
 /**
  * OpenPSA testcase
@@ -52,5 +54,28 @@ class adminTest extends openpsa_testcase
             ['latest_new'],
             ['latest_approved'],
         ];
+    }
+
+    public function testHandler_moderate_ajax()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('net.nehmer.comments');
+
+        $topic = $this->create_object(midcom_db_topic::class);
+        $comment = $this->create_object(net_nehmer_comments_comment::class, ['objectguid' => $topic->guid]);
+
+        $this->set_post_data([
+            'action' => 'action_delete',
+            'guid' => $comment->guid
+        ]);
+
+        $data = $this->run_handler('net.nehmer.comments', ['moderate', 'ajax', 'latest']);
+        $this->assertEquals('moderate_ajax', $data['handler_id']);
+
+        $qb = net_nehmer_comments_comment::new_query_builder();
+        $qb->add_constraint('guid', '=', $comment->guid);
+        $this->assertEquals(0, $qb->count());
+
+        midcom::get()->auth->drop_sudo();
     }
 }

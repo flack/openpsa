@@ -44,4 +44,11 @@ class adminTest extends openpsa_testcase
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'edit', $feed->guid]);
         $this->assertEquals('feeds_edit', $data['handler_id']);
     }
+
+    public function test_handler_delete()
+    {
+        $feed = $this->create_object(net_nemein_rss_feed_dba::class, ['node' => self::$topic->id]);
+        $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'delete', $feed->guid]);
+        $this->assertEquals('feeds_delete', $data['handler_id']);
+    }
 }

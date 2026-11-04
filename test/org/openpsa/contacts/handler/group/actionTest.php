@@ -12,6 +12,7 @@ use midcom_db_person;
 use openpsa_testcase;
 use midcom;
 use org_openpsa_contacts_group_dba;
+use midcom_db_member;
 
 /**
  * OpenPSA testcase
@@ -45,6 +46,30 @@ class actionTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.contacts', ['group', 'subgroups', self::$_group->guid]);
         $this->assertEquals('group_subgroups', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_update_member_title()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
+
+        $member = $this->create_object(midcom_db_member::class, [
+            'uid' => self::$_person->id,
+            'gid' => self::$_group->id
+        ]);
+
+        $this->set_post_data([
+            'guid' => $member->guid,
+            'title' => 'test'
+        ]);
+
+        $data = $this->run_handler('org.openpsa.contacts', ['group', 'update_member_title', self::$_group->guid]);
+        $this->assertEquals('group_update_member_title', $data['handler_id']);
+        $this->assertTrue(json_decode($data['__openpsa_testcase_response']->getContent())->status);
+
+        $member->refresh();
+        $this->assertEquals('test', $member->extra);
 
         midcom::get()->auth->drop_sudo();
     }

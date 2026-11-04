@@ -11,6 +11,7 @@ namespace test\org\openpsa\user\handler;
 use midcom_db_person;
 use openpsa_testcase;
 use midcom;
+use midcom_db_group;
 
 /**
  * OpenPSA testcase
@@ -42,6 +43,18 @@ class listTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.user', ['json']);
         $this->assertEquals('user_list_json', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function test_handler_json_members()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.user');
+
+        $group = $this->create_object(midcom_db_group::class);
+
+        $data = $this->run_handler('org.openpsa.user', ['json', 'members', $group->guid]);
+        $this->assertEquals('user_list_json_members', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

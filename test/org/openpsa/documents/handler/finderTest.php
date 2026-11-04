@@ -35,4 +35,15 @@ class finderTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_goto()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.documents');
+
+        $topic = $this->get_component_node('org.openpsa.documents');
+        $url = $this->run_relocate_handler('org.openpsa.documents', ['connector', 'goto', 'hash_' . base64_encode($topic->guid)]);
+        $this->assertEquals(ltrim(midcom::get()->permalinks->resolve_permalink($topic->guid), '/'), $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

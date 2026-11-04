@@ -10,6 +10,7 @@ namespace test\net\nemein\rss\handler;
 
 use openpsa_testcase;
 use midcom_db_topic;
+use net_nemein_rss_feed_dba;
 
 /**
  * OpenPSA testcase
@@ -35,5 +36,13 @@ class fetchTest extends openpsa_testcase
     {
         $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'fetch', 'all']);
         $this->assertEquals('feeds_fetch_all', $data['handler_id']);
+    }
+
+    public function test_handler_fetch_single()
+    {
+        $feed = $this->create_object(net_nemein_rss_feed_dba::class, ['node' => self::$topic->id]);
+        $data = $this->run_handler(self::$topic, ['__feeds', 'rss', 'fetch', $feed->guid]);
+        $this->assertEquals('feeds_fetch', $data['handler_id']);
+        $this->assertEquals($feed->guid, $data['feed']->guid);
     }
 }

@@ -46,4 +46,14 @@ class redirectTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_index()
+    {
+        midcom::get()->auth->request_sudo('net.nemein.redirector');
+
+        $data = $this->run_handler(self::$_topic);
+        $this->assertEquals('redirect', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

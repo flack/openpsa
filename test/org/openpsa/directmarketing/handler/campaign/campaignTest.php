@@ -39,4 +39,17 @@ class campaignTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_members()
+    {
+        $helper = new openpsa_test_campaign_helper;
+        $campaign = $helper->get_campaign();
+
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+
+        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'members', $campaign->guid]);
+        $this->assertEquals('campaign_list_members', $data['handler_id']);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

@@ -74,4 +74,23 @@ class itemsTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_itemposition()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+        $item = $this->create_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);
+
+        $this->set_post_data([
+            'id' => $item->id,
+            'position' => 5
+        ]);
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'itemposition']);
+        $this->assertEquals('invoice_item_position', $data['handler_id']);
+
+        $item->refresh();
+        $this->assertEquals(5, $item->position);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

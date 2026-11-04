@@ -12,6 +12,7 @@ use openpsa_testcase;
 use midcom;
 use midcom_db_person;
 use midcom_core_account;
+use midcom_db_group;
 
 /**
  * OpenPSA testcase
@@ -61,6 +62,18 @@ class createTest extends openpsa_testcase
 
         $account = new midcom_core_account($person);
         $this->assertEquals($username, $account->get_username());
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function test_handler_create_group()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.user');
+
+        $group = $this->create_object(midcom_db_group::class);
+
+        $data = $this->run_handler('org.openpsa.user', ['create', $group->guid]);
+        $this->assertEquals('user_create_group', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
