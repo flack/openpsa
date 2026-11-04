@@ -197,7 +197,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     private function _print_row(array $row, $output)
     {
         $row = array_map($this->encode_csv(...), $row);
-        fputcsv($output, $row, $this->csv['s'], $this->csv['q']);
+        fputcsv($output, $row, $this->csv['s'], $this->csv['q'], '\\');
     }
 
     private function _init_csv_variables(Request $request)

@@ -21,7 +21,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
         $handle = fopen($input, 'r');
         $read_rows = 0;
         $total_columns = 0;
-        while ($csv_line = fgetcsv($handle, 1000, $this->_settings['separator'])) {
+        while ($csv_line = fgetcsv($handle, 1000, $this->_settings['separator'], escape: '\\')) {
             if ($total_columns == 0) {
                 $total_columns = count($csv_line);
             }

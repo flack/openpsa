@@ -87,6 +87,36 @@ class importTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    public function testHandler_csv()
+    {
+        $campaign = self::$helper->get_campaign();
+
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+
+        $email = __FUNCTION__ . '.' . time() . '@openpsa2.org';
+        $file = tempnam(midcom::get()->config->get('midcom_tempdir'), 'csv');
+        file_put_contents($file, "email\n" . $email . "\n");
+
+        $this->set_post_data([
+            'org_openpsa_directmarketing_import_separator' => ',',
+            'org_openpsa_directmarketing_import_tmp_file' => $file,
+            'org_openpsa_directmarketing_import_csv_field' => ['person:email']
+        ]);
+
+        $data = $this->run_handler('org.openpsa.directmarketing', ['campaign', 'import', 'csv2', $campaign->guid]);
+        $this->assertEquals('import_csv_field_select', $data['handler_id']);
+        $this->assertEquals(1, $data['import_status']['subscribed_new']);
+
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb->add_constraint('email', '=', $email);
+        $results = $qb->execute();
+        $this->register_objects($results);
+        $this->assertCount(1, $results);
+
+        unlink($file);
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_vcards()
     {
         $campaign = self::$helper->get_campaign();

@@ -189,7 +189,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 $handle = fopen($data['tmp_file'], 'r');
                 $total_columns = 0;
                 while (   $read_rows < 2
-                       && $csv_line = fgetcsv($handle, 1000, $data['separator'])) {
+                       && $csv_line = fgetcsv($handle, 1000, $data['separator'], escape: '\\')) {
                     if ($total_columns == 0) {
                         $total_columns = count($csv_line);
                     }
@@ -234,7 +234,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         $data['rows'] = [];
         $config = [
-            'fields' => $request->request->get('org_openpsa_directmarketing_import_csv_field'),
+            'fields' => $request->request->all('org_openpsa_directmarketing_import_csv_field'),
             'separator' => $request->request->get('org_openpsa_directmarketing_import_separator'),
         ];
         $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
