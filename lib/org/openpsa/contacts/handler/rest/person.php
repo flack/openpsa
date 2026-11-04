@@ -20,11 +20,15 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
 
     public function handle_create()
     {
+        // not a person field, so it must not reach bind_data()
+        $group_id = $this->_request['params']['group_id'] ?? null;
+        unset($this->_request['params']['group_id']);
+
         parent::handle_create();
 
         // add to group
-        if (isset($this->_request['params']['group_id'])) {
-            $group = new midcom_db_group(intval($this->_request['params']['group_id']));
+        if ($group_id !== null) {
+            $group = new midcom_db_group(intval($group_id));
 
             $member = new midcom_db_member();
             $member->uid = $this->_object->id;
