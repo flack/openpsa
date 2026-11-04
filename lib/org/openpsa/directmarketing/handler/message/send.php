@@ -33,33 +33,39 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         midcom::get()->auth->request_sudo($this->_component);
 
-        //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($guid);
-        // TODO: Check that campaign is in this topic
+        try {
+            //Load message
+            $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($guid);
+            // TODO: Check that campaign is in this topic
 
-        $this->load_datamanager($data['message']);
+            $this->load_datamanager($data['message']);
 
-        $this->batch_number = $batch_number;
-        midcom_services_at_entry_dba::get_cached($job);
+            $this->batch_number = $batch_number;
+            midcom_services_at_entry_dba::get_cached($job);
 
-        midcom::get()->skip_page_style = true;
-        midcom::get()->auth->drop_sudo();
+            midcom::get()->skip_page_style = true;
+        } finally {
+            midcom::get()->auth->drop_sudo();
+        }
     }
 
     public function _show_send_bg(string $handler_id, array &$data)
     {
         midcom::get()->auth->request_sudo($this->_component);
-        $sender = $this->_get_sender($data);
-        $composed = $this->compose($data);
-        debug_add('Forcing content type: text/plain');
-        midcom::get()->header('Content-Type: text/plain');
-        $bgstat = $sender->send_bg($this->batch_url_base_full, $this->batch_number, $composed);
-        if (!$bgstat) {
-            echo "ERROR\n";
-        } else {
-            echo "Batch #{$this->batch_number} DONE\n";
+        try {
+            $sender = $this->_get_sender($data);
+            $composed = $this->compose($data);
+            debug_add('Forcing content type: text/plain');
+            midcom::get()->header('Content-Type: text/plain');
+            $bgstat = $sender->send_bg($this->batch_url_base_full, $this->batch_number, $composed);
+            if (!$bgstat) {
+                echo "ERROR\n";
+            } else {
+                echo "Batch #{$this->batch_number} DONE\n";
+            }
+        } finally {
+            midcom::get()->auth->drop_sudo();
         }
-        midcom::get()->auth->drop_sudo();
     }
 
     private function _get_sender(array $data) : org_openpsa_directmarketing_sender
