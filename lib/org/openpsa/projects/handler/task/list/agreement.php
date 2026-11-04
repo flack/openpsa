@@ -19,7 +19,7 @@ class org_openpsa_projects_handler_task_list_agreement extends org_openpsa_proje
 
     public function _handler_list(Request $request, array $args)
     {
-        $this->prepare_request_data('agreement');
+        $this->prepare_request_data('agreement', $request);
 
         $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached((int) $args[0]);
         $title = sprintf($this->_l10n->get('tasks for agreement %s'), $deliverable->title);

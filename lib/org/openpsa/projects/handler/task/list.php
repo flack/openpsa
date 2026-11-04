@@ -43,6 +43,12 @@ implements client
 
     protected $priority_array;
 
+    /**
+     * Where workflow actions should return to. Set explicitly because HTTP_REFERER
+     * of an AJAX submit (e.g. from a tab) points to the parent page
+     */
+    private ?string $return_url = null;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -66,7 +72,7 @@ implements client
 
     public function _handler_list(Request $request, array $args)
     {
-        $this->prepare_request_data($args[0]);
+        $this->prepare_request_data($args[0], $request);
         $this->add_create_buttons();
 
         $this->qb = org_openpsa_projects_task_dba::new_query_builder();
@@ -130,7 +136,7 @@ implements client
                 $task->get_members();
                 if (   $task->can_do('midgard:update')
                     && isset($task->resources[midcom_connection::get_user()])) {
-                    $html .= '<form method="post" action="' . $this->router->generate('workflow', ['guid' => $task->guid]) . '">';
+                    $html .= $this->render_workflow_form_start($task);
                     //TODO: If we need all resources to accept task hide tools when we have accepted and replace with "pending acceptance from..."
                     $html .= '<ul class="area_toolbar">';
                     $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[accept]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('accept') . '</button></li>';
@@ -146,7 +152,7 @@ implements client
             case 'pending_approve':
                 //PONDER: Check ACL instead?
                 if (midcom_connection::get_user() == $task->manager) {
-                    $html = '<form method="post" action="' . $this->router->generate('workflow', ['guid' => $task->guid]) . '">';
+                    $html = $this->render_workflow_form_start($task);
                     $html .= '<ul class="area_toolbar">';
                     $html .= '<li><button type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes"><i class="fa fa-check"></i> ' . $this->_l10n->get('approve') . '</button></li>';
                     //PONDER: This is kind of redundant  when one can just remove the checkbox -->
@@ -164,6 +170,15 @@ implements client
                 return $this->render_status($task->manager, "pending approval by %s");
         }
         return '';
+    }
+
+    private function render_workflow_form_start(org_openpsa_projects_task_dba $task) : string
+    {
+        $html = '<form method="post" action="' . $this->router->generate('workflow', ['guid' => $task->guid]) . '">';
+        if ($this->return_url) {
+            $html .= '<input type="hidden" name="org_openpsa_projects_workflow_action_redirect" value="' . htmlspecialchars($this->return_url) . '" />';
+        }
+        return $html;
     }
 
     private function render_status($ids, string $message) : string
@@ -278,8 +293,9 @@ implements client
         return $ret;
     }
 
-    protected function prepare_request_data(string $identifier)
+    protected function prepare_request_data(string $identifier, Request $request)
     {
+        $this->return_url = $request->getRequestUri();
         $this->_request_data['view_identifier'] = $identifier;
         $this->_request_data['show_status_controls'] = $this->show_status_controls;
         $this->_request_data['show_customer'] = $this->show_customer;

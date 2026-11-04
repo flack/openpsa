@@ -23,7 +23,7 @@ class org_openpsa_projects_handler_task_list_task extends org_openpsa_projects_h
 
     public function _handler_list(Request $request, array $args)
     {
-        $this->prepare_request_data('subtasks');
+        $this->prepare_request_data('subtasks', $request);
 
         $task = new org_openpsa_projects_task_dba($args[0]);
 

@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_task_list_user extends org_openpsa_projects_h
 
     public function _handler_list(Request $request, array $args)
     {
-        $this->prepare_request_data('my_tasks');
+        $this->prepare_request_data('my_tasks', $request);
 
         $title = $this->_l10n->get('my_tasks');
         midcom::get()->head->set_pagetitle($title);

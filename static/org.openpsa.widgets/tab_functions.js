@@ -69,7 +69,7 @@ const org_openpsa_widgets_tabs = {
                 if ($(event.currentTarget).attr('onsubmit')) {
                     return;
                 }
-                var send_data = new FormData(this);
+                var send_data = new FormData(this, event.originalEvent?.submitter);
 
                 $.ajax({
                     data: send_data,
