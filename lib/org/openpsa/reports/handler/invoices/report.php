@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Invoices reporting
  *
@@ -24,12 +22,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         if ($response = parent::_handler_generator($data, $guid, $file)) {
             return $response;
         }
-        $this->process_handler($data);
-    }
-
-    public function _handler_generator_get(Request $request, array &$data)
-    {
-        parent::_handler_generator_get($request, $data);
         $this->process_handler($data);
     }
 

@@ -26,25 +26,6 @@ class reportTest extends openpsa_testcase
         self::create_class_object(org_openpsa_invoices_invoice_dba::class);
     }
 
-    public function test_handler_generator_get()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.reports');
-
-        $_GET = ['org_openpsa_reports_query_data' => [
-            'mimetype' => 'text/html',
-            'start' => time() - 1000,
-            'end' => time() + 1000,
-            'date_field' => 'paid',
-            'invoice_status' => ['paid'],
-            'resource' => 'all'
-        ]];
-
-        $data = $this->run_handler('org.openpsa.reports', ['invoices', 'get']);
-        $this->assertEquals('invoices_report_get', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
     public function test_handler_edit_report_guid()
     {
         midcom::get()->auth->request_sudo('org.openpsa.reports');
