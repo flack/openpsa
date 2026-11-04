@@ -12,16 +12,18 @@
  */
 class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_components_handler
 {
-    public function _handler_open(array $args)
+    public function _handler_open(string $filetype, ?string $guid = null)
     {
         $url = '__ais/imagepopup/';
-        $filetype = $args[0];
         if ($filetype === 'file') {
             $url .= 'links/';
-        } elseif (empty($args[1])) {
+        } elseif (empty($guid)) {
             $url .= 'folder/';
         }
-        $url .= implode('/', $args) . '/';
+        $url .= $filetype . '/';
+        if ($guid !== null) {
+            $url .= $guid . '/';
+        }
 
         return new midcom_response_relocate($url);
     }

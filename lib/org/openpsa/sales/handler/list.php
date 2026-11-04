@@ -15,18 +15,18 @@ use midcom\grid\grid;
  */
 class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handler
 {
-    public function _handler_list(string $handler_id, array $args, array &$data)
+    public function _handler_list(array &$data, ?string $state = null, ?string $customer = null)
     {
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
-        if ($handler_id == 'list_customer') {
-            $this->_add_customer_constraint($args[0], $qb);
+        if ($customer !== null) {
+            $this->_add_customer_constraint($customer, $qb);
             $data['mode'] = 'customer';
             $data['list_title'] = sprintf($this->_l10n->get('salesprojects with %s'), $data['customer']->get_label());
             $this->add_breadcrumb("", $data['list_title']);
             midcom::get()->head->set_pagetitle($data['list_title']);
         } else {
-            $data['mode'] = $this->get_list_mode($args);
+            $data['mode'] = $this->get_list_mode($state);
             $this->_add_state_constraint($data['mode'], $qb);
             $data['list_title'] = $this->_l10n->get('salesprojects ' . $data['mode']);
             $this->set_active_leaf($this->_topic->id . ':' . $data['mode']);
@@ -43,15 +43,15 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         return $this->show('show-salesproject-grid');
     }
 
-    private function get_list_mode(array $args) : string
+    private function get_list_mode(?string $state) : string
     {
         $person = midcom::get()->auth->user->get_storage();
         $mode = $person->get_parameter($this->_component, 'list_mode');
-        if (!empty($args[0])) {
-            if ($mode !== $args[0]) {
-                $person->set_parameter($this->_component, 'list_mode', $args[0]);
+        if (!empty($state)) {
+            if ($mode !== $state) {
+                $person->set_parameter($this->_component, 'list_mode', $state);
             }
-            return $args[0];
+            return $state;
         }
         return $mode ?: 'active';
     }

@@ -137,9 +137,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Object creating view
      */
-    public function _handler_create(Request $request, string $handler_id, array $args, array &$data)
+    public function _handler_create(Request $request, string $handler_id, string $type, array &$data, ?string $parent_guid = null)
     {
-        $data['current_type'] = $args[0];
+        $data['current_type'] = $type;
         $create_type = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($data['current_type']);
         if (!$create_type) {
             throw new midcom_error_notfound('Failed to find type for the new object');
@@ -151,7 +151,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($data['current_type']));
         } else {
-            $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
+            $this->_object = midcom::get()->dbfactory->get_object_by_guid($parent_guid);
             $this->_object->require_do('midgard:create');
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         }
@@ -182,7 +182,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 if ($this->_object) {
                     return $this->_prepare_relocate($this->_object);
                 }
-                return new midcom_response_relocate($this->router->generate('type', ['type' => $args[0]]));
+                return new midcom_response_relocate($this->router->generate('type', ['type' => $type]));
         }
 
         $this->_prepare_request_data();

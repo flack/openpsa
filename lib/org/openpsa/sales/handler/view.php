@@ -137,7 +137,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_populate_toolbar();
 
         if ($customer = $this->_salesproject->get_customer()) {
-            $this->add_breadcrumb($this->router->generate('list_customer', ['guid' => $customer->guid]), $customer->get_label());
+            $this->add_breadcrumb($this->router->generate('list_customer', ['customer' => $customer->guid]), $customer->get_label());
         }
 
         $this->add_breadcrumb($this->router->generate('salesproject_edit', ['guid' => $this->_salesproject->guid]), $this->_salesproject->title);

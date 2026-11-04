@@ -22,10 +22,10 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     /**
      * Looks up an message to display.
      */
-    public function _handler_list(array $args)
+    public function _handler_list(string $guid)
     {
         midcom::get()->auth->require_valid_user();
-        $this->_campaign = $this->load_campaign($args[1]);
+        $this->_campaign = $this->load_campaign($guid);
 
         $this->datamanager = datamanager::from_schemadb($this->_config->get('schemadb_message'));
     }

@@ -170,16 +170,16 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Show the changes done to the object
      */
-    public function _handler_history(Request $request, array &$data, array $args)
+    public function _handler_history(Request $request, array &$data, string $guid)
     {
         // Check if the comparison request is valid
         $first = $request->query->get('first');
         $last = $request->query->get('last');
         if ($first && $last && $first != $last) {
-            return new midcom_response_relocate($this->url_prefix . "diff/{$args[0]}/{$first}/{$last}/");
+            return new midcom_response_relocate($this->url_prefix . "diff/{$guid}/{$first}/{$last}/");
         }
 
-        $this->prepare_backend($args[0]);
+        $this->prepare_backend($guid);
         $view_title = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
 
         $this->prepare_request_data($view_title);
@@ -191,19 +191,19 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Show a diff between two versions
      */
-    public function _handler_diff(array $args, array &$data)
+    public function _handler_diff(string $guid, string $revision1, string $revision2, array &$data)
     {
-        $this->prepare_backend($args[0]);
+        $this->prepare_backend($guid);
         $history = $this->backend->get_history();
 
-        $compare_revision = $history->get($args[1]);
-        $latest_revision = $history->get($args[2]);
+        $compare_revision = $history->get($revision1);
+        $latest_revision = $history->get($revision2);
 
         if (!$compare_revision || !$latest_revision) {
-            throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
+            throw new midcom_error_notfound("One of the revisions {$revision1} or {$revision2} does not exist.");
         }
 
-        $data['diff'] = array_filter($this->backend->get_diff($args[1], $args[2]), function($value, $key) {
+        $data['diff'] = array_filter($this->backend->get_diff($revision1, $revision2), function($value, $key) {
             return array_key_exists('diff', $value)
                 && !is_array($value['diff'])
                 && midcom_services_rcs::is_field_showable($key);
@@ -213,7 +213,7 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $data['revision_info2'] = $this->render_revision_info($latest_revision);
 
         // Set the version numbers
-        $data['guid'] = $args[0];
+        $data['guid'] = $guid;
 
         $view_title = sprintf($this->_l10n->get('changes between revisions %s and %s'), $compare_revision['version'], $latest_revision['version']);
 
@@ -246,15 +246,14 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * View previews
      */
-    public function _handler_preview(array $args, array &$data)
+    public function _handler_preview(string $guid, string $revision, array &$data)
     {
-        $revision = $args[1];
         $data['latest_revision'] = $revision;
-        $data['guid'] = $args[0];
-        $this->prepare_backend($args[0]);
-        $metadata = $this->backend->get_history()->get($args[1]);
+        $data['guid'] = $guid;
+        $this->prepare_backend($guid);
+        $metadata = $this->backend->get_history()->get($revision);
         if (!$metadata) {
-            throw new midcom_error_notfound("Revision {$args[1]} does not exist.");
+            throw new midcom_error_notfound("Revision {$revision} does not exist.");
         }
 
         $data['preview'] = array_filter($this->backend->get_revision($revision), function ($value, $key) {
@@ -278,18 +277,18 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
     /**
      * Restore to diff
      */
-    public function _handler_restore(array $args)
+    public function _handler_restore(string $guid, string $revision)
     {
-        $this->prepare_backend($args[0]);
+        $this->prepare_backend($guid);
 
         $this->object->require_do('midgard:update');
         // TODO: set another privilege for restoring?
 
-        if (   $this->backend->get_history()->version_exists($args[1])
-            && $this->backend->restore_to_revision($args[1])) {
-            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
+        if (   $this->backend->get_history()->version_exists($revision)
+            && $this->backend->restore_to_revision($revision)) {
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $revision));
             return new midcom_response_relocate($this->get_object_url());
         }
-        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], midcom_connection::get_error_string()));
+        throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $revision, midcom_connection::get_error_string()));
     }
 }

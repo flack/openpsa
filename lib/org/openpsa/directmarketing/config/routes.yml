@@ -92,7 +92,7 @@ subscriber_unsubscribe_ajax:
     defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe_ajax' }
 
 subscriber_unsubscribe_all:
-    path: /campaign/unsubscribe_all/{member}/
+    path: /campaign/unsubscribe_all/{person}/
     defaults: { _controller: 'org_openpsa_directmarketing_handler_subscriber::unsubscribe_all' }
 
 subscriber_unsubscribe_all_future:

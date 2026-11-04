@@ -60,7 +60,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
                 $defaults['customerContact'] = $customer->id;
                 $field['type_config']['options'] = $this->list_groups([$customer->id => true]);
             }
-            $this->add_breadcrumb($this->router->generate('list_customer', ['guid' => $customer->guid]),
+            $this->add_breadcrumb($this->router->generate('list_customer', ['customer' => $customer->guid]),
                 sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
         }
         $dm = new datamanager($schemadb);
