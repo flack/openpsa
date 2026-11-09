@@ -90,6 +90,10 @@
     'invoice' => [
         'class' => 'org_openpsa_invoices_invoice_dba',
         'id_field' => 'id',
+        'result_headers' => [
+            ['name' => 'customerContact'],
+            ['name' => 'customer']
+        ],
         'searchfields' => [
             'number',
             'description',

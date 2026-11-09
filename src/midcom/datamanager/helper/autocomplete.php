@@ -287,7 +287,29 @@ class autocomplete
             $account = new midcom_core_account($object);
             return self::sanitize_label($account->get_username());
         }
+        $reflector = midcom_helper_reflector::get($object);
+        if ($target_class = $reflector->get_link_name($field)) {
+            return self::get_link_label($target_class, $object->$field);
+        }
         return self::sanitize_label($object->$field);
+    }
+
+    private static function get_link_label(string $target_class, $value) : string
+    {
+        if (   empty($value)
+            || !($class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($target_class))) {
+            return '';
+        }
+        try {
+            $target = $class::get_cached($value);
+        } catch (midcom_error $e) {
+            $e->log();
+            return '';
+        }
+        if ($target instanceof midcom_db_person) {
+            return self::sanitize_label($target->name);
+        }
+        return self::sanitize_label(midcom_helper_reflector::get($target)->get_object_label($target));
     }
 
     private static function sanitize_label($input) : string
