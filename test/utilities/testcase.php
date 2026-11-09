@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 use PHPUnit\Framework\TestStatus\Success;
+use midgard\portable\api\mgdobject;
 
 /**
  * Base class for unittests, provides some helper methods
@@ -299,7 +300,7 @@ abstract class openpsa_testcase extends TestCase
         return preg_replace('/^\//', '', $url);
     }
 
-    public function create_object(string $classname, array $data = []) : object
+    public function create_object(string $classname, array $data = []) : midcom_core_dbaobject|mgdobject
     {
         $object = self::_create_object($classname, $data);
         $this->_testcase_objects[$object->guid] = $object;
@@ -310,7 +311,7 @@ abstract class openpsa_testcase extends TestCase
      * Register an object created in a testcase. That way, it'll get properly deleted
      * if the test aborts
      */
-    public function register_object(object $object)
+    public function register_object(midcom_core_dbaobject|mgdobject $object)
     {
         $this->_testcase_objects[$object->guid] = $object;
     }
@@ -326,7 +327,7 @@ abstract class openpsa_testcase extends TestCase
         }
     }
 
-    private static function _create_object(string $classname, array $data) : object
+    private static function _create_object(string $classname, array $data) : midcom_core_dbaobject|mgdobject
     {
         if (is_a($classname, midcom_core_dbaobject::class)) {
             $presets = [
@@ -344,7 +345,7 @@ abstract class openpsa_testcase extends TestCase
         return $object;
     }
 
-    public static function prepare_object(string $classname, array $data) : object
+    public static function prepare_object(string $classname, array $data) : midcom_core_dbaobject|mgdobject
     {
         $object = new $classname();
 
@@ -359,7 +360,7 @@ abstract class openpsa_testcase extends TestCase
         return $object;
     }
 
-    public static function create_class_object(string $classname, array $data = []) : object
+    public static function create_class_object(string $classname, array $data = []) : midcom_core_dbaobject|mgdobject
     {
         $object = self::_create_object($classname, $data);
         self::$_class_objects[$object->guid] = $object;
