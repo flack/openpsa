@@ -41,8 +41,12 @@ abstract class openpsa_testcase extends TestCase
         }
 
         $account = new midcom_core_account($person);
-        $hash = password_hash($person->extra, PASSWORD_DEFAULT, ['cost' => 4]);
-        $account->set_password($hash, false);
+        if (midcom::get()->config->get('auth_type') == 'Legacy') {
+            $hash = password_hash($person->extra, PASSWORD_DEFAULT, ['cost' => 4]);
+            $account->set_password($hash, false);
+        } else {
+            $account->set_password($person->extra);
+        }
         $account->set_username($person->lastname);
         if (!$account->save()) {
             throw new Exception('Account could not be saved. Reason: ' . midcom_connection::get_error_string());
