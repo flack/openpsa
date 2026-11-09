@@ -82,6 +82,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         ],
         'on_hold' => [
             'on_hold' => null, //only if no task is on hold we have to look for something else
+            'ongoing' => org_openpsa_projects_task_status_dba::STARTED, //Work has resumed
             'not_started' => [
                 'closed' => null,
                 'not_started' => org_openpsa_projects_task_status_dba::PROPOSED // If nothing is closed, ongoing or on hold, let's try not_started
