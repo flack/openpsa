@@ -7,6 +7,7 @@
  */
 
 use Sabre\CalDAV\Backend\AbstractBackend;
+use Sabre\CalDAV\Backend\SyncSupport;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Exception;
 use Sabre\VObject\Component\VEvent;
@@ -17,9 +18,12 @@ use Sabre\VObject\Component\VEvent;
  * Every user has one calendar ("default") containing all events they participate in.
  * The calendar ID is the person's ID.
  *
+ * Sync tokens (also used as ctag) are timestamps: A client holding token t has seen
+ * all changes revised up to and including second t.
+ *
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_caldav_backend extends AbstractBackend
+class org_openpsa_calendar_caldav_backend extends AbstractBackend implements SyncSupport
 {
     public const CALENDAR_URI = 'default';
 
@@ -35,12 +39,14 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend
             return [];
         }
 
+        $token = $this->get_sync_token($person->id);
         return [[
             'id' => $person->id,
             'uri' => self::CALENDAR_URI,
             'principaluri' => $principalUri,
             '{DAV:}displayname' => $this->displayname,
-            '{http://calendarserver.org/ns/}getctag' => $this->get_ctag($person->id),
+            '{http://calendarserver.org/ns/}getctag' => $token,
+            '{http://sabredav.org/ns}sync-token' => $token,
             '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VEVENT']),
         ]];
     }
@@ -313,7 +319,7 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend
         }
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('up', '=', $this->get_root_event_id());
-        $qb->add_constraint('id', 'IN', array_values($ids));
+        $qb->add_constraint('id', 'IN', $ids);
         $qb->add_order('start');
         return $qb;
     }
@@ -335,11 +341,11 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend
         }
         // Same logic as get_uri(): An event with a client-chosen URI is only reachable under that one
         $qb->begin_group('OR');
-        $qb->add_constraint('caldavUri', 'IN', array_values($uris));
+        $qb->add_constraint('caldavUri', 'IN', $uris);
         if ($guids) {
             $qb->begin_group('AND');
             $qb->add_constraint('caldavUri', '=', '');
-            $qb->add_constraint('guid', 'IN', array_values(array_unique($guids)));
+            $qb->add_constraint('guid', 'IN', array_unique($guids));
             $qb->end_group();
         }
         $qb->end_group();
@@ -374,21 +380,109 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend
     }
 
     /**
-     * The ctag changes whenever one of the person's events or its participants are changed
-     * (deleted entries are included so that removals are noticed as well)
+     * Returns the changes since the given sync token
+     *
+     * An event counts as changed when it or one of its eventmember rows (of any participant,
+     * since they show up as attendees) was revised after the token. Changed events that are
+     * no longer in the calendar (deleted, user removed, no longer readable) are reported as deleted.
      */
-    private function get_ctag(int $person_id) : string
+    public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null)
     {
-        $revised = 0;
+        $person_id = (int) $calendarId;
+        $current = $this->get_sync_token($person_id);
+        $result = ['syncToken' => $current, 'added' => [], 'modified' => [], 'deleted' => []];
+
+        if ($syncToken === null || $syncToken === '') {
+            $qb = $this->get_events_qb($person_id);
+            $result['added'] = $qb ? array_map($this->get_uri(...), $qb->execute()) : [];
+            return $result;
+        }
+        if (!ctype_digit((string) $syncToken) || (int) $syncToken > (int) $current) {
+            return null;
+        }
+        if ($syncToken === $current) {
+            return $result;
+        }
+        // Deleted objects get purged eventually, after which their removal can't be reported anymore
+        $purge_days = midcom::get()->config->get('cron_purge_deleted_after');
+        if ((int) $syncToken < time() - $purge_days * 86400) {
+            return null;
+        }
+
+        if (!$changed = $this->get_changed_event_ids($person_id, (int) $syncToken)) {
+            return $result;
+        }
+        $current_events = [];
+        if ($qb = $this->get_events_qb($person_id)) {
+            $qb->add_constraint('id', 'IN', $changed);
+            foreach ($qb->execute() as $event) {
+                $current_events[$event->id] = $this->get_uri($event);
+            }
+        }
+        $result['modified'] = array_values($current_events);
+
+        if ($missing = array_diff($changed, array_keys($current_events))) {
+            // The user can't read these anymore, but needs to know their URIs
+            midcom::get()->auth->request_sudo('org.openpsa.calendar');
+            $qb = org_openpsa_calendar_event_dba::new_query_builder();
+            $qb->include_deleted();
+            $qb->add_constraint('id', 'IN', $missing);
+            $result['deleted'] = array_map($this->get_uri(...), $qb->execute());
+            midcom::get()->auth->drop_sudo();
+        }
+        return $result;
+    }
+
+    /**
+     * IDs of all events the person participates or participated in
+     */
+    private function get_member_event_ids(int $person_id) : array
+    {
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->include_deleted();
         $qb->add_constraint('uid', '=', $person_id);
-        if ($ids = array_values(array_unique(array_column($qb->execute(), 'eid')))) {
-            $to_check = [
-                org_openpsa_calendar_event_member_dba::class => 'eid',
-                org_openpsa_calendar_event_dba::class => 'id'
-            ];
-            foreach ($to_check as $class => $field) {
+        return array_unique(array_column($qb->execute(), 'eid'));
+    }
+
+    /**
+     * @return array<string, string> classname => field holding the event ID
+     */
+    private function get_change_sources() : array
+    {
+        return [
+            org_openpsa_calendar_event_member_dba::class => 'eid',
+            org_openpsa_calendar_event_dba::class => 'id'
+        ];
+    }
+
+    private function get_changed_event_ids(int $person_id, int $since) : array
+    {
+        if (!$ids = $this->get_member_event_ids($person_id)) {
+            return [];
+        }
+        $changed = [];
+        foreach ($this->get_change_sources() as $class => $field) {
+            $qb = $class::new_query_builder();
+            $qb->include_deleted();
+            $qb->add_constraint($field, 'IN', $ids);
+            $qb->add_constraint('metadata.revised', '>', gmdate('Y-m-d H:i:s', $since));
+            $changed = array_merge($changed, array_column($qb->execute(), $field));
+        }
+        return array_unique($changed);
+    }
+
+    /**
+     * The token changes whenever one of the person's events or its participants are changed
+     * (deleted entries are included so that removals are noticed as well)
+     *
+     * It is never the current second, because further changes could still happen within it
+     * and would then not be newer than the token
+     */
+    private function get_sync_token(int $person_id) : string
+    {
+        $revised = 0;
+        if ($ids = $this->get_member_event_ids($person_id)) {
+            foreach ($this->get_change_sources() as $class => $field) {
                 $qb = $class::new_query_builder();
                 $qb->include_deleted();
                 $qb->add_constraint($field, 'IN', $ids);
@@ -399,6 +493,6 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend
                 }
             }
         }
-        return (string) $revised;
+        return (string) min($revised, time() - 1);
     }
 }

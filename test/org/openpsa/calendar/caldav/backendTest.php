@@ -20,8 +20,8 @@ use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\NotFound;
 use org_openpsa_mail_backend_unittest;
 use DateTime;
-use Sabre\VObject\Reader;
 use midgard_query_builder;
+use Sabre\VObject\Reader;
 
 /**
  * OpenPSA testcase
@@ -30,6 +30,8 @@ use midgard_query_builder;
  */
 class backendTest extends openpsa_testcase
 {
+    use backdate;
+
     public static function setUpBeforeClass() : void
     {
         // Users need to be allowed to create events (usually granted by the admin)
@@ -58,7 +60,7 @@ class backendTest extends openpsa_testcase
             'uid' => $person->id,
             'eid' => $event->id
         ]);
-        return new org_openpsa_calendar_event_dba($event->id);
+        return $event;
     }
 
     private function get_principal(midcom_db_person $person) : string
@@ -165,7 +167,8 @@ class backendTest extends openpsa_testcase
         $this->assertNull($backend->getCalendarObjectByUID($this->get_principal($user), $other_event->guid . '-midgardGuid'));
 
         // ctag changes when a participant is added
-        sleep(1);
+        $this->backdate($user);
+        $ctag = $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://calendarserver.org/ns/}getctag'];
         $this->create_object(org_openpsa_calendar_event_member_dba::class, [
             'uid' => $other_user->id,
             'eid' => $event1->id
@@ -382,12 +385,14 @@ class backendTest extends openpsa_testcase
         org_openpsa_mail_backend_unittest::flush();
 
         $uid = 'caldav-quiet-' . uniqid();
-        $this->get_backend(false)->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Quiet\r\nDTSTART:20050710T100000Z\r\nDTEND:20050710T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->get_backend(false)
+            ->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Quiet\r\nDTSTART:20050710T100000Z\r\nDTEND:20050710T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
         $this->find_created_event($uid);
         $this->assertCount(0, org_openpsa_mail_backend_unittest::$mails);
 
         $uid = 'caldav-loud-' . uniqid();
-        $this->get_backend(true)->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Loud\r\nDTSTART:20050711T100000Z\r\nDTEND:20050711T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->get_backend(true)
+            ->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Loud\r\nDTSTART:20050711T100000Z\r\nDTEND:20050711T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
         $this->find_created_event($uid);
         $this->assertCount(1, org_openpsa_mail_backend_unittest::$mails);
     }
@@ -428,5 +433,59 @@ class backendTest extends openpsa_testcase
         $qb->add_constraint('id', '=', $mine->id);
         $this->assertEquals(0, $qb->count());
         $this->assertNull($backend->getCalendarObject($other_user->id, $uid . '.ics'));
+    }
+
+    public function test_sync()
+    {
+        $user = $this->create_user(true);
+        $other_user = $this->create_user();
+        $backend = $this->get_backend();
+        $uri = fn (org_openpsa_calendar_event_dba $event) => $event->guid . '.ics';
+
+        $unchanged  = $this->create_event($user,       gmmktime(10, 0, 0, 9, 1, 2005));
+        $updated    = $this->create_event($user,       gmmktime(10, 0, 0, 9, 2, 2005));
+        $joined     = $this->create_event($user,       gmmktime(10, 0, 0, 9, 3, 2005));
+        $left       = $this->create_event($user,       gmmktime(10, 0, 0, 9, 4, 2005));
+        $deleted    = $this->create_event($user,       gmmktime(10, 0, 0, 9, 5, 2005));
+        $foreign    = $this->create_event($other_user, gmmktime(10, 0, 0, 9, 6, 2005));
+
+        // Initial sync
+        $result = $backend->getChangesForCalendar($user->id, null, 1);
+        $this->assertEqualsCanonicalizing(array_map($uri, [$unchanged, $updated, $joined, $left, $deleted]), $result['added']);
+        $this->assertEquals([], $result['modified']);
+        $this->assertEquals([], $result['deleted']);
+
+        // Tokens are never the current second, so move the setup out of it
+        $this->backdate($user);
+        $token = $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://sabredav.org/ns}sync-token'];
+        $this->assertEquals($token, $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://calendarserver.org/ns/}getctag']);
+        $this->assertEquals(['syncToken' => $token, 'added' => [], 'modified' => [], 'deleted' => []], $backend->getChangesForCalendar($user->id, $token, 1));
+
+        // Invalid, future and expired tokens
+        $this->assertNull($backend->getChangesForCalendar($user->id, 'invalid', 1));
+        $this->assertNull($backend->getChangesForCalendar($user->id, (string) ($token + 1000), 1));
+        $this->assertNull($backend->getChangesForCalendar($user->id, '1', 1));
+
+        $this->sudo(function () use ($updated, $joined, $left, $deleted, $other_user, $user, $foreign) {
+            $updated->title = 'Changed';
+            $this->assertTrue($updated->update());
+            // Another participant shows up as attendee, so the event changes
+            $this->create_object(org_openpsa_calendar_event_member_dba::class, ['uid' => $other_user->id, 'eid' => $joined->id]);
+            $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
+            $qb->add_constraint('eid', '=', $left->id);
+            $qb->add_constraint('uid', '=', $user->id);
+            $this->assertTrue($qb->get_result(0)->delete());
+            $this->assertTrue($deleted->delete());
+            $foreign->title = 'Not mine';
+            $this->assertTrue($foreign->update());
+        });
+        $added = $this->create_event($user, gmmktime(10, 0, 0, 9, 7, 2005));
+
+        $result = $backend->getChangesForCalendar($user->id, $token, 1);
+        $this->assertEqualsCanonicalizing(array_map($uri, [$updated, $joined, $added]), $result['modified']);
+        $this->assertEqualsCanonicalizing(array_map($uri, [$left, $deleted]), $result['deleted']);
+        $this->assertEquals([], $result['added']);
+        $this->assertGreaterThan($token, $result['syncToken']);
+        $this->assertLessThan(time(), (int) $result['syncToken']);
     }
 }
