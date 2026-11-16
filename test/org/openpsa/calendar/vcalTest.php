@@ -24,14 +24,32 @@ use Sabre\VObject\Component\VEvent;
  */
 class vcalTest extends openpsa_testcase
 {
-    private function read_vevent(string $vevent) : VEvent
+    /**
+     * @param string[] $properties Content lines of the VEVENT (UID is added)
+     */
+    private function read_vevent(string $uid, array $properties) : VEvent
     {
-        return Reader::read("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:test\r\n" . $vevent . "END:VCALENDAR\r\n")->VEVENT;
+        $lines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:test',
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            ...$properties,
+            'END:VEVENT',
+            'END:VCALENDAR',
+        ];
+        return Reader::read(implode("\r\n", $lines) . "\r\n")->VEVENT;
     }
 
     public function test_vevent_to_event_tzid()
     {
-        $vevent = $this->read_vevent("BEGIN:VEVENT\r\nUID:test-tzid\r\nSUMMARY:Title\r\nDTSTART;TZID=Europe/Berlin:20210907T101500\r\nDTEND;TZID=Europe/Berlin:20210907T121500\r\nCLASS:PRIVATE\r\nEND:VEVENT\r\n");
+        $vevent = $this->read_vevent('test-tzid', [
+            'SUMMARY:Title',
+            'DTSTART;TZID=Europe/Berlin:20210907T101500',
+            'DTEND;TZID=Europe/Berlin:20210907T121500',
+            'CLASS:PRIVATE',
+        ]);
         $event = new org_openpsa_calendar_event_dba;
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
 
@@ -44,7 +62,7 @@ class vcalTest extends openpsa_testcase
 
     public function test_vevent_to_event_utc()
     {
-        $vevent = $this->read_vevent("BEGIN:VEVENT\r\nUID:test-utc\r\nDTSTART:20210907T101500Z\r\nDURATION:PT1H\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\n");
+        $vevent = $this->read_vevent('test-utc', ['DTSTART:20210907T101500Z', 'DURATION:PT1H', 'TRANSP:TRANSPARENT']);
         $event = new org_openpsa_calendar_event_dba;
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
 
@@ -55,14 +73,14 @@ class vcalTest extends openpsa_testcase
 
     public function test_vevent_to_event_all_day()
     {
-        $vevent = $this->read_vevent("BEGIN:VEVENT\r\nUID:test-allday\r\nDTSTART;VALUE=DATE:20210907\r\nDTEND;VALUE=DATE:20210909\r\nEND:VEVENT\r\n");
+        $vevent = $this->read_vevent('test-allday', ['DTSTART;VALUE=DATE:20210907', 'DTEND;VALUE=DATE:20210909']);
         $event = new org_openpsa_calendar_event_dba;
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
 
         $this->assertEquals(mktime(0, 0, 0, 9, 7, 2021), $event->start);
         $this->assertEquals(mktime(23, 59, 0, 9, 8, 2021), $event->end);
 
-        $vevent = $this->read_vevent("BEGIN:VEVENT\r\nUID:test-allday2\r\nDTSTART;VALUE=DATE:20210907\r\nEND:VEVENT\r\n");
+        $vevent = $this->read_vevent('test-allday2', ['DTSTART;VALUE=DATE:20210907']);
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
         $this->assertEquals(mktime(0, 0, 0, 9, 7, 2021), $event->start);
         $this->assertEquals(mktime(23, 59, 0, 9, 7, 2021), $event->end);

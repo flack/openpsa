@@ -26,6 +26,44 @@ class handlerTest extends openpsa_testcase
 {
     use backdate;
 
+    private const MULTIGET = <<<'XML'
+        <?xml version="1.0"?>
+        <c:calendar-multiget xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+            <d:prop>
+                <d:getetag/>
+                <c:calendar-data/>
+            </d:prop>
+            <d:href>%s</d:href>
+        </c:calendar-multiget>
+        XML;
+
+    private const TIME_RANGE_QUERY = <<<'XML'
+        <?xml version="1.0"?>
+        <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+            <d:prop>
+                <d:getetag/>
+            </d:prop>
+            <c:filter>
+                <c:comp-filter name="VCALENDAR">
+                    <c:comp-filter name="VEVENT">
+                        <c:time-range start="%s" end="%s"/>
+                    </c:comp-filter>
+                </c:comp-filter>
+            </c:filter>
+        </c:calendar-query>
+        XML;
+
+    private const SYNC_COLLECTION = <<<'XML'
+        <?xml version="1.0"?>
+        <d:sync-collection xmlns:d="DAV:">
+            <d:sync-token>%s</d:sync-token>
+            <d:sync-level>1</d:sync-level>
+            <d:prop>
+                <d:getetag/>
+            </d:prop>
+        </d:sync-collection>
+        XML;
+
     private static midcom_db_person $user;
 
     private static midcom_db_person $other_user;
@@ -167,17 +205,17 @@ class handlerTest extends openpsa_testcase
         $this->assertStringContainsString('SUMMARY:CalDAV Event', $response->getContent());
         $this->assertNotEmpty($response->headers->get('ETag'));
 
-        $body = '<?xml version="1.0"?><c:calendar-multiget xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/><c:calendar-data/></d:prop><d:href>' . $href . '</d:href></c:calendar-multiget>';
-        $response = $this->dav('REPORT', $this->calendar_path(), $body, '1');
+        $response = $this->dav('REPORT', $this->calendar_path(), sprintf(self::MULTIGET, $href), '1');
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $this->assertStringContainsString('SUMMARY:CalDAV Event', $response->getContent());
 
-        $query = '<?xml version="1.0"?><c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/></d:prop><c:filter><c:comp-filter name="VCALENDAR"><c:comp-filter name="VEVENT"><c:time-range start="%s" end="%s"/></c:comp-filter></c:comp-filter></c:filter></c:calendar-query>';
-        $response = $this->dav('REPORT', $this->calendar_path(), sprintf($query, '20050101T000000Z', '20050201T000000Z'), '1');
+        $query = sprintf(self::TIME_RANGE_QUERY, '20050101T000000Z', '20050201T000000Z');
+        $response = $this->dav('REPORT', $this->calendar_path(), $query, '1');
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $this->assertStringContainsString(self::$event->guid . '.ics', $response->getContent());
 
-        $response = $this->dav('REPORT', $this->calendar_path(), sprintf($query, '20060101T000000Z', '20060201T000000Z'), '1');
+        $query = sprintf(self::TIME_RANGE_QUERY, '20060101T000000Z', '20060201T000000Z');
+        $response = $this->dav('REPORT', $this->calendar_path(), $query, '1');
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $this->assertStringNotContainsString(self::$event->guid . '.ics', $response->getContent());
     }
@@ -235,10 +273,8 @@ class handlerTest extends openpsa_testcase
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $this->assertMatchesRegularExpression('/<d:sync-token>http:\/\/sabre\.io\/ns\/sync\/\d+<\/d:sync-token>/', $response->getContent());
 
-        $report = '<?xml version="1.0"?><d:sync-collection xmlns:d="DAV:"><d:sync-token>%s</d:sync-token><d:sync-level>1</d:sync-level><d:prop><d:getetag/></d:prop></d:sync-collection>';
-
         // Initial sync
-        $response = $this->dav('REPORT', $this->calendar_path(), sprintf($report, ''));
+        $response = $this->dav('REPORT', $this->calendar_path(), sprintf(self::SYNC_COLLECTION, ''));
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $content = $response->getContent();
         $this->assertStringContainsString(self::$event->guid . '.ics', $content);
@@ -246,13 +282,13 @@ class handlerTest extends openpsa_testcase
         preg_match('/<d:sync-token>(http:\/\/sabre\.io\/ns\/sync\/\d+)<\/d:sync-token>/', $content, $matches);
 
         // Nothing changed since
-        $response = $this->dav('REPORT', $this->calendar_path(), sprintf($report, $matches[1]));
+        $response = $this->dav('REPORT', $this->calendar_path(), sprintf(self::SYNC_COLLECTION, $matches[1]));
         $this->assertEquals(Response::HTTP_MULTI_STATUS, $response->getStatusCode());
         $this->assertStringNotContainsString(self::$event->guid . '.ics', $response->getContent());
         $this->assertStringContainsString($matches[1], $response->getContent());
 
         // Unknown tokens make the client start over
-        $response = $this->dav('REPORT', $this->calendar_path(), sprintf($report, 'http://sabre.io/ns/sync/1'));
+        $response = $this->dav('REPORT', $this->calendar_path(), sprintf(self::SYNC_COLLECTION, 'http://sabre.io/ns/sync/1'));
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
         $this->assertStringContainsString('valid-sync-token', $response->getContent());
     }

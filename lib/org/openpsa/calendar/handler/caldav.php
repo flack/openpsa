@@ -20,12 +20,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class org_openpsa_calendar_handler_caldav extends midcom_baseclasses_components_handler
 {
+    private string $client_url;
+
     public function _handler_dav(Request $request, string $path) : Response
     {
         midcom::get()->cache->content->no_cache();
 
         $principals = new org_openpsa_calendar_caldav_principals;
-        $backend = new org_openpsa_calendar_caldav_backend($principals, $this->_topic->get_label(), (bool) $this->_config->get('caldav_send_notify'));
+        $send_notify = (bool) $this->_config->get('caldav_send_notify');
+        $backend = new org_openpsa_calendar_caldav_backend($principals, $this->_topic->get_label(), $send_notify);
         $base_uri = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'caldav/';
         $debug = (bool) $this->_config->get('caldav_debug');
 
@@ -54,19 +57,28 @@ class org_openpsa_calendar_handler_caldav extends midcom_baseclasses_components_
             $server->addPlugin(new DAV\Browser\Plugin);
         } else {
             // Browsers GET collections, which only the browser plugin handles, so we show a hint instead of a 501
-            $client_url = $request->getSchemeAndHttpHost() . $base_uri;
-            $server->on('method:GET', function (HTTP\RequestInterface $dav_request, HTTP\ResponseInterface $dav_response) use ($client_url) {
-                $dav_response->setStatus(Response::HTTP_OK);
-                $dav_response->setHeader('Content-Type', 'text/plain; charset=utf-8');
-                $dav_response->setBody("This is a CalDAV server. To use it, add this URL in your calendar client:\n\n" . $client_url . "\n");
-                return false;
-            }, 200);
+            $this->client_url = $request->getSchemeAndHttpHost() . $base_uri;
+            $server->on('method:GET', $this->show_browser_hint(...), 200);
         }
 
         org_openpsa_calendar_caldav_sapi::$response = null;
         $server->start();
 
         return $this->convert_response(org_openpsa_calendar_caldav_sapi::$response ?? $server->httpResponse);
+    }
+
+    /**
+     * Answers GET requests with the URL to use in calendar clients
+     *
+     * @return bool false, so that no other handler runs
+     */
+    private function show_browser_hint(HTTP\RequestInterface $dav_request, HTTP\ResponseInterface $dav_response) : bool
+    {
+        $dav_response->setStatus(Response::HTTP_OK);
+        $dav_response->setHeader('Content-Type', 'text/plain; charset=utf-8');
+        $message = "This is a CalDAV server. To use it, add this URL in your calendar client:\n\n";
+        $dav_response->setBody($message . $this->client_url . "\n");
+        return false;
     }
 
     private function convert_request(Request $request, string $base_uri, string $path) : HTTP\Request
@@ -86,7 +98,8 @@ class org_openpsa_calendar_handler_caldav extends midcom_baseclasses_components_
 
     private function convert_response(HTTP\ResponseInterface $dav_response) : Response
     {
-        $response = new Response($dav_response->getBodyAsString(), $dav_response->getStatus() ?: Response::HTTP_INTERNAL_SERVER_ERROR);
+        $status = $dav_response->getStatus() ?: Response::HTTP_INTERNAL_SERVER_ERROR;
+        $response = new Response($dav_response->getBodyAsString(), $status);
         foreach ($dav_response->getHeaders() as $name => $values) {
             $response->headers->set($name, $values);
         }

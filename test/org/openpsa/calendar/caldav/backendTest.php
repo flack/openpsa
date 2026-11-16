@@ -81,12 +81,47 @@ class backendTest extends openpsa_testcase
         return new org_openpsa_calendar_caldav_backend(new org_openpsa_calendar_caldav_principals, 'Test Calendar', $send_notify);
     }
 
-    private function ics(string $uid, string $properties, string $extra_components = '') : string
+    /**
+     * @param string[] $properties Content lines of the VEVENT (UID and DTSTAMP are added)
+     * @param string[] $extra_components Content lines added after the VEVENT
+     */
+    private function ics(string $uid, array $properties, array $extra_components = []) : string
     {
-        return "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Client//EN\r\n"
-            . "BEGIN:VEVENT\r\nUID:{$uid}\r\nDTSTAMP:20050101T000000Z\r\n{$properties}END:VEVENT\r\n"
-            . $extra_components
-            . "END:VCALENDAR\r\n";
+        $lines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Test//Client//EN',
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            ...$properties,
+            'END:VEVENT',
+            ...$extra_components,
+            'END:VCALENDAR',
+        ];
+        return implode("\r\n", $lines) . "\r\n";
+    }
+
+    /**
+     * Creates an event via CalDAV under the URI <uid>.ics
+     *
+     * @param string[] $properties
+     * @param string[] $extra_components
+     */
+    private function create_via_caldav(
+        org_openpsa_calendar_caldav_backend $backend,
+        midcom_db_person $user,
+        string $uid,
+        array $properties,
+        array $extra_components = []
+    ) : ?string {
+        $data = $this->ics($uid, $properties, $extra_components);
+        return $backend->createCalendarObject($user->id, $uid . '.ics', $data);
+    }
+
+    private function uri(org_openpsa_calendar_event_dba $event) : string
+    {
+        return $event->guid . '.ics';
     }
 
     private function find_created_event(string $external_guid) : org_openpsa_calendar_event_dba
@@ -108,26 +143,27 @@ class backendTest extends openpsa_testcase
         $this->sudo($user->update(...));
 
         $principals = new org_openpsa_calendar_caldav_principals;
-        $principal = $principals->getPrincipalByPath($this->get_principal($user));
-        $this->assertEquals($this->get_principal($user), $principal['uri']);
-        $this->assertEquals($user->email, $principal['{http://sabredav.org/ns}email-address']);
-        $this->assertStringContainsString('Caldav', $principal['{DAV:}displayname']);
+        $principal = $this->get_principal($user);
+        $data = $principals->getPrincipalByPath($principal);
+        $this->assertEquals($principal, $data['uri']);
+        $this->assertEquals($user->email, $data['{http://sabredav.org/ns}email-address']);
+        $this->assertStringContainsString('Caldav', $data['{DAV:}displayname']);
 
         $this->assertNull($principals->getPrincipalByPath('principals/nonexistent-' . uniqid()));
         $this->assertNull($principals->getPrincipalByPath('other/' . $user->lastname));
 
         $result = $principals->searchPrincipals('principals', ['{http://sabredav.org/ns}email-address' => $user->email]);
-        $this->assertEquals([$this->get_principal($user)], $result);
+        $this->assertEquals([$principal], $result);
         $result = $principals->searchPrincipals('principals', ['{DAV:}displayname' => $user->lastname]);
-        $this->assertEquals([$this->get_principal($user)], $result);
+        $this->assertEquals([$principal], $result);
         $result = $principals->searchPrincipals('principals', ['{DAV:}displayname' => $user->lastname, '{DAV:}unknown' => 'x']);
         $this->assertEquals([], $result);
         $result = $principals->searchPrincipals('principals', ['{DAV:}displayname' => $user->lastname, '{DAV:}unknown' => 'x'], 'anyof');
-        $this->assertEquals([$this->get_principal($user)], $result);
+        $this->assertEquals([$principal], $result);
 
-        $this->assertEquals($this->get_principal($user), $principals->findByUri('mailto:' . $user->email, 'principals'));
+        $this->assertEquals($principal, $principals->findByUri('mailto:' . $user->email, 'principals'));
 
-        $this->assertContains($this->get_principal($user), array_column($principals->getPrincipalsByPrefix('principals'), 'uri'));
+        $this->assertContains($principal, array_column($principals->getPrincipalsByPrefix('principals'), 'uri'));
     }
 
     public function test_calendar()
@@ -139,8 +175,9 @@ class backendTest extends openpsa_testcase
         $other_event = $this->create_event($other_user, gmmktime(12, 0, 0, 1, 10, 2005));
 
         $backend = new org_openpsa_calendar_caldav_backend(new org_openpsa_calendar_caldav_principals, 'Test Calendar');
+        $principal = $this->get_principal($user);
 
-        $calendars = $backend->getCalendarsForUser($this->get_principal($user));
+        $calendars = $backend->getCalendarsForUser($principal);
         $this->assertCount(1, $calendars);
         $this->assertEquals($user->id, $calendars[0]['id']);
         $this->assertEquals('default', $calendars[0]['uri']);
@@ -150,30 +187,30 @@ class backendTest extends openpsa_testcase
         $this->assertEquals([], $backend->getCalendarsForUser('principals/nonexistent-' . uniqid()));
 
         $objects = $backend->getCalendarObjects($user->id);
-        $this->assertEquals([$event1->guid . '.ics', $event2->guid . '.ics'], array_column($objects, 'uri'));
+        $this->assertEquals([$this->uri($event1), $this->uri($event2)], array_column($objects, 'uri'));
 
-        $object = $backend->getCalendarObject($user->id, $event1->guid . '.ics');
+        $object = $backend->getCalendarObject($user->id, $this->uri($event1));
         $this->assertStringContainsString('UID:' . $event1->guid . '-midgardGuid', $object['calendardata']);
         $this->assertStringNotContainsString('METHOD:', $object['calendardata']);
         $this->assertEquals('"' . md5($object['calendardata']) . '"', $object['etag']);
-        $this->assertNull($backend->getCalendarObject($user->id, $other_event->guid . '.ics'));
+        $this->assertNull($backend->getCalendarObject($user->id, $this->uri($other_event)));
         $this->assertNull($backend->getCalendarObject($user->id, 'invalid.ics'));
 
-        $multiple = $backend->getMultipleCalendarObjects($user->id, [$event2->guid . '.ics', $other_event->guid . '.ics']);
-        $this->assertEquals([$event2->guid . '.ics'], array_column($multiple, 'uri'));
+        $multiple = $backend->getMultipleCalendarObjects($user->id, [$this->uri($event2), $this->uri($other_event)]);
+        $this->assertEquals([$this->uri($event2)], array_column($multiple, 'uri'));
 
-        $this->assertEquals('default/' . $event1->guid . '.ics', $backend->getCalendarObjectByUID($this->get_principal($user), $event1->guid . '-midgardGuid'));
-        $this->assertEquals('default/' . $event2->guid . '.ics', $backend->getCalendarObjectByUID($this->get_principal($user), $event2->externalGuid));
-        $this->assertNull($backend->getCalendarObjectByUID($this->get_principal($user), $other_event->guid . '-midgardGuid'));
+        $this->assertEquals('default/' . $this->uri($event1), $backend->getCalendarObjectByUID($principal, $event1->guid . '-midgardGuid'));
+        $this->assertEquals('default/' . $this->uri($event2), $backend->getCalendarObjectByUID($principal, $event2->externalGuid));
+        $this->assertNull($backend->getCalendarObjectByUID($principal, $other_event->guid . '-midgardGuid'));
 
         // ctag changes when a participant is added
         $this->backdate($user);
-        $ctag = $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://calendarserver.org/ns/}getctag'];
+        $ctag = $backend->getCalendarsForUser($principal)[0]['{http://calendarserver.org/ns/}getctag'];
         $this->create_object(org_openpsa_calendar_event_member_dba::class, [
             'uid' => $other_user->id,
             'eid' => $event1->id
         ]);
-        $calendars = $backend->getCalendarsForUser($this->get_principal($user));
+        $calendars = $backend->getCalendarsForUser($principal);
         $this->assertNotEquals($ctag, $calendars[0]['{http://calendarserver.org/ns/}getctag']);
     }
 
@@ -201,11 +238,11 @@ class backendTest extends openpsa_testcase
             'is-not-defined' => false,
             'time-range' => false,
         ];
-        $this->assertEquals([$event1->guid . '.ics'], $backend->calendarQuery($user->id, $filters));
+        $this->assertEquals([$this->uri($event1)], $backend->calendarQuery($user->id, $filters));
 
         // Overlapping the end of the event
         $filters['comp-filters'][0]['time-range'] = ['start' => new DateTime('2005-01-10 10:30:00Z'), 'end' => null];
-        $this->assertEquals([$event1->guid . '.ics', $event2->guid . '.ics'], $backend->calendarQuery($user->id, $filters));
+        $this->assertEquals([$this->uri($event1), $this->uri($event2)], $backend->calendarQuery($user->id, $filters));
 
         // Falls back to the validator for property filters
         $filters['comp-filters'][0]['time-range'] = false;
@@ -216,7 +253,7 @@ class backendTest extends openpsa_testcase
             'text-match' => ['negate-condition' => false, 'collation' => 'i;ascii-casemap', 'value' => 'Findme'],
             'time-range' => false,
         ]];
-        $this->assertEquals([$event2->guid . '.ics'], $backend->calendarQuery($user->id, $filters));
+        $this->assertEquals([$this->uri($event2)], $backend->calendarQuery($user->id, $filters));
 
         // VTODO yields nothing
         $filters['comp-filters'][0] = ['name' => 'VTODO', 'comp-filters' => [], 'prop-filters' => [], 'is-not-defined' => false, 'time-range' => false];
@@ -230,13 +267,20 @@ class backendTest extends openpsa_testcase
         $uid = 'caldav-create-' . uniqid();
         $backend = $this->get_backend();
 
-        $properties = "SUMMARY:Created\r\nLOCATION:Room 1\r\n"
-            . "DTSTART;TZID=Europe/Berlin:20050110T100000\r\nDTEND;TZID=Europe/Berlin:20050110T110000\r\n"
-            . "ATTENDEE;PARTSTAT=TENTATIVE:mailto:" . strtoupper($other_user->email) . "\r\n"
-            . "ATTENDEE;CN=External:mailto:external@example.com\r\n"
-            . "X-CLIENT-PROP:keep me\r\n"
-            . "BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:Reminder\r\nTRIGGER:-PT15M\r\nEND:VALARM\r\n";
-        $this->assertNull($backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $properties)));
+        $this->assertNull($this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Created',
+            'LOCATION:Room 1',
+            'DTSTART;TZID=Europe/Berlin:20050110T100000',
+            'DTEND;TZID=Europe/Berlin:20050110T110000',
+            'ATTENDEE;PARTSTAT=TENTATIVE:mailto:' . strtoupper($other_user->email),
+            'ATTENDEE;CN=External:mailto:external@example.com',
+            'X-CLIENT-PROP:keep me',
+            'BEGIN:VALARM',
+            'ACTION:DISPLAY',
+            'DESCRIPTION:Reminder',
+            'TRIGGER:-PT15M',
+            'END:VALARM',
+        ]));
 
         $event = $this->find_created_event($uid);
         $this->assertEquals('Created', $event->title);
@@ -274,7 +318,7 @@ class backendTest extends openpsa_testcase
         // The event shows up in the other participant's calendar under the same URI
         $this->assertNotNull($backend->getCalendarObject($other_user->id, $uid . '.ics'));
         $this->assertEquals('default/' . $uid . '.ics', $backend->getCalendarObjectByUID($this->get_principal($user), $uid));
-        $this->assertNull($backend->getCalendarObject($user->id, $event->guid . '.ics'));
+        $this->assertNull($backend->getCalendarObject($user->id, $this->uri($event)));
     }
 
     public function test_update()
@@ -283,14 +327,19 @@ class backendTest extends openpsa_testcase
         $other_user = $this->create_person_with_email();
         $uid = 'caldav-update-' . uniqid();
         $backend = $this->get_backend();
-        $times = "DTSTART;TZID=Europe/Berlin:20050210T100000\r\nDTEND;TZID=Europe/Berlin:20050210T110000\r\n";
+        $times = ['DTSTART;TZID=Europe/Berlin:20050210T100000', 'DTEND;TZID=Europe/Berlin:20050210T110000'];
 
-        $backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Before\r\n{$times}ATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Before',
+            ...$times,
+            "ATTENDEE:mailto:{$other_user->email}",
+        ]);
         $event = $this->find_created_event($uid);
         $this->assertCount(2, $event->participants);
 
         // Removing the attendee removes the participant
-        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:After\r\nTRANSP:TRANSPARENT\r\n{$times}"));
+        $data = $this->ics($uid, ['SUMMARY:After', 'TRANSP:TRANSPARENT', ...$times]);
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $data);
         $event = new org_openpsa_calendar_event_dba($event->id);
         $this->assertEquals('After', $event->title);
         $this->assertFalse($event->busy);
@@ -315,12 +364,17 @@ class backendTest extends openpsa_testcase
         $user = $this->create_person_with_email(true);
         $uid = 'caldav-allday-' . uniqid();
         $backend = $this->get_backend();
-        $backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:All day\r\nDTSTART;VALUE=DATE:20050310\r\nDTEND;VALUE=DATE:20050311\r\n"));
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:All day',
+            'DTSTART;VALUE=DATE:20050310',
+            'DTEND;VALUE=DATE:20050311',
+        ]);
         $event = $this->find_created_event($uid);
         $this->assertEquals(mktime(0, 0, 1, 3, 10, 2005), $event->start);
         $this->assertEquals(mktime(23, 59, 0, 3, 10, 2005), $event->end);
 
-        $this->assertStringContainsString('DTSTART;VALUE=DATE:20050310', $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata']);
+        $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
+        $this->assertStringContainsString('DTSTART;VALUE=DATE:20050310', $data);
 
         // Extended by a day in OpenPSA
         $event->end += 86400;
@@ -335,9 +389,21 @@ class backendTest extends openpsa_testcase
         $user = $this->create_person_with_email(true);
         $uid = 'caldav-rrule-' . uniqid();
         $backend = $this->get_backend();
-        $exception = "BEGIN:VEVENT\r\nUID:{$uid}\r\nDTSTAMP:20050101T000000Z\r\nRECURRENCE-ID:20050414T100000Z\r\n"
-            . "SUMMARY:Moved\r\nDTSTART:20050414T140000Z\r\nDTEND:20050414T150000Z\r\nEND:VEVENT\r\n";
-        $backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Weekly\r\nDTSTART:20050407T100000Z\r\nDTEND:20050407T110000Z\r\nRRULE:FREQ=WEEKLY;COUNT=10\r\n", $exception));
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Weekly',
+            'DTSTART:20050407T100000Z',
+            'DTEND:20050407T110000Z',
+            'RRULE:FREQ=WEEKLY;COUNT=10',
+        ], [
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            'RECURRENCE-ID:20050414T100000Z',
+            'SUMMARY:Moved',
+            'DTSTART:20050414T140000Z',
+            'DTEND:20050414T150000Z',
+            'END:VEVENT',
+        ]);
 
         // The first occurrence is stored
         $event = $this->find_created_event($uid);
@@ -375,7 +441,11 @@ class backendTest extends openpsa_testcase
         $uid = 'caldav-conflict-' . uniqid();
 
         $this->expectException(Conflict::class);
-        $this->get_backend()->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Overlap\r\nDTSTART:20050610T103000Z\r\nDTEND:20050610T113000Z\r\n"));
+        $this->create_via_caldav($this->get_backend(), $user, $uid, [
+            'SUMMARY:Overlap',
+            'DTSTART:20050610T103000Z',
+            'DTEND:20050610T113000Z',
+        ]);
     }
 
     public function test_notifications()
@@ -384,15 +454,25 @@ class backendTest extends openpsa_testcase
         $other_user = $this->create_person_with_email();
         org_openpsa_mail_backend_unittest::flush();
 
+        $attendee = "ATTENDEE:mailto:{$other_user->email}";
+
         $uid = 'caldav-quiet-' . uniqid();
-        $this->get_backend(false)
-            ->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Quiet\r\nDTSTART:20050710T100000Z\r\nDTEND:20050710T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->create_via_caldav($this->get_backend(false), $user, $uid, [
+            'SUMMARY:Quiet',
+            'DTSTART:20050710T100000Z',
+            'DTEND:20050710T110000Z',
+            $attendee,
+        ]);
         $this->find_created_event($uid);
         $this->assertCount(0, org_openpsa_mail_backend_unittest::$mails);
 
         $uid = 'caldav-loud-' . uniqid();
-        $this->get_backend(true)
-            ->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Loud\r\nDTSTART:20050711T100000Z\r\nDTEND:20050711T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->create_via_caldav($this->get_backend(true), $user, $uid, [
+            'SUMMARY:Loud',
+            'DTSTART:20050711T100000Z',
+            'DTEND:20050711T110000Z',
+            $attendee,
+        ]);
         $this->find_created_event($uid);
         $this->assertCount(1, org_openpsa_mail_backend_unittest::$mails);
     }
@@ -405,7 +485,12 @@ class backendTest extends openpsa_testcase
 
         // Created by someone else: only the user's membership is removed
         $uid = 'caldav-delete-' . uniqid();
-        $backend->createCalendarObject($other_user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Shared\r\nDTSTART:20050810T100000Z\r\nDTEND:20050810T110000Z\r\nATTENDEE:mailto:{$user->email}\r\n"));
+        $this->create_via_caldav($backend, $other_user, $uid, [
+            'SUMMARY:Shared',
+            'DTSTART:20050810T100000Z',
+            'DTEND:20050810T110000Z',
+            "ATTENDEE:mailto:{$user->email}",
+        ]);
         $shared = $this->find_created_event($uid);
 
         midcom::get()->auth->logout();
@@ -417,7 +502,11 @@ class backendTest extends openpsa_testcase
 
         // Only participant: the event is deleted
         $uid = 'caldav-delete-own-' . uniqid();
-        $backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Own\r\nDTSTART:20050811T100000Z\r\nDTEND:20050811T110000Z\r\n"));
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Own',
+            'DTSTART:20050811T100000Z',
+            'DTEND:20050811T110000Z',
+        ]);
         $own = $this->find_created_event($uid);
         $backend->deleteCalendarObject($user->id, $uid . '.ics');
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
@@ -426,7 +515,12 @@ class backendTest extends openpsa_testcase
 
         // Creator with other participants: the event is deleted
         $uid = 'caldav-delete-creator-' . uniqid();
-        $backend->createCalendarObject($user->id, $uid . '.ics', $this->ics($uid, "SUMMARY:Mine\r\nDTSTART:20050812T100000Z\r\nDTEND:20050812T110000Z\r\nATTENDEE:mailto:{$other_user->email}\r\n"));
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Mine',
+            'DTSTART:20050812T100000Z',
+            'DTEND:20050812T110000Z',
+            "ATTENDEE:mailto:{$other_user->email}",
+        ]);
         $mine = $this->find_created_event($uid);
         $backend->deleteCalendarObject($user->id, $uid . '.ics');
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
@@ -440,7 +534,8 @@ class backendTest extends openpsa_testcase
         $user = $this->create_user(true);
         $other_user = $this->create_user();
         $backend = $this->get_backend();
-        $uri = fn (org_openpsa_calendar_event_dba $event) => $event->guid . '.ics';
+        $principal = $this->get_principal($user);
+        $uri = $this->uri(...);
 
         $unchanged  = $this->create_event($user,       gmmktime(10, 0, 0, 9, 1, 2005));
         $updated    = $this->create_event($user,       gmmktime(10, 0, 0, 9, 2, 2005));
@@ -457,8 +552,9 @@ class backendTest extends openpsa_testcase
 
         // Tokens are never the current second, so move the setup out of it
         $this->backdate($user);
-        $token = $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://sabredav.org/ns}sync-token'];
-        $this->assertEquals($token, $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://calendarserver.org/ns/}getctag']);
+        $calendar = $backend->getCalendarsForUser($principal)[0];
+        $token = $calendar['{http://sabredav.org/ns}sync-token'];
+        $this->assertEquals($token, $calendar['{http://calendarserver.org/ns/}getctag']);
         $this->assertEquals(['syncToken' => $token, 'added' => [], 'modified' => [], 'deleted' => []], $backend->getChangesForCalendar($user->id, $token, 1));
 
         // Invalid, future and expired tokens

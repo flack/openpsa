@@ -116,13 +116,21 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         $result = [];
         foreach ($qb->execute() as $event) {
             $object = $this->get_object_data($event);
-            if (   ($needs_validation || ($time_range && preg_match('/^(RRULE|RDATE)[:;]/m', (string) $event->vCalSerialized)))
+            if (   ($needs_validation || ($time_range && $this->is_recurring($event)))
                 && !$this->validateFilterForObject($object, $filters)) {
                 continue;
             }
             $result[] = $object['uri'];
         }
         return $result;
+    }
+
+    /**
+     * Whether the client's copy of the event has recurrences (OpenPSA itself only stores the first occurrence)
+     */
+    private function is_recurring(org_openpsa_calendar_event_dba $event) : bool
+    {
+        return (bool) preg_match('/^(RRULE|RDATE)[:;]/m', (string) $event->vCalSerialized);
     }
 
     public function getCalendarObjectByUID($principalUri, $uid)
