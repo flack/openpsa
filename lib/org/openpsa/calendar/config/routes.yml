@@ -18,6 +18,11 @@ ical_user_busy:
     path: /ical/busy/{username}/
     defaults: { _controller: 'org_openpsa_calendar_handler_ical::user_busy' }
 
+caldav:
+    path: /caldav/{path}
+    defaults: { _controller: 'org_openpsa_calendar_handler_caldav::dav', path: '' }
+    requirements: { path: '.*' }
+
 new_event:
     path: /event/new/
     defaults: { _controller: 'org_openpsa_calendar_handler_event_create::create' }

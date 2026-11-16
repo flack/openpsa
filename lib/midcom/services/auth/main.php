@@ -436,14 +436,23 @@ class midcom_services_auth
      */
     private function _http_basic_auth()
     {
-        if (isset($_SERVER['PHP_AUTH_USER'])) {
-            if ($user = $this->backend->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-                $this->set_user($user);
-            } else {
-                // Wrong password
-                unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-            }
+        if (   isset($_SERVER['PHP_AUTH_USER'])
+            && !$this->authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ?? '')) {
+            // Wrong password
+            unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
         }
+    }
+
+    /**
+     * Authenticates the given credentials for the current request only (no session is started)
+     */
+    public function authenticate(string $username, string $password) : bool
+    {
+        if ($user = $this->backend->authenticate($username, $password)) {
+            $this->set_user($user);
+            return true;
+        }
+        return false;
     }
 
     /**

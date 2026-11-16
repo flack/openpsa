@@ -14,3 +14,5 @@
 'start_view' => 'dayGridWeek', // which view to start in
 'wiki_title_skeleton' => 'meeting note for %s on %s by %s', //format of wiki page title created from event
 'event_label'       => 'title',
+
+'caldav_debug' => false, // enables sabre's browser plugin and exception details on the CalDAV endpoint

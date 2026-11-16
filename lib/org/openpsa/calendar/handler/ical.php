@@ -71,14 +71,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         foreach ($vcalendar->select('VEVENT') as $vevent) {
             $event = $this->find_event((string) $vevent->UID);
 
-            $event->title = (string) $vevent->SUMMARY;
-            $event->description = (string) $vevent->DESCRIPTION;
-            $event->location = (string) $vevent->LOCATION;
-            $event->busy = (string) $vevent->TRANSP == 'OPAQUE';
-            $start = new DateTime((string) $vevent->DTSTART);
-            $event->start = (int) $start->format('U');
-            $end = new DateTime((string) $vevent->DTEND);
-            $event->end = (int) $end->format('U');
+            org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
 
             if ($event->id) {
                 $event->update();
