@@ -1,0 +1,57 @@
+CalDAV access
+====
+
+The calendar can be used from CalDAV clients like Thunderbird, Apple Calendar or DAVx⁵ (Android). Every user gets one calendar containing all events they participate in. Events can be created, changed and deleted from the client.
+
+##Client setup##
+
+Enter this URL in your calendar client, together with your OpenPSA username and password:
+
+    https://<host>/<calendar-folder>/caldav/
+
+The client finds the user's calendar on its own. Some clients can also discover the URL from the host name alone, see "Auto-discovery" below.
+
+##How events are handled##
+
+* __Participants__ - events the user participates in show up in their calendar. Attendees added in the client are matched to OpenPSA persons by email address; other addresses are kept, but don't become participants.
+* __Deleting__ - if the user created the event or is its only participant, the event is deleted. Otherwise, only the user is removed from the participants.
+* __Conflicts__ - events that conflict with busy participants or resources are refused, the same as in the web interface.
+* __Recurring events__ - the client keeps the full series, but OpenPSA only shows (and checks conflicts for) the first occurrence.
+* __Client data__ - alarms, categories and other properties OpenPSA doesn't use are kept and sent back to the client.
+* __Notifications__ - changes made through CalDAV send the usual notifications, unless disabled in the configuration.
+
+Not supported: scheduling, i.e. invitations and replies sent by the server (iTIP), and looking up other users' free/busy times from the client. Other users' busy times are available as iCal feed at `<calendar-folder>/ical/busy/<username>/`.
+
+##Configuration##
+
+* __caldav_send_notify__ - send notifications for changes made through CalDAV (default: on)
+* __caldav_debug__ - show sabre/dav's browser interface and exception details on the CalDAV URL. Only for development.
+
+##Deployment requirements##
+
+* __HTTPS__ - clients send the password with every request. Apple Calendar refuses to do this over plain HTTP.
+* __Server timezone__ - PHP's `date.timezone` must be the timezone of the users. The web interface shows and accepts times in PHP's default timezone, while CalDAV converts to real UTC, so with PHP set to UTC, events appear one hour (two in summer) apart in the web interface and in clients. Set `date.timezone` in php.ini, or call `date_default_timezone_set()` in `config.inc.php`. Events entered in the web interface while PHP was set to UTC are stored shifted.
+* __Authorization header__ - with PHP-FPM or CGI behind Apache, the header must be passed through, otherwise every request is answered with 401. Use `CGIPassAuth On`, or
+
+        RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+* __Folder access__ - anonymous requests must be able to reach the calendar folder, so that CalDAV can ask for the password itself.
+* __Permissions__ - to create events, users need the `midgard:create` privilege on the calendar's root event (the event titled `__org_openpsa_calendar`). It can be granted to all users in Asgard.
+
+##Auto-discovery##
+
+Apple Calendar, DAVx⁵ and Thunderbird can find the CalDAV URL from the host name alone (RFC 6764). For this, the web server needs to redirect `/.well-known/caldav` to the CalDAV URL. This is optional: without it, users enter the full URL.
+
+The redirect must be at the root of the host, even if OpenPSA is installed in a subdirectory (the target then includes the subdirectory). Only redirect `caldav` itself, so that other `/.well-known/` paths (like `acme-challenge` for Let's Encrypt) keep working.
+
+Apache:
+
+    Redirect 301 /.well-known/caldav /calendar/caldav/
+
+nginx:
+
+    location = /.well-known/caldav {
+        return 301 /calendar/caldav/;
+    }
+
+DAVx⁵ can also use DNS records instead: an SRV record for `_caldavs._tcp.<domain>` pointing to the host, and a TXT record with `path=/calendar/caldav/`.
