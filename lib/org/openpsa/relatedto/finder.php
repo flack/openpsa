@@ -18,7 +18,7 @@ abstract class org_openpsa_relatedto_finder
     protected function count_links(string $guid, $classes, string $direction) : int
     {
         // Do no seek if we already have confirmed links
-        $mc = new org_openpsa_relatedto_collector($this->event->guid, $classes, $direction);
+        $mc = new org_openpsa_relatedto_collector($guid, $classes, $direction);
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
         return count($mc->get_related_guids());
     }
