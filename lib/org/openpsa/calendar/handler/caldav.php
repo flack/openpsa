@@ -25,7 +25,7 @@ class org_openpsa_calendar_handler_caldav extends midcom_baseclasses_components_
         midcom::get()->cache->content->no_cache();
 
         $principals = new org_openpsa_calendar_caldav_principals;
-        $backend = new org_openpsa_calendar_caldav_backend($principals, $this->_topic->get_label());
+        $backend = new org_openpsa_calendar_caldav_backend($principals, $this->_topic->get_label(), (bool) $this->_config->get('caldav_send_notify'));
         $base_uri = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'caldav/';
         $debug = (bool) $this->_config->get('caldav_debug');
 

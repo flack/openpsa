@@ -23,6 +23,7 @@
  * @property boolean $tentative
  * @property string $externalGuid
  * @property string $vCalSerialized
+ * @property string $caldavUri
  * @property integer $orgOpenpsaAccesstype
  * @package org.openpsa.calendar
  */

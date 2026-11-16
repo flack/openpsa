@@ -16,3 +16,4 @@
 'event_label'       => 'title',
 
 'caldav_debug' => false, // enables sabre's browser plugin and exception details on the CalDAV endpoint
+'caldav_send_notify' => true, // send the usual notifications for changes made through CalDAV

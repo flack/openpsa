@@ -18,6 +18,8 @@
         <property name="externalGuid" type="string" />
         <!-- At least until we can store arrays with DBA -->
         <property name="vCalSerialized"  type="text" />
+        <!-- Object URI chosen by the CalDAV client that created the event -->
+        <property name="caldavUri" type="string" index="yes" />
 
         <property name="orgOpenpsaAccesstype" type="integer"/>
     </type>

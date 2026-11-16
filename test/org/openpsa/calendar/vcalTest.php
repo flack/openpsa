@@ -88,6 +88,7 @@ class vcalTest extends openpsa_testcase
         $content = (string) $encoder;
         $this->assertStringContainsString('METHOD:PUBLISH', $content);
         $this->assertStringContainsString('UID:' . $event->guid . '-midgardGuid', $content);
+        $this->assertStringContainsString('DTSTART:20050110T080000Z', $content);
         $this->assertStringContainsString('DTEND:20050110T090000Z', $content);
         $this->assertStringEndsWith('_is_not@openpsa2.org', (string) Reader::read($content)->VEVENT->ATTENDEE);
 
