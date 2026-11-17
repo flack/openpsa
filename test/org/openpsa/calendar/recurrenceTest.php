@@ -188,6 +188,28 @@ class recurrenceTest extends openpsa_testcase
         ], $recurrence->expand($master, $master->start, $master->start + 365 * 86400));
     }
 
+    public function test_describe()
+    {
+        $recurrence = new org_openpsa_calendar_recurrence;
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
+        $start = $this->timestamp('2026-10-19 10:00');
+        $describe = fn(string $rule) => $recurrence->describe($this->prepare_master($start, $rule), $l10n);
+
+        $this->assertSame('Every day', $describe('RRULE:FREQ=DAILY'));
+        $this->assertSame('Every week, 3 times', $describe("RRULE:FREQ=WEEKLY;COUNT=3\nEXDATE;TZID=Europe/Berlin:20261026T100000"));
+        // UNTIL is shown as the series' local date
+        $until = $l10n->get_formatter()->date(new DateTimeImmutable('2026-12-31 12:00'));
+        $this->assertSame(
+            'Every 2 weeks, on Monday, Wednesday, until ' . $until,
+            $describe('RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE;UNTIL=20261231T225959Z')
+        );
+        $this->assertSame('Every 3 months', $describe('RRULE:FREQ=MONTHLY;INTERVAL=3'));
+
+        $this->assertSame('Custom recurrence', $describe('RRULE:FREQ=MONTHLY;BYDAY=1MO'));
+        $this->assertSame('Custom recurrence', $describe('RRULE:FREQ=WEEKLY;BYDAY=1MO'));
+        $this->assertSame('Custom recurrence', $describe("RRULE:FREQ=DAILY\nRDATE;TZID=Europe/Berlin:20261101T100000"));
+    }
+
     public function test_invalid_rule()
     {
         $event = $this->prepare_master(time(), 'RRULE:FREQ=SOMETIMES');

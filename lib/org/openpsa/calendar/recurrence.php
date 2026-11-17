@@ -8,7 +8,9 @@
 
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property\ICalendar\DateTime as DateTimeProperty;
+use Sabre\VObject\Property\ICalendar\Recur;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
@@ -176,6 +178,76 @@ class org_openpsa_calendar_recurrence
     }
 
     /**
+     * Readable summary of the rule, e.g. "Every 2 weeks, on Monday, until Dec 31, 2026"
+     *
+     * Rules with more than frequency, interval, weekdays (for weekly rules), COUNT and UNTIL,
+     * or with RDATEs, are only described as custom
+     */
+    public function describe(org_openpsa_calendar_event_dba $master, midcom_services_i18n_l10n $l10n) : string
+    {
+        $rrules = [];
+        foreach (self::get_lines($master->recurrence) as $line) {
+            if (!preg_match('/^RRULE:(.+)$/i', $line, $match)) {
+                // RDATEs can't be summarized, EXDATEs aren't worth mentioning
+                if (stripos($line, 'RDATE') === 0) {
+                    return $l10n->get('custom recurrence');
+                }
+                continue;
+            }
+            $rrules[] = Recur::stringToArray($match[1]);
+        }
+        if (count($rrules) !== 1) {
+            return $l10n->get('custom recurrence');
+        }
+        $rule = $rrules[0];
+        $frequencies = ['DAILY' => 'day', 'WEEKLY' => 'week', 'MONTHLY' => 'month', 'YEARLY' => 'year'];
+        $frequency = $frequencies[$rule['FREQ'] ?? ''] ?? null;
+        $supported = ['FREQ', 'INTERVAL', 'COUNT', 'UNTIL', 'WKST'];
+        if ($frequency === 'week') {
+            $supported[] = 'BYDAY';
+        }
+        if (!$frequency || array_diff(array_keys($rule), $supported)) {
+            return $l10n->get('custom recurrence');
+        }
+
+        $interval = max(1, (int) ($rule['INTERVAL'] ?? 1));
+        $parts = [$interval === 1 ? $l10n->get('every ' . $frequency) : sprintf($l10n->get('every %d ' . $frequency . 's'), $interval)];
+        if (isset($rule['BYDAY'])) {
+            if (!$days = $this->get_weekdays((array) $rule['BYDAY'], $l10n)) {
+                return $l10n->get('custom recurrence');
+            }
+            $parts[] = sprintf($l10n->get('on %s'), implode(', ', $days));
+        }
+        if (isset($rule['COUNT'])) {
+            $parts[] = sprintf($l10n->get('%d times'), (int) $rule['COUNT']);
+        } elseif (isset($rule['UNTIL'])) {
+            $tz = self::get_timezone($master);
+            $until = DateTimeParser::parse($rule['UNTIL'], $tz)->setTimezone($tz);
+            // The formatter uses the server's timezone, so pass the series' local date in that
+            $date = new DateTimeImmutable($until->format('Y-m-d') . ' 12:00');
+            $parts[] = sprintf($l10n->get('until %s'), $l10n->get_formatter()->date($date));
+        }
+        return implode(', ', $parts);
+    }
+
+    /**
+     * @return string[] Localized weekday names, empty if the list contains more than plain weekdays (e.g. "1MO")
+     */
+    private function get_weekdays(array $codes, midcom_services_i18n_l10n $l10n) : array
+    {
+        $offsets = ['MO' => 0, 'TU' => 1, 'WE' => 2, 'TH' => 3, 'FR' => 4, 'SA' => 5, 'SU' => 6];
+        $days = [];
+        foreach ($codes as $code) {
+            if (!isset($offsets[$code])) {
+                return [];
+            }
+            // 2024-01-01 was a Monday
+            $days[] = $l10n->get_formatter()->customdate(new DateTimeImmutable('2024-01-01 12:00 +' . $offsets[$code] . ' days'), 'EEEE');
+        }
+        return $days;
+    }
+
+    /**
      * Lists the occurrences between $from and $to
      *
      * Includes occurrences that are still running at $from and those that start exactly at $to
@@ -301,6 +373,35 @@ class org_openpsa_calendar_recurrence
             $this->sync($master);
         }
         return $stat;
+    }
+
+    /**
+     * Generates the occurrences of all series up to $until
+     *
+     * @return org_openpsa_calendar_event_dba[] The masters that could not be extended
+     */
+    public function extend_all(int $until) : array
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('up', '=', org_openpsa_calendar_interface::find_root_event()->id);
+        $qb->add_constraint('recurrence', '<>', '');
+        $qb->add_constraint('start', '<', $until);
+        $qb->add_constraint('materializedUntil', '<', $until);
+        // Only series that continue beyond what has been generated so far
+        $qb->begin_group('OR');
+            $qb->add_constraint('recurrenceUntil', '=', 0);
+            $qb->add_constraint_with_property('recurrenceUntil', '>', 'materializedUntil');
+        $qb->end_group();
+
+        $failed = [];
+        foreach ($qb->execute() as $master) {
+            if (!$this->extend($master, $until)) {
+                $failed[] = $master;
+            }
+        }
+        midcom::get()->auth->drop_sudo();
+        return $failed;
     }
 
     /**

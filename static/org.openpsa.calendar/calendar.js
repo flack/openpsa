@@ -130,15 +130,24 @@ const openpsa_calendar_widget = {
                 return info.isPast ? 'day-past' : '';
             },
             eventContent: function (info) {
-                if (info.event.extendedProps.participants && info.event.extendedProps.participants.length) {
-                    var html = '';
-                    if (info.timeText) {
-                        html += '<div class="' + info.timeClass + '">' + info.timeText + '</div>';
-                    }
-                    html += '<div class="' + info.titleClass + '">' + info.event.title + ' <span class="participants">(' + info.event.extendedProps.participants.join(', ') + ')</span></div>';
-                    return {html: html};
+                var participants = info.event.extendedProps.participants || [],
+                    recurring = info.event.extendedProps.recurring;
+                if (!participants.length && !recurring) {
+                    return true;
                 }
-                return true;
+                var html = '';
+                if (info.timeText) {
+                    html += '<div class="' + info.timeClass + '">' + info.timeText + '</div>';
+                }
+                html += '<div class="' + info.titleClass + '">';
+                if (recurring) {
+                    html += '<i class="fa fa-repeat"></i> ';
+                }
+                html += info.event.title;
+                if (participants.length) {
+                    html += ' <span class="participants">(' + participants.join(', ') + ')</span>';
+                }
+                return {html: html + '</div>'};
             },
             eventClick: function (info) {
                 info.jsEvent.preventDefault();

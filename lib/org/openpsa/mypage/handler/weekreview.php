@@ -46,6 +46,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      */
     private function _list_events_between(midcom_db_person $person, int $from, int $to)
     {
+        // Occurrences of recurring events beyond the horizon are generated when they're viewed
+        (new org_openpsa_calendar_recurrence)->extend_all($to);
+
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
             ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')

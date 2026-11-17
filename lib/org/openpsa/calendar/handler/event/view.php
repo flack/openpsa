@@ -30,20 +30,23 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         midcom::get()->skip_page_style = ($handler_id == 'event_view_raw');
 
         $this->load_datamanager();
+        $data['recurrence'] = $this->get_recurrence_info($data['event']);
 
         // Add toolbar items
-        $buttons = [
-            [
+        $buttons = [];
+        // Recurring events can only be edited in calendar clients
+        if ($data['recurrence'] === null) {
+            $buttons[] = [
                 MIDCOM_TOOLBAR_URL => $this->router->generate('event_edit', ['guid' => $guid]),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_GLYPHICON => 'pencil',
                 MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ]
-        ];
-        if ($data['event']->can_do('midgard:delete')) {
-            $workflow = $this->get_workflow('delete', ['object' => $data['event'], 'relocate' => false]);
-            $buttons[] = $workflow->get_button($this->router->generate('event_delete', ['guid' => $guid]));
+            ];
+            if ($data['event']->can_do('midgard:delete')) {
+                $workflow = $this->get_workflow('delete', ['object' => $data['event'], 'relocate' => false]);
+                $buttons[] = $workflow->get_button($this->router->generate('event_delete', ['guid' => $guid]));
+            }
         }
         $buttons[] = [
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
@@ -67,6 +70,28 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $data['event']->title));
         return $this->get_workflow('viewer')->run($request);
+    }
+
+    /**
+     * The rule summary, and for occurrences the link to the series
+     */
+    private function get_recurrence_info(org_openpsa_calendar_event_dba $event) : ?array
+    {
+        if (!$event->is_recurring()) {
+            return null;
+        }
+        $info = ['summary' => '', 'series_url' => null];
+        try {
+            $master = $event->get_master();
+        } catch (midcom_error $e) {
+            $e->log();
+            return $info;
+        }
+        $info['summary'] = (new org_openpsa_calendar_recurrence)->describe($master, $this->_l10n);
+        if ($master !== $event) {
+            $info['series_url'] = $this->router->generate('event_view', ['guid' => $master->guid]);
+        }
+        return $info;
     }
 
     private function load_datamanager()

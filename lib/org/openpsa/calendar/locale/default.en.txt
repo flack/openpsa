@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING %d times
+%d times
+---STRINGEND
+
 ---STRING %s of %s planned hours booked
 %s of %s planned hours booked in calendar
 ---STRINGEND
@@ -24,6 +28,10 @@ Choose calendars to display
 
 ---STRING create event
 Create event
+---STRINGEND
+
+---STRING custom recurrence
+Custom recurrence
 ---STRINGEND
 
 ---STRING dont allow overlapping
@@ -70,6 +78,38 @@ Event before
 There was a resource conflict with another event, try changing the time or participants
 ---STRINGEND
 
+---STRING every %d days
+Every %d days
+---STRINGEND
+
+---STRING every %d months
+Every %d months
+---STRINGEND
+
+---STRING every %d weeks
+Every %d weeks
+---STRINGEND
+
+---STRING every %d years
+Every %d years
+---STRINGEND
+
+---STRING every day
+Every day
+---STRINGEND
+
+---STRING every month
+Every month
+---STRINGEND
+
+---STRING every week
+Every week
+---STRINGEND
+
+---STRING every year
+Every year
+---STRINGEND
+
 ---STRING go to
 Go to
 ---STRINGEND
@@ -94,6 +134,10 @@ Meeting note for %s on %s by %s
 No event
 ---STRINGEND
 
+---STRING on %s
+on %s
+---STRINGEND
+
 ---STRING org.openpsa.calendar
 Group Calendar
 ---STRINGEND
@@ -114,6 +158,14 @@ Print
 Private event
 ---STRINGEND
 
+---STRING recurring event
+Recurring event
+---STRINGEND
+
+---STRING recurring events can only be edited in a calendar client
+Recurring events can only be edited in a calendar client (CalDAV).
+---STRINGEND
+
 ---STRING resource
 Resource
 ---STRINGEND
@@ -126,12 +178,20 @@ Resources
 Schedule resources
 ---STRINGEND
 
+---STRING show series
+Show series
+---STRINGEND
+
 ---STRING start time
 Start time
 ---STRINGEND
 
 ---STRING time
 time
+---STRINGEND
+
+---STRING until %s
+until %s
 ---STRINGEND
 
 ---STRING you have been added to event "%s"

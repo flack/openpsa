@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING %d times
+%d Mal
+---STRINGEND
+
 ---STRING %s of %s planned hours booked
 %s von %s geplanten Arbeitsstunden sind im Kalender gebucht
 ---STRINGEND
@@ -20,6 +24,10 @@ Kalender auswählen
 
 ---STRING create event
 Termin erstellen
+---STRINGEND
+
+---STRING custom recurrence
+Benutzerdefinierte Wiederholung
 ---STRINGEND
 
 ---STRING dont allow overlapping
@@ -67,6 +75,38 @@ Es gibt Konflikte mit anderen Terminen. Versuchen sie, die Zeit oder
 die Teilnehmer zu verändern
 ---STRINGEND
 
+---STRING every %d days
+Alle %d Tage
+---STRINGEND
+
+---STRING every %d months
+Alle %d Monate
+---STRINGEND
+
+---STRING every %d weeks
+Alle %d Wochen
+---STRINGEND
+
+---STRING every %d years
+Alle %d Jahre
+---STRINGEND
+
+---STRING every day
+Täglich
+---STRINGEND
+
+---STRING every month
+Monatlich
+---STRINGEND
+
+---STRING every week
+Wöchentlich
+---STRINGEND
+
+---STRING every year
+Jährlich
+---STRINGEND
+
 ---STRING go to
 Gehe zu
 ---STRINGEND
@@ -87,6 +127,10 @@ Gesprächsnotiz für %s am %s von %s
 Kein Termin
 ---STRINGEND
 
+---STRING on %s
+am %s
+---STRINGEND
+
 ---STRING org.openpsa.calendar
 Gruppen-Kalender
 ---STRINGEND
@@ -101,6 +145,18 @@ Drucken
 
 ---STRING private event
 Privater Termin
+---STRINGEND
+
+---STRING recurring event
+Serientermin
+---STRINGEND
+
+---STRING recurring events can only be edited in a calendar client
+Serientermine können nur in einem Kalenderprogramm (CalDAV) bearbeitet werden.
+---STRINGEND
+
+---STRING show series
+Serie anzeigen
 ---STRINGEND
 
 ---STRING start time
@@ -133,6 +189,10 @@ Ressourcen
 
 ---STRING schedule resources
 Ressourcen planen
+---STRINGEND
+
+---STRING until %s
+bis %s
 ---STRINGEND
 
 ---STRING you have been added to event "%s"

@@ -10,6 +10,7 @@ use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * org.openpsa.calendar site interface class.
@@ -28,7 +29,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      */
     public function _handler_edit(Request $request, string $guid, array &$data)
     {
-        $event = new org_openpsa_calendar_event_dba($guid);
+        $event = $this->load_event($guid);
         $event->require_do('midgard:update');
 
         $validator = new org_openpsa_calendar_validator($event, $this->_l10n);
@@ -62,7 +63,7 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
         if (!$request->request->get('start')) {
             throw new midcom_error('Incomplete request');
         }
-        $event = new org_openpsa_calendar_event_dba($guid);
+        $event = $this->load_event($guid);
         $event->require_do('midgard:update');
         $start = $request->request->get('start');
         //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
@@ -80,8 +81,20 @@ class org_openpsa_calendar_handler_event_admin extends midcom_baseclasses_compon
      */
     public function _handler_delete(Request $request, string $guid)
     {
-        $event = new org_openpsa_calendar_event_dba($guid);
+        $event = $this->load_event($guid);
         $workflow = $this->get_workflow('delete', ['object' => $event, 'relocate' => false]);
         return $workflow->run($request);
+    }
+
+    /**
+     * Recurring events (masters and occurrences) can only be edited in calendar clients
+     */
+    private function load_event(string $guid) : org_openpsa_calendar_event_dba
+    {
+        $event = new org_openpsa_calendar_event_dba($guid);
+        if ($event->is_recurring()) {
+            throw new midcom_error($this->_l10n->get('recurring events can only be edited in a calendar client'), Response::HTTP_FORBIDDEN);
+        }
+        return $event;
     }
 }
