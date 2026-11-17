@@ -15,8 +15,8 @@ The client finds the user's calendar on its own. Some clients can also discover 
 
 * __Participants__ - events the user participates in show up in their calendar. Attendees added in the client are matched to OpenPSA persons by email address; other addresses are kept, but don't become participants.
 * __Deleting__ - if the user created the event or is its only participant, the event is deleted. Otherwise, only the user is removed from the participants.
-* __Conflicts__ - events that conflict with busy participants or resources are refused, the same as in the web interface.
-* __Recurring events__ - the client keeps the full series, but OpenPSA only shows (and checks conflicts for) the first occurrence.
+* __Conflicts__ - events that conflict with busy participants or resources are refused, the same as in the web interface. Recurring events are not refused, see below.
+* __Recurring events__ - OpenPSA stores every occurrence of a series up to three months ahead (`recurrence_horizon`), and extends this daily. A series stays one event in the client. Dates edited on their own in the client (with different times, title or attendees) are kept as such. Each date is checked for conflicts on its own: a busy participant is left out of that date and sees it as declined, a date where nobody is left is removed from the series. Conflicts on the first date are not checked. Dates in the past are not changed anymore, since hours may already have been reported for them.
 * __Client data__ - alarms, categories and other properties OpenPSA doesn't use are kept and sent back to the client.
 * __Notifications__ - changes made through CalDAV send the usual notifications, unless disabled in the configuration.
 
@@ -25,6 +25,7 @@ Not supported: scheduling, i.e. invitations and replies sent by the server (iTIP
 ##Configuration##
 
 * __caldav_send_notify__ - send notifications for changes made through CalDAV (default: on)
+* __recurrence_horizon__ - how far ahead the dates of recurring events are stored (default: `+3 months`)
 * __caldav_debug__ - show sabre/dav's browser interface and exception details on the CalDAV URL. Only for development.
 
 ##Deployment requirements##

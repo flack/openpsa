@@ -103,7 +103,7 @@ END:VCALENDAR\r\n
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         $data = str_replace('20210907', (new DateTime)->format('Ymd'), self::UPDATE);
-        $request = new Request([], [], [], [], [], [], $data);
+        $request = new Request(content: $data);
         $request->setMethod('PUT');
 
         $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()], $request);
@@ -148,6 +148,52 @@ END:VCALENDAR\r\n
         $content = $data['__openpsa_testcase_response']->getContent();
 
         $this->assertEquals(1, substr_count($content, 'BEGIN:VEVENT'));
+        $this->assertStringNotContainsString('Secret Title', $content);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
+    public function testHandler_user_events_update_recurring()
+    {
+        $user = $this->create_user(true);
+        $account = new midcom_core_account($user);
+        $uid = 'ical-series-' . uniqid();
+        $start = (new DateTime('tomorrow'))->format('Ymd');
+        $data = str_replace(
+            ['353975f8-48dd-4a9d-bb08-07e2bfbf0d98', '20210907', "TRANSP:OPAQUE\r\n"],
+            [$uid, $start, "TRANSP:OPAQUE\r\nRRULE:FREQ=DAILY;COUNT=3\r\nX-CLIENT-PROP:kept\r\n"],
+            self::UPDATE
+        );
+        $request = new Request(content: $data);
+        $request->setMethod('PUT');
+
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $data = $this->run_handler('org.openpsa.calendar', ['ical', 'events', $account->get_username()], $request);
+        $content = $data['__openpsa_testcase_response']->getContent();
+
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('externalGuid', '=', $uid);
+        $master = $qb->get_result(0);
+        $this->register_object($master);
+        $this->assertTrue($master->is_master());
+        // The round-trip copy is stored
+        $this->assertStringContainsString('X-CLIENT-PROP:kept', $master->vCalSerialized);
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('up', '=', $master->id);
+        $this->assertEquals(2, $qb->count());
+
+        // The feed has the series as one event
+        $this->assertEquals(1, substr_count($content, 'BEGIN:VEVENT'));
+        $this->assertStringContainsString('RRULE:FREQ=DAILY;COUNT=3', $content);
+        $this->assertStringContainsString('X-CLIENT-PROP:kept', $content);
+
+        // The busy feed has the occurrences as separate events, without details
+        $master->title = 'Secret Title';
+        $this->assertTrue($master->update());
+        $data = $this->run_handler('org.openpsa.calendar', ['ical', 'busy', $account->get_username()]);
+        $content = $data['__openpsa_testcase_response']->getContent();
+        $this->assertEquals(3, substr_count($content, 'BEGIN:VEVENT'));
+        $this->assertStringNotContainsString('RRULE', $content);
         $this->assertStringNotContainsString('Secret Title', $content);
 
         midcom::get()->auth->drop_sudo();

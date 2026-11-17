@@ -6,8 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Sabre\VObject\Reader;
 use Doctrine\ORM\Query\Expr\Join;
+use Sabre\DAV\Exception as DAVException;
+use Sabre\VObject\Component\VCalendar;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,21 +22,38 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     private midcom_db_person $person;
 
     /**
+     * Events from two weeks back
+     *
+     * @param bool $occurrences Whether to list the occurrences of recurring events as separate events
+     *                          (otherwise, a series is one event with its rule)
      * @return org_openpsa_calendar_event_dba[]
      */
-    private function get_events() : array
+    private function get_events(bool $occurrences = false) : array
     {
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-
+        $since = strtotime('14 days ago');
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->get_doctrine()
             ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
             ->where('m.uid = :uid')
             ->setParameter('uid', $this->person->id);
 
-        $qb->add_constraint('up', '=', $root_event->id);
-        // Display events two weeks back
-        $qb->add_constraint('start', '>', strtotime('14 days ago'));
+        if ($occurrences) {
+            org_openpsa_calendar_event_dba::add_calendar_constraint($qb);
+            $qb->add_constraint('start', '>', $since);
+        } else {
+            $qb->add_constraint('up', '=', org_openpsa_calendar_interface::find_root_event()->id);
+            $qb->begin_group('OR');
+                $qb->add_constraint('start', '>', $since);
+                // Series that started earlier, but continue
+                $qb->begin_group('AND');
+                    $qb->add_constraint('recurrence', '<>', '');
+                    $qb->begin_group('OR');
+                        $qb->add_constraint('recurrenceUntil', '=', 0);
+                        $qb->add_constraint('recurrenceUntil', '>', $since);
+                    $qb->end_group();
+                $qb->end_group();
+            $qb->end_group();
+        }
         $qb->add_order('start', 'ASC');
         return $qb->execute();
     }
@@ -62,25 +80,30 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         ]);
     }
 
+    /**
+     * Saves the VEVENTs, grouped by UID (a recurring event's overrides belong to its master)
+     */
     private function update(string $input)
     {
-        $vcalendar = Reader::read($input);
-        if (!$vcalendar->select('VEVENT')) {
-            return;
-        }
+        $vcalendar = org_openpsa_calendar_vcal::read($input) ?? throw new midcom_error('Could not parse calendar data', Response::HTTP_BAD_REQUEST);
+        $by_uid = [];
         foreach ($vcalendar->select('VEVENT') as $vevent) {
-            $event = $this->find_event((string) $vevent->UID);
-
-            org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
-
-            if ($event->id) {
-                $event->update();
-            } else {
-                $event->create();
-                $member = new org_openpsa_calendar_event_member_dba;
-                $member->eid = $event->id;
-                $member->uid = $this->person->id;
-                $member->create();
+            $by_uid[(string) $vevent->UID][] = $vevent;
+        }
+        $import = new org_openpsa_calendar_import;
+        foreach ($by_uid as $uid => $vevents) {
+            $vcal = new VCalendar;
+            $vcal->VERSION = '2.0';
+            foreach ($vcalendar->select('VTIMEZONE') as $timezone) {
+                $vcal->add(clone $timezone);
+            }
+            foreach ($vevents as $vevent) {
+                $vcal->add(clone $vevent);
+            }
+            try {
+                $import->save($this->find_event((string) $uid), $this->person->id, $vcal);
+            } catch (DAVException $e) {
+                throw new midcom_error($e->getMessage(), $e->getHTTPCode());
             }
         }
     }
@@ -135,7 +158,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $this->find_person_by_name($username);
 
         $encoder = new org_openpsa_calendar_vcal;
-        foreach ($this->get_events() as $event) {
+        foreach ($this->get_events(true) as $event) {
             // clear all data not absolutely required for busy listing
             foreach ($event->get_properties() as $fieldname) {
                 if ($fieldname == 'title') {

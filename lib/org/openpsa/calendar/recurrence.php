@@ -7,6 +7,8 @@
  */
 
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Property\ICalendar\DateTime as DateTimeProperty;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
@@ -70,19 +72,115 @@ class org_openpsa_calendar_recurrence
     /**
      * Normalizes the stored rule to unfolded RRULE, RDATE and EXDATE lines
      *
-     * @return list<string>
+     * @return string[]
      */
     public static function get_lines(?string $recurrence) : array
     {
         $recurrence = preg_replace("/\r?\n[ \t]/", '', (string) $recurrence);
         $lines = array_map(trim(...), preg_split("/\r\n|\n|\r/", $recurrence));
-        return array_values(array_filter($lines, fn($line) => preg_match('/^(RRULE|RDATE|EXDATE)[;:]/i', $line)));
+        return array_filter($lines, fn($line) => preg_match('/^(RRULE|RDATE|EXDATE)[;:]/i', $line));
     }
 
     /**
-     * Start (rounded as in the event's save routine) of the occurrences that end after $from and start until $to
+     * Rounds a start time like the event's save routine does
+     */
+    public static function round_start(int $start) : int
+    {
+        return $start - ($start % 60) + 1;
+    }
+
+    /**
+     * Converts the VEVENT's RRULE, RDATE and EXDATE properties to the format stored in $recurrence
      *
-     * @return int[]
+     * Times are converted to the series' timezone, so that the rule doesn't depend on the client's VTIMEZONEs
+     */
+    public static function rule_from_vevent(VEvent $vevent, DateTimeZone $tz) : string
+    {
+        $lines = [];
+        foreach ($vevent->select('RRULE') as $rrule) {
+            $lines[] = 'RRULE:' . $rrule->getValue();
+        }
+        foreach (['RDATE', 'EXDATE'] as $name) {
+            foreach ($vevent->select($name) as $property) {
+                if (!$property instanceof DateTimeProperty) {
+                    // e.g. RDATE;VALUE=PERIOD
+                    $lines[] = rtrim(preg_replace("/\r\n[ \t]/", '', $property->serialize()));
+                } elseif (!$property->hasTime()) {
+                    $lines[] = $name . ';VALUE=DATE:' . implode(',', $property->getParts());
+                } else {
+                    foreach ($property->getDateTimes($tz) as $time) {
+                        $lines[] = self::format_time($name, DateTimeImmutable::createFromInterface($time)->setTimezone($tz));
+                    }
+                }
+            }
+        }
+        return implode("\n", $lines);
+    }
+
+    /**
+     * Replaces the VEVENT's RRULE, RDATE and EXDATE properties with the stored rule
+     *
+     * Times are written in UTC, so that the client doesn't need a VTIMEZONE for them
+     */
+    public static function rule_to_vevent(string $recurrence, VEvent $vevent)
+    {
+        unset($vevent->RRULE, $vevent->RDATE, $vevent->EXDATE);
+        if (!$lines = self::get_lines($recurrence)) {
+            return;
+        }
+        $parsed = Reader::read("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" . implode("\r\n", $lines) . "\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n");
+        $utc = new DateTimeZone('UTC');
+        foreach ($parsed->VEVENT->children() as $property) {
+            if ($property->name === 'RRULE') {
+                $vevent->add('RRULE', $property->getValue());
+            } elseif (!$property instanceof DateTimeProperty) {
+                $parameters = [];
+                foreach ($property->parameters() as $parameter) {
+                    $parameters[$parameter->name] = $parameter->getValue();
+                }
+                $vevent->add($property->name, $property->getParts(), $parameters);
+            } elseif (!$property->hasTime()) {
+                $vevent->add($property->name, $property->getParts(), ['VALUE' => 'DATE']);
+            } else {
+                $times = array_map(fn($time) => DateTime::createFromInterface($time)->setTimezone($utc), $property->getDateTimes());
+                $vevent->add($property->name, $times);
+            }
+        }
+    }
+
+    /**
+     * The series' own values (start is the anchor). They're the master's, unless the first occurrence was
+     * edited on its own: The master row then holds that occurrence, and the series' values come from
+     * the master VEVENT in the client's copy
+     */
+    public function get_series(org_openpsa_calendar_event_dba $master) : array
+    {
+        $series = [
+            'start' => $master->recurrenceId ?: $master->start,
+            'duration' => max(0, $master->end - $master->start),
+            'title' => $master->title,
+            'description' => $master->description,
+            'location' => $master->location
+        ];
+        if (   $master->recurrenceDetached
+            && ($stored = org_openpsa_calendar_vcal::read($master->vCalSerialized))
+            && ($vevent = org_openpsa_calendar_vcal::get_master($stored))
+            && isset($vevent->DTSTART)) {
+            [$start, $end] = org_openpsa_calendar_vcal::get_times($vevent);
+            $series['duration'] = max(0, ($end - $end % 60) - self::round_start($start));
+            $series['title'] = (string) $vevent->SUMMARY;
+            $series['description'] = (string) $vevent->DESCRIPTION;
+            $series['location'] = (string) $vevent->LOCATION;
+        }
+        return $series;
+    }
+
+    /**
+     * Lists the occurrences between $from and $to
+     *
+     * Includes occurrences that are still running at $from and those that start exactly at $to
+     *
+     * @return int[] Start timestamps
      */
     public function expand(org_openpsa_calendar_event_dba $master, int $from, int $to) : array
     {
@@ -99,7 +197,7 @@ class org_openpsa_calendar_recurrence
                 if ($start > $to) {
                     break;
                 }
-                $result[] = $start - ($start % 60) + 1;
+                $result[] = self::round_start($start);
                 $iterator->next();
             }
         } catch (MaxInstancesExceededException $e) {
@@ -135,28 +233,23 @@ class org_openpsa_calendar_recurrence
         if ($last === null) {
             return $master->end;
         }
-        return $last - ($last % 60) + 1 + $this->get_duration($master);
-    }
-
-    private function get_duration(org_openpsa_calendar_event_dba $master) : int
-    {
-        return max(0, $master->end - $master->start);
+        return self::round_start($last) + $this->get_series($master)['duration'];
     }
 
     private function get_iterator(org_openpsa_calendar_event_dba $master) : EventIterator
     {
         $tz = self::get_timezone($master);
-        $anchor = $master->recurrenceId ?: $master->start;
-        $start = (new DateTimeImmutable('@' . ($anchor - ($anchor % 60))))->setTimezone($tz);
-        $end = $start->modify('+' . ($this->get_duration($master) + 1) . ' seconds');
+        $series = $this->get_series($master);
+        $start = (new DateTimeImmutable('@' . ($series['start'] - ($series['start'] % 60))))->setTimezone($tz);
+        $end = $start->modify('+' . ($series['duration'] + 1) . ' seconds');
 
         $lines = [
             'BEGIN:VCALENDAR',
             'VERSION:2.0',
             'BEGIN:VEVENT',
             'UID:openpsa-recurrence',
-            $this->format_time('DTSTART', $start),
-            $this->format_time('DTEND', $end),
+            self::format_time('DTSTART', $start),
+            self::format_time('DTEND', $end),
             ...self::get_lines($master->recurrence),
             'END:VEVENT',
             'END:VCALENDAR'
@@ -168,7 +261,7 @@ class org_openpsa_calendar_recurrence
         return new EventIterator($vcalendar->VEVENT, null, $tz);
     }
 
-    private function format_time(string $name, DateTimeImmutable $time) : string
+    private static function format_time(string $name, DateTimeImmutable $time) : string
     {
         static $identifiers;
         $identifiers ??= array_flip(DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC));
@@ -185,8 +278,9 @@ class org_openpsa_calendar_recurrence
     private function is_all_day(org_openpsa_calendar_event_dba $master) : bool
     {
         $tz = self::get_timezone($master);
-        $start = (new DateTimeImmutable('@' . $master->start))->setTimezone($tz);
-        $end = (new DateTimeImmutable('@' . $master->end))->setTimezone($tz);
+        $series = $this->get_series($master);
+        $start = (new DateTimeImmutable('@' . $series['start']))->setTimezone($tz);
+        $end = (new DateTimeImmutable('@' . ($series['start'] + $series['duration'])))->setTimezone($tz);
         return $start->format('H:i') === '00:00' && $end->format('H:i') === '23:59';
     }
 
@@ -232,7 +326,8 @@ class org_openpsa_calendar_recurrence
     private function do_sync(org_openpsa_calendar_event_dba $master)
     {
         $now = time();
-        $duration = $this->get_duration($master);
+        $series = $this->get_series($master);
+        $duration = $series['duration'];
         $tz = self::get_timezone($master);
         $existing = $this->get_occurrences($master);
 
@@ -240,14 +335,12 @@ class org_openpsa_calendar_recurrence
         if ($master->recurrenceUntil) {
             $limit = min($limit, $master->recurrenceUntil);
         }
-        // Occurrences that have ended are left alone, they may have hour reports already
-        $is_frozen = fn(org_openpsa_calendar_event_dba $occurrence) => $occurrence->end <= $now && !isset(self::$generated[$occurrence->id]);
         $first = empty($existing);
         $by_id = $unmatched = [];
         $from = $now;
         foreach ($existing as $occurrence) {
             $by_id[$occurrence->recurrenceId] = $occurrence;
-            if (!$is_frozen($occurrence)) {
+            if (!$this->is_frozen($occurrence)) {
                 $from = min($from, $occurrence->start);
             }
         }
@@ -258,6 +351,11 @@ class org_openpsa_calendar_recurrence
 
         $participants = $this->get_member_ids($master->id);
         $resources = $this->get_resource_ids($master->id);
+        $template = $this->get_template($master) + [
+            'title' => $series['title'],
+            'description' => $series['description'],
+            'location' => $series['location']
+        ];
         $exdates = [];
         $keep = [];
 
@@ -265,7 +363,7 @@ class org_openpsa_calendar_recurrence
         $missing = array_diff($instances, array_keys($by_id));
         foreach ($existing as $occurrence) {
             if (   !in_array($occurrence->recurrenceId, $instances)
-                && !$is_frozen($occurrence)
+                && !$this->is_frozen($occurrence)
                 && !$occurrence->recurrenceDetached) {
                 $unmatched[$this->get_date($occurrence->recurrenceId, $tz)][] = $occurrence;
             }
@@ -281,14 +379,19 @@ class org_openpsa_calendar_recurrence
             }
             if ($occurrence) {
                 $keep[$occurrence->id] = true;
-                if ($is_frozen($occurrence) || $occurrence->recurrenceDetached) {
+                if ($this->is_frozen($occurrence) || $occurrence->recurrenceDetached) {
                     continue;
                 }
             } elseif (!$first && $recurrence_id + $duration <= $now) {
                 // Only new series get occurrences in the past
                 continue;
             }
-            if (!$this->write_occurrence($master, $occurrence, $recurrence_id, $duration, $participants, $resources)) {
+            $values = $template + [
+                'recurrenceId' => $recurrence_id,
+                'start' => $recurrence_id,
+                'end' => $recurrence_id + $duration
+            ];
+            if (!$this->write_occurrence($master, $occurrence, $values, $participants, $resources)) {
                 $exdates[] = $recurrence_id;
                 if ($occurrence) {
                     $this->delete_quietly($occurrence);
@@ -299,7 +402,7 @@ class org_openpsa_calendar_recurrence
         // Occurrences that no longer belong to the series
         foreach ($existing as $occurrence) {
             if (   !isset($keep[$occurrence->id])
-                && !$is_frozen($occurrence)
+                && !$this->is_frozen($occurrence)
                 && (   !$occurrence->recurrenceDetached
                     || !$this->is_instance($master, $occurrence->recurrenceId))) {
                 $this->delete_quietly($occurrence);
@@ -309,6 +412,28 @@ class org_openpsa_calendar_recurrence
         if ($exdates) {
             $this->add_exdates($master, $exdates);
         }
+    }
+
+    /**
+     * Occurrences that have ended are left alone, they may have hour reports already
+     */
+    private function is_frozen(org_openpsa_calendar_event_dba $occurrence) : bool
+    {
+        return $occurrence->end <= time() && !isset(self::$generated[$occurrence->id]);
+    }
+
+    /**
+     * Values that all occurrences take from the master
+     */
+    private function get_template(org_openpsa_calendar_event_dba $master) : array
+    {
+        return [
+            'up' => $master->id,
+            'type' => $master->type,
+            'busy' => $master->busy,
+            'tentative' => $master->tentative,
+            'orgOpenpsaAccesstype' => $master->orgOpenpsaAccesstype
+        ];
     }
 
     private function get_date(int $timestamp, DateTimeZone $tz) : string
@@ -327,24 +452,11 @@ class org_openpsa_calendar_recurrence
      *
      * @return bool False if the date has to be skipped because of conflicts
      */
-    private function write_occurrence(org_openpsa_calendar_event_dba $master, ?org_openpsa_calendar_event_dba $occurrence, int $recurrence_id, int $duration, array $participants, array $resources) : bool
+    private function write_occurrence(org_openpsa_calendar_event_dba $master, ?org_openpsa_calendar_event_dba $occurrence, array $values, array $participants, array $resources) : bool
     {
         $new = $occurrence === null;
         $occurrence ??= new org_openpsa_calendar_event_dba;
         $changed = $new;
-        $values = [
-            'up' => $master->id,
-            'recurrenceId' => $recurrence_id,
-            'start' => $recurrence_id,
-            'end' => $recurrence_id + $duration,
-            'title' => $master->title,
-            'description' => $master->description,
-            'location' => $master->location,
-            'type' => $master->type,
-            'busy' => $master->busy,
-            'tentative' => $master->tentative,
-            'orgOpenpsaAccesstype' => $master->orgOpenpsaAccesstype
-        ];
         $times_changed = $new || $occurrence->start != $values['start'] || $occurrence->end != $values['end'];
         foreach ($values as $field => $value) {
             if ($occurrence->$field != $value) {
@@ -433,13 +545,81 @@ class org_openpsa_calendar_recurrence
             if ($all_day) {
                 $lines[] = 'EXDATE;VALUE=DATE:' . $time->format('Ymd');
             } else {
-                $lines[] = $this->format_time('EXDATE', $time);
+                $lines[] = self::format_time('EXDATE', $time);
             }
         }
         $master->recurrence = implode("\n", $lines);
         if (!$this->save_quietly($master)) {
             debug_add('Could not add EXDATEs to event #' . $master->id . ': ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
         }
+    }
+
+    /**
+     * Saves an occurrence that was edited on its own (an override VEVENT in iCal)
+     *
+     * The same conflict rules apply as for the other occurrences
+     *
+     * @param int $recurrence_id The occurrence's original start
+     * @param org_openpsa_calendar_event_dba $override Holds the occurrence's values (not saved itself)
+     * @param int[] $participants
+     * @return bool False if there is no such occurrence or the date was skipped
+     */
+    public function apply_override(org_openpsa_calendar_event_dba $master, int $recurrence_id, org_openpsa_calendar_event_dba $override, array $participants) : bool
+    {
+        if (   !$master->is_master()
+            || $recurrence_id === $master->recurrenceId
+            || !$this->is_instance($master, $recurrence_id)) {
+            debug_add('Ignoring override for ' . date('c', $recurrence_id) . ', event #' . $master->id . ' has no such occurrence', MIDCOM_LOG_INFO);
+            return false;
+        }
+        $values = array_merge($this->get_template($master), [
+            'recurrenceId' => $recurrence_id,
+            'recurrenceDetached' => true,
+            'start' => self::round_start($override->start),
+            'end' => $override->end - ($override->end % 60),
+            'title' => $override->title,
+            'description' => $override->description,
+            'location' => $override->location,
+            'busy' => $override->busy,
+            'orgOpenpsaAccesstype' => $override->orgOpenpsaAccesstype ?: $master->orgOpenpsaAccesstype
+        ]);
+        $participants = array_unique(array_map(intval(...), $participants));
+        sort($participants);
+
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('up', '=', $master->id);
+        $qb->add_constraint('recurrenceId', '=', $recurrence_id);
+        $occurrence = $qb->get_result(0) ?: null;
+        $applied = ($occurrence && $this->is_frozen($occurrence))
+            || $this->write_occurrence($master, $occurrence, $values, $participants, $this->get_resource_ids($master->id));
+        if (!$applied) {
+            if ($occurrence) {
+                $this->delete_quietly($occurrence);
+            }
+            $this->add_exdates($master, [$recurrence_id]);
+        }
+        midcom::get()->auth->drop_sudo();
+        return $applied;
+    }
+
+    /**
+     * Occurrences edited on their own that aren't in $keep go back to the series (the next sync updates them)
+     *
+     * @param int[] $keep Original starts of the occurrences that stay edited on their own
+     */
+    public function reset_detached(org_openpsa_calendar_event_dba $master, array $keep)
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        foreach ($this->get_occurrences($master) as $occurrence) {
+            if (   $occurrence->recurrenceDetached
+                && !$this->is_frozen($occurrence)
+                && !in_array($occurrence->recurrenceId, $keep)) {
+                $occurrence->recurrenceDetached = false;
+                $this->save_quietly($occurrence);
+            }
+        }
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -466,14 +646,18 @@ class org_openpsa_calendar_recurrence
     }
 
     /**
-     * Deletes all occurrences (when the master is deleted)
+     * Deletes the occurrences (when the master is deleted or no longer recurs)
+     *
+     * @param bool $ended Whether to delete occurrences that have ended as well
      */
-    public function delete_occurrences(org_openpsa_calendar_event_dba $master) : bool
+    public function delete_occurrences(org_openpsa_calendar_event_dba $master, bool $ended = true) : bool
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $stat = true;
         foreach ($this->get_occurrences($master) as $occurrence) {
-            $stat = $this->delete_quietly($occurrence) && $stat;
+            if ($ended || !$this->is_frozen($occurrence)) {
+                $stat = $this->delete_quietly($occurrence) && $stat;
+            }
         }
         midcom::get()->auth->drop_sudo();
         return $stat;

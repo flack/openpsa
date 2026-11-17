@@ -178,7 +178,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         // Make sure we can actually reserve the resources we need
-        $resources = array_keys(array_filter($this->resources));
+        $resources = array_keys($this->resources);
         $checker = new org_openpsa_calendar_event_resource_dba;
         foreach ($resources as $id) {
             $checker->resource = $id;

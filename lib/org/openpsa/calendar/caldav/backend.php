@@ -10,13 +10,13 @@ use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SyncSupport;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Exception;
-use Sabre\VObject\Component\VEvent;
 
 /**
  * CalDAV calendar backend
  *
  * Every user has one calendar ("default") containing all events they participate in.
- * The calendar ID is the person's ID.
+ * The calendar ID is the person's ID. A recurring event is one calendar object (the master
+ * with its rule and the overrides for occurrences edited on their own).
  *
  * Sync tokens (also used as ctag) are timestamps: A client holding token t has seen
  * all changes revised up to and including second t.
@@ -86,7 +86,7 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         }
         // Anything we can't express as a database constraint is checked by sabre's validator
         $needs_validation = !empty($filters['prop-filters']) || !empty($filters['is-not-defined']);
-        $time_range = false;
+        $timerange = false;
         if (!empty($filters['comp-filters'])) {
             $comp_filter = $filters['comp-filters'][0];
             if (   count($filters['comp-filters']) > 1
@@ -95,28 +95,15 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
                 || !empty($comp_filter['comp-filters'])
                 || !empty($comp_filter['prop-filters'])) {
                 $needs_validation = true;
-            } elseif ($time_range = $comp_filter['time-range']) {
-                $qb->begin_group('OR');
-                // Overlap check
-                $qb->begin_group('AND');
-                if ($time_range['start']) {
-                    $qb->add_constraint('end', '>', $time_range['start']->getTimestamp());
-                }
-                if ($time_range['end']) {
-                    $qb->add_constraint('start', '<', $time_range['end']->getTimestamp());
-                }
-                $qb->end_group();
-                // start and end only cover the first occurrence, so recurring events are checked by the validator
-                $qb->add_constraint('vCalSerialized', 'LIKE', '%RRULE%');
-                $qb->add_constraint('vCalSerialized', 'LIKE', '%RDATE%');
-                $qb->end_group();
+            } elseif ($timerange = $comp_filter['time-range']) {
+                $this->add_timerange_constraint($qb, $timerange['start']?->getTimestamp(), $timerange['end']?->getTimestamp());
             }
         }
 
         $result = [];
         foreach ($qb->execute() as $event) {
             $object = $this->get_object_data($event);
-            if (   ($needs_validation || ($time_range && $this->is_recurring($event)))
+            if (   ($needs_validation || ($timerange && $event->is_master()))
                 && !$this->validateFilterForObject($object, $filters)) {
                 continue;
             }
@@ -126,11 +113,34 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
     }
 
     /**
-     * Whether the client's copy of the event has recurrences (OpenPSA itself only stores the first occurrence)
+     * start and end only cover the first occurrence, so for recurring events, we look at the series' timespan.
+     * Whether an occurrence actually falls into the range is checked by sabre's validator
      */
-    private function is_recurring(org_openpsa_calendar_event_dba $event) : bool
+    private function add_timerange_constraint(midcom_core_querybuilder $qb, ?int $start, ?int $end)
     {
-        return (bool) preg_match('/^(RRULE|RDATE)[:;]/m', (string) $event->vCalSerialized);
+        $qb->begin_group('OR');
+            // Overlap check
+            $qb->begin_group('AND');
+                if ($start) {
+                    $qb->add_constraint('end', '>', $start);
+                }
+                if ($end) {
+                    $qb->add_constraint('start', '<', $end);
+                }
+            $qb->end_group();
+            $qb->begin_group('AND');
+                $qb->add_constraint('recurrence', '<>', '');
+                if ($end) {
+                    $qb->add_constraint('start', '<', $end);
+                }
+                if ($start) {
+                    $qb->begin_group('OR');
+                        $qb->add_constraint('recurrenceUntil', '=', 0);
+                        $qb->add_constraint('recurrenceUntil', '>', $start);
+                    $qb->end_group();
+                }
+            $qb->end_group();
+        $qb->end_group();
     }
 
     public function getCalendarObjectByUID($principalUri, $uid)
@@ -181,7 +191,7 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
     public function deleteCalendarObject($calendarId, $objectUri)
     {
         $event = $this->find_events($calendarId, [$objectUri])[0] ?? throw new Exception\NotFound('Event not found');
-        $others = array_diff_key(array_filter($event->participants), [$calendarId => true]);
+        $others = array_diff_key($event->participants, [$calendarId => true]);
         $is_creator = $event->metadata->creator === midcom::get()->auth->user?->guid;
 
         if (   ($others && !$is_creator)
@@ -191,88 +201,14 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         }
         $event->send_notify = $this->send_notify;
         if (!$event->delete()) {
-            throw $this->get_save_exception();
+            throw org_openpsa_calendar_import::get_save_exception();
         }
     }
 
     private function save(org_openpsa_calendar_event_dba $event, int $owner_id, string $data)
     {
         $vcalendar = org_openpsa_calendar_vcal::read($data) ?? throw new Exception\BadRequest('Could not parse calendar data');
-        $vevent = org_openpsa_calendar_vcal::get_master($vcalendar) ?? throw new Exception\BadRequest('No VEVENT found');
-
-        org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
-        $uid = (string) $vevent->UID;
-        if (!$event->id && !str_ends_with($uid, '-midgardGuid')) {
-            $event->externalGuid = $uid;
-        }
-        // Keep the client's copy, so that what OpenPSA doesn't understand (alarms, recurrences etc.) survives
-        $event->vCalSerialized = $vcalendar->serialize();
-
-        $participants = $this->get_participants($vevent, $event, $owner_id);
-        $event->participants = $participants;
-        $conflictmanager = new org_openpsa_calendar_conflictmanager($event);
-        if (!$conflictmanager->run($event->rob_tentative)) {
-            throw new Exception\Conflict($this->get_conflict_message($conflictmanager));
-        }
-        $event->ignorebusy_em = true;
-        $event->send_notify = $this->send_notify;
-
-        if (!($event->id ? $event->update() : $event->create())) {
-            throw $this->get_save_exception();
-        }
-        if ($this->sync_participants($event, $participants)) {
-            // Participants get their privileges when the event is updated
-            $event->send_notify = false;
-            $event->search_relatedtos = false;
-            $event->update();
-        }
-    }
-
-    /**
-     * Returns the participants as described by the VEVENT's attendees
-     *
-     * The owner always stays, as do participants without email address (they can't be attendees)
-     */
-    private function get_participants(VEvent $vevent, org_openpsa_calendar_event_dba $event, int $owner_id) : array
-    {
-        $participants = array_fill_keys([$owner_id, ...org_openpsa_calendar_vcal::get_attendee_ids($vevent)], true);
-        foreach (array_keys(array_filter($event->participants)) as $id) {
-            try {
-                if (empty(midcom_db_person::get_cached($id)->email)) {
-                    $participants[$id] = true;
-                }
-            } catch (midcom_error) {
-            }
-        }
-        return $participants;
-    }
-
-    /**
-     * Creates and deletes eventmembers so that they match the given participants
-     *
-     * @return bool Whether participants were added
-     */
-    private function sync_participants(org_openpsa_calendar_event_dba $event, array $participants) : bool
-    {
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        $qb->add_constraint('eid', '=', $event->id);
-        foreach ($qb->execute() as $member) {
-            if (!isset($participants[$member->uid])) {
-                $member->notify_person = $this->send_notify;
-                $member->delete();
-            }
-            unset($participants[$member->uid]);
-        }
-        foreach (array_keys($participants) as $uid) {
-            $member = new org_openpsa_calendar_event_member_dba;
-            $member->eid = $event->id;
-            $member->uid = $uid;
-            $member->notify_person = $this->send_notify;
-            if (!$member->create()) {
-                throw $this->get_save_exception();
-            }
-        }
-        return !empty($participants);
+        (new org_openpsa_calendar_import($this->send_notify))->save($event, $owner_id, $vcalendar);
     }
 
     private function remove_participant(org_openpsa_calendar_event_dba $event, int $person_id)
@@ -292,28 +228,6 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
             $member->delete();
         }
         midcom::get()->auth->drop_sudo();
-    }
-
-    private function get_conflict_message(org_openpsa_calendar_conflictmanager $conflictmanager) : string
-    {
-        $names = [];
-        foreach (array_keys($conflictmanager->busy_members) as $uid) {
-            $names[] = midcom_db_person::get_cached($uid)->name;
-        }
-        foreach (array_keys($conflictmanager->busy_resources) as $id) {
-            $names[] = org_openpsa_calendar_resource_dba::get_cached($id)->title;
-        }
-        return 'The event conflicts with other events of: ' . implode(', ', $names);
-    }
-
-    private function get_save_exception() : Exception
-    {
-        $message = midcom_connection::get_error_string();
-        return match (midcom_connection::get_error()) {
-            MGD_ERR_ACCESS_DENIED => new Exception\Forbidden($message),
-            MGD_ERR_RANGE => new Exception\BadRequest($message),
-            default => new Exception\Conflict($message)
-        };
     }
 
     private function get_root_event_id() : int
@@ -357,8 +271,8 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         $qb->add_constraint('caldavUri', 'IN', $uris);
         if ($guids) {
             $qb->begin_group('AND');
-            $qb->add_constraint('caldavUri', '=', '');
-            $qb->add_constraint('guid', 'IN', array_unique($guids));
+                $qb->add_constraint('caldavUri', '=', '');
+                $qb->add_constraint('guid', 'IN', array_unique($guids));
             $qb->end_group();
         }
         $qb->end_group();
@@ -405,9 +319,10 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         $current = $this->get_sync_token($person_id);
         $result = ['syncToken' => $current, 'added' => [], 'modified' => [], 'deleted' => []];
 
-        if ($syncToken === null || $syncToken === '') {
-            $qb = $this->get_events_qb($person_id);
-            $result['added'] = $qb ? array_map($this->get_uri(...), $qb->execute()) : [];
+        if (in_array($syncToken, [null, ''], true)) {
+            if ($qb = $this->get_events_qb($person_id)) {
+                $result['added'] = array_map($this->get_uri(...), $qb->execute());
+            }
             return $result;
         }
         if (!ctype_digit((string) $syncToken) || (int) $syncToken > (int) $current) {
@@ -447,41 +362,78 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
     }
 
     /**
-     * IDs of all events the person participates or participated in
+     * IDs of the person's calendar objects (single events and masters of recurring events),
+     * including the ones they left or that were deleted
      */
     private function get_member_event_ids(int $person_id) : array
     {
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        $qb->include_deleted();
-        $qb->add_constraint('uid', '=', $person_id);
-        return array_unique(array_column($qb->execute(), 'eid'));
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $members = org_openpsa_calendar_event_member_dba::new_query_builder();
+        $members->include_deleted();
+        $members->add_constraint('uid', '=', $person_id);
+        $ids = [];
+        if ($eids = array_unique(array_column($members->execute(), 'eid'))) {
+            $qb = org_openpsa_calendar_event_dba::new_query_builder();
+            $qb->include_deleted();
+            $qb->add_constraint('id', 'IN', $eids);
+            $qb->add_constraint('up', '=', $this->get_root_event_id());
+            $ids = array_column($qb->execute(), 'id');
+        }
+        midcom::get()->auth->drop_sudo();
+        return $ids;
     }
 
     /**
-     * @return array<string, string> classname => field holding the event ID
+     * Queries for the changes that affect the given calendar objects: the events and their eventmember
+     * rows (of any participant, since they show up as attendees), including those of occurrences
+     *
+     * @return midcom_core_querybuilder[]
      */
-    private function get_change_sources() : array
+    private function get_change_queries(array $ids) : array
     {
-        return [
-            org_openpsa_calendar_event_member_dba::class => 'eid',
-            org_openpsa_calendar_event_dba::class => 'id'
-        ];
+        $events = org_openpsa_calendar_event_dba::new_query_builder();
+        $events->begin_group('OR');
+            $events->add_constraint('id', 'IN', $ids);
+            $events->add_constraint('up', 'IN', $ids);
+        $events->end_group();
+
+        $members = org_openpsa_calendar_event_member_dba::new_query_builder();
+        $members->begin_group('OR');
+            $members->add_constraint('eid', 'IN', $ids);
+            $members->add_constraint('eid.up', 'IN', $ids);
+        $members->end_group();
+
+        foreach ([$events, $members] as $qb) {
+            $qb->include_deleted();
+        }
+        return [$events, $members];
     }
 
+    /**
+     * @return int[] IDs of the calendar objects (changes to occurrences count for their master)
+     */
     private function get_changed_event_ids(int $person_id, int $since) : array
     {
         if (!$ids = $this->get_member_event_ids($person_id)) {
             return [];
         }
         $changed = [];
-        foreach ($this->get_change_sources() as $class => $field) {
-            $qb = $class::new_query_builder();
-            $qb->include_deleted();
-            $qb->add_constraint($field, 'IN', $ids);
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        foreach ($this->get_change_queries($ids) as $qb) {
             $qb->add_constraint('metadata.revised', '>', gmdate('Y-m-d H:i:s', $since));
-            $changed = array_merge($changed, array_column($qb->execute(), $field));
+            foreach ($qb->execute() as $object) {
+                $changed[] = $object instanceof org_openpsa_calendar_event_member_dba ? $object->eid : $object->id;
+            }
         }
-        return array_unique($changed);
+        $result = array_intersect(array_unique($changed), $ids);
+        if ($occurrences = array_diff($changed, $ids)) {
+            $qb = org_openpsa_calendar_event_dba::new_query_builder();
+            $qb->include_deleted();
+            $qb->add_constraint('id', 'IN', array_unique($occurrences));
+            $result = array_merge($result, array_intersect(array_column($qb->execute(), 'up'), $ids));
+        }
+        midcom::get()->auth->drop_sudo();
+        return array_unique($result);
     }
 
     /**
@@ -495,16 +447,15 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
     {
         $revised = 0;
         if ($ids = $this->get_member_event_ids($person_id)) {
-            foreach ($this->get_change_sources() as $class => $field) {
-                $qb = $class::new_query_builder();
-                $qb->include_deleted();
-                $qb->add_constraint($field, 'IN', $ids);
+            midcom::get()->auth->request_sudo('org.openpsa.calendar');
+            foreach ($this->get_change_queries($ids) as $qb) {
                 $qb->add_order('metadata.revised', 'DESC');
                 $qb->set_limit(1);
                 if ($latest = $qb->get_result(0)) {
                     $revised = max($revised, $latest->metadata->revised);
                 }
             }
+            midcom::get()->auth->drop_sudo();
         }
         return (string) min($revised, time() - 1);
     }

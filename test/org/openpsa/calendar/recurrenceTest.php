@@ -167,14 +167,21 @@ class recurrenceTest extends openpsa_testcase
         $this->assertCount(10, $recurrence->expand($master, $master->start, $this->timestamp('2026-10-28 10:00')));
 
         // EXDATE
-        $master = $this->prepare_master($this->timestamp('2026-10-19 10:00'), "RRULE:FREQ=DAILY;COUNT=3\nEXDATE;TZID=Europe/Berlin:20261020T100000");
+        $master = $this->prepare_master(
+            $this->timestamp('2026-10-19 10:00'),
+            "RRULE:FREQ=DAILY;COUNT=3\nEXDATE;TZID=Europe/Berlin:20261020T100000"
+        );
         $this->assertSame([
             $this->rounded($this->timestamp('2026-10-19 10:00')),
             $this->rounded($this->timestamp('2026-10-21 10:00'))
         ], $recurrence->expand($master, $master->start, $master->start + 365 * 86400));
 
         // All-day events (as stored by the vcal import)
-        $master = $this->prepare_master($this->timestamp('2026-10-24 00:00'), "RRULE:FREQ=DAILY;COUNT=3\r\nEXDATE;VALUE=DATE:20261025", 86400 - 60);
+        $master = $this->prepare_master(
+            $this->timestamp('2026-10-24 00:00'),
+            "RRULE:FREQ=DAILY;COUNT=3\r\nEXDATE;VALUE=DATE:20261025",
+            86400 - 60
+        );
         $this->assertSame([
             $this->rounded($this->timestamp('2026-10-24 00:00')),
             $this->rounded($this->timestamp('2026-10-26 00:00'))
@@ -225,7 +232,8 @@ class recurrenceTest extends openpsa_testcase
         $this->assertSame($expected, array_column($extended, 'recurrenceId'));
         $this->assertGreaterThan(count($occurrences), count($extended));
         // Existing occurrences stay
-        $this->assertSame(array_column($occurrences, 'guid'), array_slice(array_column($extended, 'guid'), 0, count($occurrences)));
+        $guids = array_column($occurrences, 'guid');
+        $this->assertSame($guids, array_slice(array_column($extended, 'guid'), 0, count($guids)));
     }
 
     public function test_finite_series()
@@ -328,7 +336,8 @@ class recurrenceTest extends openpsa_testcase
     {
         $user = $this->create_user();
         $user2 = $this->create_user();
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=3', [$user]);
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=3', [$user]);
 
         $this->add_member($master, $user2);
         $expected = [$user->id, $user2->id];
@@ -352,7 +361,8 @@ class recurrenceTest extends openpsa_testcase
         $resource = $this->create_object(org_openpsa_calendar_resource_dba::class, [
             'title' => 'Room ' . uniqid()
         ]);
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=3', [$this->create_user()]);
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=3', [$this->create_user()]);
         $this->create_object(org_openpsa_calendar_event_resource_dba::class, [
             'event' => $master->id,
             'resource' => $resource->id
@@ -367,7 +377,8 @@ class recurrenceTest extends openpsa_testcase
     {
         $user = $this->create_user();
         $user2 = $this->create_user();
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=3', [$user, $user2]);
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=3', [$user, $user2]);
 
         (new org_openpsa_calendar_recurrence)->leave($master, $user2->id);
         $this->assertSame([$user->id], $this->get_member_ids($master));
@@ -380,7 +391,8 @@ class recurrenceTest extends openpsa_testcase
     {
         $user = $this->create_user();
         $other = $this->create_user();
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=2', [$user], [
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=2', [$user], [
             'orgOpenpsaAccesstype' => org_openpsa_core_acl::ACCESS_PRIVATE
         ]);
         // Participants get their privileges when the event is updated (as the CalDAV backend does)
@@ -403,7 +415,8 @@ class recurrenceTest extends openpsa_testcase
         $user = $this->create_person_with_email();
         org_openpsa_mail_backend_unittest::flush();
 
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=4', [$user]);
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=4', [$user]);
         $this->assertCount(3, $this->get_occurrences($master));
         // One "add" for the series
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
@@ -422,7 +435,8 @@ class recurrenceTest extends openpsa_testcase
     public function test_delete()
     {
         $user = $this->create_user();
-        $master = $this->create_master($this->timestamp('monday next week 10:00'), 'RRULE:FREQ=WEEKLY;COUNT=3', [$user]);
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=3', [$user]);
         $occurrences = $this->get_occurrences($master);
         $this->assertCount(2, $occurrences);
 
@@ -479,8 +493,10 @@ class recurrenceTest extends openpsa_testcase
         $occurrences = $this->get_occurrences($master);
         $this->assertCount(1, $occurrences);
         $this->assertSame($this->rounded($this->timestamp('monday next week 10:00 +2 weeks')), $occurrences[0]->start);
-        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . date('Ymd', $this->timestamp('monday next week 10:00 +1 week')) . 'T100000', $master->recurrence);
-        $this->assertCount(2, (new org_openpsa_calendar_recurrence)->expand($master, $master->start, $master->start + 365 * 86400));
+        $skipped = date('Ymd', $this->timestamp('monday next week 10:00 +1 week'));
+        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . $skipped . 'T100000', $master->recurrence);
+        $recurrence = new org_openpsa_calendar_recurrence;
+        $this->assertCount(2, $recurrence->expand($master, $master->start, $master->start + 365 * 86400));
 
         // ... and stays skipped
         $master->title = 'Changed';

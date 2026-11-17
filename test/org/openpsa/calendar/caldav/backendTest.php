@@ -20,6 +20,8 @@ use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\NotFound;
 use org_openpsa_mail_backend_unittest;
 use DateTime;
+use DateTimeZone;
+use DateTimeImmutable;
 use midgard_query_builder;
 use Sabre\VObject\Reader;
 
@@ -405,33 +407,329 @@ class backendTest extends openpsa_testcase
             'END:VEVENT',
         ]);
 
-        // The first occurrence is stored
+        // The master is the first occurrence, the others are its children
         $event = $this->find_created_event($uid);
+        $this->assertTrue($event->is_master());
         $this->assertEquals('Weekly', $event->title);
         $this->assertEquals(gmmktime(10, 0, 1, 4, 7, 2005), $event->start);
+        $this->assertEquals('RRULE:FREQ=WEEKLY;COUNT=10', $event->recurrence);
+        $this->assertEquals('UTC', $event->timezone);
+        $occurrences = $this->get_occurrences($event);
+        $this->assertCount(9, $occurrences);
+        $this->assertEquals('Moved', $occurrences[0]->title);
+        $this->assertTrue($occurrences[0]->recurrenceDetached);
+        $this->assertEquals(gmmktime(14, 0, 1, 4, 14, 2005), $occurrences[0]->start);
+        $this->assertEquals('Weekly', $occurrences[1]->title);
 
+        // One calendar object
+        $this->assertCount(1, $backend->getCalendarObjects($user->id));
         $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
-        $this->assertStringContainsString('RRULE:FREQ=WEEKLY;COUNT=10', $data);
+        $this->assertEquals(2, substr_count($data, 'BEGIN:VEVENT'));
+        $this->assertEquals(1, substr_count($data, 'RRULE:FREQ=WEEKLY;COUNT=10'));
         $this->assertStringContainsString('RECURRENCE-ID:20050414T100000Z', $data);
         $this->assertStringContainsString('SUMMARY:Moved', $data);
 
         // Later occurrences are found by time-range queries
-        $filters = [
+        $filters = $this->timerange_filter('2005-05-01 00:00:00Z', '2005-05-08 00:00:00Z');
+        $this->assertEquals([$uid . '.ics'], $backend->calendarQuery($user->id, $filters));
+        $filters = $this->timerange_filter('2006-01-01 00:00:00Z', '2006-01-08 00:00:00Z');
+        $this->assertEquals([], $backend->calendarQuery($user->id, $filters));
+    }
+
+    private function timerange_filter(string $start, string $end) : array
+    {
+        return [
             'name' => 'VCALENDAR',
             'comp-filters' => [[
                 'name' => 'VEVENT',
                 'comp-filters' => [],
                 'prop-filters' => [],
                 'is-not-defined' => false,
-                'time-range' => ['start' => new DateTime('2005-05-01 00:00:00Z'), 'end' => new DateTime('2005-05-08 00:00:00Z')],
+                'time-range' => ['start' => new DateTime($start), 'end' => new DateTime($end)]
             ]],
             'prop-filters' => [],
             'is-not-defined' => false,
-            'time-range' => false,
+            'time-range' => false
         ];
-        $this->assertEquals([$uid . '.ics'], $backend->calendarQuery($user->id, $filters));
-        $filters['comp-filters'][0]['time-range'] = ['start' => new DateTime('2006-01-01 00:00:00Z'), 'end' => new DateTime('2006-01-08 00:00:00Z')];
-        $this->assertEquals([], $backend->calendarQuery($user->id, $filters));
+    }
+
+    /**
+     * @return org_openpsa_calendar_event_dba[]
+     */
+    private function get_occurrences(org_openpsa_calendar_event_dba $master) : array
+    {
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('up', '=', $master->id);
+        $qb->add_order('start');
+        return $this->sudo($qb->execute(...));
+    }
+
+    private function get_member_ids(org_openpsa_calendar_event_dba $event) : array
+    {
+        $mc = org_openpsa_calendar_event_member_dba::new_collector('eid', $event->id);
+        $ids = $this->sudo(fn() => $mc->get_values('uid'));
+        sort($ids);
+        return $ids;
+    }
+
+    /**
+     * Local date (Ymd) of a week day after next week, in the timezone used by the recurrence tests
+     */
+    private function week(int $offset, string $day = 'monday') : string
+    {
+        return (new DateTimeImmutable($day . ' next week +' . $offset . ' weeks', new DateTimeZone('Europe/Berlin')))
+            ->format('Ymd');
+    }
+
+    private function utc(string $date, string $time = '100000') : string
+    {
+        return gmdate('Ymd\THis\Z', $this->local($date, $time));
+    }
+
+    /**
+     * Timestamp of a date and time in Europe/Berlin
+     */
+    private function local(string $date, string $time = '100000') : int
+    {
+        return (new DateTimeImmutable($date . 'T' . $time, new DateTimeZone('Europe/Berlin')))->getTimestamp();
+    }
+
+    public function test_recurrence_round_trip()
+    {
+        $user = $this->create_person_with_email(true);
+        $other = $this->create_person_with_email();
+        $uid = 'caldav-roundtrip-' . uniqid();
+        $backend = $this->get_backend();
+        $master_lines = [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=4',
+            'EXDATE;TZID=Europe/Berlin:' . $this->week(2) . 'T100000',
+            "ATTENDEE:mailto:{$other->email}",
+            'BEGIN:VALARM',
+            'ACTION:DISPLAY',
+            'TRIGGER:-PT15M',
+            'END:VALARM'
+        ];
+        // The other participant doesn't attend the second date
+        $override = [
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            'RECURRENCE-ID;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'SUMMARY:Special',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(1) . 'T110000',
+            "ATTENDEE;PARTSTAT=DECLINED:mailto:{$other->email}",
+            'X-CLIENT-PROP:kept',
+            'END:VEVENT'
+        ];
+        $this->create_via_caldav($backend, $user, $uid, $master_lines, $override);
+
+        $master = $this->find_created_event($uid);
+        $this->assertEquals('Europe/Berlin', $master->timezone);
+        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . $this->week(2) . 'T100000', $master->recurrence);
+        $occurrences = $this->get_occurrences($master);
+        $this->assertCount(2, $occurrences);
+        $both = [$user->id, $other->id];
+        sort($both);
+        $this->assertEquals('Special', $occurrences[0]->title);
+        $this->assertTrue($occurrences[0]->recurrenceDetached);
+        $this->assertEquals([$user->id], $this->get_member_ids($occurrences[0]));
+        $this->assertEquals('Series', $occurrences[1]->title);
+        $this->assertEquals($both, $this->get_member_ids($occurrences[1]));
+
+        $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
+        $this->assertEquals(2, substr_count($data, 'BEGIN:VEVENT'));
+        $this->assertEquals(1, substr_count($data, 'RRULE:'));
+        $this->assertStringContainsString('EXDATE:' . $this->utc($this->week(2)), $data);
+        $this->assertStringContainsString('RECURRENCE-ID;TZID=Europe/Berlin:' . $this->week(1) . 'T100000', $data);
+        $this->assertStringContainsString('X-CLIENT-PROP:kept', $data);
+        $this->assertStringContainsString('BEGIN:VALARM', $data);
+        $vcalendar = Reader::read($data);
+        foreach ($vcalendar->select('VEVENT') as $vevent) {
+            if (isset($vevent->{'RECURRENCE-ID'})) {
+                $this->assertEquals('Special', (string) $vevent->SUMMARY);
+                $partstats = [];
+                foreach ($vevent->select('ATTENDEE') as $attendee) {
+                    $partstats[strtolower(substr((string) $attendee, 7))] = (string) $attendee['PARTSTAT'];
+                }
+                $this->assertEquals('DECLINED', $partstats[strtolower($other->email)]);
+                $this->assertEquals('ACCEPTED', $partstats[strtolower($user->email)]);
+            }
+        }
+
+        // The client drops the override: the occurrence returns to the series
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $master_lines));
+        $occurrences = $this->get_occurrences($master);
+        $this->assertCount(2, $occurrences);
+        $this->assertFalse($occurrences[0]->recurrenceDetached);
+        $this->assertEquals('Series', $occurrences[0]->title);
+        $this->assertEquals($both, $this->get_member_ids($occurrences[0]));
+        $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
+        $this->assertEquals(1, substr_count($data, 'BEGIN:VEVENT'));
+    }
+
+    public function test_recurrence_conflict()
+    {
+        $user = $this->create_person_with_email(true);
+        $other = $this->create_person_with_email();
+        $busy_start = $this->local($this->week(1), '103000');
+        $this->create_event($other, $busy_start, ['busy' => true]);
+        $uid = 'caldav-series-conflict-' . uniqid();
+        $backend = $this->get_backend();
+
+        // No 409 for a series, the busy participant is left out of that date
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=3',
+            "ATTENDEE:mailto:{$other->email}"
+        ]);
+        $master = $this->find_created_event($uid);
+        $occurrences = $this->get_occurrences($master);
+        $this->assertCount(2, $occurrences);
+        $this->assertTrue($occurrences[0]->recurrenceDetached);
+        $this->assertEquals([$user->id], $this->get_member_ids($occurrences[0]));
+
+        // ... which clients see as declined
+        $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
+        $this->assertEquals(2, substr_count($data, 'BEGIN:VEVENT'));
+        $declined = '/ATTENDEE;[^\r\n]*PARTSTAT=DECLINED[^\r\n]*:mailto:' . preg_quote($other->email, '/') . '/i';
+        $this->assertMatchesRegularExpression($declined, str_replace("\r\n ", '', $data));
+
+        // A client sending it back doesn't change anything
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $data);
+        $occurrences = $this->get_occurrences($master);
+        $this->assertCount(2, $occurrences);
+        $this->assertEquals([$user->id], $this->get_member_ids($occurrences[0]));
+    }
+
+    public function test_recurrence_first_occurrence()
+    {
+        $user = $this->create_person_with_email(true);
+        $uid = 'caldav-first-' . uniqid();
+        $backend = $this->get_backend();
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=3'
+        ], [
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            'RECURRENCE-ID;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'SUMMARY:First',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T140000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T160000',
+            'END:VEVENT'
+        ]);
+
+        // The master row holds the first occurrence, the series keeps its own values
+        $master = $this->find_created_event($uid);
+        $anchor = $this->local($this->week(0)) + 1;
+        $this->assertTrue($master->recurrenceDetached);
+        $this->assertEquals('First', $master->title);
+        $this->assertEquals($anchor + 4 * 3600, $master->start);
+        $this->assertEquals($anchor, $master->recurrenceId);
+        $occurrences = $this->get_occurrences($master);
+        $this->assertCount(2, $occurrences);
+        $this->assertEquals('Series', $occurrences[0]->title);
+        $this->assertEquals(3600 - 1, $occurrences[0]->end - $occurrences[0]->start);
+        $this->assertEquals($this->local($this->week(1)) + 1, $occurrences[0]->start);
+
+        $vcalendar = Reader::read($backend->getCalendarObject($user->id, $uid . '.ics')['calendardata']);
+        $vevents = $vcalendar->select('VEVENT');
+        $this->assertCount(2, $vevents);
+        foreach ($vevents as $vevent) {
+            if (isset($vevent->{'RECURRENCE-ID'})) {
+                $this->assertEquals('First', (string) $vevent->SUMMARY);
+                $this->assertEquals($anchor + 4 * 3600 - 1, $vevent->DTSTART->getDateTime()->getTimestamp());
+            } else {
+                $this->assertEquals('Series', (string) $vevent->SUMMARY);
+                $this->assertEquals($anchor - 1, $vevent->DTSTART->getDateTime()->getTimestamp());
+                $this->assertEquals($anchor - 1 + 3600, $vevent->DTEND->getDateTime()->getTimestamp());
+            }
+        }
+    }
+
+    public function test_recurrence_removed()
+    {
+        $user = $this->create_person_with_email(true);
+        $uid = 'caldav-norule-' . uniqid();
+        $backend = $this->get_backend();
+        $lines = [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000'
+        ];
+        $this->create_via_caldav($backend, $user, $uid, [...$lines, 'RRULE:FREQ=WEEKLY;COUNT=3']);
+        $master = $this->find_created_event($uid);
+        $this->assertCount(2, $this->get_occurrences($master));
+
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $event = $this->find_created_event($uid);
+        $this->assertFalse($event->is_master());
+        $this->assertCount(0, $this->get_occurrences($event));
+        $data = $backend->getCalendarObject($user->id, $uid . '.ics')['calendardata'];
+        $this->assertStringNotContainsString('RRULE', $data);
+    }
+
+    public function test_recurrence_leave()
+    {
+        $user = $this->create_person_with_email(true);
+        $other = $this->create_person_with_email();
+        $uid = 'caldav-leave-series-' . uniqid();
+        $backend = $this->get_backend();
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=3',
+            "ATTENDEE:mailto:{$other->email}"
+        ]);
+        $master = $this->find_created_event($uid);
+
+        midcom::get()->auth->logout();
+        midcom::get()->auth->login($other->lastname, $other->extra);
+        $backend->deleteCalendarObject($other->id, $uid . '.ics');
+
+        $this->assertEquals([$user->id], $this->get_member_ids($master));
+        foreach ($this->get_occurrences($master) as $occurrence) {
+            $this->assertEquals([$user->id], $this->get_member_ids($occurrence));
+        }
+    }
+
+    public function test_sync_recurrence()
+    {
+        $user = $this->create_person_with_email(true);
+        $other = $this->create_person_with_email();
+        $uid = 'caldav-sync-series-' . uniqid();
+        $backend = $this->get_backend();
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=3'
+        ]);
+        $master = $this->find_created_event($uid);
+        $occurrence = $this->get_occurrences($master)[1];
+
+        $this->backdate($user);
+        $token = $backend->getCalendarsForUser($this->get_principal($user))[0]['{http://sabredav.org/ns}sync-token'];
+
+        // A member row on an occurrence changes the series object
+        $this->create_object(org_openpsa_calendar_event_member_dba::class, [
+            'uid' => $other->id,
+            'eid' => $occurrence->id
+        ]);
+        $result = $backend->getChangesForCalendar($user->id, $token, 1);
+        $this->assertEquals([$uid . '.ics'], $result['modified']);
+        $this->assertEquals([], $result['deleted']);
+        $this->assertGreaterThan($token, $result['syncToken']);
     }
 
     public function test_conflict()
