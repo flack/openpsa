@@ -277,6 +277,11 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
 
     private function remove_participant(org_openpsa_calendar_event_dba $event, int $person_id)
     {
+        if ($event->is_master()) {
+            // Leaving a series
+            (new org_openpsa_calendar_recurrence)->leave($event, $person_id, $this->send_notify);
+            return;
+        }
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('eid', '=', $event->id);
         $qb->add_constraint('uid', '=', $person_id);

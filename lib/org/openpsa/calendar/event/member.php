@@ -26,11 +26,17 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     public bool $notify_person = true;
 
+    /**
+     * Copy changes on a recurring event's master to its occurrences
+     */
+    public bool $sync_series = true;
+
     public function _on_created()
     {
         if ($this->notify_person) {
             $this->notify('add');
         }
+        $this->sync_series();
     }
 
     public function _on_updating() : bool
@@ -46,6 +52,27 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         if ($this->notify_person) {
             $this->notify('remove');
         }
+        $this->sync_series();
+    }
+
+    /**
+     * The master's members are the series' list, so they are copied to the occurrences
+     */
+    private function sync_series()
+    {
+        if (!$this->sync_series) {
+            return;
+        }
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        try {
+            $event = new org_openpsa_calendar_event_dba($this->eid);
+            if ($event->is_master()) {
+                (new org_openpsa_calendar_recurrence)->sync($event);
+            }
+        } catch (midcom_error $e) {
+            $e->log();
+        }
+        midcom::get()->auth->drop_sudo();
     }
 
     public function get_label() : string

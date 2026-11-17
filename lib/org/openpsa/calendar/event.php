@@ -25,6 +25,12 @@
  * @property string $vCalSerialized
  * @property string $caldavUri
  * @property integer $orgOpenpsaAccesstype
+ * @property string $recurrence iCal RRULE/RDATE/EXDATE lines (master of a recurring event only)
+ * @property string $timezone TZID the recurrence is expanded in (master only)
+ * @property integer $recurrenceId Original start of the occurrence (on the master: the series' anchor)
+ * @property boolean $recurrenceDetached Occurrence was edited on its own
+ * @property integer $recurrenceUntil End of the last occurrence, 0 if the series doesn't end (master only)
+ * @property integer $materializedUntil Occurrences have been generated up to here (master only)
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
@@ -69,6 +75,63 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public bool $search_relatedtos = true;
     public bool $ignorebusy_em = false;
     public bool $rob_tentative = false;
+
+    /**
+     * Bring the occurrences in line after saving a recurring event's master
+     */
+    public bool $sync_recurrence = true;
+
+    /**
+     * Whether this is the master of a recurring event
+     */
+    public function is_master() : bool
+    {
+        return !empty($this->recurrence) && !$this->is_occurrence();
+    }
+
+    /**
+     * Whether this is an occurrence of a recurring event (other than the first one, which is the master)
+     */
+    public function is_occurrence() : bool
+    {
+        if (!$this->up) {
+            return false;
+        }
+        return $this->up != org_openpsa_calendar_interface::find_root_event()->id;
+    }
+
+    public function is_recurring() : bool
+    {
+        return $this->is_master() || $this->is_occurrence();
+    }
+
+    /**
+     * Returns the master of a recurring event (or the event itself if it isn't an occurrence)
+     */
+    public function get_master() : self
+    {
+        if ($this->is_occurrence()) {
+            return self::get_cached($this->up);
+        }
+        return $this;
+    }
+
+    /**
+     * Restricts the query to events in the calendar (single events, masters and occurrences of recurring events)
+     *
+     * Occurrences are children of their master, so they are two levels below the root event
+     *
+     * @param string $field The field linking to the event, empty if the query is for events
+     */
+    public static function add_calendar_constraint(midcom_core_query $query, string $field = '')
+    {
+        $prefix = $field === '' ? '' : $field . '.';
+        $root_id = org_openpsa_calendar_interface::find_root_event()->id;
+        $query->begin_group('OR');
+            $query->add_constraint($prefix . 'up', '=', $root_id);
+            $query->add_constraint($prefix . 'up.up', '=', $root_id);
+        $query->end_group();
+    }
 
     public function get_label() : string
     {
@@ -147,7 +210,33 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $this->externalGuid = $this->old_externalGuid;
         }
 
-        return $this->_check_timerange();
+        if (!$this->_check_timerange()) {
+            return false;
+        }
+        if ($this->is_master()) {
+            return $this->prepare_recurrence();
+        }
+        return true;
+    }
+
+    private function prepare_recurrence() : bool
+    {
+        $this->timezone = org_openpsa_calendar_recurrence::get_timezone($this)->getName();
+        if (!$this->recurrenceDetached || !$this->recurrenceId) {
+            // The series' anchor moves along with the master, unless the first occurrence was edited on its own
+            $this->recurrenceId = $this->start;
+        }
+        try {
+            $this->recurrenceUntil = (new org_openpsa_calendar_recurrence)->get_until($this);
+        } catch (Exception $e) {
+            debug_add('Invalid recurrence: ' . $e->getMessage(), MIDCOM_LOG_WARN);
+            midcom_connection::set_error(MGD_ERR_RANGE);
+            return false;
+        }
+        if (!$this->materializedUntil) {
+            $this->materializedUntil = org_openpsa_calendar_recurrence::get_horizon();
+        }
+        return true;
     }
 
     private function _check_timerange() : bool
@@ -182,9 +271,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_created()
     {
-        //TODO: handle the repeats somehow (if set)
+        if ($this->sync_recurrence && $this->is_master()) {
+            (new org_openpsa_calendar_recurrence)->sync($this);
+        }
 
-        if ($this->search_relatedtos) {
+        // Occurrences use the master's links
+        if ($this->search_relatedtos && !$this->is_occurrence()) {
             //TODO: add check for failed additions
             (new org_openpsa_relatedto_finder_event($this))->process();
         }
@@ -192,7 +284,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_updating() : bool
     {
-        //TODO: Handle repeats
         return $this->_prepare_save();
     }
 
@@ -216,8 +307,33 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             }
         }
 
-        // Handle ACL accordingly
-        foreach (array_keys($this->participants) as $person_id) {
+        $this->set_privileges();
+
+        if ($this->sync_recurrence && $this->is_master()) {
+            (new org_openpsa_calendar_recurrence)->sync($this);
+        }
+
+        if ($this->search_relatedtos && !$this->is_occurrence()) {
+            (new org_openpsa_relatedto_finder_event($this))->process();
+        }
+    }
+
+    /**
+     * Occurrences inherit their privileges from the master. Those edited on their own
+     * only get privileges for participants who aren't on the master
+     */
+    private function set_privileges()
+    {
+        $participants = array_keys($this->participants);
+        if ($this->is_occurrence()) {
+            if (!$this->recurrenceDetached) {
+                return;
+            }
+            $mc = org_openpsa_calendar_event_member_dba::new_collector('eid', $this->up);
+            $participants = array_diff($participants, $mc->get_values('uid'));
+        }
+
+        foreach ($participants as $person_id) {
             $user = midcom::get()->auth->get_user($person_id);
 
             // All participants can read and update
@@ -229,14 +345,13 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $this->set_privilege('midgard:privileges', $user->id, MIDCOM_PRIVILEGE_ALLOW);
         }
 
+        if ($this->is_occurrence()) {
+            return;
+        }
         if ($this->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
             $this->set_privilege('org.openpsa.calendar:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
         } else {
             $this->set_privilege('org.openpsa.calendar:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
-        }
-
-        if ($this->search_relatedtos) {
-            (new org_openpsa_relatedto_finder_event($this))->process();
         }
     }
 
@@ -262,6 +377,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_deleting() : bool
     {
+        if (   $this->up
+            && !$this->is_occurrence()
+            && !(new org_openpsa_calendar_recurrence)->delete_occurrences($this)) {
+            return false;
+        }
+
         //Remove participants
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         foreach ($this->_get_participants() as $obj) {
@@ -269,6 +390,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                 $obj->notify('cancel', $this);
             }
             $obj->notify_person = false;
+            $obj->sync_series = false;
             $obj->delete();
         }
 
@@ -277,6 +399,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             if ($this->send_notify) {
                 $obj->notify('cancel', $this);
             }
+            $obj->sync_series = false;
             $obj->delete();
         }
 

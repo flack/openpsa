@@ -25,6 +25,8 @@ class org_openpsa_calendar_conflictmanager
 
     private org_openpsa_calendar_event_dba $_event;
 
+    private array $processed = [];
+
     public function __construct(org_openpsa_calendar_event_dba $event)
     {
         $this->_event = $event;
@@ -36,9 +38,25 @@ class org_openpsa_calendar_conflictmanager
         if ($this->_event->id) {
             $qb->add_constraint($fieldname . '.id', '<>', $this->_event->id);
         }
+        // Occurrences of the same series don't conflict with each other
+        if ($master_id = $this->get_master_id()) {
+            $qb->add_constraint($fieldname . '.id', '<>', $master_id);
+            $qb->add_constraint($fieldname . '.up', '<>', $master_id);
+        }
         //Target event starts or ends inside this event's window or starts before and ends after
         $qb->add_constraint($fieldname . '.start', '<=', $this->_event->end);
         $qb->add_constraint($fieldname . '.end', '>=', $this->_event->start);
+    }
+
+    private function get_master_id() : int
+    {
+        if ($this->_event->is_occurrence()) {
+            return $this->_event->up;
+        }
+        if ($this->_event->id && $this->_event->is_master()) {
+            return $this->_event->id;
+        }
+        return 0;
     }
 
     /**
@@ -49,6 +67,10 @@ class org_openpsa_calendar_conflictmanager
      */
     public function run(bool $rob_tentative = false) : bool
     {
+        // Results of a previous run don't carry over
+        $this->processed = [];
+        $this->busy_members = [];
+        $this->busy_resources = [];
         //If we're not busy it's not worth checking
         if (!$this->_event->busy) {
             debug_add('we allow overlapping, so there is no point in checking others');
@@ -198,13 +220,12 @@ class org_openpsa_calendar_conflictmanager
 
     private function is_processed(string $type, int $eid, int $id) : bool
     {
-        static $processed = [];
         $cache_key = $type . '::' . $eid . '::' . $id;
 
-        if (!empty($processed[$cache_key])) {
+        if (!empty($this->processed[$cache_key])) {
             return true;
         }
-        $processed[$cache_key] = true;
+        $this->processed[$cache_key] = true;
         return false;
     }
 }

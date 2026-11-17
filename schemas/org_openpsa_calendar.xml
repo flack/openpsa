@@ -21,6 +21,21 @@
         <!-- Object URI chosen by the CalDAV client that created the event -->
         <property name="caldavUri" type="string" index="yes" />
 
+        <!-- Recurring events: The master holds the rule and is the first occurrence,
+             the other occurrences are stored as its children (up = master) -->
+        <!-- iCal content lines (RRULE, RDATE, EXDATE), set on the master only -->
+        <property name="recurrence" type="text" />
+        <!-- TZID the rule is expanded in (master only) -->
+        <property name="timezone" type="string" />
+        <!-- Original start of the occurrence (on the master: the series' DTSTART) -->
+        <property name="recurrenceId" type="integer" />
+        <!-- Occurrence was edited on its own, series updates leave it alone -->
+        <property name="recurrenceDetached" type="boolean" />
+        <!-- End of the last occurrence, 0 if the series doesn't end (master only) -->
+        <property name="recurrenceUntil" type="integer" />
+        <!-- Occurrences have been generated up to here (master only) -->
+        <property name="materializedUntil" type="integer" />
+
         <property name="orgOpenpsaAccesstype" type="integer"/>
     </type>
 

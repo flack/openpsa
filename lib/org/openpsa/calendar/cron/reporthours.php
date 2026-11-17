@@ -34,11 +34,9 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        // Event must be directly under openpsa calendar root event
-        $qb->add_constraint('eid.up', '=', $root_event->id);
+        // Event must be in the calendar (single events and recurring events' occurrences)
+        org_openpsa_calendar_event_dba::add_calendar_constraint($qb, 'eid');
         // Event must have ended
         $qb->add_constraint('eid.end', '<', time());
         // Event can be at most week old
@@ -62,7 +60,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             }
             $event = org_openpsa_calendar_event_dba::get_cached($member->eid);
 
-            foreach ($this->get_tasks($event->guid) as $task) {
+            foreach ($this->get_event_tasks($event) as $task) {
                 debug_add("processing task #{$task->id} ({$task->title}) for person #{$member->uid} from event #{$event->id} ({$event->title})");
 
                 // Make sure the person we found is a resource in this particular task
@@ -87,6 +85,18 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         }
 
         midcom::get()->auth->drop_sudo();
+    }
+
+    /**
+     * Occurrences of recurring events use their master's task links unless they have their own
+     */
+    private function get_event_tasks(org_openpsa_calendar_event_dba $event) : array
+    {
+        $tasks = $this->get_tasks($event->guid);
+        if (!$tasks && $event->is_occurrence()) {
+            $tasks = $this->get_tasks($event->get_master()->guid);
+        }
+        return $tasks;
     }
 
     private function get_tasks(string $guid) : array

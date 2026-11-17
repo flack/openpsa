@@ -18,6 +18,10 @@
             'handler' => 'org_openpsa_calendar_cron_reporthours',
             'recurrence' => MIDCOM_CRON_HOUR,
         ],
+        [
+            'handler' => 'org_openpsa_calendar_cron_recurrence',
+            'recurrence' => MIDCOM_CRON_DAY,
+        ],
     ],
     'org.openpsa.notifications' => [
         'event_update' => [

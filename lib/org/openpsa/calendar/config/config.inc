@@ -15,5 +15,7 @@
 'wiki_title_skeleton' => 'meeting note for %s on %s by %s', //format of wiki page title created from event
 'event_label'       => 'title',
 
+'recurrence_horizon' => '+3 months', // how far ahead occurrences of recurring events are generated (strtotime() format)
+
 'caldav_debug' => false, // enables sabre's browser plugin and exception details on the CalDAV endpoint
 'caldav_send_notify' => true, // send the usual notifications for changes made through CalDAV

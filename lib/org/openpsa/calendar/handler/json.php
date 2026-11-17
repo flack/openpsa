@@ -78,7 +78,8 @@ class org_openpsa_calendar_handler_json extends midcom_baseclasses_components_ha
     private function load_memberships(int $from, int $to) : array
     {
         $user = midcom::get()->auth->user->get_storage();
-        $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->root_event->id);
+        $mc = org_openpsa_calendar_event_member_dba::new_collector();
+        org_openpsa_calendar_event_dba::add_calendar_constraint($mc, 'eid');
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
         $mc->add_constraint('eid.end', '>=', $from);

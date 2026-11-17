@@ -26,7 +26,7 @@
         "guzzlehttp/guzzle": "^8.0",
         "monolog/monolog": "^2.0",
         "openpsa/installer": "^1.0",
-        "openpsa/midgard-portable": "^1.10.0",
+        "openpsa/midgard-portable": "^1.10.7",
         "openpsa/ranger": ">=0.3.0",
         "openpsa/universalfeedcreator": "^1.8.2",
         "phpspec/php-diff": "^1.1.3",
