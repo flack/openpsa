@@ -371,14 +371,8 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         $members = org_openpsa_calendar_event_member_dba::new_query_builder();
         $members->include_deleted();
         $members->add_constraint('uid', '=', $person_id);
-        $ids = [];
-        if ($eids = array_unique(array_column($members->execute(), 'eid'))) {
-            $qb = org_openpsa_calendar_event_dba::new_query_builder();
-            $qb->include_deleted();
-            $qb->add_constraint('id', 'IN', $eids);
-            $qb->add_constraint('up', '=', $this->get_root_event_id());
-            $ids = array_column($qb->execute(), 'id');
-        }
+        $members->add_constraint('eid.up', '=', $this->get_root_event_id());
+        $ids = array_unique(array_column($members->execute(), 'eid'));
         midcom::get()->auth->drop_sudo();
         return $ids;
     }
