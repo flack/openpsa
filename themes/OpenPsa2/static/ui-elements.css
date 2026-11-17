@@ -181,6 +181,51 @@ div.midcom_helper_datamanager2_view div.field:hover > div
     border-bottom: 1px solid #ddd;
 }
 
+div.midcom_helper_datamanager2_view:has(> div.form)
+{
+    display: block;
+}
+div.midcom_helper_datamanager2_view > div.form
+{
+    display: grid;
+    grid-template-columns: fit-content(40%) minmax(0, 1fr);
+    width: fit-content;
+    max-width: 100%;
+}
+div.midcom_helper_datamanager2_view > div.form div:is(.fieldset, .field):not(.value *)
+{
+    display: contents;
+}
+div.midcom_helper_datamanager2_view > div.form div.fieldset:not(.value *) > h2
+{
+    grid-column: 1 / -1;
+}
+div.midcom_helper_datamanager2_view > div.form div.field:not(.value *) > div
+{
+    min-width: 0;
+}
+/* Fields without a label */
+div.midcom_helper_datamanager2_view > div.form div.field:not(.value *) > div.value:only-child
+{
+    grid-column: 1 / -1;
+}
+div.midcom_helper_datamanager2_view > div.form div.value
+{
+    overflow-wrap: anywhere;
+}
+div.midcom_helper_datamanager2_view > div.form div.value :is(img, video, iframe, table)
+{
+    max-width: 100%;
+}
+div.midcom_helper_datamanager2_view > div.form div.value img
+{
+    height: auto;
+}
+div.midcom_helper_datamanager2_view > div.form div.value pre
+{
+    overflow-x: auto;
+}
+
 div.midcom_helper_datamanager2_view div.title
 {
     vertical-align: top;
