@@ -95,9 +95,9 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
         $this->add_head_elements();
         $options = [
             'businessHours' => [
-                'start' => $this->_config->get('day_start_time') . ':00',
-                'end' => $this->_config->get('day_end_time') . ':00',
-                'dow' => [1, 2, 3, 4, 5]
+                'startTime' => $this->_config->get('day_start_time') . ':00',
+                'endTime' => $this->_config->get('day_end_time') . ':00',
+                'daysOfWeek' => [1, 2, 3, 4, 5]
             ],
             'l10n' => ['cancel' => $this->_l10n_midcom->get('cancel')]
         ];
