@@ -79,6 +79,11 @@ abstract class org_openpsa_relatedto_finder
     protected function save(array $suspect_links)
     {
         foreach ($suspect_links as $linkdata) {
+            // Don't duplicate links that already exist in any status (incl. NOTRELATED)
+            if ($linkdata['link']->check_db(false)) {
+                debug_add("link to {$linkdata['other_obj']->guid} already exists, skipping");
+                continue;
+            }
             if ($linkdata['link']->create()) {
                 debug_add("saved link to {$linkdata['other_obj']->guid} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
             } else {

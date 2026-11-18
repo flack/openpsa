@@ -29,7 +29,15 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
             $rel->fromClass = $object::class;
             $rel->fromGuid = $object->guid;
             if (!$rel->id) {
-                $rel->create();
+                if ($guid = $rel->check_db(false)) {
+                    $existing = new org_openpsa_relatedto_dba($guid);
+                    if ($existing->status < $rel->status) {
+                        $existing->status = $rel->status;
+                        $existing->update();
+                    }
+                } else {
+                    $rel->create();
+                }
             } else {
                 //In theory we should not ever hit this, but better to be sure.
                 $rel->update();
