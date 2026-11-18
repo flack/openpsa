@@ -1,6 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$data['calendar_options']['initialView'] = 'listWeek';
+$data['calendar_options']['initialView'] = 'list';
+$data['calendar_options']['duration'] = ['days' => 7];
 $data['calendar_options']['navLinks'] = false;
 $data['calendar_options']['headerToolbar'] = false;
 $nap = new midcom_helper_nav;
