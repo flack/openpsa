@@ -102,6 +102,10 @@ class recurrenceTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', ['event', $occurrence->guid]);
         $this->assertEquals('Every week', $data['recurrence']['summary']);
         $this->assertStringContainsString($master->guid, $data['recurrence']['series_url']);
+
+        $content = $data['__openpsa_testcase_response']->getContent();
+        $this->assertMatchesRegularExpression('/End time.+Recurrence<\/div><div class="value">Every week \(<a href="[^"]*' . $master->guid . '/s', $content);
+        $this->assertStringNotContainsString('<div class="title">Title</div>', $content);
     }
 
     public function testHandler_admin_refused()

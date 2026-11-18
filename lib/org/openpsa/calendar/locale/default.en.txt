@@ -158,8 +158,8 @@ Print
 Private event
 ---STRINGEND
 
----STRING recurring event
-Recurring event
+---STRING recurrence
+Recurrence
 ---STRINGEND
 
 ---STRING recurring events can only be edited in a calendar client

@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\schema;
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +30,8 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
 
         midcom::get()->skip_page_style = ($handler_id == 'event_view_raw');
 
-        $this->load_datamanager();
         $data['recurrence'] = $this->get_recurrence_info($data['event']);
+        $this->load_datamanager();
 
         // Add toolbar items
         $buttons = [];
@@ -102,8 +103,37 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read')) {
             $schema = 'private';
         }
+        $this->prepare_schema($schema ? $schemadb->get($schema) : $schemadb->get_first());
         $this->datamanager = new datamanager($schemadb);
         $this->datamanager->set_storage($this->_request_data['event'], $schema);
+    }
+
+    private function prepare_schema(schema $schema)
+    {
+        $fields = [];
+        foreach ($schema->get('fields') as $name => $config) {
+            if ($name === 'title') {
+                continue;
+            }
+            $fields[$name] = $config;
+            if ($name === 'end' && $recurrence = $this->_request_data['recurrence']) {
+                $value = $recurrence['summary'];
+                if ($recurrence['series_url']) {
+                    $value .= " (<a href=\"{$recurrence['series_url']}\">" . $this->_l10n->get('show series') . '</a>)';
+                }
+                $fields['recurrence'] = [
+                    'title' => 'recurrence',
+                    'storage' => null,
+                    'type' => 'text',
+                    'type_config' => [
+                        'output_mode' => 'html',
+                    ],
+                    'widget' => 'textarea',
+                    'default' => $value,
+                ];
+            }
+        }
+        $schema->set('fields', $fields);
     }
 
     /**

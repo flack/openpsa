@@ -147,8 +147,8 @@ Drucken
 Privater Termin
 ---STRINGEND
 
----STRING recurring event
-Serientermin
+---STRING recurrence
+Wiederholung
 ---STRINGEND
 
 ---STRING recurring events can only be edited in a calendar client
