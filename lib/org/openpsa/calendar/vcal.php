@@ -285,6 +285,49 @@ class org_openpsa_calendar_vcal
     }
 
     /**
+     * Returns the attendees from the client's copy that are not in our DB
+     *
+     * For occurrences, these are the ones from the override VEVENT if there is one, otherwise
+     * the series' attendees. Declined attendees are left out
+     *
+     * @return array<string, string> email => name (or email, if there is no name)
+     */
+    public static function get_external_attendees(org_openpsa_calendar_event_dba $event) : array
+    {
+        $master = $event;
+        if ($event->is_recurring()) {
+            try {
+                $master = $event->get_master();
+            } catch (midcom_error $e) {
+                $e->log();
+                return [];
+            }
+        }
+        if (   !($stored = self::read($master->vCalSerialized))
+            || !($vevent = self::get_master($stored))) {
+            return [];
+        }
+        if ($event->recurrenceId) {
+            foreach ($stored->select('VEVENT') as $override) {
+                if (   isset($override->{'RECURRENCE-ID'})
+                    && self::get_recurrence_id($override) === $event->recurrenceId) {
+                    $vevent = $override;
+                    break;
+                }
+            }
+        }
+
+        $attendees = [];
+        foreach ($vevent->select('ATTENDEE') as $attendee) {
+            if (   ($email = self::get_email($attendee))
+                && strtoupper((string) $attendee['PARTSTAT']) !== 'DECLINED') {
+                $attendees[$email] = trim((string) $attendee['CN']) ?: $email;
+            }
+        }
+        return array_diff_key($attendees, self::find_persons(array_keys($attendees)));
+    }
+
+    /**
      * @return int[] Start and end timestamp
      */
     public static function get_times(VEvent $vevent) : array

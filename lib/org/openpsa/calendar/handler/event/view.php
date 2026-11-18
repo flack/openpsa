@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\datamanager\helper\autocomplete;
 use midcom\datamanager\schema;
 use midcom\datamanager\schemadb;
 use midcom\datamanager\datamanager;
@@ -115,6 +116,19 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             if ($name === 'title') {
                 continue;
             }
+            if (   $name === 'participants'
+                && $external = org_openpsa_calendar_vcal::get_external_attendees($this->_request_data['event'])) {
+                $config = [
+                    'title' => $config['title'],
+                    'storage' => null,
+                    'type' => 'text',
+                    'type_config' => [
+                        'output_mode' => 'html',
+                    ],
+                    'widget' => 'textarea',
+                    'default' => $this->render_participants($external),
+                ];
+            }
             $fields[$name] = $config;
             if ($name === 'end' && $recurrence = $this->_request_data['recurrence']) {
                 $value = $recurrence['summary'];
@@ -134,6 +148,26 @@ class org_openpsa_calendar_handler_event_view extends midcom_baseclasses_compone
             }
         }
         $schema->set('fields', $fields);
+    }
+
+    /**
+     * @param array<string, string> $external email => name
+     */
+    private function render_participants(array $external) : string
+    {
+        $labels = [];
+        foreach (array_keys($this->_request_data['event']->participants) as $uid) {
+            try {
+                $person = midcom_db_person::get_cached($uid);
+                $labels[] = htmlspecialchars(autocomplete::create_item_label($person, [], 'name'));
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
+        foreach ($external as $email => $label) {
+            $labels[] = '<a href="mailto:' . htmlspecialchars($email) . '">' . htmlspecialchars($label) . '</a>';
+        }
+        return implode(', ', $labels);
     }
 
     /**
