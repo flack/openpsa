@@ -449,6 +449,10 @@ class recurrenceTest extends openpsa_testcase
         // One "update" for the series
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
 
+        $this->assertTrue($this->sudo($master->update(...)));
+        // Nothing changed, so no "update"
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
         $this->assertTrue($this->sudo($master->delete(...)));
         // One "cancel" for the series
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());

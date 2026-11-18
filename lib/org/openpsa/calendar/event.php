@@ -72,6 +72,11 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     var bool $notify_force_add = false;
 
+    /**
+     * What participants are told about in update notifications, as of the last load or update
+     */
+    private array $notify_values = [];
+
     public bool $search_relatedtos = true;
     public bool $ignorebusy_em = false;
     public bool $rob_tentative = false;
@@ -165,6 +170,27 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Populate resources and participants list
         $this->_get_em();
+        $this->notify_values = $this->get_notify_values();
+    }
+
+    /**
+     * The values shown in update notifications (see details_text())
+     */
+    private function get_notify_values() : array
+    {
+        $participants = array_keys($this->participants);
+        $resources = array_keys($this->resources);
+        sort($participants);
+        sort($resources);
+        return [
+            'title' => (string) $this->title,
+            'location' => (string) $this->location,
+            'start' => (int) $this->start,
+            'end' => (int) $this->end,
+            'description' => (string) $this->description,
+            'participants' => $participants,
+            'resources' => $resources,
+        ];
     }
 
     /**
@@ -271,6 +297,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_created()
     {
+        $this->notify_values = $this->get_notify_values();
+
         if ($this->sync_recurrence && $this->is_master()) {
             (new org_openpsa_calendar_recurrence)->sync($this);
         }
@@ -290,7 +318,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         $this->_get_em();
-        if ($this->send_notify) {
+        $notify_values = $this->get_notify_values();
+        $changed = $notify_values !== $this->notify_values;
+        $this->notify_values = $notify_values;
+
+        if (   $this->send_notify
+            && ($changed || $this->notify_force_add)) {
             $message_type = 'update';
             if ($this->notify_force_add) {
                 $message_type = 'add';

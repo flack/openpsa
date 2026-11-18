@@ -765,14 +765,24 @@ class backendTest extends openpsa_testcase
         $this->assertCount(0, org_openpsa_mail_backend_unittest::$mails);
 
         $uid = 'caldav-loud-' . uniqid();
-        $this->create_via_caldav($this->get_backend(true), $user, $uid, [
+        $lines = [
             'SUMMARY:Loud',
             'DTSTART:20050711T100000Z',
             'DTEND:20050711T110000Z',
             $attendee,
-        ]);
+        ];
+        $backend = $this->get_backend(true);
+        $this->create_via_caldav($backend, $user, $uid, $lines);
         $this->find_created_event($uid);
-        $this->assertCount(1, org_openpsa_mail_backend_unittest::$mails);
+        $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
+
+        // Clients send unchanged events again (e.g. when an alarm was changed)
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, [...$lines, 'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'END:VALARM']));
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        $lines[0] = 'SUMMARY:Louder';
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
     }
 
     public function test_delete()
