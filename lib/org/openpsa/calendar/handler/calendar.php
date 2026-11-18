@@ -99,6 +99,7 @@ class org_openpsa_calendar_handler_calendar extends midcom_baseclasses_component
                 'endTime' => $this->_config->get('day_end_time') . ':00',
                 'daysOfWeek' => [1, 2, 3, 4, 5]
             ],
+            'scrollTime' => ($this->_config->get('day_start_time') - 2) . ':00',
             'l10n' => ['cancel' => $this->_l10n_midcom->get('cancel')]
         ];
 
