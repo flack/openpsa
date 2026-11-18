@@ -465,13 +465,39 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function details_text(string $nl) : string
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
-        $str = $l10n->get('location') . ': ' . $this->location . $nl;
-        $str .= $l10n->get('time') . ': ' . $l10n->get_formatter()->timeframe($this->start, $this->end) . $nl;
-        $str .= $l10n->get('participants') . ': ' . $this->implode_members($this->participants) . $nl;
-        $str .= $l10n->get('resources') . ': ' . $this->implode_members($this->resources) . $nl;
-        //TODO: Tentative, overlaps, public
-        $str .= $l10n->get('description') . ': ' . $this->description . $nl;
+        $details = [
+            $l10n->get('location') => $this->location,
+            $l10n->get('time') => $l10n->get_formatter()->timeframe($this->start, $this->end),
+            $l10n->get('recurrence') => $this->describe_recurrence($l10n),
+            $l10n->get('participants') => $this->implode_members($this->participants),
+            $l10n->get('resources') => $this->implode_members($this->resources),
+            //TODO: Tentative, overlaps, public
+            midcom::get()->i18n->get_string('description', 'midcom') => $this->description
+        ];
+        $str = '';
+        foreach ($details as $label => $value) {
+            if (trim($value) !== '') {
+                $str .= $label . ': ' . $value . $nl;
+            }
+        }
         return $str;
+    }
+
+    /**
+     * Readable summary of the series' rule, empty if the event doesn't recur
+     */
+    private function describe_recurrence(midcom_services_i18n_l10n $l10n) : string
+    {
+        if (!$this->is_recurring()) {
+            return '';
+        }
+        try {
+            $master = $this->get_master();
+        } catch (midcom_error $e) {
+            $e->log();
+            return '';
+        }
+        return (new org_openpsa_calendar_recurrence)->describe($master, $l10n);
     }
 
     /**
