@@ -84,32 +84,51 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         if (!$qb = $this->get_events_qb($calendarId)) {
             return [];
         }
-        // Anything we can't express as a database constraint is checked by sabre's validator
-        $needs_validation = !empty($filters['prop-filters']) || !empty($filters['is-not-defined']);
-        $timerange = false;
-        if (!empty($filters['comp-filters'])) {
-            $comp_filter = $filters['comp-filters'][0];
-            if (   count($filters['comp-filters']) > 1
-                || $comp_filter['name'] !== 'VEVENT'
-                || $comp_filter['is-not-defined']
-                || !empty($comp_filter['comp-filters'])
-                || !empty($comp_filter['prop-filters'])) {
-                $needs_validation = true;
-            } elseif ($timerange = $comp_filter['time-range']) {
-                $this->add_timerange_constraint($qb, $timerange['start']?->getTimestamp(), $timerange['end']?->getTimestamp());
-            }
-        }
+        [$validate_all, $validate_masters] = $this->apply_filters($qb, $filters);
 
         $result = [];
         foreach ($qb->execute() as $event) {
             $object = $this->get_object_data($event);
-            if (   ($needs_validation || ($timerange && $event->is_master()))
+            if (   ($validate_all || ($validate_masters && $event->is_master()))
                 && !$this->validateFilterForObject($object, $filters)) {
                 continue;
             }
             $result[] = $object['uri'];
         }
         return $result;
+    }
+
+    /**
+     * Adds what we can express as database constraints to the query, anything else is checked by sabre's validator
+     *
+     * @return bool[] Whether all events need validation, and whether masters of recurring events do
+     */
+    private function apply_filters(midcom_core_querybuilder $qb, array $filters) : array
+    {
+        $comp_filters = $filters['comp-filters'] ?? [];
+        $plain = $this->is_plain_vevent_filter($comp_filters);
+        $validate_all = !$plain || !empty($filters['prop-filters']) || !empty($filters['is-not-defined']);
+        if (!$plain || !$timerange = $comp_filters[0]['time-range'] ?? null) {
+            return [$validate_all, false];
+        }
+        $this->add_timerange_constraint($qb, $timerange['start']?->getTimestamp(), $timerange['end']?->getTimestamp());
+        return [$validate_all, true];
+    }
+
+    /**
+     * Whether the comp-filters are at most one VEVENT filter with nothing but a time-range
+     */
+    private function is_plain_vevent_filter(array $comp_filters) : bool
+    {
+        if (!$comp_filters) {
+            return true;
+        }
+        $filter = $comp_filters[0];
+        return count($comp_filters) === 1
+            && $filter['name'] === 'VEVENT'
+            && !$filter['is-not-defined']
+            && empty($filter['comp-filters'])
+            && empty($filter['prop-filters']);
     }
 
     /**
@@ -325,19 +344,11 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
             }
             return $result;
         }
-        if (!ctype_digit((string) $syncToken) || (int) $syncToken > (int) $current) {
+        if (!$this->is_usable_token((string) $syncToken, $current)) {
             return null;
         }
-        if ($syncToken === $current) {
-            return $result;
-        }
-        // Deleted objects get purged eventually, after which their removal can't be reported anymore
-        $purge_days = midcom::get()->config->get('cron_purge_deleted_after');
-        if ((int) $syncToken < time() - $purge_days * 86400) {
-            return null;
-        }
-
-        if (!$changed = $this->get_changed_event_ids($person_id, (int) $syncToken)) {
+        if (   $syncToken === $current
+            || !$changed = $this->get_changed_event_ids($person_id, (int) $syncToken)) {
             return $result;
         }
         $current_events = [];
@@ -348,17 +359,41 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
             }
         }
         $result['modified'] = array_values($current_events);
-
-        if ($missing = array_diff($changed, array_keys($current_events))) {
-            // The user can't read these anymore, but needs to know their URIs
-            midcom::get()->auth->request_sudo('org.openpsa.calendar');
-            $qb = org_openpsa_calendar_event_dba::new_query_builder();
-            $qb->include_deleted();
-            $qb->add_constraint('id', 'IN', $missing);
-            $result['deleted'] = array_map($this->get_uri(...), $qb->execute());
-            midcom::get()->auth->drop_sudo();
-        }
+        $result['deleted'] = $this->get_deleted_uris(array_diff($changed, array_keys($current_events)));
         return $result;
+    }
+
+    /**
+     * Whether the token is one of ours and still recent enough to report deletions since then
+     */
+    private function is_usable_token(string $token, string $current) : bool
+    {
+        if ($token === $current) {
+            // Nothing changed since, even if that was long ago
+            return true;
+        }
+        if (!ctype_digit($token) || (int) $token > (int) $current) {
+            return false;
+        }
+        $purge_days = midcom::get()->config->get('cron_purge_deleted_after');
+        return (int) $token >= time() - $purge_days * 86400;
+    }
+
+    /**
+     * The URIs of events the user can't read anymore (since they need to be reported as deleted)
+     */
+    private function get_deleted_uris(array $ids) : array
+    {
+        if (!$ids) {
+            return [];
+        }
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->include_deleted();
+        $qb->add_constraint('id', 'IN', $ids);
+        $uris = array_map($this->get_uri(...), $qb->execute());
+        midcom::get()->auth->drop_sudo();
+        return $uris;
     }
 
     /**

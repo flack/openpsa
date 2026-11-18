@@ -32,7 +32,7 @@ class org_openpsa_calendar_import
     public function save(org_openpsa_calendar_event_dba $event, int $owner_id, VCalendar $vcalendar)
     {
         $vevent = org_openpsa_calendar_vcal::get_master($vcalendar) ?? throw new Exception\BadRequest('No VEVENT found');
-        $overrides = $this->get_overrides($vcalendar, $vevent);
+        $overrides = org_openpsa_calendar_vcal::get_overrides($vcalendar, $vevent);
         $was_master = $event->is_master();
 
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
@@ -47,10 +47,7 @@ class org_openpsa_calendar_import
         $participants = $this->get_participants($vevent, $event, $owner_id);
         $event->participants = $participants;
         if (!$event->recurrence) {
-            $conflictmanager = new org_openpsa_calendar_conflictmanager($event);
-            if (!$conflictmanager->run($event->rob_tentative)) {
-                throw new Exception\Conflict($this->get_conflict_message($conflictmanager));
-            }
+            $this->check_conflicts($event);
         }
         $event->ignorebusy_em = true;
         $event->send_notify = $this->send_notify;
@@ -74,22 +71,6 @@ class org_openpsa_calendar_import
             // No longer recurring
             $recurrence->delete_occurrences($event, false);
         }
-    }
-
-    /**
-     * @return array<int, VEvent> Override VEVENTs by the original start of their occurrence
-     */
-    private function get_overrides(VCalendar $vcalendar, VEvent $master) : array
-    {
-        $overrides = [];
-        foreach ($vcalendar->select('VEVENT') as $vevent) {
-            if (   $vevent !== $master
-                && isset($vevent->{'RECURRENCE-ID'})
-                && (string) $vevent->UID === (string) $master->UID) {
-                $overrides[org_openpsa_calendar_vcal::get_recurrence_id($vevent)] = $vevent;
-            }
-        }
-        return $overrides;
     }
 
     private function set_recurrence(org_openpsa_calendar_event_dba $event, VEvent $vevent, array $overrides)
@@ -193,8 +174,12 @@ class org_openpsa_calendar_import
         return !empty($participants);
     }
 
-    private function get_conflict_message(org_openpsa_calendar_conflictmanager $conflictmanager) : string
+    private function check_conflicts(org_openpsa_calendar_event_dba $event)
     {
+        $conflictmanager = new org_openpsa_calendar_conflictmanager($event);
+        if ($conflictmanager->run($event->rob_tentative)) {
+            return;
+        }
         $names = [];
         foreach (array_keys($conflictmanager->busy_members) as $uid) {
             $names[] = midcom_db_person::get_cached($uid)->name;
@@ -202,7 +187,7 @@ class org_openpsa_calendar_import
         foreach (array_keys($conflictmanager->busy_resources) as $id) {
             $names[] = org_openpsa_calendar_resource_dba::get_cached($id)->title;
         }
-        return 'The event conflicts with other events of: ' . implode(', ', $names);
+        throw new Exception\Conflict('The event conflicts with other events of: ' . implode(', ', $names));
     }
 
     public static function get_save_exception() : Exception

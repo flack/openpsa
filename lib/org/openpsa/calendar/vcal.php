@@ -276,12 +276,7 @@ class org_openpsa_calendar_vcal
      */
     public static function get_attendee_ids(VEvent $vevent, bool $skip_declined = false) : array
     {
-        $attendees = $vevent->select('ATTENDEE');
-        if ($skip_declined) {
-            $attendees = array_filter($attendees, fn($attendee) => strtoupper((string) $attendee['PARTSTAT']) !== 'DECLINED');
-        }
-        $emails = array_filter(array_map(self::get_email(...), $attendees));
-        return self::find_persons($emails);
+        return self::find_persons(array_keys(self::get_attendees($vevent, $skip_declined)));
     }
 
     /**
@@ -294,37 +289,54 @@ class org_openpsa_calendar_vcal
      */
     public static function get_external_attendees(org_openpsa_calendar_event_dba $event) : array
     {
-        $master = $event;
-        if ($event->is_recurring()) {
-            try {
-                $master = $event->get_master();
-            } catch (midcom_error $e) {
-                $e->log();
-                return [];
-            }
+        try {
+            $master = $event->get_master();
+        } catch (midcom_error $e) {
+            $e->log();
+            return [];
         }
         if (   !($stored = self::read($master->vCalSerialized))
             || !($vevent = self::get_master($stored))) {
             return [];
         }
-        if ($event->recurrenceId) {
-            foreach ($stored->select('VEVENT') as $override) {
-                if (   isset($override->{'RECURRENCE-ID'})
-                    && self::get_recurrence_id($override) === $event->recurrenceId) {
-                    $vevent = $override;
-                    break;
-                }
+        $vevent = self::get_overrides($stored, $vevent)[$event->recurrenceId] ?? $vevent;
+
+        $attendees = [];
+        foreach (self::get_attendees($vevent, true) as $email => $attendee) {
+            $attendees[$email] = trim((string) $attendee['CN']) ?: $email;
+        }
+        return array_diff_key($attendees, self::find_persons(array_keys($attendees)));
+    }
+
+    /**
+     * @return array<int, VEvent> Override VEVENTs by the original start of their occurrence
+     */
+    public static function get_overrides(VCalendar $vcalendar, VEvent $master) : array
+    {
+        $overrides = [];
+        foreach ($vcalendar->select('VEVENT') as $vevent) {
+            if (   $vevent !== $master
+                && isset($vevent->{'RECURRENCE-ID'})
+                && (string) $vevent->UID === (string) $master->UID) {
+                $overrides[self::get_recurrence_id($vevent)] = $vevent;
             }
         }
+        return $overrides;
+    }
 
+    /**
+     * @return array<string, Property> ATTENDEE properties by lowercase email address (those without one are left out)
+     */
+    private static function get_attendees(VEvent $vevent, bool $skip_declined) : array
+    {
         $attendees = [];
         foreach ($vevent->select('ATTENDEE') as $attendee) {
             if (   ($email = self::get_email($attendee))
-                && strtoupper((string) $attendee['PARTSTAT']) !== 'DECLINED') {
-                $attendees[$email] = trim((string) $attendee['CN']) ?: $email;
+                && (!$skip_declined || strtoupper((string) $attendee['PARTSTAT']) !== 'DECLINED')) {
+                $attendees[$email] = $attendee;
             }
         }
-        return array_diff_key($attendees, self::find_persons(array_keys($attendees)));
+        return $attendees;
     }
 
     /**
@@ -430,12 +442,7 @@ class org_openpsa_calendar_vcal
      */
     private function set_attendees(VEvent $vevent, array $participants)
     {
-        $stored = [];
-        foreach ($vevent->select('ATTENDEE') as $attendee) {
-            if ($email = self::get_email($attendee)) {
-                $stored[$email] = $attendee;
-            }
-        }
+        $stored = self::get_attendees($vevent, false);
         unset($vevent->ATTENDEE);
 
         foreach (array_keys($participants) as $uid) {
