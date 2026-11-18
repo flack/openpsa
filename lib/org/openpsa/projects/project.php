@@ -138,21 +138,9 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         return 'tasks';
     }
 
-    /**
-     * Generate a user-readable label for the task using the task/project hierarchy
-     */
     public function get_label() : string
     {
-        $label_elements = [$this->title];
-        $project = $this;
-        while ($project = $project->get_parent()) {
-            if (!empty($project->title)) {
-                $label_elements[] = $project->title;
-            }
-        }
-
-        $label = implode(' / ', array_reverse($label_elements));
-        return trim($label);
+        return trim($this->title);
     }
 
     public function get_salesproject() : org_openpsa_sales_salesproject_dba

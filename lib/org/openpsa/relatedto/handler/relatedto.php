@@ -273,7 +273,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $type = 'project';
         }
 
-        $title = $other_obj->title;
+        $title = $other_obj->get_label();
 
         if ($url = $this->get_node_url('org.openpsa.projects')) {
             $title = '<a href="' . $url . $type . '/' . $other_obj->guid . '/" target="task_' . $other_obj->guid . '">' . $title . "</a>\n";
