@@ -177,7 +177,7 @@ class org_openpsa_calendar_vcal
             $this->set_recurrence_id($override, $vevent, $occurrence->recurrenceId);
             $this->set_properties($override, $occurrence, $this->get_values($occurrence), $is_stored);
             $this->set_attendees($override, $occurrence->participants);
-            $declined = array_diff_key(array_filter($master->participants), array_filter($occurrence->participants));
+            $declined = array_diff_key($master->participants, $occurrence->participants);
             foreach (array_keys($declined) as $uid) {
                 $this->add_attendee($override, $uid, 'DECLINED');
             }
@@ -438,7 +438,7 @@ class org_openpsa_calendar_vcal
         }
         unset($vevent->ATTENDEE);
 
-        foreach (array_keys(array_filter($participants)) as $uid) {
+        foreach (array_keys($participants) as $uid) {
             $email = $this->get_attendee_email($uid);
             if ($email && isset($stored[strtolower($email)])) {
                 $vevent->add($stored[strtolower($email)]);
