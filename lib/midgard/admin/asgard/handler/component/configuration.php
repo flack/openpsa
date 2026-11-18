@@ -66,11 +66,16 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     private function _load_configs(string $component) : midcom_helper_configuration
     {
-        $config = midcom_baseclasses_components_configuration::get($component, 'config');
-
         if ($this->folder) {
+            // Folder config overrides the sitewide (defaults + sitegroup snippet) values.
+            // We use a copy, since the shared object may have been modified at runtime
+            $config = new midcom_helper_configuration(midcom_baseclasses_components_configuration::get($component, 'config')->_global);
             $topic_config = new midcom_helper_configuration($this->folder, $component);
             $config->store($topic_config->_local, false);
+        } else {
+            // Sitegroup snippet overrides the component defaults
+            $config = new midcom_helper_configuration(midcom_baseclasses_components_configuration::get_defaults($component));
+            $config->store(midcom_baseclasses_components_configuration::get_sitegroup_config($component), false);
         }
 
         return $config;
@@ -198,7 +203,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $raw = $this->_controller->get_datamanager()->get_content_raw();
         $values = [];
 
-        foreach ($this->_request_data['config']->get_all() as $key => $val) {
+        // Compare against the global values (i.e. everything not stored by this form),
+        // so that keys which were already customized but not changed in this edit are kept
+        foreach ($this->_request_data['config']->_global as $key => $val) {
             if (!isset($raw[$key]) || $raw[$key] === '') {
                 continue;
             }

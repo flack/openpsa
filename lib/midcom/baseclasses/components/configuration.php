@@ -86,20 +86,30 @@ class midcom_baseclasses_components_configuration
      */
     private static function _load_configuration(string $component)
     {
-        $data = [];
+        $data = array_merge(self::get_defaults($component), self::get_sitegroup_config($component));
+        self::$_data[$component]['config'] = new midcom_helper_configuration($data);
+    }
+
+    /**
+     * Returns the component's default configuration (component config.inc merged
+     * with the systemwide default), i.e. everything from the filesystem
+     */
+    public static function get_defaults(string $component) : array
+    {
         $component_path = midcom::get()->componentloader->path_to_snippetpath($component);
         // Load and parse the global config
-        if ($component_data = self::read_array_from_file($component_path . '/config/config.inc')) {
-            $data = array_merge($data, $component_data);
-        }
+        $data = self::read_array_from_file($component_path . '/config/config.inc');
 
         // Go for the sitewide default
-        $data = array_merge($data, self::read_array_from_snippet("conf:/{$component}/config.inc"));
+        return array_merge($data, self::read_array_from_snippet("conf:/{$component}/config.inc"));
+    }
 
-        // Finally, check the sitegroup config
-        $data = array_merge($data, self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config"));
-
-        self::$_data[$component]['config'] = new midcom_helper_configuration($data);
+    /**
+     * Returns the sitegroup configuration stored in the config snippet
+     */
+    public static function get_sitegroup_config(string $component) : array
+    {
+        return self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config");
     }
 
     /**

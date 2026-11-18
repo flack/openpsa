@@ -53,4 +53,21 @@ class configurationTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_edit_folder_keeps_unchanged_values()
+    {
+        $this->create_user(true);
+        midcom::get()->auth->request_sudo('midgard.admin.asgard');
+
+        $topic = $this->create_object(midcom_db_topic::class, ['component' => 'net.nehmer.blog']);
+        $topic->set_parameter('net.nehmer.blog', 'index_entries', '5');
+
+        $this->submit_dm_form('controller', ['rss_count' => '10'], 'net.nehmer.static', ['__mfa', 'asgard', 'components', 'configuration', 'edit', 'net.nehmer.blog', $topic->guid]);
+
+        $topic = new midcom_db_topic($topic->guid);
+        $this->assertEquals('10', $topic->get_parameter('net.nehmer.blog', 'rss_count'));
+        $this->assertEquals('5', $topic->get_parameter('net.nehmer.blog', 'index_entries'));
+
+        midcom::get()->auth->drop_sudo();
+    }
 }
