@@ -29,6 +29,8 @@ class org_openpsa_invoices_calculator
 
         if ($this_cycle_amount == 0) {
             debug_add('Invoice sum 0, skipping invoice creation');
+            // persist recalculated price (and units)
+            $this->_deliverable->calculate_price();
             return 0;
         }
 
