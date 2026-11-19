@@ -542,6 +542,38 @@ class org_openpsa_calendar_recurrence
         return (new DateTimeImmutable('@' . $timestamp))->setTimezone($tz)->format('Y-m-d');
     }
 
+    /**
+     * Whether the date is left out of the series by an EXDATE (as opposed to the rule not producing it)
+     */
+    public function is_excluded(org_openpsa_calendar_event_dba $master, int $recurrence_id) : bool
+    {
+        if ($this->is_instance($master, $recurrence_id)) {
+            return false;
+        }
+        $recurrence = $master->recurrence;
+        $master->recurrence = implode("\n", array_filter(self::get_lines($recurrence), fn($line) => stripos($line, 'EXDATE') !== 0));
+        try {
+            return $this->is_instance($master, $recurrence_id);
+        } finally {
+            $master->recurrence = $recurrence;
+        }
+    }
+
+    /**
+     * Leaves the dates out of the series (with EXDATEs), the occurrences are deleted on the next sync
+     *
+     * @param int[] $recurrence_ids
+     */
+    public function cancel(org_openpsa_calendar_event_dba $master, array $recurrence_ids)
+    {
+        $recurrence_ids = array_filter($recurrence_ids, fn($id) => $id !== $master->recurrenceId && $this->is_instance($master, $id));
+        if ($recurrence_ids) {
+            midcom::get()->auth->request_sudo('org.openpsa.calendar');
+            $this->add_exdates($master, $recurrence_ids);
+            midcom::get()->auth->drop_sudo();
+        }
+    }
+
     private function is_instance(org_openpsa_calendar_event_dba $master, int $recurrence_id) : bool
     {
         return $recurrence_id === $master->recurrenceId

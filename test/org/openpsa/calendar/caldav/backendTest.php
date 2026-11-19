@@ -785,6 +785,69 @@ class backendTest extends openpsa_testcase
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
     }
 
+    public function test_notifications_cancelled_occurrence()
+    {
+        $user = $this->create_person_with_email(true);
+        $other = $this->create_person_with_email();
+        $uid = 'caldav-cancel-' . uniqid();
+        $backend = $this->get_backend(true);
+        $lines = [
+            'SUMMARY:Series',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=4',
+            "ATTENDEE:mailto:{$other->email}",
+        ];
+        $this->create_via_caldav($backend, $user, $uid, $lines);
+        $master = $this->find_created_event($uid);
+        $this->assertCount(3, $this->get_occurrences($master));
+        org_openpsa_mail_backend_unittest::flush();
+        $formatter = midcom::get()->i18n->get_l10n('org.openpsa.calendar')->get_formatter();
+
+        // The client excludes a date
+        $lines[] = 'EXDATE;TZID=Europe/Berlin:' . $this->week(2) . 'T100000';
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $this->assertCount(2, $this->get_occurrences($master));
+        $mails = org_openpsa_mail_backend_unittest::flush();
+        $this->assertCount(1, $mails);
+        $this->assertStringContainsString($other->email, json_encode($mails[0]['recipients']));
+        $date = $formatter->date($this->local($this->week(2)));
+        $this->assertStringContainsString($date, $mails[0]['headers']['Subject']);
+        $this->assertStringContainsString($date, $mails[0]['body']);
+
+        // The client sends the same data again
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        // The client marks an occurrence as cancelled
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines, [
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            'RECURRENCE-ID;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'SUMMARY:Series',
+            'STATUS:CANCELLED',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(1) . 'T110000',
+            "ATTENDEE:mailto:{$other->email}",
+            'END:VEVENT',
+        ]));
+        $this->assertCount(1, $this->get_occurrences($master));
+        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . $this->week(1) . 'T100000', $this->sudo(fn() => new org_openpsa_calendar_event_dba($master->id))->recurrence);
+        $mails = org_openpsa_mail_backend_unittest::flush();
+        $this->assertCount(1, $mails);
+        $date = $formatter->date($this->local($this->week(1)));
+        $this->assertStringContainsString($date, $mails[0]['headers']['Subject']);
+        $this->assertStringContainsString($date, $mails[0]['body']);
+
+        // Shortening the series isn't a cancellation of single dates
+        $lines[3] = 'RRULE:FREQ=WEEKLY;COUNT=3';
+        $lines[] = 'EXDATE;TZID=Europe/Berlin:' . $this->week(1) . 'T100000';
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $this->assertCount(0, $this->get_occurrences($master));
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+    }
+
     public function testNotifications_external_organizer()
     {
         $user = $this->create_person_with_email(true);
@@ -819,6 +882,39 @@ class backendTest extends openpsa_testcase
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('id', '=', $event->id);
         $this->assertEquals(0, $qb->count());
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        // Single dates of an invitation to a series are cancelled by the organizer as well
+        $uid = 'caldav-external-series-' . uniqid();
+        $lines = [
+            'SUMMARY:Series invitation',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(0) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(0) . 'T110000',
+            'RRULE:FREQ=WEEKLY;COUNT=4',
+            "ORGANIZER;CN=Organizer:MAILTO:{$organizer->email}",
+            "ATTENDEE:mailto:{$organizer->email}",
+            "ATTENDEE:mailto:{$user->email}",
+            "ATTENDEE:mailto:{$other_user->email}",
+        ];
+        $this->create_via_caldav($backend, $user, $uid, $lines);
+        $master = $this->find_created_event($uid);
+        $this->assertCount(3, $this->get_occurrences($master));
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        $lines[] = 'EXDATE;TZID=Europe/Berlin:' . $this->week(2) . 'T100000';
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines, [
+            'BEGIN:VEVENT',
+            'UID:' . $uid,
+            'DTSTAMP:20050101T000000Z',
+            'RECURRENCE-ID;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'SUMMARY:Series invitation',
+            'STATUS:CANCELLED',
+            'DTSTART;TZID=Europe/Berlin:' . $this->week(1) . 'T100000',
+            'DTEND;TZID=Europe/Berlin:' . $this->week(1) . 'T110000',
+            "ORGANIZER;CN=Organizer:MAILTO:{$organizer->email}",
+            'END:VEVENT',
+        ]));
+        $this->assertCount(1, $this->get_occurrences($master));
         $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
 
         // Organized by the user: the attendees are notified

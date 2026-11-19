@@ -22,6 +22,8 @@ use Sabre\VObject\Component\VEvent;
  * - Recurring events: RRULE, RDATE and EXDATE go into $recurrence, override VEVENTs become
  *   occurrences edited on their own, with the participants from their attendees. Series are not
  *   refused because of conflicts, each occurrence is checked on its own instead
+ * - Overrides with STATUS:CANCELLED become EXDATEs. The participants of dates cancelled like this
+ *   are notified about the occurrence (the master's update notification doesn't mention it)
  *
  * @package org.openpsa.calendar
  */
@@ -35,7 +37,15 @@ class org_openpsa_calendar_import
     {
         $vevent = org_openpsa_calendar_vcal::get_master($vcalendar) ?? throw new Exception\BadRequest('No VEVENT found');
         $overrides = org_openpsa_calendar_vcal::get_overrides($vcalendar, $vevent);
+        $cancelled = [];
+        foreach ($overrides as $recurrence_id => $override) {
+            if (strtoupper((string) $override->STATUS) === 'CANCELLED') {
+                $cancelled[] = $recurrence_id;
+                unset($overrides[$recurrence_id]);
+            }
+        }
         $was_master = $event->is_master();
+        $occurrences = $was_master ? $this->get_upcoming_occurrences($event) : [];
         $notify = $this->send_notify && !org_openpsa_calendar_vcal::has_external_organizer($vevent, $owner_id);
 
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
@@ -69,7 +79,11 @@ class org_openpsa_calendar_import
 
         $recurrence = new org_openpsa_calendar_recurrence;
         if ($event->is_master()) {
+            $recurrence->cancel($event, $cancelled);
             $this->save_occurrences($recurrence, $event, $overrides, $owner_id);
+            if ($notify) {
+                $this->notify_cancelled($recurrence, $event, $occurrences);
+            }
         } elseif ($was_master) {
             // No longer recurring
             $recurrence->delete_occurrences($event, false);
@@ -125,6 +139,65 @@ class org_openpsa_calendar_import
             org_openpsa_calendar_vcal::vevent_to_event($override, $values);
             $participants = $this->get_participants($override, $master, $owner_id, true);
             $recurrence->apply_override($master, $recurrence_id, $values, array_keys($participants));
+        }
+    }
+
+    /**
+     * The series' occurrences that haven't ended, with their members
+     *
+     * @return array<int, array{org_openpsa_calendar_event_dba, org_openpsa_calendar_event_member_dba[]}> By ID
+     */
+    private function get_upcoming_occurrences(org_openpsa_calendar_event_dba $master) : array
+    {
+        $auth = midcom::get()->auth;
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('up', '=', $master->id);
+        $qb->add_constraint('end', '>', time());
+        $auth->request_sudo('org.openpsa.calendar');
+        $results = $qb->execute();
+        $auth->drop_sudo();
+        $occurrences = [];
+        foreach ($results as $occurrence) {
+            $occurrences[$occurrence->id] = [$occurrence, []];
+        }
+        if ($occurrences) {
+            $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
+            $qb->add_constraint('eid', 'IN', array_keys($occurrences));
+            $auth->request_sudo('org.openpsa.calendar');
+            $members = $qb->execute();
+            $auth->drop_sudo();
+            foreach ($members as $member) {
+                $occurrences[$member->eid][1][] = $member;
+            }
+        }
+        return $occurrences;
+    }
+
+    /**
+     * Sends cancel notifications for the occurrences that were deleted because their date was excluded
+     *
+     * Occurrences that are gone because the rule itself changed are left out, the master's update
+     * notification covers those
+     *
+     * @param array<int, array{org_openpsa_calendar_event_dba, org_openpsa_calendar_event_member_dba[]}> $occurrences
+     */
+    private function notify_cancelled(org_openpsa_calendar_recurrence $recurrence, org_openpsa_calendar_event_dba $master, array $occurrences)
+    {
+        if (!$occurrences) {
+            return;
+        }
+        $mc = org_openpsa_calendar_event_dba::new_collector('up', $master->id);
+        $mc->add_constraint('id', 'IN', array_keys($occurrences));
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
+        $remaining = $mc->get_values('id');
+        midcom::get()->auth->drop_sudo();
+
+        foreach (array_diff_key($occurrences, array_flip($remaining)) as [$occurrence, $members]) {
+            if ($recurrence->is_excluded($master, $occurrence->recurrenceId)) {
+                foreach ($members as $member) {
+                    $member->notify('cancel', $occurrence);
+                }
+            }
         }
     }
 

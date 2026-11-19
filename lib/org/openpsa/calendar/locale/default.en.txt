@@ -46,6 +46,10 @@ End time
 Event "%s" was updated
 ---STRINGEND
 
+---STRING event "%s" on %s was updated
+Event "%s" on %s was updated
+---STRINGEND
+
 ---STRING event "%s" (%s) was updated
 Event "%s" (%s) was updated
 ---STRINGEND
@@ -56,6 +60,14 @@ Event "%s" was modified, updated information below.
 
 ---STRING event "%s" was cancelled
 Event "%s" was cancelled
+---STRINGEND
+
+---STRING event "%s" on %s was cancelled
+Event "%s" on %s was cancelled
+---STRINGEND
+
+---STRING event "%s" (%s) was cancelled.
+Event "%s" (%s) was cancelled.
 ---STRINGEND
 
 ---STRING event "%s" (%s) was cancelled

@@ -109,7 +109,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             //Event information was updated
             case 'update':
                 //PONDER: This in theory should have the old event title
-                $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
+                if ($event->is_occurrence()) {
+                    $message['title'] = sprintf($l10n->get('event "%s" on %s was updated'), $event->title, $this->get_occurrence_date($event, $l10n));
+                } else {
+                    $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
+                }
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
                 $message['content'] .= $event->details_text($nl);
@@ -129,7 +133,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 break;
                 //Event was cancelled (=deleted)
             case 'cancel':
-                $message['title'] = sprintf($l10n->get('event "%s" was cancelled'), $event->title);
+                if ($event->is_occurrence()) {
+                    $message['title'] = sprintf($l10n->get('event "%s" on %s was cancelled'), $event->title, $this->get_occurrence_date($event, $l10n));
+                } else {
+                    $message['title'] = sprintf($l10n->get('event "%s" was cancelled'), $event->title);
+                }
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was cancelled'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('event "%s" (%s) was cancelled.'), $event->title, $timeframe);
                 break;
@@ -153,6 +161,14 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         return org_openpsa_notifications::notify($action, $recipient->guid, $message);
+    }
+
+    /**
+     * The occurrence's original date, which identifies it within the series even if it was moved
+     */
+    private function get_occurrence_date(org_openpsa_calendar_event_dba $event, midcom_services_i18n_l10n $l10n) : string
+    {
+        return $l10n->get_formatter()->date($event->recurrenceId ?: $event->start);
     }
 
     /**

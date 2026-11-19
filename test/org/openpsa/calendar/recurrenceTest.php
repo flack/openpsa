@@ -458,6 +458,39 @@ class recurrenceTest extends openpsa_testcase
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
     }
 
+    public function test_notifications_occurrence()
+    {
+        $user = $this->create_person_with_email();
+        $start = $this->timestamp('monday next week 10:00');
+        $master = $this->create_master($start, 'RRULE:FREQ=WEEKLY;COUNT=3', [$user]);
+        org_openpsa_mail_backend_unittest::flush();
+        $formatter = midcom::get()->i18n->get_l10n('org.openpsa.calendar')->get_formatter();
+
+        $occurrence = $this->get_occurrences($master)[0];
+        $date = $formatter->date($occurrence->recurrenceId);
+        $occurrence->start += 3600;
+        $occurrence->end += 3600;
+        $occurrence->recurrenceDetached = true;
+        $this->assertTrue($this->sudo($occurrence->update(...)));
+        $mails = org_openpsa_mail_backend_unittest::flush();
+        $this->assertCount(1, $mails);
+        $this->assertStringContainsString($date, $mails[0]['headers']['Subject']);
+
+        $occurrence = $this->get_occurrences($master)[1];
+        $date = $formatter->date($occurrence->recurrenceId);
+        $occurrence->_use_rcs = false;
+        $this->assertTrue($this->sudo($occurrence->delete(...)));
+        $mails = org_openpsa_mail_backend_unittest::flush();
+        $this->assertCount(1, $mails);
+        $this->assertStringContainsString($date, $mails[0]['headers']['Subject']);
+
+        $master->title = 'Changed';
+        $this->assertTrue($this->sudo($master->update(...)));
+        $mails = org_openpsa_mail_backend_unittest::flush();
+        $this->assertCount(1, $mails);
+        $this->assertStringNotContainsString($formatter->date($master->start), $mails[0]['headers']['Subject']);
+    }
+
     public function test_delete()
     {
         $user = $this->create_user();
