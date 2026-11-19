@@ -210,15 +210,17 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
     public function deleteCalendarObject($calendarId, $objectUri)
     {
         $event = $this->find_events($calendarId, [$objectUri])[0] ?? throw new Exception\NotFound('Event not found');
+        $vevent = org_openpsa_calendar_vcal::get_stored_vevent($event);
+        $notify = $this->send_notify && !($vevent && org_openpsa_calendar_vcal::has_external_organizer($vevent, $calendarId));
         $others = array_diff_key($event->participants, [$calendarId => true]);
         $is_creator = $event->metadata->creator === midcom::get()->auth->user?->guid;
 
         if (   ($others && !$is_creator)
             || !$event->can_do('midgard:delete')) {
-            $this->remove_participant($event, $calendarId);
+            $this->remove_participant($event, $calendarId, $notify);
             return;
         }
-        $event->send_notify = $this->send_notify;
+        $event->send_notify = $notify;
         if (!$event->delete()) {
             throw org_openpsa_calendar_import::get_save_exception();
         }
@@ -230,11 +232,11 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         (new org_openpsa_calendar_import($this->send_notify))->save($event, $owner_id, $vcalendar);
     }
 
-    private function remove_participant(org_openpsa_calendar_event_dba $event, int $person_id)
+    private function remove_participant(org_openpsa_calendar_event_dba $event, int $person_id, bool $notify)
     {
         if ($event->is_master()) {
             // Leaving a series
-            (new org_openpsa_calendar_recurrence)->leave($event, $person_id, $this->send_notify);
+            (new org_openpsa_calendar_recurrence)->leave($event, $person_id, $notify);
             return;
         }
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
@@ -243,7 +245,7 @@ class org_openpsa_calendar_caldav_backend extends AbstractBackend implements Syn
         // Users can always leave events, even if they're not allowed to change them
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
         foreach ($qb->execute() as $member) {
-            $member->notify_person = $this->send_notify;
+            $member->notify_person = $notify;
             $member->delete();
         }
         midcom::get()->auth->drop_sudo();

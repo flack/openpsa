@@ -785,6 +785,59 @@ class backendTest extends openpsa_testcase
         $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
     }
 
+    public function testNotifications_external_organizer()
+    {
+        $user = $this->create_person_with_email(true);
+        $organizer = $this->create_person_with_email();
+        $other_user = $this->create_person_with_email();
+        $backend = $this->get_backend(true);
+        org_openpsa_mail_backend_unittest::flush();
+
+        // Invitation from someone else: they inform the attendees themselves
+        $uid = 'caldav-external-' . uniqid();
+        $lines = [
+            'SUMMARY:Invitation',
+            'DTSTART:20050720T100000Z',
+            'DTEND:20050720T110000Z',
+            "ORGANIZER;CN=Organizer:MAILTO:{$organizer->email}",
+            "ATTENDEE:mailto:{$organizer->email}",
+            "ATTENDEE:mailto:{$user->email}",
+            "ATTENDEE:mailto:{$other_user->email}",
+        ];
+        $this->create_via_caldav($backend, $user, $uid, $lines);
+        $event = $this->find_created_event($uid);
+        $this->assertCount(3, $event->participants);
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        $lines[0] = 'SUMMARY:Changed invitation';
+        $lines[] = 'ATTENDEE:mailto:' . $this->create_person_with_email()->email;
+        $backend->updateCalendarObject($user->id, $uid . '.ics', $this->ics($uid, $lines));
+        $this->assertCount(4, (new org_openpsa_calendar_event_dba($event->id))->participants);
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        $backend->deleteCalendarObject($user->id, $uid . '.ics');
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('id', '=', $event->id);
+        $this->assertEquals(0, $qb->count());
+        $this->assertCount(0, org_openpsa_mail_backend_unittest::flush());
+
+        // Organized by the user: the attendees are notified
+        $uid = 'caldav-own-organizer-' . uniqid();
+        $this->create_via_caldav($backend, $user, $uid, [
+            'SUMMARY:Own invitation',
+            'DTSTART:20050721T100000Z',
+            'DTEND:20050721T110000Z',
+            'ORGANIZER:mailto:' . strtoupper($user->email),
+            "ATTENDEE:mailto:{$user->email}",
+            "ATTENDEE:mailto:{$other_user->email}",
+        ]);
+        $this->find_created_event($uid);
+        $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
+
+        $backend->deleteCalendarObject($user->id, $uid . '.ics');
+        $this->assertCount(1, org_openpsa_mail_backend_unittest::flush());
+    }
+
     public function test_delete()
     {
         $other_user = $this->create_person_with_email(true);

@@ -221,7 +221,7 @@ class org_openpsa_calendar_vcal
         return $event->externalGuid ?: "{$event->guid}-midgardGuid";
     }
 
-    public static function read(?string $input) : ?VCalendar
+    public static function read(string $input) : ?VCalendar
     {
         if (empty($input)) {
             return null;
@@ -295,17 +295,44 @@ class org_openpsa_calendar_vcal
             $e->log();
             return [];
         }
-        if (   !($stored = self::read($master->vCalSerialized))
-            || !($vevent = self::get_master($stored))) {
+        if (!$vevent = self::get_stored_vevent($master)) {
             return [];
         }
-        $vevent = self::get_overrides($stored, $vevent)[$event->recurrenceId] ?? $vevent;
+        $vevent = self::get_overrides($vevent->parent, $vevent)[$event->recurrenceId] ?? $vevent;
 
         $attendees = [];
         foreach (self::get_attendees($vevent, true) as $email => $attendee) {
             $attendees[$email] = trim((string) $attendee['CN']) ?: $email;
         }
         return array_diff_key($attendees, self::find_persons(array_keys($attendees)));
+    }
+
+    /**
+     * Whether the VEVENT is organized by someone other than the given person
+     *
+     * If yes, the organizer informs attendees about changes (RFC 5546)
+     */
+    public static function has_external_organizer(VEvent $vevent, int $person_id) : bool
+    {
+        if (   !isset($vevent->ORGANIZER)
+            || !($email = self::get_email($vevent->ORGANIZER))) {
+            return false;
+        }
+        try {
+            $person = midcom_db_person::get_cached($person_id);
+        } catch (midcom_error) {
+            return true;
+        }
+        return strtolower(trim($person->email)) !== $email;
+    }
+
+    /**
+     * Returns the main VEVENT of the client's copy stored with the event, if there is one
+     */
+    public static function get_stored_vevent(org_openpsa_calendar_event_dba $event) : ?VEvent
+    {
+        $stored = self::read($event->vCalSerialized);
+        return $stored ? self::get_master($stored) : null;
     }
 
     /**
@@ -408,9 +435,9 @@ class org_openpsa_calendar_vcal
         $vevent->DTEND = $end->setTimezone($tz);
     }
 
-    private function set_text(VEvent $vevent, string $name, ?string $value)
+    private function set_text(VEvent $vevent, string $name, string $value)
     {
-        if ((string) $value === '') {
+        if ($value === '') {
             unset($vevent->$name);
         } else {
             $vevent->$name = $value;

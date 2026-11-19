@@ -16,6 +16,8 @@ use Sabre\VObject\Component\VEvent;
  * Used by CalDAV and the iCal feed. Errors are thrown as sabre/dav exceptions.
  *
  * - The master VEVENT's attendees become the participants (matched by email address)
+ * - No notifications are sent for events organized by someone other than the owner, since the
+ *   organizer informs the attendees themselves
  * - A copy of the VCALENDAR is kept in vCalSerialized, so that what OpenPSA doesn't use survives
  * - Recurring events: RRULE, RDATE and EXDATE go into $recurrence, override VEVENTs become
  *   occurrences edited on their own, with the participants from their attendees. Series are not
@@ -34,6 +36,7 @@ class org_openpsa_calendar_import
         $vevent = org_openpsa_calendar_vcal::get_master($vcalendar) ?? throw new Exception\BadRequest('No VEVENT found');
         $overrides = org_openpsa_calendar_vcal::get_overrides($vcalendar, $vevent);
         $was_master = $event->is_master();
+        $notify = $this->send_notify && !org_openpsa_calendar_vcal::has_external_organizer($vevent, $owner_id);
 
         org_openpsa_calendar_vcal::vevent_to_event($vevent, $event);
         $uid = (string) $vevent->UID;
@@ -50,14 +53,14 @@ class org_openpsa_calendar_import
             $this->check_conflicts($event);
         }
         $event->ignorebusy_em = true;
-        $event->send_notify = $this->send_notify;
+        $event->send_notify = $notify;
         // Occurrences are handled below, once the participants are saved
         $event->sync_recurrence = false;
 
         if (!($event->id ? $event->update() : $event->create())) {
             throw self::get_save_exception();
         }
-        if ($this->sync_participants($event, $participants)) {
+        if ($this->sync_participants($event, $participants, $notify)) {
             // Participants get their privileges when the event is updated
             $event->send_notify = false;
             $event->search_relatedtos = false;
@@ -149,13 +152,13 @@ class org_openpsa_calendar_import
      *
      * @return bool Whether participants were added
      */
-    private function sync_participants(org_openpsa_calendar_event_dba $event, array $participants) : bool
+    private function sync_participants(org_openpsa_calendar_event_dba $event, array $participants, bool $notify) : bool
     {
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('eid', '=', $event->id);
         foreach ($qb->execute() as $member) {
             if (!isset($participants[$member->uid])) {
-                $member->notify_person = $this->send_notify;
+                $member->notify_person = $notify;
                 $member->sync_series = false;
                 $member->delete();
             }
@@ -165,7 +168,7 @@ class org_openpsa_calendar_import
             $member = new org_openpsa_calendar_event_member_dba;
             $member->eid = $event->id;
             $member->uid = $uid;
-            $member->notify_person = $this->send_notify;
+            $member->notify_person = $notify;
             $member->sync_series = false;
             if (!$member->create()) {
                 throw self::get_save_exception();

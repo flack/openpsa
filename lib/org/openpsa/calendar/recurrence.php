@@ -76,9 +76,9 @@ class org_openpsa_calendar_recurrence
      *
      * @return string[]
      */
-    public static function get_lines(?string $recurrence) : array
+    public static function get_lines(string $recurrence) : array
     {
-        $recurrence = preg_replace("/\r?\n[ \t]/", '', (string) $recurrence);
+        $recurrence = preg_replace("/\r?\n[ \t]/", '', $recurrence);
         $lines = array_map(trim(...), preg_split("/\r\n|\n|\r/", $recurrence));
         return array_filter($lines, fn($line) => preg_match('/^(RRULE|RDATE|EXDATE)[;:]/i', $line));
     }
