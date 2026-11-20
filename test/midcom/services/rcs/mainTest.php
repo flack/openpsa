@@ -58,7 +58,9 @@ class mainTest extends openpsa_testcase
         $conf['midcom_services_rcs_root'] = $this->tmpdir;
         $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
-        $topic = $this->create_object(midcom_db_topic::class);
+        $topic = $this->create_object(midcom_db_topic::class, [
+            '_use_rcs' => true
+        ]);
 
         $rcs = new midcom_services_rcs($conf);
         $rcs->update(new dbaevent($topic));

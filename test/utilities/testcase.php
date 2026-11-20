@@ -329,7 +329,7 @@ abstract class openpsa_testcase extends TestCase
 
     private static function _create_object(string $classname, array $data) : midcom_core_dbaobject|mgdobject
     {
-        if (is_a($classname, midcom_core_dbaobject::class)) {
+        if (is_a($classname, midcom_core_dbaobject::class, true)) {
             $presets = [
                 '_use_rcs' => false,
             ];

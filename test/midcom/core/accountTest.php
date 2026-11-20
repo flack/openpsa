@@ -73,7 +73,7 @@ class accountTest extends openpsa_testcase
         // after deletion of account, try getting the account again
         // we should get a fresh object, not the one from the static cache
         $account2 = new midcom_core_account(self::$_person);
-        $this->assertNotEquals(spl_object_hash($account1), spl_object_hash($account2), "We should get a fresh account object");
+        $this->assertNotSame($account1, $account2, "We should get a fresh account object");
         // save and delete should work as well
         $account2->set_username($username);
         $stat = $account2->save();

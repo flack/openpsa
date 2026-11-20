@@ -54,10 +54,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) . " {$filepath} 2>/dev/null");
         } catch (midcom_error $e) {
             $e->log();
-        } finally {
-            if (!file_exists($filepath)) {
-                return [];
-            }
+        }
+        if (!file_exists($filepath)) {
+            return [];
         }
 
         $data = file_get_contents($filepath);
