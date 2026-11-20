@@ -88,11 +88,10 @@ class urlmethodsTest extends openpsa_testcase
     public function test_unlock()
     {
         $topic = $this->create_object(midcom_db_topic::class);
-        midcom::get()->auth->request_sudo('midcom.core');
+        $this->create_user(true);
         $this->assertTrue($topic->lock());
 
         $response = (new midcom_core_urlmethods)->process_unlock($topic->guid);
-        midcom::get()->auth->drop_sudo();
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(['success' => true], json_decode($response->getContent(), true));

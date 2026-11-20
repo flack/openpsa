@@ -833,7 +833,8 @@ class backendTest extends openpsa_testcase
             'END:VEVENT',
         ]));
         $this->assertCount(1, $this->get_occurrences($master));
-        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . $this->week(1) . 'T100000', $this->sudo(fn() => new org_openpsa_calendar_event_dba($master->id))->recurrence);
+        $this->sudo($master->refresh(...));
+        $this->assertStringContainsString('EXDATE;TZID=Europe/Berlin:' . $this->week(1) . 'T100000', $master->recurrence);
         $mails = org_openpsa_mail_backend_unittest::flush();
         $this->assertCount(1, $mails);
         $date = $formatter->date($this->local($this->week(1)));

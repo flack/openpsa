@@ -111,7 +111,7 @@ class validatorTest extends openpsa_testcase
         // try valid email
         $email = uniqid(__FUNCTION__ . "-user-") . "@nowhere.cc";
         $person->email = $email;
-        $person->update();
+        $this->sudo($person->update(...));
 
         $this->assertTrue($val->email_exists(["email" => $email]));
     }
@@ -139,7 +139,7 @@ class validatorTest extends openpsa_testcase
         // try valid combination
         $email = uniqid(__FUNCTION__ . "-user-") . "@nowhere.cc";
         $person->email = $email;
-        $person->update();
+        $this->sudo($person->update(...));
 
         $fields = [
             "username" => $account->get_username(),
