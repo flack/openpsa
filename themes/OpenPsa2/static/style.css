@@ -549,12 +549,14 @@ input#org_openpsa_search_query
 #org_openpsa_toolbar ul.view_toolbar
 {
   flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
   overflow-x: hidden;
 }
 
 #org_openpsa_toolbar ul.view_toolbar.clip-initialized
 {
-    overflow-x: initial;
+    overflow-x: visible;
 }
 
 #org_openpsa_toolbar ul.navigation_toolbar
@@ -679,20 +681,16 @@ input#org_openpsa_search_query
     position: relative;
 }
 
-.org_openpsa_toolbar #toolbar_dropdown.expanded ul
+.org_openpsa_toolbar #toolbar_dropdown ul
 {
   position: absolute;
   left: 0;
   top: 4px;
-  width: auto;
-  height: auto;
   z-index: 10;
-}
-
-.org_openpsa_toolbar #toolbar_dropdown ul
-{
+  white-space: normal;
+  visibility: hidden;
+  transition: visibility 0s linear .5s; /* hide 0.5s after the pointer leaves */
   background-color: #cccec9;
-  display: none;
   margin: 0;
   margin-top: 22px;
   padding: 5px;
@@ -703,14 +701,16 @@ input#org_openpsa_search_query
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4)
 }
 
-.org_openpsa_toolbar #toolbar_dropdown.expanded ul,
-.org_openpsa_toolbar #toolbar_dropdown li
+.org_openpsa_toolbar #toolbar_dropdown:hover ul,
+.org_openpsa_toolbar #toolbar_dropdown:focus-within ul
 {
-  display: block;
+  visibility: visible;
+  transition-delay: 0s;
 }
 
 .org_openpsa_toolbar #toolbar_dropdown li
 {
+  display: block;
   border: none;
 }
 

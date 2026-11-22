@@ -1,75 +1,40 @@
 const org_openpsa_layout = {
     clip_toolbar: function() {
-        if ($('#org_openpsa_toolbar > ul.view_toolbar').length === 0) {
+        const toolbar = document.querySelector('#org_openpsa_toolbar > ul.view_toolbar');
+        if (!toolbar) {
             // there seem to be no toolbar buttons, so we don't need to do anything
             return;
         }
-        var container = $('#toolbar_dropdown').length > 0 ? $('#toolbar_dropdown') : $('<li class="enabled submenu"><a><i class="fa fa-caret-down"></i> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
-            .attr('id', 'toolbar_dropdown')
-            .data('event_attached', false)
-            .mouseover(function() {
-                var self = $(this);
-                if (self.data('timeout')) {
-                    clearTimeout(self.data('timeout'));
-                    self.removeData('timeout');
-                    return;
-                }
-                self.addClass('expanded');
-            })
-            .mouseout(function() {
-                var self = $(this);
-                self.data('timeout', setTimeout(function() {
-                    self.removeClass('expanded');
-                    self.removeData('timeout');
-                }, 500));
-            })
-            .css('display', 'none')
-            .appendTo('#org_openpsa_toolbar > ul.view_toolbar'),
+        let more = document.getElementById('toolbar_dropdown');
+        if (!more) {
+            more = $('<li class="enabled submenu" id="toolbar_dropdown"><a><i class="fa fa-caret-down"></i> <span class="toolbar_label">' + TOOLBAR_MORE_LABEL + '</span></a><ul class="midcom_toolbar"></ul></li>')
+                .appendTo(toolbar)[0];
+            toolbar.classList.add('clip-initialized');
+            new ResizeObserver(org_openpsa_layout.clip_toolbar).observe(toolbar);
+        }
+        const dropdown = more.querySelector('ul'),
+            limit = toolbar.getBoundingClientRect().right - parseFloat(getComputedStyle(toolbar).paddingRight),
+            overflows = el => el.getBoundingClientRect().right > limit;
 
-            dropdown = container.find('ul.midcom_toolbar'),
-            toolbarWidth = $('#org_openpsa_toolbar').width() - ($('#org_openpsa_toolbar .navigation_toolbar').width() || 0),
-            over = false;
+        // Start from the unclipped state
+        more.before(...dropdown.children);
+        more.style.display = 'none';
 
-        $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function() {
-            if (!over && ($(this).position().left + $(this).width() + container.width()) > toolbarWidth) {
-                over = true;
-            }
-            if (over) {
-                if (!container.data('event_attached')) {
-                    dropdown.append($(this).detach());
-                } else {
-                    dropdown.prepend($(this).detach());
-                }
-            }
-        });
-        if (!over) {
-            dropdown.children('li:not(#toolbar_dropdown)').each(function() {
-                var item = $(this)
-                    .clone()
-                    .css('visibility', 'hidden')
-                    .insertBefore(container),
-
-                    positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
-
-                if (positionLast < toolbarWidth) {
-                    $(this).remove();
-                    item.css('visibility', 'visible');
-                } else {
-                    item.remove();
-                    return false;
-                }
-            });
+        const items = [...toolbar.children].filter(li => li !== more && li.offsetParent !== null);
+        if (items.length === 0 || !overflows(items[items.length - 1])) {
+            return;
         }
 
-        if (dropdown.children('li').length > 0) {
-            container.css('display', 'inline-block');
-        } else {
-            container.css('display', 'none');
+        more.style.display = '';
+        while (items.length > 0 && overflows(more)) {
+            dropdown.prepend(items.pop());
         }
-        if (!container.data('event_attached')) {
-            $(window).resize(function(){org_openpsa_layout.clip_toolbar();});
-            container.data('event_attached', true);
-            container.parent().addClass('clip-initialized');
+        // Make sure the menu stays inside the viewport
+        dropdown.style.left = '';
+        const dd_rect = dropdown.getBoundingClientRect(),
+            dd_overflow = dd_rect.right - document.documentElement.clientWidth;
+        if (dd_overflow > 0) {
+            dropdown.style.left = -Math.min(dd_overflow, dd_rect.left) + 'px';
         }
     },
 
