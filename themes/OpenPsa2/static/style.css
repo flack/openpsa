@@ -786,6 +786,27 @@ body#org_openpsa_popup {
     width: 30%;
 }
 
+.content-with-sidebar:has(> .org_openpsa_mypage.main)
+{
+    min-height: 100%;
+}
+.org_openpsa_mypage.main + aside
+{
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+.org_openpsa_mypage.main + aside .agenda
+{
+    flex: 1 0 200px;
+    display: flex;
+    flex-direction: column;
+}
+.org_openpsa_mypage.main + aside .agenda #org_openpsa_calendar_widget
+{
+    flex: 1 1 auto;
+}
+
 #content-text aside div.vcard
 {
     float: none;
