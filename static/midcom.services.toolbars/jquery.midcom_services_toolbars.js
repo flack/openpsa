@@ -71,23 +71,21 @@ $.midcom_services_toolbars = function(root_element) {
         root_element.find('.minimizer').on('click', toggle_visibility);
 
         root_element.draggable({
-            start: function() {
+            helper: function(e) {
+                // Switch before draggable caches size, offset & containment
                 if (root_element.hasClass('type_menu')) {
                     root_element
                         .removeClass('type_menu')
-                        .addClass('type_palette switch_to_palette');
+                        .addClass('type_palette')
+                        .css({left: 0, top: 0});
+                    root_element.css('left', Math.max(0, e.clientX - root_element.outerWidth()));
                 }
+                return this;
             },
             drag: function(event, ui) {
-                if (root_element.hasClass('switch_to_palette')) {
-                    root_element.removeClass('switch_to_palette');
-                    //TODO: this should work, but doesn't...
-                    ui.position.left = $(window).width() - root_element.width();
-                } else if (ui.position.top === 0) {
-                    root_element
-                        .removeClass('type_palette')
-                        .addClass('type_menu');
-                }
+                root_element
+                    .toggleClass('type_menu', ui.position.top === 0)
+                    .toggleClass('type_palette', ui.position.top !== 0);
             },
             stop: function() {
                 save_settings(true);
