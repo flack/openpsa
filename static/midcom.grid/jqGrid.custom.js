@@ -193,6 +193,7 @@ const midcom_grid_resize = {
             container_nongrid_height = 0,
             visible_grids = 0,
             grid_heights = {},
+            grid_boxes = [],
             minimum_height = 21;
 
         if ($('#org_openpsa_resize_marker_end').length === 0) {
@@ -220,9 +221,14 @@ const midcom_grid_resize = {
                     grids_content_height += content_height;
                     container_nongrid_height -= grid_height;
                     visible_grids++;
+                    grid_boxes.push(grid_body.closest('.ui-jqgrid')[0]);
                 }
             }
         });
+
+        // empty space next to the grids (e.g. when a sibling column is taller) doesn't show up 
+        // in the content height, so it has to be added separately
+        container_nongrid_height -= midcom_grid_resize.get_unused_space(grid_boxes);
 
         var available_space = container_height - container_nongrid_height;
 
@@ -265,6 +271,50 @@ const midcom_grid_resize = {
                 }
             }
         }
+    },
+    get_unused_space: function(boxes) {
+        const container = document.querySelector(midcom_grid_resize.containment),
+            // for each ancestor, the (layout-wise) lowest child that contains one of the boxes
+            // we track all ancestors up to containment, since each level may contain unused space
+            lowest_child = new Map();
+        let total = 0;
+
+        function margin_bottom(el) {
+            return el.getBoundingClientRect().bottom + parseFloat(getComputedStyle(el).marginBottom);
+        }
+
+        boxes.forEach(function(element) {
+            while (element.parentElement && element.parentElement !== container) {
+                const current = lowest_child.get(element.parentElement);
+                if (!current || margin_bottom(element) > margin_bottom(current)) {
+                    lowest_child.set(element.parentElement, element);
+                }
+                element = element.parentElement;
+            }
+        });
+
+        lowest_child.forEach(function(element, parent) {
+            const parent_style = getComputedStyle(parent),
+                element_bottom = element.getBoundingClientRect().bottom;
+            let inner_bottom = margin_bottom(element);
+
+            [...parent.children].forEach(function(sibling) {
+                if (   sibling !== element
+                    && sibling.getClientRects().length > 0
+                    && !['absolute', 'fixed'].includes(getComputedStyle(sibling).position)
+                    // only siblings below the element count (to take care of e.g. unrelated sidebars)
+                    && sibling.getBoundingClientRect().top >= element_bottom - 1) {
+                    inner_bottom = Math.max(inner_bottom, margin_bottom(sibling));
+                }
+            });
+
+            const parent_bottom = parent.getBoundingClientRect().bottom
+                - parseFloat(parent_style.borderBottomWidth)
+                - parseFloat(parent_style.paddingBottom);
+
+            total += Math.max(0, Math.floor(parent_bottom - inner_bottom));
+        });
+        return total;
     },
     maximize_height: function(part) {
         var part_height = part.outerHeight(true),
