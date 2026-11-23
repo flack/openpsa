@@ -53,7 +53,6 @@ const org_openpsa_layout = {
                 $('#leftframe').css('width', offset + 'px');
 
                 $.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset + 2});
-                $(window).trigger('resize');
             }
         });
     },

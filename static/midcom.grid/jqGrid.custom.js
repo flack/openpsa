@@ -34,30 +34,59 @@ $.jgrid.search.searchOnEnter = false;
 $.jgrid.search.defaultSearch = 'cn';
 
 const midcom_grid_resize = {
-    timer: false,
     containment: '#content-text',
-    firstrun: true,
-    add_header_controls: function() {
-        $('table.ui-jqgrid-btable').jqGrid('setGridParam', {
+    observer: null,
+    observed: new WeakSet(),
+    pending: false,
+    init: function() {
+        const content = document.querySelector(midcom_grid_resize.containment);
+
+        midcom_grid_resize.observer = new ResizeObserver(midcom_grid_resize.schedule);
+        if (content) {
+            // use border-box so that changes in the container's scrollbar don't trigger the observer
+            midcom_grid_resize.watch(content, {box: 'border-box'});
+        }
+        midcom_grid_resize.discover();
+        // pick up content that is added later (AJAX tabs etc.)
+        new MutationObserver(midcom_grid_resize.discover).observe(document.body, {childList: true, subtree: true});
+    },
+    watch: function(element, options) {
+        if (!midcom_grid_resize.observed.has(element)) {
+            midcom_grid_resize.observed.add(element);
+            midcom_grid_resize.observer.observe(element, options);
+        }
+    },
+    discover: function() {
+        const content = document.querySelector(midcom_grid_resize.containment);
+        if (content) {
+            [...content.children].forEach(child => midcom_grid_resize.watch(child));
+        }
+        document.querySelectorAll('.full-width, .fill-height, .crop-height').forEach(item => midcom_grid_resize.watch(item));
+        document.querySelectorAll('table.ui-jqgrid-btable').forEach(function(table) {
+            if (!midcom_grid_resize.observed.has(table)) {
+                midcom_grid_resize.add_header_controls($(table));
+                midcom_grid_resize.watch(table);
+            }
+        });
+    },
+    add_header_controls: function(grid) {
+        grid.jqGrid('setGridParam', {
             onHeaderClick: function(gridstate) {
                 $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate === 'visible');
-                $(window).trigger('resize');
         }});
 
-        midcom_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar'));
+        midcom_grid_resize.attach_maximizer(grid.closest('.ui-jqgrid').find('.ui-jqgrid-titlebar'));
     },
-    event_handler: function() {
-        if (midcom_grid_resize.firstrun) {
-            midcom_grid_resize.firstrun = false;
-            midcom_grid_resize.add_header_controls();
-        } else {
-            if (!midcom_grid_resize.timer) {
-                $(midcom_grid_resize.containment).addClass('openpsa-resizing');
-            } else {
-                clearTimeout(midcom_grid_resize.timer);
-            }
-            midcom_grid_resize.timer = setTimeout(midcom_grid_resize.end_resize, 300);
+    schedule: function() {
+        if (!midcom_grid_resize.pending) {
+            midcom_grid_resize.pending = true;
+            requestAnimationFrame(function() {
+                midcom_grid_resize.pending = false;
+                midcom_grid_resize.run();
+            });
         }
+    },
+    run: function() {
         if ($('.ui-jqgrid-maximized').length > 0) {
             midcom_grid_resize.maximize_height($('.ui-jqgrid-maximized'));
             midcom_grid_resize.fill_width($('.ui-jqgrid-maximized'));
@@ -66,10 +95,6 @@ const midcom_grid_resize = {
             midcom_grid_resize.set_height($('.crop-height'), 'crop');
             midcom_grid_resize.fill_width($('.full-width'));
         }
-    },
-    end_resize: function() {
-        midcom_grid_resize.timer = false;
-        $(midcom_grid_resize.containment).removeClass('openpsa-resizing');
     },
     attach_maximizer: function(items) {
         items.each(function() {
@@ -112,7 +137,7 @@ const midcom_grid_resize = {
                         $(midcom_grid_resize.containment).children(':not(:first-child)').addClass('ui-jqgrid-maximized-background');
                         $(midcom_grid_resize.containment).css('overflow', 'hidden');
                     }
-                    $(window).trigger('resize');
+                    midcom_grid_resize.schedule();
                 })
                 .hover(function() {
                     $(this).addClass('ui-state-hover');
@@ -252,7 +277,7 @@ const midcom_grid_resize = {
         catch(e){}
     }
 };
-$(window).resize(midcom_grid_resize.event_handler);
+$(midcom_grid_resize.init);
 
 const midcom_grid_editable = {
     grid_id: '',
@@ -508,7 +533,6 @@ const midcom_grid_helper = {
                         // Workaround for https://github.com/tonytomov/jqGrid/issues/431
                         grid.jqGrid('showCol', previous);
                     }
-                    $(window).trigger('resize');
                 }
             })
             .after(toggle);
@@ -736,8 +760,6 @@ const midcom_grid_batch_processing = {
                         shift_select(clicked_row.nextAll(':not(.jqgroup)'));
                     }
                 }
-
-                $(window).trigger('resize');
             },
             onSelectAll: function(rowids, status) {
                 if (!status) {
@@ -745,7 +767,6 @@ const midcom_grid_batch_processing = {
                 } else {
                     $('#' + config.id + '_batch').parent().show();
                 }
-                $(window).trigger('resize');
             }
         });
         
@@ -826,7 +847,6 @@ const midcom_grid_row_actions = {
                 } else {
                     new_grid.trigger('reloadGrid');
                 }
-                $(window).trigger('resize');
             }
 
             data.messages.forEach(function(message) {

@@ -171,7 +171,6 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
         	if (typeof midcom_grid_resize !== 'undefined') {
                 var nongrid_height = $('#siteinfo').height() + $('#content-text').offset().top;
                 $('#content-text').css('height', 'calc(100vh - ' + nongrid_height  + 'px - 4.7em)');
-	            $(window).trigger('resize');
             }
         </script>
     </body>

@@ -79,7 +79,6 @@ function init_chart(grid_id) {
         } else {
             $(ctx).hide();
             chart_toggle.prop('disabled', true);
-            $(window).trigger('resize');
         }
     }).trigger('change');
 
@@ -91,6 +90,5 @@ function init_chart(grid_id) {
         } else {
             $('body').removeClass('chart-shown');
         }
-        $(window).trigger('resize');
     }).trigger('click');
 }

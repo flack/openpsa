@@ -18,12 +18,7 @@ const org_openpsa_widgets_tabs = {
                     return org_openpsa_widgets_tabs.load_head_elements(data, type, event);
                 };
             },
-            load: function() {
-                $(window).trigger('resize');
-            },
             activate: function() {
-                $(window).trigger('resize');
-
                 var last_state = history.state,
                     data = {tab_id: tabs.tabs('option', 'active')};
 
@@ -80,7 +75,6 @@ const org_openpsa_widgets_tabs = {
                     url: this.getAttribute('action'),
                     success: function(data) {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
-                        $(window).trigger('resize');
                     }
                 });
                 event.preventDefault();
@@ -143,7 +137,6 @@ const org_openpsa_widgets_tabs = {
             var active = $('#tabs > [aria-labelledby="key_' + $('#tabs').tabs('option', 'active') + '"]');
             Promise.all(inserted).then(function() {
                 active.html(data);
-                $(window).trigger('resize');
             });
             if (event) {
                 event.preventDefault();
