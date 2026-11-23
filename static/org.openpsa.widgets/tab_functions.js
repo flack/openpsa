@@ -64,7 +64,8 @@ const org_openpsa_widgets_tabs = {
                 if ($(event.currentTarget).attr('onsubmit')) {
                     return;
                 }
-                var send_data = new FormData(this, event.originalEvent?.submitter);
+                var send_data = new FormData(this, event.originalEvent?.submitter),
+                    panel = $(this).closest('.ui-tabs-panel');
 
                 $.ajax({
                     data: send_data,
@@ -74,7 +75,7 @@ const org_openpsa_widgets_tabs = {
                     type: this.method,
                     url: this.getAttribute('action'),
                     success: function(data) {
-                        $(":not(.ui-tabs-hide) > .tab_div").html(data);
+                        panel.html(data);
                     }
                 });
                 event.preventDefault();
@@ -148,6 +149,7 @@ const org_openpsa_widgets_tabs = {
     },
     intercept_clicks: function(event) {
         var target = $(event.currentTarget),
+            panel = target.closest('.ui-tabs-panel'),
             href = event.currentTarget.href;
 
         if (target.attr('onclick')) {
@@ -169,7 +171,7 @@ const org_openpsa_widgets_tabs = {
                 url: href,
                 dataFilter: org_openpsa_widgets_tabs.load_head_elements,
                 success: function(data) {
-                    $(":not(.ui-tabs-hide) > .tab_div").html(data);
+                    panel.html(data);
                 }
             });
 
