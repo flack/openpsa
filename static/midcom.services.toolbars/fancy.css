@@ -41,8 +41,7 @@
   font-size: 12px !important;
 }
 
-.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title:hover,
-.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title.hover,
+.midcom_services_toolbars_fancy .items div.item:hover .midcom_services_toolbars_topic_title,
 .midcom_services_toolbars_fancy a:hover,
 .midcom_services_toolbars_fancy ul li a.selected,
 .midcom_services_toolbars_fancy ul li button:focus,
@@ -153,8 +152,28 @@
     border-bottom-right-radius: 0.4em;
     color: #000000;
     position: absolute;
-    display: none;
+    visibility: hidden;
     box-shadow: 1px 2px 7px rgba(0, 0, 0, .25)
+}
+
+.midcom_services_toolbars_fancy .items div.item ul
+{
+    transition: visibility 0s linear 1s;
+}
+.midcom_services_toolbars_fancy .items div.item .midcom_services_toolbars_topic_title
+{
+    transition: color 0s linear 1s, background-color 0s linear 1s;
+}
+
+.midcom_services_toolbars_fancy .items div.item:hover ul
+{
+    visibility: visible;
+}
+
+.midcom_services_toolbars_fancy .items:has(div.item:hover) div.item ul,
+.midcom_services_toolbars_fancy .items:has(div.item:hover) div.item .midcom_services_toolbars_topic_title
+{
+    transition: none;
 }
 
 .midcom_services_toolbars_fancy .items div.item ul li.disabled img

@@ -67,28 +67,6 @@ $.midcom_services_toolbars = function(root_element) {
     }
 
     function attach_events() {
-        var item_holder = $('div.items', root_element);
-
-        $('div.item', item_holder).each(function(i, n) {
-            var item = $(n),
-                handle = $('.midcom_services_toolbars_topic_title', item),
-                children = $('ul', item);
-
-            item.on('mouseover', function() {
-                clearTimeout(item_holder.data("hide"));
-                $('.item ul', item_holder).hide();
-                $('.midcom_services_toolbars_topic_title.hover', item_holder).removeClass("hover");
-                handle.addClass("hover");
-                children.show();
-            });
-            item.on('mouseout',function() {
-                item_holder.data('hide', setTimeout(function() {
-                    handle.removeClass("hover");
-                    children.hide();
-                }, 1000));
-            });
-        });
-
         minimizer.on('click', toggle_visibility);
         root_element.find('.minimizer').on('click', toggle_visibility);
 
