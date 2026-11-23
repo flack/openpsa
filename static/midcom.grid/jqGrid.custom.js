@@ -168,11 +168,6 @@ const midcom_grid_resize = {
                 new_width = $(item).width();
             }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function() {
-                let panel = $("#gbox_" + this.id).closest('.ui-tabs-panel');
-                if (   panel.length > 0
-                    && panel.hasClass('ui-tabs-hide')) {
-                    return;
-                }
                 try {
                     var old_width = $(this).jqGrid().getGridParam('width');
                     if (!$(this).data('resized') || new_width != old_width) {
