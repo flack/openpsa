@@ -1,4 +1,5 @@
 <div class="tab_div">
+<?php midcom::get()->uimessages->show(); ?>
 <div class="org_openpsa_toolbar">
      <(toolbar-bottom)>
   </div>
