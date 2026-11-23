@@ -76,10 +76,25 @@ const org_openpsa_widgets_tabs = {
                     url: this.getAttribute('action'),
                     success: function(data) {
                         panel.html(data);
-                    }
+                    },
+                    error: org_openpsa_widgets_tabs.show_error
                 });
                 event.preventDefault();
             });
+    },
+    show_error: function(response) {
+        if ($('#midcom_services_uimessages_wrapper').length > 0) {
+            const page = new DOMParser().parseFromString(response.responseText || '', 'text/html'),
+                title = page.querySelector('h1'),
+                message = page.querySelector('.error-message, p'),
+                escape = text => $('<div>').text(text).html();
+
+            $.midcom_services_uimessage_add({
+                type: 'error',
+                title: escape(title?.textContent.trim() || response.statusText),
+                message: escape(message?.textContent.trim() || 'Request failed')
+            });
+        }
     },
     load_head_elements: function(data, type, event) {
         data = data.replace(/<\/HEAD_ELEMENTS>[\s\S]+?/m, '</HEAD_ELEMENTS>');
@@ -172,7 +187,8 @@ const org_openpsa_widgets_tabs = {
                 dataFilter: org_openpsa_widgets_tabs.load_head_elements,
                 success: function(data) {
                     panel.html(data);
-                }
+                },
+                error: org_openpsa_widgets_tabs.show_error
             });
 
             event.preventDefault();
