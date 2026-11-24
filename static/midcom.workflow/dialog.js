@@ -122,42 +122,7 @@ function attach_to_parent_dialog(dialog) {
         buttons = extra_buttons.concat(buttons);
     }
 
-    // This doesn't work under certain circumstances when flexbox is used somewhere in the page:
-    // dialog.dialog('option', 'buttons', buttons);
-    // @todo: The root of the problem seems to be that jquery can't set the content element
-    // to a height of 0, so at some point this could be filed as a bug against their repo. Latest
-    // stable (3.4.1) is affected. For now, we just copy the relevant part from jqueryui's
-    // _createButtons method..
-
-    buttonset.empty();
-
-    $.each(buttons, function (name, props) {
-        var click, buttonOptions;
-        props = typeof props === 'function' ? {click: props, text: name} : props;
-
-        // Default to a non-submitting button
-        props = $.extend({type: "button"}, props);
-
-        // Change the context for the click callback to be the main element
-        click = props.click;
-        buttonOptions = {
-            icon: props.icon,
-            iconPosition: props.iconPosition,
-            label: props.text
-        };
-
-        delete props.click;
-        delete props.icon;
-        delete props.iconPosition;
-        delete props.text;
-
-        $('<button></button>', props)
-            .button(buttonOptions)
-            .appendTo(buttonset)
-            .on('click', function() {
-                click.apply(dialog[0], arguments);
-            });
-    });
+    dialog.dialog('option', 'buttons', buttons);
 }
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -173,7 +138,6 @@ window.addEventListener('DOMContentLoaded', function() {
             });
             dialog.on('dialogclose', unlocker);
         }
-
         
         dialog.find(' > .spinner').hide();
         if (window.hasOwnProperty('$')) {
