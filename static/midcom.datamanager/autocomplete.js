@@ -161,9 +161,7 @@ window.midcom_helper_datamanager2_autocomplete = {
                 }
             },
             options =  $.extend(midcom_helper_datamanager2_autocomplete.get_default_options(), dm2_defaults),
-            input = $('#' + selector),
-            readonly = input.attr('type') === 'hidden',
-            selection_holder_class = 'autocomplete-selection-holder';
+            input = $('#' + selector);
 
         function remove_item(item) {
             var animate_property = 'height',
@@ -196,12 +194,8 @@ window.midcom_helper_datamanager2_autocomplete = {
             }
         }
 
-        if (readonly) {
-            selection_holder_class += ' autocomplete-selection-holder-readonly';
-        }
-
         input.parent()
-            .append('<span class="' + selection_holder_class + '" id="' + identifier + '_selection_holder"></span>')
+            .append('<span class="autocomplete-selection-holder" id="' + identifier + '_selection_holder"></span>')
             .addClass('autocomplete-widget');
         if (handler_options.creation_mode_enabled) {
             midcom_helper_datamanager2_autocomplete.enable_creation_mode(identifier, handler_options.creation_handler);
@@ -218,9 +212,6 @@ window.midcom_helper_datamanager2_autocomplete = {
                 input.data('required', true)
             }
         });
-        if (readonly) {
-            return;
-        }
 
         if (handler_options.categorize_by_parent_label !== false) {
             input.category_complete(options);
@@ -303,9 +294,7 @@ window.midcom_helper_datamanager2_autocomplete = {
 
             status = (selected === true ? 'selected ' : 'todelete ') + status;
             item = $('<span class="autocomplete-item autocomplete-' + status + '" data-id="' + item_id + '"><span class="autocomplete-item-label" title="' + text + '">' + text + '</span></span>');
-            if (!selection_holder.hasClass('autocomplete-selection-holder-readonly')) {
-                item.append('<span class="autocomplete-action-icon"><i class="fa fa-check"></i><i class="fa fa-plus"></i><i class="fa fa-trash"></i></span>');
-            }
+            item.append('<span class="autocomplete-action-icon"><i class="fa fa-check"></i><i class="fa fa-plus"></i><i class="fa fa-trash"></i></span>');
             item.prependTo(selection_holder);
         } else if (existing_item.hasClass('autocomplete-todelete')) {
             midcom_helper_datamanager2_autocomplete.restore_item(identifier, existing_item);

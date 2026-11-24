@@ -69,11 +69,6 @@ span.ui-sortable .autocomplete-item
     text-shadow: 1px 1px 3px rgba(255, 255, 255, .7)
 }
 
-.autocomplete-selection-holder-readonly .autocomplete-item-label
-{
-    margin-right: 0;
-}
-
 .autocomplete-selection-holder .autocomplete-action-icon
 {
     display: inline-block;
