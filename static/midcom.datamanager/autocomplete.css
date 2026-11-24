@@ -155,13 +155,6 @@ ul.ui-autocomplete
     max-width: 100%;
 }
 
-ul.ui-autocomplete .ui-menu-item a.ui-state-focus
-{
-    font-weight: normal;
-    border: none;
-    margin: 0
-}
-
 ul.ui-autocomplete .item-description
 {
     opacity: .6;

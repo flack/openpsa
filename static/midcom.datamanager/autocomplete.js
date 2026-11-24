@@ -87,7 +87,6 @@ window.midcom_helper_datamanager2_autocomplete = {
             event.preventDefault();
         } else {
             $('#' + identifier + '_selection').val(JSON.stringify([ui.item.id]));
-            $(event.target).data('selected', ui.item.label);
         }
     },
 
@@ -104,7 +103,7 @@ window.midcom_helper_datamanager2_autocomplete = {
         var dialog_id = identifier + '_creation_dialog',
             handler_options = window[identifier + '_handler_options'],
             input = $('#' + identifier + '_search_input'),
-            create_dialog = $('<div class="autocomplete_widget_creation_dialog" id="' + dialog_id + '"><div class="autocomplete_widget_creation_dialog_content_holder"></div></div>').insertAfter(input),
+            create_dialog = $('<div class="autocomplete_widget_creation_dialog" id="' + dialog_id + '"></div>').insertAfter(input),
             create_button = $('<div class="autocomplete_widget_create_button" id="' + identifier + '_create_button"></div>').insertAfter(create_dialog);
 
         input.css({float: 'left'});
@@ -115,10 +114,10 @@ window.midcom_helper_datamanager2_autocomplete = {
                 showLabel: false
             })
             .on('click', function() {
-                var url = creation_url + '?chooser_widget_id=' + identifier;
+                var url = creation_url;
                 if (   $('#' + identifier + '_search_input').val() !== ''
                     && handler_options.creation_default_key) {
-                    url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
+                    url += '?defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
                 }
 
                 var iframe_html = '<iframe src="' + url + '" id="' + identifier + '_creation_dialog_content"'
@@ -253,10 +252,6 @@ window.midcom_helper_datamanager2_autocomplete = {
                         });
                     $("#" + identifier + "_selection").val(JSON.stringify(result));
                 }
-            });
-
-            $("#" + identifier + "_search_input").on("autocompleteselect", function() {
-                $("#" + identifier + "_selection_holder").sortable("refresh");
             });
         }
     },
