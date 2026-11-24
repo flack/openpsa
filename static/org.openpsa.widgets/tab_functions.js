@@ -1,10 +1,10 @@
 const org_openpsa_widgets_tabs = {
     loaded_scripts: [],
-    popstate: false,
     initialize: function(uiprefix) {
         org_openpsa_widgets_tabs.bind_events(uiprefix);
 
         var tabs = $('#tabs').tabs({
+            active: org_openpsa_widgets_tabs.get_tab_from_url(),
             beforeLoad: function(event, ui) {
                 if (ui.tab.data("loaded")) {
                     event.preventDefault();
@@ -19,33 +19,25 @@ const org_openpsa_widgets_tabs = {
                 };
             },
             activate: function() {
-                var last_state = history.state,
-                    data = {tab_id: tabs.tabs('option', 'active')};
+                const tab_id = tabs.tabs('option', 'active');
 
-                // skip if the last state was same than current
-                if (!org_openpsa_widgets_tabs.popstate && (!last_state || last_state.tab_id !== data.tab_id)) {
-                    history.pushState(data, $('body').data('title'), '?tab-' + data.tab_id);
-                }
-            },
-            create: function() {
-                if (window.hasOwnProperty('history')) {
-                    window.onpopstate = org_openpsa_widgets_tabs.history_loader;
+                // skip if the URL already points to this tab (i.e. on back/forward navigation)
+                if (org_openpsa_widgets_tabs.get_tab_from_url() !== tab_id) {
+                    history.pushState({tab_id: tab_id}, $('body').data('title'), '?tab-' + tab_id);
                 }
             }
         });
+        window.onpopstate = org_openpsa_widgets_tabs.history_loader;
+    },
+    get_tab_from_url: function() {
+        const match = location.search.match(/[?&]tab-(\d+)/);
+        return match ? parseInt(match[1], 10) : 0;
     },
     history_loader: function() {
-        var state = history.state,
-            tab_id = 0;
+        const tab_id = org_openpsa_widgets_tabs.get_tab_from_url();
 
-        if (state) {
-            tab_id = state.tab_id;
-        }
-
-        if ($('#tabs').tabs('option', 'active') != tab_id) {
-            org_openpsa_widgets_tabs.popstate = true;
+        if ($('#tabs').tabs('option', 'active') !== tab_id) {
             $('#tabs').tabs('option', 'active', tab_id);
-            org_openpsa_widgets_tabs.popstate = false;
         }
     },
     bind_events: function(uiprefix) {
