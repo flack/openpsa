@@ -155,12 +155,12 @@ window.midcom_helper_datamanager2_autocomplete = {
             handler_options = window[identifier + '_handler_options'],
             dm2_defaults = {
                 minLength: min_length,
-                //Don't change input field during keyboard navigation:
+                // Don't change input field during keyboard navigation:
                 focus: function(event) {
                     event.preventDefault();
                 }
             },
-            options =  $.extend(dm2_defaults, midcom_helper_datamanager2_autocomplete.get_default_options()),
+            options =  $.extend(midcom_helper_datamanager2_autocomplete.get_default_options(), dm2_defaults),
             input = $('#' + selector),
             readonly = input.attr('type') === 'hidden',
             selection_holder_class = 'autocomplete-selection-holder';
