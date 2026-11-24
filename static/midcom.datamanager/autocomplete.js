@@ -117,7 +117,7 @@ window.midcom_helper_datamanager2_autocomplete = {
             .on('click', function() {
                 var url = creation_url + '?chooser_widget_id=' + identifier;
                 if (   $('#' + identifier + '_search_input').val() !== ''
-                    && handler_options.creation_default_key !== undefined) {
+                    && handler_options.creation_default_key) {
                     url += '&defaults[' + handler_options.creation_default_key + ']=' + $('#' + identifier + '_search_input').val();
                 }
 
