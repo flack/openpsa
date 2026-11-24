@@ -85,6 +85,11 @@ a.ui-jqgrid-titlebar-maximize span
     opacity: 1;
 }
 
+.ui-tabs-panel .ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar
+{
+    display: none;
+}
+
 .ui-jqgrid tr.jqgrow td a img
 {
     border: none;
