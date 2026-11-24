@@ -73,7 +73,7 @@ class org_openpsa_widgets_ui
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/tab_functions.js');
 
         $uipage = self::get_config_value('ui_page');
-        $prefix = midcom_connection::get_url('self') . $uipage . '/';
+        $prefix = midcom_connection::get_url('self');
 
         if (!empty($guid)) {
             //pass the urls & titles for the tabs
@@ -90,14 +90,14 @@ class org_openpsa_widgets_ui
         echo '<div id="tabs">';
         echo "\n<ul>\n";
         foreach ($tabdata as $key => $tab) {
-            echo "<li><a id='key_" . $key ."' class='tabs_link' href='" . $prefix . $tab['url'] . "' ><span> " . $tab['title'] . "</span></a></li>";
+            echo "<li><a id='key_" . $key ."' class='tabs_link' href='" . $prefix . $tab['url'] . "' data-uitab='" . $prefix . $uipage . '/' . $tab['url'] . "'><span> " . $tab['title'] . "</span></a></li>";
         }
         echo "\n</ul>\n";
         echo "</div>\n";
 
         echo <<<JSINIT
 <script type="text/javascript">
-    org_openpsa_widgets_tabs.initialize('{$uipage}');
+    org_openpsa_widgets_tabs.initialize();
 </script>
 JSINIT;
     }
