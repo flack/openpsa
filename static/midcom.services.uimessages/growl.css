@@ -23,6 +23,25 @@
   }
 }
 
+@keyframes uimessage-expire {
+  to {
+    grid-template-rows: 0fr;
+    padding-block: 0;
+    border-block-width: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Separate name, because reusing uimessage-expire would only retime an already running animation */
+@keyframes uimessage-close {
+  to {
+    grid-template-rows: 0fr;
+    padding-block: 0;
+    border-block-width: 0;
+    margin-bottom: 0;
+  }
+}
+
 #midcom_services_uimessages_wrapper
 {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -41,7 +60,13 @@
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages
 {
+    display: grid;
+    grid-template-rows: 1fr;
+    position: relative;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     background-color: rgba(255, 255, 255, .85);
+    backdrop-filter: blur(3px);
     border-style: solid;
     border-width: 2px;
     border-color: #ffffff;
@@ -52,6 +77,12 @@
     box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
 }
 
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages > .content
+{
+    min-width: 0;
+    min-height: 0;
+}
+
 #midcom_services_uimessages_wrapper div.error
 {
     background-color: rgba(255, 220, 220, .85);
@@ -60,9 +91,9 @@
 
 #midcom_services_uimessages_wrapper i.close
 {
-    float: right;
-    position: relative;
-    right: -15px;
+    position: absolute;
+    top: 5px;
+    right: 6px;
     cursor: pointer;
     color: #f33;
     font-size: 16px;
@@ -83,9 +114,24 @@
   color: #333;
 }
 
-#midcom_services_uimessages_wrapper div.error.pulsate
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages.info
+{
+    animation: uimessage-expire 1s 3s forwards;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages.info:hover:not(.closing)
+{
+    animation-play-state: paused;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages.error
 {
     animation: pulsate 7s cubic-bezier(.5, 0, 1, 1) .5s infinite;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages.closing
+{
+    animation: uimessage-close .2s forwards;
 }
 
 #midcom_services_uimessages_wrapper div.error h3

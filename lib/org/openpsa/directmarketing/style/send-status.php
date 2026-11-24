@@ -11,10 +11,10 @@ function update_sent_status()
     $.get('&(ajax_url);', function(data)
     {
         if (data.status) {
-            $.fn.midcom_services_uimessage({
+            $.midcom_services_uimessage_add({
                 title: 'Request failed',
                 message: data.status,
-                type: MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR
+                type: 'error'
             });
             return;
         }
