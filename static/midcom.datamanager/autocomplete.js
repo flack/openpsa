@@ -28,7 +28,7 @@ window.midcom_helper_datamanager2_autocomplete = {
     query: function(request, response) {
         var identifier = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, ''),
             query_options_var = identifier + '_handler_options',
-            query_options = window[query_options_var],
+            query_options = {...window[query_options_var]},
             cache = $('.ui-autocomplete-loading').data('cache'),
             term = request.term;
 
@@ -50,6 +50,10 @@ window.midcom_helper_datamanager2_autocomplete = {
         }
 
         query_options.term = term;
+        // false would be sent as the string "false", which PHP treats as true
+        if (query_options.categorize_by_parent_label === false) {
+            delete query_options.categorize_by_parent_label;
+        }
         $('.ui-autocomplete-loading').removeClass('ui-autocomplete-error')
 
         $.ajax({
