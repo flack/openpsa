@@ -63,57 +63,8 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 	<?php } ?>
     </div>
     <?php
-    if (!empty($data['invoice_items'])) {
-        ?>
-        <p><strong><?php echo $data['l10n']->get('invoice items'); ?>:</strong></p>
-        <table class='list invoice_items'>
-        <thead>
-        <tr>
-        <th>
-        <?php echo $data['l10n_midcom']->get('description'); ?>
-        </th>
-        <th class='numeric'>
-        <?php echo $data['l10n']->get('price'); ?>
-        </th>
-        <th class='numeric'>
-        <?php echo $data['l10n']->get('quantity'); ?>
-        </th>
-        <th class='numeric'>
-        <?php echo $data['l10n']->get('sum'); ?>
-        </th>
-        </tr>
-        </thead>
-        <tfoot>
-           <tr>
-              <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo $formatter->amount($invoice->sum); ?></td>
-           </tr>
-           <tr class="secondary">
-              <td><?php echo $data['l10n']->get('vat sum'); ?> (&(view['vat']:h);):</td>
-              <td class="numeric" colspan="3"><?php echo $formatter->amount(($invoice->sum / 100) * $invoice->vat); ?></td>
-           </tr>
-           <tr class="primary">
-              <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo $formatter->amount((($invoice->sum / 100) * $invoice->vat) + $invoice->sum); ?></td>
-           </tr>
-        </tfoot>
-        <tbody>
-        <?php
-        foreach ($data['invoice_items'] as $item) {
-            echo "<tr class='invoice_item_row'>";
-            echo "<td>";
-            echo $item->render_link();
-            echo "</td>";
-            echo "<td class='numeric'>" . $formatter->amount($item->pricePerUnit) . "</td>";
-            echo "<td class='numeric'>" . $formatter->number($item->units) . "</td>";
-            echo "<td class='numeric'>" . $formatter->amount($item->units * $item->pricePerUnit) . "</td>";
-            echo "</tr>\n";
-        } ?>
-        </tbody>
-
-        </table>
-        <?php
-
+    if ($data['items_editable'] || $data['entries']) {
+        midcom_show_style('show-items');
     }
 
     if ($view['files'] != "") { ?>

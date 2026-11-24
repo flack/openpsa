@@ -33,6 +33,42 @@ function calculate_total(table) {
     table.find('tfoot .totals').text(format_number(total));
 }
 
+function init_invoice_items(grid_id, vat, options) {
+    const grid = $('#' + grid_id);
+
+    function update_row(id) {
+        const price = parse_input(grid.jqGrid('getCell', id, 'price')),
+            quantity = parse_input(grid.jqGrid('getCell', id, 'quantity'));
+
+        grid.jqGrid('setRowData', id, {sum: price * quantity || 0});
+    }
+
+    function update_totals() {
+        const sum = grid.jqGrid('getCol', 'sum').reduce((total, value) => total + (parseFloat(value) || 0), 0),
+            vat_sum = sum / 100 * vat,
+            lines = [sum, vat_sum, sum + vat_sum].map(value => '<div class="total-line">' + format_number(value) + '</div>');
+
+        grid.jqGrid('footerData', 'set', {sum: lines.join('')}, false);
+    }
+
+    grid.on('input', '[aria-describedby="' + grid_id + '_price"] input, [aria-describedby="' + grid_id + '_quantity"] input', function() {
+        update_row($(this).closest('tr').attr('id'));
+        update_totals();
+    });
+
+    midcom_grid_editable.enable_inline(grid_id, $.extend({
+        afterrestorefunc: function(id) {
+            // jqgrid only restores the editable columns
+            update_row(id);
+            midcom_grid_editable.default_options.afterrestorefunc(id);
+            update_totals();
+        },
+        afterdeletefunc: update_totals,
+        enable_sorting: true,
+        create_button_placement: 'titlebar'
+    }, options));
+}
+
 function hide_invoice_address() {
     if ($('#org_openpsa_invoices_use_contact_address').is(':checked')) {
         $(".invoice_address").hide();

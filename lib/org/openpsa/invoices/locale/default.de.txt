@@ -86,10 +86,6 @@ Fälligkeitsdatum
 Fällig am %s
 ---STRINGEND
 
----STRING edit invoice items
-Rechnungspositionen bearbeiten
----STRINGEND
-
 ---STRING failed to create invoice, reason
 Rechnung konnte nicht erstellt werden. Ursache:
 ---STRINGEND

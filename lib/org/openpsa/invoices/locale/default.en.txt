@@ -82,10 +82,6 @@ Due date
 Due on %s
 ---STRINGEND
 
----STRING edit invoice items
-Edit invoice items
----STRINGEND
-
 ---STRING failed to create invoice, reason
 Failed to create invoice, reason
 ---STRINGEND

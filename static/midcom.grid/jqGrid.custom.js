@@ -72,7 +72,7 @@ const midcom_grid_resize = {
     add_header_controls: function(grid) {
         grid.jqGrid('setGridParam', {
             onHeaderClick: function(gridstate) {
-                $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate === 'visible');
+                $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize, .ui-jqgrid-titlebar-create').toggle(gridstate === 'visible');
         }});
 
         midcom_grid_resize.attach_maximizer(grid.closest('.ui-jqgrid').find('.ui-jqgrid-titlebar'));
@@ -336,6 +336,11 @@ const midcom_grid_editable = {
         keys: true,
         afterrestorefunc: function(id) {
             midcom_grid_editable.toggle(id, false);
+            // rows that were never saved have nothing to go back to
+            if (String(id).startsWith('new_')) {
+                $('#' + midcom_grid_editable.grid_id).jqGrid('delRowData', id);
+                midcom_grid_editable.toggle_mouselistener();
+            }
         },
         aftersavefunc: function(id, response) {
             //if saved row was new_... then refresh tr-id
@@ -350,7 +355,7 @@ const midcom_grid_editable = {
                     midcom_grid_editable.saveSingleItemPosition(id, pos);
 
                     newrow.attr('id', id);
-                    newrow.find('.row_edit, .row_save, .row_cancel, .row_delete').data('row-id', id);
+                    newrow.find('.row_edit, .row_save, .row_cancel, .row_delete').attr('data-row-id', id);
                 }
             }
 
@@ -364,7 +369,9 @@ const midcom_grid_editable = {
             return [true, return_values, return_values.id];
         },
         enable_sorting: false,
-        enable_create: true
+        enable_create: true,
+        // 'pager' or 'titlebar' (the latter requires a caption)
+        create_button_placement: 'pager'
     },
     toggle: function(id, edit_mode) {
         $("#" + id).find(".row_edit, .row_delete").toggleClass('hidden', edit_mode);
@@ -380,7 +387,15 @@ const midcom_grid_editable = {
         self.options = $.extend({}, self.default_options, custom_options);
         self.grid_id = grid_id;
         $('#' + grid_id).jqGrid('setGridParam', {
-            onSelectRow: function(id) {
+            // jqgrid only ignores links if they are the event target themselves (i.e. not for icons inside of links)
+            beforeSelectRow: function(id, e) {
+                return !e.target.closest('a');
+            },
+            onSelectRow: function(id, status, e) {
+                // right clicks don't trigger beforeSelectRow
+                if (e?.target?.closest('a')) {
+                    return;
+                }
                 if (id && id !== lastsel) {
                     $('#' + id).restoreRow(lastsel);
                     lastsel = id;
@@ -393,26 +408,8 @@ const midcom_grid_editable = {
 
         self.add_inline_controls();
         
-        if (self.options.enable_create) {            
-            var create_button_parameters = {
-                caption: self.options.button_label || "",
-                buttonicon: "fa-plus",
-                onClickButton: function() {
-                    var new_id = 'new_' + self.last_added_row++,
-                        params = {};
-    
-                    if (self.options.enable_sorting) {
-                        params.position = $('#' + grid_id + ' td[aria-describedby="invoice_items_position"]').length + 1;
-                    }
-                    //create new row; now with a position-value
-                    $('#' + self.grid_id).jqGrid('addRowData', new_id, params, 'last');
-    
-                    self.render_buttons(new_id);
-                }
-            };
-            $('#' + grid_id)
-                .jqGrid('navGrid', "#p_" + grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
-                .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
+        if (self.options.enable_create) {
+            self.add_create_button();
         }
 
         if (self.options.enable_sorting) {
@@ -425,6 +422,41 @@ const midcom_grid_editable = {
                 })
                 .jqGrid("sortableRows", {helper: "clone"});
         }
+    },
+    add_create_button: function() {
+        const self = this,
+            grid = $('#' + this.grid_id),
+            label = this.options.button_label || '';
+
+        if (this.options.create_button_placement === 'titlebar') {
+            $('<button type="button" class="ui-jqgrid-titlebar-create"><i class="fa fa-plus"></i></button>')
+                .attr({title: label, 'aria-label': label})
+                .on('click', () => self.add_row())
+                .insertAfter(grid.closest('.ui-jqgrid').find('.ui-jqgrid-title'));
+        } else {
+            grid
+                .jqGrid('navGrid', "#p_" + this.grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
+                .jqGrid('navButtonAdd', "#p_" + this.grid_id, {
+                    caption: label,
+                    buttonicon: "fa-plus",
+                    onClickButton: () => self.add_row()
+                });
+        }
+    },
+    add_row: function() {
+        const new_id = 'new_' + this.last_added_row++,
+            params = {};
+
+        if (this.options.enable_sorting) {
+            params.position = $('#' + this.grid_id + ' td[aria-describedby="invoice_items_position"]').length + 1;
+        }
+        //create new row; now with a position-value
+        $('#' + this.grid_id).jqGrid('addRowData', new_id, params, 'last');
+
+        this.render_buttons(new_id);
+        this.editRow(new_id);
+        $('#' + new_id)
+            .find('textarea, input[type="text"]').filter(':visible').first().trigger('focus');
     },
     /**
      * This function works only if enable_sorting is set true

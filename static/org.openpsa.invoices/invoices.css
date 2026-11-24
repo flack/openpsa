@@ -34,11 +34,35 @@ div.org_openpsa_invoices_invoice .hours
 {
     background-color: #EDEDEB;
 }
-.invoice_item_row
+
+.invoice-items:not(.ui-jqgrid-maximized)
 {
-    border-bottom-color:grey;
-    border-bottom-style:dotted;
-    border-bottom-width:1px;
+    margin-top: 1em;
+}
+
+.invoice-items .ui-jqgrid tr.footrow td
+{
+    overflow: visible;
+    border-top-width: 0;
+}
+
+.invoice-items .footrow .total-line
+{
+    /* extend over cell padding and border, so that there are no gaps between columns */
+    margin: 0 -3px 0 -2px;
+    padding: .3em 3px .3em 2px;
+    font-weight: normal;
+}
+
+.invoice-items .footrow .total-line:first-child,
+.invoice-items .footrow .total-line:last-child
+{
+    border-top: 1px solid #aaa;
+}
+
+.invoice-items .footrow .total-line:last-child
+{
+    font-weight: bold;
 }
 
 .org_openpsa_invoices_invoice .description
