@@ -63,9 +63,25 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 	<?php } ?>
     </div>
     <?php
-    if ($data['items_editable'] || $data['entries']) {
-        midcom_show_style('show-items');
+    $nap = new midcom_helper_nav();
+    $node = $nap->get_node($nap->get_current_node());
+
+    $tabs = [[
+        'url' => "{$node[MIDCOM_NAV_RELATIVEURL]}invoice/items/{$invoice->guid}/",
+        'title' => $data['l10n']->get('invoice items'),
+    ]];
+    if ($expenses_url) {
+        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $invoice->id);
+        $qb->set_limit(1);
+        if ($qb->count() > 0) {
+            $tabs[] = [
+                'url' => $expenses_url . "hours/invoice/{$invoice->guid}/",
+                'title' => midcom::get()->i18n->get_string('hour reports', 'org.openpsa.projects'),
+            ];
+        }
     }
+    org_openpsa_widgets_ui::render_tabs($invoice->guid, $tabs);
 
     if ($view['files'] != "") { ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
@@ -79,20 +95,6 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <p><strong><?php echo $data['l10n']->get('reminder'); ?></strong></p>
         <?php echo org_openpsa_helpers_fileinfo::render($invoice, 'pdf_file_reminder');
     }
-
-    $tabs = [];
-    if ($expenses_url) {
-        $qb = org_openpsa_expenses_hour_report_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $invoice->id);
-        $qb->set_limit(1);
-        if ($qb->count() > 0) {
-            $tabs[] = [
-                'url' => $expenses_url . "hours/invoice/{$invoice->guid}/",
-                'title' => midcom::get()->i18n->get_string('hour reports', 'org.openpsa.projects'),
-            ];
-        }
-    }
-    org_openpsa_widgets_ui::render_tabs($invoice->guid, $tabs);
 ?>
 </div>
 <aside>

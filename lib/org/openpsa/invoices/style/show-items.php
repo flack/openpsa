@@ -1,10 +1,9 @@
 <?php
-$invoice = $data['object'];
-$editable = $data['items_editable'];
+$invoice = $data['invoice'];
+$editable = $data['editable'];
 $edit_options = $editable ? ', editable: true' : '';
 
 $grid = $data['grid'];
-$grid->set_option('caption', $data['l10n']->get('invoice items'));
 
 $grid->set_column('position', $data['l10n']->get('position'), 'hidden: true');
 $grid->set_column('deliverable', midcom::get()->i18n->get_string('agreement', 'org.openpsa.projects'), 'fixed: true, align: "center", width: 40, sortable: false');
@@ -27,7 +26,7 @@ $to_lines = fn(string ...$lines) => '<div class="total-line">' . implode('</div>
 $footer = array_fill_keys(['deliverable', 'task', 'price', 'quantity', 'actions'], $to_lines('&nbsp;', '&nbsp;', '&nbsp;'));
 $footer['description'] = $to_lines(
     $data['l10n']->get('sum excluding vat'),
-    $data['l10n']->get('vat sum') . ' (' . $data['object_view']['vat'] . ')',
+    $data['l10n']->get('vat sum') . ' (' . $invoice->vat . '%)',
     $data['l10n']->get('sum including vat')
 );
 $footer['sum'] = $to_lines($formatter->amount($sum), $formatter->amount($vat_sum), $formatter->amount($sum + $vat_sum));
@@ -41,8 +40,7 @@ $grid->set_footer_data($footer, formatted: false);
 <?php if ($editable) { ?>
 <script type="text/javascript">
     init_invoice_items("<?= $grid->get_identifier() ?>", <?= json_encode((float) $invoice->vat) ?>, {
-        position_url: <?= json_encode($data['router']->generate('invoice_item_position')) ?>,
-        button_label: <?= json_encode($data['l10n']->get('add new invoice item')) ?>
+        position_url: <?= json_encode($data['router']->generate('invoice_item_position')) ?>
     });
 </script>
 <?php } ?>

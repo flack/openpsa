@@ -31,6 +31,22 @@ class itemsTest extends openpsa_testcase
         self::create_class_object(org_openpsa_invoices_invoice_item_dba::class, ['invoice' => self::$_invoice->id]);
     }
 
+    public function testHandler_items()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+
+        $data = $this->run_handler('org.openpsa.invoices', ['invoice', 'items', self::$_invoice->guid]);
+        $this->assertEquals('invoice_items', $data['handler_id']);
+        $this->assertCount(1, $data['entries']);
+
+        ob_start();
+        $data['__openpsa_testcase_response']->sendContent();
+        $output = ob_get_clean();
+        $this->assertStringContainsString('id="invoice_items"', $output);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_recalculation()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');

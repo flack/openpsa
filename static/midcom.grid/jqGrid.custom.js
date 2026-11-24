@@ -72,7 +72,7 @@ const midcom_grid_resize = {
     add_header_controls: function(grid) {
         grid.jqGrid('setGridParam', {
             onHeaderClick: function(gridstate) {
-                $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize, .ui-jqgrid-titlebar-create').toggle(gridstate === 'visible');
+                $(this).closest('.ui-jqgrid').find('.ui-jqgrid-titlebar-maximize').toggle(gridstate === 'visible');
         }});
 
         midcom_grid_resize.attach_maximizer(grid.closest('.ui-jqgrid').find('.ui-jqgrid-titlebar'));
@@ -364,9 +364,7 @@ const midcom_grid_editable = {
             return [true, return_values, return_values.id];
         },
         enable_sorting: false,
-        enable_create: true,
-        // 'pager' or 'titlebar' (the latter requires a caption)
-        create_button_placement: 'pager'
+        enable_create: true
     },
     toggle: function(id, edit_mode) {
         $("#" + id).find(".row_edit, .row_delete").toggleClass('hidden', edit_mode);
@@ -419,24 +417,13 @@ const midcom_grid_editable = {
         }
     },
     add_create_button: function() {
-        const self = this,
-            grid = $('#' + this.grid_id),
-            label = this.options.button_label || '';
-
-        if (this.options.create_button_placement === 'titlebar') {
-            $('<button type="button" class="ui-jqgrid-titlebar-create"><i class="fa fa-plus"></i></button>')
-                .attr({title: label, 'aria-label': label})
-                .on('click', () => self.add_row())
-                .insertAfter(grid.closest('.ui-jqgrid').find('.ui-jqgrid-title'));
-        } else {
-            grid
-                .jqGrid('navGrid', "#p_" + this.grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
-                .jqGrid('navButtonAdd', "#p_" + this.grid_id, {
-                    caption: label,
-                    buttonicon: "fa-plus",
-                    onClickButton: () => self.add_row()
-                });
-        }
+        $('#' + this.grid_id)
+            .jqGrid('navGrid', "#p_" + this.grid_id, {add: false, del: false, refresh: false, edit: false, search: false})
+            .jqGrid('navButtonAdd', "#p_" + this.grid_id, {
+                caption: this.options.button_label || '',
+                buttonicon: "fa-plus",
+                onClickButton: () => this.add_row()
+            });
     },
     add_row: function() {
         const new_id = 'new_' + this.last_added_row++,

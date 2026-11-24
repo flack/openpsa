@@ -35,11 +35,6 @@ div.org_openpsa_invoices_invoice .hours
     background-color: #EDEDEB;
 }
 
-.invoice-items:not(.ui-jqgrid-maximized)
-{
-    margin-top: 1em;
-}
-
 .invoice-items .ui-jqgrid tr.footrow td
 {
     overflow: visible;

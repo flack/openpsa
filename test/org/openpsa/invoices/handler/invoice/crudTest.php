@@ -71,6 +71,11 @@ class crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', ['invoice', self::$_invoice->guid]);
         $this->assertEquals('invoice', $data['handler_id']);
 
+        ob_start();
+        $data['__openpsa_testcase_response']->sendContent();
+        $output = ob_get_clean();
+        $this->assertStringContainsString('invoice/items/' . self::$_invoice->guid . '/', $output);
+
         midcom::get()->auth->drop_sudo();
     }
 }

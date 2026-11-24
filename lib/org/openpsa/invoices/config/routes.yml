@@ -70,6 +70,10 @@ recalc_invoice:
     path: /invoice/recalculation/{guid}/
     defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::recalculation' }
 
+invoice_items:
+    path: /invoice/items/{guid}/
+    defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::items' }
+
 invoice_item_edit:
     path: /invoice/itemedit/{guid}/
     defaults: { _controller: 'org_openpsa_invoices_handler_invoice_items::itemedit' }

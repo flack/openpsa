@@ -65,8 +65,14 @@ function init_invoice_items(grid_id, vat, options) {
         },
         afterdeletefunc: update_totals,
         enable_sorting: true,
-        create_button_placement: 'titlebar'
+        // rows are added from the toolbar instead
+        enable_create: false
     }, options));
+
+    $('#add-invoice-item').on('click', function(event) {
+        event.preventDefault();
+        midcom_grid_editable.add_row();
+    });
 }
 
 function hide_invoice_address() {
