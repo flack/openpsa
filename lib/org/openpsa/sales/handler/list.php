@@ -36,7 +36,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         // TODO: Filtering
 
         $data['grid'] = new grid($data['mode'] . '_salesprojects_grid', 'local');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.grid/FileSaver.js');
 
         $this->add_toolbar_buttons();
 

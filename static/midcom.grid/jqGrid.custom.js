@@ -727,7 +727,12 @@ const midcom_grid_csv = {
         });
 
         var blob = new Blob([data], {type: "application/csv;charset=utf-8"});
-        saveAs(blob, config.filename + ".csv");
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = config.filename + '.csv';
+        a.click();
+        // free memory after dl
+        setTimeout(() => URL.revokeObjectURL(a.href), 40000);
     }
 };
 
