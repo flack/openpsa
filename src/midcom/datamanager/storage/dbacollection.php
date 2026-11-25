@@ -11,7 +11,6 @@ use midcom_connection;
 use midcom_core_dbaobject;
 use midcom\datamanager\storage\container\dbacontainer;
 use midcom\datamanager\schema;
-use midgard\portable\storage\connection;
 use midcom\datamanager\schemadb;
 
 /**
@@ -90,8 +89,6 @@ class dbacollection extends delayed
         if (!$this->get_master_foreign_key()) {
             return [];
         }
-        // @todo: Without this, we get a reference to the dbacontainer-wrapped object on save. Figure out why
-        connection::get_em()->clear();
 
         $result = [];
         $qb = midcom::get()->dbfactory->new_query_builder($this->config['type_config']['mapping_class_name']);
@@ -106,6 +103,9 @@ class dbacollection extends delayed
 
         $identifier = $this->config['type_config']['master_is_id'] ? 'id' : 'guid';
         foreach ($qb->execute() as $object) {
+            // @todo This effectively calls em->detach() so that we have unmanaged entities
+            // for the change detection later. Should be handled by midgard-portable eventually
+            $object->refresh();
             $result[$object->$identifier] = new dbacontainer($this->schema, $object, []);
         }
 
