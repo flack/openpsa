@@ -3,7 +3,7 @@
 ---LANGUAGE en
 
 ---STRING attachment missing
-Dateianhang fehlt
+Attachment missing
 ---STRINGEND
 
 ---STRING generated derived images for %s entries

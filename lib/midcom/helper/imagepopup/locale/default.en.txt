@@ -19,7 +19,7 @@ Images
 ---STRINGEND
 
 ---STRING links
-Verknüpfungen
+Links
 ---STRINGEND
 
 ---STRING midcom.helper.imagepopup

@@ -59,7 +59,7 @@ Month
 ---STRINGEND
 
 ---STRING no customer
-Kein Kunde
+No customer
 ---STRINGEND
 
 ---STRING no results

@@ -98,7 +98,7 @@ Deliverables
 ---STRINGEND
 
 ---STRING deliverables for product %s
-Bestellungen for product "%s"
+Deliverables for product "%s"
 ---STRINGEND
 
 ---STRING delivered

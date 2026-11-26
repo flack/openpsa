@@ -31,7 +31,7 @@ Amount
 ---STRINGEND
 
 ---STRING bank code
-Bankcode
+Bank code
 ---STRINGEND
 
 ---STRING basic information
