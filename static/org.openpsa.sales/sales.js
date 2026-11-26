@@ -137,3 +137,31 @@ $(document).ready(function() {
         }).trigger('change');
     }
 });
+
+/**
+ * Populates the customer dropdown with the organizations of the selected customer contact
+ */
+function init_customer_select(url) {
+    const customer = $('#org_openpsa_sales_customer');
+
+    $('#org_openpsa_sales_customerContact_selection').on('change', function() {
+        const selection = JSON.parse(this.value || '[]');
+        if (selection.length === 0) {
+            return;
+        }
+        $.getJSON(url, {contact: selection[0]}, function(groups) {
+            const current = customer.val();
+
+            customer.empty().append(new Option('', 0));
+            groups.forEach(group => customer.append(new Option(group.label, group.id)));
+
+            if (groups.some(group => String(group.id) === current)) {
+                customer.val(current);
+            } else if (groups.length === 1) {
+                customer.val(groups[0].id);
+            } else {
+                customer.val(0);
+            }
+        });
+    });
+}

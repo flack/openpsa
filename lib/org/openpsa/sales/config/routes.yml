@@ -23,6 +23,10 @@ salesproject_new_customer:
     path: /salesproject/new/{guid}/
     defaults: { _controller: 'org_openpsa_sales_handler_edit::new' }
 
+salesproject_customers:
+    path: /salesproject/customers/
+    defaults: { _controller: 'org_openpsa_sales_handler_edit::customers' }
+
 salesproject_itemedit:
     path: /salesproject/itemedit/
     defaults: { _controller: 'org_openpsa_sales_handler_view::itemedit' }
