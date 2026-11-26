@@ -11,7 +11,7 @@ Automatically create an index page for this topic?
 ---STRINGEND
 
 ---STRING autoindex settings
-Automatical Index Settings
+Automatic Index Settings
 ---STRINGEND
 
 ---STRING autoindex-notes

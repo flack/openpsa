@@ -258,7 +258,7 @@ class org_openpsa_invoices_scheduler
     }
 
     /**
-     * Calculcate remaining cycles until salesproject's end or the specified number of months passes
+     * Calculate remaining cycles until salesproject's end or the specified number of months passes
      *
      * @param integer $months The maximum number of months to look forward
      * @param integer $start The timestamp from which to begin

@@ -117,7 +117,7 @@
  * The possible assignees here are either a user, a group or one of the magic assignees EVERYONE,
  * USERS or ANONYMOUS, as outlined above.
  *
- * Be aware, that persons and groups are treted as content objects when loaded from the database
+ * Be aware, that persons and groups are treated as content objects when loaded from the database
  * in a tool like org.openpsa.user, as the groups are not used for authentication but for
  * regular site operation there. Therefore, the SELF privileges mentioned above are not taken into
  * account when determining the content object privileges!

@@ -108,7 +108,7 @@ class midcom_config_test
             $this->add('Setting: upload_max_filesize', self::OK, $upload_limit);
         } else {
             $this->add('Setting: upload_max_filesize',
-                             self::WARNING, "To make bulk uploads (for exampe in the Image Gallery) useful, you should increase the Upload limit to something above 50 MB. (Current setting: {$upload_limit})");
+                             self::WARNING, "To make bulk uploads (for example in the Image Gallery) useful, you should increase the Upload limit to something above 50 MB. (Current setting: {$upload_limit})");
         }
 
         $post_limit = ini_get('post_max_size');

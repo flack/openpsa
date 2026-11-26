@@ -22,7 +22,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_viewer
 
     /**
      * Generic request startup work:
-     * - Populate the Node Toolbar depengin on the user's rights
+     * - Populate the Node Toolbar depending on the user's rights
      */
     public function _on_handle($handler, array $args)
     {

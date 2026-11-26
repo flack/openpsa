@@ -47,7 +47,7 @@ foreach ($data['salesprojects'] as $salesproject) {
     }
 
     $row['state'] = $salesproject->state;
-    // sort lost salesporjects to the bottom
+    // sort lost salesprojects to the bottom
     if ($row['state'] === org_openpsa_sales_salesproject_dba::STATE_LOST) {
         $row['state'] += 1000;
     }

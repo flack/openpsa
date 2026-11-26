@@ -50,7 +50,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implement
     const STATE_DELIVERED = 11200;
     const STATE_INVOICED = 11300;
 
-    // ... and because these constants suck for pratically everything..
+    // ... and because these constants suck for practically everything..
     private array $states = [
         self::STATE_LOST => 'lost',
         self::STATE_ACTIVE => 'active',

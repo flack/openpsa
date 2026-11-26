@@ -288,7 +288,7 @@ function group(parent, number) {
     this.remove = function() {
         var rule_key,
             group_key;
-        //first remove childs
+        //first remove children
 
         for (rule_key in this.child_rules) {
             if (this.child_rules[rule_key] !== null) {
@@ -388,7 +388,7 @@ function get_rules_array(parent_id) {
 
 /**
  * function to gather rules for group
- *   parent_id - id to check for childs
+ *   parent_id - id to check for children
  */
 function get_rules_groups(parent_id) {
     var array_key, ruleset = [],

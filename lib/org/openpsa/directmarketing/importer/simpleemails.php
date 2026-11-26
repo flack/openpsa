@@ -7,7 +7,7 @@
  */
 
 /**
- * Simle Email Importer for subscribers
+ * Simple Email Importer for subscribers
  *
  * @package org.openpsa.directmarketing
  */

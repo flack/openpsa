@@ -91,7 +91,7 @@ Prepares index view for component.
 ---STRINGEND
 
 ---STRING latest_info
-Displays lastest {$args[0]} entries.
+Displays latest {$args[0]} entries.
 ---STRINGEND
 
 ---STRING link_to_external_url

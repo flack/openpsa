@@ -283,7 +283,7 @@ class midcom_helper_imagefilter
      * Imagemagick would spam the temp directory in case we are working on a PDF file or
      * whatever.
      *
-     * @param string $format The format to convert to. This must be a valid conversion targed
+     * @param string $format The format to convert to. This must be a valid conversion target
      *     recognized by Imagemagick, it defaults to 'jpg'.
      */
     public function convert(string $format = 'jpg')

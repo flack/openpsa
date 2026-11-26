@@ -178,7 +178,7 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
      */
     private function _batch_passwords(Request $request, midcom_db_person $person)
     {
-        // Set the mail commo parts
+        // Set the mail common parts
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('message_sender');
         $mail->encoding = 'UTF-8';

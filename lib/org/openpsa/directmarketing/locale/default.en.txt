@@ -555,7 +555,7 @@ ZIP (postal address)
 ---STRINGEND
 
 ---STRING property:postalStreet
-Street addres (postal address)
+Street address (postal address)
 ---STRINGEND
 
 ---STRING property:postcode
